@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/tag.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -28,34 +28,53 @@ namespace detail
 namespace sequential
 {
 
+
+// this awkward sequence of definitions arises
+// from the desire both for tag to derive
+// from execution_policy and for execution_policy
+// to convert to tag (when execution_policy is not
+// an ancestor of tag)
+
+// forward declaration of tag
+struct tag;
+
+// forward declaration of execution_policy
+template<typename> struct execution_policy;
+
+// specialize execution_policy for tag
+template<>
+  struct execution_policy<tag>
+    : thrust::execution_policy<tag>
+{};
+
+// tag's definition comes before the generic definition of execution_policy
+struct tag : execution_policy<tag>
+{
+  __host__ __device__ tag() {}
+};
+
+// allow conversion to tag when it is not a successor
+template<typename Derived>
+  struct execution_policy
+    : thrust::execution_policy<Derived>
+{
+  // allow conversion to tag
+  inline operator tag () const
+  {
+    return tag();
+  }
+};
+
+
 #ifdef __CUDA_ARCH__
 static const __device__ tag seq;
 #else
 static const tag seq;
 #endif
 
+
 } // end sequential
 } // end detail
 } // end system
 } // end thrust
-
-#include <thrust/system/detail/sequential/adjacent_difference.h>
-#include <thrust/system/detail/sequential/binary_search.h>
-#include <thrust/system/detail/sequential/copy_if.h>
-#include <thrust/system/detail/sequential/copy.h>
-#include <thrust/system/detail/sequential/extrema.h>
-#include <thrust/system/detail/sequential/find.h>
-#include <thrust/system/detail/sequential/for_each.h>
-#include <thrust/system/detail/sequential/free.h>
-#include <thrust/system/detail/sequential/malloc.h>
-#include <thrust/system/detail/sequential/merge.h>
-#include <thrust/system/detail/sequential/partition.h>
-#include <thrust/system/detail/sequential/reduce_by_key.h>
-#include <thrust/system/detail/sequential/reduce.h>
-#include <thrust/system/detail/sequential/remove.h>
-#include <thrust/system/detail/sequential/set_operations.h>
-#include <thrust/system/detail/sequential/scan_by_key.h>
-#include <thrust/system/detail/sequential/scan.h>
-#include <thrust/system/detail/sequential/unique_by_key.h>
-#include <thrust/system/detail/sequential/unique.h>
 

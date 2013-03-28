@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/tag.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/pair.h>
 

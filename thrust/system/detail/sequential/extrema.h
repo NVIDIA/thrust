@@ -24,7 +24,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
 #include <thrust/detail/function.h>
-#include <thrust/system/detail/sequential/tag.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {

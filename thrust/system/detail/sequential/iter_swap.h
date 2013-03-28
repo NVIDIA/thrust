@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/detail/sequential/tag.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/swap.h>
 
