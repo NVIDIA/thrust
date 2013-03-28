@@ -44,6 +44,7 @@ namespace generic
 
 template<typename DerivedPolicy,
          typename ForwardIterator>
+__host__ __device__
   ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last)
@@ -57,6 +58,7 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
+__host__ __device__
   ForwardIterator unique(thrust::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
@@ -73,6 +75,7 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
+__host__ __device__
   OutputIterator unique_copy(thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
@@ -87,6 +90,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
+__host__ __device__
   OutputIterator unique_copy(thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
