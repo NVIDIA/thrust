@@ -176,7 +176,7 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
   {
     const EncodedType x = encode(keys1[i]);
 
-    for (unsigned int j = 0; j < NumHistograms; j++)
+    for(unsigned int j = 0; j < NumHistograms; j++)
     {
       const EncodedType BitShift = RadixBits * j;
       histograms[j][(x >> BitShift) & BitMask]++;
@@ -188,11 +188,11 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
   {
     size_t sum = 0;
 
-    for (unsigned int j = 0; j < HistogramSize; j++)
+    for(unsigned int j = 0; j < HistogramSize; j++)
     {
       size_t bin = histograms[i][j];
 
-      if (bin == N)
+      if(bin == N)
         skip_shuffle[i] = true;
 
       histograms[i][j] = sum;
@@ -210,30 +210,18 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
     {
       if(flip)
       {
-        for (size_t j = 0; j < N; j++)
+        for(size_t j = 0; j < N; j++)
         {
           const EncodedType x = encode(keys2[j]);
           size_t position = histograms[i][(x >> BitShift) & BitMask]++;
 
-          RandomAccessIterator1 temp_keys1 = keys1;
-          temp_keys1 += position;
+          //keys1[position] = keys2[j];
+          assign_value(exec, &keys1[position], &keys2[j]);
 
-          RandomAccessIterator2 temp_keys2 = keys2;
-          temp_keys2 += j;
-
-          // keys1[position] = keys2[j]
-          *temp_keys1 = *temp_keys2;
-
-          if (HasValues)
+          if(HasValues)
           {
-            RandomAccessIterator3 temp_vals1 = vals1;
-            temp_vals1 += position;
-
-            RandomAccessIterator4 temp_vals2 = vals2;
-            temp_vals2 += j;
-
-            // vals1[position] = vals2[j]
-            *temp_vals1 = *temp_vals2;
+            //vals1[position] = vals2[j];
+            assign_value(exec, &vals1[position], &vals2[j]);
           }
         }
       }
@@ -244,25 +232,13 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
           const EncodedType x = encode(keys1[j]);
           size_t position = histograms[i][(x >> BitShift) & BitMask]++;
 
-          RandomAccessIterator1 temp_keys1 = keys1;
-          temp_keys1 += j;
+          //keys2[position] = keys1[j];
+          assign_value(exec, &keys2[position], &keys1[j]);
 
-          RandomAccessIterator2 temp_keys2 = keys2;
-          temp_keys2 += position;
-
-          // keys2[position] = keys1[j];
-          *temp_keys2 = *temp_keys1;
-
-          if (HasValues)
+          if(HasValues)
           {
-            RandomAccessIterator3 temp_vals1 = vals1;
-            temp_vals1 += j;
-
-            RandomAccessIterator4 temp_vals2 = vals2;
-            temp_vals2 += position;
-
-            // vals2[position] = vals1[j]
-            *temp_vals2 = *temp_vals1;
+            //vals2[position] = vals1[j];
+            assign_value(exec, &vals2[position], &vals1[j]);
           }
         }
       }
