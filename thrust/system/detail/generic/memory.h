@@ -39,12 +39,17 @@ namespace detail
 namespace generic
 {
 
-template<typename DerivedPolicy, typename Size> void malloc(thrust::execution_policy<DerivedPolicy> &, Size);
+template<typename DerivedPolicy, typename Size>
+__host__ __device__
+void malloc(thrust::execution_policy<DerivedPolicy> &, Size);
 
 template<typename T, typename DerivedPolicy>
+__host__ __device__
 thrust::pointer<T,DerivedPolicy> malloc(thrust::execution_policy<DerivedPolicy> &s, std::size_t n);
 
-template<typename DerivedPolicy, typename Pointer> void free(thrust::execution_policy<DerivedPolicy> &, Pointer);
+template<typename DerivedPolicy, typename Pointer>
+__host__ __device__
+void free(thrust::execution_policy<DerivedPolicy> &, Pointer);
 
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
