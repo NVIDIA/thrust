@@ -23,14 +23,16 @@ namespace thrust
 {
 
 
-template <typename IteratorTuple>
+template<typename IteratorTuple>
+__host__ __device__
   zip_iterator<IteratorTuple>
     ::zip_iterator(void)
 {
 } // end zip_iterator::zip_iterator()
 
 
-template <typename IteratorTuple>
+template<typename IteratorTuple>
+__host__ __device__
   zip_iterator<IteratorTuple>
     ::zip_iterator(IteratorTuple iterator_tuple)
       :m_iterator_tuple(iterator_tuple)
@@ -38,8 +40,9 @@ template <typename IteratorTuple>
 } // end zip_iterator::zip_iterator()
 
 
-template <typename IteratorTuple>
-  template <typename OtherIteratorTuple>
+template<typename IteratorTuple>
+  template<typename OtherIteratorTuple>
+  __host__ __device__
     zip_iterator<IteratorTuple>
       ::zip_iterator(const zip_iterator<OtherIteratorTuple> &other,
                      typename thrust::detail::enable_if_convertible<
@@ -51,7 +54,8 @@ template <typename IteratorTuple>
 } // end zip_iterator::zip_iterator()
 
 
-template <typename IteratorTuple>
+template<typename IteratorTuple>
+__host__ __device__
 const IteratorTuple &zip_iterator<IteratorTuple>
   ::get_iterator_tuple(void) const
 {
@@ -59,8 +63,9 @@ const IteratorTuple &zip_iterator<IteratorTuple>
 } // end zip_iterator::get_iterator_tuple()
 
 
-template <typename IteratorTuple>
+template<typename IteratorTuple>
   typename zip_iterator<IteratorTuple>::super_t::reference
+  __host__ __device__
     zip_iterator<IteratorTuple>
       ::dereference(void) const
 {
@@ -71,8 +76,9 @@ template <typename IteratorTuple>
 
 
 __thrust_hd_warning_disable__
-template <typename IteratorTuple>
-  template <typename OtherIteratorTuple>
+template<typename IteratorTuple>
+  template<typename OtherIteratorTuple>
+  __host__ __device__
     bool zip_iterator<IteratorTuple>
       ::equal(const zip_iterator<OtherIteratorTuple> &other) const
 {
@@ -80,58 +86,41 @@ template <typename IteratorTuple>
 } // end zip_iterator::equal()
 
 
-template <typename IteratorTuple>
+template<typename IteratorTuple>
+__host__ __device__
   void zip_iterator<IteratorTuple>
     ::advance(typename super_t::difference_type n)
 {
   using namespace detail::tuple_impl_specific;
-
-  // XXX note that we use a pointer to System to dispatch to avoid
-  //     default construction of a System
-  typename thrust::iterator_system<zip_iterator>::type *use_me_to_dispatch = 0;
-
-  // dispatch on system
   tuple_for_each(m_iterator_tuple,
-                 detail::advance_iterator<typename super_t::difference_type>(n),
-                 use_me_to_dispatch);
+                 detail::advance_iterator<typename super_t::difference_type>(n));
 } // end zip_iterator::advance()
 
 
-template <typename IteratorTuple>
+template<typename IteratorTuple>
+__host__ __device__
   void zip_iterator<IteratorTuple>
     ::increment(void)
 {
   using namespace detail::tuple_impl_specific;
-
-  // XXX note that we use a pointer to System to dispatch to avoid
-  //     default construction of a System
-  typename thrust::iterator_system<zip_iterator>::type *use_me_to_dispatch = 0;
-
-  // dispatch on system
-  tuple_for_each(m_iterator_tuple, detail::increment_iterator(),
-                 use_me_to_dispatch);
+  tuple_for_each(m_iterator_tuple, detail::increment_iterator());
 } // end zip_iterator::increment()
 
 
-template <typename IteratorTuple>
+template<typename IteratorTuple>
+__host__ __device__
   void zip_iterator<IteratorTuple>
     ::decrement(void)
 {
   using namespace detail::tuple_impl_specific;
-
-  // XXX note that we use a pointer to System to dispatch to avoid
-  //     default construction of a System
-  typename thrust::iterator_system<zip_iterator>::type *use_me_to_dispatch = 0;
-
-  // dispatch on system
-  tuple_for_each(m_iterator_tuple, detail::decrement_iterator(),
-                 use_me_to_dispatch);
+  tuple_for_each(m_iterator_tuple, detail::decrement_iterator());
 } // end zip_iterator::decrement()
 
 
 __thrust_hd_warning_disable__
-template <typename IteratorTuple>
+template<typename IteratorTuple>
   template <typename OtherIteratorTuple>
+  __host__ __device__
     typename zip_iterator<IteratorTuple>::super_t::difference_type
       zip_iterator<IteratorTuple>
         ::distance_to(const zip_iterator<OtherIteratorTuple> &other) const
@@ -140,7 +129,8 @@ template <typename IteratorTuple>
 } // end zip_iterator::distance_to()
 
 
-template <typename IteratorTuple>
+template<typename IteratorTuple>
+__host__ __device__
   zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t)
 {
   return zip_iterator<IteratorTuple>(t);

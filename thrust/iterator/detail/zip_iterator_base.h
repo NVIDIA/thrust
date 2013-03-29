@@ -46,6 +46,7 @@ public:
   inline __host__ __device__
   advance_iterator(DiffType step) : m_step(step) {}
   
+  __thrust_hd_warning_disable__
   template<typename Iterator>
   inline __host__ __device__
   void operator()(Iterator& it) const
@@ -58,6 +59,7 @@ private:
 
 struct increment_iterator
 {
+  __thrust_hd_warning_disable__
   template<typename Iterator>
   inline __host__ __device__
   void operator()(Iterator& it)
@@ -67,6 +69,7 @@ struct increment_iterator
 
 struct decrement_iterator
 {
+  __thrust_hd_warning_disable__
   template<typename Iterator>
   inline __host__ __device__
   void operator()(Iterator& it)
@@ -181,37 +184,20 @@ struct tuple_meta_accumulate
 
 
 // for_each algorithm for tuples.
-//
-template<typename Fun, typename System>
+template<typename Fun>
 inline __host__ __device__
-Fun tuple_for_each(thrust::null_type, Fun f, System *)
+Fun tuple_for_each(thrust::null_type, Fun f)
 {
   return f;
 } // end tuple_for_each()
 
 
-template<typename Tuple, typename Fun, typename System>
-inline __host__ __device__
-Fun tuple_for_each(Tuple& t, Fun f, System *dispatch_tag)
-{ 
-  f( t.get_head() );
-  return tuple_for_each(t.get_tail(), f, dispatch_tag);
-} // end tuple_for_each()
-
-
 template<typename Tuple, typename Fun>
 inline __host__ __device__
-Fun tuple_for_each(Tuple& t, Fun f, thrust::host_system_tag *dispatch_tag)
+Fun tuple_for_each(Tuple& t, Fun f)
 { 
-// XXX this path is required in order to accomodate pure host iterators
-//     (such as std::vector::iterator) in a zip_iterator
-#ifndef __CUDA_ARCH__
   f( t.get_head() );
-  return tuple_for_each(t.get_tail(), f, dispatch_tag);
-#else
-  // this code will never be called
-  return f;
-#endif
+  return tuple_for_each(t.get_tail(), f);
 } // end tuple_for_each()
 
 
