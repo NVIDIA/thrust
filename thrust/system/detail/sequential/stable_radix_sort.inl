@@ -20,8 +20,11 @@
 #include <thrust/copy.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/transform_iterator.h>
+#include <thrust/iterator/zip_iterator.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/cstdint.h>
+#include <thrust/scatter.h>
 
 namespace thrust
 {
@@ -135,6 +138,88 @@ struct RadixEncoder<double> : public thrust::unary_function<double, thrust::deta
 };
 
 
+// this functor returns a key's to its histogram bucket count and post-increments the bucket
+template<unsigned int RadixBits, typename KeyType>
+  struct bucket_functor
+{
+  typedef RadixEncoder<KeyType> Encoder;
+  typedef typename Encoder::result_type EncodedType;
+  typedef size_t result_type;
+  static const EncodedType BitMask = static_cast<EncodedType>((1 << RadixBits) - 1);
+
+  Encoder encode;
+  EncodedType bit_shift;
+  size_t *histogram;
+
+  __host__ __device__
+  bucket_functor(EncodedType bit_shift, size_t *histogram)
+    : encode(),
+      bit_shift(bit_shift),
+      histogram(histogram)
+  {}
+
+  inline __host__ __device__
+  size_t operator()(KeyType key)
+  {
+    const EncodedType x = encode(key);
+
+    // note that we mutate the histogram here
+    return histogram[(x >> bit_shift) & BitMask]++;
+  }
+};
+
+
+template<unsigned int RadixBits,
+         typename DerivedPolicy,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename Integer>
+inline __host__ __device__
+void radix_shuffle_n(sequential::execution_policy<DerivedPolicy> &exec,
+                     RandomAccessIterator1 first,
+                     const size_t n,
+                     RandomAccessIterator2 result,
+                     Integer bit_shift,
+                     size_t *histogram)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
+
+  // note that we are going to mutate the histogram during this sequential scatter
+  thrust::scatter(exec,
+                  first, first + n,
+                  thrust::make_transform_iterator(first, bucket_functor<RadixBits,KeyType>(bit_shift, histogram)),
+                  result);
+}
+
+
+template<unsigned int RadixBits,
+         typename DerivedPolicy,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename RandomAccessIterator3,
+         typename RandomAccessIterator4,
+         typename Integer>
+__host__ __device__
+void radix_shuffle_n(sequential::execution_policy<DerivedPolicy> &exec,
+                     RandomAccessIterator1 keys_first,
+                     RandomAccessIterator2 values_first,
+                     const size_t n,
+                     RandomAccessIterator3 keys_result,
+                     RandomAccessIterator4 values_result,
+                     Integer bit_shift,
+                     size_t *histogram)
+{
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
+
+  // note that we are going to mutate the histogram during this sequential scatter
+  thrust::scatter(exec,
+                  thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
+                  thrust::make_zip_iterator(thrust::make_tuple(keys_first + n, values_first + n)),
+                  thrust::make_transform_iterator(keys_first, bucket_functor<RadixBits,KeyType>(bit_shift, histogram)),
+                  thrust::make_zip_iterator(thrust::make_tuple(keys_result, values_result)));
+}
+
+
 template<unsigned int RadixBits,
          bool HasValues,
          typename DerivedPolicy,
@@ -210,36 +295,24 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
     {
       if(flip)
       {
-        for(size_t j = 0; j < N; j++)
+        if(HasValues)
         {
-          const EncodedType x = encode(keys2[j]);
-          size_t position = histograms[i][(x >> BitShift) & BitMask]++;
-
-          //keys1[position] = keys2[j];
-          assign_value(exec, &keys1[position], &keys2[j]);
-
-          if(HasValues)
-          {
-            //vals1[position] = vals2[j];
-            assign_value(exec, &vals1[position], &vals2[j]);
-          }
+          radix_shuffle_n<RadixBits>(exec, keys2, vals2, N, keys1, vals1, BitShift, histograms[i]);
+        }
+        else
+        {
+          radix_shuffle_n<RadixBits>(exec, keys2, N, keys1, BitShift, histograms[i]);
         }
       }
       else
       {
-        for(size_t j = 0; j < N; j++)
+        if(HasValues)
         {
-          const EncodedType x = encode(keys1[j]);
-          size_t position = histograms[i][(x >> BitShift) & BitMask]++;
-
-          //keys2[position] = keys1[j];
-          assign_value(exec, &keys2[position], &keys1[j]);
-
-          if(HasValues)
-          {
-            //vals2[position] = vals1[j];
-            assign_value(exec, &vals2[position], &vals1[j]);
-          }
+          radix_shuffle_n<RadixBits>(exec, keys1, vals1, N, keys2, vals2, BitShift, histograms[i]);
+        }
+        else
+        {
+          radix_shuffle_n<RadixBits>(exec, keys1, N, keys2, BitShift, histograms[i]);
         }
       }
         
