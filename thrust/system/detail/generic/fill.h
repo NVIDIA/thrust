@@ -14,11 +14,6 @@
  *  limitations under the License.
  */
 
-
-/*! \file fill.h
- *  \brief Device implementation of fill.
- */
-
 #pragma once
 
 #include <thrust/detail/internal_functional.h>
@@ -36,6 +31,7 @@ namespace generic
 
 
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
+__host__ __device__
   OutputIterator fill_n(thrust::execution_policy<DerivedPolicy> &exec,
                         OutputIterator first,
                         Size n,
@@ -46,6 +42,7 @@ template<typename DerivedPolicy, typename OutputIterator, typename Size, typenam
 }
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
   void fill(thrust::execution_policy<DerivedPolicy> &exec,
             ForwardIterator first,
             ForwardIterator last,

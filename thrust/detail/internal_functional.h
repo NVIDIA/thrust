@@ -461,6 +461,7 @@ struct fill_functor
 {
   const T exemplar;
 
+  __host__ __device__
   fill_functor(const T& _exemplar) 
     : exemplar(_exemplar) {}
 
