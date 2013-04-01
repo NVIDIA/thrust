@@ -23,9 +23,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/execution_policy.h>
 #include <thrust/detail/execute_with_allocator.h>
-
-// #include the sequential execution_policy header
-#include <thrust/system/detail/sequential/execution_policy.h>
+#include <thrust/detail/seq.h>
 
 // #include the host system's execution_policy header
 #define __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
@@ -47,27 +45,6 @@ namespace thrust
 
 namespace detail
 {
-
-
-struct seq_t : thrust::system::detail::sequential::execution_policy<seq_t>
-{
-  __host__ __device__
-  seq_t() : thrust::system::detail::sequential::execution_policy<seq_t>() {}
-
-  // allow any execution_policy to convert to seq_t
-  template<typename DerivedPolicy>
-  __host__ __device__
-  seq_t(const thrust::execution_policy<DerivedPolicy> &)
-    : thrust::system::detail::sequential::execution_policy<seq_t>()
-  {}
-
-  template<typename Allocator>
-    thrust::detail::execute_with_allocator<Allocator, thrust::system::detail::sequential::execution_policy>
-      operator()(Allocator &alloc) const
-  {
-    return thrust::detail::execute_with_allocator<Allocator, thrust::system::detail::sequential::execution_policy>(alloc);
-  }
-};
 
 
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::detail::par_t host_t;
@@ -366,6 +343,9 @@ static const detail::host_t host;
 static const detail::device_t device;
 
 
+// define seq for the purpose of Doxygenating it
+// it is actually defined elsewhere
+#if 0
 /*! \p thrust::seq is an execution policy which requires an algorithm invocation to execute sequentially
  *  in the current thread. It can not be configured by a compile-time macro.
  *
@@ -400,9 +380,6 @@ static const detail::device_t device;
  *  \see thrust::host
  *  \see thrust::device
  */
-#ifdef __CUDA_ARCH__
-static const __device__ detail::seq_t seq;
-#else
 static const detail::seq_t seq;
 #endif
 
