@@ -53,7 +53,7 @@ ForwardIterator min_element(sequential::execution_policy<DerivedPolicy> &,
 
   ForwardIterator imin = first;
 
-  for(; first != last; first++)
+  for(; first != last; ++first)
   {
     if(wrapped_comp(*first, *imin))
     {
@@ -68,6 +68,7 @@ ForwardIterator min_element(sequential::execution_policy<DerivedPolicy> &,
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
+__host__ __device__
 ForwardIterator max_element(sequential::execution_policy<DerivedPolicy> &,
                             ForwardIterator first, 
                             ForwardIterator last,
@@ -81,7 +82,7 @@ ForwardIterator max_element(sequential::execution_policy<DerivedPolicy> &,
 
   ForwardIterator imax = first;
 
-  for(; first != last; first++)
+  for(; first != last; ++first)
   {
     if(wrapped_comp(*imax, *first))
     {
@@ -111,7 +112,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(sequential::executi
   ForwardIterator imin = first;
   ForwardIterator imax = first;
 
-  for(; first != last; first++)
+  for(; first != last; ++first)
   {
     if(wrapped_comp(*first, *imin))
     {
