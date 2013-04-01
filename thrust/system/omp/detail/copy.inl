@@ -19,9 +19,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/detail/copy.h>
 #include <thrust/system/detail/generic/copy.h>
+#include <thrust/system/detail/sequential/copy.h>
 #include <thrust/detail/type_traits/minimum_type.h>
-#include <thrust/system/cpp/detail/copy.h>
-#include <thrust/iterator/detail/retag.h>
+#include <thrust/detail/copy.h>
 
 namespace thrust
 {
@@ -43,7 +43,7 @@ template<typename DerivedPolicy,
                       OutputIterator result,
                       thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy(exec, first, last, result);
+  return thrust::system::detail::sequential::copy(exec, first, last, result);
 } // end copy()
 
 
@@ -56,13 +56,7 @@ template<typename DerivedPolicy,
                       OutputIterator result,
                       thrust::random_access_traversal_tag)
 {
-  // XXX WAR problems reconciling unrelated types such as omp & tbb
-  // reinterpret iterators as the policy we were passed
-  // this ensures that generic::copy's implementation, which eventually results in
-  // zip_iterator works correctly
-  thrust::detail::tagged_iterator<OutputIterator,DerivedPolicy> retagged_result(result);
-
-  return thrust::system::detail::generic::copy(exec, thrust::reinterpret_tag<DerivedPolicy>(first), thrust::reinterpret_tag<DerivedPolicy>(last), retagged_result).base();
+  return thrust::system::detail::generic::copy(exec, first, last, result);
 } // end copy()
 
 
@@ -76,7 +70,7 @@ template<typename DerivedPolicy,
                         OutputIterator result,
                         thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy_n(exec, first, n, result);
+  return thrust::system::detail::sequential::copy_n(exec, first, n, result);
 } // end copy_n()
 
 
@@ -90,14 +84,9 @@ template<typename DerivedPolicy,
                         OutputIterator result,
                         thrust::random_access_traversal_tag)
 {
-  // XXX WAR problems reconciling unrelated types such as omp & tbb
-  // reinterpret iterators as the policy we were passed
-  // this ensures that generic::copy's implementation, which eventually results in
-  // zip_iterator works correctly
-  thrust::detail::tagged_iterator<OutputIterator,DerivedPolicy> retagged_result(result);
-
-  return thrust::system::detail::generic::copy_n(exec, thrust::reinterpret_tag<DerivedPolicy>(first), n, retagged_result).base();
+  return thrust::system::detail::generic::copy_n(exec, first, n, result);
 } // end copy_n()
+
 
 } // end dispatch
 
@@ -116,7 +105,7 @@ OutputIterator copy(execution_policy<DerivedPolicy> &exec,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::omp::detail::dispatch::copy(exec, first,last,result,traversal());
+  return thrust::system::omp::detail::dispatch::copy(exec, first, last, result, traversal());
 } // end copy()
 
 
@@ -136,7 +125,7 @@ OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
   typedef typename thrust::detail::minimum_type<traversal1,traversal2>::type traversal;
 
   // dispatch on minimum traversal
-  return thrust::system::omp::detail::dispatch::copy_n(exec,first,n,result,traversal());
+  return thrust::system::omp::detail::dispatch::copy_n(exec, first, n, result, traversal());
 } // end copy_n()
 
 

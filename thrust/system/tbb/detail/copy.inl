@@ -34,6 +34,7 @@ namespace detail
 namespace dispatch
 {
 
+
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
@@ -86,6 +87,7 @@ template<typename DerivedPolicy,
 {
   return thrust::system::detail::generic::copy_n(exec, first, n, result);
 } // end copy_n()
+
 
 } // end dispatch
 

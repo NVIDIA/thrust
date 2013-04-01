@@ -5,10 +5,10 @@
 #include <thrust/system/omp/detail/reduce_intervals.h>
 
 // CPP reference implementation 
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction,
-          typename Decomposition>
+template<typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction,
+         typename Decomposition>
 void reduce_intervals(InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
@@ -18,7 +18,7 @@ void reduce_intervals(InputIterator input,
   typedef typename Decomposition::index_type index_type;
 
   // wrap binary_op
-  thrust::detail::host_function<
+  thrust::detail::wrapped_function<
     BinaryFunction,
     OutputType
   > wrapped_binary_op(binary_op);
@@ -78,7 +78,7 @@ void TestOmpReduceIntervalsSimple(void)
 DECLARE_UNITTEST(TestOmpReduceIntervalsSimple);
 
 
-template <typename T>
+template<typename T>
 struct TestOmpReduceIntervals
 {
   void operator()(const size_t n)
