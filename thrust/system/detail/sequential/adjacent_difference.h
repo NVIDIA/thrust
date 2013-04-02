@@ -35,11 +35,12 @@ namespace sequential
 {
 
 
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction>
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction>
 __host__ __device__
-OutputIterator adjacent_difference(tag,
+OutputIterator adjacent_difference(sequential::execution_policy<DerivedPolicy> &,
                                    InputIterator first,
                                    InputIterator last,
                                    OutputIterator result,
@@ -47,14 +48,14 @@ OutputIterator adjacent_difference(tag,
 {
   typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
 
-  if (first == last)
+  if(first == last)
     return result;
 
   InputType curr = *first;
 
   *result = curr;
 
-  while (++first != last)
+  while(++first != last)
   {
     InputType next = *first;
     *(++result) = binary_op(next, curr);
