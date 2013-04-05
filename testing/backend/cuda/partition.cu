@@ -195,11 +195,16 @@ void TestPartitionCopyStencilDeviceSeq()
 DECLARE_VECTOR_UNITTEST(TestPartitionCopyStencilDeviceSeq);
 
 
-template<typename Iterator1, typename Predicate, typename Iterator2>
+template<typename Iterator1, typename Predicate, typename Iterator2, typename Iterator3>
 __global__
-void stable_partition_kernel(Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
+void stable_partition_kernel(Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result, Iterator3 is_supported)
 {
+#if (__CUDA_ARCH__ >= 200)
+  *is_supported = true;
   *result = thrust::stable_partition(thrust::seq, first, last, pred);
+#else
+  *is_supported = false;
+#endif
 }
 
 
@@ -216,27 +221,36 @@ void TestStablePartitionDeviceSeq(void)
   data[4] = 2; 
 
   thrust::device_vector<iterator> result(1);
+  thrust::device_vector<bool> is_supported(1);
   
-  stable_partition_kernel<<<1,1>>>(data.begin(), data.end(), is_even<T>(), result.begin());
+  stable_partition_kernel<<<1,1>>>(data.begin(), data.end(), is_even<T>(), result.begin(), is_supported.begin());
   
-  thrust::device_vector<T> ref(5);
-  ref[0] = 2;
-  ref[1] = 2;
-  ref[2] = 1;
-  ref[3] = 1;
-  ref[4] = 1;
-  
-  ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
-  ASSERT_EQUAL(ref, data);
+  if(is_supported[0])
+  {
+    thrust::device_vector<T> ref(5);
+    ref[0] = 2;
+    ref[1] = 2;
+    ref[2] = 1;
+    ref[3] = 1;
+    ref[4] = 1;
+    
+    ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
+    ASSERT_EQUAL(ref, data);
+  }
 }
 DECLARE_UNITTEST(TestStablePartitionDeviceSeq);
 
 
-template<typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3>
+template<typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3, typename Iterator4>
 __global__
-void stable_partition_kernel(Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result)
+void stable_partition_kernel(Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result, Iterator4 is_supported)
 {
+#if (__CUDA_ARCH__ >= 200)
+  *is_supported = true;
   *result = thrust::stable_partition(thrust::seq, first, last, stencil_first, pred);
+#else
+  *is_supported = false;
+#endif
 }
 
 
@@ -260,18 +274,22 @@ void TestStablePartitionStencilDeviceSeq()
   stencil[4] = 2; 
 
   thrust::device_vector<iterator> result(1);
+  thrust::device_vector<bool> is_supported(1);
   
-  stable_partition_kernel<<<1,1>>>(data.begin(), data.end(), stencil.begin(), is_even<T>(), result.begin());
+  stable_partition_kernel<<<1,1>>>(data.begin(), data.end(), stencil.begin(), is_even<T>(), result.begin(), is_supported.begin());
   
-  thrust::device_vector<T> ref(5);
-  ref[0] = 1;
-  ref[1] = 1;
-  ref[2] = 0;
-  ref[3] = 0;
-  ref[4] = 0;
-  
-  ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
-  ASSERT_EQUAL(ref, data);
+  if(is_supported[0])
+  {
+    thrust::device_vector<T> ref(5);
+    ref[0] = 1;
+    ref[1] = 1;
+    ref[2] = 0;
+    ref[3] = 0;
+    ref[4] = 0;
+    
+    ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
+    ASSERT_EQUAL(ref, data);
+  }
 }
 DECLARE_UNITTEST(TestStablePartitionStencilDeviceSeq);
 
