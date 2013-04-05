@@ -104,6 +104,55 @@ __host__ __device__
 
 template<typename DerivedPolicy,
          typename ForwardIterator,
+         typename InputIterator,
+         typename Predicate>
+__host__ __device__
+  ForwardIterator partition(sequential::execution_policy<DerivedPolicy> &,
+                            ForwardIterator first,
+                            ForwardIterator last,
+                            InputIterator stencil_first,
+                            Predicate pred)
+{
+  if(first == last)
+    return first;
+
+  // wrap pred
+  thrust::detail::wrapped_function<
+    Predicate,
+    bool
+  > wrapped_pred(pred);
+
+  while(wrapped_pred(*stencil_first))
+  {
+    ++stencil_first;
+    if(++first == last)
+    {
+      return first;
+    }
+  }
+
+  ForwardIterator next = first;
+
+  // advance stencil to next element as well
+  ++stencil_first;
+
+  while(++next != last)
+  {
+    if(wrapped_pred(*stencil_first))
+    {
+      iter_swap(first, next);
+      ++first;
+    }
+
+    ++stencil_first;
+  }
+
+  return first;
+}
+
+
+template<typename DerivedPolicy,
+         typename ForwardIterator,
          typename Predicate>
 __host__ __device__
   ForwardIterator stable_partition(sequential::execution_policy<DerivedPolicy> &exec,
