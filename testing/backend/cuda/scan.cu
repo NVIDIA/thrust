@@ -58,14 +58,17 @@ struct TestScanDeviceSeq
     inclusive_scan_kernel<<<1,1>>>(d_output.begin(), d_output.end(), d_output.begin());
     ASSERT_EQUAL(d_output, h_output);
     
-    //KNOWN_FAILURE; // XXX nvcc 5 generates bad code for inplace sequential exclusive_scan
-    //h_output = h_input;
-    //d_output = d_input;
+#if CUDA_VERSION > 5000
+    h_output = h_input;
+    d_output = d_input;
   
-    //thrust::exclusive_scan(h_output.begin(), h_output.end(), h_output.begin());
-    //exclusive_scan_kernel<<<1,1>>>(d_output.begin(), d_output.end(), d_output.begin());
+    thrust::exclusive_scan(h_output.begin(), h_output.end(), h_output.begin());
+    exclusive_scan_kernel<<<1,1>>>(d_output.begin(), d_output.end(), d_output.begin());
   
-    //ASSERT_EQUAL(d_output, h_output);
+    ASSERT_EQUAL(d_output, h_output);
+#else
+    KNOWN_FAILURE; // XXX nvcc 5 generates bad code for inplace sequential exclusive_scan
+#endif
   }
 };
 VariableUnitTest<TestScanDeviceSeq, IntegralTypes> TestScanDeviceSeqInstance;
