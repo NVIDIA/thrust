@@ -61,5 +61,5 @@ template<typename T>
 VariableUnitTest<
   TestPairStableSortDeviceSeq,
   unittest::type_list<unittest::int8_t,unittest::int32_t>
-> TestPairStableSortInstance;
+> TestPairStableSortDeviceSeqInstance;
 
