@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the sequence.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch sequence
+
+#include <thrust/system/detail/sequential/sequence.h>
 
 #define __THRUST_HOST_SYSTEM_SEQUENCE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/sequence.h>
 #include __THRUST_HOST_SYSTEM_SEQUENCE_HEADER

@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the iter_swap.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch iter_swap
+
+#include <thrust/system/detail/sequential/iter_swap.h>
 
 #define __THRUST_HOST_SYSTEM_ITER_SWAP_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/iter_swap.h>
 #include __THRUST_HOST_SYSTEM_ITER_SWAP_HEADER

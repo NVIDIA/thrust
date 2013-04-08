@@ -29,10 +29,12 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction>
+__host__ __device__
   OutputIterator transform(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first, InputIterator last,
                            OutputIterator result,
@@ -43,11 +45,13 @@ template<typename DerivedPolicy,
 } // end transform()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename BinaryFunction>
+__host__ __device__
   OutputIterator transform(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator1 first1, InputIterator1 last1,
                            InputIterator2 first2,
@@ -59,11 +63,13 @@ template<typename DerivedPolicy,
 } // end transform()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
+__host__ __device__
   ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator first, InputIterator last,
                                ForwardIterator result,
@@ -75,12 +81,14 @@ template<typename DerivedPolicy,
 } // end transform_if()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename ForwardIterator,
          typename UnaryFunction,
          typename Predicate>
+__host__ __device__
   ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first, InputIterator1 last,
                                InputIterator2 stencil,
@@ -93,6 +101,7 @@ template<typename DerivedPolicy,
 } // end transform_if()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -100,6 +109,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryFunction,
          typename Predicate>
+__host__ __device__
   ForwardIterator transform_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                InputIterator1 first1, InputIterator1 last1,
                                InputIterator2 first2,

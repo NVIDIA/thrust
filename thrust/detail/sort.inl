@@ -30,7 +30,9 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename RandomAccessIterator>
+__host__ __device__
   void sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last)
@@ -40,9 +42,11 @@ template<typename DerivedPolicy, typename RandomAccessIterator>
 } // end sort()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
+__host__ __device__
   void sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
@@ -53,7 +57,9 @@ template<typename DerivedPolicy,
 } // end sort()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename RandomAccessIterator>
+__host__ __device__
   void stable_sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last)
@@ -63,9 +69,11 @@ template<typename DerivedPolicy, typename RandomAccessIterator>
 } // end stable_sort()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
+__host__ __device__
   void stable_sort(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
@@ -76,9 +84,11 @@ template<typename DerivedPolicy,
 } // end stable_sort()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
+__host__ __device__
   void sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
@@ -89,10 +99,12 @@ template<typename DerivedPolicy,
 } // end sort_by_key()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
+__host__ __device__
   void sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
@@ -104,9 +116,11 @@ template<typename DerivedPolicy,
 } // end sort_by_key()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
+__host__ __device__
   void stable_sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
@@ -117,10 +131,12 @@ template<typename DerivedPolicy,
 } // end stable_sort_by_key()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
+__host__ __device__
   void stable_sort_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
@@ -132,7 +148,9 @@ template<typename DerivedPolicy,
 } // end stable_sort_by_key()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
   bool is_sorted(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last)
@@ -142,7 +160,9 @@ template<typename DerivedPolicy, typename ForwardIterator>
 } // end is_sorted()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
+__host__ __device__
   bool is_sorted(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
@@ -153,7 +173,9 @@ template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
 } // end is_sorted()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
   ForwardIterator is_sorted_until(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last)
@@ -163,7 +185,9 @@ template<typename DerivedPolicy, typename ForwardIterator>
 } // end is_sorted_until()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Compare>
+__host__ __device__
   ForwardIterator is_sorted_until(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,

@@ -14,41 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file adjacent_difference.h
- *  \brief C++ implementation of adjacent_difference.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/adjacent_difference.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template <typename DerivedPolicy,
-          typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction>
-OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &,
-                                   InputIterator first,
-                                   InputIterator last,
-                                   OutputIterator result,
-                                   BinaryFunction binary_op)
-{
-  return thrust::system::detail::internal::scalar::adjacent_difference(first, last, result, binary_op);
-}
-
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+// this system inherits adjacent_difference
+#include <thrust/system/detail/sequential/adjacent_difference.h>
 

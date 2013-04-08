@@ -17,10 +17,10 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/copy.h>
-#include <thrust/system/detail/internal/scalar/sort.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
 #include <thrust/merge.h>
+#include <thrust/detail/seq.h>
 #include <tbb/parallel_invoke.h>
 
 namespace thrust
@@ -34,13 +34,16 @@ namespace detail
 namespace sort_detail
 {
 
+
 // TODO tune this based on data type and comp
 const static int threshold = 128 * 1024;
+
   
-template <typename DerivedPolicy, typename Iterator1, typename Iterator2, typename StrictWeakOrdering>
+template<typename DerivedPolicy, typename Iterator1, typename Iterator2, typename StrictWeakOrdering>
 void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, StrictWeakOrdering comp, bool inplace);
 
-template <typename DerivedPolicy, typename Iterator1, typename Iterator2, typename StrictWeakOrdering>
+
+template<typename DerivedPolicy, typename Iterator1, typename Iterator2, typename StrictWeakOrdering>
 struct merge_sort_closure
 {
   execution_policy<DerivedPolicy> &exec;
@@ -60,7 +63,7 @@ struct merge_sort_closure
 };
 
 
-template <typename DerivedPolicy, typename Iterator1, typename Iterator2, typename StrictWeakOrdering>
+template<typename DerivedPolicy, typename Iterator1, typename Iterator2, typename StrictWeakOrdering>
 void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, StrictWeakOrdering comp, bool inplace)
 {
   typedef typename thrust::iterator_difference<Iterator1>::type difference_type;
@@ -69,10 +72,12 @@ void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterato
 
   if (n < threshold)
   {
-    thrust::system::detail::internal::scalar::stable_sort(first1, last1, comp);
+    thrust::stable_sort(thrust::seq, first1, last1, comp);
     
-    if (!inplace)
-      thrust::system::detail::internal::scalar::copy(first1, last1, first2);
+    if(!inplace)
+    {
+      thrust::copy(thrust::seq, first1, last1, first2);
+    }
 
     return;
   }
@@ -88,9 +93,10 @@ void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterato
 
   ::tbb::parallel_invoke(left, right);
 
-  if (inplace) thrust::merge(exec, first2, mid2, mid2, last2, first1, comp);
-  else	       thrust::merge(exec, first1, mid1, mid1, last1, first2, comp);
+  if(inplace) thrust::merge(exec, first2, mid2, mid2, last2, first1, comp);
+  else	      thrust::merge(exec, first1, mid1, mid1, last1, first2, comp);
 }
+
 
 } // end namespace sort_detail
 
@@ -98,15 +104,17 @@ void merge_sort(execution_policy<DerivedPolicy> &exec, Iterator1 first1, Iterato
 namespace sort_by_key_detail
 {
 
+
 // TODO tune this based on data type and comp
 const static int threshold = 128 * 1024;
+
   
-template <typename DerivedPolicy,
-          typename Iterator1,
-          typename Iterator2,
-          typename Iterator3,
-          typename Iterator4,
-          typename StrictWeakOrdering>
+template<typename DerivedPolicy,
+         typename Iterator1,
+         typename Iterator2,
+         typename Iterator3,
+         typename Iterator4,
+         typename StrictWeakOrdering>
 void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
                        Iterator1 first1,
                        Iterator1 last1,
@@ -116,12 +124,13 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
                        StrictWeakOrdering comp,
                        bool inplace);
 
-template <typename DerivedPolicy,
-          typename Iterator1,
-          typename Iterator2,
-          typename Iterator3,
-          typename Iterator4,
-          typename StrictWeakOrdering>
+
+template<typename DerivedPolicy,
+         typename Iterator1,
+         typename Iterator2,
+         typename Iterator3,
+         typename Iterator4,
+         typename StrictWeakOrdering>
 struct merge_sort_by_key_closure
 {
   execution_policy<DerivedPolicy> &exec;
@@ -150,12 +159,12 @@ struct merge_sort_by_key_closure
 };
 
 
-template <typename DerivedPolicy,
-          typename Iterator1,
-          typename Iterator2,
-          typename Iterator3,
-          typename Iterator4,
-          typename StrictWeakOrdering>
+template<typename DerivedPolicy,
+         typename Iterator1,
+         typename Iterator2,
+         typename Iterator3,
+         typename Iterator4,
+         typename StrictWeakOrdering>
 void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
                        Iterator1 first1,
                        Iterator1 last1,
@@ -178,12 +187,12 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
 
   if (n < threshold)
   {
-    thrust::system::detail::internal::scalar::stable_sort_by_key(first1, last1, first2, comp);
+    thrust::stable_sort_by_key(thrust::seq, first1, last1, first2, comp);
     
-    if (!inplace)
+    if(!inplace)
     {
-      thrust::system::detail::internal::scalar::copy(first1, last1, first3);
-      thrust::system::detail::internal::scalar::copy(first2, last2, first4);
+      thrust::copy(thrust::seq, first1, last1, first3);
+      thrust::copy(thrust::seq, first2, last2, first4);
     }
 
     return;
@@ -206,7 +215,9 @@ void merge_sort_by_key(execution_policy<DerivedPolicy> &exec,
   }
 }
 
+
 } // end namespace sort_detail
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
@@ -222,6 +233,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
 
   sort_detail::merge_sort(exec, first, last, temp.begin(), comp, true);
 }
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
@@ -243,6 +255,7 @@ template<typename DerivedPolicy,
 
   sort_by_key_detail::merge_sort_by_key(exec, first1, last1, first2, temp1.begin(), temp2.begin(), comp, true);
 }
+
 
 } // end namespace detail
 } // end namespace tbb

@@ -30,7 +30,8 @@ template<typename BaseAllocator>
     typedef BaseAllocator super_t;
   
   public:
-    inline no_throw_allocator(const BaseAllocator &other = BaseAllocator())
+    inline __host__ __device__
+    no_throw_allocator(const BaseAllocator &other = BaseAllocator())
       : super_t(other)
     {}
 
@@ -40,8 +41,10 @@ template<typename BaseAllocator>
       typedef no_throw_allocator<typename super_t::template rebind<U>::other> other;
     }; // end rebind
 
+    __host__ __device__
     void deallocate(typename super_t::pointer p, typename super_t::size_type n)
     {
+#ifndef __CUDA_ARCH__
       try
       {
         super_t::deallocate(p, n);
@@ -50,10 +53,16 @@ template<typename BaseAllocator>
       {
         // catch anything
       } // end catch
+#else
+      super_t::deallocate(p, n);
+#endif
     } // end deallocate()
 
-    inline bool operator==(no_throw_allocator const &other) { return super_t::operator==(other); }
-    inline bool operator!=(no_throw_allocator const &other) { return super_t::operator!=(other); }
+    inline __host__ __device__
+    bool operator==(no_throw_allocator const &other) { return super_t::operator==(other); }
+
+    inline __host__ __device__
+    bool operator!=(no_throw_allocator const &other) { return super_t::operator!=(other); }
 }; // end no_throw_allocator
 
 } // end detail

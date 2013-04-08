@@ -16,31 +16,8 @@
 
 #pragma once
 
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/detail/raw_pointer_cast.h>
-#include <thrust/detail/swap.h>
+#include <thrust/detail/config.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-
-template<typename Pointer1, typename Pointer2>
-__host__ __device__
-  void iter_swap(tag, Pointer1 a, Pointer2 b)
-{
-  using thrust::swap;
-  swap(*thrust::raw_pointer_cast(a), *thrust::raw_pointer_cast(b));
-} // end iter_swap()
-
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+// this system inherits iter_swap
+#include <thrust/system/detail/sequential/iter_swap.h>
 

@@ -53,7 +53,7 @@ void reduce_intervals(execution_policy<DerivedPolicy> &,
   typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
 
   // wrap binary_op
-  thrust::detail::host_function<BinaryFunction,OutputType> wrapped_binary_op(binary_op);
+  thrust::detail::wrapped_function<BinaryFunction,OutputType> wrapped_binary_op(binary_op);
 
   typedef thrust::detail::intptr_t index_type;
 

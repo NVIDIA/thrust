@@ -45,7 +45,7 @@ struct body
   RandomAccessIterator first;
   OutputType sum;
   bool first_call;  // TBB can invoke operator() multiple times on the same body
-  thrust::detail::host_function<BinaryFunction,OutputType> binary_op;
+  thrust::detail::wrapped_function<BinaryFunction,OutputType> binary_op;
 
   // note: we only initalize sum with init to avoid calling OutputType's default constructor
   body(RandomAccessIterator first, OutputType init, BinaryFunction binary_op)

@@ -29,10 +29,12 @@ namespace detail
 namespace generic
 {
 
+
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename RandomAccessIterator>
+__host__ __device__
   void scatter(thrust::execution_policy<DerivedPolicy> &exec,
                InputIterator1 first,
                InputIterator1 last,
@@ -45,6 +47,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename InputIterator3,
          typename RandomAccessIterator>
+__host__ __device__
   void scatter_if(thrust::execution_policy<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
@@ -59,6 +62,7 @@ template<typename DerivedPolicy,
          typename InputIterator3,
          typename RandomAccessIterator,
          typename Predicate>
+__host__ __device__
   void scatter_if(thrust::execution_policy<DerivedPolicy> &exec,
                   InputIterator1 first,
                   InputIterator1 last,
@@ -66,6 +70,7 @@ template<typename DerivedPolicy,
                   InputIterator3 stencil,
                   RandomAccessIterator output,
                   Predicate pred);
+
 
 } // end namespace generic
 } // end namespace detail

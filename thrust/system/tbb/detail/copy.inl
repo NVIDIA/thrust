@@ -19,8 +19,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/tbb/detail/copy.h>
 #include <thrust/system/detail/generic/copy.h>
+#include <thrust/system/detail/sequential/copy.h>
 #include <thrust/detail/type_traits/minimum_type.h>
-#include <thrust/system/cpp/detail/copy.h>
+#include <thrust/detail/copy.h>
 
 namespace thrust
 {
@@ -33,6 +34,7 @@ namespace detail
 namespace dispatch
 {
 
+
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
@@ -42,7 +44,7 @@ template<typename DerivedPolicy,
                       OutputIterator result,
                       thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy(exec, first, last, result);
+  return thrust::system::detail::sequential::copy(exec, first, last, result);
 } // end copy()
 
 
@@ -69,7 +71,7 @@ template<typename DerivedPolicy,
                         OutputIterator result,
                         thrust::incrementable_traversal_tag)
 {
-  return thrust::system::cpp::detail::copy_n(exec, first, n, result);
+  return thrust::system::detail::sequential::copy_n(exec, first, n, result);
 } // end copy_n()
 
 
@@ -85,6 +87,7 @@ template<typename DerivedPolicy,
 {
   return thrust::system::detail::generic::copy_n(exec, first, n, result);
 } // end copy_n()
+
 
 } // end dispatch
 

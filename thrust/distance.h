@@ -64,7 +64,8 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/distance.html
  */
 template<typename InputIterator>
-  inline typename thrust::iterator_traits<InputIterator>::difference_type
+inline __host__ __device__
+  typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last);
 
 /*! \} // end iterators

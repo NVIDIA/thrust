@@ -17,72 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/remove.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template<typename ForwardIterator,
-         typename Predicate>
-  ForwardIterator remove_if(tag,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            Predicate pred)
-{
-  return thrust::system::detail::internal::scalar::remove_if(first, last, pred);
-}
-
-
-template<typename ForwardIterator,
-         typename InputIterator,
-         typename Predicate>
-  ForwardIterator remove_if(tag,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            InputIterator stencil,
-                            Predicate pred)
-{
-  return thrust::system::detail::internal::scalar::remove_if(first, last, stencil, pred);
-}
-
-
-template<typename InputIterator,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator remove_copy_if(tag,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                Predicate pred)
-{
-  return thrust::system::detail::internal::scalar::remove_copy_if(first, last, result, pred);
-}
-
-
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator remove_copy_if(tag,
-                                InputIterator1 first,
-                                InputIterator1 last,
-                                InputIterator2 stencil,
-                                OutputIterator result,
-                                Predicate pred)
-{
-  return thrust::system::detail::internal::scalar::remove_copy_if(first, last, stencil, result, pred);
-}
-
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+// this system inherits remove
+#include <thrust/system/detail/sequential/remove.h>
 

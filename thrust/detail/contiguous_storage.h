@@ -52,59 +52,84 @@ template<typename T, typename Alloc>
     typedef thrust::detail::normal_iterator<pointer>       iterator;
     typedef thrust::detail::normal_iterator<const_pointer> const_iterator;
 
+    __thrust_hd_warning_disable__
+    __host__ __device__
     explicit contiguous_storage(const allocator_type &alloc = allocator_type());
 
+    __thrust_hd_warning_disable__
+    __host__ __device__
     explicit contiguous_storage(size_type n, const allocator_type &alloc = allocator_type());
 
+    __thrust_hd_warning_disable__
+    __host__ __device__
     ~contiguous_storage(void);
 
+    __host__ __device__
     size_type size(void) const;
 
+    __host__ __device__
     size_type max_size(void) const;
 
+    __host__ __device__
     iterator begin(void);
     
+    __host__ __device__
     const_iterator begin(void) const;
 
+    __host__ __device__
     iterator end(void);
 
+    __host__ __device__
     const_iterator end(void) const;
 
+    __host__ __device__
     reference operator[](size_type n);
 
+    __host__ __device__
     const_reference operator[](size_type n) const;
 
+    __host__ __device__
     allocator_type get_allocator(void) const;
 
     // note that allocate does *not* automatically call deallocate
+    __host__ __device__
     void allocate(size_type n);
 
+    __host__ __device__
     void deallocate(void);
 
+    __host__ __device__
     void swap(contiguous_storage &x);
 
+    __host__ __device__
     void default_construct_n(iterator first, size_type n);
 
+    __host__ __device__
     void uninitialized_fill_n(iterator first, size_type n, const value_type &value);
 
     template<typename InputIterator>
+    __host__ __device__
     iterator uninitialized_copy(InputIterator first, InputIterator last, iterator result);
 
     template<typename System, typename InputIterator>
+    __host__ __device__
     iterator uninitialized_copy(thrust::execution_policy<System> &from_system,
                                 InputIterator first,
                                 InputIterator last,
                                 iterator result);
 
     template<typename InputIterator, typename Size>
+    __host__ __device__
     iterator uninitialized_copy_n(InputIterator first, Size n, iterator result);
 
     template<typename System, typename InputIterator, typename Size>
+    __host__ __device__
     iterator uninitialized_copy_n(thrust::execution_policy<System> &from_system,
                                   InputIterator first,
                                   Size n,
                                   iterator result);
 
+    __host__ __device__
     void destroy(iterator first, iterator last);
 
   private:
@@ -121,7 +146,9 @@ template<typename T, typename Alloc>
 
 } // end detail
 
-template<typename T, typename Alloc> void swap(detail::contiguous_storage<T,Alloc> &lhs, detail::contiguous_storage<T,Alloc> &rhs);
+template<typename T, typename Alloc>
+__host__ __device__
+void swap(detail::contiguous_storage<T,Alloc> &lhs, detail::contiguous_storage<T,Alloc> &rhs);
 
 } // end thrust
 

@@ -29,22 +29,16 @@ namespace detail
 namespace generic
 {
 
+
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename UnaryOperation>
+__host__ __device__
   void tabulate(thrust::execution_policy<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
                 UnaryOperation unary_op);
 
-template<typename DerivedPolicy,
-         typename OutputIterator,
-         typename Size,
-         typename UnaryOperation>
-  OutputIterator tabulate_n(thrust::execution_policy<DerivedPolicy> &exec,
-                            OutputIterator first,
-                            Size n,
-                            UnaryOperation unary_op);
 
 } // end namespace generic
 } // end namespace detail

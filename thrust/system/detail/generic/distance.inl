@@ -29,8 +29,11 @@ namespace generic
 namespace detail
 {
 
+
+__thrust_hd_warning_disable__
 template<typename InputIterator>
-  inline typename thrust::iterator_traits<InputIterator>::difference_type
+inline __host__ __device__
+  typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last, thrust::incrementable_traversal_tag)
 {
   typename thrust::iterator_traits<InputIterator>::difference_type result(0);
@@ -44,23 +47,30 @@ template<typename InputIterator>
   return result;
 } // end advance()
 
+
+__thrust_hd_warning_disable__
 template<typename InputIterator>
-  inline typename thrust::iterator_traits<InputIterator>::difference_type
+inline __host__ __device__
+  typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last, thrust::random_access_traversal_tag)
 {
   return last - first;
 } // end distance()
 
+
 } // end detail
 
+
 template<typename InputIterator>
-  inline typename thrust::iterator_traits<InputIterator>::difference_type
+inline __host__ __device__
+  typename thrust::iterator_traits<InputIterator>::difference_type
     distance(InputIterator first, InputIterator last)
 {
   // dispatch on iterator traversal
   return thrust::system::detail::generic::detail::distance(first, last,
     typename thrust::iterator_traversal<InputIterator>::type());
 } // end advance()
+
 
 } // end namespace generic
 } // end namespace detail

@@ -24,9 +24,9 @@
 
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/detail/generic/select_system.h>
-#include <thrust/system/cpp/detail/sort.h>
-#include <thrust/system/cpp/detail/merge.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
+#include <thrust/sort.h>
+#include <thrust/merge.h>
+#include <thrust/detail/seq.h>
 #include <thrust/detail/temporary_array.h>
 
 namespace thrust
@@ -41,9 +41,9 @@ namespace sort_detail
 {
 
 
-template <typename DerivedPolicy,
-          typename RandomAccessIterator,
-          typename StrictWeakOrdering>
+template<typename DerivedPolicy,
+         typename RandomAccessIterator,
+         typename StrictWeakOrdering>
 void inplace_merge(execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator middle,
@@ -55,14 +55,14 @@ void inplace_merge(execution_policy<DerivedPolicy> &exec,
   thrust::detail::temporary_array<value_type,DerivedPolicy> a(exec, first, middle);
   thrust::detail::temporary_array<value_type,DerivedPolicy> b(exec, middle, last);
 
-  thrust::system::cpp::detail::merge(exec, a.begin(), a.end(), b.begin(), b.end(), first, comp);
+  thrust::merge(thrust::seq, a.begin(), a.end(), b.begin(), b.end(), first, comp);
 }
 
 
-template <typename DerivedPolicy,
-          typename RandomAccessIterator1,
-          typename RandomAccessIterator2,
-          typename StrictWeakOrdering>
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2,
+         typename StrictWeakOrdering>
 void inplace_merge_by_key(execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 first1,
                           RandomAccessIterator1 middle1,
@@ -81,11 +81,12 @@ void inplace_merge_by_key(execution_policy<DerivedPolicy> &exec,
   thrust::detail::temporary_array<value_type2,DerivedPolicy> lhs2(exec, first2, middle2);
   thrust::detail::temporary_array<value_type2,DerivedPolicy> rhs2(exec, middle2, last2);
 
-  thrust::system::cpp::detail::merge_by_key
-    (exec,
-     lhs1.begin(), lhs1.end(), rhs1.begin(), rhs1.end(),
-     lhs2.begin(), rhs2.begin(),
-     first1, first2, comp);
+  thrust::merge_by_key(thrust::seq,
+                       lhs1.begin(), lhs1.end(),
+                       rhs1.begin(), rhs1.end(),
+                       lhs2.begin(), rhs2.begin(),
+                       first1, first2,
+                       comp);
 }
 
 
@@ -111,7 +112,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_difference<RandomAccessIterator>::type IndexType;
   
-  if (first == last)
+  if(first == last)
     return;
 
   #pragma omp parallel
@@ -122,12 +123,12 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
     IndexType p_i = omp_get_thread_num();
 
     // every thread sorts its own tile
-    if (p_i < decomp.size())
+    if(p_i < decomp.size())
     {
-      thrust::system::cpp::detail::stable_sort(exec,
-                                               first + decomp[p_i].begin(),
-                                               first + decomp[p_i].end(),
-                                               comp);
+      thrust::stable_sort(thrust::seq,
+                          first + decomp[p_i].begin(),
+                          first + decomp[p_i].end(),
+                          comp);
     }
 
     #pragma omp barrier
@@ -138,27 +139,27 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
     // keep track of which sub-range we're processing
     IndexType a=p_i, b=p_i, c=p_i+1;
 
-    while( nseg>1 )
+    while(nseg>1)
     {
-        if(c >= decomp.size())
-          c = decomp.size() - 1;
+      if(c >= decomp.size())
+        c = decomp.size() - 1;
 
-        if((p_i % h) == 0 && c > b)
-        {
-          thrust::system::omp::detail::sort_detail::inplace_merge
-            (exec,
-             first + decomp[a].begin(),
-             first + decomp[b].end(),
-             first + decomp[c].end(),
-             comp);
-            b = c;
-            c += h;
-        }
+      if((p_i % h) == 0 && c > b)
+      {
+        sort_detail::inplace_merge(exec,
+                                   first + decomp[a].begin(),
+                                   first + decomp[b].end(),
+                                   first + decomp[c].end(),
+                                   comp);
 
-        nseg = (nseg + 1) / 2;
-        h *= 2;
+        b = c;
+        c += h;
+      }
 
-        #pragma omp barrier
+      nseg = (nseg + 1) / 2;
+      h *= 2;
+
+      #pragma omp barrier
     }
   }
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
@@ -186,7 +187,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
 #if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type IndexType;
   
-  if (keys_first == keys_last)
+  if(keys_first == keys_last)
     return;
 
   #pragma omp parallel
@@ -197,13 +198,13 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
     IndexType p_i = omp_get_thread_num();
 
     // every thread sorts its own tile
-    if (p_i < decomp.size())
+    if(p_i < decomp.size())
     {
-      thrust::system::cpp::detail::stable_sort_by_key(exec,
-                                                      keys_first + decomp[p_i].begin(),
-                                                      keys_first + decomp[p_i].end(),
-                                                      values_first + decomp[p_i].begin(),
-                                                      comp);
+      thrust::stable_sort_by_key(thrust::seq,
+                                 keys_first + decomp[p_i].begin(),
+                                 keys_first + decomp[p_i].end(),
+                                 values_first + decomp[p_i].begin(),
+                                 comp);
     }
 
     #pragma omp barrier
@@ -214,28 +215,28 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
     // keep track of which sub-range we're processing
     IndexType a=p_i, b=p_i, c=p_i+1;
 
-    while( nseg>1 )
+    while(nseg>1)
     {
-        if(c >= decomp.size())
-          c = decomp.size() - 1;
+      if(c >= decomp.size())
+        c = decomp.size() - 1;
 
-        if((p_i % h) == 0 && c > b)
-        {
-          thrust::system::omp::detail::sort_detail::inplace_merge_by_key
-            (exec,
-             keys_first + decomp[a].begin(),
-             keys_first + decomp[b].end(),
-             keys_first + decomp[c].end(),
-             values_first + decomp[a].begin(),
-             comp);
-            b = c;
-            c += h;
-        }
+      if((p_i % h) == 0 && c > b)
+      {
+        sort_detail::inplace_merge_by_key(exec,
+                                          keys_first + decomp[a].begin(),
+                                          keys_first + decomp[b].end(),
+                                          keys_first + decomp[c].end(),
+                                          values_first + decomp[a].begin(),
+                                          comp);
 
-        nseg = (nseg + 1) / 2;
-        h *= 2;
+        b = c;
+        c += h;
+      }
 
-        #pragma omp barrier
+      nseg = (nseg + 1) / 2;
+      h *= 2;
+
+      #pragma omp barrier
     }
   }
 #endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE

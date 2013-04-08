@@ -142,7 +142,7 @@ template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare
     {
       RandomAccessIterator first;
 
-      thrust::detail::host_device_function<
+      thrust::detail::wrapped_function<
         Compare,
         bool
       > comp;

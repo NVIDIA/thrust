@@ -25,7 +25,9 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
+__host__ __device__
   OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -36,7 +38,9 @@ template<typename DerivedPolicy, typename InputIterator, typename OutputIterator
 } // end copy()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
+__host__ __device__
   OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                         InputIterator first,
                         Size n,
@@ -51,12 +55,14 @@ namespace detail
 {
 
 
+__thrust_hd_warning_disable__ // because we might call e.g. std::ostream_iterator's constructor
 template<typename System1,
          typename System2,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator two_system_copy(thrust::execution_policy<System1> &system1,
-                                 thrust::execution_policy<System2> &system2,
+__host__ __device__
+  OutputIterator two_system_copy(const thrust::execution_policy<System1> &system1,
+                                 const thrust::execution_policy<System2> &system2,
                                  InputIterator first,
                                  InputIterator last,
                                  OutputIterator result)
@@ -67,13 +73,15 @@ template<typename System1,
 } // end two_system_copy()
 
 
+__thrust_hd_warning_disable__ // because we might call e.g. std::ostream_iterator's constructor
 template<typename System1,
          typename System2,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator two_system_copy_n(thrust::execution_policy<System1> &system1,
-                                   thrust::execution_policy<System2> &system2,
+__host__ __device__
+  OutputIterator two_system_copy_n(const thrust::execution_policy<System1> &system1,
+                                   const thrust::execution_policy<System2> &system2,
                                    InputIterator first,
                                    Size n,
                                    OutputIterator result)

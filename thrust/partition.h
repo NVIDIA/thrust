@@ -97,6 +97,7 @@ namespace thrust
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -225,6 +226,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
@@ -369,6 +371,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
@@ -523,6 +526,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator1 first,
@@ -668,6 +672,7 @@ template<typename InputIterator1,
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -801,6 +806,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator stable_partition(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -949,6 +955,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
@@ -1106,6 +1113,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator1 first,
@@ -1253,6 +1261,7 @@ template<typename InputIterator1,
  *  \see \p find_if_not
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename Predicate>
+__host__ __device__
   ForwardIterator partition_point(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
@@ -1365,6 +1374,7 @@ template<typename ForwardIterator, typename Predicate>
  *  \see \p partition
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
   bool is_partitioned(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,

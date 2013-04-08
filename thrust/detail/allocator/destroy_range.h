@@ -24,6 +24,7 @@ namespace detail
 {
 
 template<typename Allocator, typename Pointer, typename Size>
+__host__ __device__
   inline void destroy_range(Allocator &a, Pointer p, Size n);
 
 } // end detail

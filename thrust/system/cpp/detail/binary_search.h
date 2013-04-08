@@ -14,64 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file binary_search.h
- *  \brief C++ implementation of binary search algorithms.
- */
-
 #pragma once
 
 #include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/binary_search.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template <typename ForwardIterator,
-          typename T,
-          typename StrictWeakOrdering>
-ForwardIterator lower_bound(tag,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            const T& val,
-                            StrictWeakOrdering comp)
-{
-  return thrust::system::detail::internal::scalar::lower_bound(first, last, val, comp);
-}
-
-
-template <typename ForwardIterator,
-          typename T,
-          typename StrictWeakOrdering>
-ForwardIterator upper_bound(tag,
-                            ForwardIterator first,
-                            ForwardIterator last,
-                            const T& val, 
-                            StrictWeakOrdering comp)
-{
-  return thrust::system::detail::internal::scalar::upper_bound(first, last, val, comp);
-}
-
-template <typename ForwardIterator,
-          typename T,
-          typename StrictWeakOrdering>
-bool binary_search(tag,
-                   ForwardIterator first,
-                   ForwardIterator last,
-                   const T& val, 
-                   StrictWeakOrdering comp)
-{
-  return thrust::system::detail::internal::scalar::binary_search(first, last, val, comp);
-}
-
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+// this system inherits the binary search algorithms
+#include <thrust/system/detail/sequential/binary_search.h>
 

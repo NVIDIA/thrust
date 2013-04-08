@@ -14,57 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file scan.h
- *  \brief C++ implementations of scan functions.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/scan.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template<typename DerivedPolicy,
-         typename InputIterator,
-         typename OutputIterator,
-         typename BinaryFunction>
-  OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                BinaryFunction binary_op)
-{
-  return thrust::system::detail::internal::scalar::inclusive_scan(first, last, result, binary_op);
-}
-
-
-template<typename DerivedPolicy,
-         typename InputIterator,
-         typename OutputIterator,
-         typename T,
-         typename BinaryFunction>
-  OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                BinaryFunction binary_op)
-{
-  return thrust::system::detail::internal::scalar::exclusive_scan(first, last, result, init, binary_op);
-}
-
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+// this system inherits scan
+#include <thrust/system/detail/sequential/scan.h>
 

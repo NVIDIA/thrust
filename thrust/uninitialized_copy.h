@@ -94,6 +94,7 @@ namespace thrust
  *  \see \c device_malloc
  */
 template<typename DerivedPolicy, typename InputIterator, typename ForwardIterator>
+__host__ __device__
   ForwardIterator uninitialized_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                      InputIterator first,
                                      InputIterator last,
@@ -223,6 +224,7 @@ template<typename InputIterator, typename ForwardIterator>
  *  \see \c device_malloc
  */
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename ForwardIterator>
+__host__ __device__
   ForwardIterator uninitialized_copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        InputIterator first,
                                        Size n,

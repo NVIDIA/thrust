@@ -16,30 +16,8 @@
 
 #pragma once
 
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/detail/config.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-
-template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
-  typename thrust::iterator_value<Pointer>::type
-    get_value(thrust::system::cpp::detail::execution_policy<DerivedPolicy> &, Pointer ptr)
-{
-  return *thrust::raw_pointer_cast(ptr);
-} // end get_value()
-
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+// this system inherits get_value
+#include <thrust/system/detail/sequential/get_value.h>
 

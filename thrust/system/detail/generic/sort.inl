@@ -38,9 +38,10 @@ namespace generic
 {
 
 
-template<typename ExecutionPolicy,
+template<typename DerivedPolicy,
          typename RandomAccessIterator>
-  void sort(thrust::execution_policy<ExecutionPolicy> &exec,
+__host__ __device__
+  void sort(thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last)
 {
@@ -49,10 +50,11 @@ template<typename ExecutionPolicy,
 } // end sort()
 
 
-template<typename ExecutionPolicy,
+template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void sort(thrust::execution_policy<ExecutionPolicy> &exec,
+__host__ __device__
+  void sort(thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
             StrictWeakOrdering comp)
@@ -62,10 +64,11 @@ template<typename ExecutionPolicy,
 } // end sort()
 
 
-template<typename ExecutionPolicy,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void sort_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
+__host__ __device__
+  void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first)
@@ -75,11 +78,12 @@ template<typename ExecutionPolicy,
 } // end sort_by_key()
 
 
-template<typename ExecutionPolicy,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void sort_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
+__host__ __device__
+  void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
                    RandomAccessIterator2 values_first,
@@ -90,9 +94,10 @@ template<typename ExecutionPolicy,
 } // end sort_by_key()
 
 
-template<typename ExecutionPolicy,
+template<typename DerivedPolicy,
          typename RandomAccessIterator>
-  void stable_sort(thrust::execution_policy<ExecutionPolicy> &exec,
+__host__ __device__
+  void stable_sort(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last)
 {
@@ -101,10 +106,11 @@ template<typename ExecutionPolicy,
 } // end stable_sort()
 
 
-template<typename ExecutionPolicy,
+template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  void stable_sort_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
+__host__ __device__
+  void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first)
@@ -114,8 +120,9 @@ template<typename ExecutionPolicy,
 } // end stable_sort_by_key()
 
 
-template<typename ExecutionPolicy, typename ForwardIterator>
-  bool is_sorted(thrust::execution_policy<ExecutionPolicy> &exec,
+template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
+  bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last)
 {
@@ -123,10 +130,11 @@ template<typename ExecutionPolicy, typename ForwardIterator>
 } // end is_sorted()
 
 
-template<typename ExecutionPolicy,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
-  bool is_sorted(thrust::execution_policy<ExecutionPolicy> &exec,
+__host__ __device__
+  bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
                  Compare comp)
@@ -135,8 +143,9 @@ template<typename ExecutionPolicy,
 } // end is_sorted()
 
 
-template<typename ExecutionPolicy, typename ForwardIterator>
-  ForwardIterator is_sorted_until(thrust::execution_policy<ExecutionPolicy> &exec,
+template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
+  ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last)
 {
@@ -146,10 +155,11 @@ template<typename ExecutionPolicy, typename ForwardIterator>
 } // end is_sorted_until()
 
 
-template<typename ExecutionPolicy,
+template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
-  ForwardIterator is_sorted_until(thrust::execution_policy<ExecutionPolicy> &exec,
+__host__ __device__
+  ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Compare comp)
@@ -169,9 +179,11 @@ template<typename ExecutionPolicy,
 } // end is_sorted_until()
 
 
-template<typename RandomAccessIterator,
+template<typename DerivedPolicy,
+         typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(tag,
+__host__ __device__
+  void stable_sort(thrust::execution_policy<DerivedPolicy> &,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
                    StrictWeakOrdering comp)
@@ -181,10 +193,12 @@ template<typename RandomAccessIterator,
 } // end stable_sort()
 
 
-template<typename RandomAccessIterator1,
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(tag,
+__host__ __device__
+  void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
                           RandomAccessIterator2 values_first,

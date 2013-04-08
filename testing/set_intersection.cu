@@ -2,6 +2,7 @@
 #include <thrust/set_operations.h>
 #include <thrust/functional.h>
 #include <thrust/sort.h>
+#include <thrust/extrema.h>
 #include <thrust/iterator/discard_iterator.h>
 
 

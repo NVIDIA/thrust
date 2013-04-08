@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the temporary_buffer.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch get_temporary_buffer or return_temporary_buffer
+
+#include <thrust/system/detail/sequential/temporary_buffer.h>
 
 #define __THRUST_HOST_SYSTEM_TEMPORARY_BUFFER_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/temporary_buffer.h>
 #include __THRUST_HOST_SYSTEM_TEMPORARY_BUFFER_HEADER

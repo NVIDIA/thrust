@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the transform_reduce.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch transform_reduce
+
+#include <thrust/system/detail/sequential/transform_reduce.h>
 
 #define __THRUST_HOST_SYSTEM_TRANSFORM_REDUCE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/transform_reduce.h>
 #include __THRUST_HOST_SYSTEM_TRANSFORM_REDUCE_HEADER

@@ -33,6 +33,7 @@ namespace generic
 template<typename ExecutionPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
+__host__ __device__
   thrust::pair<ForwardIterator1,ForwardIterator2>
     unique_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                   ForwardIterator1 keys_first, 
@@ -44,6 +45,7 @@ template<typename ExecutionPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
+__host__ __device__
   thrust::pair<ForwardIterator1,ForwardIterator2>
     unique_by_key(thrust::execution_policy<ExecutionPolicy> &exec,
                   ForwardIterator1 keys_first, 
@@ -57,6 +59,7 @@ template<typename ExecutionPolicy,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     unique_by_key_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                        InputIterator1 keys_first, 
@@ -72,6 +75,7 @@ template<typename ExecutionPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     unique_by_key_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                        InputIterator1 keys_first, 

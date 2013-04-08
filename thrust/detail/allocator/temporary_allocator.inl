@@ -18,6 +18,7 @@
 #include <thrust/detail/allocator/temporary_allocator.h>
 #include <thrust/detail/temporary_buffer.h>
 #include <thrust/system/detail/bad_alloc.h>
+#include <cassert>
 
 namespace thrust
 {
@@ -26,6 +27,7 @@ namespace detail
 
 
 template<typename T, typename System>
+__host__ __device__
   typename temporary_allocator<T,System>::pointer
     temporary_allocator<T,System>
       ::allocate(typename temporary_allocator<T,System>::size_type cnt)
@@ -39,7 +41,13 @@ template<typename T, typename System>
     // note that we pass cnt to deallocate, not a value derived from result.second
     deallocate(result.first, cnt);
 
+#if !defined(__CUDA_ARCH__)
     throw thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
+#elif __CUDA_ARCH__ >= 200
+    assert(0);
+#else
+    result.first = pointer(static_cast<T*>(0));
+#endif
   } // end if
 
   return result.first;
@@ -47,6 +55,7 @@ template<typename T, typename System>
 
 
 template<typename T, typename System>
+__host__ __device__
   void temporary_allocator<T,System>
     ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type n)
 {

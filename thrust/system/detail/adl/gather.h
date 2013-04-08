@@ -19,14 +19,16 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the gather.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch gather
 
-#define __THRUST_HOST_SYSTEM_FOR_EACH_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/gather.h>
-#include __THRUST_HOST_SYSTEM_FOR_EACH_HEADER
-#undef __THRUST_HOST_SYSTEM_FOR_EACH_HEADER
+#include <thrust/system/detail/sequential/gather.h>
 
-#define __THRUST_DEVICE_SYSTEM_FOR_EACH_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/gather.h>
-#include __THRUST_DEVICE_SYSTEM_FOR_EACH_HEADER
-#undef __THRUST_DEVICE_SYSTEM_FOR_EACH_HEADER
+#define __THRUST_HOST_SYSTEM_GATHER_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/gather.h>
+#include __THRUST_HOST_SYSTEM_GATHER_HEADER
+#undef __THRUST_HOST_SYSTEM_GATHER_HEADER
+
+#define __THRUST_DEVICE_SYSTEM_GATHER_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/gather.h>
+#include __THRUST_DEVICE_SYSTEM_GATHER_HEADER
+#undef __THRUST_DEVICE_SYSTEM_GATHER_HEADER
 

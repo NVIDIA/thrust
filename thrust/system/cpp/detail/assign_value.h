@@ -16,27 +16,8 @@
 
 #pragma once
 
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/detail/config.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
-__host__ __device__
-  void assign_value(thrust::system::cpp::detail::execution_policy<DerivedPolicy> &, Pointer1 dst, Pointer2 src)
-{
-  *thrust::raw_pointer_cast(dst) = *thrust::raw_pointer_cast(src);
-} // end assign_value()
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+// this system inherits assign_value
+#include <thrust/system/detail/sequential/assign_value.h>
 

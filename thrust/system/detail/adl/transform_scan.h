@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the transform_scan.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch transform_scan
+
+#include <thrust/system/detail/sequential/transform_scan.h>
 
 #define __THRUST_HOST_SYSTEM_TRANSFORM_SCAN_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/transform_scan.h>
 #include __THRUST_HOST_SYSTEM_TRANSFORM_SCAN_HEADER

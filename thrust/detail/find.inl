@@ -29,7 +29,9 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator, typename T>
+__host__ __device__
 InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
@@ -40,7 +42,9 @@ InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &e
 } // end find()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -51,7 +55,9 @@ InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy>
 } // end find_if()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,
@@ -67,13 +73,13 @@ InputIterator find(InputIterator first,
                    InputIterator last,
                    const T& value)
 {
-    using thrust::system::detail::generic::select_system;
-
-    typedef typename thrust::iterator_system<InputIterator>::type System;
-
-    System system;
-
-    return thrust::find(select_system(system), first, last, value);
+  using thrust::system::detail::generic::select_system;
+  
+  typedef typename thrust::iterator_system<InputIterator>::type System;
+  
+  System system;
+  
+  return thrust::find(select_system(system), first, last, value);
 }
 
 template <typename InputIterator, typename Predicate>
@@ -81,13 +87,13 @@ InputIterator find_if(InputIterator first,
                       InputIterator last,
                       Predicate pred)
 {
-    using thrust::system::detail::generic::select_system;
-
-    typedef typename thrust::iterator_system<InputIterator>::type System;
-
-    System system;
-
-    return thrust::find_if(select_system(system), first, last, pred);
+  using thrust::system::detail::generic::select_system;
+  
+  typedef typename thrust::iterator_system<InputIterator>::type System;
+  
+  System system;
+  
+  return thrust::find_if(select_system(system), first, last, pred);
 }
 
 template <typename InputIterator, typename Predicate>
@@ -95,13 +101,13 @@ InputIterator find_if_not(InputIterator first,
                           InputIterator last,
                           Predicate pred)
 {
-    using thrust::system::detail::generic::select_system;
-
-    typedef typename thrust::iterator_system<InputIterator>::type System;
-
-    System system;
-
-    return thrust::find_if_not(select_system(system), first, last, pred);
+  using thrust::system::detail::generic::select_system;
+  
+  typedef typename thrust::iterator_system<InputIterator>::type System;
+  
+  System system;
+  
+  return thrust::find_if_not(select_system(system), first, last, pred);
 }
 
 

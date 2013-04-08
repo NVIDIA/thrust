@@ -32,6 +32,7 @@ namespace generic
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
+__host__ __device__
   void uninitialized_fill(thrust::execution_policy<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
@@ -41,6 +42,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Size,
          typename T>
+__host__ __device__
   ForwardIterator uninitialized_fill_n(thrust::execution_policy<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,

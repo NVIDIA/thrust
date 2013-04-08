@@ -225,6 +225,7 @@ __host__ __device__
  *  \see http://www.sgi.com/tech/stl/min_element.html 
  */
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
 ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
@@ -327,6 +328,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *  \see http://www.sgi.com/tech/stl/min_element.html 
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+__host__ __device__
 ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
@@ -428,6 +430,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *  \see http://www.sgi.com/tech/stl/max_element.html 
  */
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
 ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
@@ -529,6 +532,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *  \see http://www.sgi.com/tech/stl/max_element.html 
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+__host__ __device__
 ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 
@@ -628,6 +632,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last);
 
 
@@ -726,6 +731,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
+__host__ __device__
 thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, ForwardIterator first, ForwardIterator last, BinaryPredicate comp);
 
 

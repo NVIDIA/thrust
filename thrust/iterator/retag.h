@@ -43,6 +43,7 @@ namespace thrust
  *  \see retag
  */
 template<typename Tag, typename Iterator>
+__host__ __device__
 unspecified_iterator_type reinterpret_tag(Iterator iter);
 
 /*! \p retag returns a copy of an iterator and changes the type of the result's system tag.
@@ -57,6 +58,7 @@ unspecified_iterator_type reinterpret_tag(Iterator iter);
  *  \see reinterpret_tag
  */
 template<typename Tag, typename Iterator>
+__host__ __device__
 unspecified_iterator_type retag(Iterator iter);
 #endif
 
