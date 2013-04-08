@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the reverse.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch reverse
+
+#include <thrust/system/detail/sequential/reverse.h>
 
 #define __THRUST_HOST_SYSTEM_REVERSE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/reverse.h>
 #include __THRUST_HOST_SYSTEM_REVERSE_HEADER

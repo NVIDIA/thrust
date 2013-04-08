@@ -32,11 +32,13 @@ namespace generic
 
 
 template<typename T, typename DerivedPolicy>
+__host__ __device__
   thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
     get_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, typename thrust::pointer<T,DerivedPolicy>::difference_type n);
 
 
 template<typename DerivedPolicy, typename Pointer>
+__host__ __device__
   void return_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, Pointer p);
 
 

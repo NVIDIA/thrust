@@ -77,6 +77,7 @@ namespace thrust
  */
 template<typename DerivedPolicy,
          typename ForwardIterator>
+__host__ __device__
 ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last);
@@ -117,7 +118,7 @@ ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy
  *  \see http://www.sgi.com/tech/stl/unique.html
  *  \see unique_copy
  */
-template <typename ForwardIterator>
+template<typename ForwardIterator>
 ForwardIterator unique(ForwardIterator first,
                        ForwardIterator last);
 
@@ -169,6 +170,7 @@ ForwardIterator unique(ForwardIterator first,
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
+__host__ __device__
 ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        ForwardIterator first,
                        ForwardIterator last,
@@ -213,8 +215,8 @@ ForwardIterator unique(const thrust::detail::execution_policy_base<DerivedPolicy
  *  \see http://www.sgi.com/tech/stl/unique.html
  *  \see unique_copy
  */
-template <typename ForwardIterator,
-          typename BinaryPredicate>
+template<typename ForwardIterator,
+         typename BinaryPredicate>
 ForwardIterator unique(ForwardIterator first,
                        ForwardIterator last,
                        BinaryPredicate binary_pred);
@@ -275,6 +277,7 @@ ForwardIterator unique(ForwardIterator first,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
+__host__ __device__
 OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
@@ -327,8 +330,8 @@ OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPo
  *  \see unique
  *  \see http://www.sgi.com/tech/stl/unique_copy.html
  */
-template <typename InputIterator,
-          typename OutputIterator>
+template<typename InputIterator,
+         typename OutputIterator>
 OutputIterator unique_copy(InputIterator first,
                            InputIterator last,
                            OutputIterator result);
@@ -383,6 +386,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename BinaryPredicate>
+__host__ __device__
 OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                            InputIterator first,
                            InputIterator last,
@@ -429,9 +433,9 @@ OutputIterator unique_copy(const thrust::detail::execution_policy_base<DerivedPo
  *  \see unique
  *  \see http://www.sgi.com/tech/stl/unique_copy.html
  */
-template <typename InputIterator,
-          typename OutputIterator,
-          typename BinaryPredicate>
+template<typename InputIterator,
+         typename OutputIterator,
+         typename BinaryPredicate>
 OutputIterator unique_copy(InputIterator first,
                            InputIterator last,
                            OutputIterator result,
@@ -495,6 +499,7 @@ OutputIterator unique_copy(InputIterator first,
 template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
+__host__ __device__
   thrust::pair<ForwardIterator1,ForwardIterator2>
   unique_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator1 keys_first, 
@@ -550,8 +555,8 @@ template<typename DerivedPolicy,
  *  \see unique_by_key_copy
  *  \see reduce_by_key
  */
-template <typename ForwardIterator1,
-          typename ForwardIterator2>
+template<typename ForwardIterator1,
+         typename ForwardIterator2>
   thrust::pair<ForwardIterator1,ForwardIterator2>
   unique_by_key(ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
@@ -615,6 +620,7 @@ template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2,
          typename BinaryPredicate>
+__host__ __device__
   thrust::pair<ForwardIterator1,ForwardIterator2>
     unique_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                   ForwardIterator1 keys_first, 
@@ -670,9 +676,9 @@ template<typename DerivedPolicy,
  *  \see unique_by_key_copy
  *  \see reduce_by_key
  */
-template <typename ForwardIterator1,
-          typename ForwardIterator2,
-          typename BinaryPredicate>
+template<typename ForwardIterator1,
+         typename ForwardIterator2,
+         typename BinaryPredicate>
   thrust::pair<ForwardIterator1,ForwardIterator2>
   unique_by_key(ForwardIterator1 keys_first, 
                 ForwardIterator1 keys_last,
@@ -740,6 +746,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     unique_by_key_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 keys_first, 
@@ -798,10 +805,10 @@ template<typename DerivedPolicy,
  *  \see unique_by_key
  *  \see reduce_by_key
  */
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2>
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
   unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
@@ -874,6 +881,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     unique_by_key_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                        InputIterator1 keys_first, 
@@ -936,11 +944,11 @@ template<typename DerivedPolicy,
  *  \see unique_by_key
  *  \see reduce_by_key
  */
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate>
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
   unique_by_key_copy(InputIterator1 keys_first, 
                      InputIterator1 keys_last,

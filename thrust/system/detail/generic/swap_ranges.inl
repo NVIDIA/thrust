@@ -32,6 +32,7 @@ namespace generic
 namespace detail
 {
 
+
 // XXX define this here rather than in internal_functional.h
 // to avoid circular dependence between swap.h & internal_functional.h
 struct swap_pair_elements
@@ -46,11 +47,14 @@ struct swap_pair_elements
   }
 }; // end swap_pair_elements
 
+
 } // end detail
+
 
 template<typename DerivedPolicy,
          typename ForwardIterator1,
          typename ForwardIterator2>
+__host__ __device__
   ForwardIterator2 swap_ranges(thrust::execution_policy<DerivedPolicy> &exec,
                                ForwardIterator1 first1,
                                ForwardIterator1 last1,
@@ -65,6 +69,7 @@ template<typename DerivedPolicy,
                                         detail::swap_pair_elements());
   return thrust::get<1>(result.get_iterator_tuple());
 } // end swap_ranges()
+
 
 } // end generic
 } // end detail

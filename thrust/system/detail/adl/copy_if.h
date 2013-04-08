@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the copy_if.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch copy_if
+
+#include <thrust/system/detail/sequential/copy_if.h>
 
 #define __THRUST_HOST_SYSTEM_BINARY_SEARCH_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/copy_if.h>
 #include __THRUST_HOST_SYSTEM_BINARY_SEARCH_HEADER

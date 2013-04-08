@@ -31,6 +31,7 @@ namespace generic
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
+__host__ __device__
   void sort(thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last);
@@ -39,6 +40,7 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
+__host__ __device__
   void sort(thrust::execution_policy<DerivedPolicy> &exec,
             RandomAccessIterator first,
             RandomAccessIterator last,
@@ -48,6 +50,7 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
+__host__ __device__
   void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
@@ -58,6 +61,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
+__host__ __device__
   void sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator1 keys_first,
                    RandomAccessIterator1 keys_last,
@@ -67,6 +71,7 @@ template<typename DerivedPolicy,
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
+__host__ __device__
   void stable_sort(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last);
@@ -76,6 +81,7 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
+__host__ __device__
   void stable_sort(thrust::execution_policy<DerivedPolicy> &exec,
                    RandomAccessIterator first,
                    RandomAccessIterator last,
@@ -85,6 +91,7 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
+__host__ __device__
   void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
@@ -96,6 +103,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
+__host__ __device__
   void stable_sort_by_key(thrust::execution_policy<DerivedPolicy> &exec,
                           RandomAccessIterator1 keys_first,
                           RandomAccessIterator1 keys_last,
@@ -104,6 +112,7 @@ template<typename DerivedPolicy,
 
 
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
   bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last);
@@ -112,6 +121,7 @@ template<typename DerivedPolicy, typename ForwardIterator>
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
+__host__ __device__
   bool is_sorted(thrust::execution_policy<DerivedPolicy> &exec,
                  ForwardIterator first,
                  ForwardIterator last,
@@ -119,6 +129,7 @@ template<typename DerivedPolicy,
 
 
 template<typename DerivedPolicy, typename ForwardIterator>
+__host__ __device__
   ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last);
@@ -127,6 +138,7 @@ template<typename DerivedPolicy, typename ForwardIterator>
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Compare>
+__host__ __device__
   ForwardIterator is_sorted_until(thrust::execution_policy<DerivedPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,

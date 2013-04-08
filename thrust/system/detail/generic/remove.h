@@ -33,63 +33,76 @@ namespace detail
 namespace generic
 {
 
+
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
+__host__ __device__
   ForwardIterator remove(thrust::execution_policy<DerivedPolicy> &exec,
                          ForwardIterator first,
                          ForwardIterator last,
                          const T &value);
 
+
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T>
+__host__ __device__
   OutputIterator remove_copy(thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator result,
                              const T &value);
 
+
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator remove_if(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
 
+
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator remove_if(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred);
 
+
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename Predicate>
+__host__ __device__
   OutputIterator remove_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
                                 Predicate pred);
 
+
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
+__host__ __device__
   OutputIterator remove_copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                                 InputIterator1 first,
                                 InputIterator1 last,
                                 InputIterator2 stencil,
                                 OutputIterator result,
                                 Predicate pred);
+
 
 } // end namespace generic
 } // end namespace detail

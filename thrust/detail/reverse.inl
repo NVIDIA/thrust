@@ -30,7 +30,9 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename BidirectionalIterator>
+__host__ __device__
   void reverse(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                BidirectionalIterator first,
                BidirectionalIterator last)
@@ -40,7 +42,9 @@ template<typename DerivedPolicy, typename BidirectionalIterator>
 } // end reverse()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename BidirectionalIterator, typename OutputIterator>
+__host__ __device__
   OutputIterator reverse_copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                               BidirectionalIterator first,
                               BidirectionalIterator last,

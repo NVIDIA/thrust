@@ -80,6 +80,7 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/accumulate.html
  */
 template<typename DerivedPolicy, typename InputIterator>
+__host__ __device__
   typename thrust::iterator_traits<InputIterator>::value_type
     reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last);
 
@@ -173,6 +174,7 @@ template<typename InputIterator> typename
  *  \see http://www.sgi.com/tech/stl/accumulate.html
  */
 template<typename DerivedPolicy, typename InputIterator, typename T>
+__host__ __device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
@@ -280,6 +282,7 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename T,
          typename BinaryFunction>
+__host__ __device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
            InputIterator first,
            InputIterator last,
@@ -401,6 +404,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
@@ -459,10 +463,10 @@ template<typename DerivedPolicy,
  *  \see unique_by_key
  *  \see unique_by_key_copy
  */
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2>
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2>
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,
@@ -535,6 +539,7 @@ template<typename DerivedPolicy,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
@@ -597,11 +602,11 @@ template<typename DerivedPolicy,
  *  \see unique_by_key
  *  \see unique_by_key_copy
  */
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate>
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate>
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,
@@ -683,6 +688,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
@@ -753,12 +759,12 @@ template<typename DerivedPolicy,
  *  \see unique_by_key
  *  \see unique_by_key_copy
  */
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(InputIterator1 keys_first, 
                 InputIterator1 keys_last,

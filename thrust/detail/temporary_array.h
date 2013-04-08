@@ -57,33 +57,40 @@ template<typename T, typename System>
   public:
     typedef typename super_t::size_type size_type;
 
+    __host__ __device__
     temporary_array(thrust::execution_policy<System> &system, size_type n);
 
     // provide a kill-switch to explicitly avoid initialization
+    __host__ __device__
     temporary_array(int uninit, thrust::execution_policy<System> &system, size_type n);
 
     template<typename InputIterator>
+    __host__ __device__
     temporary_array(thrust::execution_policy<System> &system,
                     InputIterator first,
                     size_type n);
 
     template<typename InputIterator, typename InputSystem>
+    __host__ __device__
     temporary_array(thrust::execution_policy<System> &system,
                     thrust::execution_policy<InputSystem> &input_system,
                     InputIterator first,
                     size_type n);
 
     template<typename InputIterator>
+    __host__ __device__
     temporary_array(thrust::execution_policy<System> &system,
                     InputIterator first,
                     InputIterator last);
 
     template<typename InputSystem, typename InputIterator>
+    __host__ __device__
     temporary_array(thrust::execution_policy<System> &system,
                     thrust::execution_policy<InputSystem> &input_system,
                     InputIterator first,
                     InputIterator last);
 
+    __host__ __device__
     ~temporary_array();
 }; // end temporary_array
 

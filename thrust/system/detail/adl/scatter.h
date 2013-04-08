@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the scatter.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch scatter
+
+#include <thrust/system/detail/sequential/scatter.h>
 
 #define __THRUST_HOST_SYSTEM_SCATTER_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/scatter.h>
 #include __THRUST_HOST_SYSTEM_SCATTER_HEADER

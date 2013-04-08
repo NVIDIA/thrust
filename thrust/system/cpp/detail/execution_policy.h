@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/execution_policy.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
 {
@@ -44,7 +44,7 @@ template<typename> struct execution_policy;
 // specialize execution_policy for tag
 template<>
   struct execution_policy<tag>
-    : thrust::execution_policy<tag>
+    : thrust::system::detail::sequential::execution_policy<tag>
 {};
 
 // tag's definition comes before the
@@ -54,7 +54,7 @@ struct tag : execution_policy<tag> {};
 // allow conversion to tag when it is not a successor
 template<typename Derived>
   struct execution_policy
-    : thrust::execution_policy<Derived>
+    : thrust::system::detail::sequential::execution_policy<Derived>
 {
   // allow conversion to tag
   inline operator tag () const

@@ -81,6 +81,7 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/count.html
  */
 template<typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
+__host__ __device__
   typename thrust::iterator_traits<InputIterator>::difference_type
     count(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value);
 
@@ -171,6 +172,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  \see http://www.sgi.com/tech/stl/count.html
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
   typename thrust::iterator_traits<InputIterator>::difference_type
     count_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, InputIterator first, InputIterator last, Predicate pred);
 
@@ -221,9 +223,11 @@ template <typename InputIterator, typename Predicate>
   typename thrust::iterator_traits<InputIterator>::difference_type
     count_if(InputIterator first, InputIterator last, Predicate pred);
 
+
 /*! \} // end counting
  *  \} // end reductions
  */
+
 
 } // end thrust
 

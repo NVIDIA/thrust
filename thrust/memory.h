@@ -301,6 +301,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
  *  \see device_malloc
  */
 template<typename DerivedPolicy>
+__host__ __device__
 pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
 
 
@@ -338,6 +339,7 @@ pointer<void,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<D
  *  \see device_malloc
  */
 template<typename T, typename DerivedPolicy>
+__host__ __device__
 pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<DerivedPolicy> &system, std::size_t n);
 
 
@@ -390,6 +392,7 @@ pointer<T,DerivedPolicy> malloc(const thrust::detail::execution_policy_base<Deri
  *  \see return_temporary_buffer
  */
 template<typename T, typename DerivedPolicy>
+__host__ __device__
 thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
 get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, typename thrust::pointer<T,DerivedPolicy>::difference_type n);
 
@@ -432,6 +435,7 @@ get_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> 
  *  \endcode
  */
 template<typename DerivedPolicy, typename Pointer>
+__host__ __device__
 void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer ptr);
 
 
@@ -477,6 +481,7 @@ void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Po
  *  \see get_temporary_buffer
  */
 template<typename DerivedPolicy, typename Pointer>
+__host__ __device__
 void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer p);
 
 

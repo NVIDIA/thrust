@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the uninitialized_copy.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch uninitialized_copy
+
+#include <thrust/system/detail/sequential/uninitialized_copy.h>
 
 #define __THRUST_HOST_SYSTEM_UNINITIALIZED_COPY_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/uninitialized_copy.h>
 #include __THRUST_HOST_SYSTEM_UNINITIALIZED_COPY_HEADER

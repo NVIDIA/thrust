@@ -33,9 +33,11 @@ namespace detail
 namespace generic
 {
 
+
 template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator stable_partition(thrust::execution_policy<ExecutionPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
@@ -45,17 +47,20 @@ template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator stable_partition(thrust::execution_policy<ExecutionPolicy> &exec,
                                    ForwardIterator first,
                                    ForwardIterator last,
                                    InputIterator stencil,
                                    Predicate pred);
 
+
 template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                           InputIterator first,
@@ -64,12 +69,14 @@ template<typename ExecutionPolicy,
                           OutputIterator2 out_false,
                           Predicate pred);
 
+
 template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                           InputIterator1 first,
@@ -79,29 +86,35 @@ template<typename ExecutionPolicy,
                           OutputIterator2 out_false,
                           Predicate pred);
 
+
 template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator partition(thrust::execution_policy<ExecutionPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             Predicate pred);
 
+
 template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename InputIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator partition(thrust::execution_policy<ExecutionPolicy> &exec,
                             ForwardIterator first,
                             ForwardIterator last,
                             InputIterator stencil,
                             Predicate pred);
 
+
 template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                    InputIterator first,
@@ -110,12 +123,14 @@ template<typename ExecutionPolicy,
                    OutputIterator2 out_false,
                    Predicate pred);
 
+
 template<typename ExecutionPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename Predicate>
+__host__ __device__
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                    InputIterator1 first,
@@ -125,21 +140,26 @@ template<typename ExecutionPolicy,
                    OutputIterator2 out_false,
                    Predicate pred);
 
+
 template<typename ExecutionPolicy,
          typename ForwardIterator,
          typename Predicate>
+__host__ __device__
   ForwardIterator partition_point(thrust::execution_policy<ExecutionPolicy> &exec,
                                   ForwardIterator first,
                                   ForwardIterator last,
                                   Predicate pred);
 
+
 template<typename ExecutionPolicy,
          typename InputIterator,
          typename Predicate>
+__host__ __device__
   bool is_partitioned(thrust::execution_policy<ExecutionPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
                       Predicate pred);
+
 
 } // end namespace generic
 } // end namespace detail

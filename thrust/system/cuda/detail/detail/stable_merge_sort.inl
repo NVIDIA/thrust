@@ -361,7 +361,7 @@ struct rank_splitters_closure
   unsigned int num_splitters;
   unsigned int num_keys;
   unsigned int log_tile_size;
-  thrust::detail::device_function<
+  thrust::detail::wrapped_function<
     StrictWeakOrdering,
     bool
   > comp;

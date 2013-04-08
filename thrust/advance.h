@@ -62,6 +62,7 @@ namespace thrust
  *  \see http://www.sgi.com/tech/stl/advance.html
  */
 template <typename InputIterator, typename Distance>
+__host__ __device__
 void advance(InputIterator& i, Distance n);
 
 /*! \} // end iterators

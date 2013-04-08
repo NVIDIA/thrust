@@ -72,6 +72,7 @@ namespace thrust
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Generator>
+__host__ __device__
   void generate(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                 ForwardIterator first,
                 ForwardIterator last,
@@ -157,6 +158,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename Size,
          typename Generator>
+__host__ __device__
   OutputIterator generate_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                             OutputIterator first,
                             Size n,

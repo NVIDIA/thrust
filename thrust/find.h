@@ -77,6 +77,7 @@ namespace thrust
  *  \see mismatch
  */
 template<typename DerivedPolicy, typename InputIterator, typename T>
+__host__ __device__
 InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                    InputIterator first,
                    InputIterator last,
@@ -183,6 +184,7 @@ InputIterator find(InputIterator first,
  *  \see mismatch
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                       InputIterator first,
                       InputIterator last,
@@ -308,6 +310,7 @@ InputIterator find_if(InputIterator first,
  *  \see mismatch
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
+__host__ __device__
 InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           InputIterator first,
                           InputIterator last,

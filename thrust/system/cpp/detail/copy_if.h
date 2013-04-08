@@ -17,35 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/copy_if.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-
-template<typename InputIterator1,
-         typename InputIterator2,
-         typename OutputIterator,
-         typename Predicate>
-  OutputIterator copy_if(tag,
-                         InputIterator1 first,
-                         InputIterator1 last,
-                         InputIterator2 stencil,
-                         OutputIterator result,
-                         Predicate pred)
-{
-  return thrust::system::detail::internal::scalar::copy_if(first, last, stencil, result, pred);
-}
-
-} // end detail
-} // end cpp
-} // end system
-} // end thrust
+// this system inherits copy_if
+#include <thrust/system/detail/sequential/copy_if.h>
 

@@ -29,7 +29,9 @@ namespace thrust
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
+__host__ __device__
   void uninitialized_fill(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                           ForwardIterator first,
                           ForwardIterator last,
@@ -40,7 +42,9 @@ template<typename DerivedPolicy, typename ForwardIterator, typename T>
 } // end uninitialized_fill()
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename Size, typename T>
+__host__ __device__
   ForwardIterator uninitialized_fill_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                        ForwardIterator first,
                                        Size n,

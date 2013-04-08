@@ -14,59 +14,10 @@
  *  limitations under the License.
  */
 
-
-/*! \file extrema.h
- *  \brief C++ implementations of extrema functions.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/pair.h>
-#include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/cpp/detail/execution_policy.h>
-#include <thrust/system/detail/internal/scalar/extrema.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cpp
-{
-namespace detail
-{
-
-template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator min_element(execution_policy<DerivedPolicy> &,
-                            ForwardIterator first, 
-                            ForwardIterator last,
-                            BinaryPredicate comp)
-{
-  return thrust::system::detail::internal::scalar::min_element(first, last, comp);
-}
-
-
-template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-ForwardIterator max_element(execution_policy<DerivedPolicy> &,
-                            ForwardIterator first, 
-                            ForwardIterator last,
-                            BinaryPredicate comp)
-{
-  return thrust::system::detail::internal::scalar::max_element(first, last, comp);
-}
-
-
-template <typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
-thrust::pair<ForwardIterator,ForwardIterator> minmax_element(execution_policy<DerivedPolicy> &,
-                                                             ForwardIterator first, 
-                                                             ForwardIterator last,
-                                                             BinaryPredicate comp)
-{
-  return thrust::system::detail::internal::scalar::minmax_element(first, last, comp);
-}
-
-} // end namespace detail
-} // end namespace cpp
-} // end namespace system
-} // end namespace thrust
+// this system inherits extrema algorithms
+#include <thrust/system/detail/sequential/extrema.h>
 

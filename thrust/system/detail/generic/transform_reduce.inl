@@ -28,11 +28,13 @@ namespace detail
 namespace generic
 {
 
+
 template<typename DerivedPolicy,
          typename InputIterator, 
          typename UnaryFunction, 
          typename OutputType,
          typename BinaryFunction>
+__host__ __device__
   OutputType transform_reduce(thrust::execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -45,6 +47,7 @@ template<typename DerivedPolicy,
 
   return thrust::reduce(exec, xfrm_first, xfrm_last, init, binary_op);
 } // end transform_reduce()
+
 
 } // end generic
 } // end detail

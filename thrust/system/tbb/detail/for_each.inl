@@ -19,7 +19,7 @@
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
-#include <thrust/system/detail/internal/scalar/for_each.h>
+#include <thrust/system/detail/sequential/execution_policy.h>
 #include <tbb/blocked_range.h>
 #include <tbb/parallel_for.h>
 
@@ -49,7 +49,7 @@ template<typename RandomAccessIterator,
   void operator()(const ::tbb::blocked_range<Size> &r) const
   {
     // we assume that blocked_range specifies a contiguous range of integers
-    thrust::system::detail::internal::scalar::for_each_n(m_first + r.begin(), r.size(), m_f);
+    thrust::for_each_n(thrust::system::detail::sequential::seq, m_first + r.begin(), r.size(), m_f);
   } // end operator()()
 }; // end body
 

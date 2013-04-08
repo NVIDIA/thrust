@@ -19,8 +19,10 @@
 #include <thrust/detail/config.h>
 
 // the purpose of this header is to #include the scan_by_key.h header
-// of the host and device systems. It should be #included in any
+// of the sequential, host, and device systems. It should be #included in any
 // code which uses adl to dispatch scan_by_key
+
+#include <thrust/system/detail/sequential/scan_by_key.h>
 
 #define __THRUST_HOST_SYSTEM_SCAN_BY_KEY_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/scan_by_key.h>
 #include __THRUST_HOST_SYSTEM_SCAN_BY_KEY_HEADER
