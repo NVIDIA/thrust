@@ -21,6 +21,7 @@
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/detail/seq.h>
 
 namespace thrust
 {
@@ -79,13 +80,35 @@ template<typename Closure,
   }
 
   template<typename Size1, typename Size2, typename Size3>
+  __host__ __device__
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+    struct war_nvbugs_881631
+    {
+      __host__ static void host_path(Closure &f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+      {
+        launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
+        synchronize_if_enabled("launch_closure_by_value");
+      }
+
+      __device__ static void device_path(Closure &f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+      {
+#if (__CUDA_ARCH__ >= 350)
+        launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
+        synchronize_if_enabled("launch_closure_by_value");
+#endif
+      }
+    };
+
+
     if(num_blocks > 0)
     {
-      launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
-      synchronize_if_enabled("launch_closure_by_value");
+#ifndef __CUDA_ARCH__
+      war_nvbugs_881631::host_path(f,num_blocks,block_size,smem_size);
+#else
+      war_nvbugs_881631::device_path(f,num_blocks,block_size,smem_size);
+#endif
     }
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
@@ -104,20 +127,48 @@ template<typename Closure>
   }
 
   template<typename Size1, typename Size2, typename Size3>
+  __host__ __device__
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+    struct war_nvbugs_881631
+    {
+      __host__ static void host_path(Closure &f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+      {
+        // use temporary storage for the closure
+        // XXX use of cuda::tag is too specific here
+        thrust::cuda::tag cuda_tag;
+        thrust::host_system_tag host_tag;
+        thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
+
+        // launch
+        detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
+        synchronize_if_enabled("launch_closure_by_pointer");
+      }
+
+      __device__ static void device_path(Closure &f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+      {
+#if (__CUDA_ARCH__ >= 350)
+        // use temporary storage for the closure
+        // XXX use of cuda::tag is too specific here
+        thrust::cuda::tag cuda_tag;
+        thrust::host_system_tag host_tag;
+        thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
+
+        // launch
+        detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
+        synchronize_if_enabled("launch_closure_by_pointer");
+#endif
+      }
+    };
+
     if(num_blocks > 0)
     {
-      // use temporary storage for the closure
-      // XXX use of cuda::tag is too specific here
-      thrust::cuda::tag cuda_tag;
-      thrust::host_system_tag host_tag;
-      thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
-
-      // launch
-      detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
-      synchronize_if_enabled("launch_closure_by_pointer");
+#ifndef __CUDA_ARCH__
+      war_nvbugs_881631::host_path(f, num_blocks, block_size, smem_size);
+#else
+      war_nvbugs_881631::device_path(f, num_blocks, block_size, smem_size);
+#endif
     }
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
@@ -130,17 +181,20 @@ template<typename Closure>
 {
   typedef closure_launcher_base<Closure> super_t;
   
+  __host__ __device__
   static inline const device_properties_t& device_properties(void)
   {
     return device_properties();
   }
   
+  __host__ __device__
   static inline function_attributes_t function_attributes(void)
   {
     return thrust::system::cuda::detail::function_attributes(super_t::get_launch_function());
   }
 
   template<typename Size1, typename Size2, typename Size3>
+  __host__ __device__
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     super_t::launch(f,num_blocks,block_size,smem_size);
@@ -148,20 +202,23 @@ template<typename Closure>
 };
 
 template<typename Closure, typename Size>
-  void launch_closure(Closure f, Size num_blocks)
+__host__ __device__
+void launch_closure(Closure f, Size num_blocks)
 {
   launch_calculator<Closure> calculator;
   launch_closure(f, num_blocks, thrust::get<1>(calculator.with_variable_block_size()));
 } // end launch_closure()
 
 template<typename Closure, typename Size1, typename Size2>
-  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size)
+__host__ __device__
+void launch_closure(Closure f, Size1 num_blocks, Size2 block_size)
 {
   launch_closure(f, num_blocks, block_size, 0u);
 } // end launch_closure()
 
 template<typename Closure, typename Size1, typename Size2, typename Size3>
-  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+__host__ __device__
+void launch_closure(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
 {
   closure_launcher<Closure>::launch(f, num_blocks, block_size, smem_size);
 } // end launch_closure()
