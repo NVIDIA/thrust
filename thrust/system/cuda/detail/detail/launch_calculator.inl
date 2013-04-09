@@ -32,20 +32,23 @@ namespace detail
 namespace detail
 {
 
-template <typename Closure>
+template<typename Closure>
+__host__ __device__
 launch_calculator<Closure>::launch_calculator(void)
   : properties(device_properties()),
     attributes(closure_attributes<Closure>())
 {}
   
-template <typename Closure>
+template<typename Closure>
+__host__ __device__
 launch_calculator<Closure>::launch_calculator(const device_properties_t& properties, const function_attributes_t& attributes)
   : properties(properties),
     attributes(attributes)
 {}
 
-template <typename Closure>
-  template <typename UnaryFunction>
+template<typename Closure>
+  template<typename UnaryFunction>
+__host__ __device__
 thrust::pair<size_t, size_t> launch_calculator<Closure>::default_block_configuration(UnaryFunction block_size_to_smem_size) const
 {
   // choose a block size
@@ -58,7 +61,8 @@ thrust::pair<size_t, size_t> launch_calculator<Closure>::default_block_configura
 }
 
 
-template <typename Closure>
+template<typename Closure>
+__host__ __device__
 thrust::pair<size_t, size_t> launch_calculator<Closure>::default_block_configuration(void) const
 {
   // choose a block size
@@ -70,7 +74,8 @@ thrust::pair<size_t, size_t> launch_calculator<Closure>::default_block_configura
   return thrust::make_pair(num_threads_per_block, num_blocks_per_multiprocessor);
 }
 
-template <typename Closure>
+template<typename Closure>
+__host__ __device__
 thrust::tuple<size_t,size_t,size_t> launch_calculator<Closure>::with_variable_block_size(void) const
 {
   thrust::pair<size_t, size_t> config = default_block_configuration();
@@ -79,13 +84,15 @@ thrust::tuple<size_t,size_t,size_t> launch_calculator<Closure>::with_variable_bl
 
 template <typename Closure>
   template <typename UnaryFunction>
+__host__ __device__
 thrust::tuple<size_t,size_t,size_t> launch_calculator<Closure>::with_variable_block_size(UnaryFunction block_size_to_smem_size) const
 {
   thrust::pair<size_t, size_t> config = default_block_configuration(block_size_to_smem_size);
   return thrust::tuple<size_t,size_t,size_t>(config.second * properties.multiProcessorCount, config.first, block_size_to_smem_size(config.first));
 }
   
-template <typename Closure>
+template<typename Closure>
+__host__ __device__
 thrust::tuple<size_t,size_t,size_t> launch_calculator<Closure>::with_variable_block_size_available_smem(void) const
 {
   thrust::pair<size_t, size_t> config = default_block_configuration();
