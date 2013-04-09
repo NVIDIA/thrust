@@ -72,6 +72,7 @@ template<typename Closure,
 {
   typedef void (*launch_function_t)(Closure); 
  
+  __host__ __device__
   static launch_function_t get_launch_function(void)
   {
     return launch_closure_by_value<Closure>;
@@ -96,6 +97,7 @@ template<typename Closure>
 {
   typedef void (*launch_function_t)(const Closure *); 
  
+  __host__ __device__
   static launch_function_t get_launch_function(void)
   {
     return launch_closure_by_pointer<Closure>;
@@ -164,12 +166,23 @@ template<typename Closure, typename Size1, typename Size2, typename Size3>
   closure_launcher<Closure>::launch(f, num_blocks, block_size, smem_size);
 } // end launch_closure()
 
-  
-template <typename Closure>
-function_attributes_t closure_attributes(void)
+
+namespace closure_attributes_detail
+{
+
+
+template<typename Closure>
+inline __host__ __device__
+function_attributes_t uncached_closure_attributes()
 {
   typedef closure_launcher<Closure> Launcher;
+  return thrust::system::cuda::detail::function_attributes(Launcher::get_launch_function());
+}
 
+
+template<typename Closure>
+function_attributes_t cached_closure_attributes()
+{
   // cache the result of function_attributes(), because it is slow
   // only cache the first few devices
   static const int max_num_devices                                  = 16;
@@ -182,12 +195,12 @@ function_attributes_t closure_attributes(void)
 
   if(device_id >= max_num_devices)
   {
-    return thrust::system::cuda::detail::function_attributes(Launcher::get_launch_function());
+    return uncached_closure_attributes<Closure>();
   }
 
   if(!attributes_exist[device_id])
   {
-    function_attributes[device_id] = thrust::system::cuda::detail::function_attributes(Launcher::get_launch_function());
+    function_attributes[device_id] = uncached_closure_attributes<Closure>();
 
     // disallow the compiler to move the write to attributes_exist[device_id]
     // before the initialization of function_attributes[device_id]
@@ -197,6 +210,21 @@ function_attributes_t closure_attributes(void)
   }
 
   return function_attributes[device_id];
+}
+
+
+} // end closure_attributes_detail
+
+  
+template<typename Closure>
+__host__ __device__
+function_attributes_t closure_attributes()
+{
+#ifndef __CUDA_ARCH__
+  return closure_attributes_detail::cached_closure_attributes<Closure>();
+#else
+  return closure_attributes_detail::uncached_closure_attributes<Closure>();
+#endif
 }
 
 } // end namespace detail

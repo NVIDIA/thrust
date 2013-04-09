@@ -101,7 +101,8 @@ template<typename Closure, typename Size1, typename Size2, typename Size3>
 /*! Returns a copy of the cudaFuncAttributes structure
  *  that is associated with a given Closure
  */
-template <typename Closure>
+template<typename Closure>
+__host__ __device__
 function_attributes_t closure_attributes(void);
 
 } // end namespace detail

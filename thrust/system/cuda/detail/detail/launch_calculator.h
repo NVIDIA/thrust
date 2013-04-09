@@ -32,7 +32,7 @@ namespace detail
 namespace detail
 {
 
-template <typename Closure>
+template<typename Closure>
 class launch_calculator
 {
   device_properties_t   properties;
@@ -40,15 +40,20 @@ class launch_calculator
 
   public:
   
-  launch_calculator(void);
+  __host__ __device__
+  launch_calculator();
 
+  __host__ __device__
   launch_calculator(const device_properties_t& properties, const function_attributes_t& attributes);
 
+  __host__ __device__
   thrust::tuple<size_t,size_t,size_t> with_variable_block_size(void) const;
 
-  template <typename UnaryFunction>
+  template<typename UnaryFunction>
+  __host__ __device__
   thrust::tuple<size_t,size_t,size_t> with_variable_block_size(UnaryFunction block_size_to_smem_size) const;
   
+  __host__ __device__
   thrust::tuple<size_t,size_t,size_t> with_variable_block_size_available_smem(void) const;
 
   private:
@@ -58,6 +63,7 @@ class launch_calculator
    *  chosen by a heuristic and num_blocks_per_multiprocessor is the maximum
    *  number of such blocks that can execute on a streaming multiprocessor at once.
    */
+  __host__ __device__
   thrust::pair<size_t, size_t> default_block_configuration() const;
 
   /*! Returns a pair (num_threads_per_block, num_blocks_per_multiprocessor)
@@ -69,6 +75,7 @@ class launch_calculator
    *                                 dynamically-allocated bytes of shared memory
    */
   template<typename UnaryFunction>
+  __host__ __device__
   thrust::pair<size_t, size_t> default_block_configuration(UnaryFunction block_size_to_smem_size) const;
 };
 
