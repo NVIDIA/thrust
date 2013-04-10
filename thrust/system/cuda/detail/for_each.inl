@@ -31,7 +31,7 @@
 #include <thrust/detail/util/blocking.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/function.h>
-
+#include <thrust/detail/seq.h>
 #include <limits>
 
 namespace thrust
@@ -60,6 +60,7 @@ struct for_each_n_closure
   thrust::detail::wrapped_function<UnaryFunction,void> f;
   Context context;
 
+  __host__ __device__
   for_each_n_closure(RandomAccessIterator first,
                      Size n,
                      UnaryFunction f,
@@ -88,6 +89,7 @@ struct for_each_n_closure
 
 
 template<typename Closure, typename Size>
+__host__ __device__
 thrust::tuple<size_t,size_t> configure_launch(Size n)
 {
   // calculate launch configuration
@@ -103,6 +105,7 @@ thrust::tuple<size_t,size_t> configure_launch(Size n)
 
 
 template<typename Size>
+__host__ __device__
 bool use_big_closure(Size n, unsigned int little_grid_size)
 {
   // use the big closure when n will not fit within an unsigned int
@@ -135,11 +138,13 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
+__host__ __device__
 RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
                                 RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
 {
+#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH >= 350)
   // we're attempting to launch a kernel, assert we're compiling with nvcc
   // ========================================================================
   // X Note to the user: If you've found this line due to a compiler error, X
@@ -177,16 +182,20 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
   }
 
   return first + n;
+#else
+  return thrust::for_each_n(thrust::seq, first, n, f);
+#endif
 } 
 
 
 template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
-  InputIterator for_each(execution_policy<DerivedPolicy> &exec,
-                         InputIterator first,
-                         InputIterator last,
-                         UnaryFunction f)
+__host__ __device__
+InputIterator for_each(execution_policy<DerivedPolicy> &exec,
+                       InputIterator first,
+                       InputIterator last,
+                       UnaryFunction f)
 {
   return cuda::detail::for_each_n(exec, first, thrust::distance(first,last), f);
 } // end for_each()
