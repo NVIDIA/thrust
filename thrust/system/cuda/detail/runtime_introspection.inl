@@ -65,17 +65,19 @@ inline void uncached_device_properties(device_properties_t &p, int device_id)
 
   p = temp;
 #elif (__CUDA_ARCH__ >= 350)
-  cudaError_t error = cudaDeviceGetProperty(&p.major,           cudaDevAttrComputeCapabilityMajor,      device_id);
-  error = cudaDeviceGetProperty(&p.maxGridSize[0],              cudaDevAttrMaxGridDimX,                 device_id);
-  error = cudaDeviceGetProperty(&p.maxGridSize[1],              cudaDevAttrMaxGridDimY,                 device_id);
-  error = cudaDeviceGetProperty(&p.maxGridSize[2],              cudaDevAttrMaxGridDimZ,                 device_id);
-  error = cudaDeviceGetProperty(&p.maxThreadsPerBlock,          cudaDevAttrMaxThreadsPerBlock,          device_id);
-  error = cudaDeviceGetProperty(&p.maxThreadsPerMultiprocessor, cudaDevAttrMaxThreadsPerMultiProcessor, device_id);
-  error = cudaDeviceGetProperty(&p.minor,                       cudaDevAttrComputeCapabilityMinor,      device_id);
-  error = cudaDeviceGetProperty(&p.multiProcessorCount,         cudaDevAttrMultiProcessorCount,         device_id);
-  error = cudaDeviceGetProperty(&p.regsPerBlock,                cudaDevAttrMaxRegistersPerBlock,        device_id);
-  error = cudaDeviceGetProperty(&p.sharedMemPerBlock,           cudaDevAttrMaxSharedMemoryPerBlock,     device_id);
-  error = cudaDeviceGetProperty(&p.warpSize,                    cudaDevAttrWarpSize,                    device_id);
+  cudaError_t error = cudaDeviceGetAttribute(&p.major,           cudaDevAttrComputeCapabilityMajor,      device_id);
+  error = cudaDeviceGetAttribute(&p.maxGridSize[0],              cudaDevAttrMaxGridDimX,                 device_id);
+  error = cudaDeviceGetAttribute(&p.maxGridSize[1],              cudaDevAttrMaxGridDimY,                 device_id);
+  error = cudaDeviceGetAttribute(&p.maxGridSize[2],              cudaDevAttrMaxGridDimZ,                 device_id);
+  error = cudaDeviceGetAttribute(&p.maxThreadsPerBlock,          cudaDevAttrMaxThreadsPerBlock,          device_id);
+  error = cudaDeviceGetAttribute(&p.maxThreadsPerMultiProcessor, cudaDevAttrMaxThreadsPerMultiProcessor, device_id);
+  error = cudaDeviceGetAttribute(&p.minor,                       cudaDevAttrComputeCapabilityMinor,      device_id);
+  error = cudaDeviceGetAttribute(&p.multiProcessorCount,         cudaDevAttrMultiProcessorCount,         device_id);
+  error = cudaDeviceGetAttribute(&p.regsPerBlock,                cudaDevAttrMaxRegistersPerBlock,        device_id);
+  int temp;
+  error = cudaDeviceGetAttribute(&temp,                          cudaDevAttrMaxSharedMemoryPerBlock,     device_id);
+  p.sharedMemPerBlock = temp;
+  error = cudaDeviceGetAttribute(&p.warpSize,                    cudaDevAttrWarpSize,                    device_id);
 
   throw_on_error(error, "cudaDeviceGetProperty in get_device_properties");
 #else
