@@ -32,8 +32,7 @@ namespace detail
 inline __host__ __device__
 void synchronize(const char *message)
 {
-  // XXX this should probably be a call cudaDeviceSynchronize()
-  throw_on_error(cudaThreadSynchronize(), message);
+  throw_on_error(cudaDeviceSynchronize(), message);
 } // end synchronize()
 
 
