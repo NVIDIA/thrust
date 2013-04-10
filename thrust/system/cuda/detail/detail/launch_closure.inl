@@ -84,32 +84,13 @@ template<typename Closure,
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    struct war_nvbugs_881631
-    {
-      __host__ static void host_path(Closure &f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
-      {
-        launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
-        synchronize_if_enabled("launch_closure_by_value");
-      }
-
-      __device__ static void device_path(Closure &f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
-      {
-#if (__CUDA_ARCH__ >= 350)
-        launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
-        synchronize_if_enabled("launch_closure_by_value");
-#endif
-      }
-    };
-
-
+#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
     if(num_blocks > 0)
     {
-#ifndef __CUDA_ARCH__
-      war_nvbugs_881631::host_path(f,num_blocks,block_size,smem_size);
-#else
-      war_nvbugs_881631::device_path(f,num_blocks,block_size,smem_size);
-#endif
+      launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(f);
+      synchronize_if_enabled("launch_closure_by_value");
     }
+#endif // __CUDA_ARCH__
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
 }; // end closure_launcher_base
@@ -131,45 +112,20 @@ template<typename Closure>
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-    struct war_nvbugs_881631
-    {
-      __host__ static void host_path(Closure &f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
-      {
-        // use temporary storage for the closure
-        // XXX use of cuda::tag is too specific here
-        thrust::cuda::tag cuda_tag;
-        thrust::host_system_tag host_tag;
-        thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
-
-        // launch
-        detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
-        synchronize_if_enabled("launch_closure_by_pointer");
-      }
-
-      __device__ static void device_path(Closure &f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
-      {
-#if (__CUDA_ARCH__ >= 350)
-        // use temporary storage for the closure
-        // XXX use of cuda::tag is too specific here
-        thrust::cuda::tag cuda_tag;
-        thrust::host_system_tag host_tag;
-        thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
-
-        // launch
-        detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
-        synchronize_if_enabled("launch_closure_by_pointer");
-#endif
-      }
-    };
-
+#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
     if(num_blocks > 0)
     {
-#ifndef __CUDA_ARCH__
-      war_nvbugs_881631::host_path(f, num_blocks, block_size, smem_size);
-#else
-      war_nvbugs_881631::device_path(f, num_blocks, block_size, smem_size);
-#endif
+      // use temporary storage for the closure
+      // XXX use of cuda::tag is too specific here
+      thrust::cuda::tag cuda_tag;
+      thrust::host_system_tag host_tag;
+      thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
+
+      // launch
+      detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
+      synchronize_if_enabled("launch_closure_by_pointer");
     }
+#endif // __CUDA_ARCH__
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
