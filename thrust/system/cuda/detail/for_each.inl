@@ -32,6 +32,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/function.h>
 #include <thrust/detail/seq.h>
+#include <thrust/detail/cstdint.h>
 #include <limits>
 
 namespace thrust
@@ -112,9 +113,9 @@ bool use_big_closure(Size n, unsigned int little_grid_size)
   // or if incrementing an unsigned int by little_grid_size would overflow
   // the counter
   
-  Size threshold = std::numeric_limits<unsigned int>::max();
+  unsigned int threshold = thrust::detail::integer_traits<unsigned int>::const_max;
 
-  bool result = (sizeof(Size) > sizeof(unsigned int)) && (n > threshold);
+  bool result = (sizeof(Size) > sizeof(unsigned int)) && (thrust::detail::uint64_t(n) > threshold);
 
   if(!result)
   {
@@ -144,7 +145,6 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
                                 Size n,
                                 UnaryFunction f)
 {
-#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH >= 350)
   // we're attempting to launch a kernel, assert we're compiling with nvcc
   // ========================================================================
   // X Note to the user: If you've found this line due to a compiler error, X
@@ -152,38 +152,54 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
   // ========================================================================
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
-  if(n <= 0) return first;  // empty range
-  
-  // create two candidate closures to implement the for_each
-  // choose between them based on the whether we can fit n into a smaller integer
-  // and whether or not we'll overflow the closure's counter
-
-  typedef detail::blocked_thread_array Context;
-  typedef for_each_n_detail::for_each_n_closure<RandomAccessIterator, Size, UnaryFunction, Context>         BigClosure;
-  typedef for_each_n_detail::for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction, Context> LittleClosure;
-
-  BigClosure    big_closure(first, n, f);
-  LittleClosure little_closure(first, static_cast<unsigned int>(n), f);
-
-  thrust::tuple<size_t, size_t> little_config = for_each_n_detail::configure_launch<LittleClosure>(n);
-
-  unsigned int little_grid_size = thrust::get<0>(little_config) * thrust::get<1>(little_config);
-
-  if(for_each_n_detail::use_big_closure(n, little_grid_size))
+  struct workaround
   {
-    // launch the big closure
-    thrust::tuple<size_t, size_t> big_config = for_each_n_detail::configure_launch<BigClosure>(n);
-    detail::launch_closure(big_closure, thrust::get<0>(big_config), thrust::get<1>(big_config));
-  }
-  else
-  {
-    // launch the little closure
-    detail::launch_closure(little_closure, thrust::get<0>(little_config), thrust::get<1>(little_config));
-  }
+    __host__ __device__
+    static RandomAccessIterator parallel_path(RandomAccessIterator first, Size n, UnaryFunction f)
+    {
+      if(n <= 0) return first;  // empty range
+      
+      // create two candidate closures to implement the for_each
+      // choose between them based on the whether we can fit n into a smaller integer
+      // and whether or not we'll overflow the closure's counter
 
-  return first + n;
+      typedef detail::blocked_thread_array Context;
+      typedef for_each_n_detail::for_each_n_closure<RandomAccessIterator, Size, UnaryFunction, Context>         BigClosure;
+      typedef for_each_n_detail::for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction, Context> LittleClosure;
+
+      BigClosure    big_closure(first, n, f);
+      LittleClosure little_closure(first, static_cast<unsigned int>(n), f);
+
+      thrust::tuple<size_t, size_t> little_config = for_each_n_detail::configure_launch<LittleClosure>(n);
+
+      unsigned int little_grid_size = thrust::get<0>(little_config) * thrust::get<1>(little_config);
+
+      if(for_each_n_detail::use_big_closure(n, little_grid_size))
+      {
+        // launch the big closure
+        thrust::tuple<size_t, size_t> big_config = for_each_n_detail::configure_launch<BigClosure>(n);
+        detail::launch_closure(big_closure, thrust::get<0>(big_config), thrust::get<1>(big_config));
+      }
+      else
+      {
+        // launch the little closure
+        detail::launch_closure(little_closure, thrust::get<0>(little_config), thrust::get<1>(little_config));
+      }
+
+      return first + n;
+    }
+
+    __host__ __device__
+    static RandomAccessIterator sequential_path(RandomAccessIterator first, Size n, UnaryFunction f)
+    {
+      return thrust::for_each_n(thrust::seq, first, n, f);
+    }
+  };
+
+#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
+  return workaround::parallel_path(first, n, f);
 #else
-  return thrust::for_each_n(thrust::seq, first, n, f);
+  return workaround::sequential_path(first, n, f);
 #endif
 } 
 
