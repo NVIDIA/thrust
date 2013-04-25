@@ -21,7 +21,6 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/system/cuda/detail/throw_on_error.h>
 #include <cstdio>
-#include <cassert>
 
 
 namespace thrust
