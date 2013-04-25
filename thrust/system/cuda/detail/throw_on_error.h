@@ -19,7 +19,6 @@
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
 #include <cstdio>
-#include <cassert>
 
 
 namespace thrust
@@ -30,6 +29,18 @@ namespace cuda
 {
 namespace detail
 {
+namespace throw_on_error_detail
+{
+
+
+inline __device__
+void terminate()
+{
+  asm("trap;");
+}
+
+
+}
 
 
 inline __host__ __device__
@@ -39,11 +50,11 @@ void throw_on_error(cudaError_t error, const char *message)
   {
 #ifndef __CUDA_ARCH__
     throw thrust::system_error(error, thrust::cuda_category(), message);
-#elif (__CUDA_ARCH__ >= 350)
-    printf("Error after %s: %s\n", message, cudaGetErrorString(error));
-    assert(0);
 #else
-    // dunno what we can do here
+#  if (__CUDA_ARCH__ >= 200)
+    printf("Error after %s: %s\n", message, cudaGetErrorString(error));
+#  endif
+    throw_on_error_detail::terminate();
 #endif
   }
 }
