@@ -16,11 +16,7 @@
 
 #pragma once
 
-#include <thrust/system_error.h>
-#include <thrust/system/cuda/error.h>
-#include <thrust/system/cuda/detail/terminate.h>
-#include <cstdio>
-
+#include <thrust/detail/config.h>
 
 namespace thrust
 {
@@ -32,20 +28,10 @@ namespace detail
 {
 
 
-inline __host__ __device__
-void throw_on_error(cudaError_t error, const char *message)
+inline __device__
+void terminate()
 {
-  if(error)
-  {
-#ifndef __CUDA_ARCH__
-    throw thrust::system_error(error, thrust::cuda_category(), message);
-#else
-#  if (__CUDA_ARCH__ >= 200)
-    printf("Error after %s: %s\n", message, cudaGetErrorString(error));
-#  endif
-    thrust::system::cuda::detail::terminate();
-#endif
-  }
+  asm("trap;");
 }
 
 
