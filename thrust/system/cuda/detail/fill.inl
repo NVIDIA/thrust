@@ -20,7 +20,6 @@
  */
 
 #include <thrust/detail/config.h>
-
 #include <thrust/distance.h>
 #include <thrust/detail/util/align.h>
 #include <thrust/generate.h>
@@ -29,8 +28,8 @@
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
-
 #include <thrust/system/cuda/detail/runtime_introspection.h>
+
 
 namespace thrust
 {
@@ -45,7 +44,8 @@ namespace detail
 
 
 template<typename WidePtr, typename T>
-  WidePtr widen_raw_ptr(T *ptr)
+__host__ __device__
+WidePtr widen_raw_ptr(T *ptr)
 {
   typedef thrust::detail::pointer_traits<WidePtr> WideTraits;
   typedef typename WideTraits::element_type       WideT;
@@ -58,10 +58,11 @@ template<typename WidePtr, typename T>
 
 
 template<typename WideType, typename DerivedPolicy, typename Pointer, typename Size, typename T>
-  Pointer wide_fill_n(execution_policy<DerivedPolicy> &exec,
-                      Pointer first,
-                      Size n,
-                      const T &value)
+__host__ __device__
+Pointer wide_fill_n(execution_policy<DerivedPolicy> &exec,
+                    Pointer first,
+                    Size n,
+                    const T &value)
 {
   typedef typename thrust::iterator_value<Pointer>::type OutputType;
 
@@ -70,12 +71,16 @@ template<typename WideType, typename DerivedPolicy, typename Pointer, typename S
   WideType   wide_exemplar;
   OutputType narrow_exemplars[sizeof(WideType) / sizeof(OutputType)];
 
-  for (size_t i = 0; i < sizeof(WideType) / sizeof(OutputType); i++)
-      narrow_exemplars[i] = static_cast<OutputType>(value);
+  for(size_t i = 0; i < sizeof(WideType) / sizeof(OutputType); i++)
+  {
+    narrow_exemplars[i] = static_cast<OutputType>(value);
+  }
 
   // cast through char * to avoid type punning warnings
-  for (size_t i = 0; i < sizeof(WideType); i++)
-      reinterpret_cast<char *>(&wide_exemplar)[i] = reinterpret_cast<char *>(narrow_exemplars)[i];
+  for(size_t i = 0; i < sizeof(WideType); i++)
+  {
+    reinterpret_cast<char *>(&wide_exemplar)[i] = reinterpret_cast<char *>(narrow_exemplars)[i];
+  }
 
   OutputType *first_raw = thrust::raw_pointer_cast(first);
   OutputType *last_raw  = first_raw + n;
@@ -98,29 +103,33 @@ template<typename WideType, typename DerivedPolicy, typename Pointer, typename S
   return first + n;
 }
 
+
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
-                        OutputIterator first,
-                        Size n,
-                        const T &value,
-                        thrust::detail::false_type)
+__host__ __device__
+OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
+                      OutputIterator first,
+                      Size n,
+                      const T &value,
+                      thrust::detail::false_type)
 {
   thrust::detail::fill_functor<T> func(value); 
   return thrust::generate_n(exec, first, n, func);
 }
 
+
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
-                        OutputIterator first,
-                        Size n,
-                        const T &value,
-                        thrust::detail::true_type)
+__host__ __device__
+OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
+                      OutputIterator first,
+                      Size n,
+                      const T &value,
+                      thrust::detail::true_type)
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
   
-  if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
+  if(thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
   {
-      if (compute_capability() < 20)
+      if(compute_capability() < 20)
       {
         // 32-bit writes are faster on G80 and GT200
         typedef unsigned int WideType;
@@ -141,13 +150,16 @@ template<typename DerivedPolicy, typename OutputIterator, typename Size, typenam
   }
 }
 
+
 } // end detail
 
+
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
-                        OutputIterator first,
-                        Size n,
-                        const T &value)
+__host__ __device__
+OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
+                      OutputIterator first,
+                      Size n,
+                      const T &value)
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
 
@@ -162,14 +174,17 @@ template<typename DerivedPolicy, typename OutputIterator, typename Size, typenam
   return detail::fill_n(exec, first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
 }
 
+
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-  void fill(execution_policy<DerivedPolicy> &exec,
-            ForwardIterator first,
-            ForwardIterator last,
-            const T &value)
+__host__ __device__
+void fill(execution_policy<DerivedPolicy> &exec,
+          ForwardIterator first,
+          ForwardIterator last,
+          const T &value)
 {
   thrust::system::cuda::detail::fill_n(exec, first, thrust::distance(first,last), value);
 } // end fill()
+
 
 } // end namespace detail
 } // end namespace cuda

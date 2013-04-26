@@ -33,17 +33,22 @@ namespace cuda
 namespace detail
 {
 
+
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-  void fill(execution_policy<DerivedPolicy> &exec,
-            ForwardIterator first,
-            ForwardIterator last,
-            const T &value);
+__host__ __device__
+void fill(execution_policy<DerivedPolicy> &exec,
+          ForwardIterator first,
+          ForwardIterator last,
+          const T &value);
+
 
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
-                        OutputIterator first,
-                        Size n,
-                        const T &value);
+__host__ __device__
+OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
+                      OutputIterator first,
+                      Size n,
+                      const T &value);
+
 
 } // end namespace detail
 } // end namespace cuda
