@@ -40,10 +40,13 @@ namespace thrust
 namespace detail
 {
 
+
 // forward declaration of temporary_array
 template<typename,typename> class temporary_array;
 
+
 } // end detail
+
 
 namespace system
 {
@@ -75,6 +78,7 @@ struct inclusive_scan_block_size
   static const unsigned int pass3 = block_size;
 };
 
+
 // TODO tune this
 template <typename ValueType>
 struct exclusive_scan_block_size
@@ -92,60 +96,62 @@ struct exclusive_scan_block_size
 };
 
 
-template <unsigned int CTA_SIZE,
-          typename Context,
-          typename SharedArray,
-          typename BinaryFunction>
+template<unsigned int CTA_SIZE,
+         typename Context,
+         typename SharedArray,
+         typename BinaryFunction>
 __device__ __thrust_forceinline__
 void scan_block(Context context, SharedArray array, BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_value<SharedArray>::type T;
-
-    T val = array[context.thread_index()];
-
-    if (CTA_SIZE >    1) { if(context.thread_index() >=    1) { T tmp = array[context.thread_index() -    1]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >    2) { if(context.thread_index() >=    2) { T tmp = array[context.thread_index() -    2]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >    4) { if(context.thread_index() >=    4) { T tmp = array[context.thread_index() -    4]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >    8) { if(context.thread_index() >=    8) { T tmp = array[context.thread_index() -    8]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >   16) { if(context.thread_index() >=   16) { T tmp = array[context.thread_index() -   16]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >   32) { if(context.thread_index() >=   32) { T tmp = array[context.thread_index() -   32]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >   64) { if(context.thread_index() >=   64) { T tmp = array[context.thread_index() -   64]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >  128) { if(context.thread_index() >=  128) { T tmp = array[context.thread_index() -  128]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >  256) { if(context.thread_index() >=  256) { T tmp = array[context.thread_index() -  256]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }  
-    if (CTA_SIZE >  512) { if(context.thread_index() >=  512) { T tmp = array[context.thread_index() -  512]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }  
-    if (CTA_SIZE > 1024) { if(context.thread_index() >= 1024) { T tmp = array[context.thread_index() - 1024]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }  
+  typedef typename thrust::iterator_value<SharedArray>::type T;
+  
+  T val = array[context.thread_index()];
+  
+  if (CTA_SIZE >    1) { if(context.thread_index() >=    1) { T tmp = array[context.thread_index() -    1]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >    2) { if(context.thread_index() >=    2) { T tmp = array[context.thread_index() -    2]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >    4) { if(context.thread_index() >=    4) { T tmp = array[context.thread_index() -    4]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >    8) { if(context.thread_index() >=    8) { T tmp = array[context.thread_index() -    8]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >   16) { if(context.thread_index() >=   16) { T tmp = array[context.thread_index() -   16]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >   32) { if(context.thread_index() >=   32) { T tmp = array[context.thread_index() -   32]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >   64) { if(context.thread_index() >=   64) { T tmp = array[context.thread_index() -   64]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >  128) { if(context.thread_index() >=  128) { T tmp = array[context.thread_index() -  128]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >  256) { if(context.thread_index() >=  256) { T tmp = array[context.thread_index() -  256]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }  
+  if (CTA_SIZE >  512) { if(context.thread_index() >=  512) { T tmp = array[context.thread_index() -  512]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }  
+  if (CTA_SIZE > 1024) { if(context.thread_index() >= 1024) { T tmp = array[context.thread_index() - 1024]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }  
 }
 
-template <unsigned int CTA_SIZE,
-          typename Context,
-          typename SharedArray,
-          typename BinaryFunction>
+
+template<unsigned int CTA_SIZE,
+         typename Context,
+         typename SharedArray,
+         typename BinaryFunction>
 __device__ __thrust_forceinline__
 void scan_block_n(Context context, SharedArray array, const unsigned int n, BinaryFunction binary_op)
 {
-    typedef typename thrust::iterator_value<SharedArray>::type T;
-
-    T val = array[context.thread_index()];
-
-    if (CTA_SIZE >    1) { if(context.thread_index() < n && context.thread_index() >=    1) { T tmp = array[context.thread_index() -    1]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >    2) { if(context.thread_index() < n && context.thread_index() >=    2) { T tmp = array[context.thread_index() -    2]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >    4) { if(context.thread_index() < n && context.thread_index() >=    4) { T tmp = array[context.thread_index() -    4]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >    8) { if(context.thread_index() < n && context.thread_index() >=    8) { T tmp = array[context.thread_index() -    8]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >   16) { if(context.thread_index() < n && context.thread_index() >=   16) { T tmp = array[context.thread_index() -   16]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >   32) { if(context.thread_index() < n && context.thread_index() >=   32) { T tmp = array[context.thread_index() -   32]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >   64) { if(context.thread_index() < n && context.thread_index() >=   64) { T tmp = array[context.thread_index() -   64]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >  128) { if(context.thread_index() < n && context.thread_index() >=  128) { T tmp = array[context.thread_index() -  128]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >  256) { if(context.thread_index() < n && context.thread_index() >=  256) { T tmp = array[context.thread_index() -  256]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE >  512) { if(context.thread_index() < n && context.thread_index() >=  512) { T tmp = array[context.thread_index() -  512]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
-    if (CTA_SIZE > 1024) { if(context.thread_index() < n && context.thread_index() >= 1024) { T tmp = array[context.thread_index() - 1024]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  typedef typename thrust::iterator_value<SharedArray>::type T;
+  
+  T val = array[context.thread_index()];
+  
+  if (CTA_SIZE >    1) { if(context.thread_index() < n && context.thread_index() >=    1) { T tmp = array[context.thread_index() -    1]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >    2) { if(context.thread_index() < n && context.thread_index() >=    2) { T tmp = array[context.thread_index() -    2]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >    4) { if(context.thread_index() < n && context.thread_index() >=    4) { T tmp = array[context.thread_index() -    4]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >    8) { if(context.thread_index() < n && context.thread_index() >=    8) { T tmp = array[context.thread_index() -    8]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >   16) { if(context.thread_index() < n && context.thread_index() >=   16) { T tmp = array[context.thread_index() -   16]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >   32) { if(context.thread_index() < n && context.thread_index() >=   32) { T tmp = array[context.thread_index() -   32]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >   64) { if(context.thread_index() < n && context.thread_index() >=   64) { T tmp = array[context.thread_index() -   64]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >  128) { if(context.thread_index() < n && context.thread_index() >=  128) { T tmp = array[context.thread_index() -  128]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >  256) { if(context.thread_index() < n && context.thread_index() >=  256) { T tmp = array[context.thread_index() -  256]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE >  512) { if(context.thread_index() < n && context.thread_index() >=  512) { T tmp = array[context.thread_index() -  512]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
+  if (CTA_SIZE > 1024) { if(context.thread_index() < n && context.thread_index() >= 1024) { T tmp = array[context.thread_index() - 1024]; val = binary_op(tmp, val); } context.barrier(); array[context.thread_index()] = val; context.barrier(); }
 }
 
-template <unsigned int CTA_SIZE,
-          unsigned int K,
-          bool FullBlock,
-          typename Context,
-          typename InputIterator,
-          typename ValueType>
+
+template<unsigned int CTA_SIZE,
+         unsigned int K,
+         bool FullBlock,
+         typename Context,
+         typename InputIterator,
+         typename ValueType>
 __device__ __thrust_forceinline__
 void load_block(Context context,
                 const unsigned int n,
@@ -166,13 +172,14 @@ void load_block(Context context,
   context.barrier();
 }
 
-template <unsigned int CTA_SIZE,
-          unsigned int K,
-          bool Inclusive,
-          bool FullBlock,
-          typename Context,
-          typename OutputIterator,
-          typename ValueType>
+
+template<unsigned int CTA_SIZE,
+         unsigned int K,
+         bool Inclusive,
+         bool FullBlock,
+         typename Context,
+         typename OutputIterator,
+         typename ValueType>
 __device__ __thrust_forceinline__
 void store_block(Context context,
                  const unsigned int n,
@@ -180,13 +187,13 @@ void store_block(Context context,
                  ValueType (&sdata)[K][CTA_SIZE + 1],
                  ValueType& carry)
 {
-  if (Inclusive)
+  if(Inclusive)
   {
     for(unsigned int k = 0; k < K; k++)
     {
       const unsigned int offset = k*CTA_SIZE + context.thread_index();
 
-      if (FullBlock || offset < n)
+      if(FullBlock || offset < n)
       {
         OutputIterator temp = output + offset;
         *temp = sdata[offset % K][offset / K];
@@ -199,7 +206,7 @@ void store_block(Context context,
     {
       const unsigned int offset = k*CTA_SIZE + context.thread_index();
 
-      if (FullBlock || offset < n)
+      if(FullBlock || offset < n)
       {
         OutputIterator temp = output + offset;
         *temp = (offset == 0) ? carry : sdata[(offset - 1) % K][(offset - 1) / K];
@@ -208,13 +215,14 @@ void store_block(Context context,
   }
 }
 
-template <unsigned int CTA_SIZE,
-          unsigned int K,
-          bool FullBlock,
-          typename Context,
-          typename InputIterator,
-          typename BinaryFunction,
-          typename ValueType>
+
+template<unsigned int CTA_SIZE,
+         unsigned int K,
+         bool FullBlock,
+         typename Context,
+         typename InputIterator,
+         typename BinaryFunction,
+         typename ValueType>
 __device__ __thrust_forceinline__
 void upsweep_body(Context context,
                   const unsigned int n,
@@ -229,11 +237,11 @@ void upsweep_body(Context context,
  
   // copy into local array
   ValueType ldata[K];
-  for (unsigned int k = 0; k < K; k++)
+  for(unsigned int k = 0; k < K; k++)
     ldata[k] = sdata[k][context.thread_index()];
 
   // carry in
-  if (context.thread_index() == 0 && carry_in)
+  if(context.thread_index() == 0 && carry_in)
   {
     // XXX WAR sm_10 issue
     ValueType tmp = carry;
@@ -245,8 +253,10 @@ void upsweep_body(Context context,
   {
     const unsigned int offset = K * context.thread_index() + k;
 
-    if (FullBlock || offset < n)
+    if(FullBlock || offset < n)
+    {
       ldata[k] = binary_op(ldata[k-1],ldata[k]);
+    }
   }
 
   sdata[K - 1][context.thread_index()] = ldata[K - 1];
@@ -254,28 +264,38 @@ void upsweep_body(Context context,
   context.barrier();
 
   // second level scan
-  if (FullBlock && sizeof(ValueType) > 1) // TODO investigate why this WAR is necessary
-    scan_block<CTA_SIZE>(context, sdata[K - 1], binary_op); 
-  else
-    scan_block_n<CTA_SIZE>(context, sdata[K - 1], n / K, binary_op);
-
-  // store carry out
-  if (FullBlock)
+  if(FullBlock && sizeof(ValueType) > 1) // TODO investigate why this WAR is necessary
   {
-     if (context.thread_index() == CTA_SIZE - 1)
-        carry = sdata[K - 1][context.thread_index()];
+    scan_block<CTA_SIZE>(context, sdata[K - 1], binary_op); 
   }
   else
   {
-    if (context.thread_index() == (n - 1) / K)
+    scan_block_n<CTA_SIZE>(context, sdata[K - 1], n / K, binary_op);
+  }
+
+  // store carry out
+  if(FullBlock)
+  {
+     if(context.thread_index() == CTA_SIZE - 1)
+     {
+       carry = sdata[K - 1][context.thread_index()];
+     }
+  }
+  else
+  {
+    if(context.thread_index() == (n - 1) / K)
     {
       ValueType sum;
 
-      for (unsigned int k = 0; k < K; k++)
-          if ((n - 1) % K == k)
-              sum = ldata[k];
+      for(unsigned int k = 0; k < K; k++)
+      {
+        if((n - 1) % K == k)
+        {
+          sum = ldata[k];
+        }
+      }
 
-      if (context.thread_index() > 0)
+      if(context.thread_index() > 0)
       {
         // WAR sm_10 issue
         ValueType tmp = sdata[K - 1][context.thread_index() - 1];
@@ -289,15 +309,16 @@ void upsweep_body(Context context,
   context.barrier();
 }
 
-template <unsigned int CTA_SIZE,
-          unsigned int K,
-          bool Inclusive,
-          bool FullBlock,
-          typename Context,
-          typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction,
-          typename ValueType>
+
+template<unsigned int CTA_SIZE,
+         unsigned int K,
+         bool Inclusive,
+         bool FullBlock,
+         typename Context,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction,
+         typename ValueType>
 __device__ __thrust_forceinline__
 void scan_body(Context context,
                const unsigned int n,
@@ -313,11 +334,13 @@ void scan_body(Context context,
 
   // copy into local array
   ValueType ldata[K];
-  for (unsigned int k = 0; k < K; k++)
+  for(unsigned int k = 0; k < K; k++)
+  {
     ldata[k] = sdata[k][context.thread_index()];
+  }
 
   // carry in
-  if (context.thread_index() == 0 && carry_in)
+  if(context.thread_index() == 0 && carry_in)
   {
     // XXX WAR sm_10 issue
     ValueType tmp = carry;
@@ -329,8 +352,10 @@ void scan_body(Context context,
   {
     const unsigned int offset = K * context.thread_index() + k;
 
-    if (FullBlock || offset < n)
+    if(FullBlock || offset < n)
+    {
       ldata[k] = binary_op(ldata[k-1],ldata[k]);
+    }
   }
 
   sdata[K - 1][context.thread_index()] = ldata[K - 1];
@@ -338,13 +363,17 @@ void scan_body(Context context,
   context.barrier();
 
   // second level scan
-  if (FullBlock)
+  if(FullBlock)
+  {
     scan_block<CTA_SIZE>(context, sdata[K - 1], binary_op);
+  }
   else
+  {
     scan_block_n<CTA_SIZE>(context, sdata[K - 1], n / K, binary_op);
+  }
   
   // update local values
-  if (context.thread_index() > 0)
+  if(context.thread_index() > 0)
   {
     ValueType left = sdata[K - 1][context.thread_index() - 1];
 
@@ -352,13 +381,17 @@ void scan_body(Context context,
     {
       const unsigned int offset = K * context.thread_index() + k;
 
-      if (FullBlock || offset < n)
+      if(FullBlock || offset < n)
+      {
         ldata[k] = binary_op(left, ldata[k]);
+      }
     }
   }
 
-  for (unsigned int k = 0; k < K; k++)
+  for(unsigned int k = 0; k < K; k++)
+  {
     sdata[k][context.thread_index()] = ldata[k];
+  }
 
   context.barrier();
 
@@ -366,22 +399,27 @@ void scan_body(Context context,
   store_block<CTA_SIZE, K, Inclusive, FullBlock>(context, n, output, sdata, carry);
   
   // store carry out
-  if (context.thread_index() == 0)
+  if(context.thread_index() == 0)
   {
-    if (FullBlock)
+    if(FullBlock)
+    {
       carry = sdata[K - 1][CTA_SIZE - 1];
+    }
     else
+    {
       carry = sdata[(n - 1) % K][(n - 1) / K]; // note: this must come after the local update
+    }
   }
 
   context.barrier();
 }
 
-template <typename InputIterator,
-          typename ValueType,
-          typename BinaryFunction,
-          typename Decomposition,
-          typename Context>
+
+template<typename InputIterator,
+         typename ValueType,
+         typename BinaryFunction,
+         typename Decomposition,
+         typename Context>
 struct upsweep_intervals_closure
 {
   InputIterator  input;
@@ -392,6 +430,7 @@ struct upsweep_intervals_closure
   
   typedef Context context_type;
 
+  __host__ __device__
   upsweep_intervals_closure(InputIterator input,
                             ValueType * block_results,
                             BinaryFunction binary_op,
@@ -432,7 +471,7 @@ struct upsweep_intervals_closure
     bool carry_in = false;
 
     // process full units
-    while (base + unit_size <= interval.end())
+    while(base + unit_size <= interval.end())
     {
       const unsigned int n = unit_size;
       upsweep_body<CTA_SIZE,K,true>(context, n, carry_in, input, binary_op, sdata.get(), carry.get());
@@ -442,26 +481,28 @@ struct upsweep_intervals_closure
     }
 
     // process partially full unit at end of input (if necessary)
-    if (base < interval.end())
+    if(base < interval.end())
     {
       const unsigned int n = interval.end() - base;
       upsweep_body<CTA_SIZE,K,false>(context, n, carry_in, input, binary_op, sdata.get(), carry.get());
     }
 
     // write interval sum
-    if (context.thread_index() == 0)
+    if(context.thread_index() == 0)
+    {
       block_results[context.block_index()] = carry;
+    }
   }
 };
 
 
-template <bool Inclusive,
-          typename InputIterator,
-          typename OutputIterator,
-          typename ValueType,
-          typename BinaryFunction,
-          typename Decomposition,
-          typename Context>
+template<bool Inclusive,
+         typename InputIterator,
+         typename OutputIterator,
+         typename ValueType,
+         typename BinaryFunction,
+         typename Decomposition,
+         typename Context>
 struct downsweep_intervals_closure
 {
   InputIterator  input;
@@ -473,6 +514,7 @@ struct downsweep_intervals_closure
 
   typedef Context context_type;
 
+  __host__ __device__
   downsweep_intervals_closure(InputIterator input,
                               OutputIterator output,
                               ValueType * block_results,
@@ -514,15 +556,17 @@ struct downsweep_intervals_closure
 
     bool carry_in  = (Inclusive && context.block_index() == 0) ? false : true;
 
-    if (carry_in)
+    if(carry_in)
     {
-      if (context.thread_index() == 0)
+      if(context.thread_index() == 0)
+      {
         carry = block_results[context.block_index()];
+      }
       context.barrier();
     }
 
     // process full units
-    while (base + unit_size <= interval.end())
+    while(base + unit_size <= interval.end())
     {
       const unsigned int n = unit_size;
       scan_body<CTA_SIZE,K,Inclusive,true>(context, n, carry_in, input, output, binary_op, sdata.get(), carry.get());
@@ -533,7 +577,7 @@ struct downsweep_intervals_closure
     }
 
     // process partially full unit at end of input (if necessary)
-    if (base < interval.end())
+    if(base < interval.end())
     {
       const unsigned int n = interval.end() - base;
       scan_body<CTA_SIZE,K,Inclusive,false>(context, n, carry_in, input, output, binary_op, sdata.get(), carry.get());
@@ -545,10 +589,11 @@ struct downsweep_intervals_closure
 } // end namespace fast_scan_detail
 
 
-template <typename DerivedPolicy,
-          typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction>
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction>
+__host__ __device__
 OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -583,22 +628,24 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
   typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
   typedef thrust::detail::temporary_array<ValueType,DerivedPolicy>           ValueArray;
 
-  if (first == last)
-      return output;
+  if(first == last)
+  {
+    return output;
+  }
 
   Decomposition decomp = thrust::system::cuda::detail::default_decomposition<IndexType>(last - first);
 
   ValueArray block_results(exec, decomp.size());
   
   // compute sum over each interval
-  if (thrust::detail::is_commutative<BinaryFunction>::value)
+  if(thrust::detail::is_commutative<BinaryFunction>::value)
   {
     // use reduce_intervals for commutative operators
     thrust::system::cuda::detail::reduce_intervals(exec, first, block_results.begin(), binary_op, decomp);
   }
   else
   {
-    const static unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass1;
+    const unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass1;
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
 
     typedef upsweep_intervals_closure<InputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
@@ -611,7 +658,7 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
 
   // second level inclusive scan of per-block results
   {
-    const static unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass2;
+    const unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass2;
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
 
     typedef downsweep_intervals_closure<true,ValueType*,ValueType*,ValueType,BinaryFunction,Decomposition,Context> Closure;
@@ -625,7 +672,7 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
   
   // update intervals with result of second level scan
   {
-    const static unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass3;
+    const unsigned int ThreadsPerBlock = inclusive_scan_block_size<ValueType>::pass3;
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
 
     typedef downsweep_intervals_closure<true,InputIterator,OutputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
@@ -641,11 +688,12 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
 }
 
 
-template <typename DerivedPolicy,
-          typename InputIterator,
-          typename OutputIterator,
-          typename T,
-          typename BinaryFunction>
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename T,
+         typename BinaryFunction>
+__host__ __device__
 OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
@@ -681,22 +729,24 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
   typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
   typedef thrust::detail::temporary_array<ValueType,DerivedPolicy>           ValueArray;
 
-  if (first == last)
-      return output;
+  if(first == last)
+  {
+    return output;
+  }
 
   Decomposition decomp = thrust::system::cuda::detail::default_decomposition<IndexType>(last - first);
 
   ValueArray block_results(exec, decomp.size() + 1);
   
   // compute sum over each interval
-  if (thrust::detail::is_commutative<BinaryFunction>::value)
+  if(thrust::detail::is_commutative<BinaryFunction>::value)
   {
     // use reduce_intervals for commutative operators
     thrust::system::cuda::detail::reduce_intervals(exec, first, block_results.begin() + 1, binary_op, decomp);
   }
   else
   {
-    const static unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass1;
+    const unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass1;
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
 
     typedef upsweep_intervals_closure<InputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
@@ -712,7 +762,7 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
   
   // second level inclusive scan of per-block results
   {
-    const static unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass2;
+    const unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass2;
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
 
     typedef downsweep_intervals_closure<true,ValueType*,ValueType*,ValueType,BinaryFunction,Decomposition,Context> Closure;
@@ -726,7 +776,7 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
   
   // update intervals with result of second level scan
   {
-    const static unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass3;
+    const unsigned int ThreadsPerBlock = exclusive_scan_block_size<ValueType>::pass3;
     typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
 
     typedef downsweep_intervals_closure<false,InputIterator,OutputIterator,ValueType,BinaryFunction,Decomposition,Context> Closure;
@@ -748,6 +798,7 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
 } // end namespace cuda
 } // end namespace system
 } // end namespace thrust
+
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
