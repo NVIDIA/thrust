@@ -32,10 +32,11 @@ namespace detail
 template<typename System,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(execution_policy<System> &system,
-                      InputIterator first,
-                      InputIterator last,
-                      OutputIterator result)
+__host__ __device__
+OutputIterator copy(execution_policy<System> &system,
+                    InputIterator first,
+                    InputIterator last,
+                    OutputIterator result)
 {
   return thrust::system::cuda::detail::copy_device_to_device(system,first,last,result);
 } // end copy()
@@ -45,10 +46,10 @@ template<typename System1,
          typename System2,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(cross_system<System1,System2> systems,
-                      InputIterator first,
-                      InputIterator last,
-                      OutputIterator result)
+OutputIterator copy(cross_system<System1,System2> systems,
+                    InputIterator first,
+                    InputIterator last,
+                    OutputIterator result)
 {
   return thrust::system::cuda::detail::copy_cross_system(systems,first,last,result);
 } // end copy()
@@ -58,10 +59,11 @@ template<typename System,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(execution_policy<System> &system,
-                        InputIterator first,
-                        Size n,
-                        OutputIterator result)
+__host__ __device__
+OutputIterator copy_n(execution_policy<System> &system,
+                      InputIterator first,
+                      Size n,
+                      OutputIterator result)
 {
   return thrust::system::cuda::detail::copy_device_to_device(system,first,first+n,result);
 } // end copy_n()
@@ -72,10 +74,10 @@ template<typename System1,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(cross_system<System1,System2> systems,
-                        InputIterator first,
-                        Size n,
-                        OutputIterator result)
+OutputIterator copy_n(cross_system<System1,System2> systems,
+                      InputIterator first,
+                      Size n,
+                      OutputIterator result)
 {
   return thrust::system::cuda::detail::copy_cross_system_n(systems,first,n,result);
 } // end copy_n()
