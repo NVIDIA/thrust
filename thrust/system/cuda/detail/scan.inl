@@ -33,47 +33,52 @@ namespace cuda
 namespace detail
 {
 
+
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                AssociativeOperator binary_op)
+__host__ __device__
+OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              AssociativeOperator binary_op)
 {
-    // we're attempting to launch a kernel, assert we're compiling with nvcc
-    // ========================================================================
-    // X Note to the user: If you've found this line due to a compiler error, X
-    // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
-    // ========================================================================
-    THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
-    
-    return thrust::system::cuda::detail::detail::fast_scan::inclusive_scan(exec, first, last, result, binary_op);
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+  
+  return thrust::system::cuda::detail::detail::fast_scan::inclusive_scan(exec, first, last, result, binary_op);
 }
+
 
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op)
+__host__ __device__
+OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              T init,
+                              AssociativeOperator binary_op)
 {
-    // we're attempting to launch a kernel, assert we're compiling with nvcc
-    // ========================================================================
-    // X Note to the user: If you've found this line due to a compiler error, X
-    // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
-    // ========================================================================
-    THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
 
-    return thrust::system::cuda::detail::detail::fast_scan::exclusive_scan(exec, first, last, result, init, binary_op);
+  return thrust::system::cuda::detail::detail::fast_scan::exclusive_scan(exec, first, last, result, init, binary_op);
 }
+
 
 } // end namespace detail
 } // end namespace cuda

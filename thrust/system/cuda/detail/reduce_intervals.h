@@ -33,16 +33,19 @@ namespace cuda
 namespace detail
 {
 
-template <typename DerivedPolicy,
-          typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction,
-          typename Decomposition>
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction,
+         typename Decomposition>
+__host__ __device__
 void reduce_intervals(execution_policy<DerivedPolicy> &exec,
                       InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
                       Decomposition decomp);
+
 
 } // end namespace detail
 } // end namespace cuda

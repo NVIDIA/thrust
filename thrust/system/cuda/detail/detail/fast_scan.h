@@ -34,27 +34,32 @@ namespace detail
 namespace fast_scan
 {
 
-template <typename ExecutionPolicy,
-          typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction>
+
+template<typename ExecutionPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction>
+__host__ __device__
 OutputIterator inclusive_scan(execution_policy<ExecutionPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               OutputIterator output,
                               BinaryFunction binary_op);
 
-template <typename ExecutionPolicy,
-          typename InputIterator,
-          typename OutputIterator,
-          typename T,
-          typename BinaryFunction>
+
+template<typename ExecutionPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename T,
+         typename BinaryFunction>
+__host__ __device__
 OutputIterator exclusive_scan(execution_policy<ExecutionPolicy> &exec,
                               InputIterator first,
                               InputIterator last,
                               OutputIterator output,
                               const T init,
                               BinaryFunction binary_op);
+
 
 } // end namespace fast_scan
 } // end namespace detail
