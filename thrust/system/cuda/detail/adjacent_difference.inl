@@ -39,13 +39,15 @@ namespace detail
 namespace detail
 {
 
-template <typename Decomposition>
+
+template<typename Decomposition>
 struct last_index_in_each_interval : public thrust::unary_function<typename Decomposition::index_type, typename Decomposition::index_type>
 {
   typedef typename Decomposition::index_type index_type;
 
   Decomposition decomp;
 
+  __host__ __device__
   last_index_in_each_interval(Decomposition decomp) : decomp(decomp) {}
 
   __host__ __device__
@@ -54,6 +56,7 @@ struct last_index_in_each_interval : public thrust::unary_function<typename Deco
     return decomp[interval].end() - 1;
   }
 };
+
 
 template <typename InputIterator1,
           typename InputIterator2,
@@ -72,6 +75,7 @@ struct adjacent_difference_closure
 
   typedef Context context_type;
   
+  __host__ __device__
   adjacent_difference_closure(InputIterator1 input,
                               InputIterator2 input_copy,
                               OutputIterator output,
@@ -97,9 +101,9 @@ struct adjacent_difference_closure
     index_type base = range.begin();
     index_type i    = range.begin() + context.thread_index();
     
-    if (i < range.end())
+    if(i < range.end())
     {
-      if (context.thread_index() > 0)
+      if(context.thread_index() > 0)
       {
         InputIterator1 temp = input + (i - 1);
         next_left = *temp;
@@ -109,11 +113,11 @@ struct adjacent_difference_closure
     input  += i;
     output += i;
 
-    while (base < range.end())
+    while(base < range.end())
     {
       InputType curr_left = next_left;
 
-      if (i + context.block_dimension() < range.end())
+      if(i + context.block_dimension() < range.end())
       {
         InputIterator1 temp = input + (context.block_dimension() - 1);
         next_left = *temp;
@@ -121,10 +125,12 @@ struct adjacent_difference_closure
 
       context.barrier();
 
-      if (i < range.end())
+      if(i < range.end())
       {
-        if (i == 0)
+        if(i == 0)
+        {
           *output = *input;
+        }
         else
         {
           InputType x = *input;
@@ -140,15 +146,18 @@ struct adjacent_difference_closure
   }
 };
 
+
 } // end namespace detail
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
-template <typename DerivedPolicy,
-          typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction>
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction>
+__host__ __device__
 OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
@@ -160,8 +169,10 @@ OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
 
   IndexType n = last - first;
 
-  if (n == 0)
+  if(n == 0)
+  {
     return result;
+  }
 
   Decomposition decomp = default_decomposition(last - first);
 
@@ -188,7 +199,9 @@ OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
   return result + n;
 }
 
+
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+
 
 } // end namespace detail
 } // end namespace cuda

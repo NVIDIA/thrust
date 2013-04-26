@@ -26,13 +26,16 @@ namespace cuda
 namespace detail
 {
 
-template <typename IndexType>
+
+template<typename IndexType>
+__host__ __device__
 thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
 {
   // TODO eliminate magical constant
   device_properties_t properties = device_properties();
   return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, properties.maxThreadsPerBlock, 10 * properties.multiProcessorCount);
 }
+
 
 } // end namespace detail
 } // end namespace cuda
