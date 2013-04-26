@@ -4,11 +4,11 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Predicate, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
 __global__
-void partition_point_kernel(Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
+void partition_point_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
 {
-  *result = thrust::partition_point(thrust::seq, first, last, pred);
+  *result = thrust::partition_point(exec, first, last, pred);
 }
 
 
@@ -20,8 +20,8 @@ struct is_even
 };
 
 
-template<typename T>
-void TestPartitionPointDeviceSeq(size_t n)
+template<typename T, typename ExecutionPolicy>
+void TestPartitionPointDevice(ExecutionPolicy exec, size_t n)
 {
   thrust::device_vector<T> v = unittest::random_integers<T>(n);
   typedef typename thrust::device_vector<T>::iterator iterator;
@@ -29,9 +29,25 @@ void TestPartitionPointDeviceSeq(size_t n)
   iterator ref = thrust::stable_partition(v.begin(), v.end(), is_even<T>());
 
   thrust::device_vector<iterator> result(1);
-  partition_point_kernel<<<1,1>>>(v.begin(), v.end(), is_even<T>(), result.begin());
+  partition_point_kernel<<<1,1>>>(exec, v.begin(), v.end(), is_even<T>(), result.begin());
 
   ASSERT_EQUAL(ref - v.begin(), (iterator)result[0] - v.begin());
 }
+
+
+template<typename T>
+void TestPartitionPointDeviceSeq(const size_t n)
+{
+  TestPartitionPointDevice<T>(thrust::seq, n);
+}
 DECLARE_VARIABLE_UNITTEST(TestPartitionPointDeviceSeq);
+
+
+template<typename T>
+void TestPartitionPointDeviceDevice(const size_t n)
+{
+  TestPartitionPointDevice<T>(thrust::device, n);
+}
+DECLARE_VARIABLE_UNITTEST(TestPartitionPointDeviceDevice);
+
 
