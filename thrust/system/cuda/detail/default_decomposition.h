@@ -33,8 +33,11 @@ namespace cuda
 namespace detail
 {
 
-template <typename IndexType>
+
+template<typename IndexType>
+__host__ __device__
 thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n);
+
 
 } // end namespace detail
 } // end namespace cuda
