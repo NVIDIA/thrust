@@ -4,32 +4,32 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__
-void inclusive_scan_by_key_kernel(Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 result)
+void inclusive_scan_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 result)
 {
-  thrust::inclusive_scan_by_key(thrust::seq, keys_first, keys_last, values_first, result);
+  thrust::inclusive_scan_by_key(exec, keys_first, keys_last, values_first, result);
 }
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__
-void exclusive_scan_by_key_kernel(Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 result)
+void exclusive_scan_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 result)
 {
-  thrust::exclusive_scan_by_key(thrust::seq, keys_first, keys_last, values_first, result);
+  thrust::exclusive_scan_by_key(exec, keys_first, keys_last, values_first, result);
 }
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename T>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename T>
 __global__
-void exclusive_scan_by_key_kernel(Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 result, T init)
+void exclusive_scan_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 result, T init)
 {
-  thrust::exclusive_scan_by_key(thrust::seq, keys_first, keys_last, values_first, result, init);
+  thrust::exclusive_scan_by_key(exec, keys_first, keys_last, values_first, result, init);
 }
 
 
-template<typename T>
-void TestScanByKeyDeviceSeq(const size_t n)
+template<typename T, typename ExecutionPolicy>
+void TestScanByKeyDevice(ExecutionPolicy exec, const size_t n)
 {
   thrust::host_vector<int> h_keys(n);
   for(size_t i = 0, k = 0; i < n; i++)
@@ -53,29 +53,44 @@ void TestScanByKeyDeviceSeq(const size_t n)
   thrust::device_vector<T> d_output(n);
   
   thrust::inclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_output.begin());
-  inclusive_scan_by_key_kernel<<<1,1>>>(d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin());
+  inclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin());
   ASSERT_EQUAL(d_output, h_output);
   
   thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_output.begin());
-  exclusive_scan_by_key_kernel<<<1,1>>>(d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin());
+  exclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin());
   ASSERT_EQUAL(d_output, h_output);
   
   thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_output.begin(), (T) 11);
-  exclusive_scan_by_key_kernel<<<1,1>>>(d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin(), (T) 11);
+  exclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin(), (T) 11);
   ASSERT_EQUAL(d_output, h_output);
   
   // in-place scans
   h_output = h_vals;
   d_output = d_vals;
   thrust::inclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_output.begin(), h_output.begin());
-  inclusive_scan_by_key_kernel<<<1,1>>>(d_keys.begin(), d_keys.end(), d_output.begin(), d_output.begin());
+  inclusive_scan_by_key_kernel<<<1,1>>>(exec,d_keys.begin(), d_keys.end(), d_output.begin(), d_output.begin());
   ASSERT_EQUAL(d_output, h_output);
   
   h_output = h_vals;
   d_output = d_vals;
   thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_output.begin(), h_output.begin(), (T) 11);
-  exclusive_scan_by_key_kernel<<<1,1>>>(d_keys.begin(), d_keys.end(), d_output.begin(), d_output.begin(), (T) 11);
+  exclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_output.begin(), d_output.begin(), (T) 11);
   ASSERT_EQUAL(d_output, h_output);
 }
+
+
+template<typename T>
+void TestScanByKeyDeviceSeq(const size_t n)
+{
+  TestScanByKeyDevice<T>(thrust::seq, n);
+}
 DECLARE_VARIABLE_UNITTEST(TestScanByKeyDeviceSeq);
+
+
+template<typename T>
+void TestScanByKeyDeviceDevice(const size_t n)
+{
+  TestScanByKeyDevice<T>(thrust::device, n);
+}
+DECLARE_VARIABLE_UNITTEST(TestScanByKeyDeviceDevice);
 
