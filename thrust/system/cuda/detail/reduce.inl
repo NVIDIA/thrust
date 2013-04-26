@@ -32,6 +32,7 @@
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/detail/seq.h>
 
 namespace thrust
 {
@@ -41,9 +42,9 @@ namespace cuda
 {
 namespace detail
 {
-
 namespace reduce_detail
 {
+
 
 /*
  * Reduce a vector of n elements using binary_op()
@@ -58,12 +59,12 @@ namespace reduce_detail
  * Uses the same pattern as reduce6() in the CUDA SDK
  *
  */
-template <typename InputIterator,
-          typename Size,
-          typename T,
-          typename OutputIterator,
-          typename BinaryFunction,
-          typename Context>
+template<typename InputIterator,
+         typename Size,
+         typename T,
+         typename OutputIterator,
+         typename BinaryFunction,
+         typename Context>
 struct unordered_reduce_closure
 {
   InputIterator  input;
@@ -76,6 +77,7 @@ struct unordered_reduce_closure
   typedef Context context_type;
   context_type context;
 
+  __host__ __device__
   unordered_reduce_closure(InputIterator input, Size n, T init, OutputIterator output, BinaryFunction binary_op, unsigned int shared_array_size, Context context = Context())
     : input(input), n(n), init(init), output(output), binary_op(binary_op), shared_array_size(shared_array_size), context(context) {}
 
@@ -152,15 +154,17 @@ struct unordered_reduce_closure
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
+
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(execution_policy<DerivedPolicy> &exec,
-                    InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op)
+__host__ __device__
+OutputType reduce(execution_policy<DerivedPolicy> &exec,
+                  InputIterator first,
+                  InputIterator last,
+                  OutputType init,
+                  BinaryFunction binary_op)
 {
   // we're attempting to launch a kernel, assert we're compiling with nvcc
   // ========================================================================
@@ -196,7 +200,7 @@ template<typename DerivedPolicy,
   size_t smem_bytes; 
 
   // first level reduction
-  if (static_cast<size_t>(n) < threshold)
+  if(static_cast<size_t>(n) < threshold)
   {
     num_blocks = 1;
     block_size = thrust::min(static_cast<size_t>(n), static_cast<size_t>(attributes.maxThreadsPerBlock));
@@ -251,22 +255,46 @@ template<typename DerivedPolicy,
   return output[0];
 } // end reduce
 
+
 } // end reduce_detail
 
+
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+
 
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(execution_policy<DerivedPolicy> &exec,
-                    InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op)
+__host__ __device__
+OutputType reduce(execution_policy<DerivedPolicy> &exec,
+                  InputIterator first,
+                  InputIterator last,
+                  OutputType init,
+                  BinaryFunction binary_op)
 {
-  return reduce_detail::reduce(exec, first, last, init, binary_op);
+  struct workaround
+  {
+    __host__ __device__
+    static OutputType parallel_path(execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, OutputType init, BinaryFunction binary_op)
+    {
+      return reduce_detail::reduce(exec, first, last, init, binary_op);
+    }
+
+    __host__ __device__
+    static OutputType sequential_path(execution_policy<DerivedPolicy> &, InputIterator first, InputIterator last, OutputType init, BinaryFunction binary_op)
+    {
+      return thrust::reduce(thrust::seq, first, last, init, binary_op);
+    }
+  };
+
+#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
+  return workaround::parallel_path(exec, first, last, init, binary_op);
+#else
+  return workaround::sequential_path(exec, first, last, init, binary_op);
+#endif
 } // end reduce()
+
 
 } // end namespace detail
 } // end namespace cuda
