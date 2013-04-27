@@ -32,6 +32,7 @@
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
+
 namespace thrust
 {
 namespace system
@@ -41,12 +42,13 @@ namespace cuda
 namespace detail
 {
 
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename InputIterator3,
-          typename Decomposition,
-          typename OutputIterator,
-          typename Context>
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename Decomposition,
+         typename OutputIterator,
+         typename Context>
 struct copy_if_intervals_closure
 {
   InputIterator1 input;
@@ -58,6 +60,7 @@ struct copy_if_intervals_closure
   typedef Context context_type;
   context_type context;
   
+  __host__ __device__
   copy_if_intervals_closure(InputIterator1 input,
                             InputIterator2 stencil,
                             InputIterator3 offsets,
@@ -93,61 +96,65 @@ struct copy_if_intervals_closure
     stencil += base + context.thread_index();
 
     // advance output to this interval's starting position
-    if (context.block_index() != 0)
+    if(context.block_index() != 0)
     {
-        InputIterator3 temp = offsets + (context.block_index() - 1);
-        output += *temp;
+      InputIterator3 temp = offsets + (context.block_index() - 1);
+      output += *temp;
     }
 
     // process full blocks
     while(base + CTA_SIZE <= range.end())
     {
-        // read data
-        sdata[context.thread_index()] = predicate = *stencil;
+      // read data
+      sdata[context.thread_index()] = predicate = *stencil;
       
-        context.barrier();
+      context.barrier();
 
-        // scan block
-        block::inclusive_scan(context, sdata, binary_op);
-       
-        // write data
-        if (predicate)
-        {
-            OutputIterator temp2 = output + (sdata[context.thread_index()] - 1);
-            *temp2 = *input;
-        }
+      // scan block
+      block::inclusive_scan(context, sdata, binary_op);
+      
+      // write data
+      if(predicate)
+      {
+        OutputIterator temp2 = output + (sdata[context.thread_index()] - 1);
+        *temp2 = *input;
+      }
 
-        // advance inputs by CTA_SIZE
-        base    += CTA_SIZE;
-        input   += CTA_SIZE;
-        stencil += CTA_SIZE;
+      // advance inputs by CTA_SIZE
+      base    += CTA_SIZE;
+      input   += CTA_SIZE;
+      stencil += CTA_SIZE;
 
-        // advance output by number of true predicates
-        output += sdata[CTA_SIZE - 1];
+      // advance output by number of true predicates
+      output += sdata[CTA_SIZE - 1];
 
-        context.barrier();
+      context.barrier();
     }
 
     // process partially full block at end of input (if necessary)
-    if (base < range.end())
+    if(base < range.end())
     {
-        // read data
-        if (base + context.thread_index() < range.end())
-            sdata[context.thread_index()] = predicate = *stencil;
-        else
-            sdata[context.thread_index()] = predicate = 0;
-       
-        context.barrier();
+      // read data
+      if(base + context.thread_index() < range.end())
+      {
+        sdata[context.thread_index()] = predicate = *stencil;
+      }
+      else
+      {
+        sdata[context.thread_index()] = predicate = 0;
+      }
+      
+      context.barrier();
 
-        // scan block
-        block::inclusive_scan(context, sdata, binary_op);
-       
-        // write data
-        if (predicate) // expects predicate=false for >= interval_end
-        {
-            OutputIterator temp2 = output + (sdata[context.thread_index()] - 1);
-            *temp2 = *input;
-        }
+      // scan block
+      block::inclusive_scan(context, sdata, binary_op);
+      
+      // write data
+      if(predicate) // expects predicate=false for >= interval_end
+      {
+        OutputIterator temp2 = output + (sdata[context.thread_index()] - 1);
+        *temp2 = *input;
+      }
     }
   }
 }; // copy_if_intervals_closure
@@ -158,18 +165,21 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename Predicate>
-   OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
-                          InputIterator1 first,
-                          InputIterator1 last,
-                          InputIterator2 stencil,
-                          OutputIterator output,
-                          Predicate pred)
+__host__ __device__
+OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
+                       InputIterator1 first,
+                       InputIterator1 last,
+                       InputIterator2 stencil,
+                       OutputIterator output,
+                       Predicate pred)
 {
   typedef typename thrust::iterator_difference<InputIterator1>::type IndexType;
   typedef typename thrust::iterator_value<OutputIterator>::type      OutputType;
 
-  if (first == last)
-      return output;
+  if(first == last)
+  {
+    return output;
+  }
 
   typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
   typedef thrust::detail::temporary_array<IndexType, DerivedPolicy>          IndexArray;
