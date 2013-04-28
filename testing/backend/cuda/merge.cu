@@ -6,19 +6,20 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
 __global__
-void merge_kernel(Iterator1 first1, Iterator1 last1,
+void merge_kernel(ExecutionPolicy exec,
+                  Iterator1 first1, Iterator1 last1,
                   Iterator2 first2, Iterator2 last2,
                   Iterator3 result1,
                   Iterator4 result2)
 {
-  *result2 = thrust::merge(thrust::seq, first1, last1, first2, last2, result1);
+  *result2 = thrust::merge(exec, first1, last1, first2, last2, result1);
 }
 
 
-template<typename T>
-  void TestMergeDeviceSeq(size_t n)
+template<typename T, typename ExecutionPolicy>
+void TestMergeDevice(ExecutionPolicy exec, size_t n)
 {
   size_t sizes[]   = {0, 1, n / 2, n, n + 1, 2 * n};
   size_t num_sizes = sizeof(sizes) / sizeof(size_t);
@@ -51,7 +52,8 @@ template<typename T>
                           h_result.begin());
     h_result.resize(h_end - h_result.begin());
 
-    merge_kernel<<<1,1>>>(d_a.begin(), d_a.end(),
+    merge_kernel<<<1,1>>>(exec,
+                          d_a.begin(), d_a.end(),
                           d_b.begin(), d_b.begin() + size,
                           d_result.begin(),
                           d_end.begin());
@@ -60,5 +62,20 @@ template<typename T>
     ASSERT_EQUAL(h_result, d_result);
   }
 }
+
+
+template<typename T>
+void TestMergeDeviceSeq(const size_t n)
+{
+  TestMergeDevice<T>(thrust::seq, n);
+}
 DECLARE_VARIABLE_UNITTEST(TestMergeDeviceSeq);
+
+
+template<typename T>
+void TestMergeDeviceDevice(const size_t n)
+{
+  TestMergeDevice<T>(thrust::device, n);
+}
+DECLARE_VARIABLE_UNITTEST(TestMergeDeviceDevice);
 

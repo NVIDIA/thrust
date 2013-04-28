@@ -24,6 +24,7 @@
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/detail/util/blocking.h>
 
+
 namespace thrust
 {
 namespace system
@@ -208,6 +209,7 @@ template<typename RandomAccessIterator1, typename Size, typename RandomAccessIte
   Compare comp;
   Size work_per_thread;
 
+  __host__ __device__
   merge_n_closure(RandomAccessIterator1 first1, Size n1, RandomAccessIterator2 first2, Size n2, RandomAccessIterator3 result, Compare comp, Size work_per_thread)
     : first1(first1), n1(n1), first2(first2), n2(n2), result(result), comp(comp), work_per_thread(work_per_thread)
   {}
@@ -223,6 +225,7 @@ template<typename RandomAccessIterator1, typename Size, typename RandomAccessIte
 
 // returns (work_per_thread, threads_per_block, oversubscription_factor)
 template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
+__host__ __device__
   thrust::tuple<unsigned int,unsigned int,unsigned int>
     tunables(RandomAccessIterator1, RandomAccessIterator1, RandomAccessIterator2, RandomAccessIterator2, RandomAccessIterator3, Compare comp)
 {
@@ -244,6 +247,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
+__host__ __device__
 RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,
