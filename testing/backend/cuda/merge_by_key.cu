@@ -5,7 +5,8 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1,
+template<typename ExecutionPolicy,
+         typename Iterator1,
          typename Iterator2,
          typename Iterator3,
          typename Iterator4,
@@ -13,7 +14,8 @@ template<typename Iterator1,
          typename Iterator6,
          typename Iterator7>
 __global__
-void merge_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
+void merge_by_key_kernel(ExecutionPolicy exec,
+                         Iterator1 keys_first1, Iterator1 keys_last1,
                          Iterator2 keys_first2, Iterator2 keys_last2,
                          Iterator3 values_first1,
                          Iterator4 values_first2,
@@ -21,12 +23,12 @@ void merge_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
                          Iterator6 values_result,
                          Iterator7 result)
 {
-  *result = thrust::merge_by_key(thrust::seq, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  *result = thrust::merge_by_key(exec, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 }
 
 
-template<typename T>
-void TestMergeByKeyDeviceSeq(size_t n)
+template<typename T, typename ExecutionPolicy>
+void TestMergeByKeyDevice(ExecutionPolicy exec, size_t n)
 {
   thrust::host_vector<T> random_keys = unittest::random_integers<unittest::int8_t>(n);
   thrust::host_vector<T> random_vals = unittest::random_integers<unittest::int8_t>(n);
@@ -80,7 +82,8 @@ void TestMergeByKeyDeviceSeq(size_t n)
     h_result_keys.erase(h_end.first, h_result_keys.end());
     h_result_vals.erase(h_end.second, h_result_vals.end());
 
-    merge_by_key_kernel<<<1,1>>>(d_a_keys.begin(), d_a_keys.end(),
+    merge_by_key_kernel<<<1,1>>>(exec,
+                                 d_a_keys.begin(), d_a_keys.end(),
                                  d_b_keys.begin(), d_b_keys.end(),
                                  d_a_vals.begin(),
                                  d_b_vals.begin(),
@@ -97,5 +100,20 @@ void TestMergeByKeyDeviceSeq(size_t n)
     ASSERT_EQUAL(h_result_vals, d_result_vals);
   }
 }
+
+
+template<typename T>
+void TestMergeByKeyDeviceSeq(const size_t n)
+{
+  TestMergeByKeyDevice<T>(thrust::seq, n);
+}
 DECLARE_VARIABLE_UNITTEST(TestMergeByKeyDeviceSeq);
+
+
+template<typename T>
+void TestMergeByKeyDeviceDevice(const size_t n)
+{
+  TestMergeByKeyDevice<T>(thrust::device, n);
+}
+DECLARE_VARIABLE_UNITTEST(TestMergeByKeyDeviceDevice);
 
