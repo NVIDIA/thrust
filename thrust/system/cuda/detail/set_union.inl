@@ -131,6 +131,7 @@ template<typename ExecutionPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
+__host__ __device__
 RandomAccessIterator3 set_union(execution_policy<ExecutionPolicy> &exec,
                                 RandomAccessIterator1 first1,
                                 RandomAccessIterator1 last1,
