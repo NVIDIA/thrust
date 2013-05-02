@@ -164,25 +164,33 @@ struct PostprocessKeyFunctor<double> {
 //
 
 template <> struct KeyConversion<char> {
-	typedef unsigned char UnsignedBits;
+  typedef unsigned char UnsignedBits;
 };
 
 template <>
 struct PreprocessKeyFunctor<char> {
-	__device__ __host__ __forceinline__ void operator()(unsigned char &converted_key) {
-		const unsigned int SIGN_MASK = 1u << ((sizeof(char) * 8) - 1);
-		converted_key ^= SIGN_MASK;	
-	}
-	__device__ __host__ __forceinline__ static bool MustApply(){ return true;}
+  __device__ __host__ __forceinline__ void operator()(unsigned char &converted_key) {
+    // char is unsigned on some platforms, so we have to check
+    if(std::numeric_limits<char>::is_signed)
+    {
+      const unsigned int SIGN_MASK = 1u << ((sizeof(char) * 8) - 1);
+      converted_key ^= SIGN_MASK;	
+    }
+  }
+  __device__ __host__ __forceinline__ static bool MustApply(){ return std::numeric_limits<char>::is_signed;}
 };
 
 template <>
 struct PostprocessKeyFunctor<char> {
-	__device__ __host__ __forceinline__ void operator()(unsigned char &converted_key)  {
-		const unsigned int SIGN_MASK = 1u << ((sizeof(char) * 8) - 1);
-		converted_key ^= SIGN_MASK;	
+  __device__ __host__ __forceinline__ void operator()(unsigned char &converted_key)  {
+    // char is unsigned on some platforms, so we have to check
+    if(std::numeric_limits<char>::is_signed)
+    {
+      const unsigned int SIGN_MASK = 1u << ((sizeof(char) * 8) - 1);
+      converted_key ^= SIGN_MASK;	
     }
-	__device__ __host__ __forceinline__ static bool MustApply(){ return true;}
+  }
+  __device__ __host__ __forceinline__ static bool MustApply(){ return std::numeric_limits<char>::is_signed;}
 };
 
 
