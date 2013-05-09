@@ -50,7 +50,6 @@ struct impl
   static __device__
   void do_it(Iterator keys, Compare comp)
   {
-    #pragma unroll
     for(int j = 1 & i; j < n - 1; j += 2)
     {
       if(comp(keys[j + 1], keys[j]))
@@ -91,7 +90,6 @@ template<unsigned int bound_n, typename RandomAccessIterator1, typename Size, ty
 __device__
 void bounded_copy_n(RandomAccessIterator1 first, Size n, RandomAccessIterator2 result)
 {
-  #pragma unroll
   for(unsigned int i = 0; i < bound_n; ++i)
   {
     if(i < n)
@@ -115,9 +113,6 @@ void bounded_inplace_merge_adjacent_partitions(Context &ctx,
 {
   typedef typename thrust::iterator_value<Iterator>::type value_type;
 
-  // the end of the input
-  Iterator last = first + n;
-
   for(Size num_threads_per_merge = 2; num_threads_per_merge <= ctx.block_dimension(); num_threads_per_merge *= 2)
   {
     // find the index of the first array this thread will merge
@@ -129,19 +124,19 @@ void bounded_inplace_merge_adjacent_partitions(Context &ctx,
     Size input_size = work_per_thread * (num_threads_per_merge / 2);
 
     // find the limits of the partitions of the input this group of threads will merge
-    Iterator partition_first1 = thrust::min(last, first + input_start);
-    Iterator partition_first2 = thrust::min(last, partition_first1 + input_size); 
-    Iterator partition_last2  = thrust::min(last, partition_first2 + input_size);
+    Size partition_first1 = thrust::min<Size>(n, input_start);
+    Size partition_first2 = thrust::min<Size>(n, partition_first1 + input_size); 
+    Size partition_last2  = thrust::min<Size>(n, partition_first2 + input_size);
 
     Size n1 = partition_first2 - partition_first1;
     Size n2 = partition_last2  - partition_first2;
 
-    Size mp = merge_path(diag, partition_first1, n1, partition_first2, n2, comp);
+    Size mp = merge_path(diag, first + partition_first1, n1, first + partition_first2, n2, comp);
 
     // each thread merges sequentially locally
     value_type local_result[work_per_thread];
-    sequential_bounded_merge<work_per_thread>(partition_first1 + mp,        partition_first2,
-                                              partition_first2 + diag - mp, partition_last2,
+    sequential_bounded_merge<work_per_thread>(first + partition_first1 + mp,        first + partition_first2,
+                                              first + partition_first2 + diag - mp, first + partition_last2,
                                               local_result,
                                               comp);
 
@@ -183,7 +178,6 @@ void bounded_stable_sort(Context &ctx,
   {
     value_type max_key = local_keys[0];
 
-    #pragma unroll
     for(unsigned int i = 1; i < work_per_thread; ++i)
     {
       if(i < local_tile_size)
@@ -193,7 +187,6 @@ void bounded_stable_sort(Context &ctx,
     }
     
     // fill in the remainder with max_key
-    #pragma unroll
     for(unsigned int i = 0; i < work_per_thread; ++i)
     {
       if(i >= local_tile_size)
