@@ -39,8 +39,8 @@ template<typename DerivedPolicy, typename RandomAccessIterator>
     typedef thrust::detail::temporary_array<size_type, DerivedPolicy> array_type;
 
   public:
-    temporary_indirect_permutation(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last)
-      : m_exec(exec),
+    temporary_indirect_permutation(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last)
+      : m_exec(derived_cast(exec)),
         m_src_first(first),
         m_src_last(last),
         m_permutation(0, m_exec, last - first)
@@ -79,8 +79,8 @@ template<typename DerivedPolicy, typename RandomAccessIterator>
 template<typename DerivedPolicy, typename RandomAccessIterator>
   struct iterator_range_with_execution_policy
 {
-  iterator_range_with_execution_policy(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last)
-    : m_exec(exec), m_first(first), m_last(last)
+  iterator_range_with_execution_policy(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last)
+    : m_exec(derived_cast(exec)), m_first(first), m_last(last)
   {}
 
   typedef RandomAccessIterator iterator;
@@ -119,7 +119,7 @@ template<typename Condition, typename DerivedPolicy, typename RandomAccessIterat
     thrust::detail::identity_<iterator_range_with_execution_policy<DerivedPolicy, RandomAccessIterator> >
   >::type super_t;
 
-  conditional_temporary_indirect_permutation(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last)
+  conditional_temporary_indirect_permutation(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last)
     : super_t(exec, first, last)
   {}
 };
@@ -133,7 +133,7 @@ template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare
     typedef temporary_indirect_permutation<DerivedPolicy,RandomAccessIterator> super_t;
 
   public:
-    temporary_indirect_ordering(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
+    temporary_indirect_ordering(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
       : super_t(exec, first, last),
         m_comp(first, comp)
     {}
@@ -175,7 +175,7 @@ template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare
 {
   typedef iterator_range_with_execution_policy<DerivedPolicy, RandomAccessIterator> super_t;
 
-  iterator_range_with_execution_policy_and_compare(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
+  iterator_range_with_execution_policy_and_compare(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
     : super_t(exec, first, last), m_comp(comp)
   {}
 
@@ -204,7 +204,7 @@ template<typename Condition, typename DerivedPolicy, typename RandomAccessIterat
     thrust::detail::identity_<iterator_range_with_execution_policy_and_compare<DerivedPolicy, RandomAccessIterator, Compare> >
   >::type super_t;
 
-  conditional_temporary_indirect_ordering(DerivedPolicy &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
+  conditional_temporary_indirect_ordering(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
     : super_t(exec, first, last, comp)
   {}
 };

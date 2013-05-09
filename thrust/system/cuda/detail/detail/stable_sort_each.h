@@ -31,16 +31,16 @@ namespace detail
 {
 
 
-template<unsigned int count,
+template<unsigned int block_size,
+         unsigned int work_per_thread,
          typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
-void stable_sort_by_count(execution_policy<DerivedPolicy> &exec,
-                          RandomAccessIterator1 keys_first,
-                          RandomAccessIterator1 keys_last,
-                          RandomAccessIterator2 values_first,
-                          Compare comp);
+void stable_sort_each_copy(execution_policy<DerivedPolicy> &exec,
+                           RandomAccessIterator1 first, RandomAccessIterator1 last,
+                           RandomAccessIterator2 result,
+                           Compare comp);
 
 
 } // end detail
@@ -49,5 +49,5 @@ void stable_sort_by_count(execution_policy<DerivedPolicy> &exec,
 } // end system
 } // end thrust
 
-#include <thrust/system/cuda/detail/detail/stable_sort_by_count.inl>
+#include <thrust/system/cuda/detail/detail/stable_sort_each.inl>
 

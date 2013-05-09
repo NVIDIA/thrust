@@ -26,7 +26,6 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
-#include <thrust/system/cuda/detail/temporary_indirect_permutation.h>
 #include <thrust/detail/trivial_sequence.h>
 
 
@@ -140,16 +139,7 @@ template<typename DerivedPolicy,
                 RandomAccessIterator last,
                 StrictWeakOrdering comp)
 {
-  // decide whether to sort keys indirectly
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type KeyType;
-  typedef thrust::detail::integral_constant<bool, (sizeof(KeyType) > 8)> use_key_indirection;
-  
-  conditional_temporary_indirect_ordering<use_key_indirection, DerivedPolicy, RandomAccessIterator, StrictWeakOrdering> potentially_indirect_keys(derived_cast(exec), first, last, comp);
-  
-  thrust::system::cuda::detail::detail::stable_merge_sort(exec,
-                                                          potentially_indirect_keys.begin(),
-                                                          potentially_indirect_keys.end(),
-                                                          potentially_indirect_keys.comp());
+  thrust::system::cuda::detail::detail::stable_merge_sort(exec, first, last, comp);
 }
 
 template<typename DerivedPolicy,
@@ -172,7 +162,7 @@ template<typename DerivedPolicy,
   const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
   
   // note, we also have to reverse the (unordered) input to preserve stability
-  if (reverse)
+  if(reverse)
   {
     thrust::reverse(exec, keys_first,  keys_last);
     thrust::reverse(exec, values_first, values_first + (keys_last - keys_first));
@@ -186,11 +176,16 @@ template<typename DerivedPolicy,
   
   // copy results back, if necessary
   if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
-      thrust::copy(exec, keys.begin(), keys.end(), keys_first);
+  {
+    thrust::copy(exec, keys.begin(), keys.end(), keys_first);
+  }
+
   if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
-      thrust::copy(exec, values.begin(), values.end(), values_first);
+  {
+    thrust::copy(exec, values.begin(), values.end(), values_first);
+  }
   
-  if (reverse)
+  if(reverse)
   {
     thrust::reverse(exec, keys_first,  keys_last);
     thrust::reverse(exec, values_first, values_first + (keys_last - keys_first));
@@ -209,31 +204,7 @@ template<typename DerivedPolicy,
                        RandomAccessIterator2 values_first,
                        StrictWeakOrdering comp)
 {
-  // decide whether to apply indirection to either range
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type KeyType;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type ValueType;
-  
-  typedef thrust::detail::integral_constant<bool, (sizeof(KeyType) > 8)> use_key_indirection;
-  typedef thrust::detail::integral_constant<bool, (sizeof(ValueType) > 4)> use_value_indirection;
-  
-  conditional_temporary_indirect_ordering<
-    use_key_indirection,
-    DerivedPolicy,
-    RandomAccessIterator1,
-    StrictWeakOrdering
-  > potentially_indirect_keys(derived_cast(exec), keys_first, keys_last, comp);
-  
-  conditional_temporary_indirect_permutation<
-    use_value_indirection,
-    DerivedPolicy,
-    RandomAccessIterator2
-  > potentially_indirect_values(derived_cast(exec), values_first, values_first + (keys_last - keys_first));
-  
-  thrust::system::cuda::detail::detail::stable_merge_sort_by_key(exec,
-                                                                 potentially_indirect_keys.begin(),
-                                                                 potentially_indirect_keys.end(),
-                                                                 potentially_indirect_values.begin(),
-                                                                 potentially_indirect_keys.comp());
+  thrust::system::cuda::detail::detail::stable_merge_sort_by_key(exec, keys_first, keys_last, values_first, comp);
 }
 
 
