@@ -42,7 +42,6 @@ void sequential_bounded_merge(Iterator1 first1, Iterator1 last1,
   typename thrust::iterator_value<Iterator1>::type aKey = *first1;
   typename thrust::iterator_value<Iterator2>::type bKey = *first2;
   
-  #pragma unroll
   for(int i = 0; i < result_size_bound; ++i, ++result)
   {
     bool p = (first2 >= last2) || ((first1 < last1) && !comp(bKey, aKey));
