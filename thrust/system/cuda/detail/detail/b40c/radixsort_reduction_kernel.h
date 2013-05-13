@@ -199,7 +199,7 @@ struct LoadOp<K, RADIX_DIGITS, SCAN_LANES, BIT, PreprocessFunctor, 8>
 			keys[2] = d_in_keys[offset + (B40C_RADIXSORT_THREADS * 2) + threadIdx.x];
 			keys[3] = d_in_keys[offset + (B40C_RADIXSORT_THREADS * 3) + threadIdx.x];
 
-			if (B40C_FERMI(__CUDA_ARCH__)) __syncthreads();
+			if (B40C_FERMI(B40C_CUDA_ARCH)) __syncthreads();
 			
 			keys[4] = d_in_keys[offset + (B40C_RADIXSORT_THREADS * 4) + threadIdx.x];
 			keys[5] = d_in_keys[offset + (B40C_RADIXSORT_THREADS * 5) + threadIdx.x];
@@ -332,7 +332,7 @@ __device__ __forceinline__ int ProcessLoads(
  ******************************************************************************/
 
 template <typename K, typename V, int PASS, int RADIX_BITS, int BIT, typename PreprocessFunctor>
-__launch_bounds__ (B40C_RADIXSORT_THREADS, B40C_RADIXSORT_REDUCE_CTA_OCCUPANCY(__CUDA_ARCH__))
+__launch_bounds__ (B40C_RADIXSORT_THREADS, B40C_RADIXSORT_REDUCE_CTA_OCCUPANCY(B40C_CUDA_ARCH))
 __global__ 
 void RakingReduction(
 	bool *d_from_alt_storage,
@@ -366,7 +366,7 @@ void RakingReduction(
 		offset = work_decomposition.big_block_elements * blockIdx.x;
 		block_elements = work_decomposition.big_block_elements;
 	} else {
-		offset = (work_decomposition.normal_block_elements * blockIdx.x) + (work_decomposition.num_big_blocks * B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V));
+		offset = (work_decomposition.normal_block_elements * blockIdx.x) + (work_decomposition.num_big_blocks * B40C_RADIXSORT_CYCLE_ELEMENTS(B40C_CUDA_ARCH, K, V));
 		block_elements = work_decomposition.normal_block_elements;
 	}
 	
@@ -394,7 +394,7 @@ void RakingReduction(
 	// Cleanup if we're the last block  
 	if ((blockIdx.x == gridDim.x - 1) && (work_decomposition.extra_elements_last_block)) {
 
-		const int LOADS_PER_CYCLE = B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) / B40C_RADIXSORT_THREADS;
+		const int LOADS_PER_CYCLE = B40C_RADIXSORT_CYCLE_ELEMENTS(B40C_CUDA_ARCH, K, V) / B40C_RADIXSORT_THREADS;
 		
 		// If extra guarded loads may cause overflow, reduce now and reset counters
 		if (unreduced_loads + LOADS_PER_CYCLE > 255) {

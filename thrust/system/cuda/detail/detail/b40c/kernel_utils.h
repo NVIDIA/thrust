@@ -43,7 +43,9 @@ namespace b40c_thrust   {
 
 
 #ifndef __CUDA_ARCH__
-	#define __CUDA_ARCH__ 0
+#define B40C_CUDA_ARCH 0
+#else
+#define B40C_CUDA_ARCH __CUDA_ARCH__
 #endif
 
 #define B40C_FERMI(version)								(version >= 200)
