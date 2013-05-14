@@ -116,7 +116,7 @@ void bounded_inplace_merge_adjacent_partitions(Context &ctx,
   {
     // find the index of the first array this thread will merge
     Size list = ~(num_threads_per_merge - 1) & ctx.thread_index();
-    Size diag = min(n, work_per_thread * ((num_threads_per_merge - 1) & ctx.thread_index()));
+    Size diag = thrust::min<Size>(n, work_per_thread * ((num_threads_per_merge - 1) & ctx.thread_index()));
     Size input_start = work_per_thread * list;
 
     // the size of each of the two input arrays we're merging
@@ -142,7 +142,7 @@ void bounded_inplace_merge_adjacent_partitions(Context &ctx,
     ctx.barrier();
 
     // compute the size of the local result to account for the final, partial tile
-    Size local_result_size = min(work_per_thread, n - (ctx.thread_index() * work_per_thread));
+    Size local_result_size = thrust::min<Size>(work_per_thread, n - (ctx.thread_index() * work_per_thread));
 
     // store local results
     bounded_copy_n<work_per_thread>(local_result, local_result_size, first + ctx.thread_index() * work_per_thread);

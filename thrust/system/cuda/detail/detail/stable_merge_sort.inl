@@ -135,9 +135,9 @@ thrust::tuple<int,int,int,int> find_mergesort_interval(int partition_first1, int
   // Locate diag from the start of the A sublist.
   int diag = num_elements_per_block * block_idx - partition_first1;
   int start1 = partition_first1 + mp;
-  int end1 = min(n, partition_first1 + right_mp);
-  int start2 = min(n, partition_first2 + diag - mp);
-  int end2 = min(n, partition_first2 + diag + num_elements_per_block - right_mp);
+  int end1 = thrust::min<int>(n, partition_first1 + right_mp);
+  int start2 = thrust::min<int>(n, partition_first2 + diag - mp);
+  int end2 = thrust::min<int>(n, partition_first2 + diag + num_elements_per_block - right_mp);
   
   // The end partition of the last block for each merge operation is computed
   // and stored as the begin partition for the subsequent merge. i.e. it is
@@ -146,8 +146,8 @@ thrust::tuple<int,int,int,int> find_mergesort_interval(int partition_first1, int
   // in this merge operation.
   if(num_blocks_per_merge - 1 == ((num_blocks_per_merge - 1) & block_idx))
   {
-    end1 = min(n, partition_first1 + partition_size);
-    end2 = min(n, partition_first2 + partition_size);
+    end1 = thrust::min<int>(n, partition_first1 + partition_size);
+    end2 = thrust::min<int>(n, partition_first2 + partition_size);
   }
 
   return thrust::make_tuple(start1, end1, start2, end2);
@@ -284,7 +284,7 @@ struct locate_merge_path
 
     // find pointers to the two input arrays
     Size start1 = num_elements_per_block * first_block_in_partition;
-    Size start2 = thrust::min(haystack_size, start1 + size);
+    Size start2 = thrust::min<Size>(haystack_size, start1 + size);
 
     // the size of each input array
     // note we clamp to the end of the total input to handle the last partial list
@@ -292,7 +292,7 @@ struct locate_merge_path
     Size n2 = thrust::min<Size>(size, haystack_size - start2);
     
     // note that diag is computed as an offset from the beginning of the first list
-    Size diag = thrust::min(n1 + n2, num_elements_per_block * merge_path_idx - start1);
+    Size diag = thrust::min<Size>(n1 + n2, num_elements_per_block * merge_path_idx - start1);
 
     return merge_path(diag, haystack_first + start1, n1, haystack_first + start2, n2, comp);
   }
