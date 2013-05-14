@@ -31,13 +31,15 @@ namespace detail
 {
 
 
-template<unsigned int block_size,
-         unsigned int work_per_thread,
+template<unsigned int work_per_thread,
          typename DerivedPolicy,
+         typename Context,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename Compare>
 void stable_sort_each_copy(execution_policy<DerivedPolicy> &exec,
+                           Context context,
+                           unsigned int block_size,
                            RandomAccessIterator1 first, RandomAccessIterator1 last,
                            RandomAccessIterator2 result,
                            Compare comp);

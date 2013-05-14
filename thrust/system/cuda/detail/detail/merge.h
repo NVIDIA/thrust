@@ -39,10 +39,29 @@ void sequential_bounded_merge(Iterator1 first1, Iterator1 last1,
                               Iterator3 result,
                               Compare comp)
 { 
+  // XXX nvcc generates the wrong code for the path below for sm_1x
+  //     so use this (slower) but equivalent implementation which does not prefetch
+#if __CUDA_ARCH__ < 200
+  for(unsigned int i = 0; i < result_size_bound; ++i, ++result)
+  {
+    bool p = (first2 >= last2) || ((first1 < last1) && !comp(*first2, *first1));
+    
+    *result = p ? *first1 : *first2;
+    
+    if(p)
+    {
+      ++first1;
+    }
+    else
+    {
+      ++first2;
+    }
+  }
+#else
   typename thrust::iterator_value<Iterator1>::type aKey = *first1;
   typename thrust::iterator_value<Iterator2>::type bKey = *first2;
   
-  for(int i = 0; i < result_size_bound; ++i, ++result)
+  for(unsigned int i = 0; i < result_size_bound; ++i, ++result)
   {
     bool p = (first2 >= last2) || ((first1 < last1) && !comp(bKey, aKey));
     
@@ -59,6 +78,7 @@ void sequential_bounded_merge(Iterator1 first1, Iterator1 last1,
       bKey = *first2;
     }
   }
+#endif
 }
 
 

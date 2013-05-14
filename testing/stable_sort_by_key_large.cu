@@ -106,7 +106,7 @@ void TestStableSortByKeyWithLargeValues(void)
     _TestStableSortByKeyWithLargeValues<int,  512>();
     _TestStableSortByKeyWithLargeValues<int, 1024>();
     _TestStableSortByKeyWithLargeValues<int, 2048>();
-    _TestStableSortByKeyWithLargeValues<int, 4096>();
+    //_TestStableSortByKeyWithLargeValues<int, 4096>();
     //_TestStableSortByKeyWithLargeValues<int, 8192>();
 }
 DECLARE_UNITTEST(TestStableSortByKeyWithLargeValues);
@@ -150,7 +150,7 @@ void TestStableSortByKeyWithLargeKeysAndValues(void)
     _TestStableSortByKeyWithLargeKeysAndValues<int,  512>();
     _TestStableSortByKeyWithLargeKeysAndValues<int, 1024>();
     _TestStableSortByKeyWithLargeKeysAndValues<int, 2048>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int, 4096>();
+    //_TestStableSortByKeyWithLargeKeysAndValues<int, 4096>();
     //_TestStableSortByKeyWithLargeKeysAndValues<int, 8192>();
 }
 DECLARE_UNITTEST(TestStableSortByKeyWithLargeKeysAndValues);
