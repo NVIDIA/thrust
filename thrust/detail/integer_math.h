@@ -32,16 +32,18 @@ Integer clz(Integer x)
 {
   // XXX optimize by lowering to intrinsics
   
-  Integer num_non_sign_bits = std::numeric_limits<Integer>::digits;
-  for(int i = num_non_sign_bits; i >= 0; --i)
+  int num_bits = 8 * sizeof(Integer);
+  int num_bits_minus_one = num_bits - 1;
+
+  for(int i = num_bits_minus_one; i >= 0; --i)
   {
-    if((1 << i) & x)
+    if((Integer(1) << i) & x)
     {
-      return num_non_sign_bits - i;
+      return num_bits_minus_one - i;
     }
   }
 
-  return num_non_sign_bits + 1;
+  return num_bits;
 }
 
 
@@ -57,7 +59,10 @@ template<typename Integer>
 __host__ __device__ __thrust_forceinline__
 Integer log2(Integer x)
 {
-  return std::numeric_limits<Integer>::digits - clz(x);
+  Integer num_bits = 8 * sizeof(Integer);
+  Integer num_bits_minus_one = num_bits - 1;
+
+  return num_bits_minus_one - clz(x);
 }
 
 
