@@ -255,6 +255,33 @@ void merge_adjacent_partitions(thrust::system::cuda::execution_policy<DerivedPol
 }
 
 
+template<unsigned int work_per_thread,
+         typename DerivedPolicy,
+         typename Context,
+         typename Size,
+         typename Iterator1,
+         typename Iterator2,
+         typename Iterator3,
+         typename Compare>
+unsigned int cuda_arch()
+{
+  // XXX this function is a hack because we are not guaranteed that the cuda_arch
+  //     of the merge_adjacent_partitions_closure will match the cuda_arch of the
+  //     stable_sort_each_closure
+  typedef merge_adjacent_partitions_closure<
+    work_per_thread,
+    Context,
+    Size,
+    Iterator1,
+    Iterator2,
+    Iterator3,
+    Compare
+  > closure_type;
+
+  return 10 * closure_attributes<closure_type>().ptxVersion;
+}
+
+
 template<typename Iterator, typename Size, typename Compare>
 struct locate_merge_path
 {
@@ -323,11 +350,37 @@ void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type T;
 
-  const Size block_size = 256;
-
-  statically_blocked_thread_array<block_size> context;
-
   const Size work_per_thread = (sizeof(T) < 8) ?  11 : 7;
+
+  const Size default_block_size = 256;
+  const Size tesla_block_size = 128;
+
+  // XXX WAR bogus unused variable warnings
+  (void) default_block_size;
+  (void) tesla_block_size;
+
+  typedef multiarch_statically_blocked_thread_array<
+    default_block_size,
+    100, tesla_block_size,
+    110, tesla_block_size,
+    120, tesla_block_size,
+    130, tesla_block_size
+  > context_type;
+
+  const unsigned int arch = cuda_arch<
+    work_per_thread,
+    DerivedPolicy,
+    context_type,
+    Size,
+    RandomAccessIterator,
+    typename thrust::detail::temporary_array<Size,DerivedPolicy>::iterator,
+    typename thrust::detail::temporary_array<T,DerivedPolicy>::iterator,
+    Compare
+  >();
+
+  context_type context;
+
+  const Size block_size = context.block_dimension(arch);
 
   const Size work_per_block = block_size * work_per_thread;
 
