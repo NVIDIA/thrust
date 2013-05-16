@@ -21,6 +21,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
+#include <thrust/system/cuda/detail/detail/virtualized_smem_closure.h>
 #include <thrust/system/cuda/detail/merge.h>
 #include <thrust/detail/copy.h>
 #include <thrust/tabulate.h>
@@ -33,7 +34,6 @@
 #include <thrust/detail/internal_functional.h>
 #include <thrust/system/cuda/detail/temporary_indirect_permutation.h>
 #include <thrust/system/cuda/detail/runtime_introspection.h>
-#include <thrust/system/cuda/detail/detail/multiarch_statically_blocked_thread_array.h>
 #include <limits>
 
 
@@ -97,29 +97,26 @@ template<unsigned int work_per_thread,
          typename Iterator1, typename Size1,
          typename Iterator2, typename Size2,
          typename Iterator3,
+         typename Iterator4,
 	 typename Compare>
 __device__
 void staged_bounded_merge(Context &ctx,
                           Iterator1 first1, Size1 n1,
                           Iterator2 first2, Size2 n2,
-                          Iterator3 result,
+                          Iterator3 staging_buffer,
+                          Iterator4 result,
                           Compare comp)
 {
-  typedef typename thrust::iterator_value<Iterator3>::type value_type;
-
-  // the size of this array is block_size * (work_per_thread + 1)
-  value_type *s_keys = thrust::system::cuda::detail::extern_shared_ptr<value_type>();
-
-  // stage the input through shared memory.
-  cuda::detail::block::async_copy_n_global_to_shared<work_per_thread>(ctx, first1, n1, s_keys);
-  cuda::detail::block::async_copy_n_global_to_shared<work_per_thread>(ctx, first2, n2, s_keys + n1);
+  // stage the input through the buffer
+  cuda::detail::block::async_copy_n_global_to_shared<work_per_thread>(ctx, first1, n1, staging_buffer);
+  cuda::detail::block::async_copy_n_global_to_shared<work_per_thread>(ctx, first2, n2, staging_buffer + n1);
   ctx.barrier();
 
   // cooperatively merge in place
-  block::bounded_inplace_merge<work_per_thread>(ctx, s_keys, n1, n2, comp);
+  block::bounded_inplace_merge<work_per_thread>(ctx, staging_buffer, n1, n2, comp);
   
-  // store result in smem to result
-  cuda::detail::block::copy_n(ctx, s_keys, n1 + n2, result);
+  // store result in buffer to result
+  cuda::detail::block::copy_n(ctx, staging_buffer, n1 + n2, result);
 }
 
 
@@ -195,8 +192,9 @@ struct merge_adjacent_partitions_closure
   {}
 
 
+  template<typename RandomAccessIterator>
   __thrust_forceinline__ __device__
-  void operator()()
+  void operator()(RandomAccessIterator staging_buffer)
   {
     context_type ctx;
 
@@ -205,13 +203,27 @@ struct merge_adjacent_partitions_closure
     Size start1 = 0, end1 = 0, start2 = 0, end2 = 0;
 
     thrust::tie(start1,end1,start2,end2) =
-      locate_merge_partitions(n, ctx.block_index(), num_blocks_per_merge, work_per_block, merge_paths[ctx.block_index()], merge_paths[ctx.block_index() + 1]);
-    
+      locate_merge_partitions(n, blockIdx.x, num_blocks_per_merge, work_per_block, merge_paths[ctx.block_index()], merge_paths[ctx.block_index() + 1]);
+
     block::staged_bounded_merge<work_per_thread>(ctx,
                                                  first + start1, end1 - start1,
                                                  first + start2, end2 - start2,
-                                                 result + ctx.block_index() * work_per_block,
+                                                 staging_buffer,
+                                                 result + blockIdx.x * work_per_block,
                                                  comp);
+  }
+
+
+  __thrust_forceinline__ __device__
+  void operator()()
+  {
+    typedef typename thrust::iterator_value<Iterator1>::type value_type;
+
+    // stage this operation through smem
+    // the size of this array is block_size * (work_per_thread + 1)
+    value_type *s_keys = thrust::system::cuda::detail::extern_shared_ptr<value_type>();
+    
+    this->operator()(s_keys);
   }
 };
 
@@ -222,6 +234,7 @@ template<unsigned int work_per_thread,
          typename Size,
          typename Iterator1,
          typename Iterator2,
+         typename Pointer,
          typename Iterator3,
          typename Compare>
 void merge_adjacent_partitions(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
@@ -231,6 +244,7 @@ void merge_adjacent_partitions(thrust::system::cuda::execution_policy<DerivedPol
                                Iterator1 first,
                                Size n,
                                Iterator2 merge_paths,
+                               Pointer virtual_smem,
                                Iterator3 result,
                                Compare comp)
 {
@@ -249,36 +263,22 @@ void merge_adjacent_partitions(thrust::system::cuda::execution_policy<DerivedPol
   Size num_blocks = thrust::detail::util::divide_ri(n, block_size * work_per_thread);
 
   typedef typename thrust::iterator_value<Iterator1>::type value_type;
-  Size num_smem_bytes = block_size * (work_per_thread + 1) * sizeof(value_type);
 
-  thrust::system::cuda::detail::detail::launch_closure(closure, num_blocks, block_size, num_smem_bytes);
-}
+  const size_t num_smem_elements_per_block = block_size * (work_per_thread + 1);
 
+  // XXX this virtualizing code can probably be generalized and moved elsewhere
+  if(virtual_smem)
+  {
+    virtualized_smem_closure<closure_type, Pointer> virtualized_closure(closure, num_smem_elements_per_block, virtual_smem);
 
-template<unsigned int work_per_thread,
-         typename DerivedPolicy,
-         typename Context,
-         typename Size,
-         typename Iterator1,
-         typename Iterator2,
-         typename Iterator3,
-         typename Compare>
-unsigned int cuda_arch()
-{
-  // XXX this function is a hack because we are not guaranteed that the cuda_arch
-  //     of the merge_adjacent_partitions_closure will match the cuda_arch of the
-  //     stable_sort_each_closure
-  typedef merge_adjacent_partitions_closure<
-    work_per_thread,
-    Context,
-    Size,
-    Iterator1,
-    Iterator2,
-    Iterator3,
-    Compare
-  > closure_type;
+    thrust::system::cuda::detail::detail::launch_closure(virtualized_closure, num_blocks, block_size);
+  }
+  else
+  {
+    const size_t num_smem_bytes = num_smem_elements_per_block * sizeof(value_type);
 
-  return 10 * closure_attributes<closure_type>().ptxVersion;
+    thrust::system::cuda::detail::detail::launch_closure(closure, num_blocks, block_size, num_smem_bytes);
+  }
 }
 
 
@@ -342,6 +342,24 @@ void locate_merge_paths(thrust::system::cuda::execution_policy<DerivedPolicy> &e
 }
 
 
+template<typename T>
+bool virtualize_smem(size_t num_elements_per_block)
+{
+  size_t num_smem_bytes_required = num_elements_per_block * sizeof(T);
+
+  thrust::system::cuda::detail::device_properties_t props = thrust::system::cuda::detail::device_properties();
+
+  size_t num_smem_bytes_available = props.sharedMemPerBlock;
+  if(props.major == 1)
+  {
+    // pay the kernel parameters tax on Tesla
+    num_smem_bytes_available -= 256;
+  }
+
+  return num_smem_bytes_required > num_smem_bytes_available;
+}
+
+
 template<typename DerivedPolicy, typename RandomAccessIterator, typename Size, typename Compare>
 void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                          RandomAccessIterator first,
@@ -350,56 +368,36 @@ void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &
 {
   typedef typename thrust::iterator_value<RandomAccessIterator>::type T;
 
-  const Size work_per_thread = (sizeof(T) < 8) ?  11 : 7;
+  const Size block_size = 256;
 
-  const Size default_block_size = 256;
-  const Size tesla_block_size = 128;
-
-  // XXX WAR bogus unused variable warnings
-  (void) default_block_size;
-  (void) tesla_block_size;
-
-  typedef multiarch_statically_blocked_thread_array<
-    default_block_size,
-    100, tesla_block_size,
-    110, tesla_block_size,
-    120, tesla_block_size,
-    130, tesla_block_size
-  > context_type;
-
-  const unsigned int arch = cuda_arch<
-    work_per_thread,
-    DerivedPolicy,
-    context_type,
-    Size,
-    RandomAccessIterator,
-    typename thrust::detail::temporary_array<Size,DerivedPolicy>::iterator,
-    typename thrust::detail::temporary_array<T,DerivedPolicy>::iterator,
-    Compare
-  >();
+  typedef thrust::system::cuda::detail::detail::statically_blocked_thread_array<block_size> context_type;
 
   context_type context;
 
-  const Size block_size = context.block_dimension(arch);
-
+  const Size work_per_thread = (sizeof(T) < 8) ?  11 : 7;
   const Size work_per_block = block_size * work_per_thread;
 
   Size num_blocks = thrust::detail::util::divide_ri(n, work_per_block);
-  Size num_passes = thrust::detail::log2_ri(num_blocks);
 
-  thrust::detail::temporary_array<T,DerivedPolicy> pong_buffer(exec, n);
+  const unsigned int num_smem_elements_per_block = block_size * (work_per_thread + 1);
+
+  thrust::detail::temporary_array<T,DerivedPolicy> virtual_smem(exec, virtualize_smem<T>(num_smem_elements_per_block) ? (num_blocks * num_smem_elements_per_block) : 0);
   
   // depending on the number of passes
   // we'll either do the initial segmented sort inplace or not
   // ping being true means the latest data is in the source array
   bool ping = false;
+  thrust::detail::temporary_array<T,DerivedPolicy> pong_buffer(exec, n);
+
+  Size num_passes = thrust::detail::log2_ri(num_blocks);
+
   if(thrust::detail::is_odd(num_passes))
   {
-    stable_sort_each_copy<work_per_thread>(exec, context, block_size, first, first + n, pong_buffer.begin(), comp);
+    stable_sort_each_copy<work_per_thread>(exec, context, block_size, first, first + n, thrust::raw_pointer_cast(&*virtual_smem.begin()), pong_buffer.begin(), comp);
   }
   else
   {
-    stable_sort_each_copy<work_per_thread>(exec, context, block_size, first, first + n, first, comp);
+    stable_sort_each_copy<work_per_thread>(exec, context, block_size, first, first + n, thrust::raw_pointer_cast(&*virtual_smem.begin()), first, comp);
     ping = true;
   }
 
@@ -413,13 +411,13 @@ void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &
     {
       locate_merge_paths(exec, merge_paths.begin(), merge_paths.size(), first, n, work_per_block, num_blocks_per_merge, comp);
 
-      merge_adjacent_partitions<work_per_thread>(exec, context, block_size, num_blocks_per_merge, first, n, merge_paths.begin(), pong_buffer.begin(), comp);
+      merge_adjacent_partitions<work_per_thread>(exec, context, block_size, num_blocks_per_merge, first, n, merge_paths.begin(), thrust::raw_pointer_cast(&*virtual_smem.begin()), pong_buffer.begin(), comp);
     }
     else
     {
       locate_merge_paths(exec, merge_paths.begin(), merge_paths.size(), pong_buffer.begin(), n, work_per_block, num_blocks_per_merge, comp);
 
-      merge_adjacent_partitions<work_per_thread>(exec, context, block_size, num_blocks_per_merge, pong_buffer.begin(), n, merge_paths.begin(), first, comp);
+      merge_adjacent_partitions<work_per_thread>(exec, context, block_size, num_blocks_per_merge, pong_buffer.begin(), n, merge_paths.begin(), thrust::raw_pointer_cast(&*virtual_smem.begin()), first, comp);
     }
   }
 }

@@ -24,6 +24,7 @@
 #include <thrust/detail/integer_math.h>
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/system/cuda/detail/detail/virtualized_smem_closure.h>
 
 
 namespace thrust
@@ -235,29 +236,37 @@ struct stable_sort_each_copy_closure
   {}
 
 
-  __device__ __forceinline__
-  void operator()()
+  template<typename RandomAccessIterator>
+  __device__ __thrust_forceinline__
+  void operator()(RandomAccessIterator staging_buffer)
   {
-    typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
-
     context_type ctx;
 
     unsigned int work_per_block = ctx.block_dimension() * work_per_thread;
     unsigned int offset = work_per_block * ctx.block_index();
     unsigned int tile_size = thrust::min<unsigned int>(work_per_block, n - offset);
+    
+    // load input tile into buffer
+    thrust::system::cuda::detail::block::copy_n_global_to_shared<work_per_thread>(ctx, first + offset, tile_size, staging_buffer);
+
+    // sort input in buffer
+    block::bounded_stable_sort<work_per_thread>(ctx, staging_buffer, tile_size, comp);
+    
+    // store result to gmem
+    thrust::system::cuda::detail::block::copy_n(ctx, staging_buffer, tile_size, result + offset);
+  }
+
+
+  __device__ __thrust_forceinline__
+  void operator()()
+  {
+    typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
 
     // stage this operation through smem
     // the size of this array is block_size * (work_per_thread + 1)
     value_type *s_keys = thrust::system::cuda::detail::extern_shared_ptr<value_type>();
     
-    // load input tile into smem
-    thrust::system::cuda::detail::block::copy_n_global_to_shared<work_per_thread>(ctx, first + offset, tile_size, s_keys);
-
-    // sort input in smem
-    block::bounded_stable_sort<work_per_thread>(ctx, s_keys, tile_size, comp);
-    
-    // store result to gmem
-    thrust::system::cuda::detail::block::copy_n(ctx, s_keys, tile_size, result + offset);
+    this->operator()(s_keys);
   }
 };
 
@@ -269,12 +278,14 @@ template<unsigned int work_per_thread,
          typename DerivedPolicy,
          typename Context,
          typename RandomAccessIterator1,
+         typename Pointer,
          typename RandomAccessIterator2,
          typename Compare>
 void stable_sort_each_copy(execution_policy<DerivedPolicy> &,
                            Context context,
                            unsigned int block_size,
                            RandomAccessIterator1 first, RandomAccessIterator1 last,
+                           Pointer virtual_smem,
                            RandomAccessIterator2 result,
                            Compare comp)
 {
@@ -297,9 +308,21 @@ void stable_sort_each_copy(execution_policy<DerivedPolicy> &,
   
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
 
-  unsigned int num_smem_bytes = block_size * (work_per_thread + 1) * sizeof(value_type);
+  const size_t num_smem_elements_per_block = block_size * (work_per_thread + 1);
 
-  thrust::system::cuda::detail::detail::launch_closure(closure, num_blocks, block_size, num_smem_bytes);
+  // XXX this virtualizing code can probably be generalized and moved elsewhere
+  if(virtual_smem)
+  {
+    virtualized_smem_closure<closure_type, Pointer> virtualized_closure(closure, num_smem_elements_per_block, virtual_smem);
+
+    thrust::system::cuda::detail::detail::launch_closure(virtualized_closure, num_blocks, block_size);
+  }
+  else
+  {
+    const size_t num_smem_bytes = num_smem_elements_per_block * sizeof(value_type);
+
+    thrust::system::cuda::detail::detail::launch_closure(closure, num_blocks, block_size, num_smem_bytes);
+  }
 }
 
 
