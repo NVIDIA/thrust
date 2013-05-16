@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/sort.h>
 #include <thrust/functional.h>
+#include <thrust/execution_policy.h>
 
 
 template <typename T>
@@ -287,4 +288,89 @@ void TestMergeSortKeyValue(size_t n)
   ASSERT_EQUAL_QUIET(h_data, d_data);
 }
 DECLARE_VARIABLE_UNITTEST(TestMergeSortKeyValue);
+
+
+template<typename ExecutionPolicy, typename Iterator, typename Compare>
+__global__ void stable_merge_sort_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Compare comp)
+{
+  thrust::system::cuda::detail::detail::stable_merge_sort(exec, first, last, comp);
+}
+
+
+void TestMergeSortSimpleDeviceDevice()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  
+  Vector unsorted_keys;
+  Vector   sorted_keys;
+  
+  InitializeSimpleKeySortTest(unsorted_keys, sorted_keys);
+  
+  stable_merge_sort_kernel<<<1,1>>>(thrust::device, unsorted_keys.begin(), unsorted_keys.end(), thrust::less<T>());
+  
+  ASSERT_EQUAL(unsorted_keys, sorted_keys);
+}
+DECLARE_UNITTEST(TestMergeSortSimpleDeviceDevice);
+
+
+void TestMergeSortDeviceDevice()
+{
+    const size_t n = 10027;
+
+    thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
+    thrust::device_vector<int> d_data = h_data;
+
+    thrust::stable_sort(h_data.begin(), h_data.end(), thrust::greater<int>());
+
+    stable_merge_sort_kernel<<<1,1>>>(thrust::device, d_data.begin(), d_data.end(), thrust::greater<int>());
+
+    ASSERT_EQUAL(h_data, d_data);
+}
+DECLARE_UNITTEST(TestMergeSortDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Compare>
+__global__ void stable_merge_sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_last, Compare comp)
+{
+  thrust::system::cuda::detail::detail::stable_merge_sort_by_key(exec, keys_first, keys_last, values_last, comp);
+}
+
+
+void TestMergeSortByKeySimpleDeviceDevice()
+{
+    typedef thrust::device_vector<int> Vector;
+    typedef typename Vector::value_type T;
+
+    Vector unsorted_keys, unsorted_values;
+    Vector   sorted_keys,   sorted_values;
+
+    InitializeSimpleKeyValueSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
+
+    stable_merge_sort_by_key_kernel<<<1,1>>>(thrust::device, unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin(), thrust::less<T>());
+
+    ASSERT_EQUAL(unsorted_keys,   sorted_keys);
+    ASSERT_EQUAL(unsorted_values, sorted_values);
+}
+DECLARE_UNITTEST(TestMergeSortByKeySimpleDeviceDevice);
+
+
+void TestMergeSortByKeyDeviceDevice()
+{
+    const size_t n = 10027;
+
+    thrust::host_vector<int>   h_keys = unittest::random_integers<int>(n);
+    thrust::host_vector<int>   h_values = unittest::random_integers<int>(n);
+
+    thrust::device_vector<int> d_keys = h_keys;
+    thrust::device_vector<int> d_values = h_values;
+
+    thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::greater<int>());
+
+    stable_merge_sort_by_key_kernel<<<1,1>>>(thrust::device, d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<int>());
+
+    ASSERT_EQUAL(h_keys, d_keys);
+    ASSERT_EQUAL(h_values, d_values);
+}
+DECLARE_UNITTEST(TestMergeSortByKeyDeviceDevice);
 

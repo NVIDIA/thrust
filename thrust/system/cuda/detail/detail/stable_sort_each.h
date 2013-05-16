@@ -38,6 +38,7 @@ template<unsigned int work_per_thread,
          typename Pointer,
          typename RandomAccessIterator2,
          typename Compare>
+__host__ __device__
 void stable_sort_each_copy(execution_policy<DerivedPolicy> &exec,
                            Context context,
                            unsigned int block_size,

@@ -39,6 +39,7 @@ template<typename DerivedPolicy, typename RandomAccessIterator>
     typedef thrust::detail::temporary_array<size_type, DerivedPolicy> array_type;
 
   public:
+    __host__ __device__
     temporary_indirect_permutation(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last)
       : m_exec(derived_cast(exec)),
         m_src_first(first),
@@ -49,6 +50,7 @@ template<typename DerivedPolicy, typename RandomAccessIterator>
       thrust::sequence(exec, m_permutation.begin(), m_permutation.end());
     }
 
+    __host__ __device__
     ~temporary_indirect_permutation()
     {
       // permute the source array using the indices
@@ -59,11 +61,13 @@ template<typename DerivedPolicy, typename RandomAccessIterator>
 
     typedef typename array_type::iterator iterator;
 
+    __host__ __device__
     iterator begin()
     {
       return m_permutation.begin();
     }
 
+    __host__ __device__
     iterator end()
     {
       return m_permutation.end();
@@ -79,22 +83,26 @@ template<typename DerivedPolicy, typename RandomAccessIterator>
 template<typename DerivedPolicy, typename RandomAccessIterator>
   struct iterator_range_with_execution_policy
 {
+  __host__ __device__
   iterator_range_with_execution_policy(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last)
     : m_exec(derived_cast(exec)), m_first(first), m_last(last)
   {}
 
   typedef RandomAccessIterator iterator;
 
+  __host__ __device__
   iterator begin()
   {
     return m_first;
   }
 
+  __host__ __device__
   iterator end()
   {
     return m_last;
   }
 
+  __host__ __device__
   DerivedPolicy &exec()
   {
     return m_exec;
@@ -119,6 +127,7 @@ template<typename Condition, typename DerivedPolicy, typename RandomAccessIterat
     thrust::detail::identity_<iterator_range_with_execution_policy<DerivedPolicy, RandomAccessIterator> >
   >::type super_t;
 
+  __host__ __device__
   conditional_temporary_indirect_permutation(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last)
     : super_t(exec, first, last)
   {}
@@ -133,6 +142,7 @@ template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare
     typedef temporary_indirect_permutation<DerivedPolicy,RandomAccessIterator> super_t;
 
   public:
+    __host__ __device__
     temporary_indirect_ordering(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
       : super_t(exec, first, last),
         m_comp(first, comp)
@@ -147,6 +157,7 @@ template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare
         bool
       > comp;
 
+      __host__ __device__
       compare(RandomAccessIterator first, Compare comp)
         : first(first), comp(comp)
       {}
@@ -159,6 +170,7 @@ template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare
       }
     };
 
+    __host__ __device__
     compare comp() const
     {
       return m_comp;
@@ -175,12 +187,14 @@ template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare
 {
   typedef iterator_range_with_execution_policy<DerivedPolicy, RandomAccessIterator> super_t;
 
+  __host__ __device__
   iterator_range_with_execution_policy_and_compare(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
     : super_t(exec, first, last), m_comp(comp)
   {}
 
   typedef Compare compare;
 
+  __host__ __device__
   compare comp()
   {
     return m_comp;
@@ -204,6 +218,7 @@ template<typename Condition, typename DerivedPolicy, typename RandomAccessIterat
     thrust::detail::identity_<iterator_range_with_execution_policy_and_compare<DerivedPolicy, RandomAccessIterator, Compare> >
   >::type super_t;
 
+  __host__ __device__
   conditional_temporary_indirect_ordering(thrust::execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, RandomAccessIterator last, Compare comp)
     : super_t(exec, first, last, comp)
   {}
