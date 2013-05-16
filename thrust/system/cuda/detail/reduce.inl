@@ -32,6 +32,7 @@
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/reduce.h>
 #include <thrust/detail/seq.h>
 
 namespace thrust
