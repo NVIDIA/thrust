@@ -203,13 +203,13 @@ struct merge_adjacent_partitions_closure
     Size start1 = 0, end1 = 0, start2 = 0, end2 = 0;
 
     thrust::tie(start1,end1,start2,end2) =
-      locate_merge_partitions(n, blockIdx.x, num_blocks_per_merge, work_per_block, merge_paths[ctx.block_index()], merge_paths[ctx.block_index() + 1]);
+      locate_merge_partitions(n, ctx.block_index().x, num_blocks_per_merge, work_per_block, merge_paths[ctx.block_index()], merge_paths[ctx.block_index() + 1]);
 
     block::staged_bounded_merge<work_per_thread>(ctx,
                                                  first + start1, end1 - start1,
                                                  first + start2, end2 - start2,
                                                  staging_buffer,
-                                                 result + blockIdx.x * work_per_block,
+                                                 result + ctx.block_index() * work_per_block,
                                                  comp);
   }
 
