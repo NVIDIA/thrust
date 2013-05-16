@@ -142,6 +142,7 @@ inline function_attributes_t function_attributes(KernelFunction kernel)
     attributes.localSizeBytes,
     attributes.maxThreadsPerBlock,
     attributes.numRegs,
+    attributes.ptxVersion,
     attributes.sharedSizeBytes
   };
 

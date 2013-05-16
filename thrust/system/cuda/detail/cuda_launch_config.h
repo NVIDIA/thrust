@@ -57,6 +57,7 @@ struct function_attributes_t
   size_t localSizeBytes;
   int    maxThreadsPerBlock;
   int    numRegs;
+  int    ptxVersion;
   size_t sharedSizeBytes;
 };
 
