@@ -366,6 +366,8 @@ void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &
                          Size n,
                          Compare comp)
 {
+  if(n <= 0) return;
+
   typedef typename thrust::iterator_value<RandomAccessIterator>::type T;
 
   const Size block_size = 256;
