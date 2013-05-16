@@ -627,7 +627,7 @@ __device__ __forceinline__ void ScatterPass(
 	int base_digit,				
 	PostprocessFunctor postprocess = PostprocessFunctor())				
 {
-	const int LOG_STORE_TXN_THREADS = B40C_LOG_MEM_BANKS(__CUDA_ARCH__);
+	const int LOG_STORE_TXN_THREADS = B40C_LOG_MEM_BANKS(B40C_CUDA_ARCH);
 	const int STORE_TXN_THREADS = 1 << LOG_STORE_TXN_THREADS;
 	
 	int store_txn_idx = threadIdx.x & (STORE_TXN_THREADS - 1);
@@ -672,7 +672,7 @@ __device__ __forceinline__ void SwapAndScatterPairs(
 	int digit_scan[2][RADIX_DIGITS], 
 	int extra[1])				
 {
-	const int SCATTER_PASS_DIGITS = B40C_RADIXSORT_WARPS * (B40C_WARP_THREADS / B40C_MEM_BANKS(__CUDA_ARCH__));
+	const int SCATTER_PASS_DIGITS = B40C_RADIXSORT_WARPS * (B40C_WARP_THREADS / B40C_MEM_BANKS(B40C_CUDA_ARCH));
 	const int SCATTER_PASSES = RADIX_DIGITS / SCATTER_PASS_DIGITS;
 
 	// Push in pairs
@@ -951,7 +951,7 @@ template <
 	int BIT, 
 	typename PreprocessFunctor, 
 	typename PostprocessFunctor>
-__launch_bounds__ (B40C_RADIXSORT_THREADS, B40C_RADIXSORT_SCAN_SCATTER_CTA_OCCUPANCY(__CUDA_ARCH__))
+__launch_bounds__ (B40C_RADIXSORT_THREADS, B40C_RADIXSORT_SCAN_SCATTER_CTA_OCCUPANCY(B40C_CUDA_ARCH))
 __global__ 
 void ScanScatterDigits(
 	bool *d_from_alt_storage,
@@ -968,10 +968,10 @@ void ScanScatterDigits(
 	const int LOG_SCAN_LANES_PER_SET	= (RADIX_BITS > 2) ? RADIX_BITS - 2 : 0;					// Always at one lane per set
 	const int SCAN_LANES_PER_SET		= 1 << LOG_SCAN_LANES_PER_SET;								// N.B.: we have "declared but never referenced" warnings for these, but they're actually used for template instantiation
 	
-	const int LOG_SETS_PER_PASS			= B40C_RADIXSORT_LOG_SETS_PER_PASS(__CUDA_ARCH__);			
+	const int LOG_SETS_PER_PASS			= B40C_RADIXSORT_LOG_SETS_PER_PASS(B40C_CUDA_ARCH);			
 	const int SETS_PER_PASS				= 1 << LOG_SETS_PER_PASS;
 	
-	const int LOG_PASSES_PER_CYCLE		= B40C_RADIXSORT_LOG_PASSES_PER_CYCLE(__CUDA_ARCH__, K, V);			
+	const int LOG_PASSES_PER_CYCLE		= B40C_RADIXSORT_LOG_PASSES_PER_CYCLE(B40C_CUDA_ARCH, K, V);			
 	const int PASSES_PER_CYCLE			= 1 << LOG_PASSES_PER_CYCLE;
 
 	const int LOG_SCAN_LANES_PER_PASS	= LOG_SETS_PER_PASS + LOG_SCAN_LANES_PER_SET;
@@ -981,7 +981,7 @@ void ScanScatterDigits(
 	
 	const int LOG_PARTIALS_PER_PASS		= LOG_SCAN_LANES_PER_PASS + LOG_PARTIALS_PER_LANE;
 
-	const int LOG_RAKING_THREADS_PER_PASS 		= B40C_RADIXSORT_LOG_RAKING_THREADS_PER_PASS(__CUDA_ARCH__);
+	const int LOG_RAKING_THREADS_PER_PASS 		= B40C_RADIXSORT_LOG_RAKING_THREADS_PER_PASS(B40C_CUDA_ARCH);
 	const int RAKING_THREADS_PER_PASS			= 1 << LOG_RAKING_THREADS_PER_PASS;
 
 	const int LOG_RAKING_THREADS_PER_LANE 		= LOG_RAKING_THREADS_PER_PASS - LOG_SCAN_LANES_PER_PASS;
@@ -990,7 +990,7 @@ void ScanScatterDigits(
 	const int LOG_PARTIALS_PER_SEG 		= LOG_PARTIALS_PER_LANE - LOG_RAKING_THREADS_PER_LANE;
 	const int PARTIALS_PER_SEG 			= 1 << LOG_PARTIALS_PER_SEG;
 
-	const int LOG_PARTIALS_PER_ROW		= (LOG_PARTIALS_PER_SEG < B40C_LOG_MEM_BANKS(__CUDA_ARCH__)) ? B40C_LOG_MEM_BANKS(__CUDA_ARCH__) : LOG_PARTIALS_PER_SEG;		// floor of MEM_BANKS partials per row
+	const int LOG_PARTIALS_PER_ROW		= (LOG_PARTIALS_PER_SEG < B40C_LOG_MEM_BANKS(B40C_CUDA_ARCH)) ? B40C_LOG_MEM_BANKS(B40C_CUDA_ARCH) : LOG_PARTIALS_PER_SEG;		// floor of MEM_BANKS partials per row
 	const int PARTIALS_PER_ROW			= 1 << LOG_PARTIALS_PER_ROW;
 	const int PADDED_PARTIALS_PER_ROW 	= PARTIALS_PER_ROW + 1;
 
@@ -1007,8 +1007,8 @@ void ScanScatterDigits(
 	
 	const int SCAN_LANE_BYTES			= ROWS_PER_PASS * PADDED_PARTIALS_PER_ROW * sizeof(int);
 	const int MAX_EXCHANGE_BYTES		= (sizeof(K) > sizeof(V)) ? 
-													B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(K) : 
-													B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V) * sizeof(V);
+													B40C_RADIXSORT_CYCLE_ELEMENTS(B40C_CUDA_ARCH, K, V) * sizeof(K) : 
+													B40C_RADIXSORT_CYCLE_ELEMENTS(B40C_CUDA_ARCH, K, V) * sizeof(V);
 	const int SCAN_LANE_INT4S         = (B40C_MAX(MAX_EXCHANGE_BYTES, SCAN_LANE_BYTES) + sizeof(int4) - 1) / sizeof(int4);
 
 
@@ -1040,7 +1040,7 @@ void ScanScatterDigits(
 		block_offset = work_decomposition.big_block_elements * blockIdx.x;
 		block_elements = work_decomposition.big_block_elements;
 	} else {
-		block_offset = (work_decomposition.normal_block_elements * blockIdx.x) + (work_decomposition.num_big_blocks * B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V));
+		block_offset = (work_decomposition.normal_block_elements * blockIdx.x) + (work_decomposition.num_big_blocks * B40C_RADIXSORT_CYCLE_ELEMENTS(B40C_CUDA_ARCH, K, V));
 		block_elements = work_decomposition.normal_block_elements;
 	}
 	oob[0] = block_offset + block_elements;	// out-of-bounds
@@ -1136,7 +1136,7 @@ void ScanScatterDigits(
 				base_partial,
 				raking_partial);		
 	
-			block_offset += B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V);
+			block_offset += B40C_RADIXSORT_CYCLE_ELEMENTS(B40C_CUDA_ARCH, K, V);
 		}
 	
 		if (extra[0]) {
@@ -1175,7 +1175,7 @@ void ScanScatterDigits(
 				base_partial,
 				raking_partial);		
 
-			block_offset += B40C_RADIXSORT_CYCLE_ELEMENTS(__CUDA_ARCH__, K, V);
+			block_offset += B40C_RADIXSORT_CYCLE_ELEMENTS(B40C_CUDA_ARCH, K, V);
 		}
 
 		if (extra[0]) {

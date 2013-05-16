@@ -16,8 +16,6 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -31,16 +29,31 @@ namespace detail
 {
 
 
-template<unsigned int count,
-         typename DerivedPolicy,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename Compare>
-void stable_sort_by_count(execution_policy<DerivedPolicy> &exec,
-                          RandomAccessIterator1 keys_first,
-                          RandomAccessIterator1 keys_last,
-                          RandomAccessIterator2 values_first,
-                          Compare comp);
+template<typename Closure, typename RandomAccessIterator>
+  struct virtualized_smem_closure
+    : Closure
+{
+  typedef Closure super_t;
+
+  size_t num_elements_per_block;
+  RandomAccessIterator virtual_smem;
+
+  virtualized_smem_closure(Closure closure, size_t num_elements_per_block, RandomAccessIterator virtual_smem)
+    : super_t(closure),
+      num_elements_per_block(num_elements_per_block),
+      virtual_smem(virtual_smem)
+  {}
+
+  __device__ __thrust_forceinline__
+  void operator()()
+  {
+    typename super_t::context_type ctx;
+
+    RandomAccessIterator smem = virtual_smem + num_elements_per_block * ctx.block_index();
+
+    super_t::operator()(smem);
+  }
+};
 
 
 } // end detail
@@ -48,6 +61,4 @@ void stable_sort_by_count(execution_policy<DerivedPolicy> &exec,
 } // end cuda
 } // end system
 } // end thrust
-
-#include <thrust/system/cuda/detail/detail/stable_sort_by_count.inl>
 
