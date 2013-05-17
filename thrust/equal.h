@@ -162,12 +162,12 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *    }
  *  };
  *  ...
- *  int x[5] = {0, 2, 4, 6, 8, 10};
- *  int y[5] = {1, 3, 5, 7, 9, 11};
+ *  int x[6] = {0, 2, 4, 6, 8, 10};
+ *  int y[6] = {1, 3, 5, 7, 9, 11};
  *
- *  bool result = thrust::equal(x, x + 5, y, compare_modulo_two());
+ *  bool result = thrust::equal(x, x + 6, y, compare_modulo_two());
  *
- *  // result is true
+ *  // result is false
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/equal.html
