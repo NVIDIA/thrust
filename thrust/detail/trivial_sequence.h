@@ -44,12 +44,16 @@ struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::true_type>
     typedef Iterator iterator_type;
     Iterator first, last;
 
+    __host__ __device__
     _trivial_sequence(thrust::execution_policy<DerivedPolicy> &, Iterator _first, Iterator _last) : first(_first), last(_last)
     {
 //        std::cout << "trivial case" << std::endl;
     }
 
+    __host__ __device__
     iterator_type begin() { return first; }
+
+    __host__ __device__
     iterator_type end()   { return last; }
 };
 
@@ -62,13 +66,17 @@ struct _trivial_sequence<Iterator, DerivedPolicy, thrust::detail::false_type>
     
     thrust::detail::temporary_array<iterator_value, DerivedPolicy> buffer;
 
+    __host__ __device__
     _trivial_sequence(thrust::execution_policy<DerivedPolicy> &exec, Iterator first, Iterator last)
       : buffer(exec, first, last)
     {
 //        std::cout << "non-trivial case" << std::endl;
     }
 
+    __host__ __device__
     iterator_type begin() { return buffer.begin(); }
+
+    __host__ __device__
     iterator_type end()   { return buffer.end(); }
 };
 
@@ -78,6 +86,7 @@ struct trivial_sequence
 {
     typedef _trivial_sequence<Iterator, DerivedPolicy, typename thrust::detail::is_trivial_iterator<Iterator>::type> super_t;
 
+    __host__ __device__
     trivial_sequence(thrust::execution_policy<DerivedPolicy> &exec, Iterator first, Iterator last) : super_t(exec, first, last) { }
 };
 

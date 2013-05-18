@@ -62,10 +62,11 @@ template<typename Iterator>
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
-  typename enable_if_bool_sort<RandomAccessIterator>::type
-    stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
-                          RandomAccessIterator first,
-                          RandomAccessIterator last)
+__host__ __device__
+typename enable_if_bool_sort<RandomAccessIterator>::type
+  stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
+                        RandomAccessIterator first,
+                        RandomAccessIterator last)
 {
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we need to logical_not
@@ -75,10 +76,11 @@ template<typename DerivedPolicy,
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
-  typename disable_if_bool_sort<RandomAccessIterator>::type
-    stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
-                          RandomAccessIterator first,
-                          RandomAccessIterator last)
+__host__ __device__
+typename disable_if_bool_sort<RandomAccessIterator>::type
+  stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
+                        RandomAccessIterator first,
+                        RandomAccessIterator last)
 {
   // call stable_radix_sort
   thrust::system::cuda::detail::detail::stable_radix_sort(exec,first,last);
@@ -99,11 +101,12 @@ struct logical_not_first
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  typename enable_if_bool_sort<RandomAccessIterator1>::type
-    stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
-                                 RandomAccessIterator1 keys_first,
-                                 RandomAccessIterator1 keys_last,
-                                 RandomAccessIterator2 values_first)
+__host__ __device__
+typename enable_if_bool_sort<RandomAccessIterator1>::type
+  stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
+                               RandomAccessIterator1 keys_first,
+                               RandomAccessIterator1 keys_last,
+                               RandomAccessIterator2 values_first)
 {
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we need to logical_not
@@ -117,22 +120,24 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
-  typename disable_if_bool_sort<RandomAccessIterator1>::type
-    stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
-                                 RandomAccessIterator1 keys_first,
-                                 RandomAccessIterator1 keys_last,
-                                 RandomAccessIterator2 values_first)
+__host__ __device__
+typename disable_if_bool_sort<RandomAccessIterator1>::type
+  stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
+                               RandomAccessIterator1 keys_first,
+                               RandomAccessIterator1 keys_last,
+                               RandomAccessIterator2 values_first)
 {
   // call stable_radix_sort_by_key
   thrust::system::cuda::detail::detail::stable_radix_sort_by_key(exec, keys_first, keys_last, values_first);
 }
-    
   
 
-}
+} // end stable_primitive_sort_detail
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
+__host__ __device__
 void stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
                            RandomAccessIterator first,
                            RandomAccessIterator last)
@@ -140,9 +145,11 @@ void stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
   thrust::system::cuda::detail::detail::stable_primitive_sort_detail::stable_primitive_sort(exec,first,last);
 }
 
+
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
+__host__ __device__
 void stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
                                   RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
@@ -150,6 +157,7 @@ void stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
 {
   thrust::system::cuda::detail::detail::stable_primitive_sort_detail::stable_primitive_sort_by_key(exec, keys_first, keys_last, values_first);
 }
+
 
 } // end namespace detail
 } // end namespace detail
