@@ -330,10 +330,15 @@ void TestMergeSortDeviceDevice()
 DECLARE_UNITTEST(TestMergeSortDeviceDevice);
 
 
-template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Compare>
-__global__ void stable_merge_sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_last, Compare comp)
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Compare, typename Iterator3>
+__global__ void stable_merge_sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_last, Compare comp, Iterator3 is_supported)
 {
+#if __CUDA_ARCH__ >= 350
+  *is_supported = true;
   thrust::system::cuda::detail::detail::stable_merge_sort_by_key(exec, keys_first, keys_last, values_last, comp);
+#else
+  *is_supported = false;
+#endif
 }
 
 
@@ -347,10 +352,15 @@ void TestMergeSortByKeySimpleDeviceDevice()
 
     InitializeSimpleKeyValueSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
 
-    stable_merge_sort_by_key_kernel<<<1,1>>>(thrust::device, unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin(), thrust::less<T>());
+    thrust::device_vector<bool> is_supported(1);
 
-    ASSERT_EQUAL(unsorted_keys,   sorted_keys);
-    ASSERT_EQUAL(unsorted_values, sorted_values);
+    stable_merge_sort_by_key_kernel<<<1,1>>>(thrust::device, unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin(), thrust::less<T>(), is_supported.begin());
+
+    if(is_supported[0])
+    {
+      ASSERT_EQUAL(unsorted_keys,   sorted_keys);
+      ASSERT_EQUAL(unsorted_values, sorted_values);
+    }
 }
 DECLARE_UNITTEST(TestMergeSortByKeySimpleDeviceDevice);
 
@@ -365,12 +375,17 @@ void TestMergeSortByKeyDeviceDevice()
     thrust::device_vector<int> d_keys = h_keys;
     thrust::device_vector<int> d_values = h_values;
 
+    thrust::device_vector<bool> is_supported(1);
+
     thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), thrust::greater<int>());
 
-    stable_merge_sort_by_key_kernel<<<1,1>>>(thrust::device, d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<int>());
+    stable_merge_sort_by_key_kernel<<<1,1>>>(thrust::device, d_keys.begin(), d_keys.end(), d_values.begin(), thrust::greater<int>(), is_supported.begin());
 
-    ASSERT_EQUAL(h_keys, d_keys);
-    ASSERT_EQUAL(h_values, d_values);
+    if(is_supported[0])
+    {
+      ASSERT_EQUAL(h_keys, d_keys);
+      ASSERT_EQUAL(h_values, d_values);
+    }
 }
 DECLARE_UNITTEST(TestMergeSortByKeyDeviceDevice);
 
