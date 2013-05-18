@@ -291,6 +291,7 @@ BaseRadixSortingEnactor<DerivedEnactor,K, V>
                             int max_grid_size,
                             bool swizzle_pointers_for_odd_passes) 
 {
+#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
   //
   // Get current device properties 
   //
@@ -341,6 +342,7 @@ BaseRadixSortingEnactor<DerivedEnactor,K, V>
   int spine_cycles = ((_grid_size * (1 << max_radix_bits)) + B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS - 1) / B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS;
 
   _spine_elements = spine_cycles * B40C_RADIXSORT_SPINE_CYCLE_ELEMENTS;
+#endif
 }
 
 
@@ -439,71 +441,153 @@ int BaseRadixSortingEnactor<DerivedEnactor, K, V>
 
 template<typename DerivedEnactor, typename K, typename V>
   template<int PASS, int RADIX_BITS, int BIT, typename PreprocessFunctor, typename PostprocessFunctor>
+  __host__ __device__
     void BaseRadixSortingEnactor<DerivedEnactor, K, V>
       ::DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 {
-  int threads = B40C_RADIXSORT_THREADS;
-  int dynamic_smem;
-  
-  cudaFuncAttributes reduce_kernel_attrs, scan_scatter_attrs;
-  cudaFuncGetAttributes(&reduce_kernel_attrs, RakingReduction<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor>);
-  cudaFuncGetAttributes(&scan_scatter_attrs, ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor>);
-	
-  //
-  // Counting Reduction
-  //
+  struct workaround
+  {
+    static __host__ void host_path(BaseRadixSortingEnactor &self, const RadixSortStorage<ConvertedKeyType,V> &converted_storage)
+    {
+      int threads = B40C_RADIXSORT_THREADS;
+      int dynamic_smem;
+      
+      cudaFuncAttributes reduce_kernel_attrs, scan_scatter_attrs;
+      cudaFuncGetAttributes(&reduce_kernel_attrs, RakingReduction<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor>);
+      cudaFuncGetAttributes(&scan_scatter_attrs, ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor>);
+            
+      //
+      // Counting Reduction
+      //
 
-  // Run tesla flush kernel if we have two or more threadblocks for each of the SMs
-  if ((_device_sm_version == 130) && (_work_decomposition.num_elements > static_cast<unsigned int>(_device_props.multiProcessorCount * _cycle_elements * 2))) { 
-    FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
-    synchronize_if_enabled("FlushKernel");
-  }
+      // Run tesla flush kernel if we have two or more threadblocks for each of the SMs
+      if ((self._device_sm_version == 130) && (self._work_decomposition.num_elements > static_cast<unsigned int>(self._device_props.multiProcessorCount * self._cycle_elements * 2))) { 
+        FlushKernel<void><<<self._grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
+        synchronize_if_enabled("FlushKernel");
+      }
 
-  // GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
-  dynamic_smem = (_kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - reduce_kernel_attrs.sharedSizeBytes : 0;
-  
-  RakingReduction<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor> <<<_grid_size, threads, dynamic_smem>>>(
-    converted_storage.d_from_alt_storage,
-    converted_storage.d_spine,
-    converted_storage.d_keys,
-    converted_storage.d_alt_keys,
-    _work_decomposition);
-  synchronize_if_enabled("RakingReduction");
+      // GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
+      dynamic_smem = (self._kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - reduce_kernel_attrs.sharedSizeBytes : 0;
+      
+      RakingReduction<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor> <<<self._grid_size, threads, dynamic_smem>>>(
+        converted_storage.d_from_alt_storage,
+        converted_storage.d_spine,
+        converted_storage.d_keys,
+        converted_storage.d_alt_keys,
+        self._work_decomposition);
+      synchronize_if_enabled("RakingReduction");
 
-	
-  //
-  // Spine
-  //
-	
-  // GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
-  dynamic_smem = (_kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - _spine_scan_kernel_attrs.sharedSizeBytes : 0;
-	
-  SrtsScanSpine<void><<<_grid_size, B40C_RADIXSORT_SPINE_THREADS, dynamic_smem>>>(
-    converted_storage.d_spine,
-    converted_storage.d_spine,
-    _spine_elements);
-  synchronize_if_enabled("SrtsScanSpine");
+            
+      //
+      // Spine
+      //
+            
+      // GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
+      dynamic_smem = (self._kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - self._spine_scan_kernel_attrs.sharedSizeBytes : 0;
+            
+      SrtsScanSpine<void><<<self._grid_size, B40C_RADIXSORT_SPINE_THREADS, dynamic_smem>>>(
+        converted_storage.d_spine,
+        converted_storage.d_spine,
+        self._spine_elements);
+      synchronize_if_enabled("SrtsScanSpine");
 
-	
-  //
-  // Scanning Scatter
-  //
-	
-  // Run tesla flush kernel if we have two or more threadblocks for each of the SMs
-  if((_device_sm_version == 130) && (_work_decomposition.num_elements > static_cast<unsigned int>(_device_props.multiProcessorCount * _cycle_elements * 2))) { 
-    FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
-    synchronize_if_enabled("FlushKernel");
-  }
+            
+      //
+      // Scanning Scatter
+      //
+            
+      // Run tesla flush kernel if we have two or more threadblocks for each of the SMs
+      if((self._device_sm_version == 130) && (self._work_decomposition.num_elements > static_cast<unsigned int>(self._device_props.multiProcessorCount * self._cycle_elements * 2))) { 
+        FlushKernel<void><<<self._grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
+        synchronize_if_enabled("FlushKernel");
+      }
 
-  ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor> <<<_grid_size, threads, 0>>>(
-    converted_storage.d_from_alt_storage,
-    converted_storage.d_spine,
-    converted_storage.d_keys,
-    converted_storage.d_alt_keys,
-    converted_storage.d_values,
-    converted_storage.d_alt_values,
-    _work_decomposition);
-  synchronize_if_enabled("ScanScatterDigits");
+      ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor> <<<self._grid_size, threads, 0>>>(
+        converted_storage.d_from_alt_storage,
+        converted_storage.d_spine,
+        converted_storage.d_keys,
+        converted_storage.d_alt_keys,
+        converted_storage.d_values,
+        converted_storage.d_alt_values,
+        self._work_decomposition);
+      synchronize_if_enabled("ScanScatterDigits");
+    } // end host_path
+
+
+    static __device__ void device_path(BaseRadixSortingEnactor &self, const RadixSortStorage<ConvertedKeyType,V> &converted_storage)
+    {
+#if __CUDA_ARCH__ >= 350
+      int threads = B40C_RADIXSORT_THREADS;
+      int dynamic_smem;
+      
+      cudaFuncAttributes reduce_kernel_attrs, scan_scatter_attrs;
+      cudaFuncGetAttributes(&reduce_kernel_attrs, RakingReduction<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor>);
+      cudaFuncGetAttributes(&scan_scatter_attrs, ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor>);
+            
+      //
+      // Counting Reduction
+      //
+
+      // Run tesla flush kernel if we have two or more threadblocks for each of the SMs
+      if ((self._device_sm_version == 130) && (self._work_decomposition.num_elements > static_cast<unsigned int>(self._device_props.multiProcessorCount * self._cycle_elements * 2))) { 
+        FlushKernel<void><<<self._grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
+        synchronize_if_enabled("FlushKernel");
+      }
+
+      // GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
+      dynamic_smem = (self._kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - reduce_kernel_attrs.sharedSizeBytes : 0;
+      
+      RakingReduction<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor> <<<self._grid_size, threads, dynamic_smem>>>(
+        converted_storage.d_from_alt_storage,
+        converted_storage.d_spine,
+        converted_storage.d_keys,
+        converted_storage.d_alt_keys,
+        self._work_decomposition);
+      synchronize_if_enabled("RakingReduction");
+
+            
+      //
+      // Spine
+      //
+            
+      // GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
+      dynamic_smem = (self._kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - self._spine_scan_kernel_attrs.sharedSizeBytes : 0;
+            
+      SrtsScanSpine<void><<<self._grid_size, B40C_RADIXSORT_SPINE_THREADS, dynamic_smem>>>(
+        converted_storage.d_spine,
+        converted_storage.d_spine,
+        self._spine_elements);
+      synchronize_if_enabled("SrtsScanSpine");
+
+            
+      //
+      // Scanning Scatter
+      //
+            
+      // Run tesla flush kernel if we have two or more threadblocks for each of the SMs
+      if((self._device_sm_version == 130) && (self._work_decomposition.num_elements > static_cast<unsigned int>(self._device_props.multiProcessorCount * self._cycle_elements * 2))) { 
+        FlushKernel<void><<<self._grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
+        synchronize_if_enabled("FlushKernel");
+      }
+
+      ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor> <<<self._grid_size, threads, 0>>>(
+        converted_storage.d_from_alt_storage,
+        converted_storage.d_spine,
+        converted_storage.d_keys,
+        converted_storage.d_alt_keys,
+        converted_storage.d_values,
+        converted_storage.d_alt_values,
+        self._work_decomposition);
+      synchronize_if_enabled("ScanScatterDigits");
+#endif // __CUDA_ARCH__ >= 350
+    } // end device_path
+  }; // end workaround
+
+#ifndef __CUDA_ARCH__
+  workaround::host_path(*this, converted_storage);
+#else
+  workaround::device_path(*this, converted_storage);
+#endif
 }
 
 
@@ -524,12 +608,14 @@ void BaseRadixSortingEnactor<DerivedEnactor, K, V>
   // Enact the sorting operation
   //
   
+#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
   if(RADIXSORT_DEBUG)
   {
     printf("_device_sm_version: %d, _kernel_ptx_version: %d\n", _device_sm_version, _kernel_ptx_version);
     printf("Bottom-level reduction & scan kernels:\n\tgrid_size: %d, \n\tthreads: %d, \n\tcycle_elements: %d, \n\tnum_big_blocks: %d, \n\tbig_block_elements: %d, \n\tnormal_block_elements: %d\n\textra_elements_last_block: %d\n\n", _grid_size, B40C_RADIXSORT_THREADS, _cycle_elements, _work_decomposition.num_big_blocks, _work_decomposition.big_block_elements, _work_decomposition.normal_block_elements, _work_decomposition.extra_elements_last_block);
     printf("Top-level spine scan:\n\tgrid_size: %d, \n\tthreads: %d, \n\tspine_block_elements: %d\n\n", _grid_size, B40C_RADIXSORT_SPINE_THREADS, _spine_elements);
-  }	
+  }
+#endif
   
   EnactDigitPlacePasses(converted_storage);
   
