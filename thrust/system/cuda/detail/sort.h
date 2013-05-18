@@ -28,23 +28,28 @@ namespace cuda
 namespace detail
 {
 
+
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(execution_policy<DerivedPolicy> &exec,
-                   RandomAccessIterator first,
-                   RandomAccessIterator last,
-                   StrictWeakOrdering comp);
+__host__ __device__
+void stable_sort(execution_policy<DerivedPolicy> &exec,
+                 RandomAccessIterator first,
+                 RandomAccessIterator last,
+                 StrictWeakOrdering comp);
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
-                          RandomAccessIterator1 keys_first,
-                          RandomAccessIterator1 keys_last,
-                          RandomAccessIterator2 values_first,
-                          StrictWeakOrdering comp);
+__host__ __device__
+void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
+                        RandomAccessIterator1 keys_first,
+                        RandomAccessIterator1 keys_last,
+                        RandomAccessIterator2 values_first,
+                        StrictWeakOrdering comp);
+
 
 } // end namespace detail
 } // end namespace cuda
