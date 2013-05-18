@@ -204,8 +204,8 @@ void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
   thrust::detail::temporary_array<bool, DerivedPolicy> temp_from_alt(exec, 2);
   
   // define storage
-  storage.d_keys             = thrust::raw_pointer_cast(&*first1);
-  storage.d_values           = thrust::raw_pointer_cast(&*first2);
+  storage.d_keys             = thrust::raw_pointer_cast(aligned_keys.begin());
+  storage.d_values           = thrust::raw_pointer_cast(aligned_values.begin());
   storage.d_alt_keys         = thrust::raw_pointer_cast(&temp_keys[0]);
   storage.d_alt_values       = thrust::raw_pointer_cast(&temp_values[0]);
   storage.d_spine            = thrust::raw_pointer_cast(&temp_spine[0]);
