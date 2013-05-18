@@ -58,6 +58,9 @@ template<typename T, typename System>
     typedef typename super_t::size_type size_type;
 
     __host__ __device__
+    temporary_array(thrust::execution_policy<System> &system);
+
+    __host__ __device__
     temporary_array(thrust::execution_policy<System> &system, size_type n);
 
     // provide a kill-switch to explicitly avoid initialization
