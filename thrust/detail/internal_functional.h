@@ -459,7 +459,7 @@ template<typename System, typename T>
 template <typename T>
 struct fill_functor
 {
-  const T exemplar;
+  T exemplar;
 
   __host__ __device__
   fill_functor(const T& _exemplar) 
