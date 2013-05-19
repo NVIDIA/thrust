@@ -246,7 +246,7 @@ void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
   thrust::detail::temporary_array<unsigned int,DerivedPolicy> permutation(exec, num_elements);
   thrust::sequence(exec, permutation.begin(), permutation.end());
   
-  stable_radix_sort_by_key(exec, first1, last1, permutation.begin());
+  stable_radix_sort_by_key(exec, first1, last1, permutation.begin(), thrust::detail::true_type());
   
   // copy values into temp vector and then permute
   thrust::detail::temporary_array<V,DerivedPolicy> temp_values(exec, first2, first2 + num_elements);
