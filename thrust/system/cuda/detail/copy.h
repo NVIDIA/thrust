@@ -66,7 +66,6 @@ template<typename System1,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-__host__ __device__
 OutputIterator copy_n(cross_system<System1,System2> exec,
                       InputIterator first,
                       Size n,
