@@ -128,7 +128,7 @@ typename enable_if_primitive_sort<RandomAccessIterator,StrictWeakOrdering>::type
   
   if(reverse)
   {
-    thrust::reverse(first, last);
+    thrust::reverse(exec, first, last);
   }
 }
 
