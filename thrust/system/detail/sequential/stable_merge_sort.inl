@@ -171,14 +171,16 @@ void merge_adjacent_partitions_by_key(sequential::execution_policy<DerivedPolicy
                                       RandomAccessIterator4 values_result,
                                       StrictWeakOrdering comp)
 {
+  Size stride = 2 * partition_size;
+
   for(;
       keys_first < keys_last;
-      keys_first += 2 * partition_size, values_first += 2 * partition_size, keys_result += 2 * partition_size, values_result += 2 * partition_size)
+      keys_first += stride, values_first += stride, keys_result += stride, values_result += stride)
   {
     RandomAccessIterator1 keys_interval_middle = thrust::min(keys_last, keys_first + partition_size);
     RandomAccessIterator1 keys_interval_last   = thrust::min(keys_last, keys_interval_middle + partition_size);
 
-    RandomAccessIterator2 values_first2 = values_first + (keys_interval_last - keys_interval_middle);
+    RandomAccessIterator2 values_first2 = values_first + (keys_interval_middle - keys_first);
 
     thrust::merge_by_key(exec,
                          keys_first, keys_interval_middle,
@@ -296,7 +298,7 @@ void recursive_stable_merge_sort(sequential::execution_policy<DerivedPolicy> &ex
                                  RandomAccessIterator last,
                                  StrictWeakOrdering comp)
 {
-  if(last - first < 32)
+  if(last - first <= 32)
   {
     thrust::system::detail::sequential::insertion_sort(first, last, comp);
   } // end if
