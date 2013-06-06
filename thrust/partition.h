@@ -1367,8 +1367,8 @@ template<typename ForwardIterator, typename Predicate>
  *  int A[] = {2, 4, 6, 8, 10, 1, 3, 5, 7, 9};
  *  int B[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *
- *  thrust::is_partitioned(thrust::host, A, A + 10); // returns true
- *  thrust::is_partitioned(thrust::host, B, B + 10); // returns false
+ *  thrust::is_partitioned(thrust::host, A, A + 10, is_even()); // returns true
+ *  thrust::is_partitioned(thrust::host, B, B + 10, is_even()); // returns false
  *  \endcode
  *
  *  \see \p partition
@@ -1416,8 +1416,8 @@ __host__ __device__
  *  int A[] = {2, 4, 6, 8, 10, 1, 3, 5, 7, 9};
  *  int B[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
  *
- *  thrust::is_partitioned(A, A + 10); // returns true
- *  thrust::is_partitioned(B, B + 10); // returns false
+ *  thrust::is_partitioned(A, A + 10, is_even()); // returns true
+ *  thrust::is_partitioned(B, B + 10, is_even()); // returns false
  *  \endcode
  *
  *  \see \p partition
