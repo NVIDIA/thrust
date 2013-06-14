@@ -46,11 +46,10 @@ template<typename T>
 
     thrust::device_vector<bool> is_supported(1);
 
+    stable_sort_kernel<<<1,1>>>(d_pairs.begin(), d_pairs.end(), is_supported.begin());
+
     if(is_supported[0])
     {
-      // sort on the device
-      thrust::stable_sort(d_pairs.begin(), d_pairs.end());
-
       // sort on the host
       thrust::stable_sort(h_pairs.begin(), h_pairs.end());
 
