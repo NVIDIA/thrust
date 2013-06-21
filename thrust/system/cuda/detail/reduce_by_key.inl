@@ -367,6 +367,7 @@ void reduce_by_key_body(Context context,
   context.barrier();
 }
 
+
 template <typename InputIterator1,
           typename InputIterator2,
           typename OutputIterator1,
@@ -505,12 +506,13 @@ struct reduce_by_key_closure
   }
 }; // end reduce_by_key_closure
 
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
+
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
 struct DefaultPolicy
 {
   // typedefs
@@ -553,14 +555,14 @@ struct DefaultPolicy
   Decomposition decomp;
 };
 
-template <typename DerivedPolicy,
-          typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction,
-          typename Policy>
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(execution_policy<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
@@ -569,106 +571,112 @@ template <typename DerivedPolicy,
                 OutputIterator1 keys_output,
                 OutputIterator2 values_output,
                 BinaryPredicate binary_pred,
-                BinaryFunction binary_op,
-                Policy policy)
+                BinaryFunction binary_op)
 {
-    typedef typename Policy::FlagType       FlagType;
-    typedef typename Policy::Decomposition  Decomposition;
-    typedef typename Policy::IndexType      IndexType;
-    typedef typename Policy::KeyType        KeyType;
-    typedef typename Policy::ValueType      ValueType;
-
-    // temporary arrays
-    typedef thrust::detail::temporary_array<IndexType,DerivedPolicy> IndexArray;
-    typedef thrust::detail::temporary_array<KeyType,DerivedPolicy>   KeyArray;
-    typedef thrust::detail::temporary_array<ValueType,DerivedPolicy> ValueArray;
-    typedef thrust::detail::temporary_array<bool,DerivedPolicy>      BoolArray;
-
-    Decomposition decomp = policy.decomp;
-
-    // input size
-    IndexType n = keys_last - keys_first;
-
-    if (n == 0)
-      return thrust::make_pair(keys_output, values_output);
-
-    IndexArray interval_counts(exec, decomp.size());
-    ValueArray interval_values(exec, decomp.size());
-    BoolArray  interval_carry(exec, decomp.size());
-
-    // an ode to c++11 auto
-    typedef thrust::counting_iterator<IndexType> CountingIterator;
-    typedef thrust::transform_iterator<
-      tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>,
-      thrust::zip_iterator<
-        thrust::tuple<CountingIterator,InputIterator1,InputIterator1>
-      >
-    > FlagIterator;
-
-    FlagIterator iflag= thrust::make_transform_iterator
-       (thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), keys_first, keys_first + 1)),
-        tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>(n, binary_pred));
-
-    // count number of tail flags per interval
-    thrust::system::cuda::detail::reduce_intervals(exec, iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
-
-    thrust::inclusive_scan(exec,
-                           interval_counts.begin(), interval_counts.end(),
-                           interval_counts.begin(),
-                           thrust::plus<IndexType>());
- 
-    // determine output size
-    const IndexType N = interval_counts[interval_counts.size() - 1];
-   
-    const static unsigned int ThreadsPerBlock = Policy::ThreadsPerBlock;
-    typedef typename IndexArray::iterator IndexIterator;
-    typedef typename ValueArray::iterator ValueIterator; 
-    typedef typename BoolArray::iterator  BoolIterator;  
-    typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
-    typedef reduce_by_key_closure<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction,
-                                  FlagIterator,IndexIterator,ValueIterator,BoolIterator,Decomposition,Context> Closure;
-    Closure closure
-      (keys_first,  values_first,
-       keys_output, values_output,
-       binary_pred, binary_op,
-       iflag,
-       interval_counts.begin(),
-       interval_values.begin(),
-       interval_carry.begin(),
-       decomp);
-    detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
-   
-    if (decomp.size() > 1)
-    {
-      ValueArray interval_values2(exec, decomp.size());
-      IndexArray interval_counts2(exec, decomp.size());
-      BoolArray  interval_carry2(exec, decomp.size());
-
-      IndexType N2 = 
-      thrust::reduce_by_key
-        (exec,
-         thrust::make_zip_iterator(thrust::make_tuple(interval_counts.begin(), interval_carry.begin())),
-         thrust::make_zip_iterator(thrust::make_tuple(interval_counts.end(),   interval_carry.end())),
-         interval_values.begin(),
-         thrust::make_zip_iterator(thrust::make_tuple(interval_counts2.begin(), interval_carry2.begin())),
-         interval_values2.begin(),
-         thrust::equal_to< thrust::tuple<IndexType,bool> >(),
-         binary_op).first
-        -
-        thrust::make_zip_iterator(thrust::make_tuple(interval_counts2.begin(), interval_carry2.begin()));
-    
-      thrust::transform_if
-        (exec,
-         interval_values2.begin(), interval_values2.begin() + N2,
-         thrust::make_permutation_iterator(values_output, interval_counts2.begin()),
-         interval_carry2.begin(),
-         thrust::make_permutation_iterator(values_output, interval_counts2.begin()),
-         binary_op,
-         thrust::identity<bool>());
-    }
+  typedef DefaultPolicy<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction> Policy;
   
-    return thrust::make_pair(keys_output + N, values_output + N); 
-}
+  Policy policy(keys_first, keys_last);
+  
+  typedef typename Policy::FlagType       FlagType;
+  typedef typename Policy::Decomposition  Decomposition;
+  typedef typename Policy::IndexType      IndexType;
+  typedef typename Policy::KeyType        KeyType;
+  typedef typename Policy::ValueType      ValueType;
+  
+  // temporary arrays
+  typedef thrust::detail::temporary_array<IndexType,DerivedPolicy> IndexArray;
+  typedef thrust::detail::temporary_array<KeyType,DerivedPolicy>   KeyArray;
+  typedef thrust::detail::temporary_array<ValueType,DerivedPolicy> ValueArray;
+  typedef thrust::detail::temporary_array<bool,DerivedPolicy>      BoolArray;
+  
+  Decomposition decomp = policy.decomp;
+  
+  // input size
+  IndexType n = keys_last - keys_first;
+  
+  if(n == 0)
+  {
+    return thrust::make_pair(keys_output, values_output);
+  } // end if
+  
+  IndexArray interval_counts(exec, decomp.size());
+  ValueArray interval_values(exec, decomp.size());
+  BoolArray  interval_carry(exec, decomp.size());
+  
+  // an ode to c++11 auto
+  typedef thrust::counting_iterator<IndexType> CountingIterator;
+  typedef thrust::transform_iterator<
+    tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>,
+    thrust::zip_iterator<
+      thrust::tuple<CountingIterator,InputIterator1,InputIterator1>
+    >
+  > FlagIterator;
+  
+  FlagIterator iflag= thrust::make_transform_iterator
+     (thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), keys_first, keys_first + 1)),
+      tail_flag_functor<FlagType,IndexType,KeyType,BinaryPredicate>(n, binary_pred));
+  
+  // count number of tail flags per interval
+  thrust::system::cuda::detail::reduce_intervals(exec, iflag, interval_counts.begin(), thrust::plus<IndexType>(), decomp);
+  
+  thrust::inclusive_scan(exec,
+                         interval_counts.begin(), interval_counts.end(),
+                         interval_counts.begin(),
+                         thrust::plus<IndexType>());
+  
+  // determine output size
+  const IndexType N = interval_counts[interval_counts.size() - 1];
+  
+  const static unsigned int ThreadsPerBlock = Policy::ThreadsPerBlock;
+  typedef typename IndexArray::iterator IndexIterator;
+  typedef typename ValueArray::iterator ValueIterator; 
+  typedef typename BoolArray::iterator  BoolIterator;  
+  typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
+  typedef reduce_by_key_closure<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction,
+                                FlagIterator,IndexIterator,ValueIterator,BoolIterator,Decomposition,Context> Closure;
+  Closure closure
+    (keys_first,  values_first,
+     keys_output, values_output,
+     binary_pred, binary_op,
+     iflag,
+     interval_counts.begin(),
+     interval_values.begin(),
+     interval_carry.begin(),
+     decomp);
+  detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
+  
+  if(decomp.size() > 1)
+  {
+    ValueArray interval_values2(exec, decomp.size());
+    IndexArray interval_counts2(exec, decomp.size());
+    BoolArray  interval_carry2(exec, decomp.size());
+  
+    IndexType N2 = 
+    thrust::reduce_by_key
+      (exec,
+       thrust::make_zip_iterator(thrust::make_tuple(interval_counts.begin(), interval_carry.begin())),
+       thrust::make_zip_iterator(thrust::make_tuple(interval_counts.end(),   interval_carry.end())),
+       interval_values.begin(),
+       thrust::make_zip_iterator(thrust::make_tuple(interval_counts2.begin(), interval_carry2.begin())),
+       interval_values2.begin(),
+       thrust::equal_to< thrust::tuple<IndexType,bool> >(),
+       binary_op).first
+      -
+      thrust::make_zip_iterator(thrust::make_tuple(interval_counts2.begin(), interval_carry2.begin()));
+  
+    thrust::transform_if
+      (exec,
+       interval_values2.begin(), interval_values2.begin() + N2,
+       thrust::make_permutation_iterator(values_output, interval_counts2.begin()),
+       interval_carry2.begin(),
+       thrust::make_permutation_iterator(values_output, interval_counts2.begin()),
+       binary_op,
+       thrust::identity<bool>());
+  }
+  
+  return thrust::make_pair(keys_output + N, values_output + N); 
+} // end reduce_by_key()
+
 
 } // end namespace reduce_by_key_detail
 
@@ -690,11 +698,9 @@ template <typename DerivedPolicy,
                 BinaryPredicate binary_pred,
                 BinaryFunction binary_op)
 {
-  return reduce_by_key_detail::reduce_by_key
-    (exec, 
-     keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op,
-     reduce_by_key_detail::DefaultPolicy<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction>(keys_first, keys_last));
+  return reduce_by_key_detail::reduce_by_key(exec, keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
 } // end reduce_by_key()
+
 
 } // end namespace detail
 } // end namespace cuda
