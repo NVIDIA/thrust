@@ -84,13 +84,16 @@ template<typename Closure,
   __host__ __device__
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
+    // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
+    launch_function_t kernel = get_launch_function();
+
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
     if(num_blocks > 0)
     {
       uninitialized<Closure> c;
       c.construct(f);
-      launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(c);
+      kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(c);
       synchronize_if_enabled("launch_closure_by_value");
     }
 #endif // __CUDA_ARCH__
@@ -114,6 +117,9 @@ template<typename Closure>
   __host__ __device__
   static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
+    // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
+    launch_function_t kernel = get_launch_function();
+
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
     if(num_blocks > 0)
@@ -125,7 +131,7 @@ template<typename Closure>
       thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
 
       // launch
-      detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
+      kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
       synchronize_if_enabled("launch_closure_by_pointer");
     }
 #endif // __CUDA_ARCH__
