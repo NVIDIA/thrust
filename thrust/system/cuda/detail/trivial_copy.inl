@@ -21,6 +21,7 @@
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
+#include <thrust/system/cuda/detail/throw_on_error.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
