@@ -30,52 +30,6 @@ template <typename InputIterator1,
           typename OutputIterator2,
           typename BinaryPredicate,
           typename BinaryFunction>
-struct CustomPolicy
-{
-  // typedefs
-  typedef unsigned int                                                       FlagType;
-  typedef typename thrust::iterator_traits<InputIterator1>::difference_type  IndexType;
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type       KeyType;
-  typedef thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
-    
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if BinaryFunction is AdaptableBinaryFunction
-  //   TemporaryType = AdaptableBinaryFunction::result_type
-  // else if OutputIterator2 is a "pure" output iterator
-  //   TemporaryType = InputIterator2::value_type
-  // else
-  //   TemporaryType = OutputIterator2::value_type
-  //
-  // XXX upon c++0x, TemporaryType needs to be:
-  // result_of<BinaryFunction>::type
-
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::has_result_type<BinaryFunction>::value,
-    thrust::detail::result_type<BinaryFunction>,
-    thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator2>::value,
-      thrust::iterator_value<InputIterator2>,
-      thrust::iterator_value<OutputIterator2>
-    >
-  >::type ValueType;
- 
-  // XXX repro error on sm_11
-  const static unsigned int ThreadsPerBlock = 256;
-
-  CustomPolicy(InputIterator1 first1, InputIterator1 last1)
-    : decomp(thrust::system::cuda::detail::default_decomposition<IndexType>(last1 - first1))
-  {}
-
-  // member variables
-  Decomposition decomp;
-};
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
   thrust::pair<OutputIterator1,OutputIterator2>
   cuda_reduce_by_key(InputIterator1 keys_first, 
                      InputIterator1 keys_last,
@@ -86,15 +40,14 @@ template <typename InputIterator1,
                      BinaryFunction binary_op)
 {
   thrust::system::cuda::tag system;
-  return thrust::system::cuda::detail::reduce_by_key_detail::reduce_by_key
+  return thrust::system::cuda::detail::reduce_by_key
         ( system,
           keys_first, keys_last,
           values_first,
           keys_output,
           values_output,
           binary_pred,
-          binary_op,
-          CustomPolicy<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction>(keys_first, keys_last));
+          binary_op);
 }
 
 template <typename T>

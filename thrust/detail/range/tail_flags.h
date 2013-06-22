@@ -31,16 +31,19 @@ namespace detail
 
 template<typename RandomAccessIterator,
          typename BinaryPredicate = thrust::equal_to<typename thrust::iterator_value<RandomAccessIterator>::type>,
+         typename ValueType = bool,
          typename IndexType = typename thrust::iterator_difference<RandomAccessIterator>::type>
   class tail_flags
 {
-  private:
+  // XXX WAR cudafe bug
+  //private:
+  public:
     struct tail_flag_functor
     {
       BinaryPredicate binary_pred; // this must be the first member for performance reasons
       IndexType n;
 
-      typedef bool result_type;
+      typedef ValueType result_type;
 
       tail_flag_functor(IndexType n)
         : binary_pred(), n(n)
