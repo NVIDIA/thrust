@@ -55,12 +55,12 @@ namespace reduce_by_key_detail
 {
 
 
-template <unsigned int CTA_SIZE,
-          unsigned int K,
-          bool FullBlock,
-          typename Context,
-          typename FlagIterator,
-          typename FlagType>
+template<unsigned int CTA_SIZE,
+         unsigned int K,
+         bool FullBlock,
+         typename Context,
+         typename FlagIterator,
+         typename FlagType>
 __device__ __thrust_forceinline__
 FlagType load_flags(Context context,
                     const unsigned int n,
@@ -108,12 +108,13 @@ FlagType load_flags(Context context,
   return flag_bits;
 }
 
-template <unsigned int CTA_SIZE,
-          unsigned int K,
-          bool FullBlock,
-          typename Context,
-          typename InputIterator2,
-          typename ValueType>
+
+template<unsigned int CTA_SIZE,
+         unsigned int K,
+         bool FullBlock,
+         typename Context,
+         typename InputIterator2,
+         typename ValueType>
 __device__ __thrust_forceinline__
 void load_values(Context context,
                  const unsigned int n,
@@ -135,20 +136,20 @@ void load_values(Context context,
 }
 
 
-template <unsigned int CTA_SIZE,
-          unsigned int K,
-          bool FullBlock,
-          typename Context,
-          typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction,
-          typename FlagIterator,
-          typename FlagType,
-          typename IndexType,
-          typename ValueType>
+template<unsigned int CTA_SIZE,
+         unsigned int K,
+         bool FullBlock,
+         typename Context,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction,
+         typename FlagIterator,
+         typename FlagType,
+         typename IndexType,
+         typename ValueType>
 __device__ __thrust_forceinline__
 void reduce_by_key_body(Context context,
                         const unsigned int n,
@@ -341,18 +342,18 @@ void reduce_by_key_body(Context context,
 }
 
 
-template <typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction,
-          typename FlagIterator,
-          typename IndexIterator,
-          typename ValueIterator,
-          typename BoolIterator,
-          typename Decomposition,
-          typename Context>
+template<typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction,
+         typename FlagIterator,
+         typename IndexIterator,
+         typename ValueIterator,
+         typename BoolIterator,
+         typename Decomposition,
+         typename Context>
 struct reduce_by_key_closure
 {
   InputIterator1   ikeys;
@@ -370,6 +371,7 @@ struct reduce_by_key_closure
 
   typedef Context context_type;
 
+  __host__ __device__
   reduce_by_key_closure(InputIterator1   ikeys,
                         InputIterator2   ivals,
                         OutputIterator1  okeys,
@@ -520,6 +522,7 @@ struct DefaultPolicy
   // TODO tune this
   const static unsigned int ThreadsPerBlock = (thrust::detail::is_pod<ValueType>::value) ? 256 : 192;
 
+  __host__ __device__
   DefaultPolicy(InputIterator1 first1, InputIterator1 last1)
     : decomp(default_decomposition<IndexType>(last1 - first1))
   {}
@@ -539,6 +542,7 @@ template<typename DerivedPolicy,
          typename BoolIterator,
          typename BinaryPredicate,
          typename BinaryFunction>
+__host__ __device__
 void reduce_by_key_each(execution_policy<DerivedPolicy> &exec,
                         InputIterator1  keys_first,
                         InputIterator1  keys_last,
@@ -573,7 +577,7 @@ void reduce_by_key_each(execution_policy<DerivedPolicy> &exec,
                          interval_counts_first,
                          thrust::plus<IndexType>());
   
-  const static unsigned int ThreadsPerBlock = Policy::ThreadsPerBlock;
+  const unsigned int ThreadsPerBlock = Policy::ThreadsPerBlock;
   typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
   typedef reduce_by_key_closure<InputIterator1,InputIterator2,OutputIterator1,OutputIterator2,BinaryPredicate,BinaryFunction,
                                 FlagIterator,IndexIterator,ValueIterator,BoolIterator,Decomposition,Context> Closure;
@@ -600,7 +604,8 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
-  thrust::pair<OutputIterator1,OutputIterator2>
+__host__ __device__
+thrust::pair<OutputIterator1,OutputIterator2>
   reduce_by_key(execution_policy<DerivedPolicy> &exec,
                 InputIterator1 keys_first, 
                 InputIterator1 keys_last,

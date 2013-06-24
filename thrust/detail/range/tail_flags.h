@@ -45,10 +45,12 @@ template<typename RandomAccessIterator,
 
       typedef ValueType result_type;
 
+      __host__ __device__
       tail_flag_functor(IndexType n)
         : binary_pred(), n(n)
       {}
 
+      __host__ __device__
       tail_flag_functor(IndexType n, BinaryPredicate binary_pred)
         : binary_pred(binary_pred), n(n)
       {}
@@ -73,29 +75,34 @@ template<typename RandomAccessIterator,
       thrust::zip_iterator<thrust::tuple<counting_iterator,RandomAccessIterator,RandomAccessIterator> >
     > iterator;
 
+    __host__ __device__
     tail_flags(RandomAccessIterator first, RandomAccessIterator last)
       : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first + 1)),
                                                 tail_flag_functor(last - first))),
         m_end(m_begin + (last - first))
     {}
 
+    __host__ __device__
     tail_flags(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
       : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first + 1)),
                                                 tail_flag_functor(last - first, binary_pred))),
         m_end(m_begin + (last - first))
     {}
 
+    __host__ __device__
     iterator begin() const
     {
       return m_begin;
     }
 
+    __host__ __device__
     iterator end() const
     {
       return m_end;
     }
 
     template<typename OtherIndex>
+    __host__ __device__
     typename iterator::reference operator[](OtherIndex i)
     {
       return *(begin() + i);
@@ -107,16 +114,18 @@ template<typename RandomAccessIterator,
 
 
 template<typename RandomAccessIterator, typename BinaryPredicate>
-  tail_flags<RandomAccessIterator, BinaryPredicate>
-    make_tail_flags(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
+__host__ __device__
+tail_flags<RandomAccessIterator, BinaryPredicate>
+  make_tail_flags(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
 {
   return tail_flags<RandomAccessIterator, BinaryPredicate>(first, last, binary_pred);
 }
 
 
 template<typename RandomAccessIterator>
-  tail_flags<RandomAccessIterator>
-    make_tail_flags(RandomAccessIterator first, RandomAccessIterator last)
+__host__ __device__
+tail_flags<RandomAccessIterator>
+  make_tail_flags(RandomAccessIterator first, RandomAccessIterator last)
 {
   return tail_flags<RandomAccessIterator>(first, last);
 }
