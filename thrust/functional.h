@@ -1004,7 +1004,7 @@ template<typename BinaryPredicate>
  *    using namespace thrust::placeholders;
  *
  *    thrust::transform(x.begin(), x.end(), y.begin(), y.begin(),
- *      a * _1 + 2
+ *      a * _1 + _2
  *    );
  *
  *    // y is now {3, 5, 7, 9}
