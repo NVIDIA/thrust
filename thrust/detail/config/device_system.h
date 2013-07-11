@@ -22,8 +22,18 @@
 #define THRUST_DEVICE_SYSTEM_TBB     3
 #define THRUST_DEVICE_SYSTEM_CPP     4
 
+// make CUDA the default only if using nvcc (otherwise OpenMP or CPP)
+// this makes Thrust usable out-of-the-box on systems without CUDA
+// even if no THRUST_DEVICE_SYSTEM was specified
+// (up to Thrust 1.7 CUDA was the default)
 #ifndef THRUST_DEVICE_SYSTEM
-#define THRUST_DEVICE_SYSTEM THRUST_DEVICE_SYSTEM_CUDA
+#  if defined(__NVCC__)
+#    define THRUST_DEVICE_SYSTEM THRUST_DEVICE_SYSTEM_CUDA
+#  elif defined(_OPENMP)
+#    define THRUST_DEVICE_SYSTEM THRUST_DEVICE_SYSTEM_OMP
+#  else
+#    define THRUST_DEVICE_SYSTEM THRUST_DEVICE_SYSTEM_CPP
+#  endif
 #endif // THRUST_DEVICE_SYSTEM
 
 // XXX make the use of THRUST_DEVICE_BACKEND an error in Thrust 1.7
