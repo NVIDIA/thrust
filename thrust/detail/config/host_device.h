@@ -15,18 +15,18 @@
  */
 
 /*! \file host_device.h
- *  \brief Defines __host__ and __device__ and other CUDA-isms
+ *  \brief Defines __host__ and __device__
  */
 
 #pragma once
 
 #include <thrust/detail/config.h>
 
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+// since nvcc defines __host__ and __device__ for us,
+// and only nvcc knows what to do with __host__ and __device__,
+// define them to be the empty string for other compilers
 
-#include <host_defines.h>
-
-#else
+#if THRUST_DEVICE_COMPILER != THRUST_DEVICE_COMPILER_NVCC
 
 // since __host__ & __device__ might have already be defined, only
 // #define them if not defined already
