@@ -19,6 +19,7 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/merge.h>
 #include <thrust/system/detail/sequential/insertion_sort.h>
+#include <thrust/detail/minmax.h>
 
 namespace thrust
 {
