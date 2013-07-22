@@ -73,7 +73,7 @@ namespace thrust
  *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
- *      printf("%d\n");
+ *      printf("%d\n", x);
  *    }
  *  };
  *  ...
