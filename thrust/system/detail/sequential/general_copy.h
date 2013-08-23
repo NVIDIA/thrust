@@ -21,6 +21,8 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/raw_reference_cast.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -30,6 +32,50 @@ namespace detail
 {
 namespace sequential
 {
+namespace general_copy_detail
+{
+
+
+template<typename InputIterator, typename OutputIterator>
+struct reference_is_assignable
+  : thrust::detail::is_assignable<
+      typename thrust::iterator_reference<OutputIterator>::type,
+      typename thrust::iterator_reference<InputIterator>::type
+    >
+{};
+
+
+// introduce an iterator assign helper to deal with assignments from
+// a wrapped reference
+
+__thrust_hd_warning_disable__
+template<typename OutputIterator, typename InputIterator>
+inline __host__ __device__
+typename thrust::detail::enable_if<
+  reference_is_assignable<InputIterator,OutputIterator>::value
+>::type
+iter_assign(OutputIterator dst, InputIterator src)
+{
+  *dst = *src;
+}
+
+
+__thrust_hd_warning_disable__
+template<typename OutputIterator, typename InputIterator>
+inline __host__ __device__
+typename thrust::detail::disable_if<
+  reference_is_assignable<InputIterator,OutputIterator>::value
+>::type
+iter_assign(OutputIterator dst, InputIterator src)
+{
+  typedef typename thrust::iterator_value<InputIterator>::type value_type;
+
+  // insert a temporary and hope for the best
+  *dst = static_cast<value_type>(*src);
+}
+
+
+} // end general_copy_detail
 
 
 __thrust_hd_warning_disable__
@@ -41,7 +87,10 @@ __host__ __device__
                               OutputIterator result)
 {
   for(; first != last; ++first, ++result)
-    *result = *first;
+  {
+    general_copy_detail::iter_assign(result, first);
+  }
+
   return result;
 } // end general_copy()
 
@@ -56,7 +105,10 @@ __host__ __device__
                                 OutputIterator result)
 {
   for(; n > Size(0); ++first, ++result, --n)
-    *result = *first;
+  {
+    general_copy_detail::iter_assign(result, first);
+  }
+
   return result;
 } // end general_copy_n()
 
