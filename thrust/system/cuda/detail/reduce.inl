@@ -224,7 +224,7 @@ template<typename DerivedPolicy,
   
   //std::cout << "Launching " << num_blocks << " blocks of kernel with " << block_size << " threads and " << smem_bytes << " shared memory per block " << std::endl;
 
-  detail::launch_closure(closure, num_blocks, block_size, smem_bytes);
+  detail::launch_closure(exec, closure, num_blocks, block_size, smem_bytes);
 
   // second level reduction
   if (num_blocks > 1)
@@ -245,7 +245,7 @@ template<typename DerivedPolicy,
 
     //std::cout << "Launching " << num_blocks << " blocks of kernel with " << block_size << " threads and " << smem_bytes << " shared memory per block " << std::endl;
 
-    detail::launch_closure(closure, num_blocks, block_size, smem_bytes);
+    detail::launch_closure(exec, closure, num_blocks, block_size, smem_bytes);
   }
   
   return output[0];

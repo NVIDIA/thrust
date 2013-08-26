@@ -272,7 +272,7 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
   typedef merge_detail::merge_n_closure<RandomAccessIterator1,Size,RandomAccessIterator2,RandomAccessIterator3,Compare> closure_type;
   closure_type closure(first1, n1, first2, n2, result, comp, work_per_thread);
 
-  detail::launch_closure(closure, num_blocks, threads_per_block);
+  detail::launch_closure(exec, closure, num_blocks, threads_per_block);
 
   return result + n1 + n2;
 } // end merge()

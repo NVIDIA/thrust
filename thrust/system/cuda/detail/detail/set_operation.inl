@@ -615,7 +615,8 @@ template<typename DerivedPolicy, typename InputIterator1, typename InputIterator
   // find output partition offsets
   // +1 to store the total size of the total
   thrust::detail::temporary_array<difference, DerivedPolicy> output_partition_offsets(0, exec, num_partitions + 1);
-  launch_closure(d::make_count_set_operation_closure<threads_per_block,work_per_thread>(input_partition_offsets.begin(), num_partitions, first1, first2, output_partition_offsets.begin(), comp, set_op),
+  launch_closure(exec,
+                 d::make_count_set_operation_closure<threads_per_block,work_per_thread>(input_partition_offsets.begin(), num_partitions, first1, first2, output_partition_offsets.begin(), comp, set_op),
                  num_blocks,
                  threads_per_block);
 
@@ -623,7 +624,8 @@ template<typename DerivedPolicy, typename InputIterator1, typename InputIterator
   thrust::exclusive_scan(exec, output_partition_offsets.begin(), output_partition_offsets.end(), output_partition_offsets.begin());
 
   // run the set op kernel
-  launch_closure(d::make_set_operation_closure<threads_per_block,work_per_thread>(input_partition_offsets.begin(), num_partitions, first1, first2, output_partition_offsets.begin(), result, comp, set_op),
+  launch_closure(exec,
+                 d::make_set_operation_closure<threads_per_block,work_per_thread>(input_partition_offsets.begin(), num_partitions, first1, first2, output_partition_offsets.begin(), result, comp, set_op),
                  num_blocks,
                  threads_per_block);
 

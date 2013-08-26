@@ -197,7 +197,7 @@ template<typename DerivedPolicy,
   typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
   typedef copy_if_intervals_closure<InputIterator1,PredicateToIndexIterator,InputIterator3,Decomposition,OutputIterator,Context> Closure;
   Closure closure(first, predicate_stencil, block_results.begin(), decomp, output);
-  detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
+  detail::launch_closure(exec, closure, decomp.size(), ThreadsPerBlock);
 
   return output + block_results[decomp.size() - 1];
 } // end copy_if()

@@ -606,7 +606,7 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                     thrust::raw_pointer_cast(&block_results[0]),
                     binary_op,
                     decomp);
-    detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
+    detail::launch_closure(exec, closure, decomp.size(), ThreadsPerBlock);
   }
 
   // second level inclusive scan of per-block results
@@ -620,7 +620,7 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                     thrust::raw_pointer_cast(&block_results[0]), // not used
                     binary_op,
                     Decomposition(decomp.size(), 1, 1));
-    detail::launch_closure(closure, 1, ThreadsPerBlock);
+    detail::launch_closure(exec, closure, 1, ThreadsPerBlock);
   }
   
   // update intervals with result of second level scan
@@ -634,7 +634,7 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
                     thrust::raw_pointer_cast(&block_results[0]) - 1, // shift block results
                     binary_op,
                     decomp);
-    detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
+    detail::launch_closure(exec, closure, decomp.size(), ThreadsPerBlock);
   }
   
   return output + (last - first);
@@ -704,7 +704,7 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                     thrust::raw_pointer_cast(&block_results[0]) + 1,
                     binary_op,
                     decomp);
-    detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
+    detail::launch_closure(exec, closure, decomp.size(), ThreadsPerBlock);
   }
 
   // place init before per-block results
@@ -721,7 +721,7 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                     thrust::raw_pointer_cast(&block_results[0]), // not used
                     binary_op,
                     Decomposition(decomp.size() + 1, 1, 1));
-    detail::launch_closure(closure, 1, ThreadsPerBlock);
+    detail::launch_closure(exec, closure, 1, ThreadsPerBlock);
   }
   
   // update intervals with result of second level scan
@@ -735,7 +735,7 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
                     thrust::raw_pointer_cast(&block_results[0]), // shift block results
                     binary_op,
                     decomp);
-    detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
+    detail::launch_closure(exec, closure, decomp.size(), ThreadsPerBlock);
   }
   
   return output + (last - first);

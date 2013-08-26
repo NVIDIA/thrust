@@ -135,7 +135,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
+RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
                                 RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
@@ -168,12 +168,12 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
   {
     // launch the big closure
     thrust::tuple<size_t, size_t> big_config = for_each_n_detail::configure_launch<BigClosure>(n);
-    detail::launch_closure(big_closure, thrust::get<0>(big_config), thrust::get<1>(big_config));
+    detail::launch_closure(exec, big_closure, thrust::get<0>(big_config), thrust::get<1>(big_config));
   }
   else
   {
     // launch the little closure
-    detail::launch_closure(little_closure, thrust::get<0>(little_config), thrust::get<1>(little_config));
+    detail::launch_closure(exec, little_closure, thrust::get<0>(little_config), thrust::get<1>(little_config));
   }
 
   return first + n;

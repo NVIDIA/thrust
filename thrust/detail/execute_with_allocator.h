@@ -41,7 +41,16 @@ template<typename Allocator, template <typename> class BaseSystem>
   struct execute_with_allocator
     : BaseSystem<execute_with_allocator<Allocator, BaseSystem> >
 {
+  typedef BaseSystem<
+    execute_with_allocator<Allocator, BaseSystem>
+  > super_t;
+
   Allocator &m_alloc;
+
+  execute_with_allocator(const super_t &super, Allocator &alloc)
+    : super_t(super),
+      m_alloc(alloc)
+  {}
 
   execute_with_allocator(Allocator &alloc)
     : m_alloc(alloc)

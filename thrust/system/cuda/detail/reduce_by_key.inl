@@ -636,7 +636,7 @@ template <typename DerivedPolicy,
        interval_values.begin(),
        interval_carry.begin(),
        decomp);
-    detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
+    detail::launch_closure(exec, closure, decomp.size(), ThreadsPerBlock);
    
     if (decomp.size() > 1)
     {
