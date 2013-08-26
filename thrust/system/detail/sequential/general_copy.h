@@ -49,15 +49,14 @@ struct lazy_is_assignable
 // in that case, just assume that we're able to assign to it OK
 template<typename InputIterator, typename OutputIterator>
 struct reference_is_assignable
-  : thrust::detail::integral_constant<
-      bool,
+  : thrust::detail::or_<
       thrust::detail::is_same<
         typename thrust::iterator_reference<OutputIterator>::type, void
-      >::value ||
+      >,
       lazy_is_assignable<
         thrust::iterator_reference<OutputIterator>,
         thrust::iterator_reference<InputIterator>
-      >::value
+      >
     >
 {};
 
