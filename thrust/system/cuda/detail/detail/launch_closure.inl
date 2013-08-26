@@ -84,7 +84,7 @@ template<typename Closure,
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     if(num_blocks > 0)
     {
-      launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(exec)>>>(f);
+      launch_closure_by_value<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(thrust::detail::derived_cast(exec))>>>(f);
       synchronize_if_enabled("launch_closure_by_value");
     }
 #endif // THRUST_DEVICE_COMPILER_NVCC
@@ -113,7 +113,7 @@ template<typename Closure>
       thrust::detail::temporary_array<Closure,DerivedPolicy> closure_storage(exec, host_tag, &f, &f + 1);
 
       // launch
-      detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(exec)>>>((&closure_storage[0]).get());
+      detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(thrust::detail::derived_cast(exec))>>>((&closure_storage[0]).get());
       synchronize_if_enabled("launch_closure_by_pointer");
     }
 #endif // THRUST_DEVICE_COMPILER_NVCC
