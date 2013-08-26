@@ -36,11 +36,28 @@ namespace general_copy_detail
 {
 
 
+template<typename T1, typename T2>
+struct lazy_is_assignable
+  : thrust::detail::is_assignable<
+      typename T1::type,
+      typename T2::type
+    >
+{};
+
+
+// sometimes OutputIterator's reference type is reported as void
+// in that case, just assume that we're able to assign to it OK
 template<typename InputIterator, typename OutputIterator>
 struct reference_is_assignable
-  : thrust::detail::is_assignable<
-      typename thrust::iterator_reference<OutputIterator>::type,
-      typename thrust::iterator_reference<InputIterator>::type
+  : thrust::detail::integral_constant<
+      bool,
+      thrust::detail::is_same<
+        typename thrust::iterator_reference<OutputIterator>::type, void
+      >::value ||
+      thrust::detail::is_assignable<
+        typename thrust::iterator_reference<OutputIterator>::type,
+        typename thrust::iterator_reference<InputIterator>::type
+      >::value
     >
 {};
 
