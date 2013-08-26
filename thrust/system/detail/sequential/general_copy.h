@@ -54,9 +54,9 @@ struct reference_is_assignable
       thrust::detail::is_same<
         typename thrust::iterator_reference<OutputIterator>::type, void
       >::value ||
-      thrust::detail::is_assignable<
-        typename thrust::iterator_reference<OutputIterator>::type,
-        typename thrust::iterator_reference<InputIterator>::type
+      lazy_is_assignable<
+        thrust::iterator_reference<OutputIterator>,
+        thrust::iterator_reference<InputIterator>
       >::value
     >
 {};
