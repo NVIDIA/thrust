@@ -1,4 +1,3 @@
-#include <iostream>
 #include <thrust/device_vector.h>
 #include <thrust/for_each.h>
 #include <thrust/system/cuda/execution_policy.h>
