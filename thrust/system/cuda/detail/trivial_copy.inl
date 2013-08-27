@@ -24,6 +24,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
 {
@@ -37,9 +38,9 @@ namespace detail
 namespace trivial_copy_detail
 {
 
-inline void checked_cudaMemcpy(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind)
+inline void checked_cudaMemcpyAsync(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind, cudaStream_t stream)
 {
-  cudaError_t error = cudaMemcpy(dst,src,count,kind);
+  cudaError_t error = cudaMemcpyAsync(dst,src,count,kind,stream);
   if(error)
   {
     throw thrust::system_error(error, thrust::cuda_category());
@@ -82,7 +83,7 @@ template<typename DerivedPolicy,
   void *dst = thrust::raw_pointer_cast(&*result);
   const void *src = thrust::raw_pointer_cast(&*first);
 
-  trivial_copy_detail::checked_cudaMemcpy(dst, src, n * sizeof(T), cudaMemcpyDeviceToDevice);
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), cudaMemcpyDeviceToDevice, stream(thrust::detail::derived_cast(exec)));
 }
 
 
@@ -103,7 +104,9 @@ template<typename System1,
 
   cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(systems.system1), thrust::detail::derived_cast(systems.system2));
 
-  trivial_copy_detail::checked_cudaMemcpy(dst, src, n * sizeof(T), kind);
+  // XXX use stream 0 for now
+  //     we may wish to enable async host <-> device copy in the future
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, 0);
 }
 
 
