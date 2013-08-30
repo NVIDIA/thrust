@@ -37,8 +37,8 @@
 // #include the details first
 #include <thrust/iterator/detail/transform_iterator.inl>
 #include <thrust/iterator/iterator_facade.h>
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/function.h>
 
 namespace thrust
 {
@@ -300,10 +300,10 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     __host__ __device__
     typename super_t::reference dereference() const
     { 
-      // XXX consider making this a member instead of a temporary created inside dereference
-      thrust::detail::wrapped_function<AdaptableUnaryFunction, typename super_t::reference> wrapped_f(m_f);
-
-      return wrapped_f(*this->base());
+      // create a temporary to allow iterators with wrapped references to convert to their value type before calling m_f
+      // note that this disallows non-constant operations through m_f
+      typename thrust::iterator_value<Iterator>::type x = *this->base();
+      return m_f(x);
     }
 
     // tag this as mutable per Dave Abrahams in this thread:
