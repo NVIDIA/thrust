@@ -25,7 +25,6 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/cstdint.h>
 #include <thrust/scatter.h>
-#include <thrust/iterator/retag.h>
 
 namespace thrust
 {
@@ -552,10 +551,7 @@ void stable_radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
   
   thrust::detail::temporary_array<KeyType, DerivedPolicy> temp(exec, N);
   
-  // XXX since we construct fancy iterators in the implementation,
-  //     retag first to DerivedPolicy to ensure fancy iterators can
-  //     compute a minimal system type
-  radix_sort_detail::radix_sort(exec, thrust::retag<DerivedPolicy>(first), temp.begin(), N);
+  radix_sort_detail::radix_sort(exec, first, temp.begin(), N);
 }
 
 
@@ -576,10 +572,7 @@ void stable_radix_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
   thrust::detail::temporary_array<KeyType, DerivedPolicy>   temp1(exec, N);
   thrust::detail::temporary_array<ValueType, DerivedPolicy> temp2(exec, N);
 
-  // XXX since we construct fancy iterators in the implementation,
-  //     retag first1 & first2 to DerivedPolicy to ensure fancy iterators can
-  //     compute a minimal system type
-  radix_sort_detail::radix_sort(exec, thrust::retag<DerivedPolicy>(first1), temp1.begin(), thrust::retag<DerivedPolicy>(first2), temp2.begin(), N);
+  radix_sort_detail::radix_sort(exec, first1, temp1.begin(), first2, temp2.begin(), N);
 }
 
 
