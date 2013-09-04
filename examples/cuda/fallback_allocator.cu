@@ -101,7 +101,8 @@ int main(void)
 
   fallback_allocator alloc;
 
-  if(!properties.canMapHostMemory)
+  // this example requires both unified addressing and memory mapping
+  if(!properties.unifiedAddressing || !properties.canMapHostMemory)
   {
     std::cout << "Device #" << device 
               << " [" << properties.name << "] does not support memory mapping" << std::endl;
