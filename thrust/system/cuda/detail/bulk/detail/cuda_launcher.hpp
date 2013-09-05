@@ -190,7 +190,7 @@ struct cuda_launcher_base
     {
       cudaError_t error = cudaGetLastError();
 
-      std::clog << "CUDA error: " << cudaGetErrorString(error) << std::endl;
+      std::clog << "cuda_launcher_base::launch(): CUDA error before launch: " << cudaGetErrorString(error) << std::endl;
       std::clog << "cuda_launcher_base::launch(): num_blocks: " << num_blocks << std::endl;
       std::clog << "cuda_launcher_base::launch(): block_size: " << block_size << std::endl;
       std::clog << "cuda_launcher_base::launch(): num_dynamic_smem_bytes: " << num_dynamic_smem_bytes << std::endl;
@@ -470,6 +470,10 @@ struct cuda_launcher<
     size_type block_size = thrust::min<size_type>(g.size(), super_t::choose_group_size(use_default));
 
     size_type num_blocks = (block_size > 0) ? (g.size() + block_size - 1) / block_size : 0;
+
+    // don't request more blocks than we can physically launch
+    size_type max_num_blocks = super_t::max_physical_grid_size();
+    num_blocks = (num_blocks > max_num_blocks) ? max_num_blocks : num_blocks;
 
     return thrust::make_tuple(num_blocks, block_size);
   } // end configure()
