@@ -28,6 +28,22 @@
 #include <thrust/detail/temporary_array.h>
 
 
+namespace thrust
+{
+namespace detail
+{
+
+
+// XXX WAR circular inclusion problems with this forward declaration
+// XXX consider not using temporary_array at all here to avoid these
+//     issues
+template<typename, typename> class temporary_array;
+
+
+} // end detail
+} // end thrust
+
+
 BULK_NAMESPACE_PREFIX
 namespace bulk
 {
