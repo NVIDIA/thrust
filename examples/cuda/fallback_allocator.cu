@@ -33,6 +33,9 @@ void *malloc(fallback_allocator, std::size_t n)
   }
   else
   {
+    // reset the last CUDA error
+    cudaGetLastError();
+
     // attempt to allocate pinned host memory
     void *h_ptr = 0;
     if(cudaMallocHost(&h_ptr, n) == cudaSuccess)
@@ -44,6 +47,9 @@ void *malloc(fallback_allocator, std::size_t n)
       }
       else
       {
+        // reset the last CUDA error
+        cudaGetLastError();
+
         // attempt to deallocate buffer
         std::cout << "  failed to map host memory into device address space (fallback failed)" << std::endl;
         cudaError_t error = cudaFreeHost(h_ptr);
@@ -57,6 +63,9 @@ void *malloc(fallback_allocator, std::size_t n)
     }
     else
     {
+      // reset the last CUDA error
+      cudaGetLastError();
+
       std::cout << "  failed to allocate " << n << " bytes of memory (fallback failed)" << std::endl;
       result = 0;
     }

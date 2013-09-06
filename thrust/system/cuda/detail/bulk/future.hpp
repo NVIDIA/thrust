@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
-#include <cuda_runtime_api.h>
+#include <thrust/system/cuda/detail/bulk/detail/guarded_cuda_runtime_api.hpp>
 #include <utility>
 #include <stdexcept>
 #include <iostream>
