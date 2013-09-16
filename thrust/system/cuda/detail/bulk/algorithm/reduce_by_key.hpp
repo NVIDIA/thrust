@@ -101,8 +101,16 @@ reduce_by_key(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
 
   const size_type interval_size = groupsize * grainsize;
 
+#if __CUDA_ARCH__ >= 200
   size_type *s_flags = reinterpret_cast<size_type*>(bulk::malloc(g, interval_size * sizeof(int)));
   value_type *s_values = reinterpret_cast<value_type*>(bulk::malloc(g, interval_size * sizeof(value_type)));
+#else
+  __shared__ uninitialized_array<size_type,interval_size> s_flags_impl;
+  size_type *s_flags = s_flags_impl.data();
+
+  __shared__ uninitialized_array<value_type,interval_size> s_values_impl;
+  value_type *s_values = s_values_impl.data();
+#endif
 
   for(; keys_first < keys_last; keys_first += interval_size, values_first += interval_size)
   {
@@ -159,8 +167,10 @@ reduce_by_key(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
     g.wait();
   } // end for
 
+#if __CUDA_ARCH__ >= 200
   bulk::free(g, s_flags);
   bulk::free(g, s_values);
+#endif
 
   return thrust::make_tuple(keys_result, values_result, init_key, init_value);
 } // end reduce_by_key()
