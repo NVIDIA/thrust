@@ -286,9 +286,9 @@ void reduce_by_key_body(Context context,
   // update local values
   if (context.thread_index() > 0)
   {
-    unsigned int update_bits  = (flag_bits << 1) | (left_flag >> (K - 1));
 // TODO remove guard
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+    unsigned int update_bits  = (flag_bits << 1) | (left_flag >> (K - 1));
     unsigned int update_count = __ffs(update_bits) - 1u; // NB: this might wrap around to UINT_MAX
 #else
     unsigned int update_count = 0;
@@ -424,17 +424,17 @@ struct reduce_by_key_closure
 
 // TODO centralize this mapping (__CUDA_ARCH__ -> smem bytes)
 #if __CUDA_ARCH__ >= 200
-    const unsigned int SMEM = (48 * 1024);
+    const unsigned int smem = (48 * 1024);
 #else
-    const unsigned int SMEM = (16 * 1024) - 256;
+    const unsigned int smem = (16 * 1024) - 256;
 #endif
-    const unsigned int SMEM_FIXED = CTA_SIZE * sizeof(FlagType) + sizeof(ValueType) + sizeof(IndexType) + sizeof(bool);
-    const unsigned int BOUND_1 = (SMEM - SMEM_FIXED) / ((CTA_SIZE + 1) * sizeof(ValueType));
-    const unsigned int BOUND_2 = 8 * sizeof(FlagType);
-    const unsigned int BOUND_3 = 6;
+    const unsigned int smem_fixed = CTA_SIZE * sizeof(FlagType) + sizeof(ValueType) + sizeof(IndexType) + sizeof(bool);
+    const unsigned int bound_1 = (smem - smem_fixed) / ((CTA_SIZE + 1) * sizeof(ValueType));
+    const unsigned int bound_2 = 8 * sizeof(FlagType);
+    const unsigned int bound_3 = 6;
   
-    // TODO replace this with a static_min<BOUND_1,BOUND_2,BOUND_3>::value
-    const unsigned int K = (BOUND_1 < BOUND_2) ? (BOUND_1 < BOUND_3 ? BOUND_1 : BOUND_3) : (BOUND_2 < BOUND_3 ? BOUND_2 : BOUND_3);
+    // TODO replace this with a static_min<bound_1,bound_2,bound_3>::value
+    const unsigned int K = (bound_1 < bound_2) ? (bound_1 < bound_3 ? bound_1 : bound_3) : (bound_2 < bound_3 ? bound_2 : bound_3);
   
     __shared__ detail::uninitialized<FlagType[CTA_SIZE]>         sflag;
     __shared__ detail::uninitialized<ValueType[K][CTA_SIZE + 1]> sdata;  // padded to avoid bank conflicts
