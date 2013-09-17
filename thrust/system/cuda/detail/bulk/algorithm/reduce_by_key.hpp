@@ -63,6 +63,52 @@ struct scan_head_flags_functor
 };
 
 
+template<typename ConcurrentGroup,
+         typename InputIterator1,
+         typename Size,
+         typename InputIterator2,
+         typename InputIterator3,
+         typename OutputIterator1,
+         typename OutputIterator2>
+__device__
+void scatter_tails_n(ConcurrentGroup &group,
+                     InputIterator1 flags_first,
+                     Size n,
+                     InputIterator2 keys_first,
+                     InputIterator3 values_first,
+                     OutputIterator1 keys_result,
+                     OutputIterator2 values_result)
+{
+  // for each tail element in [flags_first, flags_first + n)
+  // scatter the key and value to that element's corresponding flag element - 1
+  
+  // the zip_iterators in this scatter_if can confuse nvcc's pointer space tracking for __CUDA_ARCH__ < 200
+  // separate the scatters for __CUDA_ARCH__ < 200
+#if __CUDA_ARCH__ >= 200
+  bulk::scatter_if(group,
+                   thrust::make_zip_iterator(thrust::make_tuple(values_first,         thrust::reinterpret_tag<thrust::cpp::tag>(keys_first))),
+                   thrust::make_zip_iterator(thrust::make_tuple(values_first + n - 1, thrust::reinterpret_tag<thrust::cpp::tag>(keys_first))),
+                   thrust::make_transform_iterator(flags_first, thrust::placeholders::_1 - 1),
+                   bulk::detail::make_tail_flags(flags_first, flags_first + n).begin(),
+                   thrust::make_zip_iterator(thrust::make_tuple(values_result, keys_result)));
+#else
+  bulk::scatter_if(group,
+                   values_first, 
+                   values_first + n - 1,
+                   thrust::make_transform_iterator(flags_first, thrust::placeholders::_1 - 1),
+                   bulk::detail::make_tail_flags(flags_first, flags_first + n).begin(),
+                   values_result);
+
+  bulk::scatter_if(group,
+                   keys_first, 
+                   keys_first + n - 1,
+                   thrust::make_transform_iterator(flags_first, thrust::placeholders::_1 - 1),
+                   bulk::detail::make_tail_flags(flags_first, flags_first + n).begin(),
+                   keys_result);
+#endif
+} // end scatter_tails_n()
+
+
 } // end reduce_by_key_detail
 } // end detail
 
@@ -139,16 +185,12 @@ reduce_by_key(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
                          thrust::make_tuple(1, init_value),
                          f);
 
-    // for each tail element in scanned_values, except the last, which is the carry,
-    // scatter to that element's corresponding flag element - 1
-    // simultaneously scatter the corresponding key
-    // XXX can we do this scatter in-place in smem?
-    bulk::scatter_if(bulk::bound<interval_size>(g),
-                     thrust::make_zip_iterator(thrust::make_tuple(s_values,         thrust::reinterpret_tag<thrust::cpp::tag>(keys_first))),
-                     thrust::make_zip_iterator(thrust::make_tuple(s_values + n - 1, thrust::reinterpret_tag<thrust::cpp::tag>(keys_first))),
-                     thrust::make_transform_iterator(s_flags, thrust::placeholders::_1 - 1),
-                     bulk::detail::make_tail_flags(s_flags, s_flags + n).begin(),
-                     thrust::make_zip_iterator(thrust::make_tuple(values_result, keys_result)));
+    // scatter tail results to the output
+    detail::reduce_by_key_detail::scatter_tails_n(bulk::bound<interval_size>(g),
+                                                  s_flags, n,
+                                                  keys_first, s_values,
+                                                  keys_result, values_result);
+
 
     // if the init was not a carry, we need to insert it at the beginning of the result
     if(g.this_exec.index() == 0 && s_flags[0] > 1)
