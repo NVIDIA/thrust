@@ -20,7 +20,6 @@
 #include <thrust/tabulate.h>
 #include <thrust/iterator/detail/join_iterator.h>
 #include <thrust/detail/minmax.h>
-#include <cstdio>
 
 namespace thrust
 {

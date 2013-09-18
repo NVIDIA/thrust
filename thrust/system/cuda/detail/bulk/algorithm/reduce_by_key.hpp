@@ -165,9 +165,9 @@ reduce_by_key(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
 
     bulk::detail::head_flags_with_init<
       InputIterator1,
-      thrust::equal_to<key_type>,
+      BinaryPredicate,
       size_type
-    > flags(keys_first, keys_first + n, init_key);
+    > flags(keys_first, keys_first + n, init_key, pred);
 
     detail::reduce_by_key_detail::scan_head_flags_functor<size_type, value_type, BinaryFunction> f(binary_op);
 
