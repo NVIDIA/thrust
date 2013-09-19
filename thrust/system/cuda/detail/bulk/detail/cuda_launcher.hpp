@@ -65,12 +65,24 @@ size_t maximum_potential_occupancy(Function kernel, size_t num_threads, size_t n
 }
 
 
+#ifdef __CUDACC__
+// if there are multiple versions of Bulk floating around, this may be #defined already
+#  ifndef __bulk_launch_bounds__
+#    define __bulk_launch_bounds__(num_threads_per_block, num_blocks_per_sm) __launch_bounds__(num_threads_per_block, num_blocks_per_sm)
+#  endif
+#else
+#  ifndef __bulk_launch_bounds__
+#    define __bulk_launch_bounds__(num_threads_per_block, num_blocks_per_sm)
+#  endif
+#endif // __CUDACC__
+
+
 #if BULK_ASYNC_USE_UNINITIALIZED
 // XXX uninitialized is a performance hazard
 //     disable it for the moment
 template<unsigned int block_size, typename Function>
 __global__
-__launch_bounds__(block_size, 0)
+__bulk_launch_bounds__(block_size, 0)
 void launch_by_value(uninitialized<Function> f)
 {
   f.get()();
@@ -78,7 +90,7 @@ void launch_by_value(uninitialized<Function> f)
 #else
 template<unsigned int block_size, typename Function>
 __global__
-__launch_bounds__(block_size, 0)
+__bulk_launch_bounds__(block_size, 0)
 void launch_by_value(Function f)
 {
   f();
@@ -88,7 +100,7 @@ void launch_by_value(Function f)
 
 template<unsigned int block_size, typename Function>
 __global__
-__launch_bounds__(block_size, 0)
+__bulk_launch_bounds__(block_size, 0)
 void launch_by_pointer(const Function *f)
 {
   // copy to registers
