@@ -68,15 +68,17 @@ size_t maximum_potential_occupancy(Function kernel, size_t num_threads, size_t n
 #if BULK_ASYNC_USE_UNINITIALIZED
 // XXX uninitialized is a performance hazard
 //     disable it for the moment
-template<typename Function>
+template<unsigned int block_size, typename Function>
 __global__
+__launch_bounds__(block_size, 0)
 void launch_by_value(uninitialized<Function> f)
 {
   f.get()();
 }
 #else
-template<typename Function>
+template<unsigned int block_size, typename Function>
 __global__
+__launch_bounds__(block_size, 0)
 void launch_by_value(Function f)
 {
   f();
@@ -84,8 +86,9 @@ void launch_by_value(Function f)
 #endif
 
 
-template<typename Function>
+template<unsigned int block_size, typename Function>
 __global__
+__launch_bounds__(block_size, 0)
 void launch_by_pointer(const Function *f)
 {
   // copy to registers
@@ -106,7 +109,7 @@ bool verbose = false;
 
 
 // sm_10 devices have 256 bytes of parameter space
-template<typename Function, bool by_value = sizeof(Function) <= 256>
+template<unsigned int block_size_, typename Function, bool by_value = sizeof(Function) <= 256>
 class triple_chevron_launcher
 {
   public:
@@ -121,7 +124,7 @@ class triple_chevron_launcher
 
     static global_function_t get_global_function()
     {
-      return launch_by_value<task_type>;
+      return launch_by_value<block_size_, task_type>;
     } // end get_launch_function()
 
 
@@ -145,8 +148,8 @@ class triple_chevron_launcher
 };
 
 
-template<typename Function>
-class triple_chevron_launcher<Function,false>
+template<unsigned int block_size_, typename Function>
+class triple_chevron_launcher<block_size_,Function,false>
 {
   public:
     typedef Function task_type;
@@ -154,7 +157,7 @@ class triple_chevron_launcher<Function,false>
 
     static global_function_t get_global_function()
     {
-      return launch_by_pointer<task_type>;
+      return launch_by_pointer<block_size_, task_type>;
     } // end get_launch_function()
 
 
@@ -173,15 +176,18 @@ class triple_chevron_launcher<Function,false>
 };
 
 
-template<typename ExecutionGroup, typename Closure>
+// XXX instead of passing block_size_ as a template parameter to cuda_launcher_base,
+//     find a way to fish it out of ExecutionGroup
+template<unsigned int block_size_, typename ExecutionGroup, typename Closure>
 struct cuda_launcher_base
   : public triple_chevron_launcher<
+      block_size_,
       cuda_task<ExecutionGroup,Closure>
     >
 {
-  typedef triple_chevron_launcher<cuda_task<ExecutionGroup,Closure> > super_t;
-  typedef typename super_t::task_type                                 task_type;
-  typedef typename ExecutionGroup::size_type                          size_type;
+  typedef triple_chevron_launcher<block_size_, cuda_task<ExecutionGroup,Closure> > super_t;
+  typedef typename super_t::task_type                                              task_type;
+  typedef typename ExecutionGroup::size_type                                       size_type;
 
 
   void launch(size_type num_blocks, size_type block_size, size_type num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
@@ -334,9 +340,9 @@ struct cuda_launcher<
   >,
   Closure
 >
-  : public cuda_launcher_base<typename cuda_grid<gridsize,blocksize,grainsize>::type,Closure>
+  : public cuda_launcher_base<blocksize, typename cuda_grid<gridsize,blocksize,grainsize>::type,Closure>
 {
-  typedef cuda_launcher_base<typename cuda_grid<gridsize,blocksize,grainsize>::type,Closure> super_t;
+  typedef cuda_launcher_base<blocksize, typename cuda_grid<gridsize,blocksize,grainsize>::type,Closure> super_t;
   typedef typename super_t::size_type size_type;
 
   typedef typename cuda_grid<gridsize,blocksize,grainsize>::type grid_type;
@@ -405,9 +411,9 @@ struct cuda_launcher<
   >,
   Closure
 >
-  : public cuda_launcher_base<concurrent_group<agent<grainsize>,blocksize>,Closure>
+  : public cuda_launcher_base<blocksize,concurrent_group<agent<grainsize>,blocksize>,Closure>
 {
-  typedef cuda_launcher_base<concurrent_group<agent<grainsize>,blocksize>,Closure> super_t;
+  typedef cuda_launcher_base<blocksize,concurrent_group<agent<grainsize>,blocksize>,Closure> super_t;
   typedef typename super_t::size_type size_type;
   typedef typename super_t::task_type task_type;
 
@@ -444,9 +450,9 @@ struct cuda_launcher<
   >,
   Closure
 >
-  : public cuda_launcher_base<parallel_group<agent<grainsize>,groupsize>,Closure>
+  : public cuda_launcher_base<dynamic_group_size, parallel_group<agent<grainsize>,groupsize>,Closure>
 {
-  typedef cuda_launcher_base<parallel_group<agent<grainsize>,groupsize>,Closure> super_t;
+  typedef cuda_launcher_base<dynamic_group_size, parallel_group<agent<grainsize>,groupsize>,Closure> super_t;
   typedef typename super_t::size_type size_type; 
   typedef typename super_t::task_type task_type;
 
