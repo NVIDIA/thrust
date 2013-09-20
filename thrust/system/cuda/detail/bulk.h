@@ -16,21 +16,26 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
+
 // we need to carefully undefine and then redefined these macros to ensure that multiple
 // versions of bulk can coexist in the same program
+// push_macro & pop_macro were introduced to gcc in version 4.3
 
 // if the macros are already defined, save them and undefine them
-#ifdef BULK_NAMESPACE_PREFIX
-#  pragma push_macro("BULK_NAMESPACE_PREFIX")
-#  undef BULK_NAMESPACE_PREFIX
-#  define BULK_NAMESPACE_PREFIX_NEEDS_RESTORE
-#endif
 
-#ifdef BULK_NAMESPACE_SUFFIX
-#  pragma push_macro("BULK_NAMESPACE_SUFFIX")
-#  undef BULK_NAMESPACE_SUFFIX
-#  define BULK_NAMESPACE_SUFFIX_NEEDS_RESTORE
-#endif
+#if !defined(__GNUC__) || (THRUST_GCC_VERSION >= 40300)
+#  ifdef BULK_NAMESPACE_PREFIX
+#    pragma push_macro("BULK_NAMESPACE_PREFIX")
+#    undef BULK_NAMESPACE_PREFIX
+#    define BULK_NAMESPACE_PREFIX_NEEDS_RESTORE
+#  endif
+#  ifdef BULK_NAMESPACE_SUFFIX
+#    pragma push_macro("BULK_NAMESPACE_SUFFIX")
+#    undef BULK_NAMESPACE_SUFFIX
+#    define BULK_NAMESPACE_SUFFIX_NEEDS_RESTORE
+#  endif
+#endif // __GNUC__
 
 // define the macros while we #include our version of bulk
 #define BULK_NAMESPACE_PREFIX namespace thrust { namespace system { namespace cuda { namespace detail {
@@ -43,13 +48,15 @@
 #undef BULK_NAMESPACE_SUFFIX
 
 // redefine the macros if they were defined previously
-#ifdef BULK_NAMESPACE_PREFIX_NEEDS_RESTORE
-#  pragma pop_macro("BULK_NAMESPACE_PREFIX")
-#  undef BULK_NAMESPACE_PREFIX_NEEDS_RESTORE
-#endif
 
-#ifdef BULK_NAMESPACE_SUFFIX_NEEDS_RESTORE
-#  pragma pop_macro("BULK_NAMESPACE_SUFFIX")
-#  undef BULK_NAMESPACE_SUFFIX_NEEDS_RESTORE
-#endif
+#if !defined(__GNUC__) || (THRUST_GCC_VERSION >= 40300)
+#  ifdef BULK_NAMESPACE_PREFIX_NEEDS_RESTORE
+#    pragma pop_macro("BULK_NAMESPACE_PREFIX")
+#    undef BULK_NAMESPACE_PREFIX_NEEDS_RESTORE
+#  endif
+#  ifdef BULK_NAMESPACE_SUFFIX_NEEDS_RESTORE
+#    pragma pop_macro("BULK_NAMESPACE_SUFFIX")
+#    undef BULK_NAMESPACE_SUFFIX_NEEDS_RESTORE
+#  endif
+#endif // __GNUC__
 
