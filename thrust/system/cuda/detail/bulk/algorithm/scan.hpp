@@ -212,10 +212,12 @@ template<bool inclusive,
          typename T,
          typename BinaryFunction>
 __device__
-typename thrust::detail::enable_if<
-  bound <= groupsize * grainsize,
-  T
->::type
+// XXX MSVC9 has trouble with this enable_if, so just don't bother with it
+//typename thrust::detail::enable_if<
+//  bound <= groupsize * grainsize,
+//  T
+//>::type
+T
 scan(bulk::bounded<
        bound,
        bulk::concurrent_group<bulk::agent<grainsize>,groupsize>
