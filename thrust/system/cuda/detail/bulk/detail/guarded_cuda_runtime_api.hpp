@@ -20,28 +20,34 @@
 // the purpose of this header is to #include <cuda_runtime_api> without causing
 // warnings from redefinitions of __host__ and __device__.
 // carefully save their definitions and restore them
+// push_macro & pop_macro were introduced to gcc in version 4.3
 
-#ifdef __host__
-#  pragma push_macro("__host__")
-#  undef __host__
-#  define BULK_HOST_NEEDS_RESTORATION
-#endif
 
-#ifdef __device__
-#  pragma push_macro("__device__")
-#  undef __device__
-#  define BULK_DEVICE_NEEDS_RESTORATION
-#endif
+#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40300)
+#  ifdef __host__
+#    pragma push_macro("__host__")
+#    undef __host__
+#    define BULK_HOST_NEEDS_RESTORATION
+#  endif
+#  ifdef __device__
+#    pragma push_macro("__device__")
+#    undef __device__
+#    define BULK_DEVICE_NEEDS_RESTORATION
+#  endif
+#endif // __GNUC__
+
 
 #include <cuda_runtime_api.h>
 
-#ifdef BULK_HOST_NEEDS_RESTORATION
-#  pragma pop_macro("__host__")
-#  undef BULK_HOST_NEEDS_RESTORATION
-#endif
 
-#ifdef BULK_DEVICE_NEEDS_RESTORATION
-#  pragma pop_macro("__device__")
-#  undef BULK_DEVICE_NEEDS_RESTORATION
-#endif
+#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40300)
+#  ifdef BULK_HOST_NEEDS_RESTORATION
+#    pragma pop_macro("__host__")
+#    undef BULK_HOST_NEEDS_RESTORATION
+#  endif
+#  ifdef BULK_DEVICE_NEEDS_RESTORATION
+#    pragma pop_macro("__device__")
+#    undef BULK_DEVICE_NEEDS_RESTORATION
+#  endif
+#endif // __GNUC__
 
