@@ -59,7 +59,6 @@ Size merge_path(RandomAccessIterator1 first1, Size n1,
 } // end merge_path()
 
 
-// XXX this implementation is not correct
 template<std::size_t bound,
          std::size_t grainsize,
          typename InputIterator1,
@@ -73,94 +72,104 @@ OutputIterator merge(const bulk::bounded<bound,agent<grainsize> > &e,
                      OutputIterator result,
                      Compare comp)
 {
-  typedef typename bounded<bound,agent<grainsize> >::size_type size_type;
+  typedef typename bulk::bounded<bound,bulk::agent<grainsize> >::size_type size_type;
 
   typedef typename thrust::iterator_value<InputIterator1>::type value_type1;
   typedef typename thrust::iterator_value<InputIterator2>::type value_type2;
 
-  size_type n1 = last1 - first1;
-  size_type idx1 = 0;
+  size_type n = (last1 - first1) + (last2 - first2);
 
-  size_type n2 = last2 - first2;
-  size_type idx2 = 0;
+  // XXX uninitialized is a speed-down in this instance
+  //bulk::uninitialized<value_type1>   key_a;
+  value_type1   key_a;
+  size_type     n1 = last1 - first1;
+  size_type     idx1 = 0;
 
-  uninitialized<value_type1> a;
-  uninitialized<value_type2> b;
-
-  if(n1)
+  if(n1 > 0)
   {
-    a.construct(first1[0]);
+    //key_a.construct(first1[idx1]);
+    key_a = first1[idx1];
   } // end if
 
-  if(n2)
+  //bulk::uninitialized<value_type2>   key_b;
+  value_type2   key_b;
+  size_type     n2 = last2 - first2;
+  size_type     idx2 = 0;
+
+  if(n2 > 0)
   {
-    b.construct(first2[0]);
+    //key_b.construct(first2[idx2]);
+    key_b = first2[idx2];
   } // end if
-
-  size_type i = 0;
-  for(; i < bound; ++i)
+  
+  // avoid branching when possible
+  if(bound <= n)
   {
-    // 4 cases:
-    // 0. both ranges are exhausted
-    // 1. range 1 is exhausted
-    // 2. range 2 is exhausted
-    // 3. neither range is exhausted
+    for(size_type i = 0; i < grainsize; ++i)
+    {
+      bool p = (idx2 >= n2) || ((idx1 < n1) && !comp(key_b, key_a));
+      
+      result[i] = p ? key_a : key_b;
 
-    const bool exhausted1 = idx1 >= n1;
-    const bool exhausted2 = idx2 >= n2;
-
-    if(exhausted1 && exhausted2)
-    {
-      break;
-    } // end if
-    else if(exhausted1)
-    {
-      // XXX FIXME: we never get the next b
-      result[i] = b.get();
-      ++idx2;
-    } // end else if
-    else if(exhausted2)
-    {
-      // XXX FIXME: we never get the next a
-      result[i] = a.get();
-      ++idx1;
-    } // end else if
-    else
-    {
-      if(!comp(b.get(),a.get()))
+      if(p)
       {
-        result[i] = a.get();
         ++idx1;
-
         if(idx1 < n1)
         {
-          a = first1[idx1];
+          key_a = first1[idx1];
         } // end if
       } // end if
       else
       {
-        result[i] = b.get();
         ++idx2;
-
         if(idx2 < n2)
         {
-          b = first2[idx2];
+          key_b = first2[idx2];
         } // end if
       } // end else
-    } // end else
-  } // end for i
-
-  if(n1)
-  {
-    a.destroy();
+    } // end for
   } // end if
-
-  if(n2)
+  else
   {
-    b.destroy();
-  } // end if
+    for(size_type i = 0; i < grainsize; ++i)
+    {
+      if(i < n)
+      {
+        bool p = (idx2 >= n2) || ((idx1 < n1) && !comp(key_b, key_a));
+        
+        result[i] = p ? key_a : key_b;
 
-  return result + i;
+        if(p)
+        {
+          ++idx1;
+          if(idx1 < n1)
+          {
+            key_a = first1[idx1];
+          } // end if
+        } // end if
+        else
+        {
+          ++idx2;
+          if(idx2 < n2)
+          {
+            key_b = first2[idx2];
+          } // end if
+        } // end else
+      } // end if
+    } // end for
+  } // end else
+
+//  if(n1 > 0)
+//  {
+//    key_a.destroy();
+//  } // end if
+//
+//  if(n2 > 0)
+//  {
+//    key_b.destroy();
+//  } // end if
+
+  return result + n;
 } // end merge
 
 
@@ -331,7 +340,7 @@ inplace_merge(bulk::bounded<
   // do a local sequential merge
   size_type local_offset1 = mp;
   size_type local_offset2 = n1 + local_offset - mp;
-  
+
   typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
   value_type local_result[grainsize];
   bulk::merge(bulk::bound<grainsize>(g.this_exec),
