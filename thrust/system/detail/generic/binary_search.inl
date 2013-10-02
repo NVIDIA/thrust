@@ -182,7 +182,8 @@ ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator end,
                             const T& value)
 {
-  return thrust::lower_bound(exec, begin, end, value, thrust::less<T>());
+  namespace p = thrust::placeholders;
+  return thrust::lower_bound(exec, begin, end, value, p::_1 < p::_2);
 }
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
@@ -206,7 +207,8 @@ ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator end,
                             const T& value)
 {
-  return thrust::upper_bound(exec, begin, end, value, thrust::less<T>());
+  namespace p = thrust::placeholders;
+  return thrust::upper_bound(exec, begin, end, value, p::_1 < p::_2);
 }
 
 
@@ -261,9 +263,8 @@ OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator values_end,
                            OutputIterator output)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type ValueType;
-
-  return thrust::lower_bound(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  namespace p = thrust::placeholders;
+  return thrust::lower_bound(exec, begin, end, values_begin, values_end, output, p::_1 < p::_2);
 }
 
 
@@ -290,9 +291,8 @@ OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator values_end,
                            OutputIterator output)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type ValueType;
-
-  return thrust::upper_bound(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  namespace p = thrust::placeholders;
+  return thrust::upper_bound(exec, begin, end, values_begin, values_end, output, p::_1 < p::_2);
 }
 
 
@@ -319,9 +319,8 @@ OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator values_end,
                              OutputIterator output)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type ValueType;
-
-  return thrust::binary_search(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  namespace p = thrust::placeholders;
+  return thrust::binary_search(exec, begin, end, values_begin, values_end, output, p::_1 < p::_2);
 }
 
 

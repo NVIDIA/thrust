@@ -105,7 +105,12 @@ __host__ __device__
 {
   for(; first != last; ++first, ++result)
   {
+    // gcc 4.2 crashes while instantiating iter_assign
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40300)
+    *result = *first;
+#else
     general_copy_detail::iter_assign(result, first);
+#endif
   }
 
   return result;
@@ -123,7 +128,12 @@ __host__ __device__
 {
   for(; n > Size(0); ++first, ++result, --n)
   {
+    // gcc 4.2 crashes while instantiating iter_assign
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40300)
+    *result = *first;
+#else
     general_copy_detail::iter_assign(result, first);
+#endif
   }
 
   return result;
