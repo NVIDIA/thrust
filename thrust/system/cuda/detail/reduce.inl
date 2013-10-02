@@ -19,7 +19,6 @@
  *  \brief Inline file for reduce.h
  */
 
-#include <iostream>
 #include <thrust/detail/config.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/bulk.h>

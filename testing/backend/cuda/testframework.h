@@ -7,13 +7,17 @@
 class CUDATestDriver
   : public UnitTestDriver
 {
-  std::vector<int> target_devices(const ArgumentMap &kwargs);
+  public:
+    int current_device_architecture() const;
 
-  bool check_cuda_error(bool concise);
+  private:
+    std::vector<int> target_devices(const ArgumentMap &kwargs);
 
-  virtual bool post_test_sanity_check(const UnitTest &test, bool concise);
+    bool check_cuda_error(bool concise);
 
-  virtual bool run_tests(const ArgumentSet &args, const ArgumentMap &kwargs);
+    virtual bool post_test_sanity_check(const UnitTest &test, bool concise);
+
+    virtual bool run_tests(const ArgumentSet &args, const ArgumentMap &kwargs);
 };
 
 UnitTestDriver &driver_instance(thrust::system::cuda::tag);
