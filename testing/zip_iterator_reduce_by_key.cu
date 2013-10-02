@@ -2,6 +2,10 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/reduce.h>
 
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+#include <backend/cuda/testframework.h>
+#endif
+
 using namespace unittest;
 
 template<typename Tuple>
@@ -65,6 +69,18 @@ struct TestZipIteratorReduceByKey
       ASSERT_EQUAL(h_data4, d_data4);
       ASSERT_EQUAL(h_data5, d_data5);
     }
+    
+    // The tests below get miscompiled on Tesla hw for 8b types
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
+    {
+      if(typeid(T) == typeid(unittest::uint8_t) && driver->current_device_architecture() < 200)
+      {
+        KNOWN_FAILURE;
+      } // end if
+    } // end if
+#endif
 
     // tuple key, tuple value
     {
