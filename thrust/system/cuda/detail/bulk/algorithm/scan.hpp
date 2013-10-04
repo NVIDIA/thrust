@@ -130,7 +130,14 @@ __device__ T inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator fir
 
   T result = first[g.size() - 1];
 
-  x = (tid == 0) ? init : first[tid - 1];
+  if(tid == 0)
+  {
+    x = init;
+  }
+  else
+  {
+    x = first[tid - 1];
+  }
 
   g.wait();
 
@@ -179,7 +186,14 @@ __device__ T small_inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterat
 
   if(tid < n)
   {
-    x = (tid == 0) ? init : first[tid - 1];
+    if(tid == 0)
+    {
+      x = init;
+    }
+    else
+    {
+      x = first[tid - 1];
+    }
   }
 
   g.wait();
