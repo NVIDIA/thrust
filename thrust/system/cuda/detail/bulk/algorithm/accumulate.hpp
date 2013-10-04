@@ -69,8 +69,8 @@ struct buffer
 
   union
   {
-    value_type inputs[groupsize * grainsize];
-    T sums[groupsize];
+    uninitialized_array<value_type, groupsize * grainsize> inputs;
+    uninitialized_array<T, groupsize>                      sums;
   }; // end union
 }; // end buffer
 
@@ -116,7 +116,7 @@ T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
     size_type partition_size = thrust::min<size_type>(elements_per_group, last - first);
     
     // copy partition into smem
-    bulk::copy_n(g, first, partition_size, buffer->inputs);
+    bulk::copy_n(g, first, partition_size, buffer->inputs.data());
     
     T this_sum;
     size_type local_offset = grainsize * g.this_exec.index();
@@ -127,8 +127,8 @@ T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
     {
       this_sum = buffer->inputs[local_offset];
       this_sum = bulk::accumulate(bound<grainsize-1>(g.this_exec),
-                                  buffer->inputs + local_offset + 1,
-                                  buffer->inputs + local_offset + local_size,
+                                  buffer->inputs.data() + local_offset + 1,
+                                  buffer->inputs.data() + local_offset + local_size,
                                   this_sum,
                                   binary_op);
     } // end if
@@ -143,7 +143,7 @@ T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
     g.wait();
     
     // sum over the group
-    sum = detail::reduce_detail::destructive_reduce_n(g, buffer->sums, thrust::min<size_type>(groupsize,n), sum, binary_op);
+    sum = detail::reduce_detail::destructive_reduce_n(g, buffer->sums.data(), thrust::min<size_type>(groupsize,n), sum, binary_op);
   } // end for
 
 #if __CUDA_ARCH__ >= 200

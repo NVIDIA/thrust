@@ -494,7 +494,14 @@ inclusive_scan(bulk::concurrent_group<bulk::agent<grainsize>,size> &this_group,
   if(first < last)
   {
     // the first input becomes the init
-    typename thrust::iterator_value<RandomAccessIterator1>::type init = *first;
+    // XXX convert to the immediate type when passing init to respect Thrust's semantics
+    //     when Thrust adopts the semantics of N3724, just forward along *first
+    //typename thrust::iterator_value<RandomAccessIterator1>::type init = *first;
+    typename detail::scan_detail::scan_intermediate<
+      RandomAccessIterator1,
+      RandomAccessIterator2,
+      BinaryFunction
+    >::type init = *first;
 
     // we need to wait because first may be the same as result
     this_group.wait();
