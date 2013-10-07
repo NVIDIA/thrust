@@ -266,7 +266,14 @@ scan(bulk::bounded<
   {
     if(i < local_size)
     {
-      x = i ? binary_op(x, local_inputs[i]) : local_inputs[i];
+      if(i == 0)
+      {
+        x = local_inputs[0];
+      } // end if
+      else
+      {
+        x = binary_op(x, local_inputs[i]);
+      } // end else
     } // end if
   } // end for
   
