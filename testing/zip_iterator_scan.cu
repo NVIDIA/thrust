@@ -2,6 +2,10 @@
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/scan.h>
 
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+#include <backend/cuda/testframework.h>
+#endif
+
 using namespace unittest;
 
 
@@ -35,6 +39,18 @@ struct TestZipIteratorScan
 
     host_vector<Tuple>   h_result(n);
     device_vector<Tuple> d_result(n);
+
+    // The tests below get miscompiled on Tesla hw for 8b types
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
+    {
+      if(sizeof(T) == sizeof(unittest::uint8_t) && driver->current_device_architecture() < 200)
+      {
+        KNOWN_FAILURE;
+      } // end if
+    } // end if
+#endif
 
     // inclusive_scan (tuple output)
     inclusive_scan( make_zip_iterator(make_tuple(h_data0.begin(), h_data1.begin())),
