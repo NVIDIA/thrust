@@ -18,6 +18,7 @@
 #include <thrust/system/cuda/detail/detail/stable_sort_each.h>
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/system/cuda/detail/detail/merge.h>
+#include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/swap.h>
 #include <thrust/detail/util/blocking.h>

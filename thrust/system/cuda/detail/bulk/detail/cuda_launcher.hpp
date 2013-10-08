@@ -26,6 +26,7 @@
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/temporary_array.h>
+#include <thrust/pair.h>
 
 
 namespace thrust
@@ -256,13 +257,15 @@ struct cuda_launcher_base
   } // end max_active_blocks_per_multiprocessor()
 
 
-  // returns the maximum number of additional dynamic smem bytes that would not lower the kernel's occupancy
-  static size_type dynamic_smem_occupancy_limit(device_properties_t &props, function_attributes_t &attr, size_type num_threads_per_block, size_type num_smem_bytes_per_block)
+  // returns
+  // 1. maximum number of additional dynamic smem bytes that would not lower the kernel's occupancy
+  // 2. kernel occupancy
+  static thrust::pair<size_type,size_type> dynamic_smem_occupancy_limit(const device_properties_t &props, const function_attributes_t &attr, size_type num_threads_per_block, size_type num_smem_bytes_per_block)
   {
     // figure out the kernel's occupancy with 0 bytes of dynamic smem
     size_type occupancy = max_active_blocks_per_multiprocessor(props, attr, num_threads_per_block, num_smem_bytes_per_block);
 
-    return thrust::system::cuda::detail::proportional_smem_allocation(props, attr, occupancy);
+    return thrust::make_pair(thrust::system::cuda::detail::proportional_smem_allocation(props, attr, occupancy), occupancy);
   } // end smem_occupancy_limit()
 
 
@@ -279,18 +282,27 @@ struct cuda_launcher_base
 
     // how much smem could we allocate without reducing occupancy?
     device_properties_t props = device_properties();
-    size_type result = dynamic_smem_occupancy_limit(props, attr, group_size, 0);
+    size_type result = 0, occupancy = 0;
+    thrust::tie(result,occupancy) = dynamic_smem_occupancy_limit(props, attr, group_size, 0);
 
-    // did the caller request a particular size?
-    if(requested_size != use_default)
+    // let's try to increase the heap size, but only if the following are true:
+    // 1. the user asked for more heap than the default
+    // 2. there's occupancy to spare
+    if(requested_size != use_default && requested_size > result && occupancy > 1)
     {
-      // add in a few bytes to the request for the heap data structure
+      // first add in a few bytes to the request for the heap data structure
       requested_size += 48;
 
+      // are we asking for more heap than is available at this occupancy level?
       if(requested_size > result)
       {
         // the request overflows occupancy, so we might as well bump it to the next level
-        result = dynamic_smem_occupancy_limit(props, attr, group_size, requested_size);
+        size_type next_level_result = 0, next_level_occupancy = 0;
+        thrust::tie(next_level_result, next_level_occupancy) = dynamic_smem_occupancy_limit(props, attr, group_size, requested_size);
+
+        // if we didn't completely overflow things, use this new heap size
+        // otherwise, the heap remains the default size
+        if(next_level_occupancy > 0) result = next_level_result;
       } // end else
     } // end i
 

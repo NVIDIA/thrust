@@ -60,12 +60,16 @@ __device__ T destructive_reduce_n(ConcurrentGroup &g, RandomAccessIterator first
 
   g.wait();
 
-  T result = (n > 0) ? binary_op(init,first[0]) : init;
+  T result = init;
+  if(n > 0)
+  {
+    result = binary_op(result,first[0]);
+  } // end if
 
   g.wait();
 
   return result;
-}
+} // end destructive_reduce_n()
 
 
 } // end reduce_detail
@@ -136,7 +140,14 @@ T reduce(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
       if(index < partition_size)
       {
         input_type x = inputs[i];
-        this_sum = (i || this_sum_defined) ? binary_op(this_sum, x) : x;
+        if(i || this_sum_defined)
+        {
+          this_sum = binary_op(this_sum,x);
+        } // end if
+        else
+        {
+          this_sum = x;
+        } // end else
       } // end if
     } // end for
 
