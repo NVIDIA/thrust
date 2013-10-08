@@ -62,6 +62,44 @@ namespace accumulate_detail
 {
 
 
+// XXX this implementation is simply an inplace inclusive scan
+//     we could potentially do better with an implementation which uses Sean's bitfield reverse trick
+template<typename ConcurrentGroup, typename RandomAccessIterator, typename Size, typename T, typename BinaryFunction>
+__device__ T destructive_accumulate_n(ConcurrentGroup &g, RandomAccessIterator first, Size n, T init, BinaryFunction binary_op)
+{
+  typedef typename ConcurrentGroup::size_type size_type;
+
+  size_type tid = g.this_exec.index();
+
+  T x = init;
+  if(tid < n)
+  {
+    x = first[tid];
+  }
+
+  g.wait();
+
+  for(size_type offset = 1; offset < g.size(); offset += offset)
+  {
+    if(tid >= offset && tid - offset < n)
+    {
+      x = binary_op(first[tid - offset], x);
+    }
+
+    g.wait();
+
+    if(tid < n)
+    {
+      first[tid] = x;
+    }
+
+    g.wait();
+  }
+
+  return binary_op(init, first[n - 1]);
+}
+
+
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator, typename T>
 struct buffer
 {
@@ -69,8 +107,8 @@ struct buffer
 
   union
   {
-    value_type inputs[groupsize * grainsize];
-    T sums[groupsize];
+    uninitialized_array<value_type, groupsize * grainsize> inputs;
+    uninitialized_array<T, groupsize>                      sums;
   }; // end union
 }; // end buffer
 
@@ -116,7 +154,7 @@ T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
     size_type partition_size = thrust::min<size_type>(elements_per_group, last - first);
     
     // copy partition into smem
-    bulk::copy_n(g, first, partition_size, buffer->inputs);
+    bulk::copy_n(g, first, partition_size, buffer->inputs.data());
     
     T this_sum;
     size_type local_offset = grainsize * g.this_exec.index();
@@ -127,8 +165,8 @@ T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
     {
       this_sum = buffer->inputs[local_offset];
       this_sum = bulk::accumulate(bound<grainsize-1>(g.this_exec),
-                                  buffer->inputs + local_offset + 1,
-                                  buffer->inputs + local_offset + local_size,
+                                  buffer->inputs.data() + local_offset + 1,
+                                  buffer->inputs.data() + local_offset + local_size,
                                   this_sum,
                                   binary_op);
     } // end if
@@ -143,7 +181,7 @@ T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
     g.wait();
     
     // sum over the group
-    sum = detail::reduce_detail::destructive_reduce_n(g, buffer->sums, thrust::min<size_type>(groupsize,n), sum, binary_op);
+    sum = accumulate_detail::destructive_accumulate_n(g, buffer->sums.data(), thrust::min<size_type>(groupsize,n), sum, binary_op);
   } // end for
 
 #if __CUDA_ARCH__ >= 200

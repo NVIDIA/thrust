@@ -34,7 +34,7 @@ sources.extend(SConscript('backend/SConscript', exports='env'))
 
 # filter sources
 import re
-filter_exp = 'int main|TestDriver|{0}'.format(my_env['tests'])
+filter_exp = 'int main|driver_instance|{0}'.format(my_env['tests'])
 pattern = re.compile(filter_exp)
 def test_filter(src):
   return pattern.search(src.get_contents())

@@ -130,7 +130,14 @@ __device__ T inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterator fir
 
   T result = first[g.size() - 1];
 
-  x = (tid == 0) ? init : first[tid - 1];
+  if(tid == 0)
+  {
+    x = init;
+  }
+  else
+  {
+    x = first[tid - 1];
+  }
 
   g.wait();
 
@@ -179,7 +186,14 @@ __device__ T small_inplace_exclusive_scan(ConcurrentGroup &g, RandomAccessIterat
 
   if(tid < n)
   {
-    x = (tid == 0) ? init : first[tid - 1];
+    if(tid == 0)
+    {
+      x = init;
+    }
+    else
+    {
+      x = first[tid - 1];
+    }
   }
 
   g.wait();
@@ -228,6 +242,13 @@ scan(bulk::bounded<
      BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type input_type;
+
+  typedef typename scan_intermediate<
+    RandomAccessIterator1,
+    RandomAccessIterator2,
+    BinaryFunction
+  >::type intermediate_type;
+  
   typedef typename bulk::bounded<
     bound,
     bulk::concurrent_group<bulk::agent<grainsize>,groupsize>
@@ -244,15 +265,22 @@ scan(bulk::bounded<
   
   bulk::copy_n(bulk::bound<grainsize>(g.this_exec), first + local_offset, local_size, local_inputs);
   
-  // XXX this should be uninitialized<input_type>
-  input_type x;
+  // XXX this should be uninitialized<intermediate_type>
+  intermediate_type x;
   
   // this loop is a sequential accumulate
   for(size_type i = 0; i < grainsize; ++i)
   {
     if(i < local_size)
     {
-      x = i ? binary_op(x, local_inputs[i]) : local_inputs[i];
+      if(i == 0)
+      {
+        x = local_inputs[0];
+      } // end if
+      else
+      {
+        x = binary_op(x, local_inputs[i]);
+      } // end else
     } // end if
   } // end for
   
@@ -494,7 +522,14 @@ inclusive_scan(bulk::concurrent_group<bulk::agent<grainsize>,size> &this_group,
   if(first < last)
   {
     // the first input becomes the init
-    typename thrust::iterator_value<RandomAccessIterator1>::type init = *first;
+    // XXX convert to the immediate type when passing init to respect Thrust's semantics
+    //     when Thrust adopts the semantics of N3724, just forward along *first
+    //typename thrust::iterator_value<RandomAccessIterator1>::type init = *first;
+    typename detail::scan_detail::scan_intermediate<
+      RandomAccessIterator1,
+      RandomAccessIterator2,
+      BinaryFunction
+    >::type init = *first;
 
     // we need to wait because first may be the same as result
     this_group.wait();

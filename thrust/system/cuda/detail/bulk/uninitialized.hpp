@@ -17,8 +17,7 @@
 #pragma once
 
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
-#include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/detail/alignment.h>
+#include <thrust/system/cuda/detail/bulk/detail/alignment.hpp>
 #include <cstddef>
 #include <new>
 
@@ -32,9 +31,9 @@ template<typename T>
   class uninitialized
 {
   private:
-    typename thrust::system::cuda::detail::detail::aligned_storage<
+    typename bulk::detail::aligned_storage<
       sizeof(T),
-      thrust::system::cuda::detail::detail::alignment_of<T>::value
+      bulk::detail::alignment_of<T>::value
     >::type storage;
 
     __host__ __device__ __thrust_forceinline__
