@@ -125,7 +125,7 @@ template<typename RealType>
                           cos(RealType(2)*pi*m_r1) :
                           sin(RealType(2)*pi*m_r1));
 
-      return result;
+      return mean + stddev * result;
     }
 
   private:
