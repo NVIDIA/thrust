@@ -242,6 +242,13 @@ scan(bulk::bounded<
      BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type input_type;
+
+  typedef typename scan_intermediate<
+    RandomAccessIterator1,
+    RandomAccessIterator2,
+    BinaryFunction
+  >::type intermediate_type;
+  
   typedef typename bulk::bounded<
     bound,
     bulk::concurrent_group<bulk::agent<grainsize>,groupsize>
@@ -258,8 +265,8 @@ scan(bulk::bounded<
   
   bulk::copy_n(bulk::bound<grainsize>(g.this_exec), first + local_offset, local_size, local_inputs);
   
-  // XXX this should be uninitialized<input_type>
-  input_type x;
+  // XXX this should be uninitialized<intermediate_type>
+  intermediate_type x;
   
   // this loop is a sequential accumulate
   for(size_type i = 0; i < grainsize; ++i)
