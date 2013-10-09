@@ -23,6 +23,7 @@
 #include <thrust/system/cuda/detail/bulk/algorithm/gather.hpp>
 #include <thrust/system/cuda/detail/bulk/uninitialized.hpp>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/detail/join_iterator.h>
 #include <thrust/detail/minmax.h>
 
 
@@ -439,7 +440,7 @@ RandomAccessIterator4
 
   // copy into the buffer
   bulk::copy_n(bulk::bound<groupsize * grainsize>(exec),
-               make_join_iterator(first1, n1, first2),
+               thrust::detail::make_join_iterator(first1, n1, first2),
                n1 + n2,
                buffer);
 
@@ -559,7 +560,7 @@ merge_by_key(bulk::bounded<
   
   // copy keys into stage
   bulk::copy_n(g,
-               make_join_iterator(keys_first1, n1, keys_first2),
+               thrust::detail::make_join_iterator(keys_first1, n1, keys_first2),
                n,
                stage.keys);
 
@@ -603,7 +604,7 @@ merge_by_key(bulk::bounded<
   // gather values into merged order
   values_result = bulk::gather(g,
                                stage.indices, stage.indices + n,
-                               make_join_iterator(values_first1, n1, values_first2),
+                               thrust::detail::make_join_iterator(values_first1, n1, values_first2),
                                values_result);
 
 #if __CUDA_ARCH__ >= 200
