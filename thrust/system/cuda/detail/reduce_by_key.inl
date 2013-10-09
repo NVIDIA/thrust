@@ -286,9 +286,9 @@ void reduce_by_key_body(Context context,
   // update local values
   if (context.thread_index() > 0)
   {
-    unsigned int update_bits  = (flag_bits << 1) | (left_flag >> (K - 1));
 // TODO remove guard
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+    unsigned int update_bits  = (flag_bits << 1) | (left_flag >> (K - 1));
     unsigned int update_count = __ffs(update_bits) - 1u; // NB: this might wrap around to UINT_MAX
 #else
     unsigned int update_count = 0;
