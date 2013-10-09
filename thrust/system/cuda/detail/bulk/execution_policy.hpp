@@ -305,6 +305,14 @@ async_launch<bulk::parallel_group<> > par(cudaStream_t s, size_t num_threads)
 }
 
 
+template<typename ExecutionAgent>
+inline __host__ __device__
+async_launch<bulk::parallel_group<ExecutionAgent> > par(cudaStream_t s, ExecutionAgent exec, size_t num_groups)
+{
+  return async_launch<bulk::parallel_group<ExecutionAgent> >(bulk::par(exec, num_groups), s);
+}
+
+
 inline async_launch<bulk::parallel_group<> > par(bulk::future<void> &before, size_t num_threads)
 {
   cudaEvent_t before_event = bulk::detail::future_core_access::event(before);
@@ -605,6 +613,16 @@ parallel_group<concurrent_group<> > grid(size_t num_groups, size_t group_size, s
 }
 
 
+inline __host__ __device__
+async_launch<
+  parallel_group<concurrent_group<> >
+>
+  grid(size_t num_groups, size_t group_size, size_t heap_size, cudaStream_t stream)
+{
+  return par(stream, con(group_size,heap_size), num_groups);
+}
+
+
 template<std::size_t groupsize, std::size_t grainsize>
 __host__ __device__
 parallel_group<
@@ -616,6 +634,22 @@ parallel_group<
   grid(size_t num_groups, size_t heap_size = use_default)
 {
   return par(con<groupsize,grainsize>(heap_size), num_groups);
+}
+
+
+template<std::size_t groupsize, std::size_t grainsize>
+__host__ __device__
+async_launch<
+  parallel_group<
+    concurrent_group<
+      bulk::agent<grainsize>,
+      groupsize
+    >
+  >
+>
+  grid(size_t num_groups, size_t heap_size, cudaStream_t stream)
+{
+  return par(stream, con<groupsize,grainsize>(heap_size), num_groups);
 }
 
 
