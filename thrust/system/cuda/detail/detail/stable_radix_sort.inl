@@ -28,6 +28,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/util/align.h>
 #include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
@@ -80,7 +81,7 @@ void stable_radix_sort(execution_policy<DerivedPolicy> &exec,
     storage.d_from_alt_storage = thrust::raw_pointer_cast(&temp_from_alt[0]);
 
     // perform the sort
-    sorter.EnactSort(storage);
+    sorter.EnactSort(storage, stream(thrust::detail::derived_cast(exec)));
     
     // radix sort sometimes leaves results in the alternate buffers
     if (storage.using_alternate_storage)
@@ -142,7 +143,7 @@ void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
     storage.d_from_alt_storage = thrust::raw_pointer_cast(&temp_from_alt[0]);
 
     // perform the sort
-    sorter.EnactSort(storage);
+    sorter.EnactSort(storage, stream(thrust::detail::derived_cast(exec)));
     
     // radix sort sometimes leaves results in the alternate buffers
     if (storage.using_alternate_storage)
