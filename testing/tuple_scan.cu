@@ -3,6 +3,10 @@
 #include <thrust/scan.h>
 #include <thrust/transform.h>
 
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+#include <backend/cuda/testframework.h>
+#endif
+
 using namespace unittest;
 
 struct SumTupleFunctor
@@ -49,10 +53,22 @@ struct TestTupleScan
      host_vector  < tuple<T,T> > h_output(n, zero);
      device_vector< tuple<T,T> > d_output(n, zero);
 
-     // exclusive_scan
+     // inclusive_scan
      inclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), SumTupleFunctor());
      inclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), SumTupleFunctor());
      ASSERT_EQUAL_QUIET(h_output, d_output);
+
+    // The tests below get miscompiled on Tesla hw for 8b types
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
+    {
+      if(sizeof(T) == sizeof(unittest::uint8_t) && driver->current_device_architecture() < 200)
+      {
+        KNOWN_FAILURE;
+      } // end if
+    } // end if
+#endif
 
      // exclusive_scan
      tuple<T,T> init(13,17);

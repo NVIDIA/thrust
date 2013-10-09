@@ -23,6 +23,7 @@
 #include <thrust/system/cuda/detail/detail/launch_closure.h>
 #include <thrust/system/cuda/detail/detail/virtualized_smem_closure.h>
 #include <thrust/system/cuda/detail/merge.h>
+#include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/detail/copy.h>
 #include <thrust/tabulate.h>
 #include <thrust/tuple.h>

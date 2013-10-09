@@ -14,15 +14,13 @@
  *  limitations under the License.
  */
 
-#include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/merge.h>
-#include <thrust/pair.h>
-#include <thrust/tuple.h>
+#include <thrust/system/cuda/detail/bulk.h>
+#include <thrust/detail/temporary_array.h>
+#include <thrust/tabulate.h>
+#include <thrust/iterator/detail/join_iterator.h>
 #include <thrust/detail/minmax.h>
-#include <thrust/detail/function.h>
-#include <thrust/system/cuda/detail/detail/uninitialized.h>
-#include <thrust/system/cuda/detail/detail/launch_closure.h>
-#include <thrust/detail/util/blocking.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
 {
@@ -36,204 +34,125 @@ namespace merge_detail
 {
 
 
-template<typename RandomAccessIterator1,
-         typename RandomAccessIterator2,
-         typename Size,
-         typename Compare>
-__device__ __thrust_forceinline__
-thrust::pair<Size,Size>
-  partition_search(RandomAccessIterator1 first1,
-                   RandomAccessIterator2 first2,
-                   Size diag,
-                   Size lower_bound1,
-                   Size upper_bound1,
-                   Size lower_bound2,
-                   Size upper_bound2,
-                   Compare comp)
+// avoid accidentally picking up some other installation of bulk that
+// may be floating around
+namespace bulk_ = thrust::system::cuda::detail::bulk;
+
+
+template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Size,typename RandomAccessIterator2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
+__device__
+RandomAccessIterator4
+  staged_merge(bulk_::concurrent_group<bulk_::agent<grainsize>,groupsize> &exec,
+               RandomAccessIterator1 first1, Size n1,
+               RandomAccessIterator2 first2, Size n2,
+               RandomAccessIterator3 stage,
+               RandomAccessIterator4 result,
+               Compare comp)
 {
-  Size begin = thrust::max<Size>(lower_bound1, diag - upper_bound2);
-  Size end   = thrust::min<Size>(diag - lower_bound2, upper_bound1);
+  // copy into the stage
+  bulk_::copy_n(bulk_::bound<groupsize * grainsize>(exec),
+                thrust::detail::make_join_iterator(first1, n1, first2),
+                n1 + n2,
+                stage);
 
-  while(begin < end)
+  // inplace merge in the stage
+  bulk_::inplace_merge(bulk_::bound<groupsize * grainsize>(exec),
+                       stage, stage + n1, stage + n1 + n2,
+                       comp);
+  
+  // copy to the result
+  // XXX this might be slightly faster with a bounded copy_n
+  return bulk_::copy_n(exec, stage, n1 + n2, result);
+} // end staged_merge()
+
+
+struct merge_kernel
+{
+  template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
+  __device__
+  void operator()(bulk_::concurrent_group<bulk_::agent<grainsize>,groupsize> &g,
+                  RandomAccessIterator1 first1, Size n1,
+                  RandomAccessIterator2 first2, Size n2,
+                  RandomAccessIterator3 merge_paths_first,
+                  RandomAccessIterator4 result,
+                  Compare comp)
   {
-    Size mid = (begin + end) / 2;
-    Size index1 = mid;
-    Size index2 = diag - mid - 1;
+    typedef int size_type;
 
-    if(comp(first2[index2], first1[index1]))
+    size_type elements_per_group = g.size() * g.this_exec.grainsize();
+
+    // determine the ranges to merge
+    size_type mp0  = merge_paths_first[g.index()];
+    size_type mp1  = merge_paths_first[g.index()+1];
+    size_type diag = elements_per_group * g.index();
+
+    size_type local_size1 = mp1 - mp0;
+    size_type local_size2 = thrust::min<size_type>(n1 + n2, diag + elements_per_group) - mp1 - diag + mp0;
+
+    first1 += mp0;
+    first2 += diag - mp0;
+    result += elements_per_group * g.index();
+
+    // XXX this assumes that RandomAccessIterator2's value_type converts to RandomAccessIterator1's value_type
+    typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
+
+#if __CUDA_ARCH__ >= 200
+    // merge through a stage
+    value_type *stage = reinterpret_cast<value_type*>(bulk_::malloc(g, elements_per_group * sizeof(value_type)));
+
+    if(bulk_::is_on_chip(stage))
     {
-      end = mid;
-    }
+      staged_merge(g,
+                   first1, local_size1,
+                   first2, local_size2,
+                   bulk_::on_chip_cast(stage),
+                   result,
+                   comp);
+    } // end if
     else
     {
-      begin = mid + 1;
-    }
-  }
+      staged_merge(g,
+                   first1, local_size1,
+                   first2, local_size2,
+                   stage,
+                   result,
+                   comp);
+    } // end else
 
-  return thrust::make_pair(begin, diag - begin);
-}
+    bulk_::free(g, stage);
+#else
+    __shared__ bulk_::uninitialized_array<value_type, groupsize * grainsize> stage;
+    staged_merge(g, first1, local_size1, first2, local_size2, stage.data(), result, comp);
+#endif
+  } // end operator()
+}; // end merge_kernel
 
 
-template<typename Context, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
-__device__ __thrust_forceinline__
-void merge_n(Context &ctx,
-             RandomAccessIterator1 first1,
-             Size n1,
-             RandomAccessIterator2 first2,
-             Size n2,
-             RandomAccessIterator3 result,
-             Compare comp_,
-             unsigned int work_per_thread)
+template<typename Size, typename RandomAccessIterator1,typename RandomAccessIterator2, typename Compare>
+struct locate_merge_path
 {
-  const unsigned int block_size = ctx.block_dimension();
-  thrust::detail::wrapped_function<Compare,bool> comp(comp_);
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type1;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type value_type2;
-
-  Size result_size = n1 + n2;
-
-  // this is just oversubscription_rate * block_size * work_per_thread
-  // but it makes no sense to send oversubscription_rate as an extra parameter
-  Size work_per_block = thrust::detail::util::divide_ri(result_size, ctx.grid_dimension());
-
-  using thrust::system::cuda::detail::detail::uninitialized;
-  __shared__ uninitialized<thrust::pair<Size,Size> > s_block_input_begin;
-
-  Size result_block_offset = ctx.block_index() * work_per_block;
-
-  // find where this block's input begins in both input sequences
-  if(ctx.thread_index() == 0)
-  {
-    s_block_input_begin = (ctx.block_index() == 0) ?
-      thrust::pair<Size,Size>(0,0) :
-      partition_search(first1, first2,
-                       result_block_offset,
-                       Size(0), n1,
-                       Size(0), n2,
-                       comp);
-  }
-
-  ctx.barrier();
-
-  // iterate to consume this block's input
-  Size work_per_iteration = block_size * work_per_thread;
-  thrust::pair<Size,Size> block_input_end = s_block_input_begin;
-  block_input_end.first  += work_per_iteration;
-  block_input_end.second += work_per_iteration;
-  Size result_block_offset_last = result_block_offset + thrust::min<Size>(work_per_block, result_size - result_block_offset);
-
-  for(;
-      result_block_offset < result_block_offset_last;
-      result_block_offset += work_per_iteration,
-      block_input_end.first  += work_per_iteration,
-      block_input_end.second += work_per_iteration
-     )
-  {
-    // find where this thread's input begins in both input sequences for this iteration
-    thrust::pair<Size,Size> thread_input_begin =
-      partition_search(first1, first2,
-                       Size(result_block_offset + ctx.thread_index() * work_per_thread),
-                       s_block_input_begin.get().first,  thrust::min<Size>(block_input_end.first , n1),
-                       s_block_input_begin.get().second, thrust::min<Size>(block_input_end.second, n2),
-                       comp);
-
-    ctx.barrier();
-
-    // XXX the performance impact of not keeping x1 & x2
-    //     in registers is about 10% for int32
-    uninitialized<value_type1> x1;
-    uninitialized<value_type2> x2;
-
-    // XXX this is just a serial merge -- try to simplify or abstract this loop
-    Size i = result_block_offset + ctx.thread_index() * work_per_thread;
-    Size last_i = i + thrust::min<Size>(work_per_thread, result_size - thread_input_begin.first - thread_input_begin.second);
-    for(;
-        i < last_i;
-        ++i)
-    {
-      // optionally load x1 & x2
-      bool output_x2 = true;
-      if(thread_input_begin.second < n2)
-      {
-        x2 = first2[thread_input_begin.second];
-      }
-      else
-      {
-        output_x2 = false;
-      }
-
-      if(thread_input_begin.first < n1)
-      {
-        x1 = first1[thread_input_begin.first];
-
-        if(output_x2)
-        {
-          output_x2 = comp(x2.get(), x1.get());
-        }
-      }
-
-      result[i] = output_x2 ? x2.get() : x1.get();
-
-      if(output_x2)
-      {
-        ++thread_input_begin.second;
-      }
-      else
-      {
-        ++thread_input_begin.first;
-      }
-    } // end for
-
-    // the block's last thread has conveniently located the
-    // beginning of the next iteration's input
-    if(ctx.thread_index() == block_size-1)
-    {
-      s_block_input_begin = thread_input_begin;
-    }
-    ctx.barrier();
-  } // end for
-} // end merge_n
-
-
-template<typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
-  struct merge_n_closure
-{
-  typedef thrust::system::cuda::detail::detail::blocked_thread_array context_type;
-
-  RandomAccessIterator1 first1;
-  Size n1;
-  RandomAccessIterator2 first2;
-  Size n2;
-  RandomAccessIterator3 result;
+  Size partition_size;
+  RandomAccessIterator1 first1, last1;
+  RandomAccessIterator2 first2, last2;
   Compare comp;
-  Size work_per_thread;
 
-  merge_n_closure(RandomAccessIterator1 first1, Size n1, RandomAccessIterator2 first2, Size n2, RandomAccessIterator3 result, Compare comp, Size work_per_thread)
-    : first1(first1), n1(n1), first2(first2), n2(n2), result(result), comp(comp), work_per_thread(work_per_thread)
+  locate_merge_path(Size partition_size, RandomAccessIterator1 first1, RandomAccessIterator1 last1, RandomAccessIterator2 first2, RandomAccessIterator2 last2, Compare comp)
+    : partition_size(partition_size),
+      first1(first1), last1(last1),
+      first2(first2), last2(last2),
+      comp(comp)
   {}
 
-  __device__ __forceinline__
-  void operator()()
+  template<typename Index>
+  __device__
+  Size operator()(Index i)
   {
-    context_type ctx;
-    merge_n(ctx, first1, n1, first2, n2, result, comp, work_per_thread);
+    Size n1 = last1 - first1;
+    Size n2 = last2 - first2;
+    Size diag = thrust::min<Size>(partition_size * i, n1 + n2);
+    return bulk_::merge_path(first1, n1, first2, n2, diag, comp);
   }
 };
-
-
-// returns (work_per_thread, threads_per_block, oversubscription_factor)
-template<typename RandomAccessIterator1, typename RandomAccessIterator2, typename RandomAccessIterator3, typename Compare>
-  thrust::tuple<unsigned int,unsigned int,unsigned int>
-    tunables(RandomAccessIterator1, RandomAccessIterator1, RandomAccessIterator2, RandomAccessIterator2, RandomAccessIterator3, Compare comp)
-{
-  // determined by empirical testing on GTX 480
-  // ~4500 Mkeys/s on GTX 480
-  const unsigned int work_per_thread         = 5;
-  const unsigned int threads_per_block       = 128;
-  const unsigned int oversubscription_factor = 30;
-
-  return thrust::make_tuple(work_per_thread, threads_per_block, oversubscription_factor);
-}
 
 
 } // end merge_detail
@@ -252,29 +171,31 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator3 result,
                             Compare comp)
 {
-  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type Size;
-  Size n1 = last1 - first1;
-  Size n2 = last2 - first2;
-  typename thrust::iterator_difference<RandomAccessIterator1>::type n = n1 + n2;
+  namespace bulk_ = thrust::system::cuda::detail::bulk;
 
-  // empty result
-  if(n <= 0) return result;
+  typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
+  typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference_type;
+  typedef int size_type;
 
-  unsigned int work_per_thread = 0, threads_per_block = 0, oversubscription_factor = 0;
-  thrust::tie(work_per_thread,threads_per_block,oversubscription_factor)
-    = merge_detail::tunables(first1, last1, first2, last2, result, comp);
+  // determined through empirical testing on K20c
+  const size_type groupsize = (sizeof(value_type) == sizeof(int)) ? 256 : 256 + 32;
+  const size_type grainsize = (sizeof(value_type) == sizeof(int)) ? 9   : 5;
+  
+  const size_type tile_size = groupsize * grainsize;
 
-  const unsigned int work_per_block = work_per_thread * threads_per_block;
+  difference_type n = (last1 - first1) + (last2 - first2);
+  difference_type num_groups = (n + tile_size - 1) / tile_size;
 
-  const unsigned int num_processors = device_properties().multiProcessorCount;
-  const unsigned int num_blocks = thrust::min<int>(oversubscription_factor * num_processors, thrust::detail::util::divide_ri(n, work_per_block));
+  thrust::detail::temporary_array<size_type,DerivedPolicy> merge_paths(exec, num_groups + 1);
 
-  typedef merge_detail::merge_n_closure<RandomAccessIterator1,Size,RandomAccessIterator2,RandomAccessIterator3,Compare> closure_type;
-  closure_type closure(first1, n1, first2, n2, result, comp, work_per_thread);
+  thrust::tabulate(exec, merge_paths.begin(), merge_paths.end(), merge_detail::locate_merge_path<size_type,RandomAccessIterator1,RandomAccessIterator2,Compare>(tile_size,first1,last1,first2,last2,comp));
 
-  detail::launch_closure(exec, closure, num_blocks, threads_per_block);
+  // merge partitions
+  size_type heap_size = tile_size * sizeof(value_type);
+  bulk_::concurrent_group<bulk::agent<grainsize>,groupsize> g(heap_size);
+  bulk_::async(bulk_::par(stream(thrust::detail::derived_cast(exec)), g, num_groups), merge_detail::merge_kernel(), bulk_::root.this_exec, first1, last1 - first1, first2, last2 - first2, merge_paths.begin(), result, comp);
 
-  return result + n1 + n2;
+  return result + n;
 } // end merge()
 
 

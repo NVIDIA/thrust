@@ -84,11 +84,11 @@ template<typename RealType>
 {
   protected:
     normal_distribution_portable()
-      : m_valid(false)
+      : m_r1(), m_r2(), m_cached_rho(), m_valid(false)
     {}
 
     normal_distribution_portable(const normal_distribution_portable &other)
-      : m_valid(other.m_valid)
+      : m_r1(other.m_r1), m_r2(other.m_r2), m_cached_rho(other.m_cached_rho), m_valid(other.m_valid)
     {}
 
     void reset()
@@ -125,7 +125,7 @@ template<typename RealType>
                           cos(RealType(2)*pi*m_r1) :
                           sin(RealType(2)*pi*m_r1));
 
-      return result;
+      return mean + stddev * result;
     }
 
   private:

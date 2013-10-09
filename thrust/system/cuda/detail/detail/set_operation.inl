@@ -20,6 +20,8 @@
 #include <thrust/system/cuda/detail/block/inclusive_scan.h>
 #include <thrust/system/cuda/detail/block/exclusive_scan.h>
 #include <thrust/system/cuda/detail/block/copy.h>
+#include <thrust/system/cuda/detail/detail/launch_closure.h>
+#include <thrust/system/cuda/detail/detail/uninitialized.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/transform.h>
 #include <thrust/scan.h>
