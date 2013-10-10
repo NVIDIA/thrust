@@ -141,7 +141,7 @@ template<> struct aligned_type<8192>
 {
   struct __align__(8192) type { };
 };
-#  elif defined(__GNUC__) && ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40500)
+#  elif defined(__GNUC__) && ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) < 40500)
 // implement aligned_type with specialization because older gcc
 // requires literals as arguments to __attribute__(aligned(n))
 template<> struct aligned_type<1>
