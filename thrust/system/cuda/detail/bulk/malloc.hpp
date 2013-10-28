@@ -39,7 +39,8 @@ template<typename T>
 inline __device__ T *on_chip_cast(T *ptr)
 {
   extern __shared__ char s_begin[];
-  return reinterpret_cast<T*>((reinterpret_cast<char*>(ptr) - s_begin) + s_begin);
+  void *result = (reinterpret_cast<char*>(ptr) - s_begin) + s_begin;
+  return reinterpret_cast<T*>(result);
 } // end on_chip_cast()
 
 
@@ -208,9 +209,15 @@ class singleton_unsafe_on_chip_allocator
           m_prev = p;
         } // end set_prev()
 
+        // returns a pointer to the indexth byte within this block's data
+        __device__ inline void *byte_at(size_t index) const
+        {
+          return reinterpret_cast<char*>(data()) + size();
+        } // end byte_at()
+
         __device__ inline block *next() const
         {
-          return reinterpret_cast<block*>(reinterpret_cast<char*>(data()) + size());
+          return reinterpret_cast<block*>(byte_at(size()));
         } // end next()
 
         __device__ inline bool is_free() const
@@ -257,7 +264,7 @@ class singleton_unsafe_on_chip_allocator
       block *new_block;
     
       // emplace a new block within the old one's data segment
-      new_block = reinterpret_cast<block*>(reinterpret_cast<char*>(b->data()) + size);
+      new_block = reinterpret_cast<block*>(b->byte_at(size));
     
       // the new block's size is the old block's size less the size of the split less the size of a block
       new_block->set_size(b->size() - size - sizeof(block));
@@ -298,7 +305,8 @@ class singleton_unsafe_on_chip_allocator
     __device__ inline static block *get_block(void *data)
     {
       // the block metadata lives sizeof(block) bytes to the left of data
-      return reinterpret_cast<block *>(reinterpret_cast<char *>(data) - sizeof(block));
+      void *ptr = reinterpret_cast<char*>(data) - sizeof(block);
+      return reinterpret_cast<block *>(ptr);
     } // end get_block()
   
   
