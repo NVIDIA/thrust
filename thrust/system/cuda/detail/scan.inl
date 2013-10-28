@@ -191,6 +191,9 @@ template<typename DerivedPolicy,
     typedef bulk_::detail::scan_detail::scan_buffer<groupsize,3,InputIterator,OutputIterator,AssociativeOperator> heap_type;
     Size heap_size = sizeof(heap_type);
     bulk_::async(bulk_::con<groupsize,3>(heap_size), scan_detail::inclusive_scan_n(), bulk::root, first, n, result, binary_op);
+
+    // XXX WAR unused variable warning
+    (void) groupsize;
   } // end if
   else
   {
@@ -237,6 +240,10 @@ template<typename DerivedPolicy,
     > heap_type3;
     heap_size = sizeof(heap_type3);
     bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size), scan_detail::inclusive_downsweep(), bulk_::root.this_exec, first, decomp, carries.begin(), result, binary_op);
+
+    // XXX WAR unused variable warnings
+    (void) groupsize2;
+    (void) grainsize2;
   } // end else
 
   return result + n;
@@ -279,6 +286,9 @@ template<typename DerivedPolicy,
     typedef bulk_::detail::scan_detail::scan_buffer<groupsize,3,InputIterator,OutputIterator,AssociativeOperator> heap_type;
     Size heap_size = sizeof(heap_type);
     bulk_::async(bulk_::con<groupsize,3>(heap_size), scan_detail::exclusive_scan_n(), bulk::root, first, n, result, init, binary_op);
+
+    // XXX WAR unused variable warning
+    (void) groupsize;
   } // end if
   else
   {
