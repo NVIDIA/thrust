@@ -27,6 +27,9 @@ namespace detail
 
 inline __device__ unsigned int __isShared(const void *ptr)
 {
+  // XXX WAR unused variable warning
+  (void) ptr;
+
   unsigned int ret;
 
 #if __CUDA_ARCH__ >= 200
@@ -55,6 +58,9 @@ inline __device__ bool is_shared(const void *ptr)
 
 inline __device__ bool is_global(const void *ptr)
 {
+  // XXX WAR unused variable warning
+  (void) ptr;
+
 #if __CUDA_ARCH__ >= 200
   return __isGlobal(ptr);
 #else
