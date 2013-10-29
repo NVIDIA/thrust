@@ -43,6 +43,8 @@
 #endif // THRUST_GCC_VERSION
 
 // unknown case
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#define __thrust_compiler_fence() __sync_synchronize()
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_UNKNOWN
 
 // allow the code to compile without any guarantees
