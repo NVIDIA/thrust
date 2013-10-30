@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/system/cuda/detail/cuda_launch_config.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 
 namespace thrust
 {
@@ -92,11 +93,11 @@ struct statically_blocked_thread_array : public launch_bounds<_ThreadsPerBlock,1
 #endif // THRUST_DEVICE_COMPILER_NVCC
 };
 
-template<typename Closure, typename Size1, typename Size2>
-  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size);
+template<typename DerivedPolicy, typename Closure, typename Size1, typename Size2>
+  void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size);
 
-template<typename Closure, typename Size1, typename Size2, typename Size3>
-  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size);
+template<typename DerivedPolicy, typename Closure, typename Size1, typename Size2, typename Size3>
+  void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size);
 
 /*! Returns a copy of the cudaFuncAttributes structure
  *  that is associated with a given Closure

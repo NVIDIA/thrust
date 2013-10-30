@@ -183,7 +183,7 @@ OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
 
   Closure closure(first, temp.begin(), result, binary_op, decomp); 
 
-  detail::launch_closure(closure, decomp.size());
+  detail::launch_closure(exec, closure, decomp.size());
   
   return result + n;
 }
