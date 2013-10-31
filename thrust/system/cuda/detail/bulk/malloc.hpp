@@ -212,7 +212,7 @@ class singleton_unsafe_on_chip_allocator
         // returns a pointer to the indexth byte within this block's data
         __device__ inline void *byte_at(size_t index) const
         {
-          return reinterpret_cast<char*>(data()) + size();
+          return reinterpret_cast<char*>(data()) + index;
         } // end byte_at()
 
         __device__ inline block *next() const

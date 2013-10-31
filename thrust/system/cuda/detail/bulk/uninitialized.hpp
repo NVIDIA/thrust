@@ -39,13 +39,15 @@ template<typename T>
     __host__ __device__ __thrust_forceinline__
     const T* ptr() const
     {
-      return reinterpret_cast<const T*>(storage.data);
+      const void *result = storage.data;
+      return reinterpret_cast<const T*>(result);
     }
 
     __host__ __device__ __thrust_forceinline__
     T* ptr()
     {
-      return reinterpret_cast<T*>(storage.data);
+      void *result = storage.data;
+      return reinterpret_cast<T*>(result);
     }
 
   public:
