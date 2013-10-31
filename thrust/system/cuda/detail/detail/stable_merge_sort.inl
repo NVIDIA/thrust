@@ -272,13 +272,13 @@ void merge_adjacent_partitions(thrust::system::cuda::execution_policy<DerivedPol
   {
     virtualized_smem_closure<closure_type, Pointer> virtualized_closure(closure, num_smem_elements_per_block, virtual_smem);
 
-    thrust::system::cuda::detail::detail::launch_closure(virtualized_closure, num_blocks, block_size);
+    thrust::system::cuda::detail::detail::launch_closure(exec, virtualized_closure, num_blocks, block_size);
   }
   else
   {
     const size_t num_smem_bytes = num_smem_elements_per_block * sizeof(value_type);
 
-    thrust::system::cuda::detail::detail::launch_closure(closure, num_blocks, block_size, num_smem_bytes);
+    thrust::system::cuda::detail::detail::launch_closure(exec, closure, num_blocks, block_size, num_smem_bytes);
   }
 }
 

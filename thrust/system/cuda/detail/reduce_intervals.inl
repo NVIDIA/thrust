@@ -154,7 +154,7 @@ template <typename ExecutionPolicy,
           typename OutputIterator,
           typename BinaryFunction,
           typename Decomposition>
-void reduce_intervals(execution_policy<ExecutionPolicy> &,
+void reduce_intervals(execution_policy<ExecutionPolicy> &exec,
                       InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
@@ -191,7 +191,7 @@ void reduce_intervals(execution_policy<ExecutionPolicy> &,
   // TODO if (shared_array_size < 1) throw cuda exception "insufficient shared memory"
 
   Closure closure(input, output, binary_op, decomp, shared_array_size);
-  detail::launch_closure(closure, decomp.size(), block_size, shared_array_bytes);
+  detail::launch_closure(exec, closure, decomp.size(), block_size, shared_array_bytes);
 }
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
