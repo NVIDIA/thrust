@@ -1035,12 +1035,12 @@ template<typename InputIterator1,
  *  #include <thrust/set_operations.h>
  *  #include <thrust/execution_policy.h>
  *  ...
- *  int A1[6] = {0, 2, 4, 6, 8, 10, 12};
+ *  int A1[7] = {0, 2, 4, 6, 8, 10, 12};
  *  int A2[5] = {1, 3, 5, 7, 9};
  *
  *  int result[11];
  *
- *  int *result_end = thrust::set_union(thrust::host, A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = thrust::set_union(thrust::host, A1, A1 + 7, A2, A2 + 5, result);
  *  // result = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
  *  \endcode
  *
@@ -1110,12 +1110,12 @@ __host__ __device__
  *  \code
  *  #include <thrust/set_operations.h>
  *  ...
- *  int A1[6] = {0, 2, 4, 6, 8, 10, 12};
+ *  int A1[7] = {0, 2, 4, 6, 8, 10, 12};
  *  int A2[5] = {1, 3, 5, 7, 9};
  *
  *  int result[11];
  *
- *  int *result_end = thrust::set_union(A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = thrust::set_union(A1, A1 + 7, A2, A2 + 5, result);
  *  // result = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
  *  \endcode
  *
@@ -1187,12 +1187,12 @@ template<typename InputIterator1,
  *  #include <thrust/functional.h>
  *  #include <thrust/execution_policy.h>
  *  ...
- *  int A1[6] = {12, 10, 8, 6, 4, 2, 0};
+ *  int A1[7] = {12, 10, 8, 6, 4, 2, 0};
  *  int A2[5] = {9, 7, 5, 3, 1};
  *
  *  int result[11];
  *
- *  int *result_end = thrust::set_union(thrust::host, A1, A1 + 6, A2, A2 + 5, result, thrust::greater<int>());
+ *  int *result_end = thrust::set_union(thrust::host, A1, A1 + 7, A2, A2 + 5, result, thrust::greater<int>());
  *  // result = {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
  *  \endcode
  *
@@ -1263,12 +1263,12 @@ __host__ __device__
  *  #include <thrust/set_operations.h>
  *  #include <thrust/functional.h>
  *  ...
- *  int A1[6] = {12, 10, 8, 6, 4, 2, 0};
+ *  int A1[7] = {12, 10, 8, 6, 4, 2, 0};
  *  int A2[5] = {9, 7, 5, 3, 1};
  *
  *  int result[11];
  *
- *  int *result_end = thrust::set_union(A1, A1 + 6, A2, A2 + 5, result, thrust::greater<int>());
+ *  int *result_end = thrust::set_union(A1, A1 + 7, A2, A2 + 5, result, thrust::greater<int>());
  *  // result = {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
  *  \endcode
  *

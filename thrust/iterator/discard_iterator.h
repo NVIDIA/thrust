@@ -78,7 +78,7 @@ namespace thrust
  *    // we are only interested in the reduced values
  *    // use discard_iterator to ignore the output keys
  *    thrust::reduce_by_key(keys.begin(), keys.end(),
- *                          values.begin(), values.end(),
+ *                          values.begin(),
  *                          thrust::make_discard_iterator(),
  *                          result.begin());
  *    
