@@ -92,8 +92,8 @@ def cuda_installation():
     inc_path = '/usr/local/cuda/include'
   else:
     raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
-   
-  if platform.machine()[-2:] == '64':
+
+  if master_env['PLATFORM'] != 'darwin' and platform.machine()[-2:] == '64':
     lib_path += '64'
 
   # override with environement variables
@@ -231,12 +231,6 @@ def linker_flags(LINK, mode, platform, device_backend):
   # unconditional workarounds
   result.extend(flags['workarounds'])
 
-  # conditional workarounds
-
-  # on darwin, we need to tell the linker to build 32b code for cuda
-  if platform == 'darwin' and device_backend == 'cuda':
-    result.append('-m32')
-
   return result
 
   
@@ -288,10 +282,6 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
 
   # workarounds
   result.extend(flags['workarounds'])
-
-  # on darwin, we need to tell the compiler to build 32b code for cuda
-  if platform == 'darwin' and device_backend == 'cuda':
-    result.append('-m32')
 
   return result
 
