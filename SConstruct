@@ -231,14 +231,6 @@ def linker_flags(LINK, mode, platform, device_backend):
   # unconditional workarounds
   result.extend(flags['workarounds'])
 
-  # conditional workarounds
-
-#   Since CUDA 3.1 this workaround is no longer necessary
-#
-#   on darwin, we need to tell the linker to build 32b code for cuda
-#  if platform == 'darwin' and device_backend == 'cuda':
-#    result.append('-m32')
-
   return result
 
   
@@ -290,12 +282,6 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
 
   # workarounds
   result.extend(flags['workarounds'])
-
-  # Since CUDA 3.1 this is no longer necessary
-  #
-  # on darwin, we need to tell the compiler to build 32b code for cuda
-  #  if platform == 'darwin' and device_backend == 'cuda':
-  #    result.append('-m32')
 
   return result
 
