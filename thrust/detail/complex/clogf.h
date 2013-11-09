@@ -36,25 +36,26 @@ namespace thrust
 
       using thrust::complex;
 
-      /* round down to 18 = 54/3 bits */
+      /* round down to 8 = 24/3 bits */
       __host__ __device__
-	double __trim(double x){
-	uint32_t hi;
-    
-	__get_high_word(hi, x);
-	__insert_words(x, hi &0xfffffff8, 0);
-	return x;
+	float __trim(float x){
+	uint32_t hx;
+	__get_float_word(hx, x);
+	hx &= 0xffff0000;
+	float ret;
+	__set_float_word(ret,hx);
+	return ret;
       }
   
 
       __host__ __device__
-	complex<double> clog(const complex<double>& z){
+	complex<float> clogf(const complex<float>& z){
 
 	// Adapted from FreeBSDs msun
-	double x, y;
-	double ax, ay;
-	double x0, y0, x1, y1, x2, y2, t, hm1;
-	double val[12];
+	float x, y;
+	float ax, ay;
+	float x0, y0, x1, y1, x2, y2, t, hm1;
+	float val[12];
 	int i, sorted;
     
 	x = z.real();
@@ -62,7 +63,7 @@ namespace thrust
     
 	/* Handle NaNs using the general formula to mix them right. */
 	if (x != x || y != y){
-	  return (complex<double>(std::log(norm(z)), std::atan2(y, x)));
+	  return (complex<float>(std::log(norm(z)), std::atan2(y, x)));
 	}
     
 	ax = std::abs(x);
@@ -80,25 +81,24 @@ namespace thrust
 	 * There is a potential loss of accuracy caused by dividing by M_E,
 	 * but this case should happen extremely rarely.
 	 */
-	//    if (ay > 5e307){
-	// For high values of ay -> hypotf(DBL_MAX,ay) = inf
-	// We expect that for values at or below ay = 5e307 this should not happen
-	if (ay > 5e307){
-	  return (complex<double>(std::log(hypot(x / M_E, y / M_E)) + 1.0, std::atan2(y, x)));
+	// For high values of ay -> hypotf(FLT_MAX,ay) = inf
+	// We expect that for values at or below ay = 1e34f this should not happen
+	if (ay > 1e34f){ 
+	  return (complex<float>(std::log(hypotf(x / M_E, y / M_E)) + 1.0f, std::atan2(y, x)));
 	}
-	if (ax == 1.) {
-	  if (ay < 1e-150){
-	    return (complex<double>((ay * 0.5) * ay, std::atan2(y, x)));
+	if (ax == 1.f) {
+	  if (ay < 1e-19f){
+	    return (complex<float>((ay * 0.5f) * ay, std::atan2(y, x)));
 	  }
-	  return (complex<double>(log1p(ay * ay) * 0.5, std::atan2(y, x)));
+	  return (complex<float>(log1pf(ay * ay) * 0.5f, std::atan2(y, x)));
 	}
 
 	/*
 	 * Because atan2 and hypot conform to C99, this also covers all the
 	 * edge cases when x or y are 0 or infinite.
 	 */
-	if (ax < 1e-50 || ay < 1e-50 || ax > 1e50 || ay > 1e50){
-	  return (complex<double>(std::log(hypot(x, y)), std::atan2(y, x)));
+	if (ax < 1e-6f || ay < 1e-6f || ax > 1e6f || ay > 1e6f){
+	  return (complex<float>(std::log(hypotf(x, y)), std::atan2(y, x)));
 	}
     
 	/* 
@@ -108,12 +108,12 @@ namespace thrust
     
 	/* Some easy cases. */
     
-	if (ax >= 1.0){
-	  return (complex<double>(log1p((ax-1)*(ax+1) + ay*ay) * 0.5, atan2(y, x)));
+	if (ax >= 1.0f){
+	  return (complex<float>(log1pf((ax-1.f)*(ax+1.f) + ay*ay) * 0.5f, atan2(y, x)));
 	}
 
-	if (ax*ax + ay*ay <= 0.7){
-	  return (complex<double>(std::log(ax*ax + ay*ay) * 0.5, std::atan2(y, x)));
+	if (ax*ax + ay*ay <= 0.7f){
+	  return (complex<float>(std::log(ax*ax + ay*ay) * 0.5f, std::atan2(y, x)));
 	}
 
 	/*
@@ -162,7 +162,7 @@ namespace thrust
 	for (i=0;i<12;i++){
 	  hm1 += val[i];
 	}
-	return (complex<double>(0.5 * log1p(hm1), atan2(y, x)));
+	return (complex<float>(0.5f * log1pf(hm1), atan2(y, x)));
       }
 
     }

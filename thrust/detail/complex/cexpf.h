@@ -37,103 +37,87 @@
 
 namespace thrust{
   namespace detail{
-    namespace complex{		      	
-      /*
-       * Compute exp(x), scaled to avoid spurious overflow.  An exponent is
-       * returned separately in 'expt'.
-       *
-       * Input:  ln(DBL_MAX) <= x < ln(2 * DBL_MAX / DBL_MIN_DENORM) ~= 1454.91
-       * Output: 2**1023 <= y < 2**1024
-       */
+    namespace complex{
+
       __host__ __device__
-	double __frexp_exp(double x, int *expt){
-	const uint32_t k = 1799;		/* constant for reduction */
-	const double kln2 =  1246.97177782734161156;	/* k * ln2 */
+	float __frexp_expf(float x, int *expt){
+	const uint32_t k = 235;                 /* constant for reduction */
+	const float kln2 =  162.88958740F;       /* k * ln2 */
 	
-	double exp_x;
+	// should this be a double instead?
+	float exp_x;
 	uint32_t hx;
 	
-	/*
-	 * We use exp(x) = exp(x - kln2) * 2**k, carefully chosen to
-	 * minimize |exp(kln2) - 2**k|.  We also scale the exponent of
-	 * exp_x to MAX_EXP so that the result can be multiplied by
-	 * a tiny number without losing accuracy due to denormalization.
-	 */
-	exp_x = exp(x - kln2);
-	__get_high_word(hx, exp_x);
-	*expt = (hx >> 20) - (0x3ff + 1023) + k;
-	__set_high_word(exp_x, (hx & 0xfffff) | ((0x3ff + 1023) << 20));
+	exp_x = expf(x - kln2);
+	__get_float_word(hx, exp_x);
+	*expt = (hx >> 23) - (0x7f + 127) + k;
+	__set_float_word(exp_x, (hx & 0x7fffff) | ((0x7f + 127) << 23));
 	return (exp_x);
       }
       
-      
       __host__ __device__
-	complex<double>	__ldexp_cexp(complex<double> z, int expt){
-	double x, y, exp_x, scale1, scale2;
+	complex<float> 
+	__ldexp_cexpf(complex<float> z, int expt)
+      {
+	float x, y, exp_x, scale1, scale2;
 	int ex_expt, half_expt;
 	
 	x = z.real();
 	y = z.imag();
-	exp_x = __frexp_exp(x, &ex_expt);
+	exp_x = __frexp_expf(x, &ex_expt);
 	expt += ex_expt;
 	
-	/*
-	 * Arrange so that scale1 * scale2 == 2**expt.  We use this to
-	 * compensate for scalbn being horrendously slow.
-	 */
 	half_expt = expt / 2;
-	__insert_words(scale1, (0x3ff + half_expt) << 20, 0);
+	__set_float_word(scale1, (0x7f + half_expt) << 23);
 	half_expt = expt - half_expt;
-	__insert_words(scale2, (0x3ff + half_expt) << 20, 0);
+	__set_float_word(scale2, (0x7f + half_expt) << 23);
 	
-	return (complex<double>(cos(y) * exp_x * scale1 * scale2,
-				sin(y) * exp_x * scale1 * scale2));
+	return (complex<float>(std::cos(y) * exp_x * scale1 * scale2,
+			       std::sin(y) * exp_x * scale1 * scale2));
       }
-	
-
+      
       __host__ __device__
-	complex<double> cexp(const complex<double>& z){
-	double x, y, exp_x;
-	uint32_t hx, hy, lx, ly;
+	complex<float> cexpf(const complex<float>& z){
+	float x, y, exp_x;
+	u_int32_t hx, hy;
 
-	const uint32_t
-	  exp_ovfl  = 0x40862e42,			/* high bits of MAX_EXP * ln2 ~= 710 */
-	  cexp_ovfl = 0x4096b8e4;			/* (MAX_EXP - MIN_DENORM_EXP) * ln2 */
+	const u_int32_t
+	  exp_ovfl  = 0x42b17218,		/* MAX_EXP * ln2 ~= 88.722839355 */
+	  cexp_ovfl = 0x43400074;		/* (MAX_EXP - MIN_DENORM_EXP) * ln2 */
 
-	  
 	x = z.real();
 	y = z.imag();
-	  
-	__extract_words(hy, ly, y);
+
+	__get_float_word(hy, y);
 	hy &= 0x7fffffff;
-	  
+
 	/* cexp(x + I 0) = exp(x) + I 0 */
-	if ((hy | ly) == 0)
-	  return (complex<double>(exp(x), y));
-	__extract_words(hx, lx, x);
+	if (hy == 0)
+	  return (complex<float>(std::exp(x), y));
+	__get_float_word(hx, x);
 	/* cexp(0 + I y) = cos(y) + I sin(y) */
-	if (((hx & 0x7fffffff) | lx) == 0)
-	  return (complex<double>(cos(y), sin(y)));
-	  
-	if (hy >= 0x7ff00000) {
-	  if (lx != 0 || (hx & 0x7fffffff) != 0x7ff00000) {
+	if ((hx & 0x7fffffff) == 0){
+	  return (complex<float>(std::cos(y), std::sin(y)));
+	}
+	if (hy >= 0x7f800000) {
+	  if ((hx & 0x7fffffff) != 0x7f800000) {
 	    /* cexp(finite|NaN +- I Inf|NaN) = NaN + I NaN */
-	    return (complex<double>(y - y, y - y));
+	    return (complex<float>(y - y, y - y));
 	  } else if (hx & 0x80000000) {
 	    /* cexp(-Inf +- I Inf|NaN) = 0 + I 0 */
-	    return (complex<double>(0.0, 0.0));
+	    return (complex<float>(0.0, 0.0));
 	  } else {
 	    /* cexp(+Inf +- I Inf|NaN) = Inf + I NaN */
-	    return (complex<double>(x, y - y));
+	    return (complex<float>(x, y - y));
 	  }
 	}
-	  
+
 	if (hx >= exp_ovfl && hx <= cexp_ovfl) {
 	  /*
-	   * x is between 709.7 and 1454.3, so we must scale to avoid
-	   * overflow in exp(x).
+	   * x is between 88.7 and 192, so we must scale to avoid
+	   * overflow in expf(x).
 	   */
-	  return (__ldexp_cexp(z, 0));
+	  return (__ldexp_cexpf(z, 0));
 	} else {
 	  /*
 	   * Cases covered here:
@@ -143,10 +127,9 @@ namespace thrust{
 	   *  -  x = NaN (spurious inexact exception from y)
 	   */
 	  exp_x = std::exp(x);
-	  return (complex<double>(exp_x * cos(y), exp_x * sin(y)));
+	  return (complex<float>(exp_x * std::cos(y), exp_x * std::sin(y)));
 	}
       }
-	
     }
   }
 }
