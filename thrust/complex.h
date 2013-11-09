@@ -62,7 +62,7 @@
 
 #include <thrust/detail/config.h>
 
-#if (defined THRUST_DEVICE_BACKEND && THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA) || (defined THRUST_DEVICE_SYSTEM && THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA)
+#if (1 || defined THRUST_DEVICE_BACKEND && THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA) || (defined THRUST_DEVICE_SYSTEM && THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA)
 
 #ifdef _WIN32
 #define _USE_MATH_DEFINES 1  // make sure M_PI is defined
@@ -72,6 +72,8 @@
 #include <complex>
 #include <sstream>
 #include <thrust/cmath.h>
+#include <thrust/detail/type_traits.h>
+
 
 namespace thrust
 {
@@ -135,6 +137,13 @@ namespace thrust
   template <typename ValueType> __host__ __device__ complex<ValueType> exp(const complex<ValueType>& z);
   template <typename ValueType> __host__ __device__ complex<ValueType> log(const complex<ValueType>& z);
   template <typename ValueType> __host__ __device__ complex<ValueType> log10(const complex<ValueType>& z);
+
+  namespace detail{
+    namespace complex{
+      __host__ __device__ ::thrust::complex<float> exp(const ::thrust::complex<float>& z);
+      __host__ __device__ ::thrust::complex<float> clogf(const ::thrust::complex<float>& z);
+    }
+  }
 
   // Power Functions:
   template <typename ValueType> __host__ __device__ complex<ValueType> pow(const complex<ValueType>& z, const complex<ValueType>& z2);
@@ -308,8 +317,9 @@ public:
 
   // cast operators
   inline operator std::complex<ValueType>() const { return std::complex<ValueType>(real(),imag()); }
-
 };
+
+
 
   // Binary arithmetic operations
   // At the moment I'm implementing the basic functions, and the 
@@ -318,14 +328,14 @@ public:
   template<typename ValueType>
     __host__ __device__ 
     inline complex<ValueType> operator+(const complex<ValueType>& lhs,
-					    const complex<ValueType>& rhs){
+					const complex<ValueType>& rhs){
     return complex<ValueType>(lhs.real()+rhs.real(),lhs.imag()+rhs.imag());
   }
 
   template<typename ValueType>
     __host__ __device__ 
     inline complex<ValueType> operator+(const volatile complex<ValueType>& lhs,
-					    const volatile complex<ValueType>& rhs){
+					const volatile complex<ValueType>& rhs){
     return complex<ValueType>(lhs.real()+rhs.real(),lhs.imag()+rhs.imag());
   }
 
@@ -497,7 +507,9 @@ public:
   template <typename ValueType>
     __host__ __device__
     inline ValueType norm(const complex<ValueType>& z){
-    return z.real()*z.real() + z.imag()*z.imag();
+    // not fast, but accurate
+    return abs(z)*abs(z);
+    //    return z.real()*z.real() + z.imag()*z.imag();
   }
 
   template <typename ValueType>
@@ -524,19 +536,33 @@ public:
     return complex<ValueType>(std::cosh(re) * std::cos(im), 
 			      std::sinh(re) * std::sin(im));
   }
-
   template <typename ValueType>
     __host__ __device__
-    inline complex<ValueType> exp(const complex<ValueType>& z){
-    return thrust::polar(std::exp(z.real()),z.imag());
+    inline complex<ValueType> exp(const complex<ValueType>& z){    
+    return polar(std::exp(z.real()),z.imag());
   }
+
+  template <>
+    __host__ __device__
+    inline complex<float> exp(const complex<float>& z){    
+    return detail::complex::exp(z);
+  }
+
+
 
   template <typename ValueType>
     __host__ __device__
     inline complex<ValueType> log(const complex<ValueType>& z){
     return complex<ValueType>(std::log(thrust::abs(z)),thrust::arg(z));
   }
+  
+  template <>
+    __host__ __device__
+    inline complex<float> log(const complex<float>& z){
+    return detail::complex::clogf(z);
+  }
 
+    
 
   template <typename ValueType>
     __host__ __device__
@@ -688,6 +714,9 @@ public:
   }
 
 } // end namespace thrust
+
+#include <thrust/detail/complex/cexp.h>
+#include <thrust/detail/complex/clog.h>
 
 #else
 #include <complex>
