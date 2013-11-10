@@ -512,23 +512,7 @@ public:
   }
 
   // Transcendental functions implementation
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> cos(const complex<ValueType>& z){
-    const ValueType re = z.real();
-    const ValueType im = z.imag();
-    return complex<ValueType>(std::cos(re) * std::cosh(im), 
-			      -std::sin(re) * std::sinh(im));
-  }
 
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> cosh(const complex<ValueType>& z){
-    const ValueType re = z.real();
-    const ValueType im = z.imag();
-    return complex<ValueType>(std::cosh(re) * std::cos(im), 
-			      std::sinh(re) * std::sin(im));
-  }
 
   template <typename ValueType>
     __host__ __device__
@@ -577,24 +561,6 @@ public:
     return thrust::exp(std::log(PromotedType(x))*complex<PromotedType>(exponent));
   }
 
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> sin(const complex<ValueType>& z){
-    const ValueType re = z.real();
-    const ValueType im = z.imag();
-    return complex<ValueType>(std::sin(re) * std::cosh(im), 
-			      std::cos(re) * std::sinh(im));
-  }
-
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> sinh(const complex<ValueType>& z){
-    const ValueType re = z.real();
-    const ValueType im = z.imag();
-    return complex<ValueType>(std::sinh(re) * std::cos(im), 
-			      std::cosh(re) * std::sin(im));
-  }
 
   template <typename ValueType>
     __host__ __device__
@@ -685,6 +651,10 @@ public:
 #include <thrust/detail/complex/cexpf.h>
 #include <thrust/detail/complex/clog.h>
 #include <thrust/detail/complex/clogf.h>
+#include <thrust/detail/complex/ccosh.h>
+#include <thrust/detail/complex/ccoshf.h>
+#include <thrust/detail/complex/csinh.h>
+#include <thrust/detail/complex/csinhf.h>
 
 #else
 #include <complex>

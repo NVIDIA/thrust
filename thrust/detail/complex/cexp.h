@@ -1,5 +1,4 @@
 /* adapted from FreeBSD:
- *    lib/msun/src/s_cexpf.c
  *    lib/msun/src/s_cexp.c
  *    lib/msun/src/k_exp.c
  *
