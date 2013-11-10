@@ -149,4 +149,17 @@ namespace thrust{
 	
     }
   }
+
+  template <typename ValueType>
+    __host__ __device__
+    inline complex<ValueType> exp(const complex<ValueType>& z){    
+    return polar(std::exp(z.real()),z.imag());
+  }
+
+  template <>
+    __host__ __device__
+    inline complex<double> exp(const complex<double>& z){    
+    return detail::complex::cexp(z);
+  }
+
 }

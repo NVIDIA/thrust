@@ -138,13 +138,6 @@ namespace thrust
   template <typename ValueType> __host__ __device__ complex<ValueType> log(const complex<ValueType>& z);
   template <typename ValueType> __host__ __device__ complex<ValueType> log10(const complex<ValueType>& z);
 
-  namespace detail{
-    namespace complex{
-      __host__ __device__ ::thrust::complex<float> exp(const ::thrust::complex<float>& z);
-      __host__ __device__ ::thrust::complex<float> clogf(const ::thrust::complex<float>& z);
-    }
-  }
-
   // Power Functions:
   template <typename ValueType> __host__ __device__ complex<ValueType> pow(const complex<ValueType>& z, const complex<ValueType>& z2);
   template <typename ValueType> __host__ __device__ complex<ValueType> pow(const complex<ValueType>& z, const ValueType& x);
@@ -536,33 +529,6 @@ public:
     return complex<ValueType>(std::cosh(re) * std::cos(im), 
 			      std::sinh(re) * std::sin(im));
   }
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> exp(const complex<ValueType>& z){    
-    return polar(std::exp(z.real()),z.imag());
-  }
-
-  template <>
-    __host__ __device__
-    inline complex<float> exp(const complex<float>& z){    
-    return detail::complex::exp(z);
-  }
-
-
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> log(const complex<ValueType>& z){
-    return complex<ValueType>(std::log(thrust::abs(z)),thrust::arg(z));
-  }
-  
-  template <>
-    __host__ __device__
-    inline complex<float> log(const complex<float>& z){
-    return detail::complex::clogf(z);
-  }
-
-    
 
   template <typename ValueType>
     __host__ __device__
@@ -716,7 +682,9 @@ public:
 } // end namespace thrust
 
 #include <thrust/detail/complex/cexp.h>
+#include <thrust/detail/complex/cexpf.h>
 #include <thrust/detail/complex/clog.h>
+#include <thrust/detail/complex/clogf.h>
 
 #else
 #include <complex>

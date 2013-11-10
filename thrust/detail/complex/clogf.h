@@ -167,5 +167,12 @@ namespace thrust
 
     }
   }
+
+  template <>
+    __host__ __device__
+    inline complex<float> log(const complex<float>& z){
+    return detail::complex::clogf(z);
+  }
+
 }
     

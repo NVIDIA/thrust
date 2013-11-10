@@ -36,6 +36,8 @@
 #include <thrust/detail/complex/math_private.h>
 
 namespace thrust{
+
+
   namespace detail{
     namespace complex{
 
@@ -132,4 +134,11 @@ namespace thrust{
       }
     }
   }
+
+  template <>
+    __host__ __device__
+    inline complex<float> exp(const complex<float>& z){    
+    return detail::complex::cexpf(z);
+  }    
+
 }

@@ -167,5 +167,18 @@ namespace thrust
 
     }
   }
+
+  template <typename ValueType>
+    __host__ __device__
+    inline complex<ValueType> log(const complex<ValueType>& z){
+    return complex<ValueType>(std::log(thrust::abs(z)),thrust::arg(z));
+  }
+
+  template <>
+    __host__ __device__
+    inline complex<double> log(const complex<double>& z){
+    return detail::complex::clog(z);
+  }
+
 }
     
