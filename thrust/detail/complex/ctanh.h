@@ -80,7 +80,7 @@ namespace thrust{
       using thrust::complex;
 
       __host__ __device__
-	complex<float> ctanh(const complex<float>& z){
+	complex<double> ctanh(const complex<double>& z){
 	double x, y;
 	double t, beta, s, rho, denom;
 	uint32_t hx, ix, lx;
