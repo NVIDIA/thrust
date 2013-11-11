@@ -562,11 +562,6 @@ public:
   }
 
 
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> sqrt(const complex<ValueType>& z){
-    return thrust::polar(std::sqrt(thrust::abs(z)),thrust::arg(z)/ValueType(2));
-  }
 
 
   // Inverse trigonometric functions implementation
@@ -644,6 +639,8 @@ public:
 #include <thrust/detail/complex/csinhf.h>
 #include <thrust/detail/complex/ctanh.h>
 #include <thrust/detail/complex/ctanhf.h>
+#include <thrust/detail/complex/csqrt.h>
+#include <thrust/detail/complex/csqrtf.h>
 
 #else
 #include <complex>
