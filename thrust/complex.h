@@ -568,19 +568,6 @@ public:
     return thrust::polar(std::sqrt(thrust::abs(z)),thrust::arg(z)/ValueType(2));
   }
 
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> tan(const complex<ValueType>& z){
-    return sin(z)/cos(z);
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> tanh(const complex<ValueType>& z){
-    // This implementation seems better than the simple sin/cos
-    return (thrust::exp(ValueType(2)*z)-ValueType(1))/
-      (thrust::exp(ValueType(2)*z)+ValueType(1));
-  }
 
   // Inverse trigonometric functions implementation
 
@@ -655,6 +642,8 @@ public:
 #include <thrust/detail/complex/ccoshf.h>
 #include <thrust/detail/complex/csinh.h>
 #include <thrust/detail/complex/csinhf.h>
+#include <thrust/detail/complex/ctanh.h>
+#include <thrust/detail/complex/ctanhf.h>
 
 #else
 #include <complex>
