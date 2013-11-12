@@ -79,6 +79,9 @@ namespace thrust{
 
       using thrust::complex;
 
+      using std::isinf;
+      using std::isfinite;
+
       __host__ __device__
 	complex<double> ctanh(const complex<double>& z){
 	double x, y;

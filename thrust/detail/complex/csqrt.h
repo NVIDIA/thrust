@@ -40,6 +40,9 @@ namespace thrust{
 
       using thrust::complex;
 
+      using std::isnan;
+      using std::signbit;
+
       __host__ __device__
 	complex<double> csqrt(const complex<double>& z){
 	complex<double> result;
