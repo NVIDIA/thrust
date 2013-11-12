@@ -562,71 +562,6 @@ public:
   }
 
 
-
-
-  // Inverse trigonometric functions implementation
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> acos(const complex<ValueType>& z){
-    const complex<ValueType> ret = thrust::asin(z);
-    return complex<ValueType>(ValueType(M_PI/2.0) - ret.real(),-ret.imag());
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> asin(const complex<ValueType>& z){
-    const complex<ValueType> i(0,1);
-    return -i*thrust::asinh(i*z);
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> atan(const complex<ValueType>& z){
-    const complex<ValueType> i(0,1);
-    return -i*thrust::atanh(i*z);
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> acosh(const complex<ValueType>& z){
-    thrust::complex<ValueType> ret((z.real() - z.imag()) * (z.real() + z.imag()) - ValueType(1.0),
-				   ValueType(2.0) * z.real() * z.imag());    
-    ret = thrust::sqrt(ret);
-    if (z.real() < ValueType(0.0)){
-      ret = -ret;
-    }
-    ret += z;
-    ret = thrust::log(ret);
-    if (ret.real() < ValueType(0.0)){
-      ret = -ret;
-    }
-    return ret;
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> asinh(const complex<ValueType>& z){
-    return thrust::log(thrust::sqrt(z*z+ValueType(1))+z);
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> atanh(const complex<ValueType>& z){
-    ValueType imag2 = z.imag() *  z.imag();   
-    ValueType n = ValueType(1.0) + z.real();
-    n = imag2 + n * n;
-
-    ValueType d = ValueType(1.0) - z.real();
-    d = imag2 + d * d;
-    complex<ValueType> ret(ValueType(0.25) * (std::log(n) - std::log(d)),0);
-
-    d = ValueType(1.0) -  z.real() * z.real() - imag2;
-
-    ret.imag(ValueType(0.5) * std::atan2(ValueType(2.0) * z.imag(), d));
-    return ret;
-  }
-
 } // end namespace thrust
 
 #include <thrust/detail/complex/cexp.h>
@@ -641,6 +576,8 @@ public:
 #include <thrust/detail/complex/ctanhf.h>
 #include <thrust/detail/complex/csqrt.h>
 #include <thrust/detail/complex/csqrtf.h>
+#include <thrust/detail/complex/catrig.h>
+#include <thrust/detail/complex/catrigf.h>
 
 #else
 #include <complex>
