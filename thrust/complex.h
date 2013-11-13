@@ -73,6 +73,7 @@
 #include <sstream>
 #include <thrust/cmath.h>
 #include <thrust/detail/type_traits.h>
+#include <cfloat>
 
 
 namespace thrust
@@ -502,7 +503,17 @@ public:
     inline ValueType norm(const complex<ValueType>& z){
     // not fast, but accurate
     return abs(z)*abs(z);
-    //    return z.real()*z.real() + z.imag()*z.imag();
+  }
+
+  template <>
+    __host__ __device__
+    inline float norm(const complex<float>& z){
+    if(std::abs(z.real()) < sqrtf(FLT_MIN) && std::abs(z.imag()) < sqrtf(FLT_MIN)){
+      float a = z.real()*4.0f;
+      float b = z.imag()*4.0f;
+      return (a*a+b*b)/16.0f;
+    } 
+    return z.real()*z.real() + z.imag()*z.imag();
   }
 
   template <typename ValueType>

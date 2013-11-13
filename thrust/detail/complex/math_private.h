@@ -93,6 +93,15 @@ namespace thrust
 	(ix1) = ew_u.parts.lsw;
       }
 
+      /* Get two 32 bit ints from a double.  */
+      __host__ __device__
+      void  __extract_words(int32_t & ix0,int32_t & ix1, double d){
+	ieee_double_shape_type ew_u;
+	ew_u.value = (d);
+	(ix0) = ew_u.parts.msw;
+	(ix1) = ew_u.parts.lsw;
+      }
+
     }
   }
 }
