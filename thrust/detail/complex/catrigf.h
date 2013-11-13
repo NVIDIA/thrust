@@ -144,7 +144,7 @@ namespace thrust{
 	  float x, y, ax, ay, rx, ry, B, sqrt_A2my2, new_y;
 	  int B_is_usable;
 	  complex<float> w;
-	  const float RECIP_EPSILON = 1.0 / DBL_EPSILON;
+	  const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
 	  const float m_ln2 = 6.9314718055994531e-1; /*  0x162e42fefa39ef.0p-53 */
 	  x = z.real();
 	  y = z.imag();
@@ -302,7 +302,7 @@ namespace thrust{
 	    return (complex<float>(logf(hypotf(x / m_e, y / m_e)) + 1,
 				   atan2f(y, x)));
 
-	  const float QUARTER_SQRT_MAX = 2.3058430092136939520000000e+18f; /* = 0x1p61; <= sqrt(DBL_MAX) / 4 */
+	  const float QUARTER_SQRT_MAX = 2.3058430092136939520000000e+18f; /* = 0x1p61; <= sqrt(FLT_MAX) / 4 */
 	  const float SQRT_MIN =	1.084202172485504434007453e-19f; /* 0x1p-63; >= sqrt(FLT_MIN) */
 	  if (ax > QUARTER_SQRT_MAX || ay < SQRT_MIN)
 	    return (complex<float>(logf(hypotf(x, y)), atan2f(y, x)));
@@ -321,7 +321,7 @@ namespace thrust{
        * Assumes x*x and y*y will not overflow.
        * Assumes x and y are finite.
        * Assumes y is non-negative.
-       * Assumes fabs(x) >= DBL_EPSILON.
+       * Assumes fabsf(x) >= FLT_EPSILON.
        */
       inline float __sum_squares(float x, float y)
       {
