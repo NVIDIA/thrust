@@ -22,6 +22,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/tagged_iterator.h>
 #include <thrust/detail/contiguous_storage.h>
 #include <thrust/detail/allocator/temporary_allocator.h>
 #include <thrust/detail/allocator/no_throw_allocator.h>
