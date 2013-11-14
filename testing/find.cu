@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/find.h>
+#include <thrust/iterator/retag.h>
 
 
 template <typename T>

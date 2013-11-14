@@ -1,9 +1,9 @@
 #include <unittest/unittest.h>
 #include <thrust/gather.h>
-
 #include <thrust/fill.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 #include <thrust/sequence.h>
 
 

@@ -2,6 +2,7 @@
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/transform_iterator.h>
+#include <thrust/iterator/retag.h>
 
 
 template <typename Vector>
