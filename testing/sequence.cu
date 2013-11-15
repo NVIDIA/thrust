@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/sequence.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 
 
 template<typename ForwardIterator>

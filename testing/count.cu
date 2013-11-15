@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/count.h>
+#include <thrust/iterator/retag.h>
 
 template <class Vector>
 void TestCountSimple(void)

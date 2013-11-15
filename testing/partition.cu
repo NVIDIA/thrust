@@ -4,6 +4,7 @@
 
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/iterator/retag.h>
 #include <thrust/sort.h>
 
 template<typename T>

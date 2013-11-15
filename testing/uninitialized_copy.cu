@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/uninitialized_copy.h>
 #include <thrust/device_malloc_allocator.h>
+#include <thrust/iterator/retag.h>
 
 
 template<typename InputIterator, typename ForwardIterator>

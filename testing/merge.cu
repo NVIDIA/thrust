@@ -4,6 +4,7 @@
 #include <thrust/sort.h>
 #include <thrust/unique.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 
 template<typename Vector>
 void TestMergeSimple(void)

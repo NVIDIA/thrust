@@ -2,6 +2,7 @@
 #include <thrust/transform.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 #include <thrust/tuple.h>
 #include <thrust/pair.h>
 #include <thrust/iterator/zip_iterator.h>
