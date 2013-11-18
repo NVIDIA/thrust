@@ -252,7 +252,7 @@ size_t max_active_blocks_per_multiprocessor(const device_properties_t    &proper
   const size_t maxBlocksPerSM  = max_blocks_per_multiprocessor(properties);
 
   // Calc limits
-  const size_t ctaLimitThreads = (CTA_SIZE <= properties.maxThreadsPerBlock) ? maxThreadsPerSM / CTA_SIZE : 0;
+  const size_t ctaLimitThreads = (CTA_SIZE <= size_t(properties.maxThreadsPerBlock)) ? maxThreadsPerSM / CTA_SIZE : 0;
   const size_t ctaLimitBlocks  = maxBlocksPerSM;
 
   //////////////////////////////////////////
