@@ -243,7 +243,12 @@ class iterator_core_access
  *
  *  \note \p iterator_facade's arithmetic operator free functions exist with the usual meanings but are omitted here for brevity.
  */
-template<typename Derived, typename Value, typename System, typename Traversal, typename Reference, typename Difference>
+template<typename Derived,
+         typename Value,
+         typename System,
+         typename Traversal,
+         typename Reference = Value&,
+         typename Difference = std::ptrdiff_t>
   class iterator_facade
 {
   private:
