@@ -1,7 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/equal.h>
-
 #include <thrust/functional.h>
+#include <thrust/iterator/retag.h>
 
 template <class Vector>
 void TestEqualSimple(void)

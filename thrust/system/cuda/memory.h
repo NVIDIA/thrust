@@ -85,7 +85,7 @@ namespace system
  *  \brief \p thrust::system::cuda is the namespace containing functionality for allocating, manipulating,
  *         and deallocating memory available to Thrust's CUDA backend system.
  *         The identifiers are provided in a separate namespace underneath <tt>thrust::system</tt>
- *         for import convenience but are also aliased in the top-level <tt>thrust::tbb</tt>
+ *         for import convenience but are also aliased in the top-level <tt>thrust::cuda</tt>
  *         namespace for easy access.
  *
  */
@@ -177,7 +177,7 @@ template<typename T>
     /*! This constructor allows construction of a <tt>pointer<const T></tt> from a <tt>T*</tt>.
      *
      *  \param ptr A raw pointer to copy from, presumed to point to a location in memory
-     *         accessible by the \p tbb system.
+     *         accessible by the \p cuda system.
      *  \tparam OtherT \p OtherT shall be convertible to \p T.
      */
     template<typename OtherT>

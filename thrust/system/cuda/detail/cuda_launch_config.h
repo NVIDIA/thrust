@@ -183,7 +183,7 @@ size_t smem_allocation_unit(const device_properties_t &properties)
 
 // granularity of register allocation
 inline __host__ __device__
-size_t reg_allocation_unit(const device_properties_t &properties, const size_t regsPerThread)
+int reg_allocation_unit(const device_properties_t &properties, const size_t regsPerThread)
 {
   switch(properties.major)
   {
@@ -239,7 +239,7 @@ size_t max_blocks_per_multiprocessor(const device_properties_t &properties)
 inline __host__ __device__
 size_t max_active_blocks_per_multiprocessor(const device_properties_t    &properties,
                                             const function_attributes_t  &attributes,
-                                            int CTA_SIZE,
+                                            size_t CTA_SIZE,
                                             size_t dynamic_smem_bytes)
 {
   // Determine the maximum number of CTAs that can be run simultaneously per SM
@@ -252,7 +252,7 @@ size_t max_active_blocks_per_multiprocessor(const device_properties_t    &proper
   const size_t maxBlocksPerSM  = max_blocks_per_multiprocessor(properties);
 
   // Calc limits
-  const size_t ctaLimitThreads = (CTA_SIZE <= properties.maxThreadsPerBlock) ? maxThreadsPerSM / CTA_SIZE : 0;
+  const size_t ctaLimitThreads = (CTA_SIZE <= size_t(properties.maxThreadsPerBlock)) ? maxThreadsPerSM / CTA_SIZE : 0;
   const size_t ctaLimitBlocks  = maxBlocksPerSM;
 
   //////////////////////////////////////////
@@ -268,7 +268,7 @@ size_t max_active_blocks_per_multiprocessor(const device_properties_t    &proper
   //////////////////////////////////////////
   // Limits due to registers/SM
   //////////////////////////////////////////
-  const size_t regAllocationUnit      = reg_allocation_unit(properties, attributes.numRegs);
+  const int regAllocationUnit = reg_allocation_unit(properties, attributes.numRegs);
   const size_t warpAllocationMultiple = warp_allocation_multiple(properties);
   const size_t numWarps = util::round_i(util::divide_ri(CTA_SIZE, properties.warpSize), warpAllocationMultiple);
 
