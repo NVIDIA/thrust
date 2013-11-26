@@ -38,6 +38,13 @@ namespace thrust
       }
 
       __host__ __device__
+      inline void __get_float_word(int32_t & i, float d){
+	ieee_float_shape_type gf_u;
+	gf_u.value = (d);
+	(i) = gf_u.word;
+      }
+
+      __host__ __device__
       inline void __set_float_word(float & d, uint32_t i){
 	ieee_float_shape_type sf_u;
 	sf_u.word = (i);
