@@ -618,121 +618,33 @@ private:
 
 
 
-  // Stream operators:
+  /* --- Stream Operators --- */
+
+  /*! Writes to an output stream a \p complex number in the form (real,imaginary).
+   *
+   *  \param os The output stream.
+   *  \param z The \p complex number to output.
+   */
   template<typename ValueType,class charT, class traits>
     std::basic_ostream<charT, traits>& operator<<(std::basic_ostream<charT, traits>& os, const complex<ValueType>& z);
+
+  /*! Reads a \p complex number from an input stream.
+   *  The recognized formats are:
+   * - real
+   * - (real)
+   * - (real, imaginary)
+   *
+   * The values read must be convertible to the \p complex's \c value_type 
+   *
+   *  \param is The input stream.
+   *  \param z The \p complex number to set.
+   */
   template<typename ValueType, typename charT, class traits>
     std::basic_istream<charT, traits>&
     operator>>(std::basic_istream<charT, traits>& is, complex<ValueType>& z);
   
 
 
-  // Binary arithmetic operations
-  // At the moment I'm implementing the basic functions, and the 
-  // corresponding cuComplex calls are commented.
-
-  template<typename ValueType>
-    __host__ __device__ 
-    inline complex<ValueType> operator+(const complex<ValueType>& lhs,
-					const complex<ValueType>& rhs){
-    return complex<ValueType>(lhs.real()+rhs.real(),lhs.imag()+rhs.imag());
-  }
-
-  template<typename ValueType>
-    __host__ __device__ 
-    inline complex<ValueType> operator+(const volatile complex<ValueType>& lhs,
-					const volatile complex<ValueType>& rhs){
-    return complex<ValueType>(lhs.real()+rhs.real(),lhs.imag()+rhs.imag());
-  }
-
-  template <typename ValueType> 
-    __host__ __device__ 
-    inline complex<ValueType> operator+(const complex<ValueType>& lhs, const ValueType & rhs){
-    return complex<ValueType>(lhs.real()+rhs,lhs.imag());
-  }
-  template <typename ValueType> 
-    __host__ __device__ 
-    inline complex<ValueType> operator+(const ValueType& lhs, const complex<ValueType>& rhs){
-    return complex<ValueType>(rhs.real()+lhs,rhs.imag());
-  }
-
-  template <typename ValueType> 
-    __host__ __device__ 
-    inline complex<ValueType> operator-(const complex<ValueType>& lhs, const complex<ValueType>& rhs){
-    return complex<ValueType>(lhs.real()-rhs.real(),lhs.imag()-rhs.imag());
-  }
-  template <typename ValueType> 
-    __host__ __device__
-    inline complex<ValueType> operator-(const complex<ValueType>& lhs, const ValueType & rhs){
-    return complex<ValueType>(lhs.real()-rhs,lhs.imag());
-  }
-  template <typename ValueType> 
-    __host__ __device__
-    inline complex<ValueType> operator-(const ValueType& lhs, const complex<ValueType>& rhs){
-    return complex<ValueType>(lhs-rhs.real(),-rhs.imag());
-  }
-
-  template <typename ValueType> 
-    __host__ __device__
-    inline complex<ValueType> operator*(const complex<ValueType>& lhs,
-					    const complex<ValueType>& rhs){
-    return complex<ValueType>(lhs.real()*rhs.real()-lhs.imag()*rhs.imag(),
-				  lhs.real()*rhs.imag()+lhs.imag()*rhs.real());
-  }
-
-  template <typename ValueType> 
-    __host__ __device__
-    inline complex<ValueType> operator*(const complex<ValueType>& lhs, const ValueType & rhs){
-    return complex<ValueType>(lhs.real()*rhs,lhs.imag()*rhs);
-  }
-
-  template <typename ValueType> 
-    __host__ __device__
-    inline complex<ValueType> operator*(const ValueType& lhs, const complex<ValueType>& rhs){
-    return complex<ValueType>(rhs.real()*lhs,rhs.imag()*lhs);
-  }
-
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> operator/(const complex<ValueType>& lhs, const complex<ValueType>& rhs){
-    ValueType s = std::abs(rhs.real()) + std::abs(rhs.imag());
-    ValueType oos = ValueType(1.0) / s;
-    ValueType ars = lhs.real() * oos;
-    ValueType ais = lhs.imag() * oos;
-    ValueType brs = rhs.real() * oos;
-    ValueType bis = rhs.imag() * oos;
-    s = (brs * brs) + (bis * bis);
-    oos = ValueType(1.0) / s;
-    complex<ValueType> quot(((ars * brs) + (ais * bis)) * oos,
-			 ((ais * brs) - (ars * bis)) * oos);
-    return quot;
-  }
-
-  template <typename ValueType> 
-    __host__ __device__
-    inline complex<ValueType> operator/(const complex<ValueType>& lhs, const ValueType & rhs){
-    return complex<ValueType>(lhs.real()/rhs,lhs.imag()/rhs);
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> operator/(const ValueType& lhs, const complex<ValueType>& rhs){
-    return complex<ValueType>(lhs)/rhs;
-  }
-
-
-  // Unary arithmetic operations
-  template <typename ValueType> 
-    __host__ __device__
-    inline complex<ValueType> operator+(const complex<ValueType>& rhs){
-    return rhs;
-  }
-  template <typename ValueType> 
-    __host__ __device__
-    inline complex<ValueType> operator-(const complex<ValueType>& rhs){
-    return rhs*-ValueType(1);
-  }
 
   // Equality operators 
   template <typename ValueType> 
@@ -902,6 +814,7 @@ private:
 #include <thrust/detail/complex/catrig.h>
 #include <thrust/detail/complex/catrigf.h>
 #include <thrust/detail/complex/stream.h>
+#include <thrust/detail/complex/arithmetic.inl>
 
 #else
 #include <complex>
