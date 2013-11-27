@@ -691,60 +691,7 @@ private:
   }
 
 
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> conj(const complex<ValueType>& z){
-    return complex<ValueType>(z.real(),-z.imag());
-  }
 
-
-  // As std::hypot is only C++11 we have to use the C interface
-  template <typename ValueType>
-    __host__ __device__
-    inline ValueType abs(const complex<ValueType>& z){
-    return ::hypot(z.real(),z.imag());
-  }
-  template <>
-    __host__ __device__
-    inline float abs(const complex<float>& z){
-    return ::hypotf(z.real(),z.imag());
-  }
-  template<>
-    __host__ __device__
-    inline double abs(const complex<double>& z){
-    return ::hypot(z.real(),z.imag());
-  }
-
-
-  template <typename ValueType>
-    __host__ __device__
-    inline ValueType arg(const complex<ValueType>& z){
-    return std::atan2(z.imag(),z.real());
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline ValueType norm(const complex<ValueType>& z){
-    // not fast, but accurate
-    return abs(z)*abs(z);
-  }
-
-  template <>
-    __host__ __device__
-    inline float norm(const complex<float>& z){
-    if(std::abs(z.real()) < sqrtf(FLT_MIN) && std::abs(z.imag()) < sqrtf(FLT_MIN)){
-      float a = z.real()*4.0f;
-      float b = z.imag()*4.0f;
-      return (a*a+b*b)/16.0f;
-    } 
-    return z.real()*z.real() + z.imag()*z.imag();
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> polar(const ValueType & m, const ValueType & theta){ 
-    return complex<ValueType>(m * std::cos(theta),m * std::sin(theta));
-  }
 
   // Transcendental functions implementation
 
