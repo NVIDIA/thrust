@@ -633,6 +633,32 @@ template<typename T>
 {};
 
 
+template<typename T1, typename T2, typename Enable = void> struct promoted_numerical_type;
+
+template<typename T1, typename T2> 
+  struct promoted_numerical_type<T1,T2,typename enable_if<and_
+  <typename is_floating_point<T1>::type,typename is_floating_point<T2>::type>
+  ::value>::type>
+  {
+  typedef larger_type<T1,T2> type;
+  };
+
+template<typename T1, typename T2> 
+  struct promoted_numerical_type<T1,T2,typename enable_if<and_
+  <typename is_integral<T1>::type,typename is_floating_point<T2>::type>
+  ::value>::type>
+  {
+  typedef T2 type;
+  };
+
+template<typename T1, typename T2>
+  struct promoted_numerical_type<T1,T2,typename enable_if<and_
+  <typename is_floating_point<T1>::type, typename is_integral<T2>::type>
+  ::value>::type>
+  {
+  typedef T1 type;
+  };
+
 } // end detail
 
 } // end thrust
