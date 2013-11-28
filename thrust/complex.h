@@ -62,8 +62,6 @@
 
 #include <thrust/detail/config.h>
 
-#if (1 || defined THRUST_DEVICE_BACKEND && THRUST_DEVICE_BACKEND == THRUST_DEVICE_BACKEND_CUDA) || (defined THRUST_DEVICE_SYSTEM && THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA)
-
 #ifdef _WIN32
 #define _USE_MATH_DEFINES 1  // make sure M_PI is defined
 #endif
@@ -73,7 +71,6 @@
 #include <sstream>
 #include <thrust/cmath.h>
 #include <thrust/detail/type_traits.h>
-#include <cfloat>
 
 
 namespace thrust
@@ -673,91 +670,9 @@ private:
 
 #include <thrust/detail/complex/complex.inl>
 
-#else
-#include <complex>
-
-namespace thrust
-{
-  using std::complex;
-  using std::conj;
-  using std::abs;
-  using std::arg;
-  using std::norm;
-  using std::polar;
-  using std::cos;
-  using std::cosh;
-  using std::exp;
-  using std::log;
-  using std::log10;
-  using std::pow;
-  using std::sin;
-  using std::sinh;
-  using std::sqrt;
-  using std::tan;
-  using std::tanh;
-
-#if __cplusplus >= 201103L
-  using std::acos;
-  using std::asin;
-  using std::atan;
-
-  using std::acosh;
-  using std::asinh;
-  using std::atanh;
-#else
-  template <typename ValueType>
-    inline complex<ValueType> acosh(const complex<ValueType>& z){
-    thrust::complex<ValueType> ret((z.real() - z.imag()) * (z.real() + z.imag()) - ValueType(1.0),
-				 ValueType(2.0) * z.real() * z.imag());    
-    ret = sqrt(ret);
-    if (z.real() < ValueType(0.0)){
-      ret = -ret;
-    }
-    ret += z;
-    ret = log(ret);
-    if (ret.real() < ValueType(0.0)){
-      ret = -ret;
-    }
-    return ret;
-  }
-  template <typename ValueType>
-    inline complex<ValueType> asinh(const complex<ValueType>& z){
-    return log(sqrt(z*z+ValueType(1))+z);
-  }
-
-  template <typename ValueType>
-    inline complex<ValueType> atanh(const complex<ValueType>& z){
-    ValueType imag2 = z.imag() *  z.imag();   
-    ValueType n = ValueType(1.0) + z.real();
-    n = imag2 + n * n;
-
-    ValueType d = ValueType(1.0) - z.real();
-    d = imag2 + d * d;
-    complex<ValueType> ret(ValueType(0.25) * (::log(n) - ::log(d)),0);
-
-    d = ValueType(1.0) -  z.real() * z.real() - imag2;
-
-    ret.imag(ValueType(0.5) * ::atan2(ValueType(2.0) * z.imag(), d));
-    return ret;
-  }
-#endif
-  
-
-  template <typename T>
-    struct norm_type {
-      typedef T type; 
-    };
-  
-  template <typename T>
-    struct norm_type< complex<T> > { 
-    typedef T type;
-  };
-
-
 /*! \} // complex_numbers
  */
 
 /*! \} // numerics
  */
-}
-#endif
+

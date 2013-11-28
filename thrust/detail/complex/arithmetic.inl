@@ -1,6 +1,7 @@
 #pragma once
 
 #include <thrust/complex.h>
+#include <cfloat>
 
 namespace thrust
 {
