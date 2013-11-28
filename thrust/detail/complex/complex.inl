@@ -137,19 +137,19 @@ namespace thrust
 } 
 
 #include <thrust/detail/complex/arithmetic.inl>
-#include <thrust/detail/complex/cexp.h>
-#include <thrust/detail/complex/cexpf.h>
-#include <thrust/detail/complex/clog.h>
-#include <thrust/detail/complex/clogf.h>
-#include <thrust/detail/complex/ccosh.h>
-#include <thrust/detail/complex/ccoshf.h>
-#include <thrust/detail/complex/csinh.h>
-#include <thrust/detail/complex/csinhf.h>
-#include <thrust/detail/complex/ctanh.h>
-#include <thrust/detail/complex/ctanhf.h>
-#include <thrust/detail/complex/csqrt.h>
-#include <thrust/detail/complex/csqrtf.h>
-#include <thrust/detail/complex/catrig.h>
-#include <thrust/detail/complex/catrigf.h>
-#include <thrust/detail/complex/stream.h>
+#include <thrust/detail/complex/cexp.inl>
+#include <thrust/detail/complex/cexpf.inl>
+#include <thrust/detail/complex/clog.inl>
+#include <thrust/detail/complex/clogf.inl>
+#include <thrust/detail/complex/ccosh.inl>
+#include <thrust/detail/complex/ccoshf.inl>
+#include <thrust/detail/complex/csinh.inl>
+#include <thrust/detail/complex/csinhf.inl>
+#include <thrust/detail/complex/ctanh.inl>
+#include <thrust/detail/complex/ctanhf.inl>
+#include <thrust/detail/complex/csqrt.inl>
+#include <thrust/detail/complex/csqrtf.inl>
+#include <thrust/detail/complex/catrig.inl>
+#include <thrust/detail/complex/catrigf.inl>
+#include <thrust/detail/complex/stream.inl>
 
