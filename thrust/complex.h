@@ -101,8 +101,6 @@ public:
 
   typedef T value_type;
 
-
-
   /* --- Constructors --- */
 
   /*! Construct a complex number from its real and imaginary parts.
@@ -111,11 +109,7 @@ public:
    *  \param im The imaginary part of the number.
    */
   inline __host__ __device__      
-  complex(const T & re = T(), const T& im = T())
-  {
-    real(re);
-    imag(im);
-  }  
+  complex(const T & re = T(), const T& im = T());
 
   /*! This copy constructor copies from a \p complex with a type that
    *  is convertible to this \p complex \c value_type.
@@ -126,11 +120,7 @@ public:
    */
   template <typename X> 
   inline __host__ __device__
-  complex<T>(const complex<X> & z)
-  {
-    real(z.real());
-    imag(z.imag());
-  }  
+  complex(const complex<X> & z);
   
   /*! This copy constructor copies from a <tt>std::complex</tt> with a type that
    *  is convertible to this \p complex \c value_type.
@@ -140,12 +130,8 @@ public:
    *  \tparam X is convertible to \c value_type.
    */
   template <typename X> 
-    __host__
-    inline complex<T>(const std::complex<X> & z)
-    {
-      real(z.real());
-      imag(z.imag());
-    }  
+    inline __host__
+  complex(const std::complex<X> & z);
 
 
 
@@ -157,12 +143,7 @@ public:
    *  \param z The \p complex to be Added.
    */
   __host__ __device__
-    inline complex<T>& operator+=(const complex<T> z)
-    {
-      real(real()+z.real());
-      imag(imag()+z.imag());
-      return *this;
-    }
+  inline complex<T>& operator+=(const complex<T> z);
 
   /*! Subtracts a \p complex from this \p complex and 
    *  assigns the result to this \p complex.
@@ -170,12 +151,7 @@ public:
    *  \param z The \p complex to be subtracted.
    */
   __host__ __device__
-    inline complex<T>& operator-=(const complex<T> z)
-    {
-      real(real()-z.real());
-      imag(imag()-z.imag());
-      return *this;
-    }
+  inline complex<T>& operator-=(const complex<T> z);
 
   /*! Multiplies this \p complex by another \p complex and 
    *  assigns the result to this \p complex.
@@ -183,11 +159,7 @@ public:
    *  \param z The \p complex to be multiplied.
    */
   __host__ __device__
-    inline complex<T>& operator*=(const complex<T> z)
-    {
-      *this = *this * z;
-      return *this;
-    }
+  inline complex<T>& operator*=(const complex<T> z);
 
   /*! Divides this \p complex by another \p complex and 
    *  assigns the result to this \p complex.
@@ -195,11 +167,7 @@ public:
    *  \param z The \p complex to be divided.
    */
   __host__ __device__
-    inline complex<T>& operator/=(const complex<T> z)
-    {
-      *this = *this / z;
-      return *this;
-    }
+  inline complex<T>& operator/=(const complex<T> z);
 
 
 
@@ -645,123 +613,65 @@ private:
   
 
 
+  /* --- Equality Operators --- */
 
-  // Equality operators 
-  template <typename ValueType> 
+  /*! Returns true if two \p complex numbers are equal and false otherwise.
+   *
+   *  \param lhs The first \p complex.
+   *  \param rhs The second \p complex.
+   */
+  template <typename T> 
     __host__ __device__
-    inline bool operator==(const complex<ValueType>& lhs, const complex<ValueType>& rhs){
-    if(lhs.real() == rhs.real() && lhs.imag() == rhs.imag()){
-      return true;
-    }
-    return false;
-  }
-  template <typename ValueType> 
+    inline bool operator==(const complex<T>& lhs, const complex<T>& rhs);
+
+  /*! Returns true if the imaginary part of the  \p complex number is zero and the real part is equal to the scalar. Returns false otherwise.
+   *
+   *  \param lhs The scalar.
+   *  \param rhs The \p complex.
+   */
+  template <typename T> 
     __host__ __device__
-    inline bool operator==(const ValueType & lhs, const complex<ValueType>& rhs){
-    if(lhs == rhs.real() && rhs.imag() == 0){
-      return true;
-    }
-    return false;
-  }
-  template <typename ValueType> 
+    inline bool operator==(const T & lhs, const complex<T>& rhs);
+
+  /*! Returns true if the imaginary part of the  \p complex number is zero and the real part is equal to the scalar. Returns false otherwise.
+   *
+   *  \param lhs The \p complex.
+   *  \param rhs The scalar.
+   */
+  template <typename T> 
     __host__ __device__
-    inline bool operator==(const complex<ValueType> & lhs, const ValueType& rhs){
-    if(lhs.real() == rhs && lhs.imag() == 0){
-      return true;
-    }
-    return false;
-  }
+    inline bool operator==(const complex<T> & lhs, const T& rhs);
 
-  template <typename ValueType> 
+  /*! Returns true if two \p complex numbers are different and false otherwise.
+   *
+   *  \param lhs The first \p complex.
+   *  \param rhs The second \p complex.
+   */
+  template <typename T> 
     __host__ __device__
-    inline bool operator!=(const complex<ValueType>& lhs, const complex<ValueType>& rhs){
-    return !(lhs == rhs);
-  }
+    inline bool operator!=(const complex<T>& lhs, const complex<T>& rhs);
 
-  template <typename ValueType> 
+  /*! Returns true if the imaginary part of the  \p complex number is not zero or the real part is different from the scalar. Returns false otherwise.
+   *
+   *  \param lhs The scalar.
+   *  \param rhs The \p complex.
+   */
+  template <typename T> 
     __host__ __device__
-    inline bool operator!=(const ValueType & lhs, const complex<ValueType>& rhs){
-    return !(lhs == rhs);
-  }
+    inline bool operator!=(const T & lhs, const complex<T>& rhs);
 
-  template <typename ValueType> 
+  /*! Returns true if the imaginary part of the \p complex number is not zero or the real part is different from the scalar. Returns false otherwise.
+   *
+   *  \param lhs The \p complex.
+   *  \param rhs The scalar.
+   */
+  template <typename T> 
     __host__ __device__
-    inline bool operator!=(const complex<ValueType> & lhs, const ValueType& rhs){
-    return !(lhs == rhs);
-  }
-
-
-
-
-  // Transcendental functions implementation
-
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> log10(const complex<ValueType>& z){ 
-    // Using the explicit literal prevents compile time warnings in
-    // devices that don't support doubles 
-    return thrust::log(z)/ValueType(2.30258509299404568402);
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> pow(const complex<ValueType>& z, const ValueType & exponent){
-    return thrust::exp(thrust::log(z)*exponent);
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> pow(const complex<ValueType>& z, const complex<ValueType> & exponent){
-    return thrust::exp(thrust::log(z)*exponent);
-  }
-
-  template <typename ValueType>
-    __host__ __device__
-    inline complex<ValueType> pow(const ValueType & x, const complex<ValueType> & exponent){
-    return thrust::exp(std::log(x)*exponent);
-  }
-
-  template <typename T, typename U>
-    __host__ __device__ 
-    inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const complex<T>& z, const complex<T>& exponent){
-    typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
-    return thrust::exp(thrust::log(complex<PromotedType>(z))*complex<PromotedType>(exponent));
-  }
-
-  template <typename T, typename U>
-    __host__ __device__ 
-    inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const complex<T>& z, const U& exponent){
-    typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
-    return thrust::exp(thrust::log(complex<PromotedType>(z))*PromotedType(exponent));
-  }
-
-  template <typename T, typename U>
-    __host__ __device__ 
-    inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const T& x, const complex<U>& exponent){
-    typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
-    return thrust::exp(std::log(PromotedType(x))*complex<PromotedType>(exponent));
-  }
-
+    inline bool operator!=(const complex<T> & lhs, const T& rhs);
 
 } // end namespace thrust
 
-#include <thrust/detail/complex/cexp.h>
-#include <thrust/detail/complex/cexpf.h>
-#include <thrust/detail/complex/clog.h>
-#include <thrust/detail/complex/clogf.h>
-#include <thrust/detail/complex/ccosh.h>
-#include <thrust/detail/complex/ccoshf.h>
-#include <thrust/detail/complex/csinh.h>
-#include <thrust/detail/complex/csinhf.h>
-#include <thrust/detail/complex/ctanh.h>
-#include <thrust/detail/complex/ctanhf.h>
-#include <thrust/detail/complex/csqrt.h>
-#include <thrust/detail/complex/csqrtf.h>
-#include <thrust/detail/complex/catrig.h>
-#include <thrust/detail/complex/catrigf.h>
-#include <thrust/detail/complex/stream.h>
-#include <thrust/detail/complex/arithmetic.inl>
+#include <thrust/detail/complex/complex.inl>
 
 #else
 #include <complex>

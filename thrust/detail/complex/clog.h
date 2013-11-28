@@ -180,5 +180,13 @@ namespace thrust
     return detail::complex::clog(z);
   }
 
+  template <typename ValueType>
+    __host__ __device__
+    inline complex<ValueType> log10(const complex<ValueType>& z){ 
+    // Using the explicit literal prevents compile time warnings in
+    // devices that don't support doubles 
+    return thrust::log(z)/ValueType(2.30258509299404568402);
+  }
+
 }
     
