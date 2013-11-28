@@ -117,6 +117,7 @@ namespace thrust
     inline bool operator!=(const complex<T> & lhs, const T& rhs){
     return !(lhs == rhs);
   }
+
 } 
 
 #include <thrust/detail/complex/arithmetic.inl>
