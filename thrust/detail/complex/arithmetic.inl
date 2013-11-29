@@ -16,6 +16,7 @@
 
 #include <thrust/complex.h>
 #include <cfloat>
+#include <cmath>
 
 namespace thrust
 {
@@ -196,6 +197,32 @@ namespace thrust
     __host__ __device__
     inline complex<ValueType> polar(const ValueType & m, const ValueType & theta){ 
     return complex<ValueType>(m * std::cos(theta),m * std::sin(theta));
+  }
+
+  template <typename T>
+  __host__ __device__
+  inline complex<T> proj(const complex<T>& z){
+    // Use the std functions if available (requires C++11)
+    using namespace std;
+    if(!isinf(z.real()) && !isinf(z.imag())){
+      return z;
+    }else{
+      // std::numeric_limits<T>::infinity() doesn't run on the GPU
+      return complex<T>(T(INFINITY), copysign(0.0, z.imag()));
+    }
+  }
+
+  template <>
+  __host__ __device__
+  inline complex<float> proj(const complex<float>& z){
+    // Use the std functions if available (requires C++11)
+    using namespace std;
+    if(!isinf(z.real()) && !isinf(z.imag())){
+      return z;
+    }else{
+      // std::numeric_limits<T>::infinity() doesn't run on the GPU
+      return complex<float>(float(INFINITY), copysignf(0.0, z.imag()));
+    }
   }
 
 }

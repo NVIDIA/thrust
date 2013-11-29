@@ -261,6 +261,15 @@ private:
    */
   template<typename T> __host__ __device__ complex<T> polar(const T& m, const T& theta = 0);
 
+  /*! Returns the projection of a \p complex on the Riemann sphere.
+   *  For all finite \p complex it returns the argument. For \p complexs 
+   *  with a non finite part returns (INFINITY,+/-0) where the sign of 
+   *  the zero matches the sign of the imaginary part of the argument.
+   *
+   *  \param z The \p complex argument.
+   */
+  template<typename T> __host__ __device__ complex<T> proj(const T& z);
+
 
 
   /* --- Binary Arithmetic operators --- */
