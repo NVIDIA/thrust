@@ -234,32 +234,32 @@ private:
    *
    *  \param z The \p complex from which to calculate the absolute value.
    */
-  template<typename T> __host__ __device__ T abs(const complex<T>& z);
+  template<typename T> __host__ __device__ inline T abs(const complex<T>& z);
 
   /*! Returns the phase angle (also known as argument) in radians of a \p complex.
    *
    *  \param z The \p complex from which to calculate the phase angle.
    */
-  template<typename T> __host__ __device__ T arg(const complex<T>& z);
+  template<typename T> __host__ __device__ inline T arg(const complex<T>& z);
 
   /*! Returns the square of the magnitude of a \p complex.
    *
    *  \param z The \p complex from which to calculate the norm.
    */
-  template<typename T> __host__ __device__ T norm(const complex<T>& z);
+  template<typename T> __host__ __device__ inline T norm(const complex<T>& z);
 
   /*! Returns the complex conjugate of a \p complex.
    *
    *  \param z The \p complex from which to calculate the complex conjugate.
    */
-  template<typename T> __host__ __device__ complex<T> conj(const complex<T>& z);
+  template<typename T> __host__ __device__ inline complex<T> conj(const complex<T>& z);
 
   /*! Returns a \p complex with the specified magnitude and phase.
    *
    *  \param m The magnitude of the returned \p complex.
    *  \param theta The phase of the returned \p complex in radians.
    */
-  template<typename T> __host__ __device__ complex<T> polar(const T& m, const T& theta = 0);
+  template<typename T> __host__ __device__ inline complex<T> polar(const T& m, const T& theta = 0);
 
   /*! Returns the projection of a \p complex on the Riemann sphere.
    *  For all finite \p complex it returns the argument. For \p complexs 
@@ -268,7 +268,7 @@ private:
    *
    *  \param z The \p complex argument.
    */
-  template<typename T> __host__ __device__ complex<T> proj(const T& z);
+  template<typename T> __host__ __device__ inline complex<T> proj(const T& z);
 
 
 
@@ -394,7 +394,7 @@ private:
    *
    *  \param rhs The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> log10(const complex<T>& z);
+  template <typename T> __host__ __device__ inline complex<T> log10(const complex<T>& z);
 
 
 
@@ -447,9 +447,9 @@ private:
 
   /*! Returns the complex square root of a \p complex number.
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> sqrt(const complex<T>&x);
+  template <typename T> __host__ __device__ complex<T> sqrt(const complex<T>&z);
 
 
 
@@ -457,21 +457,21 @@ private:
 
   /*! Returns the complex cosine of a \p complex number.
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> cos(const complex<T>&x);
+  template <typename T> __host__ __device__ complex<T> cos(const complex<T>&z);
 
   /*! Returns the complex sine of a \p complex number.
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> sin(const complex<T>&x);
+  template <typename T> __host__ __device__ complex<T> sin(const complex<T>&z);
 
   /*! Returns the complex tangent of a \p complex number.
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> tan(const complex<T>&x);
+  template <typename T> __host__ __device__ complex<T> tan(const complex<T>&z);
 
 
 
@@ -479,21 +479,21 @@ private:
 
   /*! Returns the complex hyperbolic cosine of a \p complex number.
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> cosh(const complex<T>& x);
+  template <typename T> __host__ __device__ complex<T> cosh(const complex<T>& z);
 
   /*! Returns the complex hyperbolic sine of a \p complex number.
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> sinh(const complex<T>&x);
+  template <typename T> __host__ __device__ complex<T> sinh(const complex<T>&z);
 
   /*! Returns the complex hyperbolic tangent of a \p complex number.
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> tanh(const complex<T>&x);
+  template <typename T> __host__ __device__ complex<T> tanh(const complex<T>&z);
 
 
 
@@ -504,27 +504,27 @@ private:
    *  The range of the real part of the result is [0, Pi] and 
    *  the range of the imaginary part is [-inf, +inf]
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> acos(const complex<T>& x);
+  template <typename T> __host__ __device__ complex<T> acos(const complex<T>& z);
 
   /*! Returns the complex arc sine of a \p complex number.
    *
    *  The range of the real part of the result is [-Pi/2, Pi/2] and 
    *  the range of the imaginary part is [-inf, +inf]
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> asin(const complex<T>& x);
+  template <typename T> __host__ __device__ complex<T> asin(const complex<T>& z);
 
   /*! Returns the complex arc tangent of a \p complex number.
    *
    *  The range of the real part of the result is [-Pi/2, Pi/2] and 
    *  the range of the imaginary part is [-inf, +inf]
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> atan(const complex<T>& x);
+  template <typename T> __host__ __device__ complex<T> atan(const complex<T>& z);
 
 
 
@@ -535,27 +535,27 @@ private:
    *  The range of the real part of the result is [0, +inf] and 
    *  the range of the imaginary part is [-Pi, Pi]
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> acosh(const complex<T>& x);
+  template <typename T> __host__ __device__ complex<T> acosh(const complex<T>& z);
 
   /*! Returns the complex inverse hyperbolic sine of a \p complex number.
    *
    *  The range of the real part of the result is [-inf, +inf] and 
    *  the range of the imaginary part is [-Pi/2, Pi/2]
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> asinh(const complex<T>& x);
+  template <typename T> __host__ __device__ complex<T> asinh(const complex<T>& z);
 
   /*! Returns the complex inverse hyperbolic tangent of a \p complex number.
    *
    *  The range of the real part of the result is [-inf, +inf] and 
    *  the range of the imaginary part is [-Pi/2, Pi/2]
    *
-   *  \param x The \p complex argument.
+   *  \param z The \p complex argument.
    */
-  template <typename T> __host__ __device__ complex<T> atanh(const complex<T>& x);
+  template <typename T> __host__ __device__ complex<T> atanh(const complex<T>& z);
 
 
 
@@ -593,54 +593,42 @@ private:
    *  \param lhs The first \p complex.
    *  \param rhs The second \p complex.
    */
-  template <typename T> 
-    __host__ __device__
-    inline bool operator==(const complex<T>& lhs, const complex<T>& rhs);
+  template <typename T> __host__ __device__ inline bool operator==(const complex<T>& lhs, const complex<T>& rhs);
 
   /*! Returns true if the imaginary part of the  \p complex number is zero and the real part is equal to the scalar. Returns false otherwise.
    *
    *  \param lhs The scalar.
    *  \param rhs The \p complex.
    */
-  template <typename T> 
-    __host__ __device__
-    inline bool operator==(const T & lhs, const complex<T>& rhs);
+  template <typename T> __host__ __device__ inline bool operator==(const T & lhs, const complex<T>& rhs);
 
   /*! Returns true if the imaginary part of the  \p complex number is zero and the real part is equal to the scalar. Returns false otherwise.
    *
    *  \param lhs The \p complex.
    *  \param rhs The scalar.
    */
-  template <typename T> 
-    __host__ __device__
-    inline bool operator==(const complex<T> & lhs, const T& rhs);
+  template <typename T> __host__ __device__ inline bool operator==(const complex<T> & lhs, const T& rhs);
 
   /*! Returns true if two \p complex numbers are different and false otherwise.
    *
    *  \param lhs The first \p complex.
    *  \param rhs The second \p complex.
    */
-  template <typename T> 
-    __host__ __device__
-    inline bool operator!=(const complex<T>& lhs, const complex<T>& rhs);
+  template <typename T> __host__ __device__ inline bool operator!=(const complex<T>& lhs, const complex<T>& rhs);
 
   /*! Returns true if the imaginary part of the  \p complex number is not zero or the real part is different from the scalar. Returns false otherwise.
    *
    *  \param lhs The scalar.
    *  \param rhs The \p complex.
    */
-  template <typename T> 
-    __host__ __device__
-    inline bool operator!=(const T & lhs, const complex<T>& rhs);
+  template <typename T> __host__ __device__ inline bool operator!=(const T & lhs, const complex<T>& rhs);
 
   /*! Returns true if the imaginary part of the \p complex number is not zero or the real part is different from the scalar. Returns false otherwise.
    *
    *  \param lhs The \p complex.
    *  \param rhs The scalar.
    */
-  template <typename T> 
-    __host__ __device__
-    inline bool operator!=(const complex<T> & lhs, const T& rhs);
+  template <typename T> __host__ __device__ inline bool operator!=(const complex<T> & lhs, const T& rhs);
 
 } // end namespace thrust
 
