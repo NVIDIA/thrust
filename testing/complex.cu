@@ -24,32 +24,35 @@
 template<typename T>
 struct TestComplexConstructors
 {
-  thrust::host_vector<T> data = unittest::random_samples<T>(2);
-  
-  thrust::complex<T> a(data[0],data[1]);
-  thrust::complex<T> b(a);
-  a = thrust::complex<T>(data[0],data[1]);
-  ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
-
-  a = thrust::complex<T>(data[0]);
-  ASSERT_EQUAL(data[0], a.real());
-  ASSERT_EQUAL(data[1], T(0));
-  
-  a = thrust::complex<T>();
-  ASSERT_COMPLEX_ALMOST_EQUAL(a,T(0));
-
-  a = thrust::complex<T>(thrust::complex<float>(data[0],data[1]));
-  ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
-
-  a = thrust::complex<T>(thrust::complex<double>(data[0],data[1]));
-  ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
-
-  a = thrust::complex<T>(std::complex<float>(data[0],data[1]));
-  ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
-
-  a = thrust::complex<T>(std::complex<double>(data[0],data[1]));
-  ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
-}
+  void operator()(void)
+  {
+    thrust::host_vector<T> data = unittest::random_samples<T>(2);
+    
+    thrust::complex<T> a(data[0],data[1]);
+    thrust::complex<T> b(a);
+    a = thrust::complex<T>(data[0],data[1]);
+    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    
+    a = thrust::complex<T>(data[0]);
+    ASSERT_EQUAL(data[0], a.real());
+    ASSERT_EQUAL(data[1], T(0));
+    
+    a = thrust::complex<T>();
+    ASSERT_COMPLEX_ALMOST_EQUAL(a,std::complex<T>(0));
+    
+    a = thrust::complex<T>(thrust::complex<float>(data[0],data[1]));
+    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    
+    a = thrust::complex<T>(thrust::complex<double>(data[0],data[1]));
+    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    
+    a = thrust::complex<T>(std::complex<float>(data[0],data[1]));
+    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    
+    a = thrust::complex<T>(std::complex<double>(data[0],data[1]));
+    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+  }
+};
 SimpleUnitTest<TestComplexConstructors, FloatingPointTypes> TestComplexConstructorsInstance;
 
 
@@ -69,8 +72,6 @@ struct TestComplexGetters
     z.imag(data[0]);
     ASSERT_EQUAL(data[1], z.real());
     ASSERT_EQUAL(data[0], z.imag());
-
-    thrust::host_vector<T> data = unittest::random_samples<T>(2);
 
     volatile thrust::complex<T> v(data[0], data[1]);
 
@@ -96,8 +97,8 @@ struct TestComplexMemberOperators
     thrust::complex<T> a(data_a[0], data_a[1]);
     thrust::complex<T> b(data_b[0], data_b[1]);
 
-    std::complex<T> a(c);
-    std::complex<T> b(d);
+    std::complex<T> c(a);
+    std::complex<T> d(b);
 
     a += b;
     c += d;
