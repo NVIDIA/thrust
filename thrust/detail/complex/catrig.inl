@@ -64,7 +64,7 @@ namespace thrust{
 	volatile float junk = 1 + tiny;
       };
 
-      complex<double> __clog_for_large_values(complex<double> z);
+      __host__ __device__ inline complex<double> __clog_for_large_values(complex<double> z);
 
       /*
        * Testing indicates that all these functions are accurate up to 4 ULP.

@@ -35,7 +35,7 @@ struct TestComplexConstructors
     
     a = thrust::complex<T>(data[0]);
     ASSERT_EQUAL(data[0], a.real());
-    ASSERT_EQUAL(data[1], T(0));
+    ASSERT_EQUAL(T(0), a.imag());
     
     a = thrust::complex<T>();
     ASSERT_COMPLEX_ALMOST_EQUAL(a,std::complex<T>(0));
