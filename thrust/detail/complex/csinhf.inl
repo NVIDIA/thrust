@@ -56,7 +56,7 @@ namespace thrust{
 
       using thrust::complex;
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<float> csinhf(const complex<float>& z){
 
 	float x, y, h;
@@ -116,7 +116,7 @@ namespace thrust{
 	return (complex<float>((x * x) * (y - y), (x + x) * (y - y)));
       }
 
-    __host__ __device__
+    __host__ __device__ inline
       complex<float> csinf(complex<float> z){
 	z = csinhf(complex<float>(-z.imag(), z.real()));
 	return (complex<float>(z.imag(), -z.real()));

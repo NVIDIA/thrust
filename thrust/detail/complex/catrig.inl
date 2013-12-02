@@ -57,6 +57,7 @@ namespace thrust{
 
       using thrust::complex;
 
+      __host__ __device__
       inline void __raise_inexact(){
 	const volatile float tiny = 7.888609052210118054117286e-31; /* 0x1p-100; */ 
 	// needs the volatile to prevent compiler from ignoring it
@@ -132,6 +133,7 @@ namespace thrust{
        * Function f(a, b, hypot_a_b) = (hypot(a, b) - b) / 2.
        * Pass hypot(a, b) as the third argument.
        */
+      __host__ __device__
       inline double
 	__f(double a, double b, double hypot_a_b)
       {
@@ -152,6 +154,7 @@ namespace thrust{
        * If returning sqrt_A2my2 has potential to result in an underflow, it is
        * rescaled, and new_y is similarly rescaled.
        */
+      __host__ __device__
        inline void
 	 __do_hard_work(double x, double y, double *rx, int *B_is_usable, double *B,
 			double *sqrt_A2my2, double *new_y)
@@ -277,8 +280,8 @@ namespace thrust{
        * Im(casinh(z)) = sign(x)*atan2(sign(x)*y, fabs(x)) + O(y/z^3)
        *    as z -> infinity, uniformly in y
        */
-      complex<double>
-	casinh(complex<double> z)
+      __host__ __device__ inline
+      complex<double> casinh(complex<double> z)
       {
 	double x, y, ax, ay, rx, ry, B, sqrt_A2my2, new_y;
 	int B_is_usable;
@@ -340,6 +343,7 @@ namespace thrust{
        * casin(z) = reverse(casinh(reverse(z)))
        * where reverse(x + I*y) = y + I*x = I*conj(z).
        */
+      __host__ __device__ inline
       complex<double> casin(complex<double> z)
       {
 	complex<double> w = casinh(complex<double>(z.imag(), z.real()));
@@ -359,8 +363,8 @@ namespace thrust{
        * Re(cacos(z)) = atan2(fabs(y), x) + O(y/z^3)
        *    as z -> infinity, uniformly in y
        */
-      complex<double>
-	cacos(complex<double> z)
+      __host__ __device__ inline
+      complex<double> cacos(complex<double> z)
       {
 	double x, y, ax, ay, rx, ry, B, sqrt_A2mx2, new_x;
 	int sx, sy;
@@ -438,6 +442,7 @@ namespace thrust{
        * cacosh(z) = I*cacos(z) or -I*cacos(z)
        * where the sign is chosen so Re(cacosh(z)) >= 0.
        */
+      __host__ __device__ inline
       complex<double> cacosh(complex<double> z)
       {
 	complex<double> w;
@@ -462,6 +467,7 @@ namespace thrust{
       /*
        * Optimized version of clog() for |z| finite and larger than ~RECIP_EPSILON.
        */
+      __host__ __device__ inline
       complex<double> __clog_for_large_values(complex<double> z)
       {
 	double x, y;
@@ -513,6 +519,7 @@ namespace thrust{
        * Assumes y is non-negative.
        * Assumes fabs(x) >= DBL_EPSILON.
        */
+      __host__ __device__
       inline double __sum_squares(double x, double y)
       {
 	const double SQRT_MIN =	1.491668146240041348658193e-154; /* = 0x1p-511; >= sqrt(DBL_MIN) */
@@ -532,6 +539,7 @@ namespace thrust{
        * This is only called in a context where inexact is always raised before
        * the call, so no effort is made to avoid or force inexact.
        */
+      __host__ __device__
       inline double __real_part_reciprocal(double x, double y)
       {
 	double scale;
@@ -578,6 +586,7 @@ namespace thrust{
        *    as z -> infinity, uniformly in x
        */
 #if __cplusplus >= 201103L
+      __host__ __device__ inline
       complex<double> catanh(complex<double> z)
       {
 	double x, y, ax, ay, rx, ry;

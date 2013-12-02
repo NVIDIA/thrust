@@ -57,6 +57,7 @@ namespace thrust{
 
       using thrust::complex;
 
+      __host__ __device__ inline
       complex<float> __clog_for_large_values(complex<float> z);
 
       /*
@@ -73,6 +74,7 @@ namespace thrust{
        * a few comments on the right of declarations remain.
        */
 
+      __host__ __device__
       inline float
 	__f(float a, float b, float hypot_a_b)
       {
@@ -92,7 +94,8 @@ namespace thrust{
        * If B_is_usable is set to 0, sqrt_A2my2 = sqrt(A*A - y*y), and new_y = y.
        * If returning sqrt_A2my2 has potential to result in an underflow, it is
        * rescaled, and new_y is similarly rescaled.
-       `       */
+       */
+      __host__ __device__ 
       inline void
 	__do_hard_work(float x, float y, float *rx, int *B_is_usable, float *B,
 		       float *sqrt_A2my2, float *new_y)
@@ -154,6 +157,7 @@ namespace thrust{
 
       }
 
+      __host__ __device__ inline
       complex<float>
 	casinhf(complex<float> z)
 	{
@@ -203,6 +207,7 @@ namespace thrust{
 	  return (complex<float>(copysignf(rx, x), copysignf(ry, y)));
 	}
 
+      __host__ __device__ inline
       complex<float> casinf(complex<float> z)
 	{
 	  complex<float> w = casinhf(complex<float>(z.imag(), z.real()));
@@ -210,8 +215,8 @@ namespace thrust{
 	  return (complex<float>(w.imag(), w.real()));
 	}
 
-      complex<float>
-	cacosf(complex<float> z)
+      __host__ __device__ inline
+      complex<float> cacosf(complex<float> z)
 	{
 	  float x, y, ax, ay, rx, ry, B, sqrt_A2mx2, new_x;
 	  int sx, sy;
@@ -274,6 +279,7 @@ namespace thrust{
 	  return (complex<float>(rx, ry));
 	}
 
+      __host__ __device__ inline
       complex<float> cacoshf(complex<float> z)
 	{
 	  complex<float> w;
@@ -298,6 +304,7 @@ namespace thrust{
       /*
        * Optimized version of clog() for |z| finite and larger than ~RECIP_EPSILON.
        */
+      __host__ __device__ inline
       complex<float> __clog_for_large_values(complex<float> z)
 	{
 	  float x, y;
@@ -339,6 +346,7 @@ namespace thrust{
        * Assumes y is non-negative.
        * Assumes fabsf(x) >= FLT_EPSILON.
        */
+      __host__ __device__
       inline float __sum_squares(float x, float y)
       {
 	const float SQRT_MIN =	1.084202172485504434007453e-19f; /* 0x1p-63; >= sqrt(FLT_MIN) */
@@ -349,6 +357,7 @@ namespace thrust{
 	return (x * x + y * y);
       }
 
+      __host__ __device__
       inline float __real_part_reciprocal(float x, float y)
       {
 	float scale;
@@ -376,6 +385,7 @@ namespace thrust{
       }
 
 #if __cplusplus >= 201103L
+      __host__ __device__ inline
       complex<float> catanhf(complex<float> z)
 	{
       float x, y, ax, ay, rx, ry;

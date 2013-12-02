@@ -56,7 +56,7 @@ namespace thrust{
 
       using thrust::complex;
       
-      __host__ __device__
+      __host__ __device__ inline
       complex<float> ccoshf(const complex<float>& z){
 	float x, y, h;
 	uint32_t hx, hy, ix, iy;
@@ -116,7 +116,7 @@ namespace thrust{
 	return (complex<float>((x * x) * (y - y), (x + x) * (y - y)));
       }
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<float> ccosf(const complex<float>& z){	
 	return (ccoshf(complex<float>(-z.imag(), z.real())));
       }

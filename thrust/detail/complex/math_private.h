@@ -83,7 +83,7 @@ namespace thrust
 	} xparts;
       } ieee_double_shape_type;
       
-      __host__ __device__
+      __host__ __device__ inline
       void __get_high_word(uint32_t & i,double d){
 	ieee_double_shape_type gh_u;
 	gh_u.value = (d);
@@ -91,7 +91,7 @@ namespace thrust
       };
 
       /* Set the more significant 32 bits of a double from an int.  */
-      __host__ __device__
+      __host__ __device__ inline
 	void __set_high_word(double & d, uint32_t v){
 	ieee_double_shape_type sh_u;
 	sh_u.value = (d);
@@ -100,7 +100,7 @@ namespace thrust
       }
 
       
-      __host__ __device__
+      __host__ __device__ inline 
       void  __insert_words(double & d, uint32_t ix0, uint32_t ix1){
 	ieee_double_shape_type iw_u;
 	iw_u.parts.msw = (ix0);
@@ -109,7 +109,7 @@ namespace thrust
       }
 
       /* Get two 32 bit ints from a double.  */
-      __host__ __device__
+      __host__ __device__ inline
       void  __extract_words(uint32_t & ix0,uint32_t & ix1, double d){
 	ieee_double_shape_type ew_u;
 	ew_u.value = (d);
@@ -118,7 +118,7 @@ namespace thrust
       }
 
       /* Get two 32 bit ints from a double.  */
-      __host__ __device__
+      __host__ __device__ inline
       void  __extract_words(int32_t & ix0,int32_t & ix1, double d){
 	ieee_double_shape_type ew_u;
 	ew_u.value = (d);

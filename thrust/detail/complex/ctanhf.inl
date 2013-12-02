@@ -60,7 +60,7 @@ namespace thrust{
 
       using thrust::complex;
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<float> ctanhf(const complex<float>& z){
 	float x, y;
 	float t, beta, s, rho, denom;
@@ -97,7 +97,7 @@ namespace thrust{
 	return (complex<float>((beta * rho * s) / denom, t / denom));
       }
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<float> ctanf(complex<float> z){
 	z = ctanhf(complex<float>(-z.imag(), z.real()));
 	return (complex<float>(z.imag(), -z.real()));

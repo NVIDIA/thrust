@@ -63,7 +63,7 @@ namespace thrust{
  * These values and the return value were taken from n1124.pdf.
  */
       
-      __host__ __device__
+      __host__ __device__ inline
 	complex<double> ccosh(const complex<double>& z){
 
 
@@ -169,7 +169,7 @@ namespace thrust{
       }
 
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<double> ccos(const complex<double>& z){	
 	/* ccos(z) = ccosh(I * z) */
 	return (ccosh(complex<double>(-z.imag(), z.real())));

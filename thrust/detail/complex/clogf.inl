@@ -55,7 +55,7 @@ namespace thrust
       using thrust::complex;
 
       /* round down to 8 = 24/3 bits */
-      __host__ __device__
+      __host__ __device__ inline
 	float __trim(float x){
 	uint32_t hx;
 	__get_float_word(hx, x);
@@ -66,7 +66,7 @@ namespace thrust
       }
   
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<float> clogf(const complex<float>& z){
 
 	// Adapted from FreeBSDs msun

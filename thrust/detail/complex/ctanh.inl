@@ -98,7 +98,7 @@ namespace thrust{
       using std::isinf;
       using std::isfinite;
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<double> ctanh(const complex<double>& z){
 	double x, y;
 	double t, beta, s, rho, denom;
@@ -160,7 +160,7 @@ namespace thrust{
 	return (complex<double>((beta * rho * s) / denom, t / denom));
       }
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<double> ctan(complex<double> z){
 	/* ctan(z) = -I * ctanh(I * z) */
 	z = ctanh(complex<double>(-z.imag(), z.real()));
