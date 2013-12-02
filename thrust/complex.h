@@ -89,6 +89,8 @@ struct complex
 {
 public:
 
+  /*! \p value_type is the type of \p complex's real and imaginary parts.
+   */
   typedef T value_type;
 
   /* --- Constructors --- */
@@ -380,19 +382,19 @@ private:
 
   /*! Returns the complex exponential of a \p complex number.
    *
-   *  \param rhs The \p complex argument.
+   *  \param z The \p complex argument.
    */
   template <typename T> __host__ __device__ complex<T> exp(const complex<T>& z);
 
   /*! Returns the complex natural logarithm of a \p complex number.
    *
-   *  \param rhs The \p complex argument.
+   *  \param z The \p complex argument.
    */
   template <typename T> __host__ __device__ complex<T> log(const complex<T>& z);
 
   /*! Returns the complex base 10 logarithm of a \p complex number.
    *
-   *  \param rhs The \p complex argument.
+   *  \param z The \p complex argument.
    */
   template <typename T> __host__ __device__ inline complex<T> log10(const complex<T>& z);
 
