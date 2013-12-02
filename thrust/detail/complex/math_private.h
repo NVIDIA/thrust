@@ -30,7 +30,9 @@
  */
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/complex.h>
+#include <thrust/detail/cstdint.h>
 
 namespace thrust
 {
