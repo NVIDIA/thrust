@@ -141,6 +141,8 @@ namespace thrust
 #include <thrust/detail/complex/cexpf.inl>
 #include <thrust/detail/complex/clog.inl>
 #include <thrust/detail/complex/clogf.inl>
+#include <thrust/detail/complex/cpow.inl>
+#include <thrust/detail/complex/cpowf.inl>
 #include <thrust/detail/complex/ccosh.inl>
 #include <thrust/detail/complex/ccoshf.inl>
 #include <thrust/detail/complex/csinh.inl>
