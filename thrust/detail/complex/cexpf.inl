@@ -97,9 +97,9 @@ namespace thrust{
       __host__ __device__
 	complex<float> cexpf(const complex<float>& z){
 	float x, y, exp_x;
-	u_int32_t hx, hy;
+	uint32_t hx, hy;
 
-	const u_int32_t
+	const uint32_t
 	  exp_ovfl  = 0x42b17218,		/* MAX_EXP * ln2 ~= 88.722839355 */
 	  cexp_ovfl = 0x43400074;		/* (MAX_EXP - MIN_DENORM_EXP) * ln2 */
 
