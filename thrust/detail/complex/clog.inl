@@ -56,7 +56,7 @@ namespace thrust
       using thrust::complex;
 
       /* round down to 18 = 54/3 bits */
-      __host__ __device__
+      __host__ __device__ inline
 	double __trim(double x){
 	uint32_t hi;
     
@@ -66,7 +66,7 @@ namespace thrust
       }
   
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<double> clog(const complex<double>& z){
 
 	// Adapted from FreeBSDs msun

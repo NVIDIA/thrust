@@ -60,7 +60,7 @@ namespace thrust{
       using std::isnan;
       using std::signbit;
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<double> csqrt(const complex<double>& z){
 	complex<double> result;
 	double a, b;

@@ -57,7 +57,7 @@ namespace thrust{
 
       using thrust::complex;
 
-      __host__ __device__
+      __host__ __device__ inline
 	complex<float> csqrtf(const complex<float>& z){
 	float a = z.real(), b = z.imag();
 	float t;

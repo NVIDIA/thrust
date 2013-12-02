@@ -57,7 +57,7 @@ namespace thrust{
   namespace detail{
     namespace complex{
 
-      __host__ __device__
+      __host__ __device__ inline
 	float __frexp_expf(float x, int *expt){
 	const uint32_t k = 235;                 /* constant for reduction */
 	const float kln2 =  162.88958740F;       /* k * ln2 */
@@ -73,7 +73,7 @@ namespace thrust{
 	return (exp_x);
       }
       
-      __host__ __device__
+      __host__ __device__ inline
 	complex<float> 
 	__ldexp_cexpf(complex<float> z, int expt)
       {
@@ -94,7 +94,7 @@ namespace thrust{
 			       std::sin(y) * exp_x * scale1 * scale2));
       }
       
-      __host__ __device__
+      __host__ __device__ inline
 	complex<float> cexpf(const complex<float>& z){
 	float x, y, exp_x;
 	uint32_t hx, hy;
