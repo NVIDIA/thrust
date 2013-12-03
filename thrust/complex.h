@@ -22,10 +22,6 @@
 
 #include <thrust/detail/config.h>
 
-#ifdef _WIN32
-#define _USE_MATH_DEFINES 1  // make sure M_PI is defined
-#endif
-
 #include <cmath>
 #include <complex>
 #include <sstream>
