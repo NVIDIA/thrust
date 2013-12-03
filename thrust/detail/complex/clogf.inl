@@ -57,12 +57,12 @@ namespace thrust
 
       /* round down to 8 = 24/3 bits */
       __host__ __device__ inline
-	float __trim(float x){
+	float trim(float x){
 	uint32_t hx;
-	__get_float_word(hx, x);
+	get_float_word(hx, x);
 	hx &= 0xffff0000;
 	float ret;
-	__set_float_word(ret,hx);
+	set_float_word(ret,hx);
 	return ret;
       }
   
@@ -141,13 +141,13 @@ namespace thrust
 	 */
 
 
-	x0 = __trim(ax);
+	x0 = trim(ax);
 	ax = ax-x0;
-	x1 = __trim(ax);
+	x1 = trim(ax);
 	x2 = ax-x1;
-	y0 = __trim(ay);
+	y0 = trim(ay);
 	ay = ay-y0;
-	y1 = __trim(ay);
+	y1 = trim(ay);
 	y2 = ay-y1;
     
 	val[0] = x0*x0;

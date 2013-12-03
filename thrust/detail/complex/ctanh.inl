@@ -105,7 +105,7 @@ namespace thrust{
 	x = z.real();
 	y = z.imag();
 
-	__extract_words(hx, lx, x);
+	extract_words(hx, lx, x);
 	ix = hx & 0x7fffffff;
 
 	/*
@@ -127,7 +127,7 @@ namespace thrust{
 	if (ix >= 0x7ff00000) {
 	  if ((ix & 0xfffff) | lx)	/* x is NaN */
 	    return (complex<double>(x, (y == 0 ? y : x * y)));
-	  __set_high_word(x, hx - 0x40000000);	/* x = copysign(1, x) */
+	  set_high_word(x, hx - 0x40000000);	/* x = copysign(1, x) */
 	  return (complex<double>(x, copysign(0.0, isinf(y) ? y : sin(y) * cos(y))));
 	}
 

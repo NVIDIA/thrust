@@ -59,7 +59,7 @@ namespace thrust{
     namespace complex{
 
       __host__ __device__ inline
-	float __frexp_expf(float x, int *expt){
+	float frexp_expf(float x, int *expt){
 	const uint32_t k = 235;                 /* constant for reduction */
 	const float kln2 =  162.88958740F;       /* k * ln2 */
 	
@@ -68,28 +68,28 @@ namespace thrust{
 	uint32_t hx;
 	
 	exp_x = expf(x - kln2);
-	__get_float_word(hx, exp_x);
+	get_float_word(hx, exp_x);
 	*expt = (hx >> 23) - (0x7f + 127) + k;
-	__set_float_word(exp_x, (hx & 0x7fffff) | ((0x7f + 127) << 23));
+	set_float_word(exp_x, (hx & 0x7fffff) | ((0x7f + 127) << 23));
 	return (exp_x);
       }
       
       __host__ __device__ inline
 	complex<float> 
-	__ldexp_cexpf(complex<float> z, int expt)
+	ldexp_cexpf(complex<float> z, int expt)
       {
 	float x, y, exp_x, scale1, scale2;
 	int ex_expt, half_expt;
 	
 	x = z.real();
 	y = z.imag();
-	exp_x = __frexp_expf(x, &ex_expt);
+	exp_x = frexp_expf(x, &ex_expt);
 	expt += ex_expt;
 	
 	half_expt = expt / 2;
-	__set_float_word(scale1, (0x7f + half_expt) << 23);
+	set_float_word(scale1, (0x7f + half_expt) << 23);
 	half_expt = expt - half_expt;
-	__set_float_word(scale2, (0x7f + half_expt) << 23);
+	set_float_word(scale2, (0x7f + half_expt) << 23);
 	
 	return (complex<float>(std::cos(y) * exp_x * scale1 * scale2,
 			       std::sin(y) * exp_x * scale1 * scale2));
@@ -107,13 +107,13 @@ namespace thrust{
 	x = z.real();
 	y = z.imag();
 
-	__get_float_word(hy, y);
+	get_float_word(hy, y);
 	hy &= 0x7fffffff;
 
 	/* cexp(x + I 0) = exp(x) + I 0 */
 	if (hy == 0)
 	  return (complex<float>(std::exp(x), y));
-	__get_float_word(hx, x);
+	get_float_word(hx, x);
 	/* cexp(0 + I y) = cos(y) + I sin(y) */
 	if ((hx & 0x7fffffff) == 0){
 	  return (complex<float>(std::cos(y), std::sin(y)));
@@ -136,7 +136,7 @@ namespace thrust{
 	   * x is between 88.7 and 192, so we must scale to avoid
 	   * overflow in expf(x).
 	   */
-	  return (__ldexp_cexpf(z, 0));
+	  return (ldexp_cexpf(z, 0));
 	} else {
 	  /*
 	   * Cases covered here:

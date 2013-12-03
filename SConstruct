@@ -302,6 +302,8 @@ def nv_compiler_flags(mode, device_backend, arch):
     pass
   if device_backend != 'cuda':
     result.append("--x=c++")
+  result.append('-ccbin')
+  result.append('/usr/bin/clang++')
   return result
 
 

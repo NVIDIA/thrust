@@ -63,7 +63,7 @@ namespace thrust{
        * Output: 2**1023 <= y < 2**1024
        */
       __host__ __device__ inline
-	double __frexp_exp(double x, int *expt){
+	double frexp_exp(double x, int *expt){
 	const uint32_t k = 1799;		/* constant for reduction */
 	const double kln2 =  1246.97177782734161156;	/* k * ln2 */
 	
@@ -77,21 +77,21 @@ namespace thrust{
 	 * a tiny number without losing accuracy due to denormalization.
 	 */
 	exp_x = exp(x - kln2);
-	__get_high_word(hx, exp_x);
+	get_high_word(hx, exp_x);
 	*expt = (hx >> 20) - (0x3ff + 1023) + k;
-	__set_high_word(exp_x, (hx & 0xfffff) | ((0x3ff + 1023) << 20));
+	set_high_word(exp_x, (hx & 0xfffff) | ((0x3ff + 1023) << 20));
 	return (exp_x);
       }
       
       
       __host__ __device__ inline
-	complex<double>	__ldexp_cexp(complex<double> z, int expt){
+	complex<double>	ldexp_cexp(complex<double> z, int expt){
 	double x, y, exp_x, scale1, scale2;
 	int ex_expt, half_expt;
 	
 	x = z.real();
 	y = z.imag();
-	exp_x = __frexp_exp(x, &ex_expt);
+	exp_x = frexp_exp(x, &ex_expt);
 	expt += ex_expt;
 	
 	/*
@@ -99,9 +99,9 @@ namespace thrust{
 	 * compensate for scalbn being horrendously slow.
 	 */
 	half_expt = expt / 2;
-	__insert_words(scale1, (0x3ff + half_expt) << 20, 0);
+	insert_words(scale1, (0x3ff + half_expt) << 20, 0);
 	half_expt = expt - half_expt;
-	__insert_words(scale2, (0x3ff + half_expt) << 20, 0);
+	insert_words(scale2, (0x3ff + half_expt) << 20, 0);
 	
 	return (complex<double>(cos(y) * exp_x * scale1 * scale2,
 				sin(y) * exp_x * scale1 * scale2));
@@ -121,13 +121,13 @@ namespace thrust{
 	x = z.real();
 	y = z.imag();
 	  
-	__extract_words(hy, ly, y);
+	extract_words(hy, ly, y);
 	hy &= 0x7fffffff;
 	  
 	/* cexp(x + I 0) = exp(x) + I 0 */
 	if ((hy | ly) == 0)
 	  return (complex<double>(exp(x), y));
-	__extract_words(hx, lx, x);
+	extract_words(hx, lx, x);
 	/* cexp(0 + I y) = cos(y) + I sin(y) */
 	if (((hx & 0x7fffffff) | lx) == 0)
 	  return (complex<double>(cos(y), sin(y)));
@@ -150,7 +150,7 @@ namespace thrust{
 	   * x is between 709.7 and 1454.3, so we must scale to avoid
 	   * overflow in exp(x).
 	   */
-	  return (__ldexp_cexp(z, 0));
+	  return (ldexp_cexp(z, 0));
 	} else {
 	  /*
 	   * Cases covered here:

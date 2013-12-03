@@ -49,21 +49,21 @@ namespace thrust
       } ieee_float_shape_type;
 
       __host__ __device__
-      inline void __get_float_word(uint32_t & i, float d){
+      inline void get_float_word(uint32_t & i, float d){
 	ieee_float_shape_type gf_u;
 	gf_u.value = (d);
 	(i) = gf_u.word;
       }
 
       __host__ __device__
-      inline void __get_float_word(int32_t & i, float d){
+      inline void get_float_word(int32_t & i, float d){
 	ieee_float_shape_type gf_u;
 	gf_u.value = (d);
 	(i) = gf_u.word;
       }
 
       __host__ __device__
-      inline void __set_float_word(float & d, uint32_t i){
+      inline void set_float_word(float & d, uint32_t i){
 	ieee_float_shape_type sf_u;
 	sf_u.word = (i);
 	(d) = sf_u.value;
@@ -85,7 +85,7 @@ namespace thrust
       } ieee_double_shape_type;
       
       __host__ __device__ inline
-      void __get_high_word(uint32_t & i,double d){
+      void get_high_word(uint32_t & i,double d){
 	ieee_double_shape_type gh_u;
 	gh_u.value = (d);
 	(i) = gh_u.parts.msw;                                   
@@ -93,7 +93,7 @@ namespace thrust
 
       /* Set the more significant 32 bits of a double from an int.  */
       __host__ __device__ inline
-	void __set_high_word(double & d, uint32_t v){
+	void set_high_word(double & d, uint32_t v){
 	ieee_double_shape_type sh_u;
 	sh_u.value = (d);
 	sh_u.parts.msw = (v);
@@ -102,7 +102,7 @@ namespace thrust
 
       
       __host__ __device__ inline 
-      void  __insert_words(double & d, uint32_t ix0, uint32_t ix1){
+      void  insert_words(double & d, uint32_t ix0, uint32_t ix1){
 	ieee_double_shape_type iw_u;
 	iw_u.parts.msw = (ix0);
 	iw_u.parts.lsw = (ix1);
@@ -111,7 +111,7 @@ namespace thrust
 
       /* Get two 32 bit ints from a double.  */
       __host__ __device__ inline
-      void  __extract_words(uint32_t & ix0,uint32_t & ix1, double d){
+      void  extract_words(uint32_t & ix0,uint32_t & ix1, double d){
 	ieee_double_shape_type ew_u;
 	ew_u.value = (d);
 	(ix0) = ew_u.parts.msw;
@@ -120,7 +120,7 @@ namespace thrust
 
       /* Get two 32 bit ints from a double.  */
       __host__ __device__ inline
-      void  __extract_words(int32_t & ix0,int32_t & ix1, double d){
+      void  extract_words(int32_t & ix0,int32_t & ix1, double d){
 	ieee_double_shape_type ew_u;
 	ew_u.value = (d);
 	(ix0) = ew_u.parts.msw;

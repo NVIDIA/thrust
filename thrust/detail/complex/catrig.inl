@@ -59,13 +59,13 @@ namespace thrust{
       using thrust::complex;
 
       __host__ __device__
-      inline void __raise_inexact(){
+      inline void raise_inexact(){
 	const volatile float tiny = 7.888609052210118054117286e-31; /* 0x1p-100; */ 
 	// needs the volatile to prevent compiler from ignoring it
 	volatile float junk = 1 + tiny;
       };
 
-      __host__ __device__ inline complex<double> __clog_for_large_values(complex<double> z);
+      __host__ __device__ inline complex<double> clog_for_large_values(complex<double> z);
 
       /*
        * Testing indicates that all these functions are accurate up to 4 ULP.
@@ -136,7 +136,7 @@ namespace thrust{
        */
       __host__ __device__
       inline double
-	__f(double a, double b, double hypot_a_b)
+	f(double a, double b, double hypot_a_b)
       {
 	if (b < 0)
 	  return ((hypot_a_b - b) / 2);
@@ -157,7 +157,7 @@ namespace thrust{
        */
       __host__ __device__
        inline void
-	 __do_hard_work(double x, double y, double *rx, int *B_is_usable, double *B,
+	 do_hard_work(double x, double y, double *rx, int *B_is_usable, double *B,
 			double *sqrt_A2my2, double *new_y)
       {
 	double R, S, A; /* A, B, R, and S are as in Hull et al. */
@@ -195,7 +195,7 @@ namespace thrust{
 	     * Underflow will not occur because
 	     * x >= DBL_EPSILON^2/128 >= FOUR_SQRT_MIN
 	     */
-	    Am1 = __f(x, 1 + y, R) + __f(x, 1 - y, S);
+	    Am1 = f(x, 1 + y, R) + f(x, 1 - y, S);
 	    *rx = log1p(Am1 + sqrt(Am1 * (A + 1)));
 	  } else if (y < 1) {
 	    /*
@@ -250,7 +250,7 @@ namespace thrust{
 	     * and
 	     * x >= DBL_EPSILON^2 >= FOUR_SQRT_MIN
 	     */
-	    Amy = __f(x, y + 1, R) + __f(x, y - 1, S);
+	    Amy = f(x, y + 1, R) + f(x, y - 1, S);
 	    *sqrt_A2my2 = sqrt(Amy * (A + y));
 	  } else if (y > 1) {
 	    /*
@@ -315,9 +315,9 @@ namespace thrust{
 	if (ax > RECIP_EPSILON || ay > RECIP_EPSILON) {
 	  /* clog...() will raise inexact unless x or y is infinite. */
 	  if (signbit(x) == 0)
-	    w = __clog_for_large_values(z) + m_ln2;
+	    w = clog_for_large_values(z) + m_ln2;
 	  else
-	    w = __clog_for_large_values(-z) + m_ln2;
+	    w = clog_for_large_values(-z) + m_ln2;
 	  return (complex<double>(copysign(w.real(), x), copysign(w.imag(), y)));
 	}
 
@@ -326,13 +326,13 @@ namespace thrust{
 	  return (z);
 
 	/* All remaining cases are inexact. */
-	__raise_inexact();
+	raise_inexact();
 
 	const double SQRT_6_EPSILON = 3.6500241499888571e-8; /*  0x13988e1409212e.0p-77 */
 	if (ax < SQRT_6_EPSILON / 4 && ay < SQRT_6_EPSILON / 4)
 	  return (z);
 
-	__do_hard_work(ax, ay, &rx, &B_is_usable, &B, &sqrt_A2my2, &new_y);
+	do_hard_work(ax, ay, &rx, &B_is_usable, &B, &sqrt_A2my2, &new_y);
 	if (B_is_usable)
 	  ry = asin(B);
 	else
@@ -404,7 +404,7 @@ namespace thrust{
 	const double RECIP_EPSILON = 1.0 / DBL_EPSILON;
 	if (ax > RECIP_EPSILON || ay > RECIP_EPSILON) {
 	  /* clog...() will raise inexact unless x or y is infinite. */
-	  w = __clog_for_large_values(z);
+	  w = clog_for_large_values(z);
 	  rx = fabs(w.imag());
 	  ry = w.real() + m_ln2;
 	  if (sy == 0)
@@ -417,13 +417,13 @@ namespace thrust{
 	  return (complex<double>(0, -y));
 
 	/* All remaining cases are inexact. */
-	__raise_inexact();
+	raise_inexact();
 
 	const double SQRT_6_EPSILON = 3.6500241499888571e-8; /*  0x13988e1409212e.0p-77 */
 	if (ax < SQRT_6_EPSILON / 4 && ay < SQRT_6_EPSILON / 4)
 	  return (complex<double>(pio2_hi - (x - pio2_lo), -y));
 
-	__do_hard_work(ay, ax, &ry, &B_is_usable, &B, &sqrt_A2mx2, &new_x);
+	do_hard_work(ay, ax, &ry, &B_is_usable, &B, &sqrt_A2mx2, &new_x);
 	if (B_is_usable) {
 	  if (sx == 0)
 	    rx = acos(B);
@@ -470,7 +470,7 @@ namespace thrust{
        * Optimized version of clog() for |z| finite and larger than ~RECIP_EPSILON.
        */
       __host__ __device__ inline
-      complex<double> __clog_for_large_values(complex<double> z)
+      complex<double> clog_for_large_values(complex<double> z)
       {
 	double x, y;
 	double ax, ay, t;
@@ -522,7 +522,7 @@ namespace thrust{
        * Assumes fabs(x) >= DBL_EPSILON.
        */
       __host__ __device__
-      inline double __sum_squares(double x, double y)
+      inline double sum_squares(double x, double y)
       {
 	const double SQRT_MIN =	1.491668146240041348658193e-154; /* = 0x1p-511; >= sqrt(DBL_MIN) */
 	/* Avoid underflow when y is small. */
@@ -542,7 +542,7 @@ namespace thrust{
        * the call, so no effort is made to avoid or force inexact.
        */
       __host__ __device__
-      inline double __real_part_reciprocal(double x, double y)
+      inline double real_part_reciprocal(double x, double y)
       {
 	double scale;
 	uint32_t hx, hy;
@@ -552,9 +552,9 @@ namespace thrust{
 	 * This code is inspired by the C99 document n1124.pdf, Section G.5.1,
 	 * example 2.
 	 */
-	__get_high_word(hx, x);
+	get_high_word(hx, x);
 	ix = hx & 0x7ff00000;
-	__get_high_word(hy, y);
+	get_high_word(hy, y);
 	iy = hy & 0x7ff00000;
 	//#define	BIAS	(DBL_MAX_EXP - 1)
 	const int BIAS = DBL_MAX_EXP - 1;
@@ -568,7 +568,7 @@ namespace thrust{
 	if (ix <= (BIAS + DBL_MAX_EXP / 2 - CUTOFF) << 20)
 	  return (x / (x * x + y * y));
 	scale = 1;
-	__set_high_word(scale, 0x7ff00000 - ix);	/* 2**(1-ilogb(x)) */
+	set_high_word(scale, 0x7ff00000 - ix);	/* 2**(1-ilogb(x)) */
 	x *= scale;
 	y *= scale;
 	return (x / (x * x + y * y) * scale);
@@ -626,7 +626,7 @@ namespace thrust{
 
 	const double RECIP_EPSILON = 1.0 / DBL_EPSILON;
 	if (ax > RECIP_EPSILON || ay > RECIP_EPSILON)
-	  return (complex<double>(__real_part_reciprocal(x, y),
+	  return (complex<double>(real_part_reciprocal(x, y),
 			copysign(pio2_hi + pio2_lo, y)));
 
 	const double SQRT_3_EPSILON = 2.5809568279517849e-8; /*  0x1bb67ae8584caa.0p-78 */
@@ -636,7 +636,7 @@ namespace thrust{
 	   * inexact, but this is the only only that needs to do it
 	   * explicitly.
 	   */
-	  __raise_inexact();
+	  raise_inexact();
 	  return (z);
 	}
 
@@ -644,7 +644,7 @@ namespace thrust{
 	if (ax == 1 && ay < DBL_EPSILON)
 	  rx = (m_ln2 - log(ay)) / 2;
 	else
-	  rx = log1p(4 * ax / __sum_squares(ax - 1, ay)) / 4;
+	  rx = log1p(4 * ax / sum_squares(ax - 1, ay)) / 4;
 
 	if (ax == 1)
 	  ry = atan2(2.0, -ay) / 2;

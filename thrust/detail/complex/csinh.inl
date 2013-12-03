@@ -67,8 +67,8 @@ namespace thrust{
 	x = z.real();
 	y = z.imag();
 
-	__extract_words(hx, lx, x);
-	__extract_words(hy, ly, y);
+	extract_words(hx, lx, x);
+	extract_words(hy, ly, y);
 
 	ix = 0x7fffffff & hx;
 	iy = 0x7fffffff & hy;
@@ -87,7 +87,7 @@ namespace thrust{
 	    return (complex<double>(copysign(h, x) * cos(y), h * sin(y)));
 	  } else if (ix < 0x4096bbaa) {
 	    /* x < 1455: scale to avoid overflow */
-	    complex<double> z_ = __ldexp_cexp(complex<double>(fabs(x), y), -1);
+	    complex<double> z_ = ldexp_cexp(complex<double>(fabs(x), y), -1);
 	    return (complex<double>(z_.real() * copysign(1.0, x), z_.imag()));
 	  } else {
 	    /* x >= 1455: the result always overflows */

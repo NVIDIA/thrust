@@ -59,7 +59,7 @@ namespace thrust{
       using thrust::complex;
 
       __host__ __device__ inline
-      complex<float> __clog_for_large_values(complex<float> z);
+      complex<float> clog_for_large_values(complex<float> z);
 
       /*
        * The algorithm is very close to that in "Implementing the complex arcsine
@@ -77,7 +77,7 @@ namespace thrust{
 
       __host__ __device__
       inline float
-	__f(float a, float b, float hypot_a_b)
+	f(float a, float b, float hypot_a_b)
       {
 	if (b < 0.0f)
 	  return ((hypot_a_b - b) / 2.0f);
@@ -98,7 +98,7 @@ namespace thrust{
        */
       __host__ __device__ 
       inline void
-	__do_hard_work(float x, float y, float *rx, int *B_is_usable, float *B,
+	do_hard_work(float x, float y, float *rx, int *B_is_usable, float *B,
 		       float *sqrt_A2my2, float *new_y)
       {
 	float R, S, A; /* A, B, R, and S are as in Hull et al. */
@@ -117,7 +117,7 @@ namespace thrust{
 	  if (y == 1 && x < FLT_EPSILON * FLT_EPSILON / 128) {
 	    *rx = sqrtf(x);
 	  } else if (x >= FLT_EPSILON * fabsf(y - 1)) {
-	    Am1 = __f(x, 1 + y, R) + __f(x, 1 - y, S);
+	    Am1 = f(x, 1 + y, R) + f(x, 1 - y, S);
 	    *rx = log1pf(Am1 + sqrtf(Am1 * (A + 1)));
 	  } else if (y < 1) {
 	    *rx = x / sqrtf((1 - y) * (1 + y));
@@ -145,7 +145,7 @@ namespace thrust{
 	  if (y == 1 && x < FLT_EPSILON / 128) {
 	    *sqrt_A2my2 = sqrtf(x) * sqrtf((A + y) / 2);
 	  } else if (x >= FLT_EPSILON * fabsf(y - 1)) {
-	    Amy = __f(x, y + 1, R) + __f(x, y - 1, S);
+	    Amy = f(x, y + 1, R) + f(x, y - 1, S);
 	    *sqrt_A2my2 = sqrtf(Amy * (A + y));
 	  } else if (y > 1) {
 	    *sqrt_A2my2 = x * (4 / FLT_EPSILON / FLT_EPSILON) * y /
@@ -184,9 +184,9 @@ namespace thrust{
 
 	  if (ax > RECIP_EPSILON || ay > RECIP_EPSILON) {
 	    if (signbit(x) == 0)
-	      w = __clog_for_large_values(z) + m_ln2;
+	      w = clog_for_large_values(z) + m_ln2;
 	    else
-	      w = __clog_for_large_values(-z) + m_ln2;
+	      w = clog_for_large_values(-z) + m_ln2;
 	    return (complex<float>(copysignf(w.real(), x),
 				   copysignf(w.imag(), y)));
 	  }
@@ -194,13 +194,13 @@ namespace thrust{
 	  if (x == 0 && y == 0)
 	    return (z);
 
-	  __raise_inexact();
+	  raise_inexact();
 
 	  const float SQRT_6_EPSILON = 8.4572793338e-4;	/*  0xddb3d7.0p-34 */
 	  if (ax < SQRT_6_EPSILON / 4 && ay < SQRT_6_EPSILON / 4)
 	    return (z);
 
-	  __do_hard_work(ax, ay, &rx, &B_is_usable, &B, &sqrt_A2my2, &new_y);
+	  do_hard_work(ax, ay, &rx, &B_is_usable, &B, &sqrt_A2my2, &new_y);
 	  if (B_is_usable)
 	    ry = asinf(B);
 	  else
@@ -247,7 +247,7 @@ namespace thrust{
 
 	  const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
 	  if (ax > RECIP_EPSILON || ay > RECIP_EPSILON) {
-	    w = __clog_for_large_values(z);
+	    w = clog_for_large_values(z);
 	    rx = fabsf(w.imag());
 	    ry = w.real() + m_ln2;
 	    if (sy == 0)
@@ -258,13 +258,13 @@ namespace thrust{
 	  if (x == 1 && y == 0)
 	    return (complex<float>(0, -y));
 
-	  __raise_inexact();
+	  raise_inexact();
 
 	  const float SQRT_6_EPSILON = 8.4572793338e-4f;	/*  0xddb3d7.0p-34 */
 	  if (ax < SQRT_6_EPSILON / 4 && ay < SQRT_6_EPSILON / 4)
 	    return (complex<float>(pio2_hi - (x - pio2_lo), -y));
 
-	  __do_hard_work(ay, ax, &ry, &B_is_usable, &B, &sqrt_A2mx2, &new_x);
+	  do_hard_work(ay, ax, &ry, &B_is_usable, &B, &sqrt_A2mx2, &new_x);
 	  if (B_is_usable) {
 	    if (sx == 0)
 	      rx = acosf(B);
@@ -307,7 +307,7 @@ namespace thrust{
        * Optimized version of clog() for |z| finite and larger than ~RECIP_EPSILON.
        */
       __host__ __device__ inline
-      complex<float> __clog_for_large_values(complex<float> z)
+      complex<float> clog_for_large_values(complex<float> z)
 	{
 	  float x, y;
 	  float ax, ay, t;
@@ -349,7 +349,7 @@ namespace thrust{
        * Assumes fabsf(x) >= FLT_EPSILON.
        */
       __host__ __device__
-      inline float __sum_squares(float x, float y)
+      inline float sum_squares(float x, float y)
       {
 	const float SQRT_MIN =	1.084202172485504434007453e-19f; /* 0x1p-63; >= sqrt(FLT_MIN) */
 	/* Avoid underflow when y is small. */
@@ -360,15 +360,15 @@ namespace thrust{
       }
 
       __host__ __device__
-      inline float __real_part_reciprocal(float x, float y)
+      inline float real_part_reciprocal(float x, float y)
       {
 	float scale;
 	uint32_t hx, hy;
 	int32_t ix, iy;
 
-	__get_float_word(hx, x);
+	get_float_word(hx, x);
 	ix = hx & 0x7f800000;
-	__get_float_word(hy, y);
+	get_float_word(hy, y);
 	iy = hy & 0x7f800000;
 	//#define	BIAS	(FLT_MAX_EXP - 1)
 	const int BIAS = FLT_MAX_EXP - 1;
@@ -380,7 +380,7 @@ namespace thrust{
 	  return (x / y / y);
 	if (ix <= (BIAS + FLT_MAX_EXP / 2 - CUTOFF) << 23)
 	  return (x / (x * x + y * y));
-	__set_float_word(scale, 0x7f800000 - ix);
+	set_float_word(scale, 0x7f800000 - ix);
 	x *= scale;
 	y *= scale;
 	return (x / (x * x + y * y) * scale);
@@ -418,12 +418,12 @@ namespace thrust{
 
       const float RECIP_EPSILON = 1.0f / FLT_EPSILON;
       if (ax > RECIP_EPSILON || ay > RECIP_EPSILON)
-	return (complex<float>(__real_part_reciprocal(x, y),
+	return (complex<float>(real_part_reciprocal(x, y),
 	copysignf(pio2_hi + pio2_lo, y)));
 
       const float SQRT_3_EPSILON = 5.9801995673e-4; /*  0x9cc471.0p-34 */
       if (ax < SQRT_3_EPSILON / 2 && ay < SQRT_3_EPSILON / 2) {
-      __raise_inexact();
+      raise_inexact();
       return (z);
     }
 
@@ -431,7 +431,7 @@ namespace thrust{
       if (ax == 1 && ay < FLT_EPSILON)
 	rx = (m_ln2 - logf(ay)) / 2;
       else
-	rx = log1pf(4 * ax / __sum_squares(ax - 1, ay)) / 4;
+	rx = log1pf(4 * ax / sum_squares(ax - 1, ay)) / 4;
 
       if (ax == 1)
 	ry = atan2f(2, -ay) / 2;

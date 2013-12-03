@@ -94,16 +94,16 @@ namespace complex
 #if defined _MSC_VER
   __host__ __device__ inline int copysign(double x, double y){
     uint32_t hx,hy;
-    __get_high_word(hx,x);
-    __get_high_word(hy,y);
-    __set_high_word(x,(hx&0x7fffffff)|(hy&0x80000000));
+    get_high_word(hx,x);
+    get_high_word(hy,y);
+    set_high_word(x,(hx&0x7fffffff)|(hy&0x80000000));
     return x;
   }
   __host__ __device__ inline int copysignf(float x, float y){
     uint32_t ix,iy;
-    __get_float_word(ix,x);
-    __get_float_word(iy,y);
-    __set_float_word(x,(ix&0x7fffffff)|(iy&0x80000000));
+    get_float_word(ix,x);
+    get_float_word(iy,y);
+    set_float_word(x,(ix&0x7fffffff)|(iy&0x80000000));
     return x;
   }
 }    

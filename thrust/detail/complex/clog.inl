@@ -58,11 +58,11 @@ namespace thrust
 
       /* round down to 18 = 54/3 bits */
       __host__ __device__ inline
-	double __trim(double x){
+	double trim(double x){
 	uint32_t hi;
     
-	__get_high_word(hi, x);
-	__insert_words(x, hi &0xfffffff8, 0);
+	get_high_word(hi, x);
+	insert_words(x, hi &0xfffffff8, 0);
 	return x;
       }
   
@@ -142,13 +142,13 @@ namespace thrust
 	 */
 
 
-	x0 = __trim(ax);
+	x0 = trim(ax);
 	ax = ax-x0;
-	x1 = __trim(ax);
+	x1 = trim(ax);
 	x2 = ax-x1;
-	y0 = __trim(ay);
+	y0 = trim(ay);
 	ay = ay-y0;
-	y1 = __trim(ay);
+	y1 = trim(ay);
 	y2 = ay-y1;
     
 	val[0] = x0*x0;

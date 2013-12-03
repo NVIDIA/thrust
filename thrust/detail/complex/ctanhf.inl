@@ -70,13 +70,13 @@ namespace thrust{
 	x = z.real();
 	y = z.imag();
 
-	__get_float_word(hx, x);
+	get_float_word(hx, x);
 	ix = hx & 0x7fffffff;
 
 	if (ix >= 0x7f800000) {
 		if (ix & 0x7fffff)
 			return (complex<float>(x, (y == 0.0f ? y : x * y)));
-		__set_float_word(x, hx - 0x40000000);
+		set_float_word(x, hx - 0x40000000);
 		return (complex<float>(x,
 		    copysignf(0, isinf(y) ? y : sinf(y) * cosf(y))));
 	}
