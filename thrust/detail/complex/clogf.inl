@@ -102,7 +102,7 @@ namespace thrust
 	// For high values of ay -> hypotf(FLT_MAX,ay) = inf
 	// We expect that for values at or below ay = 1e34f this should not happen
 	if (ay > 1e34f){ 
-	  return (complex<float>(std::log(hypotf(x / M_E, y / M_E)) + 1.0f, std::atan2(y, x)));
+	  return (complex<float>(std::log(hypotf(x / std::exp(1.0f), y / std::exp(1.0f))) + 1.0f, std::atan2(y, x)));
 	}
 	if (ax == 1.f) {
 	  if (ay < 1e-19f){
