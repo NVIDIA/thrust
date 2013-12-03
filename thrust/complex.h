@@ -141,19 +141,19 @@ public:
 
   /*! Returns the real part of this \p complex.
    */
-  __host__ __device__ inline T real() const volatile{ return _m[0]; }
+  __host__ __device__ inline T real() const volatile{ return m_data[0]; }
 
   /*! Returns the imaginary part of this \p complex.
    */
-  __host__ __device__ inline T imag() const volatile{ return _m[1]; }
+  __host__ __device__ inline T imag() const volatile{ return m_data[1]; }
 
   /*! Returns the real part of this \p complex.
    */
-  __host__ __device__ inline T real() const{ return _m[0]; }
+  __host__ __device__ inline T real() const{ return m_data[0]; }
 
   /*! Returns the imaginary part of this \p complex.
    */
-  __host__ __device__ inline T imag() const{ return _m[1]; }
+  __host__ __device__ inline T imag() const{ return m_data[1]; }
 
 
 
@@ -166,25 +166,25 @@ public:
    *
    *  \param re The new real part of this \p complex.
    */
-  __host__ __device__ inline void real(T re)volatile{ _m[0] = re; }
+  __host__ __device__ inline void real(T re)volatile{ m_data[0] = re; }
 
   /*! Sets the imaginary part of this \p complex.
    *
    *  \param im The new imaginary part of this \p complex.e
    */
-  __host__ __device__ inline void imag(T im)volatile{ _m[1] = im; }
+  __host__ __device__ inline void imag(T im)volatile{ m_data[1] = im; }
 
   /*! Sets the real part of this \p complex.
    *
    *  \param re The new real part of this \p complex.
    */
-  __host__ __device__ inline void real(T re){ _m[0] = re; }
+  __host__ __device__ inline void real(T re){ m_data[0] = re; }
 
   /*! Sets the imaginary part of this \p complex.
    *
    *  \param im The new imaginary part of this \p complex.
    */
-  __host__ __device__ inline void imag(T im){ _m[1] = im; }
+  __host__ __device__ inline void imag(T im){ m_data[1] = im; }
 
 
 
@@ -195,7 +195,7 @@ public:
   inline operator std::complex<T>() const { return std::complex<T>(real(),imag()); }
 
 private:
-  T _m[2];
+  T m_data[2];
 };
 
 /*
