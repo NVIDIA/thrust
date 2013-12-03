@@ -225,6 +225,7 @@ namespace thrust{
 	  const float pio2_hi = 1.5707963267948966e0; /*  0x1921fb54442d18.0p-52 */
 	  const volatile float pio2_lo = 6.1232339957367659e-17;	/*  0x11a62633145c07.0p-106 */
 	  const float m_ln2 = 6.9314718055994531e-1; /*  0x162e42fefa39ef.0p-53 */
+	  const float infinity = 1.0f/0.0f;
 
 	  x = z.real();
 	  y = z.imag();
@@ -235,7 +236,7 @@ namespace thrust{
 
 	  if (isnan(x) || isnan(y)) {
 	    if (isinf(x))
-	      return (complex<float>(y + y, -INFINITY));
+	      return (complex<float>(y + y, -infinity));
 	    if (isinf(y))
 	      return (complex<float>(x + x, -y));
 	    if (x == 0)
@@ -384,7 +385,7 @@ namespace thrust{
 	return (x / (x * x + y * y) * scale);
       }
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L || !defined _MSC_VER
       __host__ __device__ inline
       complex<float> catanhf(complex<float> z)
 	{
@@ -411,7 +412,7 @@ namespace thrust{
       if (isinf(y))
 	return (complex<float>(copysignf(0, x),
 	copysignf(pio2_hi + pio2_lo, y)));
-      return (complex<float>(x + 0.0L + (y + 0), x + 0.0L + (y + 0)));
+      return (complex<float>(x + 0.0f + (y + 0.0f), x + 0.0f + (y + 0.0f)));
     }
 
       const float RECIP_EPSILON = 1.0f / FLT_EPSILON;
@@ -441,9 +442,8 @@ namespace thrust{
       return (complex<float>(copysignf(rx, x), copysignf(ry, y)));
     }
 
-      complex<float>catanf(complex<float> z)
-	{
-      complex<float> w = catanhf(complex<float>(z.imag(), z.real()));
+      complex<float>catanf(complex<float> z){
+	complex<float> w = catanhf(complex<float>(z.imag(), z.real()));
 	return (complex<float>(w.imag(), w.real()));
       }
 #endif
@@ -463,7 +463,7 @@ namespace thrust{
     return detail::complex::casinf(z);
   }
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L || !defined _MSC_VER
   template <>
     __host__ __device__
     inline complex<float> atan(const complex<float>& z){
@@ -484,7 +484,7 @@ namespace thrust{
     return detail::complex::casinhf(z);
   }
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L || !defined _MSC_VER
   template <>
     __host__ __device__
     inline complex<float> atanh(const complex<float>& z){

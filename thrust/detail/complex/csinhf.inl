@@ -63,6 +63,7 @@ namespace thrust{
 	uint32_t hx, hy, ix, iy;
 
 	const float huge = 0x1p127;
+	const float infinity = 1.0f/0.0f;
 
 	x = z.real();
 	y = z.imag();
@@ -110,7 +111,7 @@ namespace thrust{
 	if (ix >= 0x7f800000 && (hx & 0x7fffff) == 0) {
 	  if (iy >= 0x7f800000)
 	    return (complex<float>(x * x, x * (y - y)));
-	  return (complex<float>(x * cosf(y), INFINITY * sinf(y)));
+	  return (complex<float>(x * cosf(y), infinity * sinf(y)));
 	}
 
 	return (complex<float>((x * x) * (y - y), (x + x) * (y - y)));

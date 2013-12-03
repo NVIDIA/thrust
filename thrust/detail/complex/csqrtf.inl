@@ -63,6 +63,7 @@ namespace thrust{
 	float t;
 	int scale;
 	complex<float> result;
+	const float infinity = 1.0f/0.0f;
 
 	/* We risk spurious overflow for components >= FLT_MAX / (1 + sqrt(2)). */
 	const float THRESH = 1.40949553037932e+38f;
@@ -71,7 +72,7 @@ namespace thrust{
 	if (z == 0.0f)
 		return (complex<float>(0, b));
 	if (isinf(b))
-		return (complex<float>(INFINITY, b));
+		return (complex<float>(infinity, b));
 	if (isnan(a)) {
 		t = (b - b) / (b - b);	/* raise invalid if b is not a NaN */
 		return (complex<float>(a, t));	/* return NaN + NaN i */

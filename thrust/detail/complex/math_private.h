@@ -129,3 +129,5 @@ namespace thrust
     }
   }
 }
+
+#include <thrust/detail/complex/c99math.h>

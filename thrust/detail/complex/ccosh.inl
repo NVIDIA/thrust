@@ -64,7 +64,7 @@ namespace thrust{
  */
       
       __host__ __device__ inline
-	complex<double> ccosh(const complex<double>& z){
+	thrust::complex<double> ccosh(const thrust::complex<double>& z){
 
 
 	const double huge = 0x1p1023;
@@ -83,24 +83,24 @@ namespace thrust{
 	/* Handle the nearly-non-exceptional cases where x and y are finite. */
 	if (ix < 0x7ff00000 && iy < 0x7ff00000) {
 	  if ((iy | ly) == 0)
-	    return (complex<double>(cosh(x), x * y));
+	    return (thrust::complex<double>(::cosh(x), x * y));
 	  if (ix < 0x40360000)	/* small x: normal case */
-	    return (complex<double>(cosh(x) * cos(y), sinh(x) * sin(y)));
+	    return (thrust::complex<double>(::cosh(x) * ::cos(y), ::sinh(x) * ::sin(y)));
 
 	  /* |x| >= 22, so cosh(x) ~= exp(|x|) */
 	  if (ix < 0x40862e42) {
 	    /* x < 710: exp(|x|) won't overflow */
-	    h = exp(fabs(x)) * 0.5;
-	    return (complex<double>(h * cos(y), copysign(h, x) * sin(y)));
+	    h = ::exp(::fabs(x)) * 0.5;
+	    return (thrust::complex<double>(h * cos(y), copysign(h, x) * sin(y)));
 	  } else if (ix < 0x4096bbaa) {
 	    /* x < 1455: scale to avoid overflow */
 	    thrust::complex<double> z_;
-	    z_ = __ldexp_cexp(complex<double>(fabs(x), y), -1);
-	    return (complex<double>(z_.real(), z_.imag() * copysign(1.0, x)));
+	    z_ = __ldexp_cexp(thrust::complex<double>(fabs(x), y), -1);
+	    return (thrust::complex<double>(z_.real(), z_.imag() * copysign(1.0, x)));
 	  } else {
 	    /* x >= 1455: the result always overflows */
 	    h = huge * x;
-	    return (complex<double>(h * h * cos(y), h * sin(y)));
+	    return (thrust::complex<double>(h * h * cos(y), h * sin(y)));
 	  }
 	}
 
@@ -114,7 +114,7 @@ namespace thrust{
 	 * the same as d(NaN).
 	 */
 	if ((ix | lx) == 0 && iy >= 0x7ff00000)
-	  return (complex<double>(y - y, copysign(0.0, x * (y - y))));
+	  return (thrust::complex<double>(y - y, copysign(0.0, x * (y - y))));
 
 	/*
 	 * cosh(+-Inf +- I 0) = +Inf + I (+-)(+-)0.
@@ -124,8 +124,8 @@ namespace thrust{
 	 */
 	if ((iy | ly) == 0 && ix >= 0x7ff00000) {
 	  if (((hx & 0xfffff) | lx) == 0)
-	    return (complex<double>(x * x, copysign(0.0, x) * y));
-	  return (complex<double>(x * x, copysign(0.0, (x + x) * y)));
+	    return (thrust::complex<double>(x * x, copysign(0.0, x) * y));
+	  return (thrust::complex<double>(x * x, copysign(0.0, (x + x) * y)));
 	}
 
 	/*
@@ -137,7 +137,7 @@ namespace thrust{
 	 * nonzero x.  Choice = don't raise (except for signaling NaNs).
 	 */
 	if (ix < 0x7ff00000 && iy >= 0x7ff00000)
-	  return (complex<double>(y - y, x * (y - y)));
+	  return (thrust::complex<double>(y - y, x * (y - y)));
 
 	/*
 	 * cosh(+-Inf + I NaN)  = +Inf + I d(NaN).
@@ -150,8 +150,8 @@ namespace thrust{
 	 */
 	if (ix >= 0x7ff00000 && ((hx & 0xfffff) | lx) == 0) {
 	  if (iy >= 0x7ff00000)
-	    return (complex<double>(x * x, x * (y - y)));
-	  return (complex<double>((x * x) * cos(y), x * sin(y)));
+	    return (thrust::complex<double>(x * x, x * (y - y)));
+	  return (thrust::complex<double>((x * x) * cos(y), x * sin(y)));
 	}
 
 	/*
@@ -165,14 +165,14 @@ namespace thrust{
 	 * Optionally raises the invalid floating-point exception for finite
 	 * nonzero y.  Choice = don't raise (except for signaling NaNs).
 	 */
-	return (complex<double>((x * x) * (y - y), (x + x) * (y - y)));
+	return (thrust::complex<double>((x * x) * (y - y), (x + x) * (y - y)));
       }
 
 
       __host__ __device__ inline
-	complex<double> ccos(const complex<double>& z){	
+	thrust::complex<double> ccos(const thrust::complex<double>& z){	
 	/* ccos(z) = ccosh(I * z) */
-	return (ccosh(complex<double>(-z.imag(), z.real())));
+	return (ccosh(thrust::complex<double>(-z.imag(), z.real())));
       }
     }
   }
@@ -196,13 +196,13 @@ namespace thrust{
 
   template <>
     __host__ __device__
-    inline complex<double> cos(const complex<double>& z){
+    inline thrust::complex<double> cos(const thrust::complex<double>& z){
     return detail::complex::ccos(z);
   }
 
   template <>
     __host__ __device__
-    inline complex<double> cosh(const complex<double>& z){
+    inline thrust::complex<double> cosh(const thrust::complex<double>& z){
     return detail::complex::ccosh(z);
   }
 

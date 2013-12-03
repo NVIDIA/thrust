@@ -137,6 +137,7 @@ namespace thrust
 } 
 
 #include <thrust/detail/complex/arithmetic.inl>
+#include <thrust/detail/complex/cproj.inl>
 #include <thrust/detail/complex/cexp.inl>
 #include <thrust/detail/complex/cexpf.inl>
 #include <thrust/detail/complex/clog.inl>

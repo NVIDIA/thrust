@@ -174,7 +174,7 @@ namespace thrust
   template <>
     __host__ __device__
     inline float norm(const complex<float>& z){
-    if(std::abs(z.real()) < sqrtf(FLT_MIN) && std::abs(z.imag()) < sqrtf(FLT_MIN)){
+    if(std::abs(z.real()) < ::sqrtf(FLT_MIN) && std::abs(z.imag()) < ::sqrtf(FLT_MIN)){
       float a = z.real()*4.0f;
       float b = z.imag()*4.0f;
       return (a*a+b*b)/16.0f;
@@ -185,7 +185,7 @@ namespace thrust
   template <>
     __host__ __device__
     inline double norm(const complex<double>& z){
-    if(std::abs(z.real()) < sqrt(DBL_MIN) && std::abs(z.imag()) < sqrt(DBL_MIN)){
+    if(std::abs(z.real()) < ::sqrt(DBL_MIN) && std::abs(z.imag()) < ::sqrt(DBL_MIN)){
       double a = z.real()*4.0;
       double b = z.imag()*4.0;
       return (a*a+b*b)/16.0;
@@ -197,32 +197,6 @@ namespace thrust
     __host__ __device__
     inline complex<ValueType> polar(const ValueType & m, const ValueType & theta){ 
     return complex<ValueType>(m * std::cos(theta),m * std::sin(theta));
-  }
-
-  template <typename T>
-  __host__ __device__
-  inline complex<T> proj(const complex<T>& z){
-    // Use the std functions if available (requires C++11)
-    using namespace std;
-    if(!isinf(z.real()) && !isinf(z.imag())){
-      return z;
-    }else{
-      // std::numeric_limits<T>::infinity() doesn't run on the GPU
-      return complex<T>(T(INFINITY), copysign(0.0, z.imag()));
-    }
-  }
-
-  template <>
-  __host__ __device__
-  inline complex<float> proj(const complex<float>& z){
-    // Use the std functions if available (requires C++11)
-    using namespace std;
-    if(!isinf(z.real()) && !isinf(z.imag())){
-      return z;
-    }else{
-      // std::numeric_limits<T>::infinity() doesn't run on the GPU
-      return complex<float>(float(INFINITY), copysignf(0.0, z.imag()));
-    }
   }
 
 }

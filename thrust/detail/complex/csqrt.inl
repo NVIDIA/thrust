@@ -57,15 +57,13 @@ namespace thrust{
 
       using thrust::complex;
 
-      using std::isnan;
-      using std::signbit;
-
       __host__ __device__ inline
 	complex<double> csqrt(const complex<double>& z){
 	complex<double> result;
 	double a, b;
 	double t;
 	int scale;
+	const double infinity = 1.0/0.0;
 
 	/* We risk spurious overflow for components >= DBL_MAX / (1 + sqrt(2)). */
 	const double THRESH = 7.446288774449766337959726e+307;
@@ -77,7 +75,7 @@ namespace thrust{
 	if (z == 0.0)
 	  return (complex<double>(0.0, b));
 	if (isinf(b))
-	  return (complex<double>(INFINITY, b));
+	  return (complex<double>(infinity, b));
 	if (isnan(a)) {
 	  t = (b - b) / (b - b);	/* raise invalid if b is not a NaN */
 	  return (complex<double>(a, t));	/* return NaN + NaN i */

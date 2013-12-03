@@ -373,6 +373,7 @@ namespace thrust{
 	const double pio2_hi = 1.5707963267948966e0; /*  0x1921fb54442d18.0p-52 */
 	const volatile double pio2_lo = 6.1232339957367659e-17;	/*  0x11a62633145c07.0p-106 */
 	const double m_ln2 = 6.9314718055994531e-1; /*  0x162e42fefa39ef.0p-53 */
+	const double infinity = 1.0/0.0;
 
 	x = z.real();
 	y = z.imag();
@@ -384,7 +385,7 @@ namespace thrust{
 	if (isnan(x) || isnan(y)) {
 	  /* cacos(+-Inf + I*NaN) = NaN + I*opt(-)Inf */
 	  if (isinf(x))
-	    return (complex<double>(y + y, -INFINITY));
+	    return (complex<double>(y + y, -infinity));
 	  /* cacos(NaN + I*+-Inf) = NaN + I*-+Inf */
 	  if (isinf(y))
 	    return (complex<double>(x + x, -y));
@@ -411,7 +412,7 @@ namespace thrust{
 	}
 
 	/* Avoid spuriously raising inexact for z = 1. */
-	if (x == 1 && y == 0)
+	if (x == 1.0 && y == 0.0)
 	  return (complex<double>(0, -y));
 
 	/* All remaining cases are inexact. */
@@ -572,7 +573,7 @@ namespace thrust{
 	return (x / (x * x + y * y) * scale);
       }
 
-      //#if 1 || __cplusplus >= 201103L
+
       /*
        * catanh(z) = log((1+z)/(1-z)) / 2
        *           = log1p(4*x / |z-1|^2) / 4
@@ -585,7 +586,6 @@ namespace thrust{
        * Re(catanh(z)) = x/|z|^2 + O(x/z^4)
        *    as z -> infinity, uniformly in x
        */
-#if __cplusplus >= 201103L
       __host__ __device__ inline
       complex<double> catanh(complex<double> z)
       {
@@ -601,7 +601,7 @@ namespace thrust{
 
 	/* This helps handle many cases. */
 	if (y == 0 && ax <= 1)
-	  return (complex<double>(std::atanh(x), y));
+	  return (complex<double>(atanh(x), y));
 
 	/* To ensure the same accuracy as atan(), and to filter out z = 0. */
 	if (x == 0)
@@ -620,7 +620,7 @@ namespace thrust{
 	   * C99 leaves it optional whether to raise invalid if one of
 	   * the arguments is not NaN, so we opt not to raise it.
 	   */
-	  return (complex<double>(x + 0.0L + (y + 0), x + 0.0L + (y + 0)));
+	  return (complex<double>(x + 0.0 + (y + 0), x + 0.0 + (y + 0)));
 	}
 
 	const double RECIP_EPSILON = 1.0 / DBL_EPSILON;
@@ -664,7 +664,6 @@ namespace thrust{
 	complex<double> w = catanh(complex<double>(z.imag(), z.real()));
 	return (complex<double>(w.imag(), w.real()));
       }
-#endif
     }
   }
 
@@ -744,7 +743,7 @@ namespace thrust{
     return detail::complex::casin(z);
   }
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L || !defined _MSC_VER
   template <>
     __host__ __device__
     inline complex<double> atan(const complex<double>& z){
@@ -765,7 +764,7 @@ namespace thrust{
     return detail::complex::casinh(z);
   }
 
-#if __cplusplus >= 201103L
+#if __cplusplus >= 201103L || !defined _MSC_VER
   template <>
     __host__ __device__
     inline complex<double> atanh(const complex<double>& z){

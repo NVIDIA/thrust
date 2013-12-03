@@ -35,37 +35,12 @@
 namespace thrust
 {
 
-  /*  Bring in overloads from std::, otherwise calls to the math
-   *  library from inside the thrust namespace with real arguments
-   *  without explicit scope will fail to resolve as it will
-   *  find the equivalent complex function but then fail to match
-   *  the template, and give up looking for other scopes.
-   * 
-   *  Due to a bug in g++ the "using" clauses have to show up before
-   *  the equivalent thrust::complex equivalents.
-   *  
-   */
-  using std::cos;
-  using std::sin;
-  using std::tan;
-  using std::acos;
-  using std::asin;
-  using std::atan;
-  using std::atan2;
-  using std::cosh;
-  using std::sinh;
-  using std::tanh;
-  using std::exp;
-  using std::log;
-  using std::log10;
-  using std::pow;
-  using std::sqrt;
-  using std::abs;
-#if __cplusplus >= 201103L
-  using std::acosh;
-  using std::asinh;
-  using std::atanh;
-#endif
+/*
+ *  Calls to the standard math library from inside the thrust namespace 
+ *  with real arguments require explicit scope otherwise they will fail
+ *  to resolve as it will find the equivalent complex function but then
+ *  fail to match the template, and give up looking for other scopes.
+ */
 
 
 
@@ -77,8 +52,8 @@ namespace thrust
  *  \{
  */
 
-  /*! \p complex is the Thrust equivalent to std::complex. It is functionally
-   *  equivalent to it, but can also be used in device code which std::complex currently cannot.
+  /*! \p complex is the Thrust equivalent to <tt>std::complex</tt>. It is functionally
+   *  equivalent to it, but can also be used in device code which <tt>std::complex</tt> currently cannot.
    *
    *  \tparam T The type used to hold the real and imaginary parts. Should be <tt>float</tt> 
    *  or <tt>double</tt>. Others types are not supported.
@@ -227,8 +202,11 @@ private:
   T _m[2];
 };
 
-
-
+/*
+ template<typename T> __host__ __device__ inline thrust::complex<T> isinf(const complex<T>& z){
+   return z;
+   }*/
+    
 
   /* --- General Functions --- */
 
