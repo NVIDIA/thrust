@@ -53,93 +53,95 @@
 #include <thrust/detail/complex/math_private.h>
 
 namespace thrust{
-  namespace detail{
-    namespace complex{		      	
+namespace detail{
+namespace complex{		      	
 
-      using thrust::complex;
+using thrust::complex;
 
-      __host__ __device__ inline
-	complex<float> csqrtf(const complex<float>& z){
-	float a = z.real(), b = z.imag();
-	float t;
-	int scale;
-	complex<float> result;
-	const float infinity = 1.0f/0.0f;
+__host__ __device__ inline
+complex<float> csqrtf(const complex<float>& z){
+  float a = z.real(), b = z.imag();
+  float t;
+  int scale;
+  complex<float> result;
+  const float infinity = 1.0f/0.0f;
 
-	/* We risk spurious overflow for components >= FLT_MAX / (1 + sqrt(2)). */
-	const float THRESH = 1.40949553037932e+38f;
+  /* We risk spurious overflow for components >= FLT_MAX / (1 + sqrt(2)). */
+  const float THRESH = 1.40949553037932e+38f;
 
-	/* Handle special cases. */
-	if (z == 0.0f)
-		return (complex<float>(0, b));
-	if (isinf(b))
-		return (complex<float>(infinity, b));
-	if (isnan(a)) {
-		t = (b - b) / (b - b);	/* raise invalid if b is not a NaN */
-		return (complex<float>(a, t));	/* return NaN + NaN i */
-	}
-	if (isinf(a)) {
-		/*
-		 * csqrtf(inf + NaN i)  = inf +  NaN i
-		 * csqrtf(inf + y i)    = inf +  0 i
-		 * csqrtf(-inf + NaN i) = NaN +- inf i
-		 * csqrtf(-inf + y i)   = 0   +  inf i
-		 */
-		if (signbit(a))
-			return (complex<float>(fabsf(b - b), copysignf(a, b)));
-		else
-			return (complex<float>(a, copysignf(b - b, b)));
-	}
-	/*
-	 * The remaining special case (b is NaN) is handled just fine by
-	 * the normal code path below.
-	 */
+  /* Handle special cases. */
+  if (z == 0.0f)
+    return (complex<float>(0, b));
+  if (isinf(b))
+    return (complex<float>(infinity, b));
+  if (isnan(a)) {
+    t = (b - b) / (b - b);	/* raise invalid if b is not a NaN */
+    return (complex<float>(a, t));	/* return NaN + NaN i */
+  }
+  if (isinf(a)) {
+    /*
+     * csqrtf(inf + NaN i)  = inf +  NaN i
+     * csqrtf(inf + y i)    = inf +  0 i
+     * csqrtf(-inf + NaN i) = NaN +- inf i
+     * csqrtf(-inf + y i)   = 0   +  inf i
+     */
+    if (signbit(a))
+      return (complex<float>(fabsf(b - b), copysignf(a, b)));
+    else
+      return (complex<float>(a, copysignf(b - b, b)));
+  }
+  /*
+   * The remaining special case (b is NaN) is handled just fine by
+   * the normal code path below.
+   */
 
-	/* 
-	 * Unlike in the FreeBSD code we'll avoid using double precision as
-	 * not all hardware supports it.
-	 */
+  /* 
+   * Unlike in the FreeBSD code we'll avoid using double precision as
+   * not all hardware supports it.
+   */
 
-	// FLT_MIN*2
-	const float low_thresh = 2.35098870164458e-38f;
-	scale = 0;
+  // FLT_MIN*2
+  const float low_thresh = 2.35098870164458e-38f;
+  scale = 0;
 
-	if (fabsf(a) >= THRESH || fabsf(b) >= THRESH) {
-	  /* Scale to avoid overflow. */
-	  a *= 0.25f;
-	  b *= 0.25f;
-	  scale = 1;
-	}else if (fabsf(a) <= low_thresh && fabsf(b) <= low_thresh) {
-	  /* Scale to avoid underflow. */
-	  a *= 4.f;
-	  b *= 4.f;
-	  scale = 2;
-	}
-
-	/* Algorithm 312, CACM vol 10, Oct 1967. */
-	if (a >= 0.0f) {
-	  t = sqrtf((a + hypotf(a, b)) * 0.5f);
-	  result = complex<float>(t, b / (2.0f * t));
-	} else {
-	  t = sqrtf((-a + hypotf(a, b)) * 0.5f);
-	  result = complex<float>(fabsf(b) / (2.0f * t), copysignf(t, b));
-	}
-
-	/* Rescale. */
-	if (scale == 1)
-	  return (result * 2.0f);
-	else if (scale == 2)
-	  return (result * 0.5f);
-	else
-	  return (result);
-      }      
-    }
+  if (fabsf(a) >= THRESH || fabsf(b) >= THRESH) {
+    /* Scale to avoid overflow. */
+    a *= 0.25f;
+    b *= 0.25f;
+    scale = 1;
+  }else if (fabsf(a) <= low_thresh && fabsf(b) <= low_thresh) {
+    /* Scale to avoid underflow. */
+    a *= 4.f;
+    b *= 4.f;
+    scale = 2;
   }
 
-  template <>
-    __host__ __device__
-    inline complex<float> sqrt(const complex<float>& z){
-    return detail::complex::csqrtf(z);
+  /* Algorithm 312, CACM vol 10, Oct 1967. */
+  if (a >= 0.0f) {
+    t = sqrtf((a + hypotf(a, b)) * 0.5f);
+    result = complex<float>(t, b / (2.0f * t));
+  } else {
+    t = sqrtf((-a + hypotf(a, b)) * 0.5f);
+    result = complex<float>(fabsf(b) / (2.0f * t), copysignf(t, b));
   }
 
+  /* Rescale. */
+  if (scale == 1)
+    return (result * 2.0f);
+  else if (scale == 2)
+    return (result * 0.5f);
+  else
+    return (result);
+}      
+
+} // namespace complex
+
+} // namespace detail
+
+template <>
+__host__ __device__
+inline complex<float> sqrt(const complex<float>& z){
+  return detail::complex::csqrtf(z);
 }
+
+} // namespace thrust

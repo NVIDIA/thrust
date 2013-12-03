@@ -23,46 +23,51 @@
 namespace thrust{
 namespace detail{
 namespace complex{	 
-  __host__ __device__
-  inline complex<float> cprojf(const complex<float>& z){
-    const float infinity = 1.0f/0.0f;
-    if(!isinf(z.real()) && !isinf(z.imag())){
-      return z;
-    }else{
-      // std::numeric_limits<T>::infinity() doesn't run on the GPU
-      return complex<float>(infinity, copysignf(0.0, z.imag()));
-    }
-  }
-
-  __host__ __device__
-  inline complex<double> cproj(const complex<double>& z){
-    const double infinity = 1.0/0.0;
-    if(!isinf(z.real()) && !isinf(z.imag())){
-      return z;
-    }else{
-      // std::numeric_limits<T>::infinity() doesn't run on the GPU
-      return complex<double>(infinity, copysign(0.0, z.imag()));
-    }
-  }
-} 
-}
-  template <typename T>
-  __host__ __device__
-  inline thrust::complex<T> proj(const thrust::complex<T>& z){
-    return detail::complex::cproj(z);
-  }
-
-
-  template <>
-  __host__ __device__
-  inline thrust::complex<double> proj(const thrust::complex<double>& z){
-    return detail::complex::cproj(z);
-  }
-
-  template <>
-  __host__ __device__
-  inline thrust::complex<float> proj(const thrust::complex<float>& z){
-    return detail::complex::cprojf(z);
+__host__ __device__
+inline complex<float> cprojf(const complex<float>& z){
+  const float infinity = 1.0f/0.0f;
+  if(!isinf(z.real()) && !isinf(z.imag())){
+    return z;
+  }else{
+    // std::numeric_limits<T>::infinity() doesn't run on the GPU
+    return complex<float>(infinity, copysignf(0.0, z.imag()));
   }
 }
+  
+__host__ __device__
+inline complex<double> cproj(const complex<double>& z){
+  const double infinity = 1.0/0.0;
+  if(!isinf(z.real()) && !isinf(z.imag())){
+    return z;
+  }else{
+    // std::numeric_limits<T>::infinity() doesn't run on the GPU
+    return complex<double>(infinity, copysign(0.0, z.imag()));
+  }
+}
+
+}
+ 
+}
+
+template <typename T>
+__host__ __device__
+inline thrust::complex<T> proj(const thrust::complex<T>& z){
+  return detail::complex::cproj(z);
+}
+  
+
+template <>
+__host__ __device__
+inline thrust::complex<double> proj(const thrust::complex<double>& z){
+  return detail::complex::cproj(z);
+}
+  
+template <>
+__host__ __device__
+inline thrust::complex<float> proj(const thrust::complex<float>& z){
+  return detail::complex::cprojf(z);
+}
+
+}
+
 

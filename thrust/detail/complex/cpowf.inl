@@ -20,10 +20,11 @@
 
 namespace thrust{
 
-  /* This function should be changed as soon as FreeBSD's msun gets a cpowf function */
-  template <>
-    __host__ __device__
-    inline complex<float> pow(const complex<float>& z, const complex<float> & exponent){
-    return thrust::exp(thrust::log(z)*exponent);
-  }
+/* This function should be changed as soon as FreeBSD's msun gets a cpowf function */
+template <>
+__host__ __device__
+inline complex<float> pow(const complex<float>& z, const complex<float> & exponent){
+  return thrust::exp(thrust::log(z)*exponent);
+}
+
 }
