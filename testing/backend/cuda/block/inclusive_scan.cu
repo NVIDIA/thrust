@@ -91,8 +91,9 @@ void test_inclusive_scan(size_t block_size)
      DeviceVector d_input(h_input);
      DeviceVector d_output(block_size, 0);
 
+     thrust::cuda::tag exec;
      thrust::system::cuda::detail::detail::launch_closure
-       (Closure(d_input.begin(), d_output.begin()), 1, block_size, smem_bytes);
+       (exec, Closure(d_input.begin(), d_output.begin()), 1, block_size, smem_bytes);
 
      ASSERT_EQUAL(h_output, d_output);
    }

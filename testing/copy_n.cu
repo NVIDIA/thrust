@@ -8,6 +8,7 @@
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/constant_iterator.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 
 void TestCopyNFromConstIterator(void)
 {

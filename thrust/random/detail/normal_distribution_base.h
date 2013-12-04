@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -125,7 +125,7 @@ template<typename RealType>
                           cos(RealType(2)*pi*m_r1) :
                           sin(RealType(2)*pi*m_r1));
 
-      return result;
+      return mean + stddev * result;
     }
 
   private:

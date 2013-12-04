@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/reduce.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/retag.h>
 #include <limits>
 
 template<typename T>

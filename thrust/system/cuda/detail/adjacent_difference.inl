@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -183,7 +183,7 @@ OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
 
   Closure closure(first, temp.begin(), result, binary_op, decomp); 
 
-  detail::launch_closure(closure, decomp.size());
+  detail::launch_closure(exec, closure, decomp.size());
   
   return result + n;
 }

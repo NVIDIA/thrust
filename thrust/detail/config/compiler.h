@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -35,18 +35,24 @@
 #define THRUST_HOST_COMPILER_UNKNOWN 0
 #define THRUST_HOST_COMPILER_MSVC    1
 #define THRUST_HOST_COMPILER_GCC     2
+#define THRUST_HOST_COMPILER_CLANG   3
 
-// enumerate host compilers we know about
+// enumerate device compilers we know about
 #define THRUST_DEVICE_COMPILER_UNKNOWN 0
 #define THRUST_DEVICE_COMPILER_MSVC    1
 #define THRUST_DEVICE_COMPILER_GCC     2
 #define THRUST_DEVICE_COMPILER_NVCC    3
+#define THRUST_DEVICE_COMPILER_CLANG   4
 
 // figure out which host compiler we're using
 // XXX we should move the definition of THRUST_DEPRECATED out of this logic
 #if   defined(_MSC_VER)
 #define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_MSVC
 #define THRUST_DEPRECATED __declspec(deprecated)
+#elif defined(__clang__)
+#define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_CLANG
+#define THRUST_DEPRECATED __attribute__ ((deprecated)) 
+#define THRUST_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
 #elif defined(__GNUC__)
 #define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_GCC
 #define THRUST_DEPRECATED __attribute__ ((deprecated)) 
@@ -63,6 +69,8 @@
 #define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_MSVC
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
 #define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_GCC
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_CLANG
 #else
 #define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_UNKNOWN
 #endif

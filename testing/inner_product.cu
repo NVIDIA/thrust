@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/inner_product.h>
+#include <thrust/iterator/retag.h>
 
 template <class Vector>
 void TestInnerProductSimple(void)

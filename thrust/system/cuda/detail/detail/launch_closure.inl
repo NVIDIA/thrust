@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -77,8 +77,8 @@ template<typename Closure,
     return launch_closure_by_value<Closure>;
   }
 
-  template<typename Size1, typename Size2, typename Size3>
-  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
+  static void launch(execution_policy<DerivedPolicy> &, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     if(num_blocks > 0)
@@ -101,17 +101,15 @@ template<typename Closure>
     return launch_closure_by_pointer<Closure>;
   }
 
-  template<typename Size1, typename Size2, typename Size3>
-  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
+  static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
     if(num_blocks > 0)
     {
       // use temporary storage for the closure
-      // XXX use of cuda::tag is too specific here
-      thrust::cuda::tag cuda_tag;
       thrust::host_system_tag host_tag;
-      thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
+      thrust::detail::temporary_array<Closure,DerivedPolicy> closure_storage(exec, host_tag, &f, &f + 1);
 
       // launch
       detail::launch_closure_by_pointer<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
@@ -138,30 +136,30 @@ template<typename Closure>
     return thrust::system::cuda::detail::function_attributes(super_t::get_launch_function());
   }
 
-  template<typename Size1, typename Size2, typename Size3>
-  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
+  static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
-    super_t::launch(f,num_blocks,block_size,smem_size);
+    super_t::launch(exec,f,num_blocks,block_size,smem_size);
   }
 };
 
-template<typename Closure, typename Size>
-  void launch_closure(Closure f, Size num_blocks)
+template<typename DerivedPolicy, typename Closure, typename Size>
+  void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size num_blocks)
 {
   launch_calculator<Closure> calculator;
-  launch_closure(f, num_blocks, thrust::get<1>(calculator.with_variable_block_size()));
+  launch_closure(exec, f, num_blocks, thrust::get<1>(calculator.with_variable_block_size()));
 } // end launch_closure()
 
-template<typename Closure, typename Size1, typename Size2>
-  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size)
+template<typename DerivedPolicy, typename Closure, typename Size1, typename Size2>
+  void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size)
 {
-  launch_closure(f, num_blocks, block_size, 0u);
+  launch_closure(exec, f, num_blocks, block_size, 0u);
 } // end launch_closure()
 
-template<typename Closure, typename Size1, typename Size2, typename Size3>
-  void launch_closure(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+template<typename DerivedPolicy, typename Closure, typename Size1, typename Size2, typename Size3>
+  void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
 {
-  closure_launcher<Closure>::launch(f, num_blocks, block_size, smem_size);
+  closure_launcher<Closure>::launch(exec, f, num_blocks, block_size, smem_size);
 } // end launch_closure()
 
   
