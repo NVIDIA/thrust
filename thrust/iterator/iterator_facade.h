@@ -247,7 +247,7 @@ template<typename Derived,
          typename Value,
          typename System,
          typename Traversal,
-         typename Reference = Value&,
+         typename Reference,
          typename Difference = std::ptrdiff_t>
   class iterator_facade
 {
