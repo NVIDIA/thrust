@@ -268,29 +268,11 @@ scan(bulk::bounded<
   // XXX this should be uninitialized<intermediate_type>
   intermediate_type x;
   
-  // this loop is a sequential accumulate
-  for(size_type i = 0; i < grainsize; ++i)
+  if(local_size)
   {
-    if(i < local_size)
-    {
-      if(i == 0)
-      {
-        x = local_inputs[0];
-      } // end if
-      else
-      {
-        x = binary_op(x, local_inputs[i]);
-      } // end else
-    } // end if
-  } // end for
-  
-  // XXX RFE 1307230
-  //     this code yields a 30% speed down
-  //if(local_size)
-  //{
-  //  x = local_inputs[0];
-  //  x = bulk::accumulate(bound<grainsize-1>(g.this_exec), local_inputs + 1, local_inputs + local_size, x, binary_op);
-  //} // end if
+    x = local_inputs[0];
+    x = bulk::accumulate(bulk::bound<grainsize-1>(g.this_exec), local_inputs + 1, local_inputs + local_size, x, binary_op);
+  } // end if
   
   g.wait();
   
