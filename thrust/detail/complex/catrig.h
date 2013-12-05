@@ -63,6 +63,7 @@ inline void raise_inexact(){
   const volatile float tiny = 7.888609052210118054117286e-31; /* 0x1p-100; */ 
   // needs the volatile to prevent compiler from ignoring it
   volatile float junk = 1 + tiny;
+  (void)junk;
 };
 
 __host__ __device__ inline complex<double> clog_for_large_values(complex<double> z);
