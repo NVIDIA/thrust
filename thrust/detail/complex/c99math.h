@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-
+#include <cmath>
 #include <thrust/detail/complex/math_private.h>
 
 namespace thrust
@@ -89,6 +89,12 @@ __host__ __device__ inline double atanhf(double x){
 }
 #else
 using ::atanh;
+
+using std::signbit;
+using std::isfinite;
+using std::isnan;
+
+
 #endif
   
 #if defined _MSC_VER
