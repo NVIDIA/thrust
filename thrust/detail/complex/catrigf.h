@@ -179,7 +179,7 @@ casinhf(complex<float> z)
       return (complex<float>(y, x + x));
     if (y == 0)
       return (complex<float>(x + x, y));
-    return (complex<float>(x + 0.0L + (y + 0), x + 0.0L + (y + 0)));
+    return (complex<float>(x + 0.0f + (y + 0), x + 0.0f + (y + 0)));
   }
 
   if (ax > RECIP_EPSILON || ay > RECIP_EPSILON) {
@@ -242,7 +242,7 @@ complex<float> cacosf(complex<float> z)
       return (complex<float>(x + x, -y));
     if (x == 0)
       return (complex<float>(pio2_hi + pio2_lo, y + y));
-    return (complex<float>(x + 0.0L + (y + 0), x + 0.0L + (y + 0)));
+    return (complex<float>(x + 0.0 + (y + 0), x + 0.0 + (y + 0)));
   }
 
   const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
@@ -443,6 +443,7 @@ complex<float> catanhf(complex<float> z)
   return (complex<float>(copysignf(rx, x), copysignf(ry, y)));
 }
 
+__host__ __device__ inline
 complex<float>catanf(complex<float> z){
   complex<float> w = catanhf(complex<float>(z.imag(), z.real()));
   return (complex<float>(w.imag(), w.real()));

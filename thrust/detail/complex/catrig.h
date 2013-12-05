@@ -309,7 +309,7 @@ complex<double> casinh(complex<double> z)
      * C99 leaves it optional whether to raise invalid if one of
      * the arguments is not NaN, so we opt not to raise it.
      */
-    return (complex<double>(x + 0.0L + (y + 0), x + 0.0L + (y + 0)));
+    return (complex<double>(x + 0.0 + (y + 0.0), x + 0.0 + (y + 0.0)));
   }
 
   if (ax > RECIP_EPSILON || ay > RECIP_EPSILON) {
@@ -398,7 +398,7 @@ complex<double> cacos(complex<double> z)
      * C99 leaves it optional whether to raise invalid if one of
      * the arguments is not NaN, so we opt not to raise it.
      */
-    return (complex<double>(x + 0.0L + (y + 0), x + 0.0L + (y + 0)));
+    return (complex<double>(x + 0.0 + (y + 0), x + 0.0 + (y + 0)));
   }
 
   const double RECIP_EPSILON = 1.0 / DBL_EPSILON;
@@ -660,6 +660,7 @@ complex<double> catanh(complex<double> z)
  * catan(z) = reverse(catanh(reverse(z)))
  * where reverse(x + I*y) = y + I*x = I*conj(z).
  */
+__host__ __device__ inline
 complex<double>catan(complex<double> z)
 {
   complex<double> w = catanh(complex<double>(z.imag(), z.real()));
