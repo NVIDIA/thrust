@@ -113,4 +113,4 @@ struct TestComplexTransform
     ASSERT_EQUAL_QUIET(h_result, d_result);
   }
 };
-VariableUnitTest<TestComplexTransform, FloatingPointTypes> TestPairTransformInstance;
+VariableUnitTest<TestComplexTransform, FloatingPointTypes> TestComplexTransformInstance;
