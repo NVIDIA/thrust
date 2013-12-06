@@ -677,8 +677,8 @@ template <typename ValueType>
 __host__ __device__
 inline complex<ValueType> acos(const complex<ValueType>& z){
   const complex<ValueType> ret = thrust::asin(z);
-  const ValueType pio2 = ValueType(1.5707963267948966192);
-  return complex<ValueType>(pio2 - ret.real(),-ret.imag());
+  const ValueType pi = ValueType(3.14159265358979323846);
+  return complex<ValueType>(pi/2 - ret.real(),-ret.imag());
 }
 
 
