@@ -305,7 +305,7 @@ class cuda_task<
 
 #if __CUDA_ARCH__ >= 200
       // initialize shared storage
-      if(this_block.index() == 0)
+      if(this_block.this_exec.index() == 0)
       {
         bulk::detail::init_on_chip_malloc(this_block.heap_size());
       }
