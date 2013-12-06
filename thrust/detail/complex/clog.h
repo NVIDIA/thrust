@@ -74,6 +74,7 @@ complex<double> clog(const complex<double>& z){
   double x0, y0, x1, y1, x2, y2, t, hm1;
   double val[12];
   int i, sorted;
+  const double e = 2.7182818284590452354;
 
   x = z.real();
   y = z.imag();
@@ -102,7 +103,7 @@ complex<double> clog(const complex<double>& z){
   // For high values of ay -> hypotf(DBL_MAX,ay) = inf
   // We expect that for values at or below ay = 5e307 this should not happen
   if (ay > 5e307){
-    return (complex<double>(std::log(hypot(x / std::exp(1.0), y / std::exp(1.0))) + 1.0, std::atan2(y, x)));
+    return (complex<double>(std::log(hypot(x / e, y / e)) + 1.0, std::atan2(y, x)));
   }
   if (ax == 1.) {
     if (ay < 1e-150){
