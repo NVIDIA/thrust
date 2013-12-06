@@ -1,5 +1,6 @@
 #pragma once
 
+#include <thrust/complex.h>
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -137,6 +138,38 @@ void assert_almost_equal(const T1& a, const T2& b,
     }
 }
 
+
+template <typename T1, typename T2>
+  void assert_almost_equal(const thrust::complex<T1>& a, const thrust::complex<T2>& b, 
+                         const std::string& filename = "unknown", int lineno = -1,
+                         double a_tol = DEFAULT_ABSOLUTE_TOL, double r_tol = DEFAULT_RELATIVE_TOL)
+
+{
+  if(!almost_equal(a.real(), b.real(), a_tol, r_tol)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << "values are not approximately equal: " <<  a << " " << b;
+        f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+
+template <typename T1, typename T2>
+  void assert_almost_equal(const thrust::complex<T1>& a, const std::complex<T2>& b, 
+                         const std::string& filename = "unknown", int lineno = -1,
+                         double a_tol = DEFAULT_ABSOLUTE_TOL, double r_tol = DEFAULT_RELATIVE_TOL)
+
+{
+  if(!almost_equal(a.real(), b.real(), a_tol, r_tol)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << "values are not approximately equal: " <<  a << " " << b;
+        f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
 template <typename T>
 class almost_equal_to
 {
@@ -145,6 +178,19 @@ class almost_equal_to
         almost_equal_to(double _a_tol = DEFAULT_ABSOLUTE_TOL, double _r_tol = DEFAULT_RELATIVE_TOL) : a_tol(_a_tol), r_tol(_r_tol) {}
         bool operator()(const T& a, const T& b) const {
             return almost_equal((double) a, (double) b, a_tol, r_tol);
+        }
+};
+
+
+template <typename T>
+class almost_equal_to<thrust::complex<T> >
+{
+    public:
+        double a_tol, r_tol;
+        almost_equal_to(double _a_tol = DEFAULT_ABSOLUTE_TOL, double _r_tol = DEFAULT_RELATIVE_TOL) : a_tol(_a_tol), r_tol(_r_tol) {}
+        bool operator()(const thrust::complex<T>& a, const thrust::complex<T>& b) const {
+	  return almost_equal((double) a.real(), (double) b.real(), a_tol, r_tol) && 
+	    almost_equal((double) a.imag(), (double) b.imag(), a_tol, r_tol);
         }
 };
 
@@ -195,7 +241,7 @@ void assert_equal(ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterat
         if(mismatches <= MAX_OUTPUT_LINES)
         {
           if (sizeof(InputType) == 1)
-            f << "  [" << i << "] " << (int) *first1 << "  " << (int) *first2 << "\n"; // unprintable chars are a problem
+            f << "  [" << i << "] " << *first1 + InputType() << "  " << *first2 + InputType() << "\n"; // unprintable chars are a problem
           else
             f << "  [" << i << "] " << *first1 << "  " << *first2 << "\n";
         }
