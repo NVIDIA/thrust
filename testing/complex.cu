@@ -5,16 +5,6 @@
 #include <iostream>
 #include <sstream>
 
-#define ASSERT_COMPLEX_ALMOST_EQUAL(X,Y) \
-  {  unittest::assert_almost_equal((X).real(),(Y).real(), __FILE__, __LINE__); \
-     unittest::assert_almost_equal((X).imag(),(Y).imag(), __FILE__, __LINE__); \
-  }
-
-#define ASSERT_COMPLEX_EQUAL(X,Y) \
-  {  unittest::assert_equal((X).real(),(Y).real(), __FILE__, __LINE__); \
-     unittest::assert_equal((X).imag(),(Y).imag(), __FILE__, __LINE__);	\
-  }
-
 /* 
    The following tests do not check for the numerical accuracy of the operations.
    That is tested in a separate program (complex_accuracy.cpp) which requires mpfr, 
@@ -31,26 +21,26 @@ struct TestComplexConstructors
     thrust::complex<T> a(data[0],data[1]);
     thrust::complex<T> b(a);
     a = thrust::complex<T>(data[0],data[1]);
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    ASSERT_ALMOST_EQUAL(a,b);
     
     a = thrust::complex<T>(data[0]);
     ASSERT_EQUAL(data[0], a.real());
     ASSERT_EQUAL(T(0), a.imag());
     
     a = thrust::complex<T>();
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,std::complex<T>(0));
+    ASSERT_ALMOST_EQUAL(a,std::complex<T>(0));
     
     a = thrust::complex<T>(thrust::complex<float>(data[0],data[1]));
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    ASSERT_ALMOST_EQUAL(a,b);
     
     a = thrust::complex<T>(thrust::complex<double>(data[0],data[1]));
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    ASSERT_ALMOST_EQUAL(a,b);
     
     a = thrust::complex<T>(std::complex<float>(data[0],data[1]));
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    ASSERT_ALMOST_EQUAL(a,b);
     
     a = thrust::complex<T>(std::complex<double>(data[0],data[1]));
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    ASSERT_ALMOST_EQUAL(a,b);
   }
 };
 SimpleUnitTest<TestComplexConstructors, FloatingPointTypes> TestComplexConstructorsInstance;
@@ -102,19 +92,19 @@ struct TestComplexMemberOperators
 
     a += b;
     c += d;
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,c);
+    ASSERT_ALMOST_EQUAL(a,c);
 
     a -= b;
     c -= d;
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,c);
+    ASSERT_ALMOST_EQUAL(a,c);
 
     a *= b;
     c *= d;
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,c);
+    ASSERT_ALMOST_EQUAL(a,c);
 
     a /= b;
     c /= d;
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,c);
+    ASSERT_ALMOST_EQUAL(a,c);
 
     // casting operator
     c = (std::complex<T>)a;
@@ -143,7 +133,7 @@ struct TestComplexBasicArithmetic
 
     ASSERT_EQUAL(conj(a),conj(b));
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(thrust::polar(data[0],data[1]),std::polar(data[0],data[1]));
+    ASSERT_ALMOST_EQUAL(thrust::polar(data[0],data[1]),std::polar(data[0],data[1]));
 
     // random_samples does not seem to produce infinities so proj(z) == z
     ASSERT_EQUAL(proj(a),a);
@@ -164,21 +154,21 @@ struct TestComplexBinaryArithmetic
     thrust::complex<T> a(data_a[0], data_a[1]);
     thrust::complex<T> b(data_b[0], data_b[1]);
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(a*b,std::complex<T>(a) * std::complex<T>(b));
-    ASSERT_COMPLEX_ALMOST_EQUAL(a*data_b[0],std::complex<T>(a) * data_b[0]);
-    ASSERT_COMPLEX_ALMOST_EQUAL(data_a[0]*b,data_b[0] * std::complex<T>(b));
+    ASSERT_ALMOST_EQUAL(a*b,std::complex<T>(a) * std::complex<T>(b));
+    ASSERT_ALMOST_EQUAL(a*data_b[0],std::complex<T>(a) * data_b[0]);
+    ASSERT_ALMOST_EQUAL(data_a[0]*b,data_b[0] * std::complex<T>(b));
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(a / b, std::complex<T>(a) / std::complex<T>(b));
-    ASSERT_COMPLEX_ALMOST_EQUAL(a / data_b[0], std::complex<T>(a) / data_b[0]);
-    ASSERT_COMPLEX_ALMOST_EQUAL(data_a[0] / b, data_b[0] / std::complex<T>(b));
+    ASSERT_ALMOST_EQUAL(a / b, std::complex<T>(a) / std::complex<T>(b));
+    ASSERT_ALMOST_EQUAL(a / data_b[0], std::complex<T>(a) / data_b[0]);
+    ASSERT_ALMOST_EQUAL(data_a[0] / b, data_b[0] / std::complex<T>(b));
 
-    ASSERT_COMPLEX_EQUAL(a + b, std::complex<T>(a) + std::complex<T>(b));
-    ASSERT_COMPLEX_EQUAL(a + data_b[0], std::complex<T>(a) + data_b[0]);
-    ASSERT_COMPLEX_EQUAL(data_a[0] + b, data_b[0] + std::complex<T>(b));
+    ASSERT_EQUAL(a + b, std::complex<T>(a) + std::complex<T>(b));
+    ASSERT_EQUAL(a + data_b[0], std::complex<T>(a) + data_b[0]);
+    ASSERT_EQUAL(data_a[0] + b, data_b[0] + std::complex<T>(b));
 
-    ASSERT_COMPLEX_EQUAL(a - b, std::complex<T>(a) - std::complex<T>(b));
-    ASSERT_COMPLEX_EQUAL(a - data_b[0], std::complex<T>(a) - data_b[0]);
-    ASSERT_COMPLEX_EQUAL(data_a[0] - b, data_b[0] - std::complex<T>(b));
+    ASSERT_EQUAL(a - b, std::complex<T>(a) - std::complex<T>(b));
+    ASSERT_EQUAL(a - data_b[0], std::complex<T>(a) - data_b[0]);
+    ASSERT_EQUAL(data_a[0] - b, data_b[0] - std::complex<T>(b));
     
   }
 };
@@ -211,9 +201,9 @@ struct TestComplexExponentialFunctions
     thrust::complex<T> a(data_a[0], data_a[1]);
     std::complex<T> b(a);
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(exp(a),exp(b));
-    ASSERT_COMPLEX_ALMOST_EQUAL(log(a),log(b));
-    ASSERT_COMPLEX_ALMOST_EQUAL(log10(a),log10(b));
+    ASSERT_ALMOST_EQUAL(exp(a),exp(b));
+    ASSERT_ALMOST_EQUAL(log(a),log(b));
+    ASSERT_ALMOST_EQUAL(log10(a),log10(b));
     
   }
 };
@@ -233,11 +223,11 @@ struct TestComplexPowerFunctions
     std::complex<T> c(a);
     std::complex<T> d(b);
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(pow(a,b),pow(c,d));
-    ASSERT_COMPLEX_ALMOST_EQUAL(pow(a,b.real()),pow(c,d.real()));
-    ASSERT_COMPLEX_ALMOST_EQUAL(pow(a.real(),b),pow(c.real(),d));
+    ASSERT_ALMOST_EQUAL(pow(a,b),pow(c,d));
+    ASSERT_ALMOST_EQUAL(pow(a,b.real()),pow(c,d.real()));
+    ASSERT_ALMOST_EQUAL(pow(a.real(),b),pow(c.real(),d));
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(sqrt(a),sqrt(c));
+    ASSERT_ALMOST_EQUAL(sqrt(a),sqrt(c));
 
   }
 };
@@ -253,23 +243,23 @@ struct TestComplexTrigonometricFunctions
     thrust::complex<T> a(data_a[0], data_a[1]);
     std::complex<T> c(a);
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(cos(a),cos(c));
-    ASSERT_COMPLEX_ALMOST_EQUAL(sin(a),sin(c));
-    ASSERT_COMPLEX_ALMOST_EQUAL(tan(a),tan(c));
+    ASSERT_ALMOST_EQUAL(cos(a),cos(c));
+    ASSERT_ALMOST_EQUAL(sin(a),sin(c));
+    ASSERT_ALMOST_EQUAL(tan(a),tan(c));
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(cosh(a),cosh(c));
-    ASSERT_COMPLEX_ALMOST_EQUAL(sinh(a),sinh(c));
-    ASSERT_COMPLEX_ALMOST_EQUAL(tanh(a),tanh(c));
+    ASSERT_ALMOST_EQUAL(cosh(a),cosh(c));
+    ASSERT_ALMOST_EQUAL(sinh(a),sinh(c));
+    ASSERT_ALMOST_EQUAL(tanh(a),tanh(c));
 
 #if __cplusplus >= 201103L
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(acos(a),acos(c));
-    ASSERT_COMPLEX_ALMOST_EQUAL(asin(a),asin(c));
-    ASSERT_COMPLEX_ALMOST_EQUAL(atan(a),atan(c));
+    ASSERT_ALMOST_EQUAL(acos(a),acos(c));
+    ASSERT_ALMOST_EQUAL(asin(a),asin(c));
+    ASSERT_ALMOST_EQUAL(atan(a),atan(c));
 
-    ASSERT_COMPLEX_ALMOST_EQUAL(acosh(a),acosh(c));
-    ASSERT_COMPLEX_ALMOST_EQUAL(asinh(a),asinh(c));
-    ASSERT_COMPLEX_ALMOST_EQUAL(atanh(a),atanh(c));
+    ASSERT_ALMOST_EQUAL(acosh(a),acosh(c));
+    ASSERT_ALMOST_EQUAL(asinh(a),asinh(c));
+    ASSERT_ALMOST_EQUAL(atanh(a),atanh(c));
 
 #endif
 
@@ -289,7 +279,7 @@ struct TestComplexStreamOperators
     out << a;
     thrust::complex<T> b;
     out >> b;
-    ASSERT_COMPLEX_ALMOST_EQUAL(a,b);
+    ASSERT_ALMOST_EQUAL(a,b);
   }
 };
 

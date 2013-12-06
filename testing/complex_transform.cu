@@ -60,8 +60,10 @@ struct trigonometric_functor
   {
     // exercise power functions
     // might return approximately 1
-    return acos(cos(x))+asin(sin(x))+atan(tan(x))-
-      (acosh(cos(x)) + asinh(sinh(x)) + atanh(tanh(x)));
+    return acos(cos(x))+asin(sin(x))-T(4.0)*x
+      +(acosh(cosh(x)) + asinh(sinh(x)));// + atanh(tanh(x)));
+//+atan(tan(x));
+      //      (acosh(cosh(x)) + asinh(sinh(x)) + atanh(tanh(x)));
   } // end operator()()
 }; // end make_pair_functor
 
@@ -78,14 +80,14 @@ struct TestComplexTransform
     thrust::host_vector<type> h_p1(n);
     thrust::host_vector<type> h_p2(n);
 
-    for(int i = 0;i<n;i++){
+    for(size_t i = 0; i<n; i++){
       h_p1[i].real(real[i]);
       h_p1[i].imag(imag[i]);
     }
 
     real = unittest::random_samples<T>(n);
     imag = unittest::random_samples<T>(n);
-    for(int i = 0;i<n;i++){
+    for(size_t i = 0; i<n; i++){
       h_p2[i].real(real[i]);
       h_p2[i].imag(imag[i]);
     }
@@ -98,39 +100,37 @@ struct TestComplexTransform
     // run basic arithmetic on the host
     thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_result.begin(), basic_arithmetic_functor());
     // run basic arithmetic on the host
-    thrust::transform(d_p1.begin(), d_p1.end(), d_p2.begin(), d_result.begin(), basic_arithmetic_functor());
-    
+    thrust::transform(d_p1.begin(), d_p1.end(), d_p2.begin(), d_result.begin(), basic_arithmetic_functor());    
     // Currently just checking for compilation
-    //ASSERT_EQUAL_QUIET(h_result, d_result);
+    ASSERT_ALMOST_EQUAL(h_result, d_result);
     
     // run general functions on the host
     thrust::transform(h_p1.begin(), h_p1.end(), h_result.begin(), general_functor());
     // run general functions on the host
     thrust::transform(d_p1.begin(), d_p1.end(), d_result.begin(), general_functor());
     // Currently just checking for compilation
-    // ASSERT_EQUAL_QUIET(h_result, d_result);
+    ASSERT_ALMOST_EQUAL(h_result, d_result);
 
     // run power functions on the host
     thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_result.begin(), power_functor());
     // run power functions on the host
     thrust::transform(d_p1.begin(), d_p1.end(), d_p2.begin(), d_result.begin(), power_functor());
     // Currently just checking for compilation
-    // ASSERT_EQUAL_QUIET(h_result, d_result);
-
+    ASSERT_ALMOST_EQUAL(h_result, d_result);
 
     // run exponential functions on the host
     thrust::transform(h_p1.begin(), h_p1.end(), h_result.begin(), exponential_functor());
     // run exponential functions on the host
     thrust::transform(d_p1.begin(), d_p1.end(), d_result.begin(), exponential_functor());
     // Currently just checking for compilation
-    // ASSERT_EQUAL_QUIET(h_result, d_result);
+    ASSERT_ALMOST_EQUAL(h_result, d_result);
 
     // run trigonometric functions on the host
     thrust::transform(h_p1.begin(), h_p1.end(), h_result.begin(), trigonometric_functor());
     // run trigonometric functions on the host
     thrust::transform(d_p1.begin(), d_p1.end(), d_result.begin(), trigonometric_functor());
     // Currently just checking for compilation
-    // ASSERT_EQUAL_QUIET(h_result, d_result);
+    ASSERT_ALMOST_EQUAL(h_result, d_result);
   }
 };
 VariableUnitTest<TestComplexTransform, FloatingPointTypes> TestComplexTransformInstance;
