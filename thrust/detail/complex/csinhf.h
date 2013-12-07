@@ -63,8 +63,9 @@ complex<float> csinhf(const complex<float>& z){
   float x, y, h;
   uint32_t hx, hy, ix, iy;
 
-  const float huge = 0x1p127;
-  const float infinity = 1.0f/0.0f;
+  const float huge = 1.70141183460469231731687303716e+38; //0x1p127;
+  const float zero = 0.0f;
+  const float infinity = 1.0f/zero;
 
   x = z.real();
   y = z.imag();

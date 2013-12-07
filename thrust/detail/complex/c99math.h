@@ -49,11 +49,13 @@ using std::isfinite;
 using std::atanh;
 #elif defined _MSC_VER
 __host__ __device__ inline int isinf(float x){
-  return std::abs(x) == 1.0f/0.0f;
+  const float zero = 0.0f;
+  return std::abs(x) == 1.0f/zero;
 }
 
 __host__ __device__ inline int isinf(double x){
-  return std::abs(x) == 1.0/0.0;
+  const double zero = 0.0;
+  return std::abs(x) == 1.0/zero;
 }
 
 __host__ __device__ inline int isnan(float x){
@@ -80,13 +82,6 @@ __host__ __device__ inline int isfinite(double x){
   return !isnan(x) && !isinf(x);
 }
 
-__host__ __device__ inline double atanh(double x){
-  
-}
-
-__host__ __device__ inline double atanhf(double x){
-  
-}
 #else
 using ::atanh;
 
@@ -99,7 +94,7 @@ using std::isnan;
   
 #if defined _MSC_VER
 
-__host__ __device__ inline int copysign(double x, double y){
+__host__ __device__ inline double copysign(double x, double y){
   uint32_t hx,hy;
   get_high_word(hx,x);
   get_high_word(hy,y);
@@ -107,7 +102,7 @@ __host__ __device__ inline int copysign(double x, double y){
   return x;
 }
 
-__host__ __device__ inline int copysignf(float x, float y){
+__host__ __device__ inline float copysignf(float x, float y){
   uint32_t ix,iy;
   get_float_word(ix,x);
   get_float_word(iy,y);

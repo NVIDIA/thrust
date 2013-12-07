@@ -47,6 +47,7 @@ template <typename T>
   return thrust::exp(std::log(x)*exponent);
 }
 
+#if !defined _MSC_VER
 
 template <typename T, typename U>
   __host__ __device__ 
@@ -68,5 +69,7 @@ template <typename T, typename U>
   typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
   return thrust::exp(std::log(PromotedType(x))*complex<PromotedType>(exponent));
 }
+
+#endif
 
 }

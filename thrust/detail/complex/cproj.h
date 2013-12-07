@@ -25,7 +25,8 @@ namespace detail{
 namespace complex{	 
 __host__ __device__
 inline complex<float> cprojf(const complex<float>& z){
-  const float infinity = 1.0f/0.0f;
+  const float zero = 0.0f;
+  const float infinity = 1.0f/zero;
   if(!isinf(z.real()) && !isinf(z.imag())){
     return z;
   }else{
@@ -36,7 +37,8 @@ inline complex<float> cprojf(const complex<float>& z){
   
 __host__ __device__
 inline complex<double> cproj(const complex<double>& z){
-  const double infinity = 1.0/0.0;
+  const double zero = 0.0;
+  const double infinity = 1.0/zero;
   if(!isinf(z.real()) && !isinf(z.imag())){
     return z;
   }else{

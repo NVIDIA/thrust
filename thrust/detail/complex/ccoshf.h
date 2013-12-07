@@ -61,7 +61,7 @@ __host__ __device__ inline
 complex<float> ccoshf(const complex<float>& z){
   float x, y, h;
   uint32_t hx, hy, ix, iy;
-  const float huge = 0x1p127;	
+  const float huge = 1.70141183460469231731687303716e+38; //0x1p127;	
   
   
   x = z.real();

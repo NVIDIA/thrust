@@ -68,7 +68,7 @@ __host__ __device__ inline
 thrust::complex<double> ccosh(const thrust::complex<double>& z){
   
 
-  const double huge = 0x1p1023;
+  const double huge = 8.98846567431157953864652595395e+307; // 0x1p1023
   double x, y, h;
   uint32_t hx, hy, ix, iy, lx, ly;
 

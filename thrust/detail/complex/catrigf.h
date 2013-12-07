@@ -105,7 +105,7 @@ do_hard_work(float x, float y, float *rx, int *B_is_usable, float *B,
   float Am1, Amy; /* A-1, A-y. */
   const float A_crossover = 10; /* Hull et al suggest 1.5, but 10 works better */
   const float FOUR_SQRT_MIN = 4.336808689942017736029811e-19f;; /* =0x1p-61; >= 4 * sqrt(FLT_MIN) */
-  const float B_crossover = 0.6417; /* suggested by Hull et al */
+  const float B_crossover = 0.6417f; /* suggested by Hull et al */
   R = hypotf(x, y + 1);
   S = hypotf(x, y - 1);
 
@@ -166,7 +166,7 @@ casinhf(complex<float> z)
   int B_is_usable;
   complex<float> w;
   const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
-  const float m_ln2 = 6.9314718055994531e-1; /*  0x162e42fefa39ef.0p-53 */
+  const float m_ln2 = 6.9314718055994531e-1f; /*  0x162e42fefa39ef.0p-53 */
   x = z.real();
   y = z.imag();
   ax = fabsf(x);
@@ -196,7 +196,7 @@ casinhf(complex<float> z)
 
   raise_inexact();
 
-  const float SQRT_6_EPSILON = 8.4572793338e-4;	/*  0xddb3d7.0p-34 */
+  const float SQRT_6_EPSILON = 8.4572793338e-4f;	/*  0xddb3d7.0p-34 */
   if (ax < SQRT_6_EPSILON / 4 && ay < SQRT_6_EPSILON / 4)
     return (z);
 
@@ -223,10 +223,11 @@ complex<float> cacosf(complex<float> z)
   int sx, sy;
   int B_is_usable;
   complex<float> w;
-  const float pio2_hi = 1.5707963267948966e0; /*  0x1921fb54442d18.0p-52 */
-  const volatile float pio2_lo = 6.1232339957367659e-17;	/*  0x11a62633145c07.0p-106 */
-  const float m_ln2 = 6.9314718055994531e-1; /*  0x162e42fefa39ef.0p-53 */
-  const float infinity = 1.0f/0.0f;
+  const float pio2_hi = 1.5707963267948966e0f; /*  0x1921fb54442d18.0p-52 */
+  const volatile float pio2_lo = 6.1232339957367659e-17f;	/*  0x11a62633145c07.0p-106 */
+  const float m_ln2 = 6.9314718055994531e-1f; /*  0x162e42fefa39ef.0p-53 */
+  const float zero = 0.0f;
+  const float infinityf = 1.0f/zero;
 
   x = z.real();
   y = z.imag();
@@ -237,12 +238,12 @@ complex<float> cacosf(complex<float> z)
 
   if (isnan(x) || isnan(y)) {
     if (isinf(x))
-      return (complex<float>(y + y, -infinity));
+      return (complex<float>(y + y, -infinityf));
     if (isinf(y))
       return (complex<float>(x + x, -y));
     if (x == 0)
       return (complex<float>(pio2_hi + pio2_lo, y + y));
-    return (complex<float>(x + 0.0 + (y + 0), x + 0.0 + (y + 0)));
+    return (complex<float>(x + 0.0f + (y + 0), x + 0.0f + (y + 0)));
   }
 
   const float RECIP_EPSILON = 1.0 / FLT_EPSILON;
@@ -311,7 +312,7 @@ complex<float> clog_for_large_values(complex<float> z)
 {
   float x, y;
   float ax, ay, t;
-  const float m_e = 2.7182818284590452e0; /*  0x15bf0a8b145769.0p-51 */
+  const float m_e = 2.7182818284590452e0f; /*  0x15bf0a8b145769.0p-51 */
 
   x = z.real();
   y = z.imag();

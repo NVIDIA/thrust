@@ -64,7 +64,8 @@ complex<float> csqrtf(const complex<float>& z){
   float t;
   int scale;
   complex<float> result;
-  const float infinity = 1.0f/0.0f;
+  float zero = 0.0f;
+  float infinityf = 1.0f/zero;
 
   /* We risk spurious overflow for components >= FLT_MAX / (1 + sqrt(2)). */
   const float THRESH = 1.40949553037932e+38f;
@@ -73,7 +74,7 @@ complex<float> csqrtf(const complex<float>& z){
   if (z == 0.0f)
     return (complex<float>(0, b));
   if (isinf(b))
-    return (complex<float>(infinity, b));
+    return (complex<float>(infinityf, b));
   if (isnan(a)) {
     t = (b - b) / (b - b);	/* raise invalid if b is not a NaN */
     return (complex<float>(a, t));	/* return NaN + NaN i */

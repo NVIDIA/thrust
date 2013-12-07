@@ -58,11 +58,12 @@ namespace complex{
 using thrust::complex;
 
 __host__ __device__ inline
-complex<float> csinh(const complex<float>& z){
+complex<float> csinh(const complex<double>& z){
   double x, y, h;
   uint32_t hx, hy, ix, iy, lx, ly;
-  const double huge = 0x1p1023;
-  const float infinity = 1.0/0.0;
+  const double huge = 8.98846567431157953864652595395e+307; // 0x1p1023;
+  const double zero = 0.0;
+  const double infinity = 1.0/zero;
 
   x = z.real();
   y = z.imag();

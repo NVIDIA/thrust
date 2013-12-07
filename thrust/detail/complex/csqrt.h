@@ -64,7 +64,8 @@ complex<double> csqrt(const complex<double>& z){
   double a, b;
   double t;
   int scale;
-  const double infinity = 1.0/0.0;
+  double zero = 0.0;
+  double infinity = 1.0/zero;
 
   /* We risk spurious overflow for components >= DBL_MAX / (1 + sqrt(2)). */
   const double THRESH = 7.446288774449766337959726e+307;

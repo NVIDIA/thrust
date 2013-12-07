@@ -375,7 +375,8 @@ complex<double> cacos(complex<double> z)
   const double pio2_hi = 1.5707963267948966e0; /*  0x1921fb54442d18.0p-52 */
   const volatile double pio2_lo = 6.1232339957367659e-17;	/*  0x11a62633145c07.0p-106 */
   const double m_ln2 = 6.9314718055994531e-1; /*  0x162e42fefa39ef.0p-53 */
-  const double infinity = 1.0/0.0;
+  double zero = 0.0;
+  double infinity = 1.0/zero;
 
   x = z.real();
   y = z.imag();
@@ -588,6 +589,7 @@ inline double real_part_reciprocal(double x, double y)
  * Re(catanh(z)) = x/|z|^2 + O(x/z^4)
  *    as z -> infinity, uniformly in x
  */
+#if __cplusplus >= 201103L || !defined _MSC_VER
 __host__ __device__ inline
 complex<double> catanh(complex<double> z)
 {
@@ -667,6 +669,8 @@ complex<double>catan(complex<double> z)
   complex<double> w = catanh(complex<double>(z.imag(), z.real()));
   return (complex<double>(w.imag(), w.real()));
 }
+
+#endif
 
 } // namespace complex
 
