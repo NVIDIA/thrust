@@ -35,8 +35,10 @@ template <typename X>
 inline __host__ __device__ complex<T>
 ::complex(const complex<X> & z)
 {
-  real(z.real());
-  imag(z.imag());
+  // The explicit T() is there no prevent Visual Studio from complaining
+  // about potential loss of precision
+  real(T(z.real()));
+  imag(T(z.imag()));
 }  
 
 template <typename T>
@@ -44,8 +46,10 @@ template <typename X>
 inline __host__ complex<T>
 ::complex(const std::complex<X> & z)
 {
-  real(z.real());
-  imag(z.imag());
+  // The explicit T() is there no prevent Visual Studio from complaining
+  // about potential loss of precision
+  real(T(z.real()));
+  imag(T(z.imag()));
 }  
 
 
