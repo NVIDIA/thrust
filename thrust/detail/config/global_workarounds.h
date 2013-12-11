@@ -14,24 +14,14 @@
  *  limitations under the License.
  */
 
-/*! \file config.h
- *  \brief Defines platform configuration.
- */
-
 #pragma once
 
-// XXX the order of these #includes matters
-
-#include <thrust/detail/config/simple_defines.h>
 #include <thrust/detail/config/compiler.h>
-// host_system.h & device_system.h must be #included as early as possible
-// because other config headers depend on it
-#include <thrust/detail/config/host_system.h>
-#include <thrust/detail/config/device_system.h>
-#include <thrust/detail/config/host_device.h>
-#include <thrust/detail/config/debug.h>
-#include <thrust/detail/config/compiler_fence.h>
-#include <thrust/detail/config/forceinline.h>
-#include <thrust/detail/config/hd_warning_disable.h>
-#include <thrust/detail/config/global_workarounds.h>
+
+// XXX workaround gcc 4.8+'s complaints about unused local typedefs by silencing them globally
+#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION >= 40800)
+#  if defined(__NVCC__) && (CUDA_VERSION >= 6000)
+#    pragma GCC diagnostic ignored "-Wunused-local-typedefs"
+#  endif // nvcc & cuda 6+
+#endif // gcc 4.8
 
