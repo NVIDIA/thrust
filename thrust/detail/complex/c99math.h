@@ -110,6 +110,39 @@ __host__ __device__ inline float copysignf(float x, float y){
   return x;
 }
 
+#ifndef __CUDACC__
+
+// Simple approximation to log1p as Visual Studio is lacking one
+inline double log1p(double x){
+  double u = 1.0+x;
+  if(u == 1.0){
+    return x;
+  }else{
+    if(u > 2.0){
+      // Use normal log for large arguments
+      return log(u); 
+    }else{
+      return log(u)*(x/(u-1.0));
+    }
+  }
+}
+
+inline float log1pf(float x){
+  float u = 1.0f+x;
+  if(u == 1.0f){
+    return x;
+  }else{
+    if(u > 2.0f){
+      // Use normal log for large arguments
+      return logf(u); 
+    }else{
+      return logf(u)*(x/(u-1.0f));
+    }
+  }
+}
+
+#endif
+
 #endif
 
 } // namespace complex
