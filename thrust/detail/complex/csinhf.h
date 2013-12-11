@@ -64,8 +64,6 @@ complex<float> csinhf(const complex<float>& z){
   uint32_t hx, hy, ix, iy;
 
   const float huge = 1.70141183460469231731687303716e+38; //0x1p127;
-  const float zero = 0.0f;
-  const float infinity = 1.0f/zero;
 
   x = z.real();
   y = z.imag();
@@ -113,7 +111,7 @@ complex<float> csinhf(const complex<float>& z){
   if (ix >= 0x7f800000 && (hx & 0x7fffff) == 0) {
     if (iy >= 0x7f800000)
       return (complex<float>(x * x, x * (y - y)));
-    return (complex<float>(x * cosf(y), infinity * sinf(y)));
+    return (complex<float>(x * cosf(y), infinity<float>() * sinf(y)));
   }
 
   return (complex<float>((x * x) * (y - y), (x + x) * (y - y)));

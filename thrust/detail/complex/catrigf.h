@@ -226,8 +226,6 @@ complex<float> cacosf(complex<float> z)
   const float pio2_hi = 1.5707963267948966e0f; /*  0x1921fb54442d18.0p-52 */
   const volatile float pio2_lo = 6.1232339957367659e-17f;	/*  0x11a62633145c07.0p-106 */
   const float m_ln2 = 6.9314718055994531e-1f; /*  0x162e42fefa39ef.0p-53 */
-  const float zero = 0.0f;
-  const float infinityf = 1.0f/zero;
 
   x = z.real();
   y = z.imag();
@@ -238,7 +236,7 @@ complex<float> cacosf(complex<float> z)
 
   if (isnan(x) || isnan(y)) {
     if (isinf(x))
-      return (complex<float>(y + y, -infinityf));
+      return (complex<float>(y + y, -infinity<float>()));
     if (isinf(y))
       return (complex<float>(x + x, -y));
     if (x == 0)

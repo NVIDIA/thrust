@@ -41,6 +41,26 @@ using ::exp;
 using ::cosh;
 using ::atan;
 
+template <typename T>
+inline __host__ __device__ T infinity();
+
+template <>
+inline __host__ __device__ float infinity<float>()
+{
+  float res;
+  set_float_word(res, 0x7f800000);
+  return res;
+}
+
+
+template <>
+inline __host__ __device__ double infinity<double>()
+{
+  double res;
+  insert_words(res, 0x7ff00000,0);
+  return res;
+}
+
 #if __cplusplus >= 201103L
 using std::isinf;
 using std::isnan;
@@ -49,13 +69,11 @@ using std::isfinite;
 using std::atanh;
 #elif defined _MSC_VER
 __host__ __device__ inline int isinf(float x){
-  const float zero = 0.0f;
-  return std::abs(x) == 1.0f/zero;
+  return std::abs(x) == infinity<float>();
 }
 
 __host__ __device__ inline int isinf(double x){
-  const double zero = 0.0;
-  return std::abs(x) == 1.0/zero;
+  return std::abs(x) == infinity<double>();
 }
 
 __host__ __device__ inline int isnan(float x){

@@ -25,25 +25,21 @@ namespace detail{
 namespace complex{	 
 __host__ __device__
 inline complex<float> cprojf(const complex<float>& z){
-  const float zero = 0.0f;
-  const float infinity = 1.0f/zero;
   if(!isinf(z.real()) && !isinf(z.imag())){
     return z;
   }else{
     // std::numeric_limits<T>::infinity() doesn't run on the GPU
-    return complex<float>(infinity, copysignf(0.0, z.imag()));
+    return complex<float>(infinity<float>(), copysignf(0.0, z.imag()));
   }
 }
   
 __host__ __device__
 inline complex<double> cproj(const complex<double>& z){
-  const double zero = 0.0;
-  const double infinity = 1.0/zero;
   if(!isinf(z.real()) && !isinf(z.imag())){
     return z;
   }else{
     // std::numeric_limits<T>::infinity() doesn't run on the GPU
-    return complex<double>(infinity, copysign(0.0, z.imag()));
+    return complex<double>(infinity<double>(), copysign(0.0, z.imag()));
   }
 }
 
