@@ -14,6 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
+#pragma once 
 
 #include <cmath>
 #include <thrust/detail/complex/math_private.h>
@@ -128,6 +129,8 @@ __host__ __device__ inline float copysignf(float x, float y){
   return x;
 }
 
+
+
 #ifndef __CUDACC__
 
 // Simple approximation to log1p as Visual Studio is lacking one
@@ -158,6 +161,19 @@ inline float log1pf(float x){
     }
   }
 }
+
+#if _MSV_VER <= 1500
+#include <complex>
+
+inline float hypotf(float x, float y){
+	return abs(std::complex<float>(x,y));
+}
+
+inline double hypot(double x, double y){
+	return _hypot(x,y);
+}
+
+#endif
 
 #endif
 

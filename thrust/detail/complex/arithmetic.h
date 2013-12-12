@@ -18,6 +18,7 @@
 #include <thrust/complex.h>
 #include <cfloat>
 #include <cmath>
+#include <thrust/detail/complex/c99math.h>
 
 namespace thrust
 {
@@ -140,17 +141,30 @@ template <typename ValueType>
 template <typename ValueType>
   __host__ __device__
   inline ValueType abs(const complex<ValueType>& z){
-  return ::hypot(z.real(),z.imag());
+  return hypot(z.real(),z.imag());
 }
+
+namespace detail{
+namespace complex{	
+__host__ __device__ inline float abs(const thrust::complex<float>& z){
+  return hypotf(z.real(),z.imag());
+}
+
+__host__ __device__ inline double abs(const thrust::complex<double>& z){
+  return hypot(z.real(),z.imag());
+}
+}
+}
+
 template <>
   __host__ __device__
   inline float abs(const complex<float>& z){
-  return ::hypotf(z.real(),z.imag());
+  return detail::complex::abs(z);
 }
 template<>
   __host__ __device__
   inline double abs(const complex<double>& z){
-  return ::hypot(z.real(),z.imag());
+  return detail::complex::abs(z);
 }
 
 
