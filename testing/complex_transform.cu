@@ -238,7 +238,7 @@ struct TestComplexArithmeticTransform
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
     if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
     {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 130)
+      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
       {
         KNOWN_FAILURE;
       } // end if
@@ -267,7 +267,7 @@ struct TestComplexPlaneTransform
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
     if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
     {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 130)
+      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
       {
         KNOWN_FAILURE;
       } // end if
@@ -299,7 +299,7 @@ struct TestComplexPowerTransform
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
     if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
     {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 130)
+      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
       {
         KNOWN_FAILURE;
       } // end if
@@ -334,7 +334,7 @@ struct TestComplexExponentialTransform
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
     if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
     {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 130)
+      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
       {
         KNOWN_FAILURE;
       } // end if
@@ -371,7 +371,7 @@ struct TestComplexTrigonometricTransform
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
     if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
     {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 130)
+      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
       {
         KNOWN_FAILURE;
       } // end if
