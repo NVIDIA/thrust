@@ -64,8 +64,16 @@ template<typename, bool x>
 
 } // end thrust
 
-#define THRUST_STATIC_ASSERT( B ) \
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION >= 40800)
+  // gcc 4.8+ will complain about this typedef being unused unless we annotate it as such
+#  define THRUST_STATIC_ASSERT( B ) \
+   typedef ::thrust::detail::static_assert_test<\
+      sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
+         THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
+#else
+#  define THRUST_STATIC_ASSERT( B ) \
    typedef ::thrust::detail::static_assert_test<\
       sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
          THRUST_JOIN(thrust_static_assert_typedef_, __LINE__)
+#endif // gcc 4.8+
 

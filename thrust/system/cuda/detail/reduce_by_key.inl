@@ -415,7 +415,6 @@ struct reduce_by_key_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    typedef typename thrust::iterator_value<InputIterator1>::type KeyType;
     typedef typename thrust::iterator_value<ValueIterator>::type  ValueType;
     typedef typename Decomposition::index_type                    IndexType;
     typedef typename thrust::iterator_value<FlagIterator>::type   FlagType;
@@ -580,7 +579,6 @@ template <typename DerivedPolicy,
 
     // temporary arrays
     typedef thrust::detail::temporary_array<IndexType,DerivedPolicy> IndexArray;
-    typedef thrust::detail::temporary_array<KeyType,DerivedPolicy>   KeyArray;
     typedef thrust::detail::temporary_array<ValueType,DerivedPolicy> ValueArray;
     typedef thrust::detail::temporary_array<bool,DerivedPolicy>      BoolArray;
 

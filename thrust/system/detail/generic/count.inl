@@ -50,8 +50,6 @@ template <typename DerivedPolicy, typename InputIterator, typename EqualityCompa
 typename thrust::iterator_traits<InputIterator>::difference_type
 count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  
   // XXX use placeholder expression here
   return thrust::count_if(exec, first, last, thrust::detail::equal_to_value<EqualityComparable>(value));
 } // end count()
