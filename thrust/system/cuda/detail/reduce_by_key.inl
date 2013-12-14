@@ -278,8 +278,6 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
     return thrust::make_pair(keys_result + result_size, values_result + result_size);
   } // end if
 
-  typedef typename thrust::iterator_value<InputIterator1>::type  key_type;
-
   typedef typename reduce_by_key_detail::intermediate_type<
     InputIterator2, OutputIterator2, BinaryFunction
   >::type intermediate_type;

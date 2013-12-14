@@ -91,7 +91,6 @@ __host__ __device__
                                  Predicate pred,
                                  const T &new_value)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
   detail::new_value_if<Predicate,T,OutputType> op(pred,new_value);

@@ -69,8 +69,6 @@ struct copy_if_intervals_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-   
     typedef unsigned int PredicateType;
     
     const unsigned int CTA_SIZE = context_type::ThreadsPerBlock::value;
@@ -166,7 +164,6 @@ template<typename DerivedPolicy,
                           Predicate pred)
 {
   typedef typename thrust::iterator_difference<InputIterator1>::type IndexType;
-  typedef typename thrust::iterator_value<OutputIterator>::type      OutputType;
 
   if (first == last)
       return output;

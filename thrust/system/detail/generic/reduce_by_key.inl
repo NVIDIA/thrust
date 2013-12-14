@@ -88,7 +88,6 @@ __host__ __device__
                   BinaryFunction binary_op)
 {
     typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
-    typedef typename thrust::iterator_traits<InputIterator1>::value_type  KeyType;
 
     typedef unsigned int FlagType;  // TODO use difference_type
 
