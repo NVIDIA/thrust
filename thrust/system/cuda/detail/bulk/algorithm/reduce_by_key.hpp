@@ -140,7 +140,6 @@ reduce_by_key(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
               BinaryPredicate pred,
               BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type key_type;
   typedef typename thrust::iterator_value<InputIterator2>::type value_type; // XXX this should be the type returned by BinaryFunction
 
   typedef typename bulk::concurrent_group<bulk::agent<grainsize>,groupsize>::size_type size_type;

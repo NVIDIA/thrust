@@ -40,7 +40,6 @@ T accumulate(const bounded<bound,bulk::agent<grainsize> > &exec,
              BinaryFunction binary_op)
 {
   typedef typename bounded<bound,bulk::agent<grainsize> >::size_type size_type;
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
 
   size_type n = last - first;
 
@@ -121,8 +120,6 @@ T accumulate(bulk::concurrent_group<bulk::agent<grainsize>,groupsize> &g,
              T init,
              BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type value_type;
-
   typedef typename bulk::concurrent_group<bulk::agent<grainsize>,groupsize>::size_type size_type;
 
   const size_type elements_per_group = groupsize * grainsize;
