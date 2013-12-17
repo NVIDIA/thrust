@@ -332,7 +332,7 @@ def command_line_variables():
   vars.Add(BoolVariable('Wall', 'Enable all compilation warnings', os.name != 'nt'))
   
   # add a variable to treat warnings as errors
-  vars.Add(BoolVariable('Werror', 'Treat warnings as errors', 0))
+  vars.Add(BoolVariable('Werror', 'Treat warnings as errors', os.name != 'nt'))
 
   return vars
 
