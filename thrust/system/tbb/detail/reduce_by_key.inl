@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/tbb/detail/reduce_by_key.h>
 #include <thrust/iterator/reverse_iterator.h>
-#include <thrust/system/cpp/execution_policy.h>
+#include <thrust/detail/seq.h>
 #include <thrust/system/tbb/detail/execution_policy.h>
 #include <thrust/system/tbb/detail/reduce_intervals.h>
 #include <thrust/detail/minmax.h>
@@ -143,9 +143,8 @@ template<typename InputIterator1,
   thrust::tie(keys_last, carry) = reduce_last_segment_backward(keys_first, keys_last, values_first, binary_pred, binary_op);
 
   // finish with sequential reduce_by_key
-  thrust::cpp::tag seq;
   thrust::tie(keys_output, values_output) =
-    thrust::reduce_by_key(seq, keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
+    thrust::reduce_by_key(thrust::seq, keys_first, keys_last, values_first, keys_output, values_output, binary_pred, binary_op);
   
   return thrust::make_tuple(keys_output, values_output, carry.first, carry.second);
 }
@@ -278,8 +277,7 @@ template<typename DerivedPolicy, typename Iterator1, typename Iterator2, typenam
   if(n < parallelism_threshold)
   {
     // don't bother parallelizing for small n
-    thrust::cpp::tag seq;
-    return thrust::reduce_by_key(seq, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+    return thrust::reduce_by_key(thrust::seq, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
   }
 
   // count the number of processors
@@ -301,8 +299,7 @@ template<typename DerivedPolicy, typename Iterator1, typename Iterator2, typenam
   interval_output_offsets[0] = 0;
 
   // scan the counts to get each body's output offset
-  thrust::cpp::tag seq;
-  thrust::inclusive_scan(seq,
+  thrust::inclusive_scan(thrust::seq,
                          interval_output_offsets.begin() + 1, interval_output_offsets.end(), 
                          interval_output_offsets.begin() + 1);
 
