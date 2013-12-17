@@ -24,7 +24,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/system/error_code.h>
-#include <driver_types.h>
+#include <thrust/system/cuda/detail/guarded_driver_types.h>
 
 namespace thrust
 {
