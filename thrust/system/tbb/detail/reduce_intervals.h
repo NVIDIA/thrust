@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/tbb/detail/execution_policy.h>
+#include <thrust/detail/seq.h>
 
 #include <tbb/parallel_for.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -69,12 +70,10 @@ template<typename RandomAccessIterator1, typename RandomAccessIterator2, typenam
     RandomAccessIterator1 my_first = first + offset_to_first;
     RandomAccessIterator1 my_last  = first + offset_to_last;
 
-    thrust::cpp::tag seq;
-
     // carefully pass the init value for the interval with raw_reference_cast
     typedef typename BinaryFunction::result_type sum_type;
     result[interval_idx] =
-      thrust::reduce(seq, my_first + 1, my_last, sum_type(thrust::raw_reference_cast(*my_first)), binary_op);
+      thrust::reduce(thrust::seq, my_first + 1, my_last, sum_type(thrust::raw_reference_cast(*my_first)), binary_op);
   }
 };
 
