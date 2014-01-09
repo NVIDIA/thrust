@@ -89,7 +89,7 @@ template<typename Integer>
         and_<
           std::numeric_limits<Integer>::is_signed,
           // digits is the number of no-sign bits
-          (!std::numeric_limits<Integer>::is_bounded || (int(std::numeric_limits<Integer>::digits) + 1 >= num_digits<intmax_t>::value))
+          (std::numeric_limits<Integer>::is_bounded || (int(std::numeric_limits<Integer>::digits) + 1 >= num_digits<intmax_t>::value))
         >::value,
         identity_<Integer>,
         eval_if<
