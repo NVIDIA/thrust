@@ -53,7 +53,7 @@ class fallback_allocator
 
             // attempt to deallocate buffer
             std::cout << "  failed to map host memory into device address space (fallback failed)" << std::endl;
-            cudaError_t error = cudaFreeHost(h_ptr);
+            cudaFreeHost(h_ptr);
 
             throw std::bad_alloc();
           }
