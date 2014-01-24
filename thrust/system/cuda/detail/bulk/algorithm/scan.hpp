@@ -284,7 +284,7 @@ scan(bulk::bounded<
   g.wait();
 
   // count the number of spine elements
-  const size_type spine_n = (n >= g.size()) ? g.size() : (n + g.this_exec.grainsize() - 1) / g.this_exec.grainsize();
+  const size_type spine_n = (n >= g.size() * g.this_exec.grainsize()) ? g.size() : (n + g.this_exec.grainsize() - 1) / g.this_exec.grainsize();
   
   // exclusive scan the array of per-thread sums
   // XXX this call is another bounded scan
