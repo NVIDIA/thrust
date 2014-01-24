@@ -115,18 +115,16 @@ OutputIterator merge(const bulk::bounded<bound,agent<grainsize> > &e,
       if(p)
       {
         ++idx1;
-        if(idx1 < n1)
-        {
-          key_a = first1[idx1];
-        } // end if
+        
+        // use of min avoids conditional load
+        key_a = first1[min(idx1, n1 - 1)];
       } // end if
       else
       {
         ++idx2;
-        if(idx2 < n2)
-        {
-          key_b = first2[idx2];
-        } // end if
+
+        // use of min avoids conditional load
+        key_b = first2[min(idx2, n2 - 1)];
       } // end else
     } // end for
   } // end if
@@ -143,18 +141,16 @@ OutputIterator merge(const bulk::bounded<bound,agent<grainsize> > &e,
         if(p)
         {
           ++idx1;
-          if(idx1 < n1)
-          {
-            key_a = first1[idx1];
-          } // end if
+
+          // use of min avoids conditional load
+          key_a = first1[min(idx1, n1 - 1)];
         } // end if
         else
         {
           ++idx2;
-          if(idx2 < n2)
-          {
-            key_b = first2[idx2];
-          } // end if
+
+          // use of min avoids conditional load
+          key_b = first2[min(idx2, n2 - 1)];
         } // end else
       } // end if
     } // end for
@@ -247,20 +243,18 @@ thrust::pair<RandomAccessIterator5,RandomAccessIterator6>
       if(p)
       {
         ++idx1;
-        if(idx1 < n1)
-        {
-          key_a = keys_first1[idx1];
-          val_a = values_first1[idx1];
-        } // end if
+
+        // use of min avoids conditional loads
+        key_a = keys_first1[min(idx1, n1 - 1)];
+        val_a = values_first1[min(idx1, n1 - 1)];
       } // end if
       else
       {
         ++idx2;
-        if(idx2 < n2)
-        {
-          key_b = keys_first2[idx2];
-          val_b = values_first2[idx2];
-        } // end if
+
+        // use of min avoids conditional loads
+        key_b = keys_first2[min(idx2, n2 - 1)];
+        val_b = values_first2[min(idx2, n2 - 1)];
       } // end else
     } // end for
   } // end if
@@ -278,20 +272,18 @@ thrust::pair<RandomAccessIterator5,RandomAccessIterator6>
         if(p)
         {
           ++idx1;
-          if(idx1 < n1)
-          {
-            key_a = keys_first1[idx1];
-            val_a = values_first1[idx1];
-          } // end if
+
+          // use of min avoids conditional loads
+          key_a = keys_first1[min(idx1, n1 - 1)];
+          val_a = values_first1[min(idx1, n1 - 1)];
         } // end if
         else
         {
           ++idx2;
-          if(idx2 < n2)
-          {
-            key_b = keys_first2[idx2];
-            val_b = values_first2[idx2];
-          } // end if
+
+          // use of min avoids conditional loads
+          key_b = keys_first2[min(idx2, n2 - 1)];
+          val_b = values_first2[min(idx2, n2 - 1)];
         } // end else
       } // end if
     } // end for
