@@ -216,6 +216,65 @@ InputIterator for_each(InputIterator first,
                        UnaryFunction f);
 
 
+/*! \p for_each applies the function object \p f to each element
+ *  in the range <tt>[first, last)</tt>; \p f's return value, if any,
+ *  is ignored. Unlike the C++ Standard Template Library function
+ *  <tt>std::for_each</tt>, this version offers no guarantee on
+ *  order of execution. For this reason, this version of \p for_each
+ *  does not return a copy of the function object.
+ *
+ *  \param range The input sequence [first, last).
+ *  \param last The end of the sequence.
+ *  \param f The function object to apply to the range <tt>[first, last)</tt>.
+ *  \return last
+ *
+ *  \tparam SinglePassRange is a model of <a
+ * href="http://www.boost.org/doc/libs/1_55_0/libs/range/doc/html/range/concepts/single_pass_range.html">SinglePassRange</a>
+ * concept, and \p SinglePassRange's \c value_type is convertible to \p
+ * UnaryFunction's \c argument_type.
+ *  \tparam UnaryFunction is a model of <a
+ * href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a> concept,
+ * and \p UnaryFunction does not apply any non-constant operation through its
+ * argument.
+ *
+ *  The following code snippet demonstrates how to use \p for_each to print the
+ *  elements of a \p device_vector.
+ *
+ *  \code
+ *  #include <thrust/for_each.h>
+ *  #include <thrust/device_vector.h>
+ *  #include <stdio.h>
+ *
+ *  struct printf_functor
+ *  {
+ *    __host__ __device__
+ *    void operator()(int x)
+ *    {
+ *      // note that using printf in a __device__ function requires
+ *      // code compiled for a GPU with compute capability 2.0 or
+ *      // higher (nvcc --arch=sm_20)
+ *      printf("%d\n");
+ *    }
+ *  };
+ *  ...
+ *  thrust::device_vector<int> d_vec(3);
+ *  d_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;
+ *
+ *  thrust::for_each(d_vec, printf_functor());
+ *
+ *  // 0 1 2 is printed to standard output in some unspecified order
+ *  \endcode
+ *
+ *  \see for_each_n
+ *  \see http://www.sgi.com/tech/stl/for_each.html
+ */
+template <typename SinglePassRange, typename UnaryFunction>
+SinglePassRange for_each(SinglePassRange& range, UnaryFunction f);
+
+template <typename SinglePassRange, typename UnaryFunction>
+SinglePassRange for_each(SinglePassRange const& range, UnaryFunction f);
+
+
 /*! \p for_each_n applies the function object \p f to each element
  *  in the range <tt>[first, first + n)</tt>; \p f's return value, if any,
  *  is ignored. Unlike the C++ Standard Template Library function

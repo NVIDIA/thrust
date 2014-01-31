@@ -143,6 +143,65 @@ template<typename InputIterator,
                            UnaryFunction op);
 
 
+/*! This version of \p transform applies a unary function to each element
+ *  of an input sequence and stores the result in the corresponding 
+ *  position in an output sequence.  Specifically, for each iterator 
+ *  <tt>i</tt> in the range [\p first, \p last) the operation 
+ *  <tt>op(*i)</tt> is performed and the result is assigned to <tt>*o</tt>,
+ *  where <tt>o</tt> is the corresponding output iterator in the range
+ *  [\p result, \p result + (\p last - \p first) ).  The input and
+ *  output sequences may coincide, resulting in an in-place transformation.
+ *    
+ *  \param range The input sequence [first, last).
+ *  \param result The beginning of the output sequence.
+ *  \param op The tranformation operation.
+ *  \return The end of the output sequence.
+ *
+ *  \tparam SinglePassRange is a model of <a
+ *  href="http://www.boost.org/doc/libs/1_55_0/libs/range/doc/html/range/concepts/single_pass_range.html">SinglePassRange</a>
+ *  concept, and \p SinglePassRange's \c value_type is convertible to \p
+ *  UnaryFunction's \c argument_type.
+ *  \tparam OutputIterator is a model of <a
+ *  href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam UnaryFunction is a model of <a
+ *  href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a> and
+ *  \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c
+ *  value_type.
+ *
+ *  \pre \p first may equal \p result, but the range <tt>[first, last)</tt>
+ *  shall not overlap the range <tt>[result, result + (last - first))</tt>
+ *  otherwise.
+ *
+ *  The following code snippet demonstrates how to use \p transform
+ *
+ *  \code
+ *  #include <thrust/host_vector.h>
+ *  #include <thrust/transform.h>
+ *  #include <thrust/functional.h>
+ *  
+ *  thrust::host_vector<int> data = {-5, 0, 2, -3, 2, 4, 0, -1, 2, 8};
+ * 
+ *  thrust::negate<int> op;
+ *
+ *  thrust::transform(data, std::begin(data), op); // in-place transformation
+ *
+ *  // data is now {5, 0, -2, 3, -2, -4, 0, 1, -2, -8};
+ *  \endcode
+ *
+ *  \see http://www.sgi.com/tech/stl/transform.html
+ */
+template<typename SinglePassRange,
+         typename OutputIterator,
+         typename UnaryFunction>
+OutputIterator transform(SinglePassRange& range, OutputIterator result,
+                         UnaryFunction op);
+template<typename SinglePassRange,
+         typename OutputIterator,
+         typename UnaryFunction>
+OutputIterator transform(SinglePassRange const& range, OutputIterator result,
+                         UnaryFunction op);
+
+
 /*! This version of \p transform applies a binary function to each pair
  *  of elements from two input sequences and stores the result in the
  *  corresponding position in an output sequence.  Specifically, for

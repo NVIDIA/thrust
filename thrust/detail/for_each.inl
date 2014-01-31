@@ -58,6 +58,39 @@ InputIterator for_each(InputIterator first,
   return thrust::for_each(select_system(system), first, last, f);
 } // end for_each()
 
+
+template<typename SinglePassRange,
+         typename UnaryFunction>
+SinglePassRange for_each(SinglePassRange& range,
+                       UnaryFunction f)
+{
+  using thrust::system::detail::generic::select_system;
+  typedef typename SinglePassRange::iterator Iterator;
+  typedef typename thrust::iterator_system<Iterator>::type System;
+
+  System system;
+  thrust::for_each(select_system(system), std::begin(range),
+                   std::end(range), f);
+  return range;
+} // end for_each()
+
+
+template<typename SinglePassRange,
+         typename UnaryFunction>
+SinglePassRange for_each(SinglePassRange const& range,
+                       UnaryFunction f)
+{
+  using thrust::system::detail::generic::select_system;
+  typedef typename SinglePassRange::iterator Iterator;
+  typedef typename thrust::iterator_system<Iterator>::type System;
+
+  System system;
+  thrust::for_each(select_system(system), std::begin(range),
+                   std::end(range), f);
+  return range;
+} // end for_each()
+
+
 __thrust_hd_warning_disable__ 
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename UnaryFunction>
 __host__ __device__
