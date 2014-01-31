@@ -68,5 +68,46 @@ template<typename InputIterator,
 } // end transform_reduce()
 
 
+template<typename SinglePassRange,
+         typename UnaryFunction,
+         typename OutputType,
+         typename BinaryFunction>
+OutputType transform_reduce(SinglePassRange & range,
+                            UnaryFunction unary_op,
+                            OutputType init,
+                            BinaryFunction binary_op)
+{
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename SinglePassRange::iterator Iterator;
+  typedef typename thrust::iterator_system<Iterator>::type System;
+
+  System system;
+
+  return thrust::transform_reduce(select_system(system), std::begin(range),
+                                  std::end(range), unary_op, init, binary_op);
+} // end transform_reduce()
+
+template<typename SinglePassRange,
+         typename UnaryFunction,
+         typename OutputType,
+         typename BinaryFunction>
+OutputType transform_reduce(SinglePassRange const& range,
+                            UnaryFunction unary_op,
+                            OutputType init,
+                            BinaryFunction binary_op)
+{
+  using thrust::system::detail::generic::select_system;
+
+  typedef typename SinglePassRange::iterator Iterator;
+  typedef typename thrust::iterator_system<Iterator>::type System;
+
+  System system;
+
+  return thrust::transform_reduce(select_system(system), std::begin(range),
+                                  std::end(range), unary_op, init, binary_op);
+} // end transform_reduce()
+
+
 } // end namespace thrust
 

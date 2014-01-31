@@ -143,6 +143,44 @@ template<typename InputIterator,
 } // end transform()
 
 
+template<typename SinglePassRange,
+         typename OutputIterator,
+         typename UnaryFunction>
+OutputIterator transform(SinglePassRange& range, OutputIterator result,
+                         UnaryFunction op)
+{
+  using thrust::system::detail::generic::select_system;
+  typedef typename SinglePassRange::iterator Iterator;
+  typedef typename thrust::iterator_system<Iterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+
+  System1 system1;
+  System2 system2;
+
+  return thrust::transform(select_system(system1,system2), std::begin(range),
+                           std::end(range), result, op);
+} // end transform()
+
+
+template<typename SinglePassRange,
+         typename OutputIterator,
+         typename UnaryFunction>
+OutputIterator transform(SinglePassRange const& range, OutputIterator result,
+                         UnaryFunction op)
+{
+  using thrust::system::detail::generic::select_system;
+  typedef typename SinglePassRange::iterator Iterator;
+  typedef typename thrust::iterator_system<Iterator>::type  System1;
+  typedef typename thrust::iterator_system<OutputIterator>::type System2;
+
+  System1 system1;
+  System2 system2;
+
+  return thrust::transform(select_system(system1,system2), std::begin(range),
+                           std::end(range), result, op);
+} // end transform()
+
+
 template<typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator,
