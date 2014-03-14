@@ -51,6 +51,7 @@
 #include <thrust/complex.h>
 #include <thrust/detail/complex/math_private.h>
 #include <cfloat>
+#include <cmath>
 
 namespace thrust{
 namespace detail{
