@@ -88,7 +88,7 @@ void get_high_word(uint32_t & i,double d){
   ieee_double_shape_type gh_u;
   gh_u.value = (d);
   (i) = gh_u.parts.msw;                                   
-};
+}
   
 /* Set the more significant 32 bits of a double from an int.  */
 __host__ __device__ inline

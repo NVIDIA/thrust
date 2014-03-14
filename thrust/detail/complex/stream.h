@@ -24,7 +24,7 @@ std::basic_ostream<charT, traits>& operator<<(std::basic_ostream<charT, traits>&
 {
   os << '(' << z.real() << ',' << z.imag() << ')';
   return os;
-};
+}
   
 template<typename ValueType, typename charT, class traits>
 std::basic_istream<charT, traits>&
