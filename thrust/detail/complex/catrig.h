@@ -64,7 +64,7 @@ inline void raise_inexact(){
   // needs the volatile to prevent compiler from ignoring it
   volatile float junk = 1 + tiny;
   (void)junk;
-};
+}
 
 __host__ __device__ inline complex<double> clog_for_large_values(complex<double> z);
   
