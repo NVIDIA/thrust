@@ -89,6 +89,7 @@
 
 #include <thrust/complex.h>
 #include <thrust/detail/complex/math_private.h>
+#include <cmath>
 
 namespace thrust{
 namespace detail{
