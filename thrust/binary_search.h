@@ -1324,7 +1324,7 @@ OutputIterator lower_bound(ForwardIterator first,
  *
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
- *  The following code snippet demonstrates how to use \p lower_bound
+ *  The following code snippet demonstrates how to use \p upper_bound
  *  to search for multiple values in a ordered range using the \p thrust::device execution policy for
  *  parallelization:
  *
@@ -1394,7 +1394,7 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
  *
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
- *  The following code snippet demonstrates how to use \p lower_bound
+ *  The following code snippet demonstrates how to use \p upper_bound
  *  to search for multiple values in a ordered range.
  *
  *  \code
@@ -1466,7 +1466,7 @@ OutputIterator upper_bound(ForwardIterator first,
  *
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
- *  The following code snippet demonstrates how to use \p lower_bound
+ *  The following code snippet demonstrates how to use \p upper_bound
  *  to search for multiple values in a ordered range using the \p thrust::device execution policy for
  *  parallelization:
  *
@@ -1542,7 +1542,7 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
  *
  *  \pre The ranges <tt>[first,last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap.
  *
- *  The following code snippet demonstrates how to use \p lower_bound
+ *  The following code snippet demonstrates how to use \p upper_bound
  *  to search for multiple values in a ordered range.
  *
  *  \code
