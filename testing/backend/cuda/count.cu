@@ -58,3 +58,20 @@ void TestCountIfDeviceSeq(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestCountIfDeviceSeq);
 
+
+void TestCountCudaStreams()
+{
+  thrust::device_vector<int> data(5);
+  data[0] = 1; data[1] = 1; data[2] = 0; data[3] = 0; data[4] = 1;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  ASSERT_EQUAL(thrust::count(thrust::cuda::par(s), data.begin(), data.end(), 0), 2);
+  ASSERT_EQUAL(thrust::count(thrust::cuda::par(s), data.begin(), data.end(), 1), 3);
+  ASSERT_EQUAL(thrust::count(thrust::cuda::par(s), data.begin(), data.end(), 2), 0);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestCountCudaStreams);
+

@@ -46,3 +46,46 @@ void TestTabulateDeviceSeq()
 }
 DECLARE_UNITTEST(TestTabulateDeviceSeq);
 
+
+void TestTabulateCudaStreams()
+{
+  using namespace thrust::placeholders;
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  
+  Vector v(5);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  thrust::tabulate(thrust::cuda::par(s), v.begin(), v.end(), thrust::identity<T>());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(v[0], 0);
+  ASSERT_EQUAL(v[1], 1);
+  ASSERT_EQUAL(v[2], 2);
+  ASSERT_EQUAL(v[3], 3);
+  ASSERT_EQUAL(v[4], 4);
+
+  thrust::tabulate(thrust::cuda::par(s), v.begin(), v.end(), -_1);
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(v[0],  0);
+  ASSERT_EQUAL(v[1], -1);
+  ASSERT_EQUAL(v[2], -2);
+  ASSERT_EQUAL(v[3], -3);
+  ASSERT_EQUAL(v[4], -4);
+  
+  thrust::tabulate(thrust::cuda::par(s), v.begin(), v.end(), _1 * _1 * _1);
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(v[0], 0);
+  ASSERT_EQUAL(v[1], 1);
+  ASSERT_EQUAL(v[2], 8);
+  ASSERT_EQUAL(v[3], 27);
+  ASSERT_EQUAL(v[4], 64);
+
+  cudaStreamSynchronize(s);
+}
+DECLARE_UNITTEST(TestTabulateCudaStreams);
+

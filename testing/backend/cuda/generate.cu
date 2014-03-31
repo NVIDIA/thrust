@@ -41,6 +41,31 @@ void TestGenerateDeviceSeq(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestGenerateDeviceSeq);
 
 
+void TestGenerateCudaStreams()
+{
+  thrust::device_vector<int> result(5);
+  
+  int value = 13;
+  
+  return_value<int> f(value);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  thrust::generate(thrust::cuda::par(s), result.begin(), result.end(), f);
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(result[0], value);
+  ASSERT_EQUAL(result[1], value);
+  ASSERT_EQUAL(result[2], value);
+  ASSERT_EQUAL(result[3], value);
+  ASSERT_EQUAL(result[4], value);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestGenerateCudaStreams);
+
+
 template<typename Iterator, typename Size, typename Function>
 __global__
 void generate_n_kernel(Iterator first, Size n, Function f)
@@ -64,4 +89,29 @@ void TestGenerateNDeviceSeq(const size_t n)
   ASSERT_EQUAL(h_result, d_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestGenerateNDeviceSeq);
+
+
+void TestGenerateNCudaStreams()
+{
+  thrust::device_vector<int> result(5);
+  
+  int value = 13;
+  
+  return_value<int> f(value);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  thrust::generate_n(thrust::cuda::par(s), result.begin(), result.size(), f);
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(result[0], value);
+  ASSERT_EQUAL(result[1], value);
+  ASSERT_EQUAL(result[2], value);
+  ASSERT_EQUAL(result[3], value);
+  ASSERT_EQUAL(result[4], value);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestGenerateNCudaStreams);
 

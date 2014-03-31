@@ -45,3 +45,35 @@ VariableUnitTest<
   unittest::type_list<unittest::int8_t,unittest::int32_t>
 > TestSortByKeyDeviceSeqInstance;
 
+
+void TestSortByKeyCudaStreams()
+{
+  thrust::device_vector<int> keys(10);
+  thrust::device_vector<int> vals(10);
+
+  keys[0] = 9; vals[0] = 9;
+  keys[1] = 3; vals[1] = 3;
+  keys[2] = 2; vals[2] = 2;
+  keys[3] = 0; vals[3] = 0;
+  keys[4] = 4; vals[4] = 4;
+  keys[5] = 7; vals[5] = 7;
+  keys[6] = 8; vals[6] = 8;
+  keys[7] = 1; vals[7] = 1;
+  keys[8] = 5; vals[8] = 5;
+  keys[9] = 6; vals[9] = 6;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  thrust::sort_by_key(thrust::cuda::par(s),
+                      keys.begin(), keys.end(),
+                      vals.begin());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(true, thrust::is_sorted(keys.begin(), keys.end()));
+  ASSERT_EQUAL(true, thrust::is_sorted(vals.begin(), vals.end()));
+                      
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestSortByKeyCudaStreams);
+

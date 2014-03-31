@@ -111,6 +111,60 @@ void TestUniqueByKeyDeviceSeq()
 DECLARE_UNITTEST(TestUniqueByKeyDeviceSeq);
 
 
+void TestUniqueByKeyCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef Vector::value_type T;
+  
+  Vector keys;
+  Vector values;
+  
+  typedef thrust::pair<typename Vector::iterator, typename Vector::iterator> iter_pair;
+  iter_pair new_last;
+  
+  // basic test
+  initialize_keys(keys);  initialize_values(values);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  new_last = thrust::unique_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin());
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(new_last.first  - keys.begin(),   5);
+  ASSERT_EQUAL(new_last.second - values.begin(), 5);
+  ASSERT_EQUAL(keys[0], 11);
+  ASSERT_EQUAL(keys[1], 21);
+  ASSERT_EQUAL(keys[2], 20);
+  ASSERT_EQUAL(keys[3], 21);
+  ASSERT_EQUAL(keys[4], 37);
+  
+  ASSERT_EQUAL(values[0], 0);
+  ASSERT_EQUAL(values[1], 2);
+  ASSERT_EQUAL(values[2], 3);
+  ASSERT_EQUAL(values[3], 4);
+  ASSERT_EQUAL(values[4], 7);
+  
+  // test BinaryPredicate
+  initialize_keys(keys);  initialize_values(values);
+  
+  new_last = thrust::unique_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), is_equal_div_10_unique<T>());
+  
+  ASSERT_EQUAL(new_last.first  - keys.begin(),   3);
+  ASSERT_EQUAL(new_last.second - values.begin(), 3);
+  ASSERT_EQUAL(keys[0], 11);
+  ASSERT_EQUAL(keys[1], 21);
+  ASSERT_EQUAL(keys[2], 37);
+  
+  ASSERT_EQUAL(values[0], 0);
+  ASSERT_EQUAL(values[1], 2);
+  ASSERT_EQUAL(values[2], 7);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestUniqueByKeyCudaStreams);
+
+
 template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5>
 __global__
 void unique_by_key_copy_kernel(Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Iterator3 keys_result, Iterator4 values_result, Iterator5 result)
@@ -180,3 +234,60 @@ void TestUniqueCopyByKeyDeviceSeq()
 }
 DECLARE_UNITTEST(TestUniqueCopyByKeyDeviceSeq);
 
+
+void TestUniqueCopyByKeyCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef Vector::value_type T;
+
+  Vector keys;
+  Vector values;
+
+  typedef thrust::pair<typename Vector::iterator, typename Vector::iterator> iter_pair;
+  iter_pair new_last;
+
+  // basic test
+  initialize_keys(keys);  initialize_values(values);
+
+  Vector output_keys(keys.size());
+  Vector output_values(values.size());
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  new_last = thrust::unique_by_key_copy(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
+  ASSERT_EQUAL(new_last.second - output_values.begin(), 5);
+  ASSERT_EQUAL(output_keys[0], 11);
+  ASSERT_EQUAL(output_keys[1], 21);
+  ASSERT_EQUAL(output_keys[2], 20);
+  ASSERT_EQUAL(output_keys[3], 21);
+  ASSERT_EQUAL(output_keys[4], 37);
+  
+  ASSERT_EQUAL(output_values[0], 0);
+  ASSERT_EQUAL(output_values[1], 2);
+  ASSERT_EQUAL(output_values[2], 3);
+  ASSERT_EQUAL(output_values[3], 4);
+  ASSERT_EQUAL(output_values[4], 7);
+
+  // test BinaryPredicate
+  initialize_keys(keys);  initialize_values(values);
+  
+  new_last = thrust::unique_by_key_copy(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_unique<T>());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(new_last.first  - output_keys.begin(),   3);
+  ASSERT_EQUAL(new_last.second - output_values.begin(), 3);
+  ASSERT_EQUAL(output_keys[0], 11);
+  ASSERT_EQUAL(output_keys[1], 21);
+  ASSERT_EQUAL(output_keys[2], 37);
+  
+  ASSERT_EQUAL(output_values[0], 0);
+  ASSERT_EQUAL(output_values[1], 2);
+  ASSERT_EQUAL(output_values[2], 7);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestUniqueCopyByKeyCudaStreams);
