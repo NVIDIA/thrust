@@ -18,7 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
-#include <cuda_runtime_api.h>
+#include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 
 namespace thrust
 {
