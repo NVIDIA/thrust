@@ -52,14 +52,14 @@ struct reduce_intervals_kernel
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename Decomposition, typename RandomAccessIterator2, typename BinaryFunction>
-RandomAccessIterator2 reduce_intervals_(execution_policy<DerivedPolicy> &, RandomAccessIterator1 first, Decomposition decomp, RandomAccessIterator2 result, BinaryFunction binary_op)
+RandomAccessIterator2 reduce_intervals_(execution_policy<DerivedPolicy> &exec, RandomAccessIterator1 first, Decomposition decomp, RandomAccessIterator2 result, BinaryFunction binary_op)
 {
   namespace bulk_ = thrust::system::cuda::detail::bulk;
 
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type result_type;
   const size_t groupsize = 128;
   size_t heap_size = groupsize * sizeof(result_type);
-  bulk_::async(bulk_::grid<groupsize,7>(decomp.size(),heap_size), reduce_intervals_detail::reduce_intervals_kernel(), bulk_::root.this_exec, first, decomp, result, binary_op);
+  bulk_::async(bulk_::grid<groupsize,7>(decomp.size(),heap_size,stream(thrust::detail::derived_cast(exec))), reduce_intervals_detail::reduce_intervals_kernel(), bulk_::root.this_exec, first, decomp, result, binary_op);
 
   return result + decomp.size();
 } // end reduce_intervals()

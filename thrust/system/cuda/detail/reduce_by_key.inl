@@ -270,7 +270,7 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
     const int grainsize = (sizeof(value_type) == sizeof(int)) ? 3 : 5;
 
     size_type heap_size = groupsize * grainsize * (sizeof(size_type) + sizeof(value_type));
-    bulk_::async(bulk_::grid<groupsize,grainsize>(1,heap_size), reduce_by_key_detail::reduce_by_key_kernel(),
+    bulk_::async(bulk_::grid<groupsize,grainsize>(1,heap_size,stream(thrust::detail::derived_cast(exec))), reduce_by_key_detail::reduce_by_key_kernel(),
       bulk_::root.this_exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op, result_size_storage.begin());
 
     size_type result_size = result_size_storage[0];
