@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/sort.h>
+#include <thrust/iterator/retag.h>
 
 template <class Vector>
 void TestIsSortedSimple(void)

@@ -78,8 +78,6 @@ scatter_if(bulk::bounded<
     bulk::concurrent_group<bulk::agent<grainsize>,groupsize>
   >::size_type size_type;
 
-  typedef typename bulk::concurrent_group<bulk::agent<grainsize>,groupsize>::agent_type agent_type;
-
   size_type n = last - first;
 
   size_type tid = g.this_exec.index();

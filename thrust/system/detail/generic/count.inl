@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -53,8 +53,6 @@ __host__ __device__
 typename thrust::iterator_traits<InputIterator>::difference_type
 count(thrust::execution_policy<DerivedPolicy> &exec, InputIterator first, InputIterator last, const EqualityComparable& value)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-  
   // XXX use placeholder expression here
   return thrust::count_if(exec, first, last, thrust::detail::equal_to_value<EqualityComparable>(value));
 } // end count()

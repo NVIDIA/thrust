@@ -5,6 +5,7 @@
 #include <thrust/tuple.h>
 #include <thrust/pair.h>
 #include <thrust/iterator/zip_iterator.h>
+#include <thrust/iterator/retag.h>
 
 
 template <class Vector>

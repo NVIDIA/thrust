@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/reverse.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 
 
 typedef unittest::type_list<unittest::int8_t,unittest::int16_t,unittest::int32_t> ReverseTypes;

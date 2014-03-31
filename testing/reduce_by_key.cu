@@ -2,6 +2,7 @@
 #include <thrust/reduce.h>
 #include <thrust/unique.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 
 template<typename T>
 struct is_equal_div_10_reduce

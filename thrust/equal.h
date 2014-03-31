@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -153,10 +153,10 @@ bool equal(InputIterator1 first1, InputIterator1 last1,
  *  #include <thrust/execution_policy.h>
  *  ...
  *  
- *  __host__ __device__
  *  struct compare_modulo_two
  *  {
- *    bool operator()(int x, int y)
+ *    __host__ __device__
+ *    bool operator()(int x, int y) const
  *    {
  *      return (x % 2) == (y % 2);
  *    }
@@ -203,17 +203,17 @@ bool equal(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Inp
  *  \code
  *  #include <thrust/equal.h>
  *  
- *  __host__ __device__
  *  struct compare_modulo_two
  *  {
- *    bool operator()(int x, int y)
+ *    __host__ __device__
+ *    bool operator()(int x, int y) const
  *    {
  *      return (x % 2) == (y % 2);
  *    }
  *  };
  *  ...
- *  int x[5] = {0, 2, 4, 6, 8, 10};
- *  int y[5] = {1, 3, 5, 7, 9, 11};
+ *  int x[6] = {0, 2, 4, 6, 8, 10};
+ *  int y[6] = {1, 3, 5, 7, 9, 11};
  *
  *  bool result = thrust::equal(x, x + 5, y, compare_modulo_two());
  *

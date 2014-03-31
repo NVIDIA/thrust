@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -56,7 +56,6 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
   if (n <= 0) return first;  //empty range
 
   // create a wrapped function for f
-  typedef typename thrust::iterator_reference<RandomAccessIterator>::type reference;
   thrust::detail::wrapped_function<UnaryFunction,void> wrapped_f(f);
 
 // do not attempt to compile the body of this function, which depends on #pragma omp,

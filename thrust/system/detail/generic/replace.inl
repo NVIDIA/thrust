@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -91,7 +91,6 @@ __host__ __device__
                                  Predicate pred,
                                  const T &new_value)
 {
-  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
 
   detail::new_value_if<Predicate,T,OutputType> op(pred,new_value);

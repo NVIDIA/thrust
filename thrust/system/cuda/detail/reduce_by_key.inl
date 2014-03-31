@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -277,8 +277,6 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
 
     return thrust::make_pair(keys_result + result_size, values_result + result_size);
   } // end if
-
-  typedef typename thrust::iterator_value<InputIterator1>::type  key_type;
 
   typedef typename reduce_by_key_detail::intermediate_type<
     InputIterator2, OutputIterator2, BinaryFunction

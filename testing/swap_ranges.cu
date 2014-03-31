@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/swap.h>
 #include <thrust/iterator/iterator_traits.h> 
+#include <thrust/iterator/retag.h>
 #include <thrust/system/cpp/memory.h>
 
 
