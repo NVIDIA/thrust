@@ -15,20 +15,27 @@
 
 struct ping
 {
+  // XXX nvcc issue prevents us from making ball volatile
+  //__device__
+  //void operator()(volatile int &ball)
   __device__
-  void operator()(volatile int &ball)
+  void operator()(int &ball)
   {
+    // we're not guaranteed concurrency, so only attempt this 1000 times
+    unsigned int attempt = 0;
+
     ball = 1;
 
     for(unsigned int next_state = 2;
-        next_state < 25;
+        next_state < 25 && attempt < 1000;
         next_state += 2)
     {
-      while(ball != next_state)
+      while(ball != next_state && attempt < 1000)
       {
 #if __CUDA_ARCH__ >= 200
         printf("ping waiting for return\n");
 #endif
+        ++attempt;
       }
 
       ball += 1;
@@ -42,18 +49,25 @@ struct ping
 
 struct pong
 {
+  // XXX nvcc issue prevents us from making ball volatile
+  //__device__
+  //void operator()(volatile int &ball)
   __device__
-  void operator()(volatile int &ball)
+  void operator()(int &ball)
   {
+    // we're not guaranteed concurrency, so only attempt this 1000 times
+    unsigned int attempt = 0;
+
     for(unsigned int next_state = 1;
-        next_state < 25;
+        next_state < 25 && attempt < 1000;
         next_state += 2)
     {
-      while(ball != next_state)
+      while(ball != next_state && attempt < 1000)
       {
 #if __CUDA_ARCH__ >= 200
         printf("pong waiting for return\n");
 #endif
+        ++attempt;
       }
 
       ball += 1;
