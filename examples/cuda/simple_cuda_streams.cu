@@ -108,8 +108,6 @@ int main()
   cudaStreamDestroy(s1);
   cudaStreamDestroy(s2);
 
-  assert(ball[0] == 25);
-
   return 0;
 }
 
