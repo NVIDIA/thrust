@@ -165,3 +165,37 @@ void TestReplaceCopyIfStencilDeviceSeq(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfStencilDeviceSeq);
 
+
+void TestReplaceCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector data(5);
+  data[0] =  1; 
+  data[1] =  2; 
+  data[2] =  1;
+  data[3] =  3; 
+  data[4] =  2; 
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  thrust::replace(thrust::cuda::par(s), data.begin(), data.end(), (T) 1, (T) 4);
+  thrust::replace(thrust::cuda::par(s), data.begin(), data.end(), (T) 2, (T) 5);
+
+  cudaStreamSynchronize(s);
+
+  Vector result(5);
+  result[0] =  4; 
+  result[1] =  5; 
+  result[2] =  4;
+  result[3] =  3; 
+  result[4] =  5; 
+
+  ASSERT_EQUAL(data, result);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestReplaceCudaStreams);
+

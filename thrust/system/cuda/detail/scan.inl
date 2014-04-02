@@ -178,6 +178,8 @@ template<typename DerivedPolicy,
   typedef typename thrust::iterator_difference<InputIterator>::type Size;
 
   Size n = last - first;
+
+  cudaStream_t s = stream(thrust::detail::derived_cast(exec));
   
   const Size threshold_of_parallelism = 20000;
 
@@ -190,7 +192,7 @@ template<typename DerivedPolicy,
 
     typedef bulk_::detail::scan_detail::scan_buffer<groupsize,3,InputIterator,OutputIterator,AssociativeOperator> heap_type;
     Size heap_size = sizeof(heap_type);
-    bulk_::async(bulk_::con<groupsize,3>(heap_size), scan_detail::inclusive_scan_n(), bulk::root, first, n, result, binary_op);
+    bulk_::async(bulk_::grid<groupsize,3>(1, heap_size, s), scan_detail::inclusive_scan_n(), bulk_::root.this_exec, first, n, result, binary_op);
 
     // XXX WAR unused variable warning
     (void) groupsize;
@@ -222,7 +224,7 @@ template<typename DerivedPolicy,
     // Run the parallel raking reduce as an upsweep.
     // n loads + num_groups stores
     Size heap_size = groupsize * sizeof(intermediate_type);
-    bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size), scan_detail::accumulate_tiles(), bulk_::root.this_exec, first, decomp, carries.begin(), binary_op);
+    bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size,s), scan_detail::accumulate_tiles(), bulk_::root.this_exec, first, decomp, carries.begin(), binary_op);
 
     // scan the sums to get the carries
     // num_groups loads + num_groups stores
@@ -230,7 +232,7 @@ template<typename DerivedPolicy,
     const Size grainsize2 = 3;
     typedef bulk_::detail::scan_detail::scan_buffer<groupsize2,grainsize2,InputIterator,OutputIterator,AssociativeOperator> heap_type2;
     heap_size = sizeof(heap_type2);
-    bulk_::async(bulk_::con<groupsize2,grainsize2>(heap_size), scan_detail::inclusive_scan_n(), bulk_::root, carries.begin(), num_groups, carries.begin(), binary_op);
+    bulk_::async(bulk_::grid<groupsize2,grainsize2>(1,heap_size,s), scan_detail::inclusive_scan_n(), bulk_::root.this_exec, carries.begin(), num_groups, carries.begin(), binary_op);
 
     // do the downsweep - n loads, n stores
     typedef bulk_::detail::scan_detail::scan_buffer<
@@ -239,7 +241,7 @@ template<typename DerivedPolicy,
       InputIterator,OutputIterator,AssociativeOperator
     > heap_type3;
     heap_size = sizeof(heap_type3);
-    bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size), scan_detail::inclusive_downsweep(), bulk_::root.this_exec, first, decomp, carries.begin(), result, binary_op);
+    bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size,s), scan_detail::inclusive_downsweep(), bulk_::root.this_exec, first, decomp, carries.begin(), result, binary_op);
 
     // XXX WAR unused variable warnings
     (void) groupsize2;
@@ -273,6 +275,8 @@ template<typename DerivedPolicy,
   typedef typename thrust::iterator_difference<InputIterator>::type Size;
 
   Size n = last - first;
+
+  cudaStream_t s = stream(thrust::detail::derived_cast(exec));
   
   const Size threshold_of_parallelism = 20000;
 
@@ -285,7 +289,7 @@ template<typename DerivedPolicy,
 
     typedef bulk_::detail::scan_detail::scan_buffer<groupsize,3,InputIterator,OutputIterator,AssociativeOperator> heap_type;
     Size heap_size = sizeof(heap_type);
-    bulk_::async(bulk_::con<groupsize,3>(heap_size), scan_detail::exclusive_scan_n(), bulk::root, first, n, result, init, binary_op);
+    bulk_::async(bulk_::grid<groupsize,3>(1, heap_size, s), scan_detail::exclusive_scan_n(), bulk_::root.this_exec, first, n, result, init, binary_op);
 
     // XXX WAR unused variable warning
     (void) groupsize;
@@ -317,7 +321,7 @@ template<typename DerivedPolicy,
     // Run the parallel raking reduce as an upsweep.
     // n loads + num_groups stores
     Size heap_size = groupsize * sizeof(intermediate_type);
-    bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size), scan_detail::accumulate_tiles(), bulk::root.this_exec, first, decomp, carries.begin(), binary_op);
+    bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size,s), scan_detail::accumulate_tiles(), bulk_::root.this_exec, first, decomp, carries.begin(), binary_op);
     
     // scan the sums to get the carries
     // num_groups loads + num_groups stores
@@ -326,7 +330,7 @@ template<typename DerivedPolicy,
 
     typedef bulk_::detail::scan_detail::scan_buffer<groupsize2,grainsize2,InputIterator,OutputIterator,AssociativeOperator> heap_type2;
     heap_size = sizeof(heap_type2);
-    bulk_::async(bulk_::con<groupsize2,grainsize2>(heap_size), scan_detail::exclusive_scan_n(), bulk::root, carries.begin(), num_groups, carries.begin(), init, binary_op);
+    bulk_::async(bulk_::grid<groupsize2,grainsize2>(1,heap_size,s), scan_detail::exclusive_scan_n(), bulk_::root.this_exec, carries.begin(), num_groups, carries.begin(), init, binary_op);
 
     // do the downsweep - n loads, n stores
     typedef bulk_::detail::scan_detail::scan_buffer<
@@ -335,7 +339,7 @@ template<typename DerivedPolicy,
       InputIterator,OutputIterator,AssociativeOperator
     > heap_type3;
     heap_size = sizeof(heap_type3);
-    bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size), scan_detail::exclusive_downsweep(), bulk::root.this_exec, first, decomp, carries.begin(), result, binary_op);
+    bulk_::async(bulk_::grid<groupsize,grainsize>(num_groups,heap_size,s), scan_detail::exclusive_downsweep(), bulk_::root.this_exec, first, decomp, carries.begin(), result, binary_op);
 
     // XXX WAR unused variable warnings
     (void) groupsize2;

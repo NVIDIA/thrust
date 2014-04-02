@@ -158,3 +158,77 @@ void TestReduceByKeyDeviceSeq()
 }
 DECLARE_UNITTEST(TestReduceByKeyDeviceSeq);
 
+
+void TestReduceByKeyCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector keys;
+  Vector values;
+
+  typename thrust::pair<typename Vector::iterator, typename Vector::iterator> new_last;
+
+  // basic test
+  initialize_keys(keys);  initialize_values(values);
+
+  Vector output_keys(keys.size());
+  Vector output_values(values.size());
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  new_last = thrust::reduce_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin());
+
+  ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
+  ASSERT_EQUAL(new_last.second - output_values.begin(), 5);
+  ASSERT_EQUAL(output_keys[0], 11);
+  ASSERT_EQUAL(output_keys[1], 21);
+  ASSERT_EQUAL(output_keys[2], 20);
+  ASSERT_EQUAL(output_keys[3], 21);
+  ASSERT_EQUAL(output_keys[4], 37);
+  
+  ASSERT_EQUAL(output_values[0],  1);
+  ASSERT_EQUAL(output_values[1],  2);
+  ASSERT_EQUAL(output_values[2],  3);
+  ASSERT_EQUAL(output_values[3], 15);
+  ASSERT_EQUAL(output_values[4], 15);
+
+  // test BinaryPredicate
+  initialize_keys(keys);  initialize_values(values);
+  
+  new_last = thrust::reduce_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_reduce<T>());
+
+  ASSERT_EQUAL(new_last.first  - output_keys.begin(),   3);
+  ASSERT_EQUAL(new_last.second - output_values.begin(), 3);
+  ASSERT_EQUAL(output_keys[0], 11);
+  ASSERT_EQUAL(output_keys[1], 21);
+  ASSERT_EQUAL(output_keys[2], 37);
+  
+  ASSERT_EQUAL(output_values[0],  1);
+  ASSERT_EQUAL(output_values[1], 20);
+  ASSERT_EQUAL(output_values[2], 15);
+
+  // test BinaryFunction
+  initialize_keys(keys);  initialize_values(values);
+
+  new_last = thrust::reduce_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), thrust::equal_to<T>(), thrust::plus<T>());
+
+  ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
+  ASSERT_EQUAL(new_last.second - output_values.begin(), 5);
+  ASSERT_EQUAL(output_keys[0], 11);
+  ASSERT_EQUAL(output_keys[1], 21);
+  ASSERT_EQUAL(output_keys[2], 20);
+  ASSERT_EQUAL(output_keys[3], 21);
+  ASSERT_EQUAL(output_keys[4], 37);
+  
+  ASSERT_EQUAL(output_values[0],  1);
+  ASSERT_EQUAL(output_values[1],  2);
+  ASSERT_EQUAL(output_values[2],  3);
+  ASSERT_EQUAL(output_values[3], 15);
+  ASSERT_EQUAL(output_values[4], 15);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestReduceByKeyCudaStreams);
+

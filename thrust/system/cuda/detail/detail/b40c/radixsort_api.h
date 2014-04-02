@@ -232,13 +232,13 @@ protected:
 	 * Performs a distribution sorting pass over a single digit place
 	 */
 	template <int PASS, int RADIX_BITS, int BIT, typename PreprocessFunctor, typename PostprocessFunctor>
-	cudaError_t DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage); 
+	cudaError_t DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage, cudaStream_t stream); 
 	
 	/**
 	 * Enacts a sorting operation by performing the the appropriate 
 	 * digit-place passes.  To be overloaded by specialized subclasses.
 	 */
-	virtual cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage) = 0;
+	virtual cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage, cudaStream_t stream) = 0;
 	
 public:
 	
@@ -289,7 +289,7 @@ public:
 	 *
 	 * @return cudaSuccess on success, error enumeration otherwise
 	 */
-	cudaError_t EnactSort(RadixSortStorage<K, V> &problem_storage);	
+	cudaError_t EnactSort(RadixSortStorage<K, V> &problem_storage, cudaStream_t s = 0);	
 
     /*
      * Destructor
@@ -463,7 +463,7 @@ CanFit()
 template <typename K, typename V>
 template <int PASS, int RADIX_BITS, int BIT, typename PreprocessFunctor, typename PostprocessFunctor>
 cudaError_t BaseRadixSortingEnactor<K, V>::
-DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
+DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage, cudaStream_t stream)
 {
 	int threads = B40C_RADIXSORT_THREADS;
 	int dynamic_smem;
@@ -478,14 +478,14 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 
 	// Run tesla flush kernel if we have two or more threadblocks for each of the SMs
 	if ((_device_sm_version == 130) && (_work_decomposition.num_elements > static_cast<unsigned int>(_device_props.multiProcessorCount * _cycle_elements * 2))) { 
-		FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
+		FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes, stream>>>();
 		synchronize_if_enabled("FlushKernel");
 	}
 
 	// GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
 	dynamic_smem = (_kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - reduce_kernel_attrs.sharedSizeBytes : 0;
 
-	RakingReduction<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor> <<<_grid_size, threads, dynamic_smem>>>(
+	RakingReduction<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor> <<<_grid_size, threads, dynamic_smem, stream>>>(
 		converted_storage.d_from_alt_storage,
 		converted_storage.d_spine,
 		converted_storage.d_keys,
@@ -501,7 +501,7 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 	// GF100 and GT200 get the same smem allocation for every kernel launch (pad the reduction/top-level-scan kernels)
 	dynamic_smem = (_kernel_ptx_version >= 130) ? scan_scatter_attrs.sharedSizeBytes - _spine_scan_kernel_attrs.sharedSizeBytes : 0;
 	
-	SrtsScanSpine<void><<<_grid_size, B40C_RADIXSORT_SPINE_THREADS, dynamic_smem>>>(
+	SrtsScanSpine<void><<<_grid_size, B40C_RADIXSORT_SPINE_THREADS, dynamic_smem, stream>>>(
 		converted_storage.d_spine,
 		converted_storage.d_spine,
 		_spine_elements);
@@ -514,11 +514,11 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 	
 	// Run tesla flush kernel if we have two or more threadblocks for each of the SMs
 	if ((_device_sm_version == 130) && (_work_decomposition.num_elements > static_cast<unsigned int>(_device_props.multiProcessorCount * _cycle_elements * 2))) { 
-		FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes>>>();
+		FlushKernel<void><<<_grid_size, B40C_RADIXSORT_THREADS, scan_scatter_attrs.sharedSizeBytes, stream>>>();
 		synchronize_if_enabled("FlushKernel");
 	}
 
-	ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor> <<<_grid_size, threads, 0>>>(
+	ScanScatterDigits<ConvertedKeyType, V, PASS, RADIX_BITS, BIT, PreprocessFunctor, PostprocessFunctor> <<<_grid_size, threads, 0, stream>>>(
 		converted_storage.d_from_alt_storage,
 		converted_storage.d_spine,
 		converted_storage.d_keys,
@@ -535,25 +535,8 @@ DigitPlacePass(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
 
 template <typename K, typename V>
 cudaError_t BaseRadixSortingEnactor<K, V>::
-EnactSort(RadixSortStorage<K, V> &problem_storage) 
+EnactSort(RadixSortStorage<K, V> &problem_storage, cudaStream_t stream) 
 {
-	//
-	// Allocate device memory for temporary storage (if necessary)
-	//
-
-	if (problem_storage.d_alt_keys == NULL) {
-		cudaMalloc((void**) &problem_storage.d_alt_keys, _num_elements * sizeof(K));
-	}
-	if (!_keys_only && (problem_storage.d_alt_values == NULL)) {
-		cudaMalloc((void**) &problem_storage.d_alt_values, _num_elements * sizeof(V));
-	}
-	if (problem_storage.d_spine == NULL) {
-		cudaMalloc((void**) &problem_storage.d_spine, _spine_elements * sizeof(int));
-	}
-	if (problem_storage.d_from_alt_storage == NULL) {
-		cudaMalloc((void**) &problem_storage.d_from_alt_storage, 2 * sizeof(bool));
-	}
-
 	// Determine suitable type of unsigned byte storage to use for keys 
 	typedef typename KeyConversion<K>::UnsignedBits ConvertedKeyType;
 	
@@ -574,7 +557,7 @@ EnactSort(RadixSortStorage<K, V> &problem_storage)
 			_grid_size, B40C_RADIXSORT_SPINE_THREADS, _spine_elements);
 	}	
 
-	cudaError_t retval = EnactDigitPlacePasses(converted_storage);
+	cudaError_t retval = EnactDigitPlacePasses(converted_storage, stream);
 
 	
 	//
@@ -641,10 +624,10 @@ protected:
 	typedef BaseRadixSortingEnactor<K, V> Base; 
 	typedef typename Base::ConvertedKeyType ConvertedKeyType;
 
-	cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
+	cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage, cudaStream_t stream)
 	{
-		Base::template DigitPlacePass<0, 4, 0, PreprocessKeyFunctor<K>,      NopFunctor<ConvertedKeyType> >(converted_storage);
-		Base::template DigitPlacePass<1, 4, 4, NopFunctor<ConvertedKeyType>, PostprocessKeyFunctor<K> >    (converted_storage); 
+		Base::template DigitPlacePass<0, 4, 0, PreprocessKeyFunctor<K>,      NopFunctor<ConvertedKeyType> >(converted_storage, stream);
+		Base::template DigitPlacePass<1, 4, 4, NopFunctor<ConvertedKeyType>, PostprocessKeyFunctor<K> >    (converted_storage, stream); 
 
 		return cudaSuccess;
 	}
@@ -678,12 +661,12 @@ protected:
 	typedef BaseRadixSortingEnactor<K, V> Base; 
 	typedef typename Base::ConvertedKeyType ConvertedKeyType;
 
-	cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
+	cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage, cudaStream_t stream)
 	{
-		Base::template DigitPlacePass<0, 4, 0,  PreprocessKeyFunctor<K>,      NopFunctor<ConvertedKeyType> >(converted_storage);
-		Base::template DigitPlacePass<1, 4, 4,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<2, 4, 8,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<3, 4, 12, NopFunctor<ConvertedKeyType>, PostprocessKeyFunctor<K> >    (converted_storage); 
+		Base::template DigitPlacePass<0, 4, 0,  PreprocessKeyFunctor<K>,      NopFunctor<ConvertedKeyType> >(converted_storage, stream);
+		Base::template DigitPlacePass<1, 4, 4,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<2, 4, 8,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<3, 4, 12, NopFunctor<ConvertedKeyType>, PostprocessKeyFunctor<K> >    (converted_storage, stream); 
 
 		return cudaSuccess;
 	}
@@ -716,16 +699,16 @@ protected:
 	typedef BaseRadixSortingEnactor<K, V> Base; 
 	typedef typename Base::ConvertedKeyType ConvertedKeyType;
 
-	cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
+	cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage, cudaStream_t stream)
 	{
-		Base::template DigitPlacePass<0, 4, 0,  PreprocessKeyFunctor<K>,      NopFunctor<ConvertedKeyType> >(converted_storage);
-		Base::template DigitPlacePass<1, 4, 4,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<2, 4, 8,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<3, 4, 12, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<4, 4, 16, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<5, 4, 20, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<6, 4, 24, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<7, 4, 28, NopFunctor<ConvertedKeyType>, PostprocessKeyFunctor<K> >    (converted_storage); 
+		Base::template DigitPlacePass<0, 4, 0,  PreprocessKeyFunctor<K>,      NopFunctor<ConvertedKeyType> >(converted_storage, stream);
+		Base::template DigitPlacePass<1, 4, 4,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<2, 4, 8,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<3, 4, 12, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<4, 4, 16, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<5, 4, 20, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<6, 4, 24, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<7, 4, 28, NopFunctor<ConvertedKeyType>, PostprocessKeyFunctor<K> >    (converted_storage, stream); 
 
 		return cudaSuccess;
 	}
@@ -759,24 +742,24 @@ protected:
 	typedef BaseRadixSortingEnactor<K, V> Base; 
 	typedef typename Base::ConvertedKeyType ConvertedKeyType;
 
-	cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage)
+	cudaError_t EnactDigitPlacePasses(const RadixSortStorage<ConvertedKeyType, V> &converted_storage, cudaStream_t stream)
 	{
-		Base::template DigitPlacePass<0,  4, 0,  PreprocessKeyFunctor<K>,      NopFunctor<ConvertedKeyType> >(converted_storage);
-		Base::template DigitPlacePass<1,  4, 4,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<2,  4, 8,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<3,  4, 12, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<4,  4, 16, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<5,  4, 20, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<6,  4, 24, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<7,  4, 28, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<8,  4, 32, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage);
-		Base::template DigitPlacePass<9,  4, 36, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<10, 4, 40, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<11, 4, 44, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<12, 4, 48, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<13, 4, 52, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<14, 4, 56, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage); 
-		Base::template DigitPlacePass<15, 4, 60, NopFunctor<ConvertedKeyType>, PostprocessKeyFunctor<K> >    (converted_storage); 
+		Base::template DigitPlacePass<0,  4, 0,  PreprocessKeyFunctor<K>,      NopFunctor<ConvertedKeyType> >(converted_storage, stream);
+		Base::template DigitPlacePass<1,  4, 4,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<2,  4, 8,  NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<3,  4, 12, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<4,  4, 16, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<5,  4, 20, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<6,  4, 24, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<7,  4, 28, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<8,  4, 32, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream);
+		Base::template DigitPlacePass<9,  4, 36, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<10, 4, 40, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<11, 4, 44, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<12, 4, 48, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<13, 4, 52, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<14, 4, 56, NopFunctor<ConvertedKeyType>, NopFunctor<ConvertedKeyType> >(converted_storage, stream); 
+		Base::template DigitPlacePass<15, 4, 60, NopFunctor<ConvertedKeyType>, PostprocessKeyFunctor<K> >    (converted_storage, stream); 
 
 		return cudaSuccess;
 	}

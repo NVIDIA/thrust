@@ -52,3 +52,30 @@ void TestEqualDeviceSeq(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestEqualDeviceSeq);
 
+
+void TestEqualCudaStreams()
+{
+  thrust::device_vector<int> v1(5);
+  thrust::device_vector<int> v2(5);
+  v1[0] = 5; v1[1] = 2; v1[2] = 0; v1[3] = 0; v1[4] = 0;
+  v2[0] = 5; v2[1] = 2; v2[2] = 0; v2[3] = 6; v2[4] = 1;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.end(), v1.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin()), false);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v2.begin(), v2.end(), v2.begin()), true);
+  
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.begin() + 0, v1.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.begin() + 1, v1.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.begin() + 3, v2.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.begin() + 4, v2.begin()), false);
+  
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin(), thrust::less_equal<int>()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin(), thrust::greater<int>()),    false);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestEqualCudaStreams);
+

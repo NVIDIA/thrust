@@ -270,7 +270,7 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
     const int grainsize = (sizeof(value_type) == sizeof(int)) ? 3 : 5;
 
     size_type heap_size = groupsize * grainsize * (sizeof(size_type) + sizeof(value_type));
-    bulk_::async(bulk_::grid<groupsize,grainsize>(1,heap_size), reduce_by_key_detail::reduce_by_key_kernel(),
+    bulk_::async(bulk_::grid<groupsize,grainsize>(1,heap_size,stream(thrust::detail::derived_cast(exec))), reduce_by_key_detail::reduce_by_key_kernel(),
       bulk_::root.this_exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op, result_size_storage.begin());
 
     size_type result_size = result_size_storage[0];
@@ -304,14 +304,14 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
   reduce_intervals_(exec, tail_flags.begin(), decomp, interval_output_offsets.begin(), thrust::plus<size_type>());
 
   // scan the interval counts
-  thrust::inclusive_scan(interval_output_offsets.begin(), interval_output_offsets.end(), interval_output_offsets.begin());
+  thrust::inclusive_scan(exec, interval_output_offsets.begin(), interval_output_offsets.end(), interval_output_offsets.begin());
 
   // reduce each interval
   thrust::detail::temporary_array<bool,DerivedPolicy> is_carry(exec, decomp.size());
   thrust::detail::temporary_array<intermediate_type,DerivedPolicy> interval_values(exec, decomp.size());
 
   size_type heap_size = tile_size * (sizeof(size_type) + sizeof(value_type));
-  bulk_::async(bulk_::grid<groupsize,grainsize>(decomp.size(),heap_size), reduce_by_key_detail::reduce_by_key_kernel(),
+  bulk_::async(bulk_::grid<groupsize,grainsize>(decomp.size(),heap_size,stream(thrust::detail::derived_cast(exec))), reduce_by_key_detail::reduce_by_key_kernel(),
     bulk_::root.this_exec, keys_first, decomp, values_first, keys_result, values_result, interval_output_offsets.begin(), interval_values.begin(), is_carry.begin(), thrust::make_tuple(binary_pred, binary_op)
   );
 

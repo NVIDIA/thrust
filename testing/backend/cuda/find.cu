@@ -147,3 +147,27 @@ struct TestFindIfNotDeviceSeq
 };
 VariableUnitTest<TestFindIfNotDeviceSeq, SignedIntegralTypes> TestFindIfNotDeviceSeqInstance;
 
+
+void TestFindCudaStreams()
+{
+  thrust::device_vector<int> vec(5);
+  vec[0] = 1;
+  vec[1] = 2;
+  vec[2] = 3;
+  vec[3] = 3;
+  vec[4] = 5;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 0) - vec.begin(), 5);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 1) - vec.begin(), 0);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 2) - vec.begin(), 1);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 3) - vec.begin(), 2);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 4) - vec.begin(), 5);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 5) - vec.begin(), 4);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestFindCudaStreams);
+

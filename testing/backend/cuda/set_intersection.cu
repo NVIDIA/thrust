@@ -41,3 +41,35 @@ void TestSetIntersectionDeviceSeq()
 }
 DECLARE_UNITTEST(TestSetIntersectionDeviceSeq);
 
+
+void TestSetIntersectionCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::iterator Iterator;
+
+  Vector a(3), b(4);
+
+  a[0] = 0; a[1] = 2; a[2] = 4;
+  b[0] = 0; b[1] = 3; b[2] = 3; b[3] = 4;
+
+  Vector ref(2);
+  ref[0] = 0; ref[1] = 4;
+
+  Vector result(2);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  Iterator end = thrust::set_intersection(thrust::cuda::par(s),
+                                          a.begin(), a.end(),
+                                          b.begin(), b.end(),
+                                          result.begin());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL_QUIET(result.end(), end);
+  ASSERT_EQUAL(ref, result);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestSetIntersectionCudaStreams);
+

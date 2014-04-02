@@ -35,3 +35,31 @@ void TestPartitionPointDeviceSeq(size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestPartitionPointDeviceSeq);
 
+
+void TestPartitionPointCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  typedef typename Vector::iterator Iterator;
+
+  Vector v(4);
+  v[0] = 1; v[1] = 1; v[2] = 1; v[3] = 0;
+
+  Iterator first = v.begin();
+
+  Iterator last = v.begin() + 4;
+  Iterator ref = first + 3;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par(s), first, last, thrust::identity<T>()));
+
+  last = v.begin() + 3;
+  ref = last;
+  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par(s), first, last, thrust::identity<T>()));
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestPartitionPointCudaStreams);
+

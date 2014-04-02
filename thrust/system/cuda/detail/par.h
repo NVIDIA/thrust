@@ -19,6 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/detail/execute_with_allocator.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
 {
@@ -35,10 +36,24 @@ struct par_t : thrust::system::cuda::detail::execution_policy<par_t>
   par_t() : thrust::system::cuda::detail::execution_policy<par_t>() {}
 
   template<typename Allocator>
-    thrust::detail::execute_with_allocator<Allocator, thrust::system::cuda::detail::execution_policy>
+    thrust::detail::execute_with_allocator<Allocator, execute_on_stream_base>
       operator()(Allocator &alloc) const
   {
-    return thrust::detail::execute_with_allocator<Allocator, thrust::system::cuda::detail::execution_policy>(alloc);
+    return thrust::detail::execute_with_allocator<Allocator, execute_on_stream_base>(alloc);
+  }
+
+  inline execute_on_stream operator()(cudaStream_t stream) const
+  {
+    return execute_on_stream(stream);
+  }
+
+  template<typename Allocator>
+    thrust::detail::execute_with_allocator<Allocator, execute_on_stream_base>
+      operator()(Allocator &alloc, cudaStream_t stream) const
+  {
+    typedef thrust::detail::execute_with_allocator<Allocator, execute_on_stream_base> result_type;
+
+    return result_type(execute_on_stream_base<result_type>(stream), alloc);
   }
 };
 

@@ -79,3 +79,136 @@ void TestScanByKeyDeviceSeq(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestScanByKeyDeviceSeq);
 
+
+void TestInclusiveScanByKeyCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  typedef typename Vector::iterator   Iterator;
+
+  Vector keys(7);
+  Vector vals(7);
+
+  Vector output(7, 0);
+
+  keys[0] = 0; vals[0] = 1;
+  keys[1] = 1; vals[1] = 2;
+  keys[2] = 1; vals[2] = 3;
+  keys[3] = 1; vals[3] = 4;
+  keys[4] = 2; vals[4] = 5;
+  keys[5] = 3; vals[5] = 6;
+  keys[6] = 3; vals[6] = 7;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  Iterator iter = thrust::inclusive_scan_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), vals.begin(), output.begin());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL_QUIET(iter, output.end());
+
+  ASSERT_EQUAL(output[0],  1);
+  ASSERT_EQUAL(output[1],  2);
+  ASSERT_EQUAL(output[2],  5);
+  ASSERT_EQUAL(output[3],  9);
+  ASSERT_EQUAL(output[4],  5);
+  ASSERT_EQUAL(output[5],  6);
+  ASSERT_EQUAL(output[6], 13);
+  
+  thrust::inclusive_scan_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), vals.begin(), output.begin(), thrust::equal_to<T>(), thrust::multiplies<T>());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(output[0],  1);
+  ASSERT_EQUAL(output[1],  2);
+  ASSERT_EQUAL(output[2],  6);
+  ASSERT_EQUAL(output[3], 24);
+  ASSERT_EQUAL(output[4],  5);
+  ASSERT_EQUAL(output[5],  6);
+  ASSERT_EQUAL(output[6], 42);
+  
+  thrust::inclusive_scan_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), vals.begin(), output.begin(), thrust::equal_to<T>());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(output[0],  1);
+  ASSERT_EQUAL(output[1],  2);
+  ASSERT_EQUAL(output[2],  5);
+  ASSERT_EQUAL(output[3],  9);
+  ASSERT_EQUAL(output[4],  5);
+  ASSERT_EQUAL(output[5],  6);
+  ASSERT_EQUAL(output[6], 13);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestInclusiveScanByKeyCudaStreams);
+
+
+void TestExclusiveScanByKeyCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  typedef typename Vector::iterator   Iterator;
+
+  Vector keys(7);
+  Vector vals(7);
+
+  Vector output(7, 0);
+
+  keys[0] = 0; vals[0] = 1;
+  keys[1] = 1; vals[1] = 2;
+  keys[2] = 1; vals[2] = 3;
+  keys[3] = 1; vals[3] = 4;
+  keys[4] = 2; vals[4] = 5;
+  keys[5] = 3; vals[5] = 6;
+  keys[6] = 3; vals[6] = 7;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  Iterator iter = thrust::exclusive_scan_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), vals.begin(), output.begin());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL_QUIET(iter, output.end());
+
+  ASSERT_EQUAL(output[0], 0);
+  ASSERT_EQUAL(output[1], 0);
+  ASSERT_EQUAL(output[2], 2);
+  ASSERT_EQUAL(output[3], 5);
+  ASSERT_EQUAL(output[4], 0);
+  ASSERT_EQUAL(output[5], 0);
+  ASSERT_EQUAL(output[6], 6);
+
+  thrust::exclusive_scan_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), vals.begin(), output.begin(), T(10));
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(output[0], 10);
+  ASSERT_EQUAL(output[1], 10);
+  ASSERT_EQUAL(output[2], 12);
+  ASSERT_EQUAL(output[3], 15);
+  ASSERT_EQUAL(output[4], 10);
+  ASSERT_EQUAL(output[5], 10);
+  ASSERT_EQUAL(output[6], 16);
+  
+  thrust::exclusive_scan_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), vals.begin(), output.begin(), T(10), thrust::equal_to<T>(), thrust::multiplies<T>());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(output[0], 10);
+  ASSERT_EQUAL(output[1], 10);
+  ASSERT_EQUAL(output[2], 20);
+  ASSERT_EQUAL(output[3], 60);
+  ASSERT_EQUAL(output[4], 10);
+  ASSERT_EQUAL(output[5], 10);
+  ASSERT_EQUAL(output[6], 60);
+  
+  thrust::exclusive_scan_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), vals.begin(), output.begin(), T(10), thrust::equal_to<T>());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(output[0], 10);
+  ASSERT_EQUAL(output[1], 10);
+  ASSERT_EQUAL(output[2], 12);
+  ASSERT_EQUAL(output[3], 15);
+  ASSERT_EQUAL(output[4], 10);
+  ASSERT_EQUAL(output[5], 10);
+  ASSERT_EQUAL(output[6], 16);
+}
+DECLARE_UNITTEST(TestExclusiveScanByKeyCudaStreams);
+

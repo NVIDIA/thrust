@@ -24,6 +24,7 @@
 #include <thrust/system/cuda/detail/bulk.h>
 #include <thrust/system/cuda/detail/decomposition.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
 {
@@ -116,8 +117,7 @@ template<typename DerivedPolicy,
 
   aligned_decomposition<size_type> decomp(n, num_groups, tile_size);
 
-  thrust::cuda::tag t;
-  thrust::detail::temporary_array<OutputType,thrust::cuda::tag> partial_sums(t, decomp.size());
+  thrust::detail::temporary_array<OutputType,DerivedPolicy> partial_sums(exec, decomp.size());
 
   // reduce into partial sums
   bulk::async(bulk::par(g, decomp.size()), reduce_detail::reduce_partitions(), bulk::root.this_exec, first, decomp, partial_sums.begin(), init, binary_op).wait();

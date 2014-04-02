@@ -20,6 +20,7 @@
 #include <thrust/tabulate.h>
 #include <thrust/iterator/detail/join_iterator.h>
 #include <thrust/detail/minmax.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
 {
@@ -192,7 +193,7 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
   // merge partitions
   size_type heap_size = tile_size * sizeof(value_type);
   bulk_::concurrent_group<bulk::agent<grainsize>,groupsize> g(heap_size);
-  bulk_::async(bulk_::par(g, num_groups), merge_detail::merge_kernel(), bulk_::root.this_exec, first1, last1 - first1, first2, last2 - first2, merge_paths.begin(), result, comp);
+  bulk_::async(bulk_::par(stream(thrust::detail::derived_cast(exec)), g, num_groups), merge_detail::merge_kernel(), bulk_::root.this_exec, first1, last1 - first1, first2, last2 - first2, merge_paths.begin(), result, comp);
 
   return result + n;
 } // end merge()

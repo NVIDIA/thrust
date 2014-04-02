@@ -42,3 +42,30 @@ void TestMinElementDeviceSeq(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestMinElementDeviceSeq);
 
+
+void TestMinElementCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector data(6);
+  data[0] = 3;
+  data[1] = 5;
+  data[2] = 1;
+  data[3] = 2;
+  data[4] = 5;
+  data[5] = 1;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  ASSERT_EQUAL( *thrust::min_element(thrust::cuda::par(s), data.begin(), data.end()), 1);
+  ASSERT_EQUAL( thrust::min_element(thrust::cuda::par(s), data.begin(), data.end()) - data.begin(), 2);
+  
+  ASSERT_EQUAL( *thrust::min_element(thrust::cuda::par(s), data.begin(), data.end(), thrust::greater<T>()), 5);
+  ASSERT_EQUAL( thrust::min_element(thrust::cuda::par(s), data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 1);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestMinElementCudaStreams);
+

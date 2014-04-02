@@ -73,3 +73,98 @@ struct TestScanDeviceSeq
 };
 VariableUnitTest<TestScanDeviceSeq, IntegralTypes> TestScanDeviceSeqInstance;
 
+
+void TestScanCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  
+  typename Vector::iterator iter;
+
+  Vector input(5);
+  Vector result(5);
+  Vector output(5);
+
+  input[0] = 1; input[1] = 3; input[2] = -2; input[3] = 4; input[4] = -5;
+
+  Vector input_copy(input);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  // inclusive scan
+  iter = thrust::inclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), output.begin());
+  cudaStreamSynchronize(s);
+
+  result[0] = 1; result[1] = 4; result[2] = 2; result[3] = 6; result[4] = 1;
+  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(input,  input_copy);
+  ASSERT_EQUAL(output, result);
+  
+  // exclusive scan
+  iter = thrust::exclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), 0);
+  cudaStreamSynchronize(s);
+
+  result[0] = 0; result[1] = 1; result[2] = 4; result[3] = 2; result[4] = 6;
+  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(input,  input_copy);
+  ASSERT_EQUAL(output, result);
+  
+  // exclusive scan with init
+  iter = thrust::exclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), 3);
+  cudaStreamSynchronize(s);
+
+  result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
+  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(input,  input_copy);
+  ASSERT_EQUAL(output, result);
+  
+  // inclusive scan with op
+  iter = thrust::inclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), thrust::plus<T>());
+  cudaStreamSynchronize(s);
+
+  result[0] = 1; result[1] = 4; result[2] = 2; result[3] = 6; result[4] = 1;
+  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(input,  input_copy);
+  ASSERT_EQUAL(output, result);
+
+  // exclusive scan with init and op
+  iter = thrust::exclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), 3, thrust::plus<T>());
+  cudaStreamSynchronize(s);
+
+  result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
+  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(input,  input_copy);
+  ASSERT_EQUAL(output, result);
+
+  // inplace inclusive scan
+  input = input_copy;
+  iter = thrust::inclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), input.begin());
+  cudaStreamSynchronize(s);
+
+  result[0] = 1; result[1] = 4; result[2] = 2; result[3] = 6; result[4] = 1;
+  ASSERT_EQUAL(iter - input.begin(), input.size());
+  ASSERT_EQUAL(input, result);
+
+  // inplace exclusive scan with init
+  input = input_copy;
+  iter = thrust::exclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), input.begin(), 3);
+  cudaStreamSynchronize(s);
+
+  result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
+  ASSERT_EQUAL(iter - input.begin(), input.size());
+  ASSERT_EQUAL(input, result);
+
+  // inplace exclusive scan with implicit init=0
+  input = input_copy;
+  iter = thrust::exclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), input.begin());
+  cudaStreamSynchronize(s);
+
+  result[0] = 0; result[1] = 1; result[2] = 4; result[3] = 2; result[4] = 6;
+  ASSERT_EQUAL(iter - input.begin(), input.size());
+  ASSERT_EQUAL(input, result);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestScanCudaStreams);
+

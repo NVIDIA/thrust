@@ -24,6 +24,7 @@
 #include <thrust/distance.h>
 #include <thrust/system/cuda/detail/bulk.h>
 #include <thrust/detail/function.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 
 namespace thrust
@@ -68,7 +69,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
+RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
                                 RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
@@ -80,7 +81,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
 
   kernel_type kernel(first,f);
 
-  bulk::async(bulk::par(n), kernel, bulk::root.this_exec);
+  bulk::async(bulk::par(stream(thrust::detail::derived_cast(exec)), n), kernel, bulk::root.this_exec);
 
   return first + n;
 } 

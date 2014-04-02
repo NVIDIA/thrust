@@ -2,6 +2,7 @@
 
 #include <unittest/testframework.h>
 #include <thrust/system/cuda/memory.h>
+#include <thrust/system_error.h>
 #include <vector>
 
 class CUDATestDriver

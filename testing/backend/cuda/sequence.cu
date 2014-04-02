@@ -57,3 +57,45 @@ void TestSequenceDeviceSeq()
 }
 DECLARE_UNITTEST(TestSequenceDeviceSeq);
 
+
+void TestSequenceCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  
+  Vector v(5);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  thrust::sequence(thrust::cuda::par(s), v.begin(), v.end());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(v[0], 0);
+  ASSERT_EQUAL(v[1], 1);
+  ASSERT_EQUAL(v[2], 2);
+  ASSERT_EQUAL(v[3], 3);
+  ASSERT_EQUAL(v[4], 4);
+
+  thrust::sequence(thrust::cuda::par(s), v.begin(), v.end(), 10);
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(v[0], 10);
+  ASSERT_EQUAL(v[1], 11);
+  ASSERT_EQUAL(v[2], 12);
+  ASSERT_EQUAL(v[3], 13);
+  ASSERT_EQUAL(v[4], 14);
+  
+  thrust::sequence(thrust::cuda::par(s), v.begin(), v.end(), 10, 2);
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL(v[0], 10);
+  ASSERT_EQUAL(v[1], 12);
+  ASSERT_EQUAL(v[2], 14);
+  ASSERT_EQUAL(v[3], 16);
+  ASSERT_EQUAL(v[4], 18);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestSequenceCudaStreams);
+
