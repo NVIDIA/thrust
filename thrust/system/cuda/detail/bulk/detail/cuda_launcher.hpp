@@ -350,7 +350,7 @@ struct cuda_launcher_base
 }; // end cuda_launcher_base
 
 
-template<typename ExecutionGroup, typename Closure> class cuda_launcher;
+template<typename ExecutionGroup, typename Closure> struct cuda_launcher;
 
 
 template<std::size_t gridsize, std::size_t blocksize, std::size_t grainsize, typename Closure>

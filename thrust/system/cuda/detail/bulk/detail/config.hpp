@@ -33,3 +33,9 @@
 #  define __bulk_hd_warning_disable__
 #endif // __bulk_hd_warning_disable__
 
+#include <thrust/version.h>
+
+#if THRUST_VERSION < 100800
+#error "Bulk requires Thrust v1.8 (http://thrust.github.io) or better."
+#endif
+
