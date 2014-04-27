@@ -265,6 +265,9 @@ struct cuda_launcher_base
     // figure out the kernel's occupancy with 0 bytes of dynamic smem
     size_type occupancy = max_active_blocks_per_multiprocessor(props, attr, num_threads_per_block, num_smem_bytes_per_block);
 
+    // if the kernel footprint is already too large, return (0,0)
+    if(occupancy < 1) return thrust::make_pair(0,0);
+
     return thrust::make_pair(thrust::system::cuda::detail::proportional_smem_allocation(props, attr, occupancy), occupancy);
   } // end smem_occupancy_limit()
 
