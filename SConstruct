@@ -5,6 +5,7 @@ import os
 import platform
 import glob
 import itertools
+import subprocess
 
 
 def RecursiveGlob(env, pattern, directory = Dir('.'), exclude = '\B'):
@@ -37,6 +38,19 @@ gnu_compiler_flags = {
   'workarounds'        : []
 }
 
+clang_compiler_flags = {
+  'warn_all'           : ['-Wall'],
+  'warnings_as_errors' : ['-Werror'],
+  'release'            : ['-O2'],
+  'debug'              : ['-g'],
+  'exception_handling' : [],
+  'cpp'                : [],
+  'omp'                : ['-fopenmp'],
+  'tbb'                : [],
+  'cuda'               : [],
+  'workarounds'        : []
+}
+
 msvc_compiler_flags = {
   'warn_all'           : ['/Wall'],
   'warnings_as_errors' : ['/WX'],
@@ -55,13 +69,20 @@ msvc_compiler_flags = {
 
 compiler_to_flags = {
   'g++' : gnu_compiler_flags,
-  'cl'  : msvc_compiler_flags
+  'cl'  : msvc_compiler_flags,
+  'clang++'  : clang_compiler_flags
 }
 
 gnu_linker_flags = {
   'debug'       : [],
   'release'     : [],
   'workarounds' : []
+}
+
+clang_linker_flags = {
+  'debug'       : [],
+  'release'     : [],
+  'workarounds' : ['-stdlib=libstdc++']
 }
 
 msvc_linker_flags = {
@@ -72,7 +93,8 @@ msvc_linker_flags = {
 
 linker_to_flags = {
   'gcc'  : gnu_linker_flags,
-  'link' : msvc_linker_flags
+  'link' : msvc_linker_flags,
+  'clang++'  : clang_linker_flags
 }
 
 
@@ -122,6 +144,8 @@ def omp_installation(CXX):
     library_name = 'gomp'
   elif CXX == 'cl':
     library_name = 'VCOMP'
+  elif CXX == 'clang++':
+    raise NotImplementedError, "OpenMP not supported together with clang"
   else:
     raise ValueError, "Unknown compiler. What is the name of the OpenMP library?"
 
@@ -205,6 +229,7 @@ def libs(env, CCX, host_backend, device_backend):
   # we don't have to do this with cl
   if CCX == 'g++':
     result.append('stdc++')
+
 
   # link against backend-specific runtimes
   if host_backend == 'cuda' or device_backend == 'cuda':
@@ -302,6 +327,13 @@ def nv_compiler_flags(mode, device_backend, arch):
     pass
   if device_backend != 'cuda':
     result.append("--x=c++")
+
+  if device_backend == 'cuda' and master_env['PLATFORM'] == 'darwin':
+    (release, versioninfo, machine) = platform.mac_ver()
+    if(release[0:5] == '10.8.'):
+      result.append('-ccbin')
+      result.append(master_env.subst('$CXX'))
+
   return result
 
 
@@ -357,9 +389,24 @@ if master_env['PLATFORM'] == 'posix':
   master_env['ENV'].setdefault('LD_LIBRARY_PATH', []).append(cuda_installation()[1])
 elif master_env['PLATFORM'] == 'darwin':
   master_env['ENV'].setdefault('DYLD_LIBRARY_PATH', []).append(cuda_installation()[1])
+  # Check if g++ really is g++
+  if(master_env.subst('$CXX') == 'g++'):
+    output = subprocess.check_output(['g++','--version'])
+    if(output.find('clang') != -1):
+      # It's actually clang
+      master_env.Replace(CXX = 'clang++')
+  if(master_env.subst('$CC') == 'gcc'):
+    output = subprocess.check_output(['gcc','--version'])
+    if(output.find('clang') != -1):
+      # It's actually clang
+      master_env.Replace(CC = 'clang')
+  if(master_env.subst('$LINK') == 'clang'):
+    master_env.Replace(CC = 'clang++')
+
 elif master_env['PLATFORM'] == 'win32':
   master_env['ENV']['TBBROOT'] = os.environ['TBBROOT']
   master_env['ENV']['PATH'] += ';' + tbb_installation(master_env)[0]
+
 
 # get the list of requested backends
 host_backends = master_env.subst('$host_backend').split()
