@@ -1,4 +1,14 @@
 #######################################
+#           Thrust v1.7.2             #
+#######################################
+
+Summary
+    Small bug fixes
+
+Bug Fixes
+    Avoid use of std::min in generic find implementation
+
+#######################################
 #           Thrust v1.7.1             #
 #######################################
 
