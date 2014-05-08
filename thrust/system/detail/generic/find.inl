@@ -86,7 +86,7 @@ InputIterator find_if(thrust::execution_policy<DerivedPolicy> &exec,
 
     // TODO incorporate sizeof(InputType) into interval_threshold and round to multiple of 32
     const difference_type interval_threshold = 1 << 20;
-    const difference_type interval_size = (std::min)(interval_threshold, n);
+    const difference_type interval_size = (thrust::min)(interval_threshold, n);
 
     // force transform_iterator output to bool
     typedef thrust::transform_iterator<Predicate, InputIterator, bool> XfrmIterator;
