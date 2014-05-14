@@ -127,6 +127,7 @@ operator<<(std::basic_ostream<CharType, CharTrait>& o, const tuple_manipulator<C
   return o;
 }
 
+
 template<class CharType, class CharTrait>
 inline std::basic_istream<CharType, CharTrait>&
 operator>>(std::basic_istream<CharType, CharTrait>& i, const tuple_manipulator<CharType>& m) {
@@ -178,6 +179,7 @@ print(std::basic_ostream<CharType, CharTrait>& o, const null_type&) {
   return o; 
 }
 
+
 template<class CharType, class CharTrait, class T1, class T2>
 inline std::basic_ostream<CharType, CharTrait>& 
 print(std::basic_ostream<CharType, CharTrait>& o, const cons<T1, T2>& t) {
@@ -190,6 +192,7 @@ print(std::basic_ostream<CharType, CharTrait>& o, const cons<T1, T2>& t) {
 
   return print(o, t.tail);
 }
+
 
 template<class CharT, class Traits, class T>
 inline bool handle_width(std::basic_ostream<CharT, Traits>& o, const T& t) {
@@ -289,6 +292,7 @@ read (std::basic_istream<CharType, CharTrait> &is, cons<T1, null_type>& t1) {
   return is >> t1.head; 
 }
 
+
 template<class CharType, class CharTrait, class T1, class T2>
 inline std::basic_istream<CharType, CharTrait>& 
 read(std::basic_istream<CharType, CharTrait> &is, cons<T1, T2>& t1) {
@@ -302,6 +306,7 @@ read(std::basic_istream<CharType, CharTrait> &is, cons<T1, T2>& t1) {
 
   return read(is, t1.tail);
 }
+
 
 } // end namespace detail
 
