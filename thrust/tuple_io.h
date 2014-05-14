@@ -37,8 +37,7 @@
 
 // ----------------------------------------------------------------------------
 
-#ifndef THRUST_TUPLE_IO_HPP
-#define THRUST_TUPLE_IO_HPP
+#pragma once
 
 #include <istream>
 #include <ostream>
@@ -347,7 +346,4 @@ operator>>(std::basic_istream<CharType, CharTrait>& is, detail::cons<T1, T2>& t1
 
 
 } // end of namespace thrust
-
-#endif // THRUST_TUPLE_IO_HPP
-
 
