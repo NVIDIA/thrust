@@ -46,11 +46,6 @@
 
 #include <locale> // for two-arg isspace
 
-
-#ifndef THRUST_STATIC_CONSTANT
-#define THRUST_STATIC_CONSTANT( type, assignment) enum { assignment }
-#endif
-
 namespace thrust {
 
 namespace detail {
@@ -59,7 +54,7 @@ class format_info {
 public:   
 
    enum manipulator_type { open, close, delimiter };
-   THRUST_STATIC_CONSTANT(int, number_of_manipulators = delimiter + 1);
+   enum { number_of_manipulators = delimiter + 1 };
 private:
    
    static int get_stream_index (int m)
