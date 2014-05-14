@@ -44,12 +44,6 @@
 
 #include <thrust/tuple.h>
 
-// This is ugly: one should be using twoargument isspace since whitspace can
-// be locale dependent, in theory at least.
-// not all libraries implement have the two-arg version, so we need to 
-// use the one-arg one, which one should get with <cctype> but there seem
-// to be exceptions to this.
-
 #include <locale> // for two-arg isspace
 
 
