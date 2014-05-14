@@ -33,15 +33,12 @@
 
 #include <istream>
 #include <ostream>
+#include <locale> // for two-arg isspace
 
 #include <thrust/tuple.h>
 
-#include <locale> // for two-arg isspace
-
 namespace thrust {
-
 namespace detail {
-
 namespace tuple_detail {
 
 class format_info {
@@ -129,7 +126,6 @@ operator>>(std::basic_istream<CharType, CharTrait>& i, const tuple_manipulator<C
 
 
 } // end namespace tuple_detail
-
 } // end namespace detail
 
 
@@ -152,7 +148,6 @@ inline detail::tuple_detail::tuple_manipulator<CharType> set_delimiter(const Cha
 
 
 namespace detail {
-
 namespace tuple_detail {
 
 
@@ -353,7 +348,6 @@ inline bool handle_width(std::basic_ostream<CharT, Traits>& o, const T& t) {
 
 
 } // end namespace tuple_detail
-
 } // end namespace detail
 
 
@@ -383,7 +377,6 @@ operator<<(std::basic_ostream<CharType, CharTrait>& o,
 // input stream operators
 
 namespace detail {
-
 namespace tuple_detail {
 
 template<class CharType, class CharTrait>
@@ -582,7 +575,6 @@ read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2, T3, 
 
 
 } // end namespace tuple_detail
-
 } // end namespace detail
 
 
