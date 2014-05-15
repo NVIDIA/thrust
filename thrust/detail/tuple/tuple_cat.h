@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/tuple.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/tuple_helpers.h>
+#include <thrust/detail/tuple/tuple_helpers.h>
 
 namespace thrust
 {
@@ -62,7 +62,7 @@ template<typename Tuple1,
          typename Tuple8  = tuple<>,
          typename Tuple9  = tuple<>,
          typename Tuple10 = tuple<> >
-class tuple_cat_result;
+struct tuple_cat_result;
 
 
 template<typename Tuple1, typename Tuple2, typename Tuple3, typename Tuple4,

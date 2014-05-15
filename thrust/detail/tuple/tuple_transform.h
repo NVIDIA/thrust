@@ -17,7 +17,7 @@
 #pragma once
 
 #include <thrust/tuple.h>
-#include <thrust/detail/tuple_meta_transform.h>
+#include <thrust/detail/tuple/tuple_meta_transform.h>
 
 namespace thrust
 {

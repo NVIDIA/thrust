@@ -31,7 +31,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/tuple.inl>
+#include <thrust/detail/tuple/tuple.h>
 #include <thrust/pair.h>
 
 namespace thrust
@@ -580,4 +580,7 @@ bool operator>(const null_type&, const null_type&);
  */
 
 } // end thrust
+
+#include <thrust/detail/tuple/tuple_io.h>
+#include <thrust/detail/tuple/tuple_cat.h>
 

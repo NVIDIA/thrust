@@ -215,7 +215,7 @@ struct tuple_append_result
     typename get_or_result<6,Tuple, typename null_unless_append_slot<6>::type>::type,
     typename get_or_result<7,Tuple, typename null_unless_append_slot<7>::type>::type,
     typename get_or_result<8,Tuple, typename null_unless_append_slot<8>::type>::type,
-    typename get_or_result<9,Tuple, typename null_unless_append_slot<9>::type>::type,
+    typename get_or_result<9,Tuple, typename null_unless_append_slot<9>::type>::type
   > type;
 };
 
@@ -239,19 +239,19 @@ tuple_append(const Tuple &t, const T &x)
   // t's size
   // in that case, use x when i == x_slot,
   // otherwise use null_type
-  
-  const null_type null;
 
-  return result_type(get_or<0>(t,if_else<0 == x_slot>(x, null)),
-                     get_or<1>(t,if_else<1 == x_slot>(x, null)),
-                     get_or<2>(t,if_else<2 == x_slot>(x, null)),
-                     get_or<3>(t,if_else<3 == x_slot>(x, null)),
-                     get_or<4>(t,if_else<4 == x_slot>(x, null)),
-                     get_or<5>(t,if_else<5 == x_slot>(x, null)),
-                     get_or<6>(t,if_else<6 == x_slot>(x, null)),
-                     get_or<7>(t,if_else<7 == x_slot>(x, null)),
-                     get_or<8>(t,if_else<8 == x_slot>(x, null)),
-                     get_or<9>(t,if_else<9 == x_slot>(x, null)));
+  //const null_type null;  // ==> syntax error: Default initialization of an object of const type 'const thrust::null_type' requires a user-provided default constructor
+
+  return result_type(get_or<0>(t,if_else<0 == x_slot>(x, null_type())),
+                     get_or<1>(t,if_else<1 == x_slot>(x, null_type())),
+                     get_or<2>(t,if_else<2 == x_slot>(x, null_type())),
+                     get_or<3>(t,if_else<3 == x_slot>(x, null_type())),
+                     get_or<4>(t,if_else<4 == x_slot>(x, null_type())),
+                     get_or<5>(t,if_else<5 == x_slot>(x, null_type())),
+                     get_or<6>(t,if_else<6 == x_slot>(x, null_type())),
+                     get_or<7>(t,if_else<7 == x_slot>(x, null_type())),
+                     get_or<8>(t,if_else<8 == x_slot>(x, null_type())),
+                     get_or<9>(t,if_else<9 == x_slot>(x, null_type())));
 }
 
 
@@ -273,19 +273,19 @@ tuple_append(const Tuple &t, T &x)
   // t's size
   // in that case, use x when i == x_slot,
   // otherwise use null_type
-  
-  const null_type null;
 
-  return result_type(get_or<0>(t,if_else<0 == x_slot>(x, null)),
-                     get_or<1>(t,if_else<1 == x_slot>(x, null)),
-                     get_or<2>(t,if_else<2 == x_slot>(x, null)),
-                     get_or<3>(t,if_else<3 == x_slot>(x, null)),
-                     get_or<4>(t,if_else<4 == x_slot>(x, null)),
-                     get_or<5>(t,if_else<5 == x_slot>(x, null)),
-                     get_or<6>(t,if_else<6 == x_slot>(x, null)),
-                     get_or<7>(t,if_else<7 == x_slot>(x, null)),
-                     get_or<8>(t,if_else<8 == x_slot>(x, null)),
-                     get_or<9>(t,if_else<9 == x_slot>(x, null)));
+  //const null_type null;  // ==> syntax error: Default initialization of an object of const type 'const thrust::null_type' requires a user-provided default constructor
+
+  return result_type(get_or<0>(t,if_else<0 == x_slot>(x, null_type())),
+                     get_or<1>(t,if_else<1 == x_slot>(x, null_type())),
+                     get_or<2>(t,if_else<2 == x_slot>(x, null_type())),
+                     get_or<3>(t,if_else<3 == x_slot>(x, null_type())),
+                     get_or<4>(t,if_else<4 == x_slot>(x, null_type())),
+                     get_or<5>(t,if_else<5 == x_slot>(x, null_type())),
+                     get_or<6>(t,if_else<6 == x_slot>(x, null_type())),
+                     get_or<7>(t,if_else<7 == x_slot>(x, null_type())),
+                     get_or<8>(t,if_else<8 == x_slot>(x, null_type())),
+                     get_or<9>(t,if_else<9 == x_slot>(x, null_type())));
 }
 
 

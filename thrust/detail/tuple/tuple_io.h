@@ -168,8 +168,6 @@ template<class CharType, class CharTrait, class T0>
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
-
     o << thrust::get<0>(t);
 
     return o;

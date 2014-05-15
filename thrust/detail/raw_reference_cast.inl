@@ -19,7 +19,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/raw_reference_cast.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/tuple_transform.h>
+#include <thrust/detail/tuple/tuple_transform.h>
 
 namespace thrust
 {
