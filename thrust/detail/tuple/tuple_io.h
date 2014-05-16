@@ -160,7 +160,7 @@ namespace tuple_detail {
 template<class CharType, class CharTrait>
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<>&) {
-    return o;
+  return o;
 }
 
 
@@ -168,9 +168,9 @@ template<class CharType, class CharTrait, class T0>
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0>& t) {
 
-    o << thrust::get<0>(t);
+  o << thrust::get<0>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -178,12 +178,12 @@ template<class CharType, class CharTrait, class T0, class T1>
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -191,13 +191,13 @@ template<class CharType, class CharTrait, class T0, class T1, class T2>
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1, T2>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t) << d;
-    o << thrust::get<2>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t) << d;
+  o << thrust::get<2>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -205,14 +205,14 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1, T2, T3>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t) << d;
-    o << thrust::get<2>(t) << d;
-    o << thrust::get<3>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t) << d;
+  o << thrust::get<2>(t) << d;
+  o << thrust::get<3>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -220,15 +220,15 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1, T2, T3, T4>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t) << d;
-    o << thrust::get<2>(t) << d;
-    o << thrust::get<3>(t) << d;
-    o << thrust::get<4>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t) << d;
+  o << thrust::get<2>(t) << d;
+  o << thrust::get<3>(t) << d;
+  o << thrust::get<4>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -236,16 +236,16 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1, T2, T3, T4, T5>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t) << d;
-    o << thrust::get<2>(t) << d;
-    o << thrust::get<3>(t) << d;
-    o << thrust::get<4>(t) << d;
-    o << thrust::get<5>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t) << d;
+  o << thrust::get<2>(t) << d;
+  o << thrust::get<3>(t) << d;
+  o << thrust::get<4>(t) << d;
+  o << thrust::get<5>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -253,17 +253,17 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1, T2, T3, T4, T5, T6>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t) << d;
-    o << thrust::get<2>(t) << d;
-    o << thrust::get<3>(t) << d;
-    o << thrust::get<4>(t) << d;
-    o << thrust::get<5>(t) << d;
-    o << thrust::get<6>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t) << d;
+  o << thrust::get<2>(t) << d;
+  o << thrust::get<3>(t) << d;
+  o << thrust::get<4>(t) << d;
+  o << thrust::get<5>(t) << d;
+  o << thrust::get<6>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -271,18 +271,18 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1, T2, T3, T4, T5, T6, T7>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t) << d;
-    o << thrust::get<2>(t) << d;
-    o << thrust::get<3>(t) << d;
-    o << thrust::get<4>(t) << d;
-    o << thrust::get<5>(t) << d;
-    o << thrust::get<6>(t) << d;
-    o << thrust::get<7>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t) << d;
+  o << thrust::get<2>(t) << d;
+  o << thrust::get<3>(t) << d;
+  o << thrust::get<4>(t) << d;
+  o << thrust::get<5>(t) << d;
+  o << thrust::get<6>(t) << d;
+  o << thrust::get<7>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -290,19 +290,19 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1, T2, T3, T4, T5, T6, T7, T8>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t) << d;
-    o << thrust::get<2>(t) << d;
-    o << thrust::get<3>(t) << d;
-    o << thrust::get<4>(t) << d;
-    o << thrust::get<5>(t) << d;
-    o << thrust::get<6>(t) << d;
-    o << thrust::get<7>(t) << d;
-    o << thrust::get<8>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t) << d;
+  o << thrust::get<2>(t) << d;
+  o << thrust::get<3>(t) << d;
+  o << thrust::get<4>(t) << d;
+  o << thrust::get<5>(t) << d;
+  o << thrust::get<6>(t) << d;
+  o << thrust::get<7>(t) << d;
+  o << thrust::get<8>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -310,20 +310,20 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_ostream<CharType, CharTrait>&
 print(std::basic_ostream<CharType, CharTrait>& o, const thrust::tuple<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>& t) {
 
-    const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
+  const CharType d = detail::tuple_detail::format_info::get_manipulator(o, detail::tuple_detail::format_info::delimiter);
 
-    o << thrust::get<0>(t) << d;
-    o << thrust::get<1>(t) << d;
-    o << thrust::get<2>(t) << d;
-    o << thrust::get<3>(t) << d;
-    o << thrust::get<4>(t) << d;
-    o << thrust::get<5>(t) << d;
-    o << thrust::get<6>(t) << d;
-    o << thrust::get<7>(t) << d;
-    o << thrust::get<8>(t) << d;
-    o << thrust::get<9>(t);
+  o << thrust::get<0>(t) << d;
+  o << thrust::get<1>(t) << d;
+  o << thrust::get<2>(t) << d;
+  o << thrust::get<3>(t) << d;
+  o << thrust::get<4>(t) << d;
+  o << thrust::get<5>(t) << d;
+  o << thrust::get<6>(t) << d;
+  o << thrust::get<7>(t) << d;
+  o << thrust::get<8>(t) << d;
+  o << thrust::get<9>(t);
 
-    return o;
+  return o;
 }
 
 
@@ -332,16 +332,16 @@ inline bool handle_width(std::basic_ostream<CharT, Traits>& o, const T& t) {
     std::streamsize width = o.width();
     if(width == 0) return false;
 
-    std::basic_ostringstream<CharT, Traits> ss;
+  std::basic_ostringstream<CharT, Traits> ss;
 
-    ss.copyfmt(o);
-    ss.tie(0);
-    ss.width(0);
+  ss.copyfmt(o);
+  ss.tie(0);
+  ss.width(0);
 
-    ss << t;
-    o << ss.str();
+  ss << t;
+  o << ss.str();
 
-    return true;
+  return true;
 }
 
 
@@ -411,11 +411,11 @@ template<class CharType, class CharTrait, class T0>
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1);
+  is >> thrust::get<0>(t1);
 
-    return is;
+  return is;
 }
 
 
@@ -423,12 +423,12 @@ template<class CharType, class CharTrait, class T0, class T1>
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<1>(t1);
+  is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<1>(t1);
 
-    return is;
+  return is;
 }
 
 
@@ -436,13 +436,13 @@ template<class CharType, class CharTrait, class T0, class T1, class T2>
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<2>(t1);
+  is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<2>(t1);
 
-    return is;
+  return is;
 }
 
 
@@ -450,14 +450,14 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2, T3>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<3>(t1);
+  is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<3>(t1);
 
-    return is;
+  return is;
 }
 
 
@@ -465,15 +465,15 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2, T3, T4>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<4>(t1);
+  is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<4>(t1);
 
-    return is;
+  return is;
 }
 
 
@@ -481,16 +481,16 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2, T3, T4, T5>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<4>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<5>(t1);
+  is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<4>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<5>(t1);
 
-    return is;
+  return is;
 }
 
 
@@ -498,17 +498,17 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2, T3, T4, T5, T6>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<4>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<5>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<6>(t1);
+  is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<4>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<5>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<6>(t1);
 
-    return is;
+  return is;
 }
 
 
@@ -516,18 +516,18 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2, T3, T4, T5, T6, T7>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<4>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<5>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<6>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<7>(t1);
+  is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<4>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<5>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<6>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<7>(t1);
 
-    return is;
+  return is;
 }
 
 
@@ -535,19 +535,19 @@ template<class CharType, class CharTrait, class T0, class T1, class T2, class T3
 inline std::basic_istream<CharType, CharTrait>&
 read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2, T3, T4, T5, T6, T7, T8>& t1) {
 
-    if (!is.good()) return is;
+  if (!is.good()) return is;
 
-    is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<4>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<5>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<6>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<7>(t1); extract_and_check_delimiter(is, format_info::delimiter);
-    is >> thrust::get<8>(t1);
+  is >> thrust::get<0>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<1>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<2>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<3>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<4>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<5>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<6>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<7>(t1); extract_and_check_delimiter(is, format_info::delimiter);
+  is >> thrust::get<8>(t1);
 
-    return is;
+  return is;
 }
 
 
