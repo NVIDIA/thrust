@@ -240,8 +240,6 @@ tuple_append(const Tuple &t, const T &x)
   // in that case, use x when i == x_slot,
   // otherwise use null_type
 
-  //const null_type null;  // ==> syntax error: Default initialization of an object of const type 'const thrust::null_type' requires a user-provided default constructor
-
   return result_type(get_or<0>(t,if_else<0 == x_slot>(x, null_type())),
                      get_or<1>(t,if_else<1 == x_slot>(x, null_type())),
                      get_or<2>(t,if_else<2 == x_slot>(x, null_type())),
@@ -273,8 +271,6 @@ tuple_append(const Tuple &t, T &x)
   // t's size
   // in that case, use x when i == x_slot,
   // otherwise use null_type
-
-  //const null_type null;  // ==> syntax error: Default initialization of an object of const type 'const thrust::null_type' requires a user-provided default constructor
 
   return result_type(get_or<0>(t,if_else<0 == x_slot>(x, null_type())),
                      get_or<1>(t,if_else<1 == x_slot>(x, null_type())),
