@@ -94,49 +94,6 @@ void TestSetUnionByKeyCudaStreams()
   ASSERT_EQUAL(ref_key, result_key);
   ASSERT_EQUAL(ref_val, result_val);
 
-  cudaStreamSynchronize(s);
-}
-DECLARE_UNITTEST(TestSetUnionByKeyCudaStreams);
-
-
-void TestSetUnionByKeyCudaStreams()
-{
-  typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::iterator Iterator;
-
-  Vector a_key(3), b_key(4);
-  Vector a_val(3), b_val(4);
-
-  a_key[0] = 0; a_key[1] = 2; a_key[2] = 4;
-  a_val[0] = 0; a_val[1] = 0; a_val[2] = 0;
-
-  b_key[0] = 0; b_key[1] = 3; b_key[2] = 3; b_key[3] = 4;
-  b_val[0] = 1; b_val[1] = 1; b_val[2] = 1; b_val[3] = 1;
-
-  Vector ref_key(5), ref_val(5);
-  ref_key[0] = 0; ref_key[1] = 2; ref_key[2] = 3; ref_key[3] = 3; ref_key[4] = 4;
-  ref_val[0] = 0; ref_val[1] = 0; ref_val[2] = 1; ref_val[3] = 1; ref_val[4] = 0;
-
-  Vector result_key(5), result_val(5);
-
-  cudaStream_t s;
-  cudaStreamCreate(&s);
-
-  thrust::pair<Iterator,Iterator> end =
-    thrust::set_union_by_key(thrust::cuda::par(s),
-                             a_key.begin(), a_key.end(),
-                             b_key.begin(), b_key.end(),
-                             a_val.begin(),
-                             b_val.begin(),
-                             result_key.begin(),
-                             result_val.begin());
-  cudaStreamSynchronize(s);
-
-  ASSERT_EQUAL_QUIET(result_key.end(), end.first);
-  ASSERT_EQUAL_QUIET(result_val.end(), end.second);
-  ASSERT_EQUAL(ref_key, result_key);
-  ASSERT_EQUAL(ref_val, result_val);
-
   cudaStreamDestroy(s);
 }
 DECLARE_UNITTEST(TestSetUnionByKeyCudaStreams);
