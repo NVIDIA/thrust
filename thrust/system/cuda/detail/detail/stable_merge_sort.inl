@@ -43,6 +43,7 @@
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/pair.h>
 #include <thrust/tuple.h>
+#include <thrust/extrema.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
@@ -127,7 +128,7 @@ inline unsigned int max_grid_size(Size block_size)
   const unsigned int max_threads = properties.maxThreadsPerMultiProcessor * properties.multiProcessorCount;
   const unsigned int max_blocks  = properties.maxGridSize[0];
   
-  return std::min<unsigned int>(max_blocks, 3 * max_threads / block_size);
+  return thrust::min<unsigned int>(max_blocks, 3 * max_threads / block_size);
 } // end max_grid_size()
 
 
