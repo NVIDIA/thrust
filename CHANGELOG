@@ -1,4 +1,26 @@
 #######################################
+#           Thrust v1.7.2             #
+#######################################
+
+Summary
+    Small bug fixes
+
+Bug Fixes
+    Avoid use of std::min in generic find implementation
+
+#######################################
+#           Thrust v1.7.1             #
+#######################################
+
+Summary
+    Small bug fixes
+
+Bug Fixes
+    Eliminate identifiers in set_operations.cu example with leading underscore
+    Eliminate unused variable warning in CUDA reduce_by_key implemention
+    Avoid deriving function objects from std::unary_function and std::binary_function
+
+#######################################
 #           Thrust v1.7.0             #
 #######################################
 
