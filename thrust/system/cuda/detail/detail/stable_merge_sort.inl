@@ -43,7 +43,6 @@
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/pair.h>
 #include <thrust/tuple.h>
-#include <thrust/extrema.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
