@@ -578,13 +578,13 @@ read(std::basic_istream<CharType, CharTrait> &is, thrust::tuple<T0, T1, T2, T3, 
 
 template<class CharType, class CharTrait, class T0, class T1, class T2, class T3, class T4, class T5, class T6, class T7, class T8, class T9>
 inline std::basic_istream<CharType, CharTrait>& 
-operator>>(std::basic_istream<CharType, CharTrait>& is, thrust::tuple<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>& t1) {
+operator>>(std::basic_istream<CharType, CharTrait>& is, thrust::tuple<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>& t) {
 
   if (!is.good() ) return is;
 
   detail::tuple_detail::extract_and_check_delimiter(is, detail::tuple_detail::format_info::open);
   
-  detail::tuple_detail::read(is, t1);
+  detail::tuple_detail::read(is, t);
    
   detail::tuple_detail::extract_and_check_delimiter(is, detail::tuple_detail::format_info::close);
 
