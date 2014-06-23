@@ -102,6 +102,8 @@ template<typename DerivedPolicy,
 
   if(n <= 0) return init;
 
+  cudaStream_t s = stream(thrust::detail::derived_cast(exec));
+
   const size_type groupsize = 128;
   const size_type grainsize = 9;
   const size_type tile_size = groupsize * grainsize;
@@ -120,12 +122,12 @@ template<typename DerivedPolicy,
   thrust::detail::temporary_array<OutputType,DerivedPolicy> partial_sums(exec, decomp.size());
 
   // reduce into partial sums
-  bulk::async(bulk::par(g, decomp.size()), reduce_detail::reduce_partitions(), bulk::root.this_exec, first, decomp, partial_sums.begin(), init, binary_op).wait();
+  bulk::async(bulk::par(s, g, decomp.size()), reduce_detail::reduce_partitions(), bulk::root.this_exec, first, decomp, partial_sums.begin(), init, binary_op).wait();
 
   if(partial_sums.size() > 1)
   {
     // reduce the partial sums
-    bulk::async(g, reduce_detail::reduce_partitions(), bulk::root, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
+    bulk::async(bulk::par(s, g, 1), reduce_detail::reduce_partitions(), bulk::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
   } // end while
 
   return partial_sums[0];
