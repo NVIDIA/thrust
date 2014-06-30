@@ -102,13 +102,11 @@ __host__ __device__ inline int isfinite(double x){
 }
 
 #else
-using ::atanh;
-
+using std::isinf;
+using std::isnan;
 using std::signbit;
 using std::isfinite;
-using std::isnan;
-
-
+using ::atanh;
 #endif
   
 #if defined _MSC_VER
