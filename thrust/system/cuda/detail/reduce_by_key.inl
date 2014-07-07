@@ -41,11 +41,6 @@ namespace reduce_by_key_detail
 {
 
 
-// avoid accidentally picking up some other installation of bulk that
-// may be floating around
-namespace bulk_ = thrust::system::cuda::detail::bulk;
-
-
 struct reduce_by_key_kernel
 {
   template<typename ConcurrentGroup,
@@ -243,8 +238,6 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
               BinaryPredicate binary_pred,
               BinaryFunction binary_op)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename thrust::iterator_difference<InputIterator1>::type difference_type;
   typedef typename thrust::iterator_value<InputIterator2>::type      value_type;
   typedef int size_type;

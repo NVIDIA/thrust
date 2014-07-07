@@ -34,11 +34,6 @@ namespace merge_detail
 {
 
 
-// avoid accidentally picking up some other installation of bulk that
-// may be floating around
-namespace bulk_ = thrust::system::cuda::detail::bulk;
-
-
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Size,typename RandomAccessIterator2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
 __device__
 RandomAccessIterator4
@@ -171,8 +166,6 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator3 result,
                             Compare comp)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference_type;
   typedef int size_type;
@@ -192,7 +185,7 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
 
   // merge partitions
   size_type heap_size = tile_size * sizeof(value_type);
-  bulk_::concurrent_group<bulk::agent<grainsize>,groupsize> g(heap_size);
+  bulk_::concurrent_group<bulk_::agent<grainsize>,groupsize> g(heap_size);
   bulk_::async(bulk_::par(stream(thrust::detail::derived_cast(exec)), g, num_groups), merge_detail::merge_kernel(), bulk_::root.this_exec, first1, last1 - first1, first2, last2 - first2, merge_paths.begin(), result, comp);
 
   return result + n;

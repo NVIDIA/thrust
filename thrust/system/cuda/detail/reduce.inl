@@ -44,7 +44,7 @@ struct reduce_partitions
   __device__
   void operator()(ConcurrentGroup &this_group, Iterator1 first, Iterator1 last, Iterator2 result, T init, BinaryOperation binary_op)
   {
-    T sum = bulk::reduce(this_group, first, last, init, binary_op);
+    T sum = bulk_::reduce(this_group, first, last, init, binary_op);
 
     if(this_group.this_exec.index() == 0)
     {
@@ -110,8 +110,8 @@ template<typename DerivedPolicy,
   const size_type num_tiles = (n + tile_size - 1) / tile_size;
   const size_type subscription = 10;
 
-  bulk::concurrent_group<
-    bulk::agent<grainsize>,
+  bulk_::concurrent_group<
+    bulk_::agent<grainsize>,
     groupsize
   > g;
 
@@ -122,12 +122,12 @@ template<typename DerivedPolicy,
   thrust::detail::temporary_array<OutputType,DerivedPolicy> partial_sums(exec, decomp.size());
 
   // reduce into partial sums
-  bulk::async(bulk::par(s, g, decomp.size()), reduce_detail::reduce_partitions(), bulk::root.this_exec, first, decomp, partial_sums.begin(), init, binary_op).wait();
+  bulk_::async(bulk_::par(s, g, decomp.size()), reduce_detail::reduce_partitions(), bulk_::root.this_exec, first, decomp, partial_sums.begin(), init, binary_op).wait();
 
   if(partial_sums.size() > 1)
   {
     // reduce the partial sums
-    bulk::async(bulk::par(s, g, 1), reduce_detail::reduce_partitions(), bulk::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
+    bulk_::async(bulk_::par(s, g, 1), reduce_detail::reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
   } // end while
 
   return partial_sums[0];

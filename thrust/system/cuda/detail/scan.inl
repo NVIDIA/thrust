@@ -39,11 +39,6 @@ namespace scan_detail
 {
 
 
-// avoid accidentally picking up some other installation of bulk that
-// may be floating around
-namespace bulk_ = thrust::system::cuda::detail::bulk;
-
-
 struct inclusive_scan_n
 {
   template<typename ConcurrentGroup, typename InputIterator, typename Size, typename OutputIterator, typename T, typename BinaryFunction>
@@ -119,7 +114,7 @@ struct exclusive_downsweep
   
     typename thrust::iterator_value<RandomAccessIterator2>::type carry = carries_first[this_group.index()];
 
-    bulk::exclusive_scan(this_group, first, last, result, carry, binary_op);
+    bulk_::exclusive_scan(this_group, first, last, result, carry, binary_op);
   }
 };
 
@@ -167,8 +162,6 @@ template<typename DerivedPolicy,
                                 OutputIterator result,
                                 AssociativeOperator binary_op)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename bulk_::detail::scan_detail::scan_intermediate<
     InputIterator,
     OutputIterator,
@@ -264,8 +257,6 @@ template<typename DerivedPolicy,
                                 T init,
                                 AssociativeOperator binary_op)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename bulk_::detail::scan_detail::scan_intermediate<
     InputIterator,
     OutputIterator,
