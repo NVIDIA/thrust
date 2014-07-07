@@ -61,17 +61,6 @@ size_t maximum_potential_occupancy(Function kernel, size_t num_threads, size_t n
 }
 
 
-// put this state in an anon namespace
-namespace
-{
-
-
-bool verbose = false;
-
-
-}
-
-
 // XXX instead of passing block_size_ as a template parameter to cuda_launcher_base,
 //     find a way to fish it out of ExecutionGroup
 template<unsigned int block_size_, typename ExecutionGroup, typename Closure>
@@ -90,21 +79,6 @@ struct cuda_launcher_base
   __host__ __device__
   void launch(size_type num_blocks, size_type block_size, size_type num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
   {
-#ifndef __CUDA_ARCH__
-    if(verbose)
-    {
-      cudaError_t error = cudaGetLastError();
-
-      std::clog << "cuda_launcher_base::launch(): CUDA error before launch: " << cudaGetErrorString(error) << std::endl;
-      std::clog << "cuda_launcher_base::launch(): num_blocks: " << num_blocks << std::endl;
-      std::clog << "cuda_launcher_base::launch(): block_size: " << block_size << std::endl;
-      std::clog << "cuda_launcher_base::launch(): num_dynamic_smem_bytes: " << num_dynamic_smem_bytes << std::endl;
-      std::clog << "cuda_launcher_base::launch(): occupancy: " << bulk::detail::maximum_potential_occupancy(super_t::global_function_pointer, block_size, num_dynamic_smem_bytes) << std::endl;
-
-      bulk::detail::throw_on_error(error, "before kernel launch in cuda_launcher_base::launch()");
-    } // end if
-#endif
-
     if(num_blocks > 0)
     {
       thrust::cuda::tag exec;
@@ -283,14 +257,6 @@ struct cuda_launcher<
           task_type task(g, c, block_offset);
 
           size_type num_physical_blocks = thrust::min<size_type>(num_remaining_physical_blocks, max_physical_grid_size);
-
-#ifndef __CUDA_ARCH__
-          if(bulk::detail::verbose)
-          {
-            std::clog << "cuda_launcher::launch(): max_physical_grid_size: " << max_physical_grid_size << std::endl;
-            std::clog << "cuda_launcher::launch(): requesting " << num_physical_blocks << " physical blocks" << std::endl;
-          }
-#endif // __CUDA_ARCH__
 
           super_t::launch(num_physical_blocks, block_size, heap_size, stream, task);
 
