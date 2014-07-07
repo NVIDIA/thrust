@@ -17,11 +17,8 @@
 #pragma once
 
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
-#include <thrust/system/cuda/detail/bulk/detail/terminate.hpp>
-#include <thrust/system_error.h>
-#include <thrust/system/cuda/error.h>
 #include <cstdio>
-
+#include <exception>
 
 BULK_NAMESPACE_PREFIX
 namespace bulk
@@ -30,21 +27,39 @@ namespace detail
 {
 
 
-inline __host__ __device__
-void throw_on_error(cudaError_t e, const char *message)
+__host__ __device__
+inline void terminate()
+{
+#ifdef __CUDA_ARCH__
+  asm("trap;");
+#else
+  std::terminate();
+#endif
+} // end terminate()
+
+
+__host__ __device__
+inline void terminate_with_message(const char* message)
+{
+#if __BULK_HAS_PRINTF__
+  std::printf(message);
+#endif
+
+  bulk::detail::terminate();
+}
+
+
+__host__ __device__
+inline void terminate_on_error(cudaError_t e, const char* message)
 {
   if(e)
   {
-#ifndef __CUDA_ARCH__
-    throw thrust::system_error(e, thrust::cuda_category(), message);
-#else
-#  if (__CUDA_ARCH_ >= 200)
-    printf("Error after %s: %s\n", message, cudaGetErrorString(error));
-#  endif
-    bulk::detail::terminate();
+#if (__BULK_HAS_PRINTF__ && __BULK_HAS_CUDART__)
+    printf("Error after: %s: %s\n", message, cudaGetErrorString(e));
 #endif
-  } // end if
-} // end throw_on_error()
+    bulk::detail::terminate();
+  }
+}
 
 
 } // end detail

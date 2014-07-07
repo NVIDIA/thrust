@@ -16,12 +16,12 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
-#include <thrust/system/cuda/detail/bulk/detail/terminate.hpp>
-#include <thrust/system_error.h>
-#include <thrust/system/cuda/error.h>
-#include <cstdio>
+#include <thrust/system/cuda/detail/bulk/detail/throw_on_error.hpp>
+#include <thrust/system/cuda/detail/bulk/detail/guarded_cuda_runtime_api.hpp>
 
+#if __BULK_HAS_CUDART__
 
 BULK_NAMESPACE_PREFIX
 namespace bulk
@@ -31,23 +31,29 @@ namespace detail
 
 
 inline __host__ __device__
-void throw_on_error(cudaError_t e, const char *message)
+void synchronize(const char* message = "")
 {
-  if(e)
-  {
-#ifndef __CUDA_ARCH__
-    throw thrust::system_error(e, thrust::cuda_category(), message);
+  bulk::detail::throw_on_error(cudaDeviceSynchronize(), message);
+} // end terminate()
+
+
+inline __host__ __device__
+void synchronize_if_enabled(const char* message = "")
+{
+// XXX we rely on __THRUST_SYNCHRONOUS here
+//     note we always have to synchronize in __device__ code
+#if __THRUST_SYNCHRONOUS || defined(__CUDA_ARCH__)
+  synchronize(message);
 #else
-#  if (__CUDA_ARCH_ >= 200)
-    printf("Error after %s: %s\n", message, cudaGetErrorString(error));
-#  endif
-    bulk::detail::terminate();
+  // WAR "unused parameter" warning
+  (void) message;
 #endif
-  } // end if
-} // end throw_on_error()
+}
 
 
 } // end detail
 } // end bulk
 BULK_NAMESPACE_SUFFIX
+
+#endif // __BULK_HAS_CUDART__
 

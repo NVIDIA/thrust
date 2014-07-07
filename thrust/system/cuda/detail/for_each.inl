@@ -55,7 +55,7 @@ struct for_each_kernel
   {}
 
   __host__ __device__
-  void operator()(bulk::agent<> &self)
+  void operator()(bulk_::agent<> &self)
   {
     f(first[self.index()]);
   }
@@ -81,7 +81,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
 
   kernel_type kernel(first,f);
 
-  bulk::async(bulk::par(stream(thrust::detail::derived_cast(exec)), n), kernel, bulk::root.this_exec);
+  bulk_::async(bulk_::par(stream(thrust::detail::derived_cast(exec)), n), kernel, bulk_::root.this_exec);
 
   return first + n;
 } 
