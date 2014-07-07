@@ -602,7 +602,11 @@ struct is_cursor<cursor<d> >
 } // end detail
 
 
+#ifdef __CUDA_ARCH__
+static const __device__ detail::cursor<0> root;
+#else
 static const detail::cursor<0> root;
+#endif
 
 
 // shorthand for creating a parallel group of concurrent groups of agents
