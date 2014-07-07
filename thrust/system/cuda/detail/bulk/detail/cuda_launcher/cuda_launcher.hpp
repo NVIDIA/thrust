@@ -17,8 +17,8 @@
 #pragma once
 
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
+#include <thrust/system/cuda/detail/bulk/detail/alignment.hpp>
 #include <thrust/system/cuda/detail/bulk/detail/cuda_task.hpp>
-#include <thrust/system/cuda/detail/bulk/detail/throw_on_error.hpp>
 #include <thrust/system/cuda/detail/bulk/detail/cuda_launcher/runtime_introspection.hpp>
 #include <thrust/system/cuda/detail/bulk/detail/cuda_launcher/triple_chevron_launcher.hpp>
 #include <thrust/system/cuda/detail/bulk/detail/cuda_launcher/cuda_launch_config.hpp>
@@ -27,7 +27,7 @@
 #include <thrust/pair.h>
 
 
-// It's not possible to launch a CUDA kernel unless __BULK_HAS_CUDA_LAUNCH__
+// It's not possible to launch a CUDA kernel unless __BULK_HAS_CUDART__
 // is 1, so we'd like to just hide all this code when that macro is 0.
 // Unfortunately, we can't actually modulate kernel launches based on that macro
 // because that will hide __global__ function template instantiations from critical
@@ -75,7 +75,7 @@ struct cuda_launcher_base
   typedef typename ExecutionGroup::size_type                                       size_type;
 
 
-#if __BULK_HAS_CUDA_LAUNCH__
+#if __BULK_HAS_CUDART__
   __host__ __device__
   void launch(size_type num_blocks, size_type block_size, size_type num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
   {
@@ -83,9 +83,6 @@ struct cuda_launcher_base
     {
       thrust::cuda::tag exec;
       super_t::launch(exec, num_blocks, block_size, num_dynamic_smem_bytes, stream, task);
-
-      // check that the launch got off the ground
-      bulk::detail::throw_on_error(cudaGetLastError(), "after kernel launch in cuda_launcher_base::launch()");
 
       bulk::detail::synchronize_if_enabled("bulk_kernel_by_value");
     } // end if
@@ -199,7 +196,7 @@ struct cuda_launcher_base
 
     return thrust::min<size_type>(actual_limit, ptx_limit);
   } // end max_physical_grid_size()
-#endif // __BULK_HAS_CUDA_LAUNCH__
+#endif // __BULK_HAS_CUDART__
 }; // end cuda_launcher_base
 
 
@@ -229,7 +226,7 @@ struct cuda_launcher<
   typedef typename super_t::task_type task_type;
 
   // launch(...) requires CUDA launch capability
-#if __BULK_HAS_CUDA_LAUNCH__
+#if __BULK_HAS_CUDART__
   __host__ __device__
   void launch(grid_type request, Closure c, cudaStream_t stream)
   {
@@ -275,7 +272,7 @@ struct cuda_launcher<
 
     return make_grid<grid_type>(num_blocks, make_block<block_type>(block_size, heap_size));
   } // end configure()
-#endif // __BULK_HAS_CUDA_LAUNCH__
+#endif // __BULK_HAS_CUDART__
 }; // end cuda_launcher
 
 
@@ -295,7 +292,7 @@ struct cuda_launcher<
 
   typedef concurrent_group<agent<grainsize>,blocksize> block_type;
 
-#if __BULK_HAS_CUDA_LAUNCH__
+#if __BULK_HAS_CUDART__
   __host__ __device__
   void launch(block_type request, Closure c, cudaStream_t stream)
   {
@@ -318,7 +315,7 @@ struct cuda_launcher<
     size_type heap_size  = super_t::choose_heap_size(block_size, b.heap_size());
     return make_block<block_type>(block_size, heap_size);
   } // end configure()
-#endif // __BULK_HAS_CUDA_LAUNCH__
+#endif // __BULK_HAS_CUDART__
 }; // end cuda_launcher
 
 
@@ -338,7 +335,7 @@ struct cuda_launcher<
 
   typedef parallel_group<agent<grainsize>,groupsize> group_type;
 
-#if __BULK_HAS_CUDA_LAUNCH__
+#if __BULK_HAS_CUDART__
   __host__ __device__
   void launch(group_type g, Closure c, cudaStream_t stream)
   {
@@ -366,7 +363,7 @@ struct cuda_launcher<
 
     return thrust::make_tuple(num_blocks, block_size);
   } // end configure()
-#endif // __BULK_HAS_CUDA_LAUNCH__
+#endif // __BULK_HAS_CUDART__
 }; // end cuda_launcher
 
 

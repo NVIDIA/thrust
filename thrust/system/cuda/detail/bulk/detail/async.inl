@@ -33,18 +33,16 @@ template<typename ExecutionGroup, typename Closure>
 __host__ __device__
 future<void> async_in_stream(ExecutionGroup g, Closure c, cudaStream_t s, cudaEvent_t before_event)
 {
+  // the reason we create the launcher even though we might not use it
+  // is to force the instantiation of __global__ functions we may need
+  bulk::detail::cuda_launcher<ExecutionGroup, Closure> launcher;
+
 #if __BULK_HAS_CUDART__
   if(before_event != 0)
   {
     bulk::detail::throw_on_error(cudaStreamWaitEvent(s, before_event, 0), "cudaStreamWaitEvent in async_in_stream");
   }
-#endif // __BULK_HAS_CUDART__
 
-  // the reason we create the launcher even though we might not use it
-  // is to force the instantiation of __global__ functions we may need
-  bulk::detail::cuda_launcher<ExecutionGroup, Closure> launcher;
-
-#if __BULK_HAS_CUDA_LAUNCH__
   launcher.launch(g, c, s);
 
   return future_core_access::create(s, false);
@@ -68,7 +66,9 @@ future<void> async(ExecutionGroup g, Closure c, cudaEvent_t before_event)
   // is to force the instantiation of __global__ functions we may need
   bulk::detail::cuda_launcher<ExecutionGroup, Closure> launcher;
 
-#if __BULK_HAS_CUDA_LAUNCH__
+  // XXX cudaStreamCreate is __host__-only
+  //     figure out a way to support this that does not require creating a new stream
+#ifndef __CUDA_ARCH__
   cudaStream_t s;
   bulk::detail::throw_on_error(cudaStreamCreate(&s), "cudaStreamCreate in bulk::detail::async");
 
