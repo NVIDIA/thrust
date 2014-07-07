@@ -62,6 +62,7 @@ class parameter_ptr
     }
 
     // XXX assign emulates a move
+    __host__ __device__
     parameter_ptr& operator=(const parameter_ptr& other_)
     {
       parameter_ptr& other = const_cast<parameter_ptr&>(other_);

@@ -17,11 +17,12 @@
 #pragma once
 
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
-#include <thrust/system/cuda/detail/bulk/uninitialized.hpp>
+#include <thrust/system/cuda/detail/bulk/detail/alignment.hpp>
+#include <thrust/system/cuda/detail/bulk/detail/throw_on_error.hpp>
 #include <thrust/system/cuda/detail/bulk/detail/cuda_launcher/parameter_ptr.hpp>
 #include <thrust/system/cuda/detail/execution_policy.h>
 
-// It's not possible to launch a CUDA kernel unless __BULK_HAS_CUDA_LAUNCH__
+// It's not possible to launch a CUDA kernel unless __BULK_HAS_CUDART__
 // is 1, so we'd like to just hide all this code when that macro is 0.
 // Unfortunately, we can't actually modulate kernel launches based on that macro
 // because that will hide __global__ function template instantiations from critical
@@ -77,11 +78,7 @@ template<unsigned int block_size, typename Function>
 class triple_chevron_launcher_base<block_size,Function,true>
 {
   protected:
-#if BULK_ASYNC_USE_UNINITIALIZED
-    typedef void (*global_function_pointer_t)(uninitialized<Function>);
-#else
     typedef void (*global_function_pointer_t)(Function);
-#endif
 
     static const global_function_pointer_t global_function_pointer;
   
@@ -96,17 +93,6 @@ class triple_chevron_launcher_base<block_size,Function,true>
 };
 
 
-#if BULK_ASYNC_USE_UNINITIALIZED
-// XXX uninitialized is a performance hazard
-//     disable it for the moment
-template<unsigned int block_size, typename Function>
-__global__
-__bulk_launch_bounds__(block_size, 0)
-void launch_by_value(uninitialized<Function> f)
-{
-  f.get()();
-}
-#else
 template<unsigned int block_size, typename Function>
 __global__
 __bulk_launch_bounds__(block_size, 0)
@@ -114,7 +100,6 @@ void launch_by_value(Function f)
 {
   f();
 }
-#endif
 
 
 template<unsigned int block_size, typename Function>
@@ -126,11 +111,7 @@ const typename triple_chevron_launcher_base<block_size,Function,true>::global_fu
 template<unsigned int block_size, typename Function>
 struct triple_chevron_launcher_base<block_size,Function,false>
 {
-#if BULK_ASYNC_USE_UNINITIALIZED
-  typedef void (*global_function_pointer_t)(const uninitialized<Function>*);
-#else
   typedef void (*global_function_pointer_t)(const Function*);
-#endif
 
   static const global_function_pointer_t global_function_pointer;
 
@@ -173,21 +154,23 @@ class triple_chevron_launcher : protected triple_chevron_launcher_base<block_siz
   public:
     typedef Function task_type;
 
-#if __BULK_HAS_CUDA_LAUNCH__
+#if __BULK_HAS_CUDART__
     template<typename DerivedPolicy>
     __host__ __device__
     void launch(thrust::cuda::execution_policy<DerivedPolicy> &, unsigned int num_blocks, unsigned int block_size, size_t num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
     {
-#if BULK_ASYNC_USE_UNINITIALIZED
-      uninitialized<task_type> wrapped_task;
-      wrapped_task.construct(task);
-
-      super_t::global_function_pointer<<<static_cast<unsigned int>(num_blocks), static_cast<unsigned int>(block_size), static_cast<size_t>(num_dynamic_smem_bytes), stream>>>(wrapped_task);
+#ifndef __CUDA_ARCH__
+      cudaConfigureCall(dim3(num_blocks), dim3(block_size), num_dynamic_smem_bytes, stream);
+      cudaSetupArgument(task, 0);
+      bulk::detail::throw_on_error(cudaLaunch(super_t::global_function_pointer), "after cudaLaunch in triple_chevron_launcher::launch()");
 #else
-      super_t::global_function_pointer<<<static_cast<unsigned int>(num_blocks), static_cast<unsigned int>(block_size), static_cast<size_t>(num_dynamic_smem_bytes), stream>>>(task);
+      void *param_buffer = cudaGetParameterBuffer(alignment_of<task_type>::value, sizeof(task_type));
+      std::memcpy(param_buffer, &task, sizeof(task_type));
+      bulk::detail::throw_on_error(cudaLaunchDevice(reinterpret_cast<void*>(super_t::global_function_pointer), param_buffer, dim3(num_blocks), dim3(block_size), num_dynamic_smem_bytes, stream),
+                                   "after cudaLaunchDevice in triple_chevron_launcher::launch()");
 #endif
     } // end launch()
-#endif // __BULK_HAS_CUDA_LAUNCH__
+#endif // __BULK_HAS_CUDART__
 };
 
 
@@ -200,16 +183,26 @@ class triple_chevron_launcher<block_size_,Function,false> : protected triple_che
   public:
     typedef Function task_type;
 
-#if __BULK_HAS_CUDA_LAUNCH__
+#if __BULK_HAS_CUDART__
     template<typename DerivedPolicy>
     __host__ __device__
     void launch(thrust::cuda::execution_policy<DerivedPolicy> &exec, unsigned int num_blocks, unsigned int block_size, size_t num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
     {
       bulk::detail::parameter_ptr<task_type> parm = bulk::detail::make_parameter<task_type>(task);
 
-      super_t::global_function_pointer<<<static_cast<unsigned int>(num_blocks), static_cast<unsigned int>(block_size), static_cast<size_t>(num_dynamic_smem_bytes), stream>>>(parm.get());
+#ifndef __CUDA_ARCH__
+      cudaConfigureCall(dim3(num_blocks), dim3(block_size), num_dynamic_smem_bytes, stream);
+      cudaSetupArgument(static_cast<const task_type*>(parm.get()), 0);
+      bulk::detail::throw_on_error(cudaLaunch(super_t::global_function_pointer), "after cudaLaunch in triple_chevron_launcher::launch()");
+#else
+      void *param_buffer = cudaGetParameterBuffer(alignment_of<task_type>::value, sizeof(task_type));
+      task_type *task_ptr = parm.get();
+      std::memcpy(param_buffer, &task_ptr, sizeof(task_type*));
+      bulk::detail::throw_on_error(cudaLaunchDevice(reinterpret_cast<void*>(super_t::global_function_pointer), param_buffer, dim3(num_blocks), dim3(block_size), num_dynamic_smem_bytes, stream),
+                                   "after cudaLaunchDevice in triple_chevron_launcher::launch()");
+#endif
     } // end launch()
-#endif // __BULK_HAS_CUDA_LAUNCH__
+#endif // __BULK_HAS_CUDART__
 };
 
 

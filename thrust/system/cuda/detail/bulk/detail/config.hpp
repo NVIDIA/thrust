@@ -50,9 +50,6 @@
 #  define __BULK_HAS_CUDART__ 0
 #endif
 
-
-#define __BULK_HAS_CUDA_LAUNCH__ __BULK_HAS_CUDART__
-
 #if defined(__CUDACC__)
 #  if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 200)
 #    define __BULK_HAS_PRINTF__ 1
