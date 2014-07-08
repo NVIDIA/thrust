@@ -112,21 +112,7 @@ using ::isfinite;
 
 #    else
 
-__host__ __device__ inline int signbit THRUST_PREVENT_MACRO_SUBSTITUTION (float x){
-  return (*((uint32_t *)&x)) & 0x80000000;
-}
-
-__host__ __device__ inline int signbit THRUST_PREVENT_MACRO_SUBSTITUTION (double x){
-  return (*((uint32_t *)&x)) & 0x80000000;
-}
-
-__host__ __device__ inline int isfinite THRUST_PREVENT_MACRO_SUBSTITUTION (float x){
-  return !isnan(x) && !isinf(x);
-}
-
-__host__ __device__ inline int isfinite THRUST_PREVENT_MACRO_SUBSTITUTION (double x){
-  return !isnan(x) && !isinf(x);
-}
+// signbit & isfinite are macros, we don't need to define them
 
 #    endif // CUDA_VERSION
 
