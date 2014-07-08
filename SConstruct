@@ -374,6 +374,12 @@ vars = command_line_variables()
 
 master_env = Environment(variables = vars, tools = ['default', 'nvcc', 'zip'])
 
+# handle unknown command line variables
+unknown_vars = vars.UnknownVariables()
+if unknown_vars:
+  print "Unknown command line variables:", unknown_vars.keys()
+  Exit(1)
+
 # XXX it might be a better idea to harvest help text from subsidiary
 #     SConscripts and only add their help text if one of their targets
 #     is scheduled to be built
