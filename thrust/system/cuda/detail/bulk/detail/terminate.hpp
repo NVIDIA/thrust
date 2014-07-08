@@ -42,7 +42,7 @@ __host__ __device__
 inline void terminate_with_message(const char* message)
 {
 #if __BULK_HAS_PRINTF__
-  std::printf(message);
+  std::printf("%s\n", message);
 #endif
 
   bulk::detail::terminate();
@@ -56,6 +56,8 @@ inline void terminate_on_error(cudaError_t e, const char* message)
   {
 #if (__BULK_HAS_PRINTF__ && __BULK_HAS_CUDART__)
     printf("Error after: %s: %s\n", message, cudaGetErrorString(e));
+#elif __BULK_HAS_PRINTF__
+    printf("Error: %s\n", message);
 #endif
     bulk::detail::terminate();
   }

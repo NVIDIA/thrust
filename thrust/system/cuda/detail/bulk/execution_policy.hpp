@@ -18,8 +18,7 @@
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
 #include <thrust/system/cuda/detail/bulk/future.hpp>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/minmax.h> // XXX WAR missing #include in runtime_introspection.h
-#include <thrust/system/cuda/detail/runtime_introspection.h>
+#include <thrust/system/cuda/detail/bulk/detail/cuda_launcher/runtime_introspection.hpp>
 #include <cstddef>
 
 
@@ -362,9 +361,14 @@ class concurrent_group
     }
 
     // XXX this should go elsewhere
+    __host__ __device__
     inline static size_type hardware_concurrency()
     {
-      return static_cast<size_type>(thrust::system::cuda::detail::device_properties().multiProcessorCount);
+#if __BULK_HAS_CUDART__
+      return static_cast<size_type>(bulk::detail::device_properties().multiProcessorCount);
+#else
+      return 0;
+#endif
     } // end hardware_concurrency()
 
   private:
@@ -413,9 +417,14 @@ class concurrent_group<ExecutionAgent,dynamic_group_size>
     }
 
     // XXX this should go elsewhere
+    __host__ __device__
     inline static size_type hardware_concurrency()
     {
-      return static_cast<size_type>(thrust::system::cuda::detail::device_properties().multiProcessorCount);
+#if __BULK_HAS_CUDART__
+      return static_cast<size_type>(bulk::detail::device_properties().multiProcessorCount);
+#else
+      return 0;
+#endif
     } // end hardware_concurrency()
 
   private:

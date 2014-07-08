@@ -38,8 +38,10 @@ void throw_on_error(cudaError_t e, const char *message)
 #ifndef __CUDA_ARCH__
     throw thrust::system_error(e, thrust::cuda_category(), message);
 #else
-#  if (__CUDA_ARCH_ >= 200)
-    printf("Error after %s: %s\n", message, cudaGetErrorString(error));
+#  if (__BULK_HAS_PRINTF__ && __BULK_HAS_CUDART__)
+    printf("Error after %s: %s\n", message, cudaGetErrorString(e));
+#  elif __BULK_HAS_PRINTF__
+    printf("Error: %s\n", message);
 #  endif
     bulk::detail::terminate();
 #endif
