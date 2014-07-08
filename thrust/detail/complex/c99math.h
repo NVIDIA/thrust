@@ -99,20 +99,22 @@ __host__ __device__ inline int isfinite(double x){
 }
 
 #else
+
+#  ifdef __CUDACC__
+// The CUDA toolkit provides these names in the global scope
 using ::isinf;
 using ::isnan;
-
-#ifdef __CUDACC__
-// The CUDA toolkit provides these names in the global scope
 using ::signbit;
 using ::isfinite;
-#else
+#  else
 // Some compilers do not provide these in the global scope
 // they are in std:: instead
 // Since we're not compiling with nvcc, it's safe to use the functions in std::
+using std::isinf;
+using std::isnan;
 using std::signbit;
 using std::isfinite;
-#endif // __CUDACC__
+#  endif // __CUDACC__
 
 using ::atanh;
 #endif // _MSC_VER
