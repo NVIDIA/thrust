@@ -101,18 +101,18 @@ __host__ __device__ inline int isfinite(double x){
 #else
 
 #  ifdef __CUDACC__
-// The CUDA toolkit provides these names in the global scope
+
+// sometimes the CUDA toolkit provides these these names as macros,
+// sometimes functions in the global scope
+
+#    if (CUDA_VERSION >= 6500)
 using ::isinf;
 using ::isnan;
-
-// sometimes these are macros, sometimes functions
-#    if (CUDA_VERSION >= 6500)
 using ::signbit;
 using ::isfinite;
 
 #    else
-
-// signbit & isfinite are macros, we don't need to define them
+// these names are macros, we don't need to define them
 
 #    endif // CUDA_VERSION
 
