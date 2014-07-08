@@ -229,7 +229,7 @@ def libs(env, CCX, host_backend, device_backend):
   # we don't have to do this with cl
   if CCX == 'g++':
     result.append('stdc++')
-
+    result.append('m')
 
   # link against backend-specific runtimes
   if host_backend == 'cuda' or device_backend == 'cuda':
