@@ -104,8 +104,32 @@ __host__ __device__ inline int isfinite(double x){
 // The CUDA toolkit provides these names in the global scope
 using ::isinf;
 using ::isnan;
+
+// sometimes these are macros, sometimes functions
+#    if (CUDA_VERSION >= 6500)
 using ::signbit;
 using ::isfinite;
+
+#    else
+
+__host__ __device__ inline int signbit THRUST_PREVENT_MACRO_SUBSTITUTION (float x){
+  return (*((uint32_t *)&x)) & 0x80000000;
+}
+
+__host__ __device__ inline int signbit THRUST_PREVENT_MACRO_SUBSTITUTION (double x){
+  return (*((uint32_t *)&x)) & 0x80000000;
+}
+
+__host__ __device__ inline int isfinite THRUST_PREVENT_MACRO_SUBSTITUTION (float x){
+  return !isnan(x) && !isinf(x);
+}
+
+__host__ __device__ inline int isfinite THRUST_PREVENT_MACRO_SUBSTITUTION (double x){
+  return !isnan(x) && !isinf(x);
+}
+
+#    endif // CUDA_VERSION
+
 #  else
 // Some compilers do not provide these in the global scope
 // they are in std:: instead
