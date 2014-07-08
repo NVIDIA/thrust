@@ -62,13 +62,7 @@ inline __host__ __device__ double infinity<double>()
   return res;
 }
 
-#if __cplusplus >= 201103L
-using std::isinf;
-using std::isnan;
-using std::signbit;
-using std::isfinite;
-using std::atanh;
-#elif defined _MSC_VER
+#if defined _MSC_VER
 __host__ __device__ inline int isinf(float x){
   return std::abs(x) == infinity<float>();
 }
@@ -102,12 +96,12 @@ __host__ __device__ inline int isfinite(double x){
 }
 
 #else
-using std::isinf;
-using std::isnan;
-using std::signbit;
-using std::isfinite;
+using ::isinf;
+using ::isnan;
+using ::signbit;
+using ::isfinite;
 using ::atanh;
-#endif
+#endif // _MSC_VER
   
 #if defined _MSC_VER
 
@@ -171,11 +165,11 @@ inline double hypot(double x, double y){
 	return _hypot(x,y);
 }
 
-#endif
+#endif // _MSC_VER <= 1500
 
-#endif
+#endif // __CUDACC__
 
-#endif
+#endif // _MSC_VER
 
 } // namespace complex
 

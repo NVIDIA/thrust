@@ -229,7 +229,7 @@ def libs(env, CCX, host_backend, device_backend):
   # we don't have to do this with cl
   if CCX == 'g++':
     result.append('stdc++')
-
+    result.append('m')
 
   # link against backend-specific runtimes
   if host_backend == 'cuda' or device_backend == 'cuda':
@@ -373,6 +373,12 @@ def command_line_variables():
 vars = command_line_variables()
 
 master_env = Environment(variables = vars, tools = ['default', 'nvcc', 'zip'])
+
+# handle unknown command line variables
+unknown_vars = vars.UnknownVariables()
+if unknown_vars:
+  print "Unknown command line variables:", unknown_vars.keys()
+  Exit(1)
 
 # XXX it might be a better idea to harvest help text from subsidiary
 #     SConscripts and only add their help text if one of their targets
