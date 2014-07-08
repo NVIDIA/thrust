@@ -318,7 +318,7 @@ def nv_compiler_flags(mode, device_backend, arch):
     # transform arch_XX to compute_XX
     virtual_arch = machine_arch.replace('sm','compute')
     # the weird -gencode flag is formatted like this:
-    # -gencode=arch=compute_10,code=\"sm_10,compute_10\"
+    # -gencode=arch=compute_10,code=\"sm_20,compute_20\"
     result.append('-gencode=arch={0},\\"code={1},{2}\\"'.format(virtual_arch, machine_arch, virtual_arch))
   if mode == 'debug':
     # turn on debug mode
@@ -356,8 +356,12 @@ def command_line_variables():
                         allowed_values = ('release', 'debug')))
   
   # add a variable to handle compute capability
-  vars.Add(ListVariable('arch', 'Compute capability code generation', 'sm_10',
-                        ['sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20', 'sm_21', 'sm_30', 'sm_35']))
+  # XXX allow the option to send sm_1x to nvcc even nvcc may not support it
+  vars.Add(ListVariable('arch', 'Compute capability code generation', 'sm_20',
+                        ['sm_10', 'sm_11', 'sm_12', 'sm_13',
+                         'sm_20', 'sm_21',
+                         'sm_30', 'sm_32', 'sm_35', 'sm_37',
+                         'sm_50']))
   
   # add a variable to handle warnings
   # only enable Wall by default on compilers other than cl
@@ -373,12 +377,6 @@ def command_line_variables():
 vars = command_line_variables()
 
 master_env = Environment(variables = vars, tools = ['default', 'nvcc', 'zip'])
-
-# handle unknown command line variables
-unknown_vars = vars.UnknownVariables()
-if unknown_vars:
-  print "Unknown command line variables:", unknown_vars.keys()
-  Exit(1)
 
 # XXX it might be a better idea to harvest help text from subsidiary
 #     SConscripts and only add their help text if one of their targets
