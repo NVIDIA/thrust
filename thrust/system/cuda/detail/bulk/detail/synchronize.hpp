@@ -19,9 +19,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
 #include <thrust/system/cuda/detail/bulk/detail/throw_on_error.hpp>
+#include <thrust/system/cuda/detail/bulk/detail/terminate.hpp>
 #include <thrust/system/cuda/detail/bulk/detail/guarded_cuda_runtime_api.hpp>
-
-#if __BULK_HAS_CUDART__
 
 BULK_NAMESPACE_PREFIX
 namespace bulk
@@ -33,7 +32,11 @@ namespace detail
 inline __host__ __device__
 void synchronize(const char* message = "")
 {
+#if __BULK_HAS_CUDART__
   bulk::detail::throw_on_error(cudaDeviceSynchronize(), message);
+#else
+  bulk::detail::terminate_with_message("cudaDeviceSynchronize() requires CUDART");
+#endif
 } // end terminate()
 
 
@@ -54,6 +57,4 @@ void synchronize_if_enabled(const char* message = "")
 } // end detail
 } // end bulk
 BULK_NAMESPACE_SUFFIX
-
-#endif // __BULK_HAS_CUDART__
 

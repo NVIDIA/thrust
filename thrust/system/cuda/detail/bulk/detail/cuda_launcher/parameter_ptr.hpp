@@ -23,7 +23,6 @@
 #include <thrust/detail/swap.h>
 #include <cstring>
 
-#if __BULK_HAS_CUDART__
 
 BULK_NAMESPACE_PREFIX
 namespace bulk
@@ -55,10 +54,14 @@ class parameter_ptr
     __host__ __device__
     ~parameter_ptr()
     {
+#if __BULK_HAS_CUDART__
       if(m_ptr)
       {
         bulk::detail::terminate_on_error(cudaFree(m_ptr), "in parameter_ptr dtor");
       }
+#else
+      bulk::detail::terminate_with_message("parameter_ptr dtor: cudaFree requires CUDART");
+#endif
     }
 
     // XXX assign emulates a move
@@ -88,7 +91,11 @@ parameter_ptr<T> make_parameter(const T& x)
   T* raw_ptr = 0;
 
   // allocate
+#if __BULK_HAS_CUDART__
   bulk::detail::throw_on_error(cudaMalloc(&raw_ptr, sizeof(T)), "make_parameter(): after cudaMalloc");
+#else
+  bulk::detail::terminate_with_message("make_parameter(): cudaMalloc requires CUDART\n");
+#endif
 
   // do a trivial copy
 #ifndef __CUDA_ARCH__
@@ -105,6 +112,4 @@ parameter_ptr<T> make_parameter(const T& x)
 } // end detail
 } // end bulk
 BULK_NAMESPACE_SUFFIX
-
-#endif // __BULK_HAS_CUDART__
 
