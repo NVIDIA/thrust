@@ -24,55 +24,22 @@
 #include <thrust/system/cuda/error.h>
 
 
-#if __BULK_HAS_CUDART__
-
-
 BULK_NAMESPACE_PREFIX
 namespace bulk
 {
 namespace detail
 {
-namespace runtime_introspection_detail
-{
-
-
-__host__ __device__
-inline void get_device_properties(device_properties_t &p, int device_id)
-{
-  cudaDeviceProp properties;
-  
-  bulk::detail::throw_on_error(cudaGetDeviceProperties(&properties, device_id), "get_device_properties(): after cudaGetDeviceProperties");
-
-  // be careful about how this is initialized!
-  device_properties_t temp = {
-    properties.major,
-    {
-      properties.maxGridSize[0],
-      properties.maxGridSize[1],
-      properties.maxGridSize[2]
-    },
-    properties.maxThreadsPerBlock,
-    properties.maxThreadsPerMultiProcessor,
-    properties.minor,
-    properties.multiProcessorCount,
-    properties.regsPerBlock,
-    properties.sharedMemPerBlock,
-    properties.warpSize
-  };
-
-  p = temp;
-} // end get_device_properties()
-
-
-} // end runtime_introspection_detail
 
 
 __host__ __device__
 inline device_properties_t device_properties(int device_id)
 {
-  device_properties_t prop;
+  device_properties_t prop = {};
 
-  cudaError_t error = cudaDeviceGetAttribute(&prop.major,           cudaDevAttrComputeCapabilityMajor,      device_id);
+  cudaError_t error = cudaErrorNoDevice;
+
+#if __BULK_HAS_CUDART__
+  error = cudaDeviceGetAttribute(&prop.major,           cudaDevAttrComputeCapabilityMajor,      device_id);
   error = cudaDeviceGetAttribute(&prop.maxGridSize[0],              cudaDevAttrMaxGridDimX,                 device_id);
   error = cudaDeviceGetAttribute(&prop.maxGridSize[1],              cudaDevAttrMaxGridDimY,                 device_id);
   error = cudaDeviceGetAttribute(&prop.maxGridSize[2],              cudaDevAttrMaxGridDimZ,                 device_id);
@@ -85,6 +52,7 @@ inline device_properties_t device_properties(int device_id)
   error = cudaDeviceGetAttribute(&temp,                             cudaDevAttrMaxSharedMemoryPerBlock,     device_id);
   prop.sharedMemPerBlock = temp;
   error = cudaDeviceGetAttribute(&prop.warpSize,                    cudaDevAttrWarpSize,                    device_id);
+#endif
 
   throw_on_error(error, "cudaDeviceGetProperty in get_device_properties");
 
@@ -97,7 +65,9 @@ inline int current_device()
 {
   int result = -1;
 
+#if __BULK_HAS_CUDART__
   bulk::detail::throw_on_error(cudaGetDevice(&result), "current_device(): after cudaGetDevice");
+#endif
 
   if(result < 0)
   {
@@ -119,8 +89,7 @@ template <typename KernelFunction>
 __host__ __device__
 inline function_attributes_t function_attributes(KernelFunction kernel)
 {
-// cudaFuncGetAttributes(), used below, only exists when __CUDACC__ is defined
-#ifdef __CUDACC__
+#if __BULK_HAS_CUDART__
   typedef void (*fun_ptr_type)();
 
   fun_ptr_type fun_ptr = reinterpret_cast<fun_ptr_type>(kernel);
@@ -163,7 +132,4 @@ inline size_t compute_capability()
 } // end namespace detail
 } // end namespace bulk
 BULK_NAMESPACE_SUFFIX
-
-
-#endif // __BULK_HAS_CUDART__
 

@@ -75,14 +75,12 @@ struct cuda_launcher_base
   typedef typename ExecutionGroup::size_type                                       size_type;
 
 
-#if __BULK_HAS_CUDART__
   __host__ __device__
   void launch(size_type num_blocks, size_type block_size, size_type num_dynamic_smem_bytes, cudaStream_t stream, task_type task)
   {
     if(num_blocks > 0)
     {
-      thrust::cuda::tag exec;
-      super_t::launch(exec, num_blocks, block_size, num_dynamic_smem_bytes, stream, task);
+      super_t::launch(num_blocks, block_size, num_dynamic_smem_bytes, stream, task);
 
       bulk::detail::synchronize_if_enabled("bulk_kernel_by_value");
     } // end if
@@ -118,7 +116,7 @@ struct cuda_launcher_base
   __host__ __device__
   static size_type choose_heap_size(size_type group_size, size_type requested_size)
   {
-    function_attributes_t attr = bulk::detail::function_attributes(super_t::global_function_pointer);
+    function_attributes_t attr = bulk::detail::function_attributes(super_t::global_function_pointer());
 
     // if the kernel's ptx version is < 200, we return 0 because there is no heap
     // if the user requested no heap, give him no heap
@@ -164,7 +162,7 @@ struct cuda_launcher_base
 
     if(result == use_default)
     {
-      bulk::detail::function_attributes_t attr = bulk::detail::function_attributes(super_t::global_function_pointer);
+      bulk::detail::function_attributes_t attr = bulk::detail::function_attributes(super_t::global_function_pointer());
 
       return bulk::detail::block_size_with_maximum_potential_occupancy(attr, device_properties());
     } // end if
@@ -180,7 +178,7 @@ struct cuda_launcher_base
     int actual_limit = device_properties().maxGridSize[0];
 
     // get the limit of the PTX version of the kernel
-    int ptx_version = bulk::detail::function_attributes(super_t::global_function_pointer).ptxVersion;
+    int ptx_version = bulk::detail::function_attributes(super_t::global_function_pointer()).ptxVersion;
 
     int ptx_limit = 0;
 
@@ -196,7 +194,6 @@ struct cuda_launcher_base
 
     return thrust::min<size_type>(actual_limit, ptx_limit);
   } // end max_physical_grid_size()
-#endif // __BULK_HAS_CUDART__
 }; // end cuda_launcher_base
 
 
@@ -226,7 +223,6 @@ struct cuda_launcher<
   typedef typename super_t::task_type task_type;
 
   // launch(...) requires CUDA launch capability
-#if __BULK_HAS_CUDART__
   __host__ __device__
   void launch(grid_type request, Closure c, cudaStream_t stream)
   {
@@ -272,7 +268,6 @@ struct cuda_launcher<
 
     return make_grid<grid_type>(num_blocks, make_block<block_type>(block_size, heap_size));
   } // end configure()
-#endif // __BULK_HAS_CUDART__
 }; // end cuda_launcher
 
 
@@ -292,7 +287,6 @@ struct cuda_launcher<
 
   typedef concurrent_group<agent<grainsize>,blocksize> block_type;
 
-#if __BULK_HAS_CUDART__
   __host__ __device__
   void launch(block_type request, Closure c, cudaStream_t stream)
   {
@@ -315,7 +309,6 @@ struct cuda_launcher<
     size_type heap_size  = super_t::choose_heap_size(block_size, b.heap_size());
     return make_block<block_type>(block_size, heap_size);
   } // end configure()
-#endif // __BULK_HAS_CUDART__
 }; // end cuda_launcher
 
 
@@ -335,7 +328,6 @@ struct cuda_launcher<
 
   typedef parallel_group<agent<grainsize>,groupsize> group_type;
 
-#if __BULK_HAS_CUDART__
   __host__ __device__
   void launch(group_type g, Closure c, cudaStream_t stream)
   {
@@ -363,7 +355,6 @@ struct cuda_launcher<
 
     return thrust::make_tuple(num_blocks, block_size);
   } // end configure()
-#endif // __BULK_HAS_CUDART__
 }; // end cuda_launcher
 
 
