@@ -3,6 +3,18 @@
 #include <cuda_runtime.h>
 #include "testframework.h"
 
+__global__ void dummy_kernel() {}
+
+bool binary_exists_for_current_device()
+{
+  // check against the dummy_kernel
+  // if we're unable to get the attributes, then
+  // we didn't compile a binary compatible with the current device
+  cudaFuncAttributes attr;
+  cudaError_t error = cudaFuncGetAttributes(&attr, dummy_kernel);
+  return error == cudaSuccess;
+}
+
 void list_devices(void)
 {
   int deviceCount;
@@ -47,6 +59,7 @@ template<typename Iterator> Iterator my_next(Iterator iter)
 {
   return ++iter;
 }
+
 
 std::vector<int> CUDATestDriver::target_devices(const ArgumentMap &kwargs)
 {
@@ -136,6 +149,16 @@ bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwarg
       device != devices.end();
       ++device)
   {
+    // set the device
+    cudaSetDevice(*device);
+
+    // check if a binary exists for this device
+    // if none exists, skip the device silently unless this is the only one we're targeting
+    if(devices.size() > 1 && !binary_exists_for_current_device())
+    {
+      continue;     
+    }
+
     if(!concise)
     {
       // note which device we're testing
@@ -144,9 +167,6 @@ bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwarg
       
       std::cout << "Testing Device " << *device << ": \"" << deviceProp.name << "\"" << std::endl;
     }
-    
-    // set the device
-    cudaSetDevice(*device);
 
     // check error status before running any tests
     if(check_cuda_error(concise)) return false;
