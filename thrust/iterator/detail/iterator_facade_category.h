@@ -45,8 +45,16 @@ template<typename Category, typename System, typename Traversal>
   struct iterator_category_to_system<iterator_category_with_system_and_traversal<Category,System,Traversal> >
 {
   typedef System type;
-}; // end iterator_category_with_system_and_traversal
+}; // end iterator_category_to_system
 
+// specialize iterator_category_to_traversal for iterator_category_with_system_and_traversal
+template<typename Category> struct iterator_category_to_traversal;
+
+template<typename Category, typename System, typename Traversal>
+  struct iterator_category_to_traversal<iterator_category_with_system_and_traversal<Category,System,Traversal> >
+{
+  typedef Traversal type;
+}; // end iterator_category_to_traversal
 
 // adapted from http://www.boost.org/doc/libs/1_37_0/libs/iterator/doc/iterator_facade.html#iterator-category
 //
@@ -179,29 +187,13 @@ template<typename Traversal, typename ValueParam, typename Reference>
 
 // this is the function for any system iterators
 template<typename Traversal, typename ValueParam, typename Reference>
-  struct iterator_facade_default_category_any :
-    thrust::detail::eval_if<
-
-      thrust::detail::is_convertible<Traversal, thrust::forward_traversal_tag>::value,
-
-      thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::random_access_traversal_tag>::value,
-        thrust::detail::identity_<thrust::random_access_universal_iterator_tag>,
-
-        thrust::detail::eval_if<
-          thrust::detail::is_convertible<Traversal, thrust::bidirectional_traversal_tag>::value,
-          thrust::detail::identity_<thrust::bidirectional_universal_iterator_tag>,
-          thrust::detail::identity_<thrust::forward_universal_iterator_tag>
-        >
-      >,
-
-      thrust::detail::eval_if<
-        thrust::detail::is_convertible<Traversal, thrust::single_pass_traversal_tag>::value, // XXX note we differ from Boost here
-        thrust::detail::identity_<thrust::input_universal_iterator_tag>,
-        thrust::detail::identity_<Traversal>
-      >
-    >
+  struct iterator_facade_default_category_any
 {
+  typedef thrust::detail::iterator_category_with_system_and_traversal<
+    typename iterator_facade_default_category_std<Traversal, ValueParam, Reference>::type,
+    thrust::any_system_tag,
+    Traversal
+  > type;
 }; // end iterator_facade_default_category_any
 
 

@@ -27,11 +27,6 @@
 namespace thrust
 {
 
-// XXX WAR circular #inclusion with forward declarations
-struct random_access_universal_iterator_tag;
-struct input_universal_iterator_tag;
-struct output_universal_iterator_tag;
-
 namespace detail
 {
 
@@ -44,38 +39,28 @@ template <typename> struct device_iterator_category_to_backend_system;
 // we should just specialize this metafunction for iterator_category_with_system_and_traversal
 template<typename Category>
   struct iterator_category_to_system
-    // convertible to any iterator?
+    // convertible to host iterator?
     : eval_if<
         or_<
-          is_convertible<Category, thrust::input_universal_iterator_tag>,
-          is_convertible<Category, thrust::output_universal_iterator_tag>
+          is_convertible<Category, thrust::input_host_iterator_tag>,
+          is_convertible<Category, thrust::output_host_iterator_tag>
         >::value,
 
-        detail::identity_<thrust::any_system_tag>,
-
-        // convertible to host iterator?
+        detail::identity_<thrust::host_system_tag>,
+        
+        // convertible to device iterator?
         eval_if<
           or_<
-            is_convertible<Category, thrust::input_host_iterator_tag>,
-            is_convertible<Category, thrust::output_host_iterator_tag>
+            is_convertible<Category, thrust::input_device_iterator_tag>,
+            is_convertible<Category, thrust::output_device_iterator_tag>
           >::value,
 
-          detail::identity_<thrust::host_system_tag>,
-          
-          // convertible to device iterator?
-          eval_if<
-            or_<
-              is_convertible<Category, thrust::input_device_iterator_tag>,
-              is_convertible<Category, thrust::output_device_iterator_tag>
-            >::value,
+          detail::identity_<thrust::device_system_tag>,
 
-            detail::identity_<thrust::device_system_tag>,
-
-            // unknown system
-            detail::identity_<void>
-          > // if device
-        > // if host
-      > // if any
+          // unknown system
+          detail::identity_<void>
+        > // if device
+      > // if host
 {
 }; // end iterator_category_to_system
 
