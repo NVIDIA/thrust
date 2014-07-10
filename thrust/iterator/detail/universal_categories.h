@@ -19,6 +19,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_categories.h>
 
+// XXX eliminate this file
+
 namespace thrust
 {
 

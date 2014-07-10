@@ -25,10 +25,6 @@
 namespace thrust
 {
 
-// XXX WAR circular #inclusion with these forward declarations
-struct bidirectional_universal_iterator_tag;
-struct forward_universal_iterator_tag;
-
 namespace detail
 {
 
@@ -94,68 +90,28 @@ template <typename Category>
 }; // end device_system_category_to_traversal
 
 
-
-template <typename Category>
-  struct any_system_category_to_traversal
-    : eval_if<
-        is_convertible<Category, random_access_universal_iterator_tag>::value,
-        identity_<random_access_traversal_tag>,
-        eval_if<
-          is_convertible<Category, bidirectional_universal_iterator_tag>::value,
-          identity_<bidirectional_traversal_tag>,
-          eval_if<
-            is_convertible<Category, forward_universal_iterator_tag>::value,
-            identity_<forward_traversal_tag>,
-            eval_if<
-              is_convertible<Category, input_universal_iterator_tag>::value,
-              identity_<single_pass_traversal_tag>,
-              eval_if<
-                is_convertible<Category, output_universal_iterator_tag>::value,
-                identity_<incrementable_traversal_tag>,
-
-                // unknown traversal
-                void
-              >
-            >
-          >
-        >
-      >
-{
-}; // end any_system_category_to_traversal
-
-
 template<typename Category>
   struct category_to_traversal
-      // check for any system
+      // check for host system
     : eval_if<
         or_<
-          is_convertible<Category, thrust::input_universal_iterator_tag>,
-          is_convertible<Category, thrust::output_universal_iterator_tag>
+          is_convertible<Category, thrust::input_host_iterator_tag>,
+          is_convertible<Category, thrust::output_host_iterator_tag>
         >::value,
 
-        any_system_category_to_traversal<Category>,
+        host_system_category_to_traversal<Category>,
 
-        // check for host system
+        // check for device system
         eval_if<
           or_<
-            is_convertible<Category, thrust::input_host_iterator_tag>,
-            is_convertible<Category, thrust::output_host_iterator_tag>
+            is_convertible<Category, thrust::input_device_iterator_tag>,
+            is_convertible<Category, thrust::output_device_iterator_tag>
           >::value,
 
-          host_system_category_to_traversal<Category>,
+          device_system_category_to_traversal<Category>,
 
-          // check for device system
-          eval_if<
-            or_<
-              is_convertible<Category, thrust::input_device_iterator_tag>,
-              is_convertible<Category, thrust::output_device_iterator_tag>
-            >::value,
-
-            device_system_category_to_traversal<Category>,
-
-            // unknown category
-            void
-          >
+          // unknown category
+          void
         >
       >
 {};
