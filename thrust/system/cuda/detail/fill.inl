@@ -169,13 +169,14 @@ OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
                       Size n,
                       const T &value)
 {
+  // XXX move this up here instead of inside parallel_path() to workaround MSVC bug
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
+
   struct workaround
   {
     __host__ __device__
     static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec, OutputIterator first, Size n, const T &value)
     {
-      typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
-
       // we're compiling with nvcc, launch a kernel
       const bool use_wide_fill = thrust::detail::is_trivial_iterator<OutputIterator>::value
           && thrust::detail::has_trivial_assign<OutputType>::value
