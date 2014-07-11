@@ -38,7 +38,7 @@ namespace cuda
 {
 namespace detail
 {
-namespace detail
+namespace adjacent_difference_detail
 {
 
 
@@ -149,7 +149,54 @@ struct adjacent_difference_closure
 };
 
 
-} // end namespace detail
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction>
+__host__ __device__
+OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
+                                   InputIterator first, InputIterator last,
+                                   OutputIterator result,
+                                   BinaryFunction binary_op)
+{
+  typedef typename thrust::iterator_value<InputIterator>::type                        InputType;
+  typedef typename thrust::iterator_difference<InputIterator>::type                   IndexType;
+  typedef          thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
+
+  IndexType n = last - first;
+
+  if(n == 0)
+  {
+    return result;
+  }
+
+  Decomposition decomp = default_decomposition(last - first);
+
+  // allocate temporary storage
+  thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, decomp.size() - 1);
+
+  // gather last value in each interval
+  last_index_in_each_interval<Decomposition> unary_op(decomp);
+  thrust::gather(exec,
+                 thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op),
+                 thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op) + (decomp.size() - 1),
+                 first,
+                 temp.begin());
+
+  
+  typedef typename thrust::detail::temporary_array<InputType,DerivedPolicy>::iterator InputIterator2;
+  typedef detail::blocked_thread_array Context;
+  typedef adjacent_difference_closure<InputIterator,InputIterator2,OutputIterator,BinaryFunction,Decomposition,Context> Closure;
+
+  Closure closure(first, temp.begin(), result, binary_op, decomp); 
+
+  detail::launch_closure(exec, closure, decomp.size());
+  
+  return result + n;
+} // end adjacent_difference()
+
+
+} // end namespace adjacent_difference_detail
 
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
@@ -173,40 +220,7 @@ OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
                                         OutputIterator result,
                                         BinaryFunction binary_op)
     {
-      typedef typename thrust::iterator_value<InputIterator>::type                        InputType;
-      typedef typename thrust::iterator_difference<InputIterator>::type                   IndexType;
-      typedef          thrust::system::detail::internal::uniform_decomposition<IndexType> Decomposition;
-
-      IndexType n = last - first;
-
-      if(n == 0)
-      {
-        return result;
-      }
-
-      Decomposition decomp = default_decomposition(last - first);
-
-      // allocate temporary storage
-      thrust::detail::temporary_array<InputType,DerivedPolicy> temp(exec, decomp.size() - 1);
-
-      // gather last value in each interval
-      detail::last_index_in_each_interval<Decomposition> unary_op(decomp);
-      thrust::gather(exec,
-                     thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op),
-                     thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0), unary_op) + (decomp.size() - 1),
-                     first,
-                     temp.begin());
-
-      
-      typedef typename thrust::detail::temporary_array<InputType,DerivedPolicy>::iterator InputIterator2;
-      typedef detail::blocked_thread_array Context;
-      typedef detail::adjacent_difference_closure<InputIterator,InputIterator2,OutputIterator,BinaryFunction,Decomposition,Context> Closure;
-
-      Closure closure(first, temp.begin(), result, binary_op, decomp); 
-
-      detail::launch_closure(exec, closure, decomp.size());
-      
-      return result + n;
+      return thrust::system::cuda::detail::adjacent_difference_detail::adjacent_difference(exec, first, last, result, binary_op);
     }
 
     __host__ __device__
