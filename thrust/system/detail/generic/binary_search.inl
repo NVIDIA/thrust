@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -23,7 +23,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/distance.h>
-#include <thrust/functional.h>
 #include <thrust/binary_search.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
@@ -166,6 +165,21 @@ OutputType binary_search(thrust::execution_policy<DerivedPolicy> &exec,
   return d_output[0];
 }
 
+
+// this functor differs from thrust::less<T>
+// because it allows the types of lhs & rhs to differ
+// which is required by the binary search functions
+// XXX use C++14 thrust::less<> when it's ready
+struct binary_search_less
+{
+  template<typename T1, typename T2>
+  __host__ __device__
+  bool operator()(const T1& lhs, const T2& rhs) const
+  {
+    return lhs < rhs;
+  }
+};
+
    
 } // end namespace detail
 
@@ -182,7 +196,8 @@ ForwardIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator end,
                             const T& value)
 {
-  return thrust::lower_bound(exec, begin, end, value, thrust::less<T>());
+  namespace p = thrust::placeholders;
+  return thrust::lower_bound(exec, begin, end, value, detail::binary_search_less());
 }
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
@@ -206,7 +221,8 @@ ForwardIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
                             ForwardIterator end,
                             const T& value)
 {
-  return thrust::upper_bound(exec, begin, end, value, thrust::less<T>());
+  namespace p = thrust::placeholders;
+  return thrust::upper_bound(exec, begin, end, value, detail::binary_search_less());
 }
 
 
@@ -231,7 +247,7 @@ bool binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                    ForwardIterator end,
                    const T& value)
 {
-  return thrust::binary_search(exec, begin, end, value, thrust::less<T>());
+  return thrust::binary_search(exec, begin, end, value, detail::binary_search_less());
 }
 
 
@@ -261,9 +277,8 @@ OutputIterator lower_bound(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator values_end,
                            OutputIterator output)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type ValueType;
-
-  return thrust::lower_bound(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  namespace p = thrust::placeholders;
+  return thrust::lower_bound(exec, begin, end, values_begin, values_end, output, detail::binary_search_less());
 }
 
 
@@ -290,9 +305,8 @@ OutputIterator upper_bound(thrust::execution_policy<DerivedPolicy> &exec,
                            InputIterator values_end,
                            OutputIterator output)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type ValueType;
-
-  return thrust::upper_bound(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  namespace p = thrust::placeholders;
+  return thrust::upper_bound(exec, begin, end, values_begin, values_end, output, detail::binary_search_less());
 }
 
 
@@ -319,9 +333,8 @@ OutputIterator binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                              InputIterator values_end,
                              OutputIterator output)
 {
-  typedef typename thrust::iterator_value<InputIterator>::type ValueType;
-
-  return thrust::binary_search(exec, begin, end, values_begin, values_end, output, thrust::less<ValueType>());
+  namespace p = thrust::placeholders;
+  return thrust::binary_search(exec, begin, end, values_begin, values_end, output, detail::binary_search_less());
 }
 
 
@@ -347,7 +360,7 @@ equal_range(thrust::execution_policy<DerivedPolicy> &exec,
             ForwardIterator last,
             const LessThanComparable &value)
 {
-  return thrust::equal_range(exec, first, last, value, thrust::less<LessThanComparable>());
+  return thrust::equal_range(exec, first, last, value, detail::binary_search_less());
 }
 
 

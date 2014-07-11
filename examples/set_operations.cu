@@ -134,11 +134,11 @@ void SetIntersectionSize(const Vector& A, const Vector& B)
 
 int main(void)
 {
-  int _A[] = {0,2,4,5,6,8,9};
-  int _B[] = {0,1,2,3,5,7,8};
+  int a[] = {0,2,4,5,6,8,9};
+  int b[] = {0,1,2,3,5,7,8};
 
-  thrust::device_vector<int> A(_A, _A + sizeof(_A) / sizeof(int));
-  thrust::device_vector<int> B(_B, _B + sizeof(_B) / sizeof(int));
+  thrust::device_vector<int> A(a, a + sizeof(a) / sizeof(int));
+  thrust::device_vector<int> B(b, b + sizeof(b) / sizeof(int));
 
   print("Set A", A);
   print("Set B", B);

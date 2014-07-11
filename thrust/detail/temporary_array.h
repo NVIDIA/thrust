@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/tagged_iterator.h>
 #include <thrust/detail/contiguous_storage.h>
 #include <thrust/detail/allocator/temporary_allocator.h>
 #include <thrust/detail/allocator/no_throw_allocator.h>
@@ -107,8 +107,8 @@ template<typename Iterator, typename System>
 
     template<typename Ignored1, typename Ignored2>
     tagged_iterator_range(const Ignored1 &, const Ignored2 &, Iterator first, Iterator last)
-      : m_begin(reinterpret_tag<System>(first)),
-        m_end(reinterpret_tag<System>(last))
+      : m_begin(first),
+        m_end(last)
     {}
 
     iterator begin(void) const { return m_begin; }

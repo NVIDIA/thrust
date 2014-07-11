@@ -7,88 +7,93 @@
 #include <new> // for std::bad_alloc
 #include <iostream>
 
-// This example demonstrates how to intercept calls to malloc
-// and free to implement a fallback for cudaMalloc.
-// When cudaMalloc fails to allocate device memory the fallback_allocator
-// attempts to allocate pinned host memory and then map the host buffer 
-// into the device address space.  The fallback_allocator enables
-// the GPU to process data sets that are larger than the device
-// memory, albeit with a significantly reduced performance.
+// This example demonstrates how to implement a fallback for cudaMalloc
+// with a custom allocator. When cudaMalloc fails to allocate device memory
+// the fallback_allocator attempts to allocate pinned host memory and
+// then map the host buffer into the device address space. The
+// fallback_allocator enables the GPU to process data sets that are larger
+// than the device memory, albeit with a significantly reduced performance.
 
 
-// derive a simple allocator from cuda::execution_policy for using pinned host memory as a functional fallback
-struct fallback_allocator : thrust::cuda::execution_policy<fallback_allocator> {};
-
-
-// overload malloc on fallback_allocator to implement our special malloc 
-// its job to is allocate host memory as a functional fallback when cudaMalloc fails
-void *malloc(fallback_allocator, std::size_t n)
+// fallback_allocator is a memory allocator which uses pinned host memory as a functional fallback
+class fallback_allocator
 {
-  void *result = 0;
+  public:
+    // just allocate bytes
+    typedef char value_type;
 
-  // attempt to allocate device memory
-  if(cudaMalloc(&result, n) == cudaSuccess)
-  {
-    std::cout << "  allocated " << n << " bytes of device memory" << std::endl;
-  }
-  else
-  {
-    // attempt to allocate pinned host memory
-    void *h_ptr = 0;
-    if(cudaMallocHost(&h_ptr, n) == cudaSuccess)
+    // allocate's job to is allocate host memory as a functional fallback when cudaMalloc fails
+    char *allocate(std::ptrdiff_t n)
     {
-      // attempt to map host pointer into device memory space
-      if(cudaHostGetDevicePointer(&result, h_ptr, 0) == cudaSuccess)
+      char *result = 0;
+
+      // attempt to allocate device memory
+      if(cudaMalloc(&result, n) == cudaSuccess)
       {
-        std::cout << "  allocated " << n << " bytes of pinned host memory (fallback successful)" << std::endl;
+        std::cout << "  allocated " << n << " bytes of device memory" << std::endl;
       }
       else
       {
-        // attempt to deallocate buffer
-        std::cout << "  failed to map host memory into device address space (fallback failed)" << std::endl;
-        cudaError_t error = cudaFreeHost(h_ptr);
-        if(error)
-        {
-          throw thrust::system_error(error, thrust::cuda_category(), "cudaFreeHost failed");
-        }
+        // reset the last CUDA error
+        cudaGetLastError();
 
-        result = 0;
+        // attempt to allocate pinned host memory
+        void *h_ptr = 0;
+        if(cudaMallocHost(&h_ptr, n) == cudaSuccess)
+        {
+          // attempt to map host pointer into device memory space
+          if(cudaHostGetDevicePointer(&result, h_ptr, 0) == cudaSuccess)
+          {
+            std::cout << "  allocated " << n << " bytes of pinned host memory (fallback successful)" << std::endl;
+          }
+          else
+          {
+            // reset the last CUDA error
+            cudaGetLastError();
+
+            // attempt to deallocate buffer
+            std::cout << "  failed to map host memory into device address space (fallback failed)" << std::endl;
+            cudaFreeHost(h_ptr);
+
+            throw std::bad_alloc();
+          }
+        }
+        else
+        {
+          // reset the last CUDA error
+          cudaGetLastError();
+
+          std::cout << "  failed to allocate " << n << " bytes of memory (fallback failed)" << std::endl;
+
+          throw std::bad_alloc();
+        }
+      }
+
+      return result;
+    }
+
+    // deallocate's job to is inspect where the pointer lives and free it appropriately
+    void deallocate(char *ptr, size_t n)
+    {
+      void *raw_ptr = thrust::raw_pointer_cast(ptr);
+
+      // determine where memory resides
+      cudaPointerAttributes	attributes;
+
+      if(cudaPointerGetAttributes(&attributes, raw_ptr) == cudaSuccess)
+      {
+        // free the memory in the appropriate way
+        if(attributes.memoryType == cudaMemoryTypeHost)
+        {
+          cudaFreeHost(raw_ptr);
+        }
+        else
+        {
+          cudaFree(raw_ptr);
+        }
       }
     }
-    else
-    {
-      std::cout << "  failed to allocate " << n << " bytes of memory (fallback failed)" << std::endl;
-      result = 0;
-    }
-  }
-
-  return result;
-}
-
-
-// overload free on fallback_allocator to implement our special free 
-// its job to is inspect where the pointer lives and free it appropriately
-template<typename Pointer>
-void free(fallback_allocator, Pointer ptr)
-{
-  void *raw_ptr = thrust::raw_pointer_cast(ptr);
-
-  // determine where memory resides
-  cudaPointerAttributes	attributes;
-
-  if(cudaPointerGetAttributes(&attributes, raw_ptr) == cudaSuccess)
-  {
-    // free the memory in the appropriate way
-    if(attributes.memoryType == cudaMemoryTypeHost)
-    {
-      cudaFreeHost(raw_ptr);
-    }
-    else
-    {
-      cudaFree(raw_ptr);
-    }
-  }
-}
+};
 
 
 int main(void)
@@ -101,7 +106,8 @@ int main(void)
 
   fallback_allocator alloc;
 
-  if(!properties.canMapHostMemory)
+  // this example requires both unified addressing and memory mapping
+  if(!properties.unifiedAddressing || !properties.canMapHostMemory)
   {
     std::cout << "Device #" << device 
               << " [" << properties.name << "] does not support memory mapping" << std::endl;
@@ -127,11 +133,7 @@ int main(void)
       std::cout << "attempting to sort " << n << " values" << std::endl;
 
       // use our special malloc to allocate
-      int *raw_ptr = (int *) malloc(alloc, n * sizeof(int));
-      if(!raw_ptr)
-      {
-        throw std::bad_alloc();
-      }
+      int *raw_ptr = reinterpret_cast<int*>(alloc.allocate(n * sizeof(int)));
 
       thrust::cuda::pointer<int> begin = thrust::cuda::pointer<int>(raw_ptr);
       thrust::cuda::pointer<int> end   = begin + n;
@@ -141,17 +143,17 @@ int main(void)
 
       // sort the data using our special allocator
       // if temporary memory is required during the sort,
-      // our versions of malloc & free will be called
+      // our allocator will be called
       try
       {
-        thrust::sort(alloc, begin, end);
+        thrust::sort(thrust::cuda::par(alloc), begin, end);
       }
       catch(std::bad_alloc)
       {
         std::cout << "  caught std::bad_alloc from thrust::sort" << std::endl;
       }
 
-      free(alloc, raw_ptr);
+      alloc.deallocate(reinterpret_cast<char*>(raw_ptr), n * sizeof(int));
     }
   }
   catch(std::bad_alloc)

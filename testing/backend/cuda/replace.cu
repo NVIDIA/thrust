@@ -57,17 +57,18 @@ void replace_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, 
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestReplaceCopyDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestReplaceCopyDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 1000;
+  thrust::host_vector<int>   h_data = unittest::random_samples<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  T old_value = 0;
-  T new_value = 1;
+  int old_value = 0;
+  int new_value = 1;
   
-  thrust::host_vector<T>   h_dest(n);
-  thrust::device_vector<T> d_dest(n);
+  thrust::host_vector<int>   h_dest(n);
+  thrust::device_vector<int> d_dest(n);
   
   thrust::replace_copy(h_data.begin(), h_data.end(), h_dest.begin(), old_value, new_value);
   replace_copy_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_dest.begin(), old_value, new_value);
@@ -76,19 +77,17 @@ void TestReplaceCopyDevice(ExecutionPolicy exec, const size_t n)
   ASSERT_ALMOST_EQUAL(h_dest, d_dest);
 }
 
-template<typename T>
-void TestReplaceCopyDeviceSeq(const size_t n)
+void TestReplaceCopyDeviceSeq()
 {
-  TestReplaceCopyDevice<T>(thrust::seq, n);
+  TestReplaceCopyDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceCopyDeviceSeq);
+DECLARE_UNITTEST(TestReplaceCopyDeviceSeq);
 
-template<typename T>
-void TestReplaceCopyDeviceDevice(const size_t n)
+void TestReplaceCopyDeviceDevice()
 {
-  TestReplaceCopyDevice<T>(thrust::device, n);
+  TestReplaceCopyDevice(thrust::device);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceCopyDeviceDevice);
+DECLARE_UNITTEST(TestReplaceCopyDeviceDevice);
 
 
 template<typename ExecutionPolicy, typename Iterator, typename Predicate, typename T>
@@ -99,31 +98,30 @@ void replace_if_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Pred
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestReplaceIfDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestReplaceIfDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 1000;
+  thrust::host_vector<int>   h_data = unittest::random_samples<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  thrust::replace_if(h_data.begin(), h_data.end(), less_than_five<T>(), (T) 0);
-  replace_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), less_than_five<T>(), (T) 0);
+  thrust::replace_if(h_data.begin(), h_data.end(), less_than_five<int>(), 0);
+  replace_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), less_than_five<int>(), 0);
   
   ASSERT_ALMOST_EQUAL(h_data, d_data);
 }
 
-template<typename T>
-void TestReplaceIfDeviceSeq(const size_t n)
+void TestReplaceIfDeviceSeq()
 {
-  TestReplaceIfDevice<T>(thrust::seq, n);
+  TestReplaceIfDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceIfDeviceSeq);
+DECLARE_UNITTEST(TestReplaceIfDeviceSeq);
 
-template<typename T>
-void TestReplaceIfDeviceDevice(const size_t n)
+void TestReplaceIfDeviceDevice()
 {
-  TestReplaceIfDevice<T>(thrust::device, n);
+  TestReplaceIfDevice(thrust::device);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceIfDeviceDevice);
+DECLARE_UNITTEST(TestReplaceIfDeviceDevice);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Predicate, typename T>
@@ -134,34 +132,33 @@ void replace_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, It
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestReplaceIfStencilDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestReplaceIfStencilDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 1000;
+  thrust::host_vector<int>   h_data = unittest::random_samples<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  thrust::host_vector<T>   h_stencil = unittest::random_samples<T>(n);
-  thrust::device_vector<T> d_stencil = h_stencil;
+  thrust::host_vector<int>   h_stencil = unittest::random_samples<int>(n);
+  thrust::device_vector<int> d_stencil = h_stencil;
   
-  thrust::replace_if(h_data.begin(), h_data.end(), h_stencil.begin(), less_than_five<T>(), (T) 0);
-  replace_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_stencil.begin(), less_than_five<T>(), (T) 0);
+  thrust::replace_if(h_data.begin(), h_data.end(), h_stencil.begin(), less_than_five<int>(), 0);
+  replace_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_stencil.begin(), less_than_five<int>(), 0);
   
   ASSERT_ALMOST_EQUAL(h_data, d_data);
 }
 
-template<typename T>
-void TestReplaceIfStencilDeviceSeq(const size_t n)
+void TestReplaceIfStencilDeviceSeq()
 {
-  TestReplaceIfStencilDevice<T>(thrust::seq, n);
+  TestReplaceIfStencilDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceIfStencilDeviceSeq);
+DECLARE_UNITTEST(TestReplaceIfStencilDeviceSeq);
 
-template<typename T>
-void TestReplaceIfStencilDeviceDevice(const size_t n)
+void TestReplaceIfStencilDeviceDevice()
 {
-  TestReplaceIfStencilDevice<T>(thrust::device, n);
+  TestReplaceIfStencilDevice(thrust::device);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceIfStencilDeviceDevice);
+DECLARE_UNITTEST(TestReplaceIfStencilDeviceDevice);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Predicate, typename T>
@@ -172,35 +169,34 @@ void replace_copy_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 las
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestReplaceCopyIfDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestReplaceCopyIfDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 1000;
+  thrust::host_vector<int>   h_data = unittest::random_samples<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  thrust::host_vector<T>   h_dest(n);
-  thrust::device_vector<T> d_dest(n);
+  thrust::host_vector<int>   h_dest(n);
+  thrust::device_vector<int> d_dest(n);
   
-  thrust::replace_copy_if(h_data.begin(), h_data.end(), h_dest.begin(), less_than_five<T>(), 0);
-  replace_copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_dest.begin(), less_than_five<T>(), 0);
+  thrust::replace_copy_if(h_data.begin(), h_data.end(), h_dest.begin(), less_than_five<int>(), 0);
+  replace_copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_dest.begin(), less_than_five<int>(), 0);
   
   ASSERT_ALMOST_EQUAL(h_data, d_data);
   ASSERT_ALMOST_EQUAL(h_dest, d_dest);
 }
 
-template<typename T>
-void TestReplaceCopyIfDeviceSeq(const size_t n)
+void TestReplaceCopyIfDeviceSeq()
 {
-  TestReplaceCopyIfDevice<T>(thrust::seq, n);
+  TestReplaceCopyIfDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfDeviceSeq);
+DECLARE_UNITTEST(TestReplaceCopyIfDeviceSeq);
 
-template<typename T>
-void TestReplaceCopyIfDeviceDevice(const size_t n)
+void TestReplaceCopyIfDeviceDevice()
 {
-  TestReplaceCopyIfDevice<T>(thrust::device, n);
+  TestReplaceCopyIfDevice(thrust::device);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfDeviceDevice);
+DECLARE_UNITTEST(TestReplaceCopyIfDeviceDevice);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename T>
@@ -211,36 +207,71 @@ void replace_copy_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 las
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestReplaceCopyIfStencilDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestReplaceCopyIfStencilDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 1000;
+  thrust::host_vector<int>   h_data = unittest::random_samples<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  thrust::host_vector<T>   h_stencil = unittest::random_samples<T>(n);
-  thrust::device_vector<T> d_stencil = h_stencil;
+  thrust::host_vector<int>   h_stencil = unittest::random_samples<int>(n);
+  thrust::device_vector<int> d_stencil = h_stencil;
   
-  thrust::host_vector<T>   h_dest(n);
-  thrust::device_vector<T> d_dest(n);
+  thrust::host_vector<int>   h_dest(n);
+  thrust::device_vector<int> d_dest(n);
   
-  thrust::replace_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), h_dest.begin(), less_than_five<T>(), 0);
-  replace_copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_stencil.begin(), d_dest.begin(), less_than_five<T>(), 0);
+  thrust::replace_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), h_dest.begin(), less_than_five<int>(), 0);
+  replace_copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_stencil.begin(), d_dest.begin(), less_than_five<int>(), 0);
   
   ASSERT_ALMOST_EQUAL(h_data, d_data);
   ASSERT_ALMOST_EQUAL(h_dest, d_dest);
 }
 
-template<typename T>
-void TestReplaceCopyIfStencilDeviceSeq(const size_t n)
-{
-  TestReplaceCopyIfStencilDevice<T>(thrust::seq, n);
-}
-DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfStencilDeviceSeq);
 
-template<typename T>
-void TestReplaceCopyIfStencilDeviceDevice(const size_t n)
+void TestReplaceCopyIfStencilDeviceSeq()
 {
-  TestReplaceCopyIfStencilDevice<T>(thrust::device, n);
+  TestReplaceCopyIfStencilDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestReplaceCopyIfStencilDeviceDevice);
+DECLARE_UNITTEST(TestReplaceCopyIfStencilDeviceSeq);
+
+
+void TestReplaceCopyIfStencilDeviceDevice()
+{
+  TestReplaceCopyIfStencilDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestReplaceCopyIfStencilDeviceDevice);
+
+
+void TestReplaceCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector data(5);
+  data[0] =  1; 
+  data[1] =  2; 
+  data[2] =  1;
+  data[3] =  3; 
+  data[4] =  2; 
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  thrust::replace(thrust::cuda::par(s), data.begin(), data.end(), (T) 1, (T) 4);
+  thrust::replace(thrust::cuda::par(s), data.begin(), data.end(), (T) 2, (T) 5);
+
+  cudaStreamSynchronize(s);
+
+  Vector result(5);
+  result[0] =  4; 
+  result[1] =  5; 
+  result[2] =  4;
+  result[3] =  3; 
+  result[4] =  5; 
+
+  ASSERT_EQUAL(data, result);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestReplaceCudaStreams);
 

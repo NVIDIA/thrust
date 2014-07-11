@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
-#include <thrust/adjacent_difference.h>
+#include <thrust/copy.h>
+#include <thrust/sequence.h>
 #include <thrust/execution_policy.h>
 
 
@@ -26,26 +27,27 @@ __global__ void copy_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestCopyIfDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestCopyIfDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 1000;
+  thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  typename thrust::host_vector<T>::iterator   h_new_end;
-  typename thrust::device_vector<T>::iterator d_new_end;
+  typename thrust::host_vector<int>::iterator   h_new_end;
+  typename thrust::device_vector<int>::iterator d_new_end;
 
   thrust::device_vector<
-    typename thrust::device_vector<T>::iterator
+    typename thrust::device_vector<int>::iterator
   > d_new_end_vec(1);
   
   // test with Predicate that returns a bool
   {
-    thrust::host_vector<T>   h_result(n);
-    thrust::device_vector<T> d_result(n);
+    thrust::host_vector<int>   h_result(n);
+    thrust::device_vector<int> d_result(n);
     
-    h_new_end = thrust::copy_if(h_data.begin(), h_data.end(), h_result.begin(), is_even<T>());
-    copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), is_even<T>(), d_new_end_vec.begin());
+    h_new_end = thrust::copy_if(h_data.begin(), h_data.end(), h_result.begin(), is_even<int>());
+    copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), is_even<int>(), d_new_end_vec.begin());
     d_new_end = d_new_end_vec[0];
     
     h_result.resize(h_new_end - h_result.begin());
@@ -56,11 +58,11 @@ void TestCopyIfDevice(ExecutionPolicy exec, const size_t n)
   
   // test with Predicate that returns a non-bool
   {
-    thrust::host_vector<T>   h_result(n);
-    thrust::device_vector<T> d_result(n);
+    thrust::host_vector<int>   h_result(n);
+    thrust::device_vector<int> d_result(n);
     
-    h_new_end = thrust::copy_if(h_data.begin(), h_data.end(), h_result.begin(), mod_3<T>());
-    copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), mod_3<T>(), d_new_end_vec.begin());
+    h_new_end = thrust::copy_if(h_data.begin(), h_data.end(), h_result.begin(), mod_3<int>());
+    copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), mod_3<int>(), d_new_end_vec.begin());
     d_new_end = d_new_end_vec[0];
     
     h_result.resize(h_new_end - h_result.begin());
@@ -71,20 +73,51 @@ void TestCopyIfDevice(ExecutionPolicy exec, const size_t n)
 }
 
 
-template<typename T>
-void TestCopyIfDeviceSeq(const size_t n)
+void TestCopyIfDeviceSeq()
 {
-  TestCopyIfDevice<T>(thrust::seq, n);
+  TestCopyIfDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestCopyIfDeviceSeq);
+DECLARE_UNITTEST(TestCopyIfDeviceSeq);
 
 
-template<typename T>
-void TestCopyIfDeviceDevice(const size_t n)
+void TestCopyIfDeviceDevice()
 {
-  TestCopyIfDevice<T>(thrust::device, n);
+  TestCopyIfDevice(thrust::device);
 }
-DECLARE_VARIABLE_UNITTEST(TestCopyIfDeviceDevice);
+DECLARE_UNITTEST(TestCopyIfDeviceDevice);
+
+
+void TestCopyIfCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector data(5);
+  data[0] =  1; 
+  data[1] =  2; 
+  data[2] =  1;
+  data[3] =  3; 
+  data[4] =  2; 
+
+  Vector result(5);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  typename Vector::iterator end = thrust::copy_if(thrust::cuda::par(s),
+                                                  data.begin(), 
+                                                  data.end(), 
+                                                  result.begin(),
+                                                  is_even<int>());
+
+  ASSERT_EQUAL(end - result.begin(), 2);
+
+  ASSERT_EQUAL(result[0], 2);
+  ASSERT_EQUAL(result[1], 2);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestCopyIfCudaStreams);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename Iterator4>
@@ -94,32 +127,33 @@ __global__ void copy_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestCopyIfStencilDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestCopyIfStencilDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data(n); thrust::sequence(h_data.begin(), h_data.end());
-  thrust::device_vector<T> d_data(n); thrust::sequence(d_data.begin(), d_data.end()); 
+  size_t n = 1000;
+  thrust::host_vector<int>   h_data(n); thrust::sequence(h_data.begin(), h_data.end());
+  thrust::device_vector<int> d_data(n); thrust::sequence(d_data.begin(), d_data.end()); 
   
-  thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
-  thrust::device_vector<T> d_stencil = unittest::random_integers<T>(n);
+  thrust::host_vector<int>   h_stencil = unittest::random_integers<int>(n);
+  thrust::device_vector<int> d_stencil = unittest::random_integers<int>(n);
   
-  thrust::host_vector<T>   h_result(n);
-  thrust::device_vector<T> d_result(n);
+  thrust::host_vector<int>   h_result(n);
+  thrust::device_vector<int> d_result(n);
   
-  typename thrust::host_vector<T>::iterator   h_new_end;
-  typename thrust::device_vector<T>::iterator d_new_end;
+  typename thrust::host_vector<int>::iterator   h_new_end;
+  typename thrust::device_vector<int>::iterator d_new_end;
 
   thrust::device_vector<
-    typename thrust::device_vector<T>::iterator
+    typename thrust::device_vector<int>::iterator
   > d_new_end_vec(1);
   
   // test with Predicate that returns a bool
   {
-    thrust::host_vector<T>   h_result(n);
-    thrust::device_vector<T> d_result(n);
+    thrust::host_vector<int>   h_result(n);
+    thrust::device_vector<int> d_result(n);
     
-    h_new_end = thrust::copy_if(h_data.begin(), h_data.end(), h_result.begin(), is_even<T>());
-    copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), is_even<T>(), d_new_end_vec.begin());
+    h_new_end = thrust::copy_if(h_data.begin(), h_data.end(), h_result.begin(), is_even<int>());
+    copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), is_even<int>(), d_new_end_vec.begin());
     d_new_end = d_new_end_vec[0];
     
     h_result.resize(h_new_end - h_result.begin());
@@ -130,11 +164,11 @@ void TestCopyIfStencilDevice(ExecutionPolicy exec, const size_t n)
   
   // test with Predicate that returns a non-bool
   {
-    thrust::host_vector<T>   h_result(n);
-    thrust::device_vector<T> d_result(n);
+    thrust::host_vector<int>   h_result(n);
+    thrust::device_vector<int> d_result(n);
     
-    h_new_end = thrust::copy_if(h_data.begin(), h_data.end(), h_result.begin(), mod_3<T>());
-    copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), mod_3<T>(), d_new_end_vec.begin());
+    h_new_end = thrust::copy_if(h_data.begin(), h_data.end(), h_result.begin(), mod_3<int>());
+    copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), mod_3<int>(), d_new_end_vec.begin());
     d_new_end = d_new_end_vec[0];
     
     h_result.resize(h_new_end - h_result.begin());
@@ -145,19 +179,57 @@ void TestCopyIfStencilDevice(ExecutionPolicy exec, const size_t n)
 }
 
 
-template<typename T>
-void TestCopyIfStencilDeviceSeq(const size_t n)
+void TestCopyIfStencilDeviceSeq()
 {
-  TestCopyIfStencilDevice<T>(thrust::seq, n);
+  TestCopyIfStencilDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestCopyIfStencilDeviceSeq);
+DECLARE_UNITTEST(TestCopyIfStencilDeviceSeq);
 
 
-template<typename T>
-void TestCopyIfStencilDeviceDevice(const size_t n)
+void TestCopyIfStencilDeviceDevice()
 {
-  TestCopyIfStencilDevice<T>(thrust::device, n);
+  TestCopyIfStencilDevice(thrust::device);
 }
-DECLARE_VARIABLE_UNITTEST(TestCopyIfStencilDeviceDevice);
+DECLARE_UNITTEST(TestCopyIfStencilDeviceDevice);
 
+
+void TestCopyIfStencilCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector data(5);
+  data[0] =  1; 
+  data[1] =  2; 
+  data[2] =  1;
+  data[3] =  3; 
+  data[4] =  2; 
+
+  Vector result(5);
+
+  Vector stencil(5);
+  stencil[0] = 0;
+  stencil[1] = 1;
+  stencil[2] = 0;
+  stencil[3] = 0;
+  stencil[4] = 1;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  typename Vector::iterator end = thrust::copy_if(thrust::cuda::par(s),
+                                                  data.begin(), 
+                                                  data.end(),
+                                                  stencil.begin(),
+                                                  result.begin(),
+                                                  thrust::identity<T>());
+
+  ASSERT_EQUAL(end - result.begin(), 2);
+
+  ASSERT_EQUAL(result[0], 2);
+  ASSERT_EQUAL(result[1], 2);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestCopyIfStencilCudaStreams);
 

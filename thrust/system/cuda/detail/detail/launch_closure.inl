@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,7 +22,7 @@
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/detail/uninitialized.h>
-#include <thrust/detail/seq.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
 {
@@ -80,23 +80,23 @@ template<typename Closure,
     return launch_closure_by_value<Closure>;
   }
 
-  template<typename Size1, typename Size2, typename Size3>
+  template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
   __host__ __device__
-  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
     launch_function_t kernel = get_launch_function();
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
+#if __BULK_HAS_CUDART__
     if(num_blocks > 0)
     {
       uninitialized<Closure> c;
       c.construct(f);
-      kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>(c);
+      kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(thrust::detail::derived_cast(exec))>>>(c);
       synchronize_if_enabled("launch_closure_by_value");
     }
-#endif // __CUDA_ARCH__
+#endif // __BULK_HAS_CUDART__
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
 }; // end closure_launcher_base
@@ -113,28 +113,26 @@ template<typename Closure>
     return launch_closure_by_pointer<Closure>;
   }
 
-  template<typename Size1, typename Size2, typename Size3>
+  template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
   __host__ __device__
-  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
     launch_function_t kernel = get_launch_function();
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
+#if __BULK_HAS_CUDART__
     if(num_blocks > 0)
     {
       // use temporary storage for the closure
-      // XXX use of cuda::tag is too specific here
-      thrust::cuda::tag cuda_tag;
       thrust::host_system_tag host_tag;
-      thrust::detail::temporary_array<Closure,thrust::cuda::tag> closure_storage(cuda_tag, host_tag, &f, &f + 1);
+      thrust::detail::temporary_array<Closure,DerivedPolicy> closure_storage(exec, host_tag, &f, &f + 1);
 
       // launch
-      kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size>>>((&closure_storage[0]).get());
+      kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(thrust::detail::derived_cast(exec))>>>((&closure_storage[0]).get());
       synchronize_if_enabled("launch_closure_by_pointer");
     }
-#endif // __CUDA_ARCH__
+#endif // __BULK_HAS_CUDART__
 #endif // THRUST_DEVICE_COMPILER_NVCC
   }
 };
@@ -158,34 +156,34 @@ template<typename Closure>
     return thrust::system::cuda::detail::function_attributes(super_t::get_launch_function());
   }
 
-  template<typename Size1, typename Size2, typename Size3>
+  template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
   __host__ __device__
-  static void launch(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+  static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
-    super_t::launch(f,num_blocks,block_size,smem_size);
+    super_t::launch(exec,f,num_blocks,block_size,smem_size);
   }
 };
 
-template<typename Closure, typename Size>
+template<typename DerivedPolicy, typename Closure, typename Size>
 __host__ __device__
-void launch_closure(Closure f, Size num_blocks)
+void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size num_blocks)
 {
   launch_calculator<Closure> calculator;
-  launch_closure(f, num_blocks, thrust::get<1>(calculator.with_variable_block_size()));
+  launch_closure(exec, f, num_blocks, thrust::get<1>(calculator.with_variable_block_size()));
 } // end launch_closure()
 
-template<typename Closure, typename Size1, typename Size2>
+template<typename DerivedPolicy, typename Closure, typename Size1, typename Size2>
 __host__ __device__
-void launch_closure(Closure f, Size1 num_blocks, Size2 block_size)
+void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size)
 {
-  launch_closure(f, num_blocks, block_size, 0u);
+  launch_closure(exec, f, num_blocks, block_size, 0u);
 } // end launch_closure()
 
-template<typename Closure, typename Size1, typename Size2, typename Size3>
+template<typename DerivedPolicy, typename Closure, typename Size1, typename Size2, typename Size3>
 __host__ __device__
-void launch_closure(Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
+void launch_closure(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
 {
-  closure_launcher<Closure>::launch(f, num_blocks, block_size, smem_size);
+  closure_launcher<Closure>::launch(exec, f, num_blocks, block_size, smem_size);
 } // end launch_closure()
 
 

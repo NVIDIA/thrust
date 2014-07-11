@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -162,7 +162,7 @@ template<typename ExecutionPolicy,
          typename BinaryFunction,
          typename Decomposition>
 __host__ __device__
-void reduce_intervals(execution_policy<ExecutionPolicy> &,
+void reduce_intervals(execution_policy<ExecutionPolicy> &exec,
                       InputIterator input,
                       OutputIterator output,
                       BinaryFunction binary_op,
@@ -201,7 +201,7 @@ void reduce_intervals(execution_policy<ExecutionPolicy> &,
   // TODO if (shared_array_size < 1) throw cuda exception "insufficient shared memory"
 
   Closure closure(input, output, binary_op, decomp, shared_array_size);
-  detail::launch_closure(closure, decomp.size(), block_size, shared_array_bytes);
+  detail::launch_closure(exec, closure, decomp.size(), block_size, shared_array_bytes);
 }
 
 

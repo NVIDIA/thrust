@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/system/error_code.h>
-#include <driver_types.h>
+#include <thrust/system/cuda/detail/guarded_driver_types.h>
 
 namespace thrust
 {

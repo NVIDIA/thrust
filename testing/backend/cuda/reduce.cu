@@ -50,3 +50,25 @@ struct TestReduceDeviceDevice
 };
 VariableUnitTest<TestReduceDeviceDevice, IntegralTypes> TestReduceDeviceDeviceInstance;
 
+
+void TestReduceCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector v(3);
+  v[0] = 1; v[1] = -2; v[2] = 3;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  // no initializer
+  ASSERT_EQUAL(thrust::reduce(thrust::cuda::par(s), v.begin(), v.end()), 2);
+
+  // with initializer
+  ASSERT_EQUAL(thrust::reduce(thrust::cuda::par(s), v.begin(), v.end(), 10), 12);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestReduceCudaStreams);
+

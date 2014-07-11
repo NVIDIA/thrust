@@ -11,44 +11,57 @@ void inner_product_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestInnerProductDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestInnerProductDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T> h_v1 = unittest::random_integers<T>(n);
-  thrust::host_vector<T> h_v2 = unittest::random_integers<T>(n);
+  size_t n = 1000;
+
+  thrust::host_vector<int> h_v1 = unittest::random_integers<int>(n);
+  thrust::host_vector<int> h_v2 = unittest::random_integers<int>(n);
   
-  thrust::device_vector<T> d_v1 = h_v1;
-  thrust::device_vector<T> d_v2 = h_v2;
+  thrust::device_vector<int> d_v1 = h_v1;
+  thrust::device_vector<int> d_v2 = h_v2;
   
-  thrust::device_vector<T> result(1);
+  thrust::device_vector<int> result(1);
   
-  T init = 13;
+  int init = 13;
   
-  T expected = thrust::inner_product(h_v1.begin(), h_v1.end(), h_v2.begin(), init);
+  int expected = thrust::inner_product(h_v1.begin(), h_v1.end(), h_v2.begin(), init);
   inner_product_kernel<<<1,1>>>(exec, d_v1.begin(), d_v1.end(), d_v2.begin(), init, result.begin());
   
   ASSERT_EQUAL(expected, result[0]);
 }
 
 
-template<typename T>
-struct TestInnerProductDeviceSeq
+void TestInnerProductDeviceSeq()
 {
-  void operator()(const size_t n)
-  {
-    TestInnerProductDevice<T>(thrust::seq, n);
-  }
+  TestInnerProductDevice(thrust::seq);
 };
-VariableUnitTest<TestInnerProductDeviceSeq, IntegralTypes> TestInnerProductDeviceSeqInstance;
+DECLARE_UNITTEST(TestInnerProductDeviceSeq);
 
 
-template<typename T>
-struct TestInnerProductDeviceDevice
+void TestInnerProductDeviceDevice()
 {
-  void operator()(const size_t n)
-  {
-    TestInnerProductDevice<T>(thrust::device, n);
-  }
+  TestInnerProductDevice(thrust::device);
 };
-VariableUnitTest<TestInnerProductDeviceDevice, IntegralTypes> TestInnerProductDeviceDeviceInstance;
+DECLARE_UNITTEST(TestInnerProductDeviceDevice);
+
+
+void TestInnerProductCudaStreams()
+{
+  thrust::device_vector<int> v1(3);
+  thrust::device_vector<int> v2(3);
+  v1[0] =  1; v1[1] = -2; v1[2] =  3;
+  v2[0] = -4; v2[1] =  5; v2[2] =  6;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  int init = 3;
+  int result = thrust::inner_product(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin(), init);
+  ASSERT_EQUAL(result, 7);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestInnerProductCudaStreams);
 

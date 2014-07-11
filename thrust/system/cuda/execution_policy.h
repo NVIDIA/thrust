@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -149,6 +149,61 @@ struct tag : thrust::system::cuda::execution_policy<tag> { unspecified };
  *
  *  // 0 1 2 is printed to standard output in some unspecified order
  *  \endcode
+ *
+ *  Explicit dispatch may also be used to direct Thrust's CUDA backend to launch CUDA kernels implementing
+ *  an algorithm invocation on a particular CUDA stream. In some cases, this may achieve concurrency with the
+ *  caller and other algorithms and CUDA kernels executing on a separate CUDA stream. The following code
+ *  snippet demonstrates how to use the \p thrust::cuda::par execution policy to explicitly dispatch invocations
+ *  of \p thrust::for_each on separate CUDA streams:
+ *
+ *  \code
+ *  #include <thrust/for_each.h>
+ *  #include <thrust/system/cuda/execution_policy.h>
+ *
+ *  struct printf_functor
+ *  {
+ *    cudaStream_t s;
+ *
+ *    printf_functor(cudaStream_t s) : s(s) {}
+ *
+ *    __host__ __device__
+ *    void operator()(int)
+ *    {
+ *      printf("Hello, world from stream %p\n", static_cast<void*>(s));
+ *    }
+ *  };
+ *
+ *  int main()
+ *  {
+ *    // create two CUDA streams
+ *    cudaStream_t s1, s2;
+ *    cudaStreamCreate(&s1);
+ *    cudaStreamCreate(&s2);
+ *  
+ *    thrust::counting_iterator<int> iter(0);
+ *  
+ *    // execute for_each on two different streams
+ *    thrust::for_each(thrust::cuda::par(s1), iter, iter + 1, printf_functor(s1));
+ *    thrust::for_each(thrust::cuda::par(s2), iter, iter + 1, printf_functor(s2));
+ *  
+ *    // synchronize with both streams
+ *    cudaStreamSynchronize(s1);
+ *    cudaStreamSynchronize(s2);
+ *  
+ *    // destroy streams
+ *    cudaStreamDestroy(s1);
+ *    cudaStreamDestroy(s2);
+ *  
+ *    return 0;
+ *  }
+ *  \endcode
+ *
+ *  Even when using CUDA streams with \p thrust::cuda::par, there is no guarantee of concurrency. Algorithms
+ *  which return a data-dependent result or whose implementations require temporary memory allocation may
+ *  cause blocking synchronization events. Moreover, it may be necessary to explicitly synchronize through
+ *  \p cudaStreamSynchronize or similar before any effects induced through algorithm execution are visible to
+ *  the rest of the system. Finally, it is the responsibility of the caller to own the lifetime of any CUDA
+ *  streams involved.
  */
 static const unspecified par;
 

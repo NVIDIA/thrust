@@ -4,6 +4,7 @@
 #include <thrust/sort.h>
 #include <thrust/unique.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 
 template<typename Vector>
 void TestMergeByKeySimple(void)
@@ -205,7 +206,7 @@ template<typename T>
   thrust::host_vector<T> h_b_vals = unittest::random_integers<T>(n);
 
   thrust::stable_sort(h_a_keys.begin(), h_a_keys.end());
-  thrust::stable_sort(h_b_vals.begin(), h_b_vals.end());
+  thrust::stable_sort(h_b_keys.begin(), h_b_keys.end());
 
   thrust::device_vector<T> d_a_keys = h_a_keys;
   thrust::device_vector<T> d_b_keys = h_b_keys;

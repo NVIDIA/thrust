@@ -164,6 +164,16 @@ bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwarg
   return result;
 }
 
+int CUDATestDriver::current_device_architecture() const
+{
+  int current = -1;
+  cudaGetDevice(&current);
+  cudaDeviceProp deviceProp;
+  cudaGetDeviceProperties(&deviceProp, current);
+
+  return 100 * deviceProp.major + 10 * deviceProp.minor;
+}
+
 UnitTestDriver &driver_instance(thrust::system::cuda::tag)
 {
   static CUDATestDriver s_instance;

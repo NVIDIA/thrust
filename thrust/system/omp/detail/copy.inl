@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -21,7 +21,6 @@
 #include <thrust/system/detail/generic/copy.h>
 #include <thrust/system/detail/sequential/copy.h>
 #include <thrust/detail/type_traits/minimum_type.h>
-#include <thrust/iterator/detail/retag.h>
 
 
 namespace thrust
@@ -58,16 +57,7 @@ template<typename DerivedPolicy,
                       OutputIterator result,
                       thrust::random_access_traversal_tag)
 {
-  // XXX WAR problems reconciling unrelated types such as omp & tbb
-  // reinterpret iterators as the policy we were passed
-  // this ensures that generic::copy's implementation, which eventually results in
-  // zip_iterator works correctly
-  //
-  // the correct way to do this might be to force the eventual zip_iterator to use
-  // the DerivedPolicy in the implementation of copy
-  thrust::detail::tagged_iterator<OutputIterator,DerivedPolicy> retagged_result(result);
-
-  return thrust::system::detail::generic::copy(exec, thrust::reinterpret_tag<DerivedPolicy>(first), thrust::reinterpret_tag<DerivedPolicy>(last), retagged_result).base();
+  return thrust::system::detail::generic::copy(exec, first, last, result);
 } // end copy()
 
 
@@ -95,16 +85,7 @@ template<typename DerivedPolicy,
                         OutputIterator result,
                         thrust::random_access_traversal_tag)
 {
-  // XXX WAR problems reconciling unrelated types such as omp & tbb
-  // reinterpret iterators as the policy we were passed
-  // this ensures that generic::copy's implementation, which eventually results in
-  // zip_iterator works correctly
-  //
-  // the correct way to do this might be to force the eventual zip_iterator to use
-  // the DerivedPolicy in the implementation of copy
-  thrust::detail::tagged_iterator<OutputIterator,DerivedPolicy> retagged_result(result);
-
-  return thrust::system::detail::generic::copy_n(exec, thrust::reinterpret_tag<DerivedPolicy>(first), n, retagged_result).base();
+  return thrust::system::detail::generic::copy_n(exec, first, n, result);
 } // end copy_n()
 
 

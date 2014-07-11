@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@
 #include <thrust/system/cuda/detail/detail/stable_sort_each.h>
 #include <thrust/system/cuda/detail/block/copy.h>
 #include <thrust/system/cuda/detail/detail/merge.h>
+#include <thrust/system/cuda/detail/extern_shared_ptr.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/swap.h>
 #include <thrust/detail/util/blocking.h>
@@ -283,7 +284,7 @@ template<unsigned int work_per_thread,
          typename RandomAccessIterator2,
          typename Compare>
 __host__ __device__
-void stable_sort_each_copy(execution_policy<DerivedPolicy> &,
+void stable_sort_each_copy(execution_policy<DerivedPolicy> &exec,
                            Context context,
                            unsigned int block_size,
                            RandomAccessIterator1 first, RandomAccessIterator1 last,
@@ -317,13 +318,13 @@ void stable_sort_each_copy(execution_policy<DerivedPolicy> &,
   {
     virtualized_smem_closure<closure_type, Pointer> virtualized_closure(closure, num_smem_elements_per_block, virtual_smem);
 
-    thrust::system::cuda::detail::detail::launch_closure(virtualized_closure, num_blocks, block_size);
+    thrust::system::cuda::detail::detail::launch_closure(exec, virtualized_closure, num_blocks, block_size);
   }
   else
   {
     const size_t num_smem_bytes = num_smem_elements_per_block * sizeof(value_type);
 
-    thrust::system::cuda::detail::detail::launch_closure(closure, num_blocks, block_size, num_smem_bytes);
+    thrust::system::cuda::detail::detail::launch_closure(exec, closure, num_blocks, block_size, num_smem_bytes);
   }
 }
 

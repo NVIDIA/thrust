@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,6 +15,9 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/copy_if.h>
+#include <thrust/detail/seq.h>
+#include <thrust/system/cuda/detail/bulk.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/detail/minmax.h>
@@ -40,6 +43,8 @@ namespace system
 namespace cuda
 {
 namespace detail
+{
+namespace copy_if_detail
 {
 
 
@@ -72,8 +77,6 @@ struct copy_if_intervals_closure
   __device__ __thrust_forceinline__
   void operator()(void)
   {
-    typedef typename thrust::iterator_value<OutputIterator>::type OutputType;
-   
     typedef unsigned int PredicateType;
     
     const unsigned int CTA_SIZE = context_type::ThreadsPerBlock::value;
@@ -174,7 +177,6 @@ OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
                        Predicate pred)
 {
   typedef typename thrust::iterator_difference<InputIterator1>::type IndexType;
-  typedef typename thrust::iterator_value<OutputIterator>::type      OutputType;
 
   if(first == last)
   {
@@ -207,9 +209,58 @@ OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
   typedef detail::statically_blocked_thread_array<ThreadsPerBlock> Context;
   typedef copy_if_intervals_closure<InputIterator1,PredicateToIndexIterator,InputIterator3,Decomposition,OutputIterator,Context> Closure;
   Closure closure(first, predicate_stencil, block_results.begin(), decomp, output);
-  detail::launch_closure(closure, decomp.size(), ThreadsPerBlock);
+  detail::launch_closure(exec, closure, decomp.size(), ThreadsPerBlock);
 
   return output + block_results[decomp.size() - 1];
+} // end copy_if()
+
+
+} // end copy_if_detail
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator,
+         typename Predicate>
+__host__ __device__
+OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
+                       InputIterator1 first,
+                       InputIterator1 last,
+                       InputIterator2 stencil,
+                       OutputIterator output,
+                       Predicate pred)
+{
+  struct workaround
+  {
+    __host__ __device__
+    static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
+                                        InputIterator1 first,
+                                        InputIterator1 last,
+                                        InputIterator2 stencil,
+                                        OutputIterator output,
+                                        Predicate pred)
+    {
+      return thrust::system::cuda::detail::copy_if_detail::copy_if(exec, first, last, stencil, output, pred);
+    } // end parallel_path()
+
+    __host__ __device__
+    static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
+                                          InputIterator1 first,
+                                          InputIterator1 last,
+                                          InputIterator2 stencil,
+                                          OutputIterator output,
+                                          Predicate pred)
+    {
+      return thrust::copy_if(thrust::seq, first, last, stencil, output, pred);
+    } // end parallel_path()
+  }; // end workaround
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, last, stencil, output, pred);
+#else
+  return workaround::sequential_path(exec, first, last, stencil, output, pred);
+#endif
 } // end copy_if()
 
 

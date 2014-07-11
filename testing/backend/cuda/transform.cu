@@ -257,3 +257,58 @@ void TestTransformIfBinaryDeviceDevice()
 }
 DECLARE_UNITTEST(TestTransformIfBinaryDeviceDevice);
 
+void TestTransformUnaryCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  
+  typename Vector::iterator iter;
+
+  Vector input(3);
+  Vector output(3);
+  Vector result(3);
+  input[0]  =  1; input[1]  = -2; input[2]  =  3;
+  result[0] = -1; result[1] =  2; result[2] = -3;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  iter = thrust::transform(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), thrust::negate<T>());
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(output, result);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestTransformUnaryCudaStreams);
+
+
+void TestTransformBinaryCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  typename Vector::iterator iter;
+
+  Vector input1(3);
+  Vector input2(3);
+  Vector output(3);
+  Vector result(3);
+  input1[0] =  1; input1[1] = -2; input1[2] =  3;
+  input2[0] = -4; input2[1] =  5; input2[2] =  6;
+  result[0] =  5; result[1] = -7; result[2] = -3;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  iter = thrust::transform(thrust::cuda::par(s), input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(iter - output.begin(), input1.size());
+  ASSERT_EQUAL(output, result);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestTransformBinaryCudaStreams);
+

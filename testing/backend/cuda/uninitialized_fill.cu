@@ -76,6 +76,33 @@ void TestUninitializedFillDeviceDevice()
 DECLARE_UNITTEST(TestUninitializedFillDeviceDevice);
 
 
+void TestUninitializedFillCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef Vector::value_type T;
+  
+  Vector v(5);
+  v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
+  
+  T exemplar(7);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  thrust::uninitialized_fill(thrust::cuda::par(s), v.begin(), v.end(), exemplar);
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(v[0], exemplar);
+  ASSERT_EQUAL(v[1], exemplar);
+  ASSERT_EQUAL(v[2], exemplar);
+  ASSERT_EQUAL(v[3], exemplar);
+  ASSERT_EQUAL(v[4], exemplar);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestUninitializedFillCudaStreams);
+
+
 template<typename ExecutionPolicy, typename Iterator1, typename Size, typename T, typename Iterator2>
 __global__
 void uninitialized_fill_n_kernel(ExecutionPolicy exec, Iterator1 first, Size n, T val, Iterator2 result)
@@ -157,4 +184,31 @@ void TestUninitializedFillNDeviceDevice()
   TestUninitializedFillNDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestUninitializedFillNDeviceDevice);
+
+
+void TestUninitializedFillNCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef Vector::value_type T;
+  
+  Vector v(5);
+  v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
+  
+  T exemplar(7);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  thrust::uninitialized_fill_n(thrust::cuda::par(s), v.begin(), v.size(), exemplar);
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(v[0], exemplar);
+  ASSERT_EQUAL(v[1], exemplar);
+  ASSERT_EQUAL(v[2], exemplar);
+  ASSERT_EQUAL(v[3], exemplar);
+  ASSERT_EQUAL(v[4], exemplar);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestUninitializedFillNCudaStreams);
 

@@ -506,3 +506,35 @@ void TestStablePartitionCopyStencilDeviceDevice()
 DECLARE_UNITTEST(TestStablePartitionCopyStencilDeviceDevice);
 
 
+void TestPartitionCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+  typedef typename Vector::iterator   Iterator;
+  
+  Vector data(5);
+  data[0] = 1; 
+  data[1] = 2; 
+  data[2] = 1;
+  data[3] = 1; 
+  data[4] = 2; 
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  Iterator iter = thrust::partition(thrust::cuda::par(s), data.begin(), data.end(), is_even<T>());
+  
+  Vector ref(5);
+  ref[0] = 2;
+  ref[1] = 2;
+  ref[2] = 1;
+  ref[3] = 1;
+  ref[4] = 1;
+  
+  ASSERT_EQUAL(iter - data.begin(), 2);
+  ASSERT_EQUAL(data, ref);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestPartitionCudaStreams);
+

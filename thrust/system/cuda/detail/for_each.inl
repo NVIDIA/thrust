@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -20,20 +20,13 @@
  */
 
 #include <thrust/detail/config.h>
-
-#include <thrust/detail/minmax.h>
-#include <thrust/detail/static_assert.h>
-
-#include <thrust/distance.h>
 #include <thrust/for_each.h>
-#include <thrust/system/cuda/detail/detail/launch_closure.h>
-#include <thrust/system/cuda/detail/detail/launch_calculator.h>
-#include <thrust/detail/util/blocking.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/distance.h>
+#include <thrust/system/cuda/detail/bulk.h>
 #include <thrust/detail/function.h>
 #include <thrust/detail/seq.h>
-#include <thrust/detail/cstdint.h>
-#include <limits>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
+
 
 namespace thrust
 {
@@ -47,89 +40,27 @@ namespace for_each_n_detail
 {
 
 
-template<typename RandomAccessIterator,
-         typename Size,
-         typename UnaryFunction,
-         typename Context>
-struct for_each_n_closure
+// XXX We could make the kernel simply take first & f as parameters marshalled through async
+//     The problem is that confuses -arch=sm_1x compilation -- it causes nvcc to think some
+//     local pointers are global instead, which leades to a crash. Wrapping up first & f
+//     manually in the functor WARs those problems.
+template<typename Iterator, typename Function>
+struct for_each_kernel
 {
-  typedef void result_type;
-  typedef Context context_type;
-
-  RandomAccessIterator first;
-  Size n;
-  thrust::detail::wrapped_function<UnaryFunction,void> f;
-  Context context;
+  Iterator first;
+  Function f;
 
   __host__ __device__
-  for_each_n_closure(RandomAccessIterator first,
-                     Size n,
-                     UnaryFunction f,
-                     Context context = Context())
-    : first(first), n(n), f(f), context(context)
+  for_each_kernel(Iterator first, Function f)
+    : first(first), f(f)
   {}
 
-  __device__ __thrust_forceinline__
-  result_type operator()(void)
+  __host__ __device__
+  void operator()(bulk_::agent<> &self)
   {
-    const Size grid_size = context.block_dimension() * context.grid_dimension();
-
-    Size i = context.linear_index();
-
-    // advance iterator
-    first += i;
-
-    while(i < n)
-    {
-      f(*first);
-      i += grid_size;
-      first += grid_size;
-    }
+    f(first[self.index()]);
   }
-}; // end for_each_n_closure
-
-
-template<typename Closure, typename Size>
-__host__ __device__
-thrust::tuple<size_t,size_t> configure_launch(Size n)
-{
-  // calculate launch configuration
-  detail::launch_calculator<Closure> calculator;
-  
-  thrust::tuple<size_t, size_t, size_t> config = calculator.with_variable_block_size();
-  size_t max_blocks = thrust::get<0>(config);
-  size_t block_size = thrust::get<1>(config);
-  size_t num_blocks = thrust::min(max_blocks, thrust::detail::util::divide_ri<size_t>(n, block_size));
-
-  return thrust::make_tuple(num_blocks, block_size);
-}
-
-
-template<typename Size>
-__host__ __device__
-bool use_big_closure(Size n, unsigned int little_grid_size)
-{
-  // use the big closure when n will not fit within an unsigned int
-  // or if incrementing an unsigned int by little_grid_size would overflow
-  // the counter
-  
-  unsigned int threshold = thrust::detail::integer_traits<unsigned int>::const_max;
-
-  bool result = (sizeof(Size) > sizeof(unsigned int)) && (thrust::detail::uint64_t(n) > threshold);
-
-  if(!result)
-  {
-    // check if we'd overflow the little closure's counter
-    unsigned int little_n = static_cast<unsigned int>(n);
-
-    if((little_n - 1u) + little_grid_size < little_n)
-    {
-      result = true;
-    }
-  }
-
-  return result;
-}
+};
 
 
 } // end for_each_n_detail
@@ -140,7 +71,7 @@ template<typename DerivedPolicy,
          typename Size,
          typename UnaryFunction>
 __host__ __device__
-RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
+RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
                                 RandomAccessIterator first,
                                 Size n,
                                 UnaryFunction f)
@@ -155,51 +86,31 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &,
   struct workaround
   {
     __host__ __device__
-    static RandomAccessIterator parallel_path(RandomAccessIterator first, Size n, UnaryFunction f)
+    static RandomAccessIterator parallel_path(execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, Size n, UnaryFunction f)
     {
-      if(n <= 0) return first;  // empty range
-      
-      // create two candidate closures to implement the for_each
-      // choose between them based on the whether we can fit n into a smaller integer
-      // and whether or not we'll overflow the closure's counter
+      typedef for_each_n_detail::for_each_kernel<
+        RandomAccessIterator,
+        thrust::detail::wrapped_function<UnaryFunction,void>
+      > kernel_type;
 
-      typedef detail::blocked_thread_array Context;
-      typedef for_each_n_detail::for_each_n_closure<RandomAccessIterator, Size, UnaryFunction, Context>         BigClosure;
-      typedef for_each_n_detail::for_each_n_closure<RandomAccessIterator, unsigned int, UnaryFunction, Context> LittleClosure;
+      kernel_type kernel(first,f);
 
-      BigClosure    big_closure(first, n, f);
-      LittleClosure little_closure(first, static_cast<unsigned int>(n), f);
-
-      thrust::tuple<size_t, size_t> little_config = for_each_n_detail::configure_launch<LittleClosure>(n);
-
-      unsigned int little_grid_size = thrust::get<0>(little_config) * thrust::get<1>(little_config);
-
-      if(for_each_n_detail::use_big_closure(n, little_grid_size))
-      {
-        // launch the big closure
-        thrust::tuple<size_t, size_t> big_config = for_each_n_detail::configure_launch<BigClosure>(n);
-        detail::launch_closure(big_closure, thrust::get<0>(big_config), thrust::get<1>(big_config));
-      }
-      else
-      {
-        // launch the little closure
-        detail::launch_closure(little_closure, thrust::get<0>(little_config), thrust::get<1>(little_config));
-      }
+      bulk_::async(bulk_::par(stream(thrust::detail::derived_cast(exec)), n), kernel, bulk_::root.this_exec);
 
       return first + n;
     }
 
     __host__ __device__
-    static RandomAccessIterator sequential_path(RandomAccessIterator first, Size n, UnaryFunction f)
+    static RandomAccessIterator sequential_path(execution_policy<DerivedPolicy> &, RandomAccessIterator first, Size n, UnaryFunction f)
     {
       return thrust::for_each_n(thrust::seq, first, n, f);
     }
   };
 
-#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
-  return workaround::parallel_path(first, n, f);
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, n, f);
 #else
-  return workaround::sequential_path(first, n, f);
+  return workaround::sequential_path(exec, first, n, f);
 #endif
 } 
 

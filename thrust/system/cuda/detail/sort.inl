@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -30,6 +30,7 @@
 #include <thrust/detail/copy.h>
 #include <thrust/detail/seq.h>
 #include <thrust/sort.h>
+#include <thrust/system/cuda/detail/bulk.h>
 
 
 /*
@@ -254,7 +255,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
     }
   };
 
-#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
+#if __BULK_HAS_CUDART__
   workaround::parallel_path(exec, first, last, comp);
 #else
   workaround::sequential_path(first, last, comp);
@@ -302,7 +303,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
     }
   };
   
-#if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__ >= 350)
+#if __BULK_HAS_CUDART__
   workaround::parallel_path(exec, keys_first, keys_last, values_first, comp);
 #else
   workaround::sequential_path(keys_first, keys_last, values_first, comp);

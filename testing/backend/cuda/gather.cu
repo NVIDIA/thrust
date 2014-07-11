@@ -53,6 +53,33 @@ void TestGatherDeviceDevice(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestGatherDeviceDevice);
 
 
+void TestGatherCudaStreams()
+{
+  thrust::device_vector<int> map(5);  // gather indices
+  thrust::device_vector<int> src(8);  // source vector
+  thrust::device_vector<int> dst(5);  // destination vector
+  
+  map[0] = 6; map[1] = 2; map[2] = 1; map[3] = 7; map[4] = 2;
+  src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4; src[5] = 5; src[6] = 6; src[7] = 7;
+  dst[0] = 0; dst[1] = 0; dst[2] = 0; dst[3] = 0; dst[4] = 0;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  thrust::gather(thrust::cuda::par(s), map.begin(), map.end(), src.begin(), dst.begin());
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(dst[0], 6);
+  ASSERT_EQUAL(dst[1], 2);
+  ASSERT_EQUAL(dst[2], 1);
+  ASSERT_EQUAL(dst[3], 7);
+  ASSERT_EQUAL(dst[4], 2);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestGatherCudaStreams);
+
+
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Predicate>
 __global__
 void gather_if_kernel(ExecutionPolicy exec, Iterator1 map_first, Iterator1 map_last, Iterator2 stencil_first, Iterator3 elements_first, Iterator4 result, Predicate pred)
@@ -120,4 +147,32 @@ void TestGatherIfDeviceDevice(const size_t n)
   TestGatherIfDevice<T>(thrust::device, n);
 }
 DECLARE_VARIABLE_UNITTEST(TestGatherIfDeviceDevice);
+
+void TestGatherIfCudaStreams(void)
+{
+  thrust::device_vector<int> flg(5);  // predicate array
+  thrust::device_vector<int> map(5);  // gather indices
+  thrust::device_vector<int> src(8);  // source vector
+  thrust::device_vector<int> dst(5);  // destination vector
+  
+  flg[0] = 0; flg[1] = 1; flg[2] = 0; flg[3] = 1; flg[4] = 0;
+  map[0] = 6; map[1] = 2; map[2] = 1; map[3] = 7; map[4] = 2;
+  src[0] = 0; src[1] = 1; src[2] = 2; src[3] = 3; src[4] = 4; src[5] = 5; src[6] = 6; src[7] = 7;
+  dst[0] = 0; dst[1] = 0; dst[2] = 0; dst[3] = 0; dst[4] = 0;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  thrust::gather_if(thrust::cuda::par(s), map.begin(), map.end(), flg.begin(), src.begin(), dst.begin());
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(dst[0], 0);
+  ASSERT_EQUAL(dst[1], 2);
+  ASSERT_EQUAL(dst[2], 0);
+  ASSERT_EQUAL(dst[3], 7);
+  ASSERT_EQUAL(dst[4], 0);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestGatherIfCudaStreams);
 

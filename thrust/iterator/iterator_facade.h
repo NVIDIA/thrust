@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -243,7 +243,12 @@ class iterator_core_access
  *
  *  \note \p iterator_facade's arithmetic operator free functions exist with the usual meanings but are omitted here for brevity.
  */
-template<typename Derived, typename Value, typename System, typename Traversal, typename Reference, typename Difference>
+template<typename Derived,
+         typename Value,
+         typename System,
+         typename Traversal,
+         typename Reference,
+         typename Difference = std::ptrdiff_t>
   class iterator_facade
 {
   private:

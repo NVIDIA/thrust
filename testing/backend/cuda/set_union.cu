@@ -58,3 +58,34 @@ void TestSetUnionDeviceDevice()
 DECLARE_UNITTEST(TestSetUnionDeviceDevice);
 
 
+void TestSetUnionCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::iterator Iterator;
+
+  Vector a(3), b(4);
+
+  a[0] = 0; a[1] = 2; a[2] = 4;
+  b[0] = 0; b[1] = 3; b[2] = 3; b[3] = 4;
+
+  Vector ref(5);
+  ref[0] = 0; ref[1] = 2; ref[2] = 3; ref[3] = 3; ref[4] = 4;
+
+  Vector result(5);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  Iterator end = thrust::set_union(thrust::cuda::par(s),
+                                   a.begin(), a.end(),
+                                   b.begin(), b.end(),
+                                   result.begin());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL_QUIET(result.end(), end);
+  ASSERT_EQUAL(ref, result);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestSetUnionCudaStreams);
+

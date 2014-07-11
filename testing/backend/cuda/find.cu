@@ -46,25 +46,27 @@ __global__ void find_kernel(ExecutionPolicy exec, Iterator first, Iterator last,
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestFindDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestFindDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 100;
+
+  thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  typename thrust::host_vector<T>::iterator   h_iter;
+  typename thrust::host_vector<int>::iterator   h_iter;
   
-  typedef typename thrust::device_vector<T>::iterator iter_type;
+  typedef typename thrust::device_vector<int>::iterator iter_type;
   thrust::device_vector<iter_type> d_result(1);
   
-  h_iter = thrust::find(h_data.begin(), h_data.end(), T(0));
-  find_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), T(0), d_result.begin());
+  h_iter = thrust::find(h_data.begin(), h_data.end(), int(0));
+  find_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), int(0), d_result.begin());
   
   ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   
   for(size_t i = 1; i < n; i *= 2)
   {
-    T sample = h_data[i];
+    int sample = h_data[i];
     h_iter = thrust::find(h_data.begin(), h_data.end(), sample);
     find_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), sample, d_result.begin());
     ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
@@ -72,26 +74,18 @@ void TestFindDevice(ExecutionPolicy exec, const size_t n)
 }
 
 
-template<typename T>
-struct TestFindDeviceSeq
+void TestFindDeviceSeq()
 {
-  void operator()(const size_t n)
-  {
-    TestFindDevice<T>(thrust::seq, n);
-  }
+  TestFindDevice(thrust::seq);
 };
-VariableUnitTest<TestFindDeviceSeq, SignedIntegralTypes> TestFindDeviceSeqInstance;
+DECLARE_UNITTEST(TestFindDeviceSeq);
 
 
-template<typename T>
-struct TestFindDeviceDevice
+void TestFindDeviceDevice()
 {
-  void operator()(const size_t n)
-  {
-    TestFindDevice<T>(thrust::device, n);
-  }
+  TestFindDevice(thrust::device);
 };
-VariableUnitTest<TestFindDeviceDevice, SignedIntegralTypes> TestFindDeviceDeviceInstance;
+DECLARE_UNITTEST(TestFindDeviceDevice);
 
 
 template<typename ExecutionPolicy, typename Iterator, typename Predicate, typename Iterator2>
@@ -101,51 +95,45 @@ __global__ void find_if_kernel(ExecutionPolicy exec, Iterator first, Iterator la
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestFindIfDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestFindIfDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 100;
+
+  thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  typename thrust::host_vector<T>::iterator   h_iter;
+  typename thrust::host_vector<int>::iterator   h_iter;
   
-  typedef typename thrust::device_vector<T>::iterator iter_type;
+  typedef typename thrust::device_vector<int>::iterator iter_type;
   thrust::device_vector<iter_type> d_result(1);
   
-  h_iter = thrust::find_if(h_data.begin(), h_data.end(), equal_to_value_pred<T>(0));
-  find_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), equal_to_value_pred<T>(0), d_result.begin());
+  h_iter = thrust::find_if(h_data.begin(), h_data.end(), equal_to_value_pred<int>(0));
+  find_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), equal_to_value_pred<int>(0), d_result.begin());
   ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   
   for (size_t i = 1; i < n; i *= 2)
   {
-    T sample = h_data[i];
-    h_iter = thrust::find_if(h_data.begin(), h_data.end(), equal_to_value_pred<T>(sample));
-    find_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), equal_to_value_pred<T>(sample), d_result.begin());
+    int sample = h_data[i];
+    h_iter = thrust::find_if(h_data.begin(), h_data.end(), equal_to_value_pred<int>(sample));
+    find_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), equal_to_value_pred<int>(sample), d_result.begin());
     ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   }
 }
 
 
-template<typename T>
-struct TestFindIfDeviceSeq
+void TestFindIfDeviceSeq()
 {
-  void operator()(const size_t n)
-  {
-    TestFindIfDevice<T>(thrust::seq, n);
-  }
+  TestFindIfDevice(thrust::seq);
 };
-VariableUnitTest<TestFindIfDeviceSeq, SignedIntegralTypes> TestFindIfDeviceSeqInstance;
+DECLARE_UNITTEST(TestFindIfDeviceSeq);
 
 
-template<typename T>
-struct TestFindIfDeviceDevice
+void TestFindIfDeviceDevice()
 {
-  void operator()(const size_t n)
-  {
-    TestFindIfDevice<T>(thrust::device, n);
-  }
+  TestFindIfDevice(thrust::device);
 };
-VariableUnitTest<TestFindIfDeviceDevice, SignedIntegralTypes> TestFindIfDeviceDeviceInstance;
+DECLARE_UNITTEST(TestFindIfDeviceDevice);
 
 
 template<typename ExecutionPolicy, typename Iterator, typename Predicate, typename Iterator2>
@@ -155,49 +143,66 @@ __global__ void find_if_not_kernel(ExecutionPolicy exec, Iterator first, Iterato
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestFindIfNotDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestFindIfNotDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 100;
+  thrust::host_vector<int>   h_data = unittest::random_integers<int>(n);
+  thrust::device_vector<int> d_data = h_data;
   
-  typename thrust::host_vector<T>::iterator   h_iter;
+  typename thrust::host_vector<int>::iterator   h_iter;
   
-  typedef typename thrust::device_vector<T>::iterator iter_type;
+  typedef typename thrust::device_vector<int>::iterator iter_type;
   thrust::device_vector<iter_type> d_result(1);
   
-  h_iter = thrust::find_if_not(h_data.begin(), h_data.end(), not_equal_to_value_pred<T>(0));
-  find_if_not_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), not_equal_to_value_pred<T>(0), d_result.begin());
+  h_iter = thrust::find_if_not(h_data.begin(), h_data.end(), not_equal_to_value_pred<int>(0));
+  find_if_not_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), not_equal_to_value_pred<int>(0), d_result.begin());
   ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   
   for(size_t i = 1; i < n; i *= 2)
   {
-    T sample = h_data[i];
-    h_iter = thrust::find_if_not(h_data.begin(), h_data.end(), not_equal_to_value_pred<T>(sample));
-    find_if_not_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), not_equal_to_value_pred<T>(sample), d_result.begin());
+    int sample = h_data[i];
+    h_iter = thrust::find_if_not(h_data.begin(), h_data.end(), not_equal_to_value_pred<int>(sample));
+    find_if_not_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), not_equal_to_value_pred<int>(sample), d_result.begin());
     ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   }
 }
 
 
-template<typename T>
-struct TestFindIfNotDeviceSeq
+void TestFindIfNotDeviceSeq()
 {
-  void operator()(const size_t n)
-  {
-    TestFindIfNotDevice<T>(thrust::seq, n);
-  }
+  TestFindIfNotDevice(thrust::seq);
 };
-VariableUnitTest<TestFindIfNotDeviceSeq, SignedIntegralTypes> TestFindIfNotDeviceSeqInstance;
+DECLARE_UNITTEST(TestFindIfNotDeviceSeq);
 
 
-template<typename T>
-struct TestFindIfNotDeviceDevice
+void TestFindIfNotDeviceDevice()
 {
-  void operator()(const size_t n)
-  {
-    TestFindIfNotDevice<T>(thrust::device, n);
-  }
+  TestFindIfNotDevice(thrust::device);
 };
-VariableUnitTest<TestFindIfNotDeviceDevice, SignedIntegralTypes> TestFindIfNotDeviceDeviceInstance;
+DECLARE_UNITTEST(TestFindIfNotDeviceDevice);
+
+
+void TestFindCudaStreams()
+{
+  thrust::device_vector<int> vec(5);
+  vec[0] = 1;
+  vec[1] = 2;
+  vec[2] = 3;
+  vec[3] = 3;
+  vec[4] = 5;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 0) - vec.begin(), 5);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 1) - vec.begin(), 0);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 2) - vec.begin(), 1);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 3) - vec.begin(), 2);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 4) - vec.begin(), 5);
+  ASSERT_EQUAL(thrust::find(thrust::cuda::par(s), vec.begin(), vec.end(), 5) - vec.begin(), 4);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestFindCudaStreams);
 

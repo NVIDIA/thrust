@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -48,20 +48,22 @@ template<typename Allocator>
 };
 
 
+// we need to construct T via the allocator if...
 template<typename Allocator, typename T>
   struct needs_default_construct_via_allocator
-    : has_member_construct1<
-        Allocator,
-        T
+    : thrust::detail::or_<
+        has_member_construct1<Allocator,T>,               // if the Allocator does something interesting
+        thrust::detail::not_<has_trivial_constructor<T> > // or if T's default constructor does something interesting
       >
 {};
 
 
 // we know that std::allocator::construct's only effect is to call T's 
 // default constructor, so we needn't use it for default construction
+// unless T's constructor does something interesting
 template<typename U, typename T>
   struct needs_default_construct_via_allocator<std::allocator<U>, T>
-    : thrust::detail::false_type
+    : thrust::detail::not_<has_trivial_constructor<T> >
 {};
 
 

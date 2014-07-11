@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/distance.h>
 #include <thrust/detail/util/align.h>
+#include <thrust/fill.h>
 #include <thrust/generate.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
@@ -29,6 +30,13 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
 #include <thrust/system/cuda/detail/runtime_introspection.h>
+#include <thrust/detail/seq.h>
+#include <thrust/system/cuda/detail/bulk.h>
+
+
+// XXX this implementation is too complicated
+// XXX we should investigate whether it actually yields any significant
+// XXX performance improvement
 
 
 namespace thrust
@@ -161,17 +169,36 @@ OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
                       Size n,
                       const T &value)
 {
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
+  struct workaround
+  {
+    __host__ __device__
+    static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec, OutputIterator first, Size n, const T &value)
+    {
+      typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
 
-  // we're compiling with nvcc, launch a kernel
-  const bool use_wide_fill = thrust::detail::is_trivial_iterator<OutputIterator>::value
-      && thrust::detail::has_trivial_assign<OutputType>::value
-      && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
+      // we're compiling with nvcc, launch a kernel
+      const bool use_wide_fill = thrust::detail::is_trivial_iterator<OutputIterator>::value
+          && thrust::detail::has_trivial_assign<OutputType>::value
+          && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
 
-  // XXX WAR usused variable warning
-  (void)use_wide_fill;
+      // XXX WAR usused variable warning
+      (void)use_wide_fill;
 
-  return detail::fill_n(exec, first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
+      return detail::fill_n(exec, first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
+    }
+
+    __host__ __device__
+    static OutputIterator sequential_path(execution_policy<DerivedPolicy> &, OutputIterator first, Size n, const T &value)
+    {
+      return thrust::fill_n(thrust::seq, first, n, value);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, n, value);
+#else
+  return workaround::sequential_path(exec, first, n, value);
+#endif
 }
 
 

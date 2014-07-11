@@ -116,3 +116,51 @@ void TestFillNDeviceDevice(size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestFillNDeviceDevice);
 
+void TestFillCudaStreams()
+{
+  thrust::device_vector<int> v(5);
+  v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+  
+  thrust::fill(thrust::cuda::par(s), v.begin() + 1, v.begin() + 4, 7);
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(v[0], 0);
+  ASSERT_EQUAL(v[1], 7);
+  ASSERT_EQUAL(v[2], 7);
+  ASSERT_EQUAL(v[3], 7);
+  ASSERT_EQUAL(v[4], 4);
+  
+  thrust::fill(thrust::cuda::par(s), v.begin() + 0, v.begin() + 3, 8);
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(v[0], 8);
+  ASSERT_EQUAL(v[1], 8);
+  ASSERT_EQUAL(v[2], 8);
+  ASSERT_EQUAL(v[3], 7);
+  ASSERT_EQUAL(v[4], 4);
+  
+  thrust::fill(thrust::cuda::par(s), v.begin() + 2, v.end(), 9);
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(v[0], 8);
+  ASSERT_EQUAL(v[1], 8);
+  ASSERT_EQUAL(v[2], 9);
+  ASSERT_EQUAL(v[3], 9);
+  ASSERT_EQUAL(v[4], 9);
+  
+  thrust::fill(thrust::cuda::par(s), v.begin(), v.end(), 1);
+  cudaStreamSynchronize(s);
+  
+  ASSERT_EQUAL(v[0], 1);
+  ASSERT_EQUAL(v[1], 1);
+  ASSERT_EQUAL(v[2], 1);
+  ASSERT_EQUAL(v[3], 1);
+  ASSERT_EQUAL(v[4], 1);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestFillCudaStreams);
+

@@ -70,3 +70,44 @@ void TestSetIntersectionByKeyDeviceDevice()
 }
 DECLARE_UNITTEST(TestSetIntersectionByKeyDeviceDevice);
 
+
+void TestSetIntersectionByKeyCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::iterator Iterator;
+
+  Vector a_key(3), b_key(4);
+  Vector a_val(3);
+
+  a_key[0] = 0; a_key[1] = 2; a_key[2] = 4;
+  a_val[0] = 0; a_val[1] = 0; a_val[2] = 0;
+
+  b_key[0] = 0; b_key[1] = 3; b_key[2] = 3; b_key[3] = 4;
+
+  Vector ref_key(2), ref_val(2);
+  ref_key[0] = 0; ref_key[1] = 4;
+  ref_val[0] = 0; ref_val[1] = 0;
+
+  Vector result_key(2), result_val(2);
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  thrust::pair<Iterator,Iterator> end =
+    thrust::set_intersection_by_key(thrust::cuda::par(s),
+                                    a_key.begin(), a_key.end(),
+                                    b_key.begin(), b_key.end(),
+                                    a_val.begin(),
+                                    result_key.begin(),
+                                    result_val.begin());
+  cudaStreamSynchronize(s);
+
+  ASSERT_EQUAL_QUIET(result_key.end(), end.first);
+  ASSERT_EQUAL_QUIET(result_val.end(), end.second);
+  ASSERT_EQUAL(ref_key, result_key);
+  ASSERT_EQUAL(ref_val, result_val);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestSetIntersectionByKeyCudaStreams);
+

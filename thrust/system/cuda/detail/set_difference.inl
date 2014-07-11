@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,8 +15,11 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/set_operations.h>
 #include <thrust/detail/cstdint.h>
 #include <thrust/system/cuda/detail/detail/set_operation.h>
+#include <thrust/system/cuda/detail/bulk.h>
+#include <thrust/detail/seq.h>
 
 namespace thrust
 {
@@ -128,7 +131,38 @@ RandomAccessIterator3 set_difference(execution_policy<DerivedPolicy> &exec,
                                      RandomAccessIterator3 result,
                                      Compare comp)
 {
-  return thrust::system::cuda::detail::detail::set_operation(exec, first1, last1, first2, last2, result, comp, set_difference_detail::serial_bounded_set_difference());
+  struct workaround
+  {
+    __host__ __device__
+    static RandomAccessIterator3 parallel_path(execution_policy<DerivedPolicy> &exec,
+                                               RandomAccessIterator1 first1,
+                                               RandomAccessIterator1 last1,
+                                               RandomAccessIterator2 first2,
+                                               RandomAccessIterator2 last2,
+                                               RandomAccessIterator3 result,
+                                               Compare comp)
+    {
+      return thrust::system::cuda::detail::detail::set_operation(exec, first1, last1, first2, last2, result, comp, set_difference_detail::serial_bounded_set_difference());
+    }
+
+    __host__ __device__
+    static RandomAccessIterator3 sequential_path(execution_policy<DerivedPolicy> &,
+                                                 RandomAccessIterator1 first1,
+                                                 RandomAccessIterator1 last1,
+                                                 RandomAccessIterator2 first2,
+                                                 RandomAccessIterator2 last2,
+                                                 RandomAccessIterator3 result,
+                                                 Compare comp)
+    {
+      return thrust::set_difference(thrust::seq, first1, last1, first2, last2, result, comp);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first1, last1, first2, last2, result, comp);
+#else
+  return workaround::sequential_path(exec, first1, last1, first2, last2, result, comp);
+#endif
 } // end set_difference
 
 

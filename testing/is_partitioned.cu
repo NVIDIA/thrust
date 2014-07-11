@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/partition.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/retag.h>
 
 template<typename T>
 struct is_even

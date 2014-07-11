@@ -5,6 +5,7 @@ import os
 import platform
 import glob
 import itertools
+import subprocess
 
 
 def RecursiveGlob(env, pattern, directory = Dir('.'), exclude = '\B'):
@@ -37,6 +38,19 @@ gnu_compiler_flags = {
   'workarounds'        : []
 }
 
+clang_compiler_flags = {
+  'warn_all'           : ['-Wall'],
+  'warnings_as_errors' : ['-Werror'],
+  'release'            : ['-O2'],
+  'debug'              : ['-g'],
+  'exception_handling' : [],
+  'cpp'                : [],
+  'omp'                : ['-fopenmp'],
+  'tbb'                : [],
+  'cuda'               : [],
+  'workarounds'        : []
+}
+
 msvc_compiler_flags = {
   'warn_all'           : ['/Wall'],
   'warnings_as_errors' : ['/WX'],
@@ -55,13 +69,20 @@ msvc_compiler_flags = {
 
 compiler_to_flags = {
   'g++' : gnu_compiler_flags,
-  'cl'  : msvc_compiler_flags
+  'cl'  : msvc_compiler_flags,
+  'clang++'  : clang_compiler_flags
 }
 
 gnu_linker_flags = {
   'debug'       : [],
   'release'     : [],
   'workarounds' : []
+}
+
+clang_linker_flags = {
+  'debug'       : [],
+  'release'     : [],
+  'workarounds' : ['-stdlib=libstdc++']
 }
 
 msvc_linker_flags = {
@@ -72,7 +93,8 @@ msvc_linker_flags = {
 
 linker_to_flags = {
   'gcc'  : gnu_linker_flags,
-  'link' : msvc_linker_flags
+  'link' : msvc_linker_flags,
+  'clang++'  : clang_linker_flags
 }
 
 
@@ -92,8 +114,8 @@ def cuda_installation():
     inc_path = '/usr/local/cuda/include'
   else:
     raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
-   
-  if platform.machine()[-2:] == '64':
+
+  if master_env['PLATFORM'] != 'darwin' and platform.machine()[-2:] == '64':
     lib_path += '64'
 
   # override with environement variables
@@ -122,6 +144,8 @@ def omp_installation(CXX):
     library_name = 'gomp'
   elif CXX == 'cl':
     library_name = 'VCOMP'
+  elif CXX == 'clang++':
+    raise NotImplementedError, "OpenMP not supported together with clang"
   else:
     raise ValueError, "Unknown compiler. What is the name of the OpenMP library?"
 
@@ -206,9 +230,14 @@ def libs(env, CCX, host_backend, device_backend):
   if CCX == 'g++':
     result.append('stdc++')
 
+
   # link against backend-specific runtimes
   if host_backend == 'cuda' or device_backend == 'cuda':
     result.append(cuda_installation()[3])
+
+    # XXX clean this up
+    if env['cdp']:
+      result.append('cudadevrt')
 
   if host_backend == 'omp' or device_backend == 'omp':
     result.append(omp_installation(CCX)[3])
@@ -230,12 +259,6 @@ def linker_flags(LINK, mode, platform, device_backend):
 
   # unconditional workarounds
   result.extend(flags['workarounds'])
-
-  # conditional workarounds
-
-  # on darwin, we need to tell the linker to build 32b code for cuda
-  if platform == 'darwin' and device_backend == 'cuda':
-    result.append('-m32')
 
   return result
 
@@ -289,14 +312,10 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
   # workarounds
   result.extend(flags['workarounds'])
 
-  # on darwin, we need to tell the compiler to build 32b code for cuda
-  if platform == 'darwin' and device_backend == 'cuda':
-    result.append('-m32')
-
   return result
 
 
-def nv_compiler_flags(mode, device_backend, arch):
+def nv_compiler_flags(mode, device_backend, arch, cdp):
   """Returns a list of command line flags specific to nvcc"""
   result = []
   for machine_arch in arch:
@@ -312,6 +331,15 @@ def nv_compiler_flags(mode, device_backend, arch):
     pass
   if device_backend != 'cuda':
     result.append("--x=c++")
+  if cdp != False:
+    result.append("-rdc=true")
+
+  if device_backend == 'cuda' and master_env['PLATFORM'] == 'darwin':
+    (release, versioninfo, machine) = platform.mac_ver()
+    if(release[0:5] == '10.8.'):
+      result.append('-ccbin')
+      result.append(master_env.subst('$CXX'))
+
   return result
 
 
@@ -336,13 +364,16 @@ def command_line_variables():
   # add a variable to handle compute capability
   vars.Add(ListVariable('arch', 'Compute capability code generation', 'sm_10',
                         ['sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20', 'sm_21', 'sm_30', 'sm_35']))
+
+  # add a variable to handle CUDA dynamic parallelism
+  vars.Add(BoolVariable('cdp', 'Enable CUDA dynamic parallelism', False))
   
   # add a variable to handle warnings
   # only enable Wall by default on compilers other than cl
   vars.Add(BoolVariable('Wall', 'Enable all compilation warnings', os.name != 'nt'))
   
   # add a variable to treat warnings as errors
-  vars.Add(BoolVariable('Werror', 'Treat warnings as errors', 0))
+  vars.Add(BoolVariable('Werror', 'Treat warnings as errors', os.name != 'nt'))
 
   return vars
 
@@ -367,9 +398,24 @@ if master_env['PLATFORM'] == 'posix':
   master_env['ENV'].setdefault('LD_LIBRARY_PATH', []).append(cuda_installation()[1])
 elif master_env['PLATFORM'] == 'darwin':
   master_env['ENV'].setdefault('DYLD_LIBRARY_PATH', []).append(cuda_installation()[1])
+  # Check if g++ really is g++
+  if(master_env.subst('$CXX') == 'g++'):
+    output = subprocess.check_output(['g++','--version'])
+    if(output.find('clang') != -1):
+      # It's actually clang
+      master_env.Replace(CXX = 'clang++')
+  if(master_env.subst('$CC') == 'gcc'):
+    output = subprocess.check_output(['gcc','--version'])
+    if(output.find('clang') != -1):
+      # It's actually clang
+      master_env.Replace(CC = 'clang')
+  if(master_env.subst('$LINK') == 'clang'):
+    master_env.Replace(CC = 'clang++')
+
 elif master_env['PLATFORM'] == 'win32':
   master_env['ENV']['TBBROOT'] = os.environ['TBBROOT']
   master_env['ENV']['PATH'] += ';' + tbb_installation(master_env)[0]
+
 
 # get the list of requested backends
 host_backends = master_env.subst('$host_backend').split()
@@ -384,13 +430,18 @@ for (host,device) in itertools.product(host_backends, device_backends):
   
   env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror']))
   
-  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch']))
+  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp']))
   
   env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device))
   
   env.Append(LIBPATH = lib_paths(env, host, device))
   
   env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
+
+  # XXX this probably doesn't belong here
+  if 'cudadevrt' in env['LIBS']:
+    # nvcc is required to link against cudadevrt
+    env.Replace(LINK = 'nvcc')
   
   # assemble the name of this configuration's targets directory
   targets_dir = 'targets/{0}_host_{1}_device_{2}'.format(host, device, env['mode'])

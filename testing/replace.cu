@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/replace.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 
 
 template <class Vector>

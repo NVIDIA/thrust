@@ -2,6 +2,7 @@
 #include <thrust/scan.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
+#include <thrust/iterator/retag.h>
 
 
 template<typename T>
@@ -494,8 +495,14 @@ void _TestScanWithLargeTypes(void)
 void TestScanWithLargeTypes(void)
 {
   _TestScanWithLargeTypes<int,  1>();
+
+  // XXX these are too big for sm_1x
+#if THRUST_DEVICE_SYSTEM != THRUST_DEVICE_SYSTEM_CUDA
   _TestScanWithLargeTypes<int,  8>();
   _TestScanWithLargeTypes<int, 64>();
+#else
+  KNOWN_FAILURE;
+#endif
 }
 DECLARE_UNITTEST(TestScanWithLargeTypes);
 

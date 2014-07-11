@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2012 NVIDIA Corporation
+ *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/retag.h>
+#include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
 {
@@ -38,6 +39,15 @@ namespace detail
 {
 namespace trivial_copy_detail
 {
+
+inline void checked_cudaMemcpyAsync(void *dst, const void *src, size_t count, enum cudaMemcpyKind kind, cudaStream_t stream)
+{
+  cudaError_t error = cudaMemcpyAsync(dst,src,count,kind,stream);
+  if(error)
+  {
+    throw thrust::system_error(error, thrust::cuda_category());
+  } // end error
+} // end checked_cudaMemcpy()
 
 
 template<typename System1,
@@ -77,7 +87,7 @@ void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
   void *dst = thrust::raw_pointer_cast(&*result);
   const void *src = thrust::raw_pointer_cast(&*first);
 
-  throw_on_error(cudaMemcpy(dst, src, n * sizeof(T), cudaMemcpyDeviceToDevice), "cudaMemcpy in trivial_copy_n");
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), cudaMemcpyDeviceToDevice, stream(thrust::detail::derived_cast(exec)));
 #else
   // XXX transform is implemented with zip_iterator, which freaks out when the zipped iterators have unrelated system tags
   //     force both iterators' system tags to DerivedPolicy
@@ -106,7 +116,9 @@ void trivial_copy_n(cross_system<System1,System2> &systems,
 
   cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(systems.system1), thrust::detail::derived_cast(systems.system2));
 
-  throw_on_error(cudaMemcpy(dst, src, n * sizeof(T), kind), "cudaMemcpy in trivial_copy_n");
+  // XXX use stream 0 for now
+  //     we may wish to enable async host <-> device copy in the future
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, 0);
 }
 
 

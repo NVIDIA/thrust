@@ -11,14 +11,14 @@ void is_sorted_until_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 las
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestIsSortedUntilDevice(ExecutionPolicy exec, size_t n)
+template<typename ExecutionPolicy>
+void TestIsSortedUntilDevice(ExecutionPolicy exec)
 {
-  n = thrust::max<size_t>(n, 2);
+  size_t n = 1000;
 
-  thrust::device_vector<T> v = unittest::random_integers<T>(n);
+  thrust::device_vector<int> v = unittest::random_integers<int>(n);
 
-  typedef typename thrust::device_vector<T>::iterator iter_type;
+  typedef typename thrust::device_vector<int>::iterator iter_type;
 
   thrust::device_vector<iter_type> result(1);
 
@@ -35,18 +35,77 @@ void TestIsSortedUntilDevice(ExecutionPolicy exec, size_t n)
 }
 
 
-template<typename T>
-void TestIsSortedUntilDeviceSeq(const size_t n)
+void TestIsSortedUntilDeviceSeq()
 {
-  TestIsSortedUntilDevice<T>(thrust::seq, n);
+  TestIsSortedUntilDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestIsSortedUntilDeviceSeq);
+DECLARE_UNITTEST(TestIsSortedUntilDeviceSeq);
 
 
-template<typename T>
-void TestIsSortedUntilDeviceDevice(const size_t n)
+void TestIsSortedUntilDeviceDevice()
 {
-  TestIsSortedUntilDevice<T>(thrust::device, n);
+  TestIsSortedUntilDevice(thrust::device);
 }
-DECLARE_VARIABLE_UNITTEST(TestIsSortedUntilDeviceDevice);
+DECLARE_UNITTEST(TestIsSortedUntilDeviceDevice);
+
+
+void TestIsSortedUntilCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+
+  typedef typename Vector::value_type T;
+  typedef typename Vector::iterator Iterator;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  Vector v(4);
+  v[0] = 0; v[1] = 5; v[2] = 8; v[3] = 0;
+
+  Iterator first = v.begin();
+
+  Iterator last  = v.begin() + 0;
+  Iterator ref = last;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+
+  last = v.begin() + 1;
+  ref = last;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+
+  last = v.begin() + 2;
+  ref = last;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+
+  last = v.begin() + 3;
+  ref = v.begin() + 3;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+
+  last = v.begin() + 4;
+  ref = v.begin() + 3;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+
+  last = v.begin() + 3;
+  ref = v.begin() + 3;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::less<T>()));
+
+  last = v.begin() + 4;
+  ref = v.begin() + 3;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::less<T>()));
+
+  last = v.begin() + 1;
+  ref = v.begin() + 1;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::greater<T>()));
+
+  last = v.begin() + 4;
+  ref = v.begin() + 1;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::greater<T>()));
+
+  first = v.begin() + 2;
+  last = v.begin() + 4;
+  ref = v.begin() + 4;
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::greater<T>()));
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestIsSortedUntilCudaStreams);
 

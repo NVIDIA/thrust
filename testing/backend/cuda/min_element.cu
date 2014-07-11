@@ -19,41 +19,67 @@ void min_element_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Bin
 }
 
 
-template<typename T, typename ExecutionPolicy>
-void TestMinElementDevice(ExecutionPolicy exec, const size_t n)
+template<typename ExecutionPolicy>
+void TestMinElementDevice(ExecutionPolicy exec)
 {
-  thrust::host_vector<T> h_data = unittest::random_samples<T>(n);
-  thrust::device_vector<T> d_data = h_data;
+  size_t n = 1000;
+  thrust::host_vector<int> h_data = unittest::random_samples<int>(n);
+  thrust::device_vector<int> d_data = h_data;
 
-  typedef typename thrust::device_vector<T>::iterator iter_type;
+  typedef typename thrust::device_vector<int>::iterator iter_type;
 
   thrust::device_vector<iter_type> d_result(1);
   
-  typename thrust::host_vector<T>::iterator   h_min = thrust::min_element(h_data.begin(), h_data.end());
+  typename thrust::host_vector<int>::iterator   h_min = thrust::min_element(h_data.begin(), h_data.end());
 
   min_element_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin());
   ASSERT_EQUAL(h_min - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
 
   
-  typename thrust::host_vector<T>::iterator   h_max = thrust::min_element(h_data.begin(), h_data.end(), thrust::greater<T>());
+  typename thrust::host_vector<int>::iterator   h_max = thrust::min_element(h_data.begin(), h_data.end(), thrust::greater<int>());
 
-  min_element_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), thrust::greater<T>(), d_result.begin());
+  min_element_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), thrust::greater<int>(), d_result.begin());
   ASSERT_EQUAL(h_max - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
 }
 
 
-template<typename T>
-void TestMinElementDeviceSeq(const size_t n)
+void TestMinElementDeviceSeq()
 {
-  TestMinElementDevice<T>(thrust::seq, n);
+  TestMinElementDevice(thrust::seq);
 }
-DECLARE_VARIABLE_UNITTEST(TestMinElementDeviceSeq);
+DECLARE_UNITTEST(TestMinElementDeviceSeq);
 
 
-template<typename T>
-void TestMinElementDeviceDevice(const size_t n)
+void TestMinElementDeviceDevice()
 {
-  TestMinElementDevice<T>(thrust::device, n);
+  TestMinElementDevice(thrust::device);
 }
-DECLARE_VARIABLE_UNITTEST(TestMinElementDeviceDevice);
+DECLARE_UNITTEST(TestMinElementDeviceDevice);
+
+
+void TestMinElementCudaStreams()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector data(6);
+  data[0] = 3;
+  data[1] = 5;
+  data[2] = 1;
+  data[3] = 2;
+  data[4] = 5;
+  data[5] = 1;
+
+  cudaStream_t s;
+  cudaStreamCreate(&s);
+
+  ASSERT_EQUAL( *thrust::min_element(thrust::cuda::par(s), data.begin(), data.end()), 1);
+  ASSERT_EQUAL( thrust::min_element(thrust::cuda::par(s), data.begin(), data.end()) - data.begin(), 2);
+  
+  ASSERT_EQUAL( *thrust::min_element(thrust::cuda::par(s), data.begin(), data.end(), thrust::greater<T>()), 5);
+  ASSERT_EQUAL( thrust::min_element(thrust::cuda::par(s), data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 1);
+
+  cudaStreamDestroy(s);
+}
+DECLARE_UNITTEST(TestMinElementCudaStreams);
 
