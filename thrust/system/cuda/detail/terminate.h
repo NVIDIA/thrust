@@ -31,7 +31,9 @@ namespace detail
 inline __device__
 void terminate()
 {
+#ifdef __CUDA_ARCH__
   asm("trap;");
+#endif
 }
 
 
