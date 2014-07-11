@@ -3,9 +3,10 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5, typename Iterator6, typename Iterator7>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5, typename Iterator6, typename Iterator7>
 __global__
-void set_union_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
+void set_union_by_key_kernel(ExecutionPolicy exec,
+                             Iterator1 keys_first1, Iterator1 keys_last1,
                              Iterator2 keys_first2, Iterator2 keys_last2,
                              Iterator3 values_first1,
                              Iterator4 values_first2,
@@ -13,11 +14,12 @@ void set_union_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
                              Iterator6 values_result,
                              Iterator7 result)
 {
-  *result = thrust::set_union_by_key(thrust::seq, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  *result = thrust::set_union_by_key(exec, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 }
 
 
-void TestSetUnionByKeyDeviceSeq()
+template<typename ExecutionPolicy>
+void TestSetUnionByKeyDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::iterator Iterator;
@@ -39,7 +41,8 @@ void TestSetUnionByKeyDeviceSeq()
 
   thrust::device_vector<thrust::pair<Iterator,Iterator> > end_vec(1);
 
-  set_union_by_key_kernel<<<1,1>>>(a_key.begin(), a_key.end(),
+  set_union_by_key_kernel<<<1,1>>>(exec,
+                                   a_key.begin(), a_key.end(),
                                    b_key.begin(), b_key.end(),
                                    a_val.begin(),
                                    b_val.begin(),
@@ -53,7 +56,20 @@ void TestSetUnionByKeyDeviceSeq()
   ASSERT_EQUAL(ref_key, result_key);
   ASSERT_EQUAL(ref_val, result_val);
 }
+
+
+void TestSetUnionByKeyDeviceSeq()
+{
+  TestSetUnionByKeyDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestSetUnionByKeyDeviceSeq);
+
+
+void TestSetUnionByKeyDeviceDevice()
+{
+  TestSetUnionByKeyDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestSetUnionByKeyDeviceDevice);
 
 
 void TestSetUnionByKeyCudaStreams()

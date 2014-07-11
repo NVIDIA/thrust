@@ -20,6 +20,8 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/reduce.h>
+#include <thrust/detail/seq.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/bulk.h>
 #include <thrust/system/cuda/detail/decomposition.h>
@@ -83,18 +85,16 @@ struct reduce_partitions
 };
 
 
-} // end reduce_detail
-
-
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputType,
          typename BinaryFunction>
-  OutputType reduce(execution_policy<DerivedPolicy> &exec,
-                    InputIterator first,
-                    InputIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op)
+__host__ __device__
+OutputType reduce(execution_policy<DerivedPolicy> &exec,
+                  InputIterator first,
+                  InputIterator last,
+                  OutputType init,
+                  BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_difference<InputIterator>::type size_type;
 
@@ -131,6 +131,51 @@ template<typename DerivedPolicy,
   } // end while
 
   return partial_sums[0];
+} // end reduce()
+
+
+} // end reduce_detail
+
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputType,
+         typename BinaryFunction>
+__host__ __device__
+OutputType reduce(execution_policy<DerivedPolicy> &exec,
+                  InputIterator first,
+                  InputIterator last,
+                  OutputType init,
+                  BinaryFunction binary_op)
+{
+  struct workaround
+  {
+    __host__ __device__
+    static OutputType parallel_path(execution_policy<DerivedPolicy> &exec,
+                                    InputIterator first,
+                                    InputIterator last,
+                                    OutputType init,
+                                    BinaryFunction binary_op)
+    {
+      return thrust::system::cuda::detail::reduce_detail::reduce(exec, first, last, init, binary_op);
+    }
+
+    __host__ __device__
+    static OutputType sequential_path(execution_policy<DerivedPolicy> &,
+                                      InputIterator first,
+                                      InputIterator last,
+                                      OutputType init,
+                                      BinaryFunction binary_op)
+    {
+      return thrust::reduce(thrust::seq, first, last, init, binary_op);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, last, init, binary_op);
+#else
+  return workaround::sequential_path(exec, first, last, init, binary_op);
+#endif
 } // end reduce()
 
 

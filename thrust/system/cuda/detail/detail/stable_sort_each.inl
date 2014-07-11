@@ -229,6 +229,7 @@ struct stable_sort_each_copy_closure
   RandomAccessIterator2 result;
   thrust::detail::wrapped_function<Compare,bool> comp;
 
+  __host__ __device__
   stable_sort_each_copy_closure(RandomAccessIterator1 first, Size n, RandomAccessIterator2 result, Compare comp)
     : first(first),
       n(n),
@@ -282,6 +283,7 @@ template<unsigned int work_per_thread,
          typename Pointer,
          typename RandomAccessIterator2,
          typename Compare>
+__host__ __device__
 void stable_sort_each_copy(execution_policy<DerivedPolicy> &exec,
                            Context context,
                            unsigned int block_size,

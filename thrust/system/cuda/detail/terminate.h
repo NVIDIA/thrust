@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2012 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,8 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/runtime_introspection.h>
 
 namespace thrust
 {
@@ -27,18 +28,17 @@ namespace detail
 {
 
 
-template<typename IndexType>
-__host__ __device__
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
+inline __device__
+void terminate()
 {
-  // TODO eliminate magical constant
-  device_properties_t properties = device_properties();
-  return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, properties.maxThreadsPerBlock, 10 * properties.multiProcessorCount);
+#ifdef __CUDA_ARCH__
+  asm("trap;");
+#endif
 }
 
 
-} // end namespace detail
-} // end namespace cuda
-} // end namespace system
-} // end namespace thrust
+} // end detail
+} // end cuda
+} // end system
+} // end thrust
 

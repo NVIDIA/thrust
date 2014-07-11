@@ -18,6 +18,7 @@
 #include <thrust/detail/allocator/temporary_allocator.h>
 #include <thrust/detail/temporary_buffer.h>
 #include <thrust/system/detail/bad_alloc.h>
+#include <thrust/system/cuda/detail/terminate.h>
 #include <cassert>
 
 namespace thrust
@@ -43,10 +44,8 @@ __host__ __device__
 
 #if !defined(__CUDA_ARCH__)
     throw thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
-#elif __CUDA_ARCH__ >= 200
-    assert(0);
 #else
-    result.first = pointer(static_cast<T*>(0));
+    thrust::system::cuda::detail::terminate();
 #endif
   } // end if
 

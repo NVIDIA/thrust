@@ -30,19 +30,24 @@ namespace detail
 namespace detail
 {
 
+
 template<typename DerivedPolicy,
          typename RandomAccessIterator>
+__host__ __device__
 void stable_primitive_sort(execution_policy<DerivedPolicy> &exec,
                            RandomAccessIterator first,
                            RandomAccessIterator last);
 
+
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2>
+__host__ __device__
 void stable_primitive_sort_by_key(execution_policy<DerivedPolicy> &exec,
                                   RandomAccessIterator1 keys_first,
                                   RandomAccessIterator1 keys_last,
                                   RandomAccessIterator2 values_first);
+
 
 } // end namespace detail
 } // end namespace detail

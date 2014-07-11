@@ -30,12 +30,12 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/function.h>
 #include <thrust/detail/integer_math.h>
+#include <thrust/detail/integer_traits.h>
 #include <thrust/detail/seq.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/detail/internal_functional.h>
 #include <thrust/system/cuda/detail/temporary_indirect_permutation.h>
 #include <thrust/system/cuda/detail/runtime_introspection.h>
-#include <limits>
 
 
 namespace thrust
@@ -60,7 +60,8 @@ template<unsigned int work_per_thread,
          typename Iterator,
          typename Size,
          typename Compare>
-__device__ void bounded_inplace_merge(Context &ctx, Iterator first, Size n1, Size n2, Compare comp)
+__device__
+void bounded_inplace_merge(Context &ctx, Iterator first, Size n1, Size n2, Compare comp)
 {
   Iterator first2 = first + n1;
 
@@ -183,6 +184,7 @@ struct merge_adjacent_partitions_closure
   thrust::detail::wrapped_function<Compare,bool> comp;
 
 
+  __host__ __device__
   merge_adjacent_partitions_closure(Size num_blocks_per_merge, Iterator1 first, Size n, Iterator2 merge_paths, Iterator3 result, Compare comp)
     : num_blocks_per_merge(num_blocks_per_merge),
       first(first),
@@ -238,6 +240,7 @@ template<unsigned int work_per_thread,
          typename Pointer,
          typename Iterator3,
          typename Compare>
+__host__ __device__
 void merge_adjacent_partitions(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                                Context context,
                                unsigned int block_size,
@@ -292,6 +295,7 @@ struct locate_merge_path
   Size num_blocks_per_merge;
   thrust::detail::wrapped_function<Compare,bool> comp;
 
+  __host__ __device__
   locate_merge_path(Iterator haystack_first, Size haystack_size, Size num_elements_per_block, Size num_blocks_per_merge, Compare comp)
     : haystack_first(haystack_first),
       haystack_size(haystack_size),
@@ -328,6 +332,7 @@ struct locate_merge_path
 
 
 template<typename DerivedPolicy, typename Iterator1, typename Size1, typename Iterator2, typename Size2, typename Compare>
+__host__ __device__
 void locate_merge_paths(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                         Iterator1 result,
                         Size1 n,
@@ -344,8 +349,10 @@ void locate_merge_paths(thrust::system::cuda::execution_policy<DerivedPolicy> &e
 
 
 template<typename T>
+__host__ __device__
 bool virtualize_smem(size_t num_elements_per_block)
 {
+#ifndef __CUDA_ARCH__
   size_t num_smem_bytes_required = num_elements_per_block * sizeof(T);
 
   thrust::system::cuda::detail::device_properties_t props = thrust::system::cuda::detail::device_properties();
@@ -358,10 +365,16 @@ bool virtualize_smem(size_t num_elements_per_block)
   }
 
   return num_smem_bytes_required > num_smem_bytes_available;
+#else
+  // we should never need to virtualize smem on anything besides Tesla,
+  // and Tesla will never execute this code path
+  return false;
+#endif
 }
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator, typename Size, typename Compare>
+__host__ __device__
 void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                          RandomAccessIterator first,
                          Size n,
@@ -427,6 +440,7 @@ void stable_merge_sort_n(thrust::system::cuda::execution_policy<DerivedPolicy> &
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare>
+__host__ __device__
 void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
                        RandomAccessIterator last,
@@ -437,8 +451,8 @@ void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &ex
   difference_type n = last - first;
 
   // if difference_type is large and n can fit into a 32b uint then use that
-  difference_type threshold = std::numeric_limits<thrust::detail::uint32_t>::max();
-  if(sizeof(difference_type) > sizeof(thrust::detail::uint32_t) && n <= threshold)
+  thrust::detail::uint32_t threshold = thrust::detail::integer_traits<thrust::detail::uint32_t>::const_max;
+  if(sizeof(difference_type) > sizeof(thrust::detail::uint32_t) && n <= difference_type(threshold))
   {
     stable_merge_sort_n(exec, first, static_cast<thrust::detail::uint32_t>(n), comp);
   }
@@ -453,6 +467,7 @@ void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &ex
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator, typename Compare>
+__host__ __device__
 void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
                        RandomAccessIterator last,
@@ -478,6 +493,7 @@ void stable_merge_sort(thrust::system::cuda::execution_policy<DerivedPolicy> &ex
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename RandomAccessIterator2, typename Compare>
+__host__ __device__
 void stable_merge_sort_by_key(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 keys_first,
                               RandomAccessIterator1 keys_last,

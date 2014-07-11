@@ -20,7 +20,8 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/static_assert.h>
+#include <thrust/scan.h>
+#include <thrust/detail/seq.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/system/cuda/detail/decomposition.h>
@@ -149,18 +150,16 @@ struct accumulate_tiles
 }; // end accumulate_tiles
 
 
-} // end scan_detail
-
-
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                AssociativeOperator binary_op)
+__host__ __device__
+OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              AssociativeOperator binary_op)
 {
   typedef typename bulk_::detail::scan_detail::scan_intermediate<
     InputIterator,
@@ -250,12 +249,13 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op)
+__host__ __device__
+OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              T init,
+                              AssociativeOperator binary_op)
 {
   typedef typename bulk_::detail::scan_detail::scan_intermediate<
     InputIterator,
@@ -338,6 +338,97 @@ template<typename DerivedPolicy,
   } // end else
 
   return result + n;
+} // end exclusive_scan()
+
+
+} // end scan_detail
+
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename AssociativeOperator>
+__host__ __device__
+OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              AssociativeOperator binary_op)
+{
+  struct workaround
+  {
+    __host__ __device__
+    static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
+                                        InputIterator first,
+                                        InputIterator last,
+                                        OutputIterator result,
+                                        AssociativeOperator binary_op)
+    {
+      return thrust::system::cuda::detail::scan_detail::inclusive_scan(exec, first, last, result, binary_op);
+    }
+
+    __host__ __device__
+    static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
+                                          InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          AssociativeOperator binary_op)
+    {
+      return thrust::inclusive_scan(thrust::seq, first, last, result, binary_op);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, last, result, binary_op);
+#else
+  return workaround::sequential_path(exec, first, last, result, binary_op);
+#endif
+} // end inclusive_scan()
+
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename T,
+         typename AssociativeOperator>
+__host__ __device__
+OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              T init,
+                              AssociativeOperator binary_op)
+{
+  struct workaround
+  {
+    __host__ __device__
+    static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
+                                        InputIterator first,
+                                        InputIterator last,
+                                        OutputIterator result,
+                                        T init,
+                                        AssociativeOperator binary_op)
+    {
+      return thrust::system::cuda::detail::scan_detail::exclusive_scan(exec, first, last, result, init, binary_op);
+    }
+
+    __host__ __device__
+    static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
+                                          InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          T init,
+                                          AssociativeOperator binary_op)
+    {
+      return thrust::exclusive_scan(thrust::seq, first, last, result, init, binary_op);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, last, result, init, binary_op);
+#else
+  return workaround::sequential_path(exec, first, last, result, init, binary_op);
+#endif
 } // end exclusive_scan()
 
 

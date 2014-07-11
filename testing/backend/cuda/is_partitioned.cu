@@ -4,11 +4,11 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator, typename Predicate, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator, typename Predicate, typename Iterator2>
 __global__
-void is_partitioned_kernel(Iterator first, Iterator last, Predicate pred, Iterator2 result)
+void is_partitioned_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Predicate pred, Iterator2 result)
 {
-  *result = thrust::is_partitioned(thrust::seq, first, last, pred);
+  *result = thrust::is_partitioned(exec, first, last, pred);
 }
 
 
@@ -20,29 +20,44 @@ struct is_even
 };
 
 
-template<typename T>
-void TestIsPartitionedDeviceSeq(size_t n)
+template<typename ExecutionPolicy>
+void TestIsPartitionedDevice(ExecutionPolicy exec)
 {
+  size_t n = 1000;
+
   n = thrust::max<size_t>(n, 2);
 
-  thrust::device_vector<T> v = unittest::random_integers<T>(n);
+  thrust::device_vector<int> v = unittest::random_integers<int>(n);
 
   thrust::device_vector<bool> result(1);
 
   v[0] = 1;
   v[1] = 0;
 
-  is_partitioned_kernel<<<1,1>>>(v.begin(), v.end(), is_even<T>(), result.begin());
+  is_partitioned_kernel<<<1,1>>>(exec, v.begin(), v.end(), is_even<int>(), result.begin());
 
   ASSERT_EQUAL(false, result[0]);
 
-  thrust::partition(v.begin(), v.end(), is_even<T>());
+  thrust::partition(v.begin(), v.end(), is_even<int>());
 
-  is_partitioned_kernel<<<1,1>>>(v.begin(), v.end(), is_even<T>(), result.begin());
+  is_partitioned_kernel<<<1,1>>>(exec, v.begin(), v.end(), is_even<int>(), result.begin());
 
   ASSERT_EQUAL(true, result[0]);
 }
-DECLARE_VARIABLE_UNITTEST(TestIsPartitionedDeviceSeq);
+
+
+void TestIsPartitionedDeviceSeq()
+{
+  TestIsPartitionedDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestIsPartitionedDeviceSeq);
+
+
+void TestIsPartitionedDeviceDevice()
+{
+  TestIsPartitionedDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestIsPartitionedDeviceDevice);
 
 
 void TestIsPartitionedCudaStreams()

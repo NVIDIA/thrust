@@ -32,6 +32,7 @@ namespace detail
 
 // given any old execution_policy, we return stream 0 by default
 template<typename DerivedPolicy>
+__host__ __device__
 inline cudaStream_t stream(const execution_policy<DerivedPolicy> &exec)
 {
   return 0;
@@ -44,14 +45,17 @@ class execute_on_stream_base
   : public thrust::system::cuda::detail::execution_policy<DerivedPolicy>
 {
   public:
+    __host__ __device__
     execute_on_stream_base()
       : m_stream(0)
     {}
 
+    __host__ __device__
     execute_on_stream_base(cudaStream_t stream)
       : m_stream(stream)
     {}
 
+    __host__ __device__
     friend inline cudaStream_t stream(const execute_on_stream_base &exec)
     {
       return exec.m_stream;
@@ -69,6 +73,7 @@ class execute_on_stream
   typedef execute_on_stream_base<execute_on_stream> super_t;
 
   public:
+    __host__ __device__
     inline execute_on_stream(cudaStream_t stream) 
       : super_t(stream)
     {}

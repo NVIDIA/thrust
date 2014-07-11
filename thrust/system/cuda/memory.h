@@ -321,7 +321,8 @@ void swap(reference<T> x, reference<T> y);
  *  \see cuda::free
  *  \see std::malloc
  */
-inline pointer<void> malloc(std::size_t n);
+inline __host__ __device__
+pointer<void> malloc(std::size_t n);
 
 /*! Allocates a typed area of memory available to Thrust's <tt>cuda</tt> system.
  *  \param n Number of elements to allocate.
@@ -334,7 +335,8 @@ inline pointer<void> malloc(std::size_t n);
  *  \see std::malloc
  */
 template<typename T>
-inline pointer<T> malloc(std::size_t n);
+inline __host__ __device__
+pointer<T> malloc(std::size_t n);
 
 /*! Deallocates an area of memory previously allocated by <tt>cuda::malloc</tt>.
  *  \param ptr A <tt>cuda::pointer<void></tt> pointing to the beginning of an area
@@ -342,7 +344,8 @@ inline pointer<T> malloc(std::size_t n);
  *  \see cuda::malloc
  *  \see std::free
  */
-inline void free(pointer<void> ptr);
+inline __host__ __device__
+void free(pointer<void> ptr);
 
 // XXX upon c++11
 // template<typename T> using allocator = thrust::detail::malloc_allocator<T,tag,pointer<T> >;

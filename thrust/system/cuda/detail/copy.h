@@ -33,30 +33,32 @@ namespace detail
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(execution_policy<DerivedPolicy> &exec,
-                      InputIterator first,
-                      InputIterator last,
-                      OutputIterator result);
+__host__ __device__
+OutputIterator copy(execution_policy<DerivedPolicy> &exec,
+                    InputIterator first,
+                    InputIterator last,
+                    OutputIterator result);
 
 
 template<typename System1,
          typename System2,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy(cross_system<System1,System2> exec,
-                      InputIterator first,
-                      InputIterator last,
-                      OutputIterator result);
+OutputIterator copy(cross_system<System1,System2> exec,
+                    InputIterator first,
+                    InputIterator last,
+                    OutputIterator result);
 
 
 template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
-                        InputIterator first,
-                        Size n,
-                        OutputIterator result);
+__host__ __device__
+OutputIterator copy_n(execution_policy<DerivedPolicy> &exec,
+                      InputIterator first,
+                      Size n,
+                      OutputIterator result);
 
 
 template<typename System1,
@@ -64,10 +66,10 @@ template<typename System1,
          typename InputIterator,
          typename Size,
          typename OutputIterator>
-  OutputIterator copy_n(cross_system<System1,System2> exec,
-                        InputIterator first,
-                        Size n,
-                        OutputIterator result);
+OutputIterator copy_n(cross_system<System1,System2> exec,
+                      InputIterator first,
+                      Size n,
+                      OutputIterator result);
 
 
 } // end detail

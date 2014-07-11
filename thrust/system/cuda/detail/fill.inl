@@ -20,17 +20,24 @@
  */
 
 #include <thrust/detail/config.h>
-
 #include <thrust/distance.h>
 #include <thrust/detail/util/align.h>
+#include <thrust/fill.h>
 #include <thrust/generate.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/detail/internal_functional.h>
-
 #include <thrust/system/cuda/detail/runtime_introspection.h>
+#include <thrust/detail/seq.h>
+#include <thrust/system/cuda/detail/bulk.h>
+
+
+// XXX this implementation is too complicated
+// XXX we should investigate whether it actually yields any significant
+// XXX performance improvement
+
 
 namespace thrust
 {
@@ -45,7 +52,8 @@ namespace detail
 
 
 template<typename WidePtr, typename T>
-  WidePtr widen_raw_ptr(T *ptr)
+__host__ __device__
+WidePtr widen_raw_ptr(T *ptr)
 {
   typedef thrust::detail::pointer_traits<WidePtr> WideTraits;
   typedef typename WideTraits::element_type       WideT;
@@ -58,10 +66,11 @@ template<typename WidePtr, typename T>
 
 
 template<typename WideType, typename DerivedPolicy, typename Pointer, typename Size, typename T>
-  Pointer wide_fill_n(execution_policy<DerivedPolicy> &exec,
-                      Pointer first,
-                      Size n,
-                      const T &value)
+__host__ __device__
+Pointer wide_fill_n(execution_policy<DerivedPolicy> &exec,
+                    Pointer first,
+                    Size n,
+                    const T &value)
 {
   typedef typename thrust::iterator_value<Pointer>::type OutputType;
 
@@ -70,12 +79,16 @@ template<typename WideType, typename DerivedPolicy, typename Pointer, typename S
   WideType   wide_exemplar;
   OutputType narrow_exemplars[sizeof(WideType) / sizeof(OutputType)];
 
-  for (size_t i = 0; i < sizeof(WideType) / sizeof(OutputType); i++)
-      narrow_exemplars[i] = static_cast<OutputType>(value);
+  for(size_t i = 0; i < sizeof(WideType) / sizeof(OutputType); i++)
+  {
+    narrow_exemplars[i] = static_cast<OutputType>(value);
+  }
 
   // cast through char * to avoid type punning warnings
-  for (size_t i = 0; i < sizeof(WideType); i++)
-      reinterpret_cast<char *>(&wide_exemplar)[i] = reinterpret_cast<char *>(narrow_exemplars)[i];
+  for(size_t i = 0; i < sizeof(WideType); i++)
+  {
+    reinterpret_cast<char *>(&wide_exemplar)[i] = reinterpret_cast<char *>(narrow_exemplars)[i];
+  }
 
   OutputType *first_raw = thrust::raw_pointer_cast(first);
   OutputType *last_raw  = first_raw + n;
@@ -98,29 +111,33 @@ template<typename WideType, typename DerivedPolicy, typename Pointer, typename S
   return first + n;
 }
 
+
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
-                        OutputIterator first,
-                        Size n,
-                        const T &value,
-                        thrust::detail::false_type)
+__host__ __device__
+OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
+                      OutputIterator first,
+                      Size n,
+                      const T &value,
+                      thrust::detail::false_type)
 {
   thrust::detail::fill_functor<T> func(value); 
   return thrust::generate_n(exec, first, n, func);
 }
 
+
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
-                        OutputIterator first,
-                        Size n,
-                        const T &value,
-                        thrust::detail::true_type)
+__host__ __device__
+OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
+                      OutputIterator first,
+                      Size n,
+                      const T &value,
+                      thrust::detail::true_type)
 {
   typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
   
-  if ( thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
+  if(thrust::detail::util::is_aligned<OutputType>(thrust::raw_pointer_cast(&*first)) )
   {
-      if (compute_capability() < 20)
+      if(compute_capability() < 20)
       {
         // 32-bit writes are faster on G80 and GT200
         typedef unsigned int WideType;
@@ -141,35 +158,61 @@ template<typename DerivedPolicy, typename OutputIterator, typename Size, typenam
   }
 }
 
+
 } // end detail
 
+
 template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
-                        OutputIterator first,
-                        Size n,
-                        const T &value)
+__host__ __device__
+OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
+                      OutputIterator first,
+                      Size n,
+                      const T &value)
 {
+  // XXX move this up here instead of inside parallel_path() to workaround MSVC bug
   typedef typename thrust::iterator_traits<OutputIterator>::value_type      OutputType;
 
-  // we're compiling with nvcc, launch a kernel
-  const bool use_wide_fill = thrust::detail::is_trivial_iterator<OutputIterator>::value
-      && thrust::detail::has_trivial_assign<OutputType>::value
-      && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
+  struct workaround
+  {
+    __host__ __device__
+    static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec, OutputIterator first, Size n, const T &value)
+    {
+      // we're compiling with nvcc, launch a kernel
+      const bool use_wide_fill = thrust::detail::is_trivial_iterator<OutputIterator>::value
+          && thrust::detail::has_trivial_assign<OutputType>::value
+          && (sizeof(OutputType) == 1 || sizeof(OutputType) == 2 || sizeof(OutputType) == 4);
 
-  // XXX WAR usused variable warning
-  (void)use_wide_fill;
+      // XXX WAR usused variable warning
+      (void)use_wide_fill;
 
-  return detail::fill_n(exec, first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
+      return detail::fill_n(exec, first, n, value, thrust::detail::integral_constant<bool, use_wide_fill>());
+    }
+
+    __host__ __device__
+    static OutputIterator sequential_path(execution_policy<DerivedPolicy> &, OutputIterator first, Size n, const T &value)
+    {
+      return thrust::fill_n(thrust::seq, first, n, value);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, n, value);
+#else
+  return workaround::sequential_path(exec, first, n, value);
+#endif
 }
 
+
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
-  void fill(execution_policy<DerivedPolicy> &exec,
-            ForwardIterator first,
-            ForwardIterator last,
-            const T &value)
+__host__ __device__
+void fill(execution_policy<DerivedPolicy> &exec,
+          ForwardIterator first,
+          ForwardIterator last,
+          const T &value)
 {
   thrust::system::cuda::detail::fill_n(exec, first, thrust::distance(first,last), value);
 } // end fill()
+
 
 } // end namespace detail
 } // end namespace cuda

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2012 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,8 +14,13 @@
  *  limitations under the License.
  */
 
-#include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/runtime_introspection.h>
+#pragma once
+
+#include <thrust/system_error.h>
+#include <thrust/system/cuda/error.h>
+#include <thrust/system/cuda/detail/terminate.h>
+#include <cstdio>
+
 
 namespace thrust
 {
@@ -27,18 +32,25 @@ namespace detail
 {
 
 
-template<typename IndexType>
-__host__ __device__
-thrust::system::detail::internal::uniform_decomposition<IndexType> default_decomposition(IndexType n)
+inline __host__ __device__
+void throw_on_error(cudaError_t error, const char *message)
 {
-  // TODO eliminate magical constant
-  device_properties_t properties = device_properties();
-  return thrust::system::detail::internal::uniform_decomposition<IndexType>(n, properties.maxThreadsPerBlock, 10 * properties.multiProcessorCount);
+  if(error)
+  {
+#ifndef __CUDA_ARCH__
+    throw thrust::system_error(error, thrust::cuda_category(), message);
+#else
+#  if (__CUDA_ARCH__ >= 200)
+    printf("Error after %s: %s\n", message, cudaGetErrorString(error));
+#  endif
+    thrust::system::cuda::detail::terminate();
+#endif
+  }
 }
 
 
-} // end namespace detail
-} // end namespace cuda
-} // end namespace system
-} // end namespace thrust
+} // end detail
+} // end cuda
+} // end system
+} // end thrust
 

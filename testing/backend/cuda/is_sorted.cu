@@ -3,35 +3,47 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator, typename Iterator2>
 __global__
-void is_sorted_kernel(Iterator first, Iterator last, Iterator2 result)
+void is_sorted_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Iterator2 result)
 {
-  *result = thrust::is_sorted(thrust::seq, first, last);
+  *result = thrust::is_sorted(exec, first, last);
 }
 
 
-template<typename T>
-void TestIsSortedDeviceSeq(size_t n)
+template<typename ExecutionPolicy>
+void TestIsSortedDevice(ExecutionPolicy exec)
 {
-  n = thrust::max<size_t>(n, 2);
+  size_t n = 1000;
 
-  thrust::device_vector<T> v = unittest::random_integers<T>(n);
+  thrust::device_vector<int> v = unittest::random_integers<int>(n);
 
   thrust::device_vector<bool> result(1);
 
   v[0] = 1;
   v[1] = 0;
 
-  is_sorted_kernel<<<1,1>>>(v.begin(), v.end(), result.begin());
+  is_sorted_kernel<<<1,1>>>(exec, v.begin(), v.end(), result.begin());
   ASSERT_EQUAL(false, result[0]);
 
   thrust::sort(v.begin(), v.end());
 
-  is_sorted_kernel<<<1,1>>>(v.begin(), v.end(), result.begin());
+  is_sorted_kernel<<<1,1>>>(exec, v.begin(), v.end(), result.begin());
   ASSERT_EQUAL(true, result[0]);
 }
-DECLARE_VARIABLE_UNITTEST(TestIsSortedDeviceSeq);
+
+void TestIsSortedDeviceSeq()
+{
+  TestIsSortedDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestIsSortedDeviceSeq);
+
+
+void TestIsSortedDeviceDevice()
+{
+  TestIsSortedDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestIsSortedDeviceDevice);
 
 
 void TestIsSortedCudaStreams()

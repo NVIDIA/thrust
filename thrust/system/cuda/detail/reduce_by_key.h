@@ -33,22 +33,25 @@ namespace cuda
 namespace detail
 {
 
-template <typename DerivedPolicy,
-          typename InputIterator1,
-          typename InputIterator2,
-          typename OutputIterator1,
-          typename OutputIterator2,
-          typename BinaryPredicate,
-          typename BinaryFunction>
-  thrust::pair<OutputIterator1,OutputIterator2>
-    reduce_by_key(execution_policy<DerivedPolicy> &exec,
-                  InputIterator1 keys_first, 
-                  InputIterator1 keys_last,
-                  InputIterator2 values_first,
-                  OutputIterator1 keys_output,
-                  OutputIterator2 values_output,
-                  BinaryPredicate binary_pred,
-                  BinaryFunction binary_op);
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
+__host__ __device__
+thrust::pair<OutputIterator1,OutputIterator2>
+  reduce_by_key(execution_policy<DerivedPolicy> &exec,
+                InputIterator1 keys_first, 
+                InputIterator1 keys_last,
+                InputIterator2 values_first,
+                OutputIterator1 keys_output,
+                OutputIterator2 values_output,
+                BinaryPredicate binary_pred,
+                BinaryFunction binary_op);
+
 
 } // end namespace detail
 } // end namespace cuda

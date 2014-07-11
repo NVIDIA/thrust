@@ -21,9 +21,12 @@
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
+#include <thrust/system/cuda/detail/throw_on_error.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/functional.h>
+#include <thrust/iterator/retag.h>
 #include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
@@ -34,7 +37,6 @@ namespace cuda
 {
 namespace detail
 {
-
 namespace trivial_copy_detail
 {
 
@@ -73,17 +75,27 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename Size,
          typename RandomAccessIterator2>
-  void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
-                      RandomAccessIterator1 first,
-                      Size n,
-                      RandomAccessIterator2 result)
+__host__ __device__
+void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
+                    RandomAccessIterator1 first,
+                    Size n,
+                    RandomAccessIterator2 result)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
 
+#ifndef __CUDA_ARCH__
   void *dst = thrust::raw_pointer_cast(&*result);
   const void *src = thrust::raw_pointer_cast(&*first);
 
   trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), cudaMemcpyDeviceToDevice, stream(thrust::detail::derived_cast(exec)));
+#else
+  // XXX transform is implemented with zip_iterator, which freaks out when the zipped iterators have unrelated system tags
+  //     force both iterators' system tags to DerivedPolicy
+  thrust::transform(exec,
+                    thrust::reinterpret_tag<DerivedPolicy>(first), thrust::reinterpret_tag<DerivedPolicy>(first + n),
+                    thrust::reinterpret_tag<DerivedPolicy>(result),
+                    thrust::identity<T>());
+#endif
 }
 
 
@@ -92,10 +104,10 @@ template<typename System1,
          typename RandomAccessIterator1,
          typename Size,
          typename RandomAccessIterator2>
-  void trivial_copy_n(cross_system<System1,System2> &systems,
-                      RandomAccessIterator1 first,
-                      Size n,
-                      RandomAccessIterator2 result)
+void trivial_copy_n(cross_system<System1,System2> &systems,
+                    RandomAccessIterator1 first,
+                    Size n,
+                    RandomAccessIterator2 result)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type T;
 

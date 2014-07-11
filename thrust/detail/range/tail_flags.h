@@ -35,7 +35,7 @@ template<typename RandomAccessIterator,
          typename IndexType = typename thrust::iterator_difference<RandomAccessIterator>::type>
   class tail_flags
 {
-  // XXX WAR cudafe issue
+  // XXX WAR cudafe bug
   //private:
   public:
     struct tail_flag_functor

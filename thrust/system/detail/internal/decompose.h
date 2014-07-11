@@ -57,6 +57,7 @@ namespace internal
         typedef IndexType               index_type;
         typedef index_range<index_type> range_type;
 
+        __host__ __device__
         uniform_decomposition(index_type N, index_type granularity, index_type max_intervals)
           : m_N(N),
 	    m_intervals((N + granularity - 1) / granularity),

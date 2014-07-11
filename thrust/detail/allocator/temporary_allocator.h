@@ -50,6 +50,12 @@ template<typename T, typename System>
     typedef typename super_t::size_type size_type;
 
     inline __host__ __device__
+    temporary_allocator(const temporary_allocator &other) :
+      super_t(),
+      m_system(other.m_system)
+    {}
+
+    inline __host__ __device__
     explicit temporary_allocator(thrust::execution_policy<System> &system) :
       super_t(),
       m_system(thrust::detail::derived_cast(system))

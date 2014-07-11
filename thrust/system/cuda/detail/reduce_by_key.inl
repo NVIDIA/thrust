@@ -16,6 +16,8 @@
 
 
 #include <thrust/detail/config.h>
+#include <thrust/reduce.h>
+#include <thrust/detail/seq.h>
 #include <thrust/system/cuda/detail/reduce_by_key.h>
 #include <thrust/system/cuda/detail/bulk.h>
 #include <thrust/functional.h>
@@ -177,6 +179,7 @@ template<typename DerivedPolicy,
          typename Iterator3,
          typename Iterator4,
          typename BinaryFunction>
+__host__ __device__
 void sum_tail_carries(execution_policy<DerivedPolicy> &exec,
                       Iterator1 interval_values_first,
                       Iterator1 interval_values_last,
@@ -218,9 +221,6 @@ struct intermediate_type
 {};
 
 
-} // end namespace reduce_by_key_detail
-
-
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -228,6 +228,7 @@ template<typename DerivedPolicy,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
+__host__ __device__
 thrust::pair<OutputIterator1,OutputIterator2>
 reduce_by_key(execution_policy<DerivedPolicy> &exec,
               InputIterator1 keys_first, 
@@ -328,6 +329,66 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
   difference_type result_size = interval_output_offsets[interval_output_offsets.size() - 1];
 
   return thrust::make_pair(keys_result + result_size, values_result + result_size);
+} // end reduce_by_key()
+
+
+} // end namespace reduce_by_key_detail
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
+__host__ __device__
+thrust::pair<OutputIterator1,OutputIterator2>
+reduce_by_key(execution_policy<DerivedPolicy> &exec,
+              InputIterator1 keys_first, 
+              InputIterator1 keys_last,
+              InputIterator2 values_first,
+              OutputIterator1 keys_result,
+              OutputIterator2 values_result,
+              BinaryPredicate binary_pred,
+              BinaryFunction binary_op)
+{
+  struct workaround
+  {
+    static __host__ __device__
+    thrust::pair<OutputIterator1,OutputIterator2>
+    parallel_path(execution_policy<DerivedPolicy> &exec,
+                  InputIterator1 keys_first,
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_result,
+                  OutputIterator2 values_result,
+                  BinaryPredicate binary_pred,
+                  BinaryFunction binary_op)
+    {
+      return thrust::system::cuda::detail::reduce_by_key_detail::reduce_by_key(exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+    }
+
+    static __host__ __device__
+    thrust::pair<OutputIterator1,OutputIterator2>
+    sequential_path(execution_policy<DerivedPolicy> &,
+                    InputIterator1 keys_first,
+                    InputIterator1 keys_last,
+                    InputIterator2 values_first,
+                    OutputIterator1 keys_result,
+                    OutputIterator2 values_result,
+                    BinaryPredicate binary_pred,
+                    BinaryFunction binary_op)
+    {
+      return thrust::reduce_by_key(thrust::seq, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+#else
+  return workaround::sequential_path(exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+#endif
 } // end reduce_by_key()
 
 

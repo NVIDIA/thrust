@@ -47,6 +47,7 @@ struct reduce_intervals_kernel
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename Decomposition, typename RandomAccessIterator2, typename BinaryFunction>
+__host__ __device__
 RandomAccessIterator2 reduce_intervals_(execution_policy<DerivedPolicy> &exec, RandomAccessIterator1 first, Decomposition decomp, RandomAccessIterator2 result, BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type result_type;
@@ -59,6 +60,7 @@ RandomAccessIterator2 reduce_intervals_(execution_policy<DerivedPolicy> &exec, R
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename BinaryFunction>
+__host__ __device__
 RandomAccessIterator2 reduce_intervals_(execution_policy<DerivedPolicy> &exec, RandomAccessIterator1 first, RandomAccessIterator1 last, Size interval_size, RandomAccessIterator2 result, BinaryFunction binary_op)
 {
   return thrust::system::cuda::detail::reduce_intervals_(exec, first, make_blocked_decomposition<Size>(last - first,interval_size), result, binary_op);

@@ -2,13 +2,8 @@
 #include <thrust/functional.h>
 #include <thrust/sequence.h>
 #include <thrust/device_malloc_allocator.h>
-
 #include <thrust/sort.h>
 #include <thrust/system/cuda/detail/detail/stable_radix_sort.h>
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-
-using namespace unittest;
 
 typedef unittest::type_list<
 #if !(defined(__GNUC__) && (__GNUC__ <= 4) && (__GNUC_MINOR__ <= 1))
@@ -20,7 +15,7 @@ typedef unittest::type_list<
                             unsigned long,
                             unsigned long long> UnsignedIntegerTypes;
 
-template <typename T>
+template<typename T>
 struct TestRadixSortByKeyUnaligned
 {
   void operator()(const size_t n)
@@ -57,6 +52,4 @@ struct TestRadixSortByKeyUnaligned
   }
 };
 VariableUnitTest<TestRadixSortByKeyUnaligned, UnsignedIntegerTypes> TestRadixSortByKeyUnalignedInstance;
-
-#endif // THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 
