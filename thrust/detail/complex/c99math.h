@@ -25,11 +25,14 @@ namespace detail
 {
 namespace complex
 {
-/*
- * Define basic arithmetic functions so we can use them without explicit scope
- * keeping the code as close as possible to FreeBSDs for ease of maintenance. 
- * It also provides an easy way to support compilers with missing C99 functions.
- */
+
+// Define basic arithmetic functions so we can use them without explicit scope
+// keeping the code as close as possible to FreeBSDs for ease of maintenance. 
+// It also provides an easy way to support compilers with missing C99 functions.
+// When possible, just use the names in the global scope.
+// Some platforms define these as macros, others as free functions.
+// Avoid using the std:: form of these as nvcc may treat std::foo() as __host__ functions.
+
 using ::log;
 using ::acos;
 using ::asin;
@@ -62,13 +65,7 @@ inline __host__ __device__ double infinity<double>()
   return res;
 }
 
-#if __cplusplus >= 201103L
-using std::isinf;
-using std::isnan;
-using std::signbit;
-using std::isfinite;
-using std::atanh;
-#elif defined _MSC_VER
+#if defined _MSC_VER
 __host__ __device__ inline int isinf(float x){
   return std::abs(x) == infinity<float>();
 }
@@ -102,12 +99,35 @@ __host__ __device__ inline int isfinite(double x){
 }
 
 #else
+
+#  ifdef __CUDACC__
+
+// sometimes the CUDA toolkit provides these these names as macros,
+// sometimes functions in the global scope
+
+#    if (CUDA_VERSION >= 6500)
+using ::isinf;
+using ::isnan;
+using ::signbit;
+using ::isfinite;
+
+#    else
+// these names are macros, we don't need to define them
+
+#    endif // CUDA_VERSION
+
+#  else
+// Some compilers do not provide these in the global scope
+// they are in std:: instead
+// Since we're not compiling with nvcc, it's safe to use the functions in std::
 using std::isinf;
 using std::isnan;
 using std::signbit;
 using std::isfinite;
+#  endif // __CUDACC__
+
 using ::atanh;
-#endif
+#endif // _MSC_VER
   
 #if defined _MSC_VER
 
@@ -171,11 +191,11 @@ inline double hypot(double x, double y){
 	return _hypot(x,y);
 }
 
-#endif
+#endif // _MSC_VER <= 1500
 
-#endif
+#endif // __CUDACC__
 
-#endif
+#endif // _MSC_VER
 
 } // namespace complex
 

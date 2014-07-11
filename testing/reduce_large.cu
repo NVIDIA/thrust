@@ -22,34 +22,16 @@ void _TestReduceWithLargeTypes(void)
 
 void TestReduceWithLargeTypes(void)
 {
-  // XXX these tests will not compile with arch=sm_1x
-  //     when sm_20 becomes nvcc's default, reenable these
-  KNOWN_FAILURE;
+  _TestReduceWithLargeTypes<int,    4>();
+  _TestReduceWithLargeTypes<int,    8>();
+  _TestReduceWithLargeTypes<int,   16>();
 
-  //  _TestReduceWithLargeTypes<int,    1>();
-  //  _TestReduceWithLargeTypes<int,    2>();
-  //  _TestReduceWithLargeTypes<int,    4>();
-  //  _TestReduceWithLargeTypes<int,    8>();
-  //  _TestReduceWithLargeTypes<int,   16>();
+  // XXX these take too long to compile
   //  _TestReduceWithLargeTypes<int,   32>();
   //  _TestReduceWithLargeTypes<int,   64>();
   //  _TestReduceWithLargeTypes<int,  128>(); 
-  //  //_TestReduceWithLargeTypes<int,  256>(); // fails on sm_11
-  //  //_TestReduceWithLargeTypes<int,  512>(); // uses too much local data
+  //  _TestReduceWithLargeTypes<int,  256>();
+  //  _TestReduceWithLargeTypes<int,  512>();
 }
 DECLARE_UNITTEST(TestReduceWithLargeTypes);
-
-template <typename T>
-struct plus_mod3
-{
-    T * table;
-
-    plus_mod3(T * table) : table(table) {}
-
-    __host__ __device__
-    T operator()(T a, T b)
-    {
-        return table[(int) (a + b)];
-    }
-};
 
