@@ -20,21 +20,14 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
 #include <thrust/detail/copy.h>
-#include <thrust/gather.h>
-#include <thrust/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
-
 #include <thrust/detail/temporary_array.h>
-#include <thrust/detail/type_traits.h>
-#include <thrust/detail/util/align.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cuda/detail/execute_on_stream.h>
-
-
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
-
-
-#include <thrust/system/cuda/detail/detail/b40c/radixsort_api.h>
+#include <thrust/system/cuda/detail/bulk.h>
+#include <thrust/system/cuda/detail/cub.h>
+#include <thrust/detail/util/blocking.h>
+#include <thrust/tuple.h>
 
 namespace thrust
 {
@@ -50,75 +43,186 @@ namespace stable_radix_sort_detail
 {
 
 
-template<typename DerivedPolicy, typename ContiguousIterator>
-struct ensure_aligned_range
+// sort ascending
+template<typename Key>
+__host__ __device__
+cudaError_t cub_sort_keys_wrapper(void *d_temp_storage,
+                                  size_t &temp_storage_bytes,
+                                  thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                  int num_items,
+                                  thrust::less<Key> comp,
+                                  int begin_bit = 0,
+                                  int end_bit = sizeof(Key) * 8,
+                                  cudaStream_t stream = 0,
+                                  bool debug_synchronous = false)
 {
-  typedef typename thrust::iterator_value<ContiguousIterator>::type value_type;
-  typedef value_type * iterator;
-
-  __host__ __device__
-  ensure_aligned_range(thrust::execution_policy<DerivedPolicy> &exec,
-                       ContiguousIterator first,
-                       ContiguousIterator last)
-    : m_do_copy_back(true),
-      m_exec(exec),
-      m_orig_first(thrust::raw_pointer_cast(&*first)),
-      m_first(0),
-      m_last(0),
-      m_storage(exec)
+  struct workaround
   {
-    // if the range isn't aligned, copy it into aligned temporary storage
-    if(thrust::detail::util::is_aligned(m_orig_first, 2 * sizeof(value_type)))
+    __host__ 
+    static cudaError_t host_path(void *d_temp_storage,
+                                 size_t &temp_storage_bytes,
+                                 thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                 int num_items,
+                                 thrust::less<Key>,
+                                 int begin_bit,
+                                 int end_bit,
+                                 cudaStream_t stream,
+                                 bool debug_synchronous)
     {
-      m_first = thrust::raw_pointer_cast(m_orig_first);
-      m_last  = thrust::raw_pointer_cast(&*last);
+      return cub_::DeviceRadixSort::SortKeys(d_temp_storage, temp_storage_bytes, d_keys, num_items, begin_bit, end_bit, stream, debug_synchronous);
     }
-    else
+
+    __device__
+    static cudaError_t device_path(void *d_temp_storage,
+                                   size_t &temp_storage_bytes,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                   int num_items,
+                                   thrust::less<Key>,
+                                   int begin_bit,
+                                   int end_bit,
+                                   cudaStream_t stream,
+                                   bool debug_synchronous)
     {
-      // XXX temporary_array can't resize, so we need to placement construct this
-      ::new(static_cast<void*>(&m_storage)) thrust::detail::temporary_array<value_type, DerivedPolicy>(exec, first, last);
-
-      m_first = thrust::raw_pointer_cast(&*m_storage.begin());
-      m_last  = thrust::raw_pointer_cast(&*m_storage.end());
+#if CUB_CDP
+      return cub_::DeviceRadixSort::SortKeys(d_temp_storage, temp_storage_bytes, d_keys, num_items, begin_bit, end_bit, stream, debug_synchronous);
+#else
+      return cudaErrorNotSupported;
+#endif
     }
-  }
+  };
 
-  __host__ __device__
-  ~ensure_aligned_range()
+#ifndef __CUDA_ARCH__
+  return workaround::host_path(d_temp_storage, temp_storage_bytes, d_keys, num_items, comp, begin_bit, end_bit, stream, debug_synchronous);
+#else
+  return workaround::device_path(d_temp_storage, temp_storage_bytes, d_keys, num_items, comp, begin_bit, end_bit, stream, debug_synchronous);
+#endif
+}
+
+
+// sort descending
+template<typename Key>
+__host__ __device__
+cudaError_t cub_sort_keys_wrapper(void *d_temp_storage,
+                                  size_t &temp_storage_bytes,
+                                  thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                  int num_items,
+                                  thrust::greater<Key> comp,
+                                  int begin_bit = 0,
+                                  int end_bit = sizeof(Key) * 8,
+                                  cudaStream_t stream = 0,
+                                  bool debug_synchronous = false)
+{
+  struct workaround
   {
-    // copy back to the original range, if the temporary storage exists
-    // and the client requires it
-    if(m_storage.size() && m_do_copy_back)
+    __host__ 
+    static cudaError_t host_path(void *d_temp_storage,
+                                 size_t &temp_storage_bytes,
+                                 thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                 int num_items,
+                                 thrust::greater<Key>,
+                                 int begin_bit,
+                                 int end_bit,
+                                 cudaStream_t stream,
+                                 bool debug_synchronous)
     {
-      thrust::copy(m_exec, m_storage.begin(), m_storage.end(), m_orig_first);
+      return cub_::DeviceRadixSort::SortKeysDescending(d_temp_storage, temp_storage_bytes, d_keys, num_items, begin_bit, end_bit, stream, debug_synchronous);
+    }
+
+    __device__
+    static cudaError_t device_path(void *d_temp_storage,
+                                   size_t &temp_storage_bytes,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                   int num_items,
+                                   thrust::greater<Key>,
+                                   int begin_bit,
+                                   int end_bit,
+                                   cudaStream_t stream,
+                                   bool debug_synchronous)
+    {
+#if CUB_CDP
+      return cub_::DeviceRadixSort::SortKeys(d_temp_storage, temp_storage_bytes, d_keys, num_items, begin_bit, end_bit, stream, debug_synchronous);
+#else
+      return cudaErrorNotSupported;
+#endif
+    }
+  };
+
+#ifndef __CUDA_ARCH__
+  return workaround::host_path(d_temp_storage, temp_storage_bytes, d_keys, num_items, comp, begin_bit, end_bit, stream, debug_synchronous);
+#else
+  return workaround::device_path(d_temp_storage, temp_storage_bytes, d_keys, num_items, comp, begin_bit, end_bit, stream, debug_synchronous);
+#endif
+}
+
+
+// returns 1. the total size of temporary storage required for a key sort
+//         2. an offset to the "d_temp_storage" parameter for CUB's sort
+//         3. the value of the "temp_storage_bytes" parameter for CUB's sort
+template<typename T, typename Compare>
+__host__ __device__
+thrust::tuple<size_t, size_t, size_t> compute_temporary_storage_requirements_for_radix_sort_n(size_t n, Compare comp, cudaStream_t stream)
+{
+  cub_::DoubleBuffer<T> dummy;
+
+  // measure the number of additional temporary storage bytes required
+  size_t num_additional_temp_storage_bytes = 0;
+  thrust::system::cuda::detail::throw_on_error(cub_sort_keys_wrapper(0, num_additional_temp_storage_bytes, dummy, static_cast<int>(n), comp, 0, sizeof(T)*8, stream),
+                                               "after cub_::DeviceRadixSort::SortKeys(0)");
+
+  // XXX the additional temporary storage bytes
+  //     must be allocated on a 16b aligned address
+  typedef typename bulk_::detail::aligned_type<16>::type aligned_type;
+
+  size_t num_double_buffer_bytes = n * sizeof(T);
+  size_t num_aligned_double_buffer_bytes = thrust::detail::util::round_i(num_double_buffer_bytes, sizeof(aligned_type));
+  size_t num_aligned_total_temporary_storage_bytes = num_aligned_double_buffer_bytes + num_additional_temp_storage_bytes;
+
+  return thrust::make_tuple(num_aligned_total_temporary_storage_bytes, num_aligned_double_buffer_bytes, num_additional_temp_storage_bytes);
+}
+
+
+template<typename DerivedPolicy, typename T, typename Compare>
+__host__ __device__
+void stable_radix_sort_n(execution_policy<DerivedPolicy> &exec, T* first, size_t n, Compare comp)
+{
+  if(n > 1)
+  {
+    cudaStream_t s = stream(thrust::detail::derived_cast<DerivedPolicy>(exec));
+
+    // compute temporary storage requirements
+    size_t num_temporary_storage_bytes = 0;
+    size_t offset_to_additional_temp_storage = 0;
+    size_t num_additional_temp_storage_bytes = 0;
+    thrust::tie(num_temporary_storage_bytes, offset_to_additional_temp_storage, num_additional_temp_storage_bytes) =
+      compute_temporary_storage_requirements_for_radix_sort_n<T>(n, comp, s);
+
+    // allocate storage
+    thrust::detail::temporary_array<char,DerivedPolicy> temporary_storage(exec, num_temporary_storage_bytes);
+
+    // set up double buffer
+    cub_::DoubleBuffer<T> double_buffer;
+    double_buffer.d_buffers[0] = thrust::raw_pointer_cast(&*first);
+    double_buffer.d_buffers[1] = reinterpret_cast<T*>(thrust::raw_pointer_cast(&temporary_storage[0]));
+
+    thrust::system::cuda::detail::throw_on_error(cub_sort_keys_wrapper(thrust::raw_pointer_cast(&temporary_storage[offset_to_additional_temp_storage]),
+                                                                       num_additional_temp_storage_bytes,
+                                                                       double_buffer,
+                                                                       static_cast<int>(n),
+                                                                       comp,
+                                                                       0,
+                                                                       sizeof(T)*8,
+                                                                       s),
+                                                 "after cub_::DeviceRadixSort::SortKeys(1)");
+
+    thrust::system::cuda::detail::synchronize_if_enabled("stable_radix_sort_n(): after cub_::DeviceRadixSort::SortKeys(1)");
+
+    if(double_buffer.Current() != 0)
+    {
+      T* temp_ptr = reinterpret_cast<T*>(double_buffer.d_buffers[1]);
+      thrust::copy(exec, temp_ptr, temp_ptr + n, first);
     }
   }
-
-  __host__ __device__
-  value_type *begin() const
-  {
-    return m_first;
-  }
-
-  __host__ __device__
-  value_type *end() const
-  {
-    return m_last;
-  }
-
-  __host__ __device__
-  void do_copy_back(bool b)
-  {
-    m_do_copy_back = b;
-  }
-
-  bool m_do_copy_back;
-  thrust::execution_policy<DerivedPolicy> &m_exec;
-  value_type *m_orig_first;
-  value_type *m_first;
-  value_type *m_last;
-  thrust::detail::temporary_array<value_type, DerivedPolicy> m_storage;
-};
+}
 
 
 } // end namespace stable_radix_sort_detail
@@ -129,40 +233,22 @@ template<typename DerivedPolicy,
 __host__ __device__
 void stable_radix_sort(execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator first,
-                       RandomAccessIterator last)
+                       RandomAccessIterator last,
+                       thrust::less<typename thrust::iterator_value<RandomAccessIterator>::type> comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator>::type K;
+  stable_radix_sort_detail::stable_radix_sort_n(exec, thrust::raw_pointer_cast(&*first), last - first, comp);
+}
 
-  // ensure data is properly aligned
-  stable_radix_sort_detail::ensure_aligned_range<DerivedPolicy,RandomAccessIterator> aligned_data(exec, first, last);
-  
-  unsigned int num_elements = aligned_data.end() - aligned_data.begin();
-  
-  thrust::system::cuda::detail::detail::b40c_thrust::RadixSortingEnactor<K> sorter(num_elements);
-  thrust::system::cuda::detail::detail::b40c_thrust::RadixSortStorage<K>    storage;
-  
-  // allocate temporary buffers
-  thrust::detail::temporary_array<K,    DerivedPolicy> temp_keys(exec, num_elements);
-  thrust::detail::temporary_array<int,  DerivedPolicy> temp_spine(exec, sorter.SpineElements());
-  thrust::detail::temporary_array<bool, DerivedPolicy> temp_from_alt(exec, 2);
-  
-  // define storage
-  storage.d_keys             = thrust::raw_pointer_cast(aligned_data.begin());
-  storage.d_alt_keys         = thrust::raw_pointer_cast(&temp_keys[0]);
-  storage.d_spine            = thrust::raw_pointer_cast(&temp_spine[0]);
-  storage.d_from_alt_storage = thrust::raw_pointer_cast(&temp_from_alt[0]);
-  
-  // perform the sort
-  sorter.EnactSort(storage, stream(thrust::detail::derived_cast(exec)));
-  
-  // radix sort sometimes leaves results in the alternate buffers
-  if(storage.using_alternate_storage)
-  {
-    thrust::copy(exec, temp_keys.begin(), temp_keys.end(), first);
 
-    // since we've updated the data in first, aligned_data doesn't need to do it
-    aligned_data.do_copy_back(false);
-  }
+template<typename DerivedPolicy,
+         typename RandomAccessIterator>
+__host__ __device__
+void stable_radix_sort(execution_policy<DerivedPolicy> &exec,
+                       RandomAccessIterator first,
+                       RandomAccessIterator last,
+                       thrust::greater<typename thrust::iterator_value<RandomAccessIterator>::type> comp)
+{
+  stable_radix_sort_detail::stable_radix_sort_n(exec, thrust::raw_pointer_cast(&*first), last - first, comp);
 }
 
 
@@ -175,88 +261,221 @@ namespace stable_radix_sort_detail
 {
 
 
-// sort values directly
-template<typename DerivedPolicy,
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2>
+// sort ascending
+template<typename Key, typename Value>
 __host__ __device__
-void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
-                              RandomAccessIterator1 first1,
-                              RandomAccessIterator1 last1,
-                              RandomAccessIterator2 first2,
-                              thrust::detail::true_type)
+cudaError_t cub_sort_pairs_wrapper(void *d_temp_storage,
+                                   size_t &temp_storage_bytes,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Value> &d_values,
+                                   int num_items,
+                                   thrust::less<Key> comp,
+                                   int begin_bit = 0,
+                                   int end_bit = sizeof(Key) * 8,
+                                   cudaStream_t stream = 0,
+                                   bool debug_synchronous = false)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator1>::type K;
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type V;
-  
-  unsigned int num_elements = last1 - first1;
-
-  // ensure data is properly aligned
-  ensure_aligned_range<DerivedPolicy,RandomAccessIterator1> aligned_keys(exec, first1, last1);
-  ensure_aligned_range<DerivedPolicy,RandomAccessIterator2> aligned_values(exec, first2, first2 + num_elements);
-  
-  thrust::system::cuda::detail::detail::b40c_thrust::RadixSortingEnactor<K,V> sorter(num_elements);
-  thrust::system::cuda::detail::detail::b40c_thrust::RadixSortStorage<K,V>    storage;
-  
-  // allocate temporary buffers
-  thrust::detail::temporary_array<K,    DerivedPolicy> temp_keys(exec, num_elements);
-  thrust::detail::temporary_array<V,    DerivedPolicy> temp_values(exec, num_elements);
-  thrust::detail::temporary_array<int,  DerivedPolicy> temp_spine(exec, sorter.SpineElements());
-  thrust::detail::temporary_array<bool, DerivedPolicy> temp_from_alt(exec, 2);
-  
-  // define storage
-  storage.d_keys             = thrust::raw_pointer_cast(aligned_keys.begin());
-  storage.d_values           = thrust::raw_pointer_cast(aligned_values.begin());
-  storage.d_alt_keys         = thrust::raw_pointer_cast(&temp_keys[0]);
-  storage.d_alt_values       = thrust::raw_pointer_cast(&temp_values[0]);
-  storage.d_spine            = thrust::raw_pointer_cast(&temp_spine[0]);
-  storage.d_from_alt_storage = thrust::raw_pointer_cast(&temp_from_alt[0]);
-  
-  // perform the sort
-  sorter.EnactSort(storage, stream(thrust::detail::derived_cast(exec)));
-  
-  // radix sort sometimes leaves results in the alternate buffers
-  if(storage.using_alternate_storage)
+  struct workaround
   {
-    thrust::copy(exec, temp_keys.begin(),   temp_keys.end(),   first1);
-    thrust::copy(exec, temp_values.begin(), temp_values.end(), first2);
+    __host__ 
+    static cudaError_t host_path(void *d_temp_storage,
+                                 size_t &temp_storage_bytes,
+                                 thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                 thrust::system::cuda::detail::__cub::DoubleBuffer<Value> &d_values,
+                                 int num_items,
+                                 thrust::less<Key>,
+                                 int begin_bit,
+                                 int end_bit,
+                                 cudaStream_t stream,
+                                 bool debug_synchronous)
+    {
+      return cub_::DeviceRadixSort::SortPairs(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, begin_bit, end_bit, stream, debug_synchronous);
+    }
 
-    // since we've updated the originals, the aligned data doesn't need to do it
-    aligned_keys.do_copy_back(false);
-    aligned_values.do_copy_back(false);
-  }
+    __device__
+    static cudaError_t device_path(void *d_temp_storage,
+                                   size_t &temp_storage_bytes,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_values,
+                                   int num_items,
+                                   thrust::less<Key>,
+                                   int begin_bit,
+                                   int end_bit,
+                                   cudaStream_t stream,
+                                   bool debug_synchronous)
+    {
+#if CUB_CDP
+      return cub_::DeviceRadixSort::SortPairs(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, begin_bit, end_bit, stream, debug_synchronous);
+#else
+      return cudaErrorNotSupported;
+#endif
+    }
+  };
+
+#ifndef __CUDA_ARCH__
+  return workaround::host_path(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, comp, begin_bit, end_bit, stream, debug_synchronous);
+#else
+  return workaround::device_path(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, comp, begin_bit, end_bit, stream, debug_synchronous);
+#endif
 }
 
 
-// sort values indirectly
-template<typename DerivedPolicy, 
-         typename RandomAccessIterator1,
-         typename RandomAccessIterator2>
+// sort descending
+template<typename Key, typename Value>
 __host__ __device__
-void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
-                              RandomAccessIterator1 first1,
-                              RandomAccessIterator1 last1,
-                              RandomAccessIterator2 first2,
-                              thrust::detail::false_type)
+cudaError_t cub_sort_pairs_wrapper(void *d_temp_storage,
+                                   size_t &temp_storage_bytes,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Value> &d_values,
+                                   int num_items,
+                                   thrust::greater<Key> comp,
+                                   int begin_bit = 0,
+                                   int end_bit = sizeof(Key) * 8,
+                                   cudaStream_t stream = 0,
+                                   bool debug_synchronous = false)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type V;
-  
-  unsigned int num_elements = last1 - first1;
-  
-  // sort with integer values and then permute the real values accordingly
-  thrust::detail::temporary_array<unsigned int,DerivedPolicy> permutation(exec, num_elements);
-  thrust::sequence(exec, permutation.begin(), permutation.end());
-  
-  stable_radix_sort_by_key(exec, first1, last1, permutation.begin(), thrust::detail::true_type());
-  
-  // copy values into temp vector and then permute
-  thrust::detail::temporary_array<V,DerivedPolicy> temp_values(exec, first2, first2 + num_elements);
-  
-  // permute values
-  thrust::gather(exec,
-                 permutation.begin(), permutation.end(),
-                 temp_values.begin(),
-                 first2);
+  struct workaround
+  {
+    __host__ 
+    static cudaError_t host_path(void *d_temp_storage,
+                                 size_t &temp_storage_bytes,
+                                 thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                 thrust::system::cuda::detail::__cub::DoubleBuffer<Value> &d_values,
+                                 int num_items,
+                                 thrust::greater<Key>,
+                                 int begin_bit,
+                                 int end_bit,
+                                 cudaStream_t stream,
+                                 bool debug_synchronous)
+    {
+      return cub_::DeviceRadixSort::SortPairsDescending(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, begin_bit, end_bit, stream, debug_synchronous);
+    }
+
+    __device__
+    static cudaError_t device_path(void *d_temp_storage,
+                                   size_t &temp_storage_bytes,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Key> &d_keys,
+                                   thrust::system::cuda::detail::__cub::DoubleBuffer<Value> &d_values,
+                                   int num_items,
+                                   thrust::greater<Key>,
+                                   int begin_bit,
+                                   int end_bit,
+                                   cudaStream_t stream,
+                                   bool debug_synchronous)
+    {
+#if CUB_CDP
+      return cub_::DeviceRadixSort::SortPairsDescending(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, begin_bit, end_bit, stream, debug_synchronous);
+#else
+      return cudaErrorNotSupported;
+#endif
+    }
+  };
+
+#ifndef __CUDA_ARCH__
+  return workaround::host_path(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, comp, begin_bit, end_bit, stream, debug_synchronous);
+#else
+  return workaround::device_path(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, comp, begin_bit, end_bit, stream, debug_synchronous);
+#endif
+}
+
+
+// returns 1. the total size of temporary storage required for a key sort
+//         2. an offset to the double buffer for values
+//         3. an offset to the "d_temp_storage" parameter for CUB's sort
+//         4. the value of the "temp_storage_bytes" parameter for CUB's sort
+template<typename Key, typename Value, typename Compare>
+__host__ __device__
+thrust::tuple<size_t, size_t, size_t, size_t> compute_temporary_storage_requirements_for_radix_sort_by_key_n(size_t n, Compare comp, cudaStream_t stream)
+{
+  cub_::DoubleBuffer<Key> dummy_keys;
+  cub_::DoubleBuffer<Value> dummy_values;
+
+  // measure the number of additional temporary storage bytes required
+  size_t num_additional_temp_storage_bytes = 0;
+  thrust::system::cuda::detail::throw_on_error(cub_sort_pairs_wrapper(0, num_additional_temp_storage_bytes, dummy_keys, dummy_values, static_cast<int>(n), comp, 0, sizeof(Key)*8, stream),
+                                               "after cub_::DeviceRadixSort::SortPairs(0)");
+
+  // XXX the additional temporary storage bytes
+  //     must be allocated on a 16b aligned address
+  typedef typename bulk_::detail::aligned_type<16>::type aligned_type;
+
+  size_t num_keys_double_buffer_bytes = n * sizeof(Key);
+
+  // align up the allocation for the keys double buffer
+  size_t num_aligned_keys_double_buffer_bytes = thrust::detail::util::round_i(num_keys_double_buffer_bytes, sizeof(aligned_type));
+
+  size_t num_values_double_buffer_bytes = n * sizeof(Value);
+
+  // align up the allocation for both double buffers
+  size_t num_aligned_double_buffer_bytes = thrust::detail::util::round_i(num_aligned_keys_double_buffer_bytes + num_values_double_buffer_bytes, sizeof(aligned_type));
+
+  size_t num_aligned_total_temporary_storage_bytes = num_aligned_double_buffer_bytes + num_additional_temp_storage_bytes;
+
+  return thrust::make_tuple(num_aligned_total_temporary_storage_bytes, num_aligned_keys_double_buffer_bytes, num_aligned_double_buffer_bytes, num_additional_temp_storage_bytes);
+}
+
+
+// sort values directly
+template<typename DerivedPolicy,
+         typename Key,
+         typename Value,
+         typename Compare>
+__host__ __device__
+void stable_radix_sort_by_key_n(execution_policy<DerivedPolicy> &exec,
+                                Key* first1,
+                                size_t n,
+                                Value* first2,
+                                Compare comp)
+{
+  if(n > 1)
+  {
+    cudaStream_t s = stream(thrust::detail::derived_cast<DerivedPolicy>(exec));
+
+    // compute temporary storage requirements
+    size_t num_temporary_storage_bytes = 0;
+    size_t offset_to_values_buffer = 0;
+    size_t offset_to_additional_temp_storage = 0;
+    size_t num_additional_temp_storage_bytes = 0;
+    thrust::tie(num_temporary_storage_bytes, offset_to_values_buffer, offset_to_additional_temp_storage, num_additional_temp_storage_bytes) =
+      compute_temporary_storage_requirements_for_radix_sort_by_key_n<Key,Value>(n, comp, s);
+
+    // allocate storage
+    thrust::detail::temporary_array<char,DerivedPolicy> temporary_storage(exec, num_temporary_storage_bytes);
+
+    // set up double buffers
+    cub_::DoubleBuffer<Key> double_buffer_keys;
+    double_buffer_keys.d_buffers[0] = thrust::raw_pointer_cast(&*first1);
+    double_buffer_keys.d_buffers[1] = reinterpret_cast<Key*>(thrust::raw_pointer_cast(&temporary_storage[0]));
+
+    cub_::DoubleBuffer<Value> double_buffer_values;
+    double_buffer_values.d_buffers[0] = thrust::raw_pointer_cast(&*first2);
+    double_buffer_values.d_buffers[1] = reinterpret_cast<Value*>(thrust::raw_pointer_cast(&temporary_storage[offset_to_values_buffer]));
+
+    thrust::system::cuda::detail::throw_on_error(cub_sort_pairs_wrapper(thrust::raw_pointer_cast(&temporary_storage[offset_to_additional_temp_storage]),
+                                                                        num_additional_temp_storage_bytes,
+                                                                        double_buffer_keys,
+                                                                        double_buffer_values,
+                                                                        static_cast<int>(n),
+                                                                        comp,
+                                                                        0,
+                                                                        sizeof(Key)*8,
+                                                                        s),
+                                                 "after cub_::DeviceRadixSort::SortPairs(1)");
+
+    thrust::system::cuda::detail::synchronize_if_enabled("stable_radix_sort_by_key_n(): after cub_::DeviceRadixSort::SortPairs(1)");
+
+    if(double_buffer_keys.Current() != 0)
+    {
+      Key* temp_ptr = reinterpret_cast<Key*>(double_buffer_keys.d_buffers[1]);
+      thrust::copy(exec, temp_ptr, temp_ptr + n, first1);
+    }
+
+    if(double_buffer_values.Current() != 0)
+    {
+      Value* temp_ptr = reinterpret_cast<Value*>(double_buffer_values.d_buffers[1]);
+      thrust::copy(exec, temp_ptr, temp_ptr + n, first2);
+    }
+  }
 }
 
 
@@ -270,20 +489,32 @@ __host__ __device__
 void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator1 first1,
                               RandomAccessIterator1 last1,
-                              RandomAccessIterator2 first2)
+                              RandomAccessIterator2 first2,
+                              thrust::less<typename thrust::iterator_value<RandomAccessIterator1>::type> comp)
 {
-  typedef typename thrust::iterator_value<RandomAccessIterator2>::type V;
-  
-  // decide how to handle values
-  const bool sort_values_directly = thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value &&
-                                    thrust::detail::is_arithmetic<V>::value &&
-                                    sizeof(V) <= 8;    // TODO profile this
-  
-  // XXX WAR unused variable warning
-  (void) sort_values_directly;
-  
-  stable_radix_sort_detail::stable_radix_sort_by_key(exec, first1, last1, first2, 
-    thrust::detail::integral_constant<bool, sort_values_directly>());
+  stable_radix_sort_detail::stable_radix_sort_by_key_n(exec,
+                                                       thrust::raw_pointer_cast(&*first1),
+                                                       last1 - first1,
+                                                       thrust::raw_pointer_cast(&*first2),
+                                                       comp);
+}
+
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2>
+__host__ __device__
+void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
+                              RandomAccessIterator1 first1,
+                              RandomAccessIterator1 last1,
+                              RandomAccessIterator2 first2,
+                              thrust::greater<typename thrust::iterator_value<RandomAccessIterator1>::type> comp)
+{
+  stable_radix_sort_detail::stable_radix_sort_by_key_n(exec,
+                                                       thrust::raw_pointer_cast(&*first1),
+                                                       last1 - first1,
+                                                       thrust::raw_pointer_cast(&*first2),
+                                                       comp);
 }
 
 
@@ -292,9 +523,6 @@ void stable_radix_sort_by_key(execution_policy<DerivedPolicy> &exec,
 } // end namespace cuda
 } // end namespace system
 } // end namespace thrust
-
-
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
