@@ -105,32 +105,6 @@ void TestSortDescendingKey(void)
 }
 DECLARE_UNITTEST(TestSortDescendingKey);
 
-template <class Vector>
-void TestSortUnalignedSimple(void)
-{
-    typedef typename Vector::value_type T;
-
-    Vector unsorted_keys;
-    Vector   sorted_keys;
-
-    InitializeSimpleKeySortTest(unsorted_keys, sorted_keys);
-    
-    for(int offset = 1; offset < 16; offset++){
-        size_t n = unsorted_keys.size() + offset;
-
-        Vector unaligned_unsorted_keys(n, 0);
-        Vector   unaligned_sorted_keys(n, 0);
-        
-        thrust::copy(unsorted_keys.begin(), unsorted_keys.end(), unaligned_unsorted_keys.begin() + offset);
-        thrust::copy(  sorted_keys.begin(),   sorted_keys.end(),   unaligned_sorted_keys.begin() + offset);
-   
-        thrust::sort(unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end());
-
-        ASSERT_EQUAL(unaligned_unsorted_keys, unaligned_sorted_keys);
-    }
-}
-DECLARE_VECTOR_UNITTEST(TestSortUnalignedSimple);
-
 
 void TestSortBool(void)
 {
