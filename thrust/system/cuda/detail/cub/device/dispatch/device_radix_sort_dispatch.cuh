@@ -508,6 +508,11 @@ struct DeviceRadixSortDispatch
         int                     max_grid_size;
         int                     subscription_factor;
 
+        CUB_RUNTIME_FUNCTION __forceinline__ KernelConfig()
+          : block_threads(0), items_per_thread(0), tile_size(0), smem_config(cudaSharedMemBankSizeDefault), radix_bits(0), sm_occupancy(0), max_grid_size(0), subscription_factor(0)
+        {
+        }
+
         template <typename UpsweepPolicy, typename UpsweepKernelPtr>
         CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t InitUpsweepPolicy(
             int sm_version, int sm_count, UpsweepKernelPtr upsweep_kernel)
