@@ -41,6 +41,11 @@
 #    undef CUB_CDP
 #    define CUB_CDP_NEEDS_RESTORE
 #  endif
+#  ifdef cub
+#    pragma push_macro("cub")
+#    undef cub
+#    define CUB_NEEDS_RESTORE
+#  endif
 #endif // __GNUC__
 
 // define the macros while we #include our version of cub
@@ -52,7 +57,7 @@
 #endif
 
 // rename "cub" so it doesn't collide with another installation elsewhere
-#define cub __cub
+#define cub cub_
 
 #include <thrust/system/cuda/detail/cub/util_namespace.cuh>
 #include <thrust/system/cuda/detail/cub/cub.cuh>
@@ -68,9 +73,6 @@
 #  undef CUB_CDP
 #endif
 
-// define a top-level namespace we can rely on besides "cub"
-namespace cub_ = thrust::system::cuda::detail::__cub;
-
 // redefine the macros if they were defined previously
 
 #if !defined(__GNUC__) || (THRUST_GCC_VERSION >= 40300)
@@ -82,9 +84,13 @@ namespace cub_ = thrust::system::cuda::detail::__cub;
 #    pragma pop_macro("CUB_NS_POSTFIX")
 #    undef CUB_NS_POSTFIX_NEEDS_RESTORE
 #  endif
-#  ifdef CUB_CDP
+#  ifdef CUB_CDP_NEEDS_RESTORE
 #    pragma pop_macro("CUB_CDP")
-#    undef CUB_CDP
+#    undef CUB_CDP_NEEDS_RESTORE
+#  endif
+#  ifdef CUB_NEEDS_RESTORE
+#    pragma pop_macro("cub")
+#    undef CUB_NEEDS_RESTORE
 #  endif
 #endif // __GNUC__
 
