@@ -86,7 +86,7 @@ typename enable_if_bool_sort<RandomAccessIterator>::type
 {
   // use stable_partition if we're sorting bool
   // stable_partition puts true values first, so we don't need to logical_not
-  thrust::stable_partition(exec, first, last);
+  thrust::stable_partition(exec, first, last, thrust::identity<bool>());
 }
 
 
