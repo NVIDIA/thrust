@@ -34,7 +34,7 @@ struct TestRadixSortByKeyShortValues
     thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
 
     thrust::cuda::tag cuda_tag;
-    thrust::system::cuda::detail::detail::stable_radix_sort_by_key(cuda_tag, d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::system::cuda::detail::detail::stable_radix_sort_by_key(cuda_tag, d_keys.begin(), d_keys.end(), d_values.begin(), thrust::less<T>());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
@@ -58,7 +58,7 @@ struct TestRadixSortByKeyLongLongValues
     thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
 
     thrust::cuda::tag cuda_tag;
-    thrust::system::cuda::detail::detail::stable_radix_sort_by_key(cuda_tag, d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::system::cuda::detail::detail::stable_radix_sort_by_key(cuda_tag, d_keys.begin(), d_keys.end(), d_values.begin(), thrust::less<T>());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
