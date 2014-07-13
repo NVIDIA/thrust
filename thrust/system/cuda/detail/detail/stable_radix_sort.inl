@@ -83,7 +83,7 @@ cudaError_t cub_sort_keys_wrapper(void *d_temp_storage,
                                    cudaStream_t stream,
                                    bool debug_synchronous)
     {
-#if CUB_CDP
+#if __BULK_HAS_CUDART__
       return cub_::DeviceRadixSort::SortKeys(d_temp_storage, temp_storage_bytes, d_keys, num_items, begin_bit, end_bit, stream, debug_synchronous);
 #else
       return cudaErrorNotSupported;
@@ -139,7 +139,7 @@ cudaError_t cub_sort_keys_wrapper(void *d_temp_storage,
                                    cudaStream_t stream,
                                    bool debug_synchronous)
     {
-#if CUB_CDP
+#if __BULK_HAS_CUDART__
       return cub_::DeviceRadixSort::SortKeys(d_temp_storage, temp_storage_bytes, d_keys, num_items, begin_bit, end_bit, stream, debug_synchronous);
 #else
       return cudaErrorNotSupported;
@@ -216,7 +216,7 @@ void stable_radix_sort_n(execution_policy<DerivedPolicy> &exec, T* first, size_t
 
     thrust::system::cuda::detail::synchronize_if_enabled("stable_radix_sort_n(): after cub_::DeviceRadixSort::SortKeys(1)");
 
-    if(double_buffer.Current() != 0)
+    if(double_buffer.selector != 0)
     {
       T* temp_ptr = reinterpret_cast<T*>(double_buffer.d_buffers[1]);
       thrust::copy(exec, temp_ptr, temp_ptr + n, first);
@@ -304,7 +304,7 @@ cudaError_t cub_sort_pairs_wrapper(void *d_temp_storage,
                                    cudaStream_t stream,
                                    bool debug_synchronous)
     {
-#if CUB_CDP
+#if __BULK_HAS_CUDART__
       return cub_::DeviceRadixSort::SortPairs(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, begin_bit, end_bit, stream, debug_synchronous);
 #else
       return cudaErrorNotSupported;
@@ -363,7 +363,7 @@ cudaError_t cub_sort_pairs_wrapper(void *d_temp_storage,
                                    cudaStream_t stream,
                                    bool debug_synchronous)
     {
-#if CUB_CDP
+#if __BULK_HAS_CUDART__
       return cub_::DeviceRadixSort::SortPairsDescending(d_temp_storage, temp_storage_bytes, d_keys, d_values, num_items, begin_bit, end_bit, stream, debug_synchronous);
 #else
       return cudaErrorNotSupported;
@@ -464,13 +464,13 @@ void stable_radix_sort_by_key_n(execution_policy<DerivedPolicy> &exec,
 
     thrust::system::cuda::detail::synchronize_if_enabled("stable_radix_sort_by_key_n(): after cub_::DeviceRadixSort::SortPairs(1)");
 
-    if(double_buffer_keys.Current() != 0)
+    if(double_buffer_keys.selector != 0)
     {
       Key* temp_ptr = reinterpret_cast<Key*>(double_buffer_keys.d_buffers[1]);
       thrust::copy(exec, temp_ptr, temp_ptr + n, first1);
     }
 
-    if(double_buffer_values.Current() != 0)
+    if(double_buffer_values.selector != 0)
     {
       Value* temp_ptr = reinterpret_cast<Value*>(double_buffer_values.d_buffers[1]);
       thrust::copy(exec, temp_ptr, temp_ptr + n, first2);
