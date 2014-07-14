@@ -833,7 +833,7 @@ struct DeviceRadixSortDispatch
             int alt_spine_size  = (alt_downsweep_config.max_grid_size * (1 << alt_downsweep_config.radix_bits)) + scan_config.tile_size;
 
             // Allocate temporaries
-            Offset *d_spine;
+            Offset *d_spine = 0;
             if (spine_size > alt_spine_size)
             {
                 if (CubDebug(error = AllocateTemporaries(d_temp_storage, temp_storage_bytes, d_spine, scan_config, downsweep_config))) break;
