@@ -91,7 +91,7 @@ void TestReverseCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::reverse(thrust::cuda::par(s), data.begin(), data.end());
+  thrust::reverse(thrust::cuda::par.on(s), data.begin(), data.end());
 
   cudaStreamSynchronize(s);
 
@@ -124,7 +124,7 @@ void TestReverseCopyCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::reverse_copy(thrust::cuda::par(s), data.begin(), data.end(), result.begin());
+  thrust::reverse_copy(thrust::cuda::par.on(s), data.begin(), data.end(), result.begin());
 
   cudaStreamSynchronize(s);
 

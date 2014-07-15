@@ -67,11 +67,11 @@ void TestPartitionPointCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par(s), first, last, thrust::identity<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par.on(s), first, last, thrust::identity<T>()));
 
   last = v.begin() + 3;
   ref = last;
-  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par(s), first, last, thrust::identity<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par.on(s), first, last, thrust::identity<T>()));
 
   cudaStreamDestroy(s);
 }

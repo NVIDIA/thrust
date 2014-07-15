@@ -78,17 +78,17 @@ void TestEqualCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.end(), v1.begin()), true);
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin()), false);
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v2.begin(), v2.end(), v2.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v1.begin(), v1.end(), v1.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v1.begin(), v1.end(), v2.begin()), false);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v2.begin(), v2.end(), v2.begin()), true);
   
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.begin() + 0, v1.begin()), true);
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.begin() + 1, v1.begin()), true);
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.begin() + 3, v2.begin()), true);
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.begin() + 4, v2.begin()), false);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v1.begin(), v1.begin() + 0, v1.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v1.begin(), v1.begin() + 1, v1.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v1.begin(), v1.begin() + 3, v2.begin()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v1.begin(), v1.begin() + 4, v2.begin()), false);
   
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin(), thrust::less_equal<int>()), true);
-  ASSERT_EQUAL(thrust::equal(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin(), thrust::greater<int>()),    false);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v1.begin(), v1.end(), v2.begin(), thrust::less_equal<int>()), true);
+  ASSERT_EQUAL(thrust::equal(thrust::cuda::par.on(s), v1.begin(), v1.end(), v2.begin(), thrust::greater<int>()),    false);
 
   cudaStreamDestroy(s);
 }

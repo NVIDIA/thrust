@@ -76,7 +76,7 @@ void TestSetUnionCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Iterator end = thrust::set_union(thrust::cuda::par(s),
+  Iterator end = thrust::set_union(thrust::cuda::par.on(s),
                                    a.begin(), a.end(),
                                    b.begin(), b.end(),
                                    result.begin());

@@ -104,7 +104,7 @@ void TestCopyIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::copy_if(thrust::cuda::par(s),
+  typename Vector::iterator end = thrust::copy_if(thrust::cuda::par.on(s),
                                                   data.begin(), 
                                                   data.end(), 
                                                   result.begin(),
@@ -217,7 +217,7 @@ void TestCopyIfStencilCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::copy_if(thrust::cuda::par(s),
+  typename Vector::iterator end = thrust::copy_if(thrust::cuda::par.on(s),
                                                   data.begin(), 
                                                   data.end(),
                                                   stencil.begin(),

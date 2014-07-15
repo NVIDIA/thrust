@@ -65,16 +65,16 @@ void TestAllOfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par(s), v.begin(), v.end(), thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par.on(s), v.begin(), v.end(), thrust::identity<T>()), true);
   
   v[1] = 0;
   
-  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par(s), v.begin(), v.end(), thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par.on(s), v.begin(), v.end(), thrust::identity<T>()), false);
   
-  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 0, thrust::identity<T>()), true);
-  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 1, thrust::identity<T>()), true);
-  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 2, thrust::identity<T>()), false);
-  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par(s), v.begin() + 1, v.begin() + 2, thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 0, thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 1, thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 2, thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::all_of(thrust::cuda::par.on(s), v.begin() + 1, v.begin() + 2, thrust::identity<T>()), false);
 
   cudaStreamDestroy(s);
 }
@@ -143,16 +143,16 @@ void TestAnyOfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par(s), v.begin(), v.end(), thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par.on(s), v.begin(), v.end(), thrust::identity<T>()), true);
 
   v[1] = 0;
   
-  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par(s), v.begin(), v.end(), thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par.on(s), v.begin(), v.end(), thrust::identity<T>()), true);
 
-  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 0, thrust::identity<T>()), false);
-  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 1, thrust::identity<T>()), true);
-  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 2, thrust::identity<T>()), true);
-  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par(s), v.begin() + 1, v.begin() + 2, thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 0, thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 1, thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 2, thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::any_of(thrust::cuda::par.on(s), v.begin() + 1, v.begin() + 2, thrust::identity<T>()), false);
 
   cudaStreamDestroy(s);
 }
@@ -221,16 +221,16 @@ void TestNoneOfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par(s), v.begin(), v.end(), thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par.on(s), v.begin(), v.end(), thrust::identity<T>()), false);
 
   v[1] = 0;
   
-  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par(s), v.begin(), v.end(), thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par.on(s), v.begin(), v.end(), thrust::identity<T>()), false);
 
-  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 0, thrust::identity<T>()), true);
-  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 1, thrust::identity<T>()), false);
-  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par(s), v.begin() + 0, v.begin() + 2, thrust::identity<T>()), false);
-  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par(s), v.begin() + 1, v.begin() + 2, thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 0, thrust::identity<T>()), true);
+  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 1, thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 2, thrust::identity<T>()), false);
+  ASSERT_EQUAL(thrust::none_of(thrust::cuda::par.on(s), v.begin() + 1, v.begin() + 2, thrust::identity<T>()), true);
 
   cudaStreamDestroy(s);
 }

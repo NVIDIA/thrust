@@ -63,10 +63,10 @@ void TestReduceCudaStreams()
   cudaStreamCreate(&s);
 
   // no initializer
-  ASSERT_EQUAL(thrust::reduce(thrust::cuda::par(s), v.begin(), v.end()), 2);
+  ASSERT_EQUAL(thrust::reduce(thrust::cuda::par.on(s), v.begin(), v.end()), 2);
 
   // with initializer
-  ASSERT_EQUAL(thrust::reduce(thrust::cuda::par(s), v.begin(), v.end(), 10), 12);
+  ASSERT_EQUAL(thrust::reduce(thrust::cuda::par.on(s), v.begin(), v.end(), 10), 12);
 
   cudaStreamDestroy(s);
 }

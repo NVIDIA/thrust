@@ -97,9 +97,9 @@ void TestCountCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  ASSERT_EQUAL(thrust::count(thrust::cuda::par(s), data.begin(), data.end(), 0), 2);
-  ASSERT_EQUAL(thrust::count(thrust::cuda::par(s), data.begin(), data.end(), 1), 3);
-  ASSERT_EQUAL(thrust::count(thrust::cuda::par(s), data.begin(), data.end(), 2), 0);
+  ASSERT_EQUAL(thrust::count(thrust::cuda::par.on(s), data.begin(), data.end(), 0), 2);
+  ASSERT_EQUAL(thrust::count(thrust::cuda::par.on(s), data.begin(), data.end(), 1), 3);
+  ASSERT_EQUAL(thrust::count(thrust::cuda::par.on(s), data.begin(), data.end(), 2), 0);
 
   cudaStreamDestroy(s);
 }

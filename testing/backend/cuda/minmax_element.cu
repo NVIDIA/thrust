@@ -93,10 +93,10 @@ void TestMinMaxElementCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL( *thrust::minmax_element(thrust::cuda::par(s), data.begin(), data.end()).first,  1);
-  ASSERT_EQUAL( *thrust::minmax_element(thrust::cuda::par(s), data.begin(), data.end()).second, 5);
-  ASSERT_EQUAL(  thrust::minmax_element(thrust::cuda::par(s), data.begin(), data.end()).first  - data.begin(), 2);
-  ASSERT_EQUAL(  thrust::minmax_element(thrust::cuda::par(s), data.begin(), data.end()).second - data.begin(), 1);
+  ASSERT_EQUAL( *thrust::minmax_element(thrust::cuda::par.on(s), data.begin(), data.end()).first,  1);
+  ASSERT_EQUAL( *thrust::minmax_element(thrust::cuda::par.on(s), data.begin(), data.end()).second, 5);
+  ASSERT_EQUAL(  thrust::minmax_element(thrust::cuda::par.on(s), data.begin(), data.end()).first  - data.begin(), 2);
+  ASSERT_EQUAL(  thrust::minmax_element(thrust::cuda::par.on(s), data.begin(), data.end()).second - data.begin(), 1);
 
   cudaStreamDestroy(s);
 }

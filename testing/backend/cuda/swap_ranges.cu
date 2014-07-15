@@ -64,7 +64,7 @@ void TestSwapRangesCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::swap_ranges(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin());
+  thrust::swap_ranges(thrust::cuda::par.on(s), v1.begin(), v1.end(), v2.begin());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(v1[0], 5);

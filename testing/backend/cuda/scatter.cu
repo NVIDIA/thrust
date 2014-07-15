@@ -124,7 +124,7 @@ void TestScatterCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::scatter(thrust::cuda::par(s), src.begin(), src.end(), map.begin(), dst.begin());
+  thrust::scatter(thrust::cuda::par.on(s), src.begin(), src.end(), map.begin(), dst.begin());
 
   cudaStreamSynchronize(s);
 
@@ -160,7 +160,7 @@ void TestScatterIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::scatter_if(thrust::cuda::par(s), src.begin(), src.end(), map.begin(), flg.begin(), dst.begin());
+  thrust::scatter_if(thrust::cuda::par.on(s), src.begin(), src.end(), map.begin(), flg.begin(), dst.begin());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(dst[0], 0);

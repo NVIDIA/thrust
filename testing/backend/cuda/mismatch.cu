@@ -74,18 +74,18 @@ void TestMismatchCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par(s), a.begin(), a.end(), b.begin()).first  - a.begin(), 2);
-  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par(s), a.begin(), a.end(), b.begin()).second - b.begin(), 2);
+  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par.on(s), a.begin(), a.end(), b.begin()).first  - a.begin(), 2);
+  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par.on(s), a.begin(), a.end(), b.begin()).second - b.begin(), 2);
 
   b[2] = 3;
   
-  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par(s), a.begin(), a.end(), b.begin()).first  - a.begin(), 3);
-  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par(s), a.begin(), a.end(), b.begin()).second - b.begin(), 3);
+  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par.on(s), a.begin(), a.end(), b.begin()).first  - a.begin(), 3);
+  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par.on(s), a.begin(), a.end(), b.begin()).second - b.begin(), 3);
   
   b[3] = 4;
   
-  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par(s), a.begin(), a.end(), b.begin()).first  - a.begin(), 4);
-  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par(s), a.begin(), a.end(), b.begin()).second - b.begin(), 4);
+  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par.on(s), a.begin(), a.end(), b.begin()).first  - a.begin(), 4);
+  ASSERT_EQUAL(thrust::mismatch(thrust::cuda::par.on(s), a.begin(), a.end(), b.begin()).second - b.begin(), 4);
 
   cudaStreamDestroy(s);
 }

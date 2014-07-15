@@ -257,8 +257,8 @@ void TestReplaceCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::replace(thrust::cuda::par(s), data.begin(), data.end(), (T) 1, (T) 4);
-  thrust::replace(thrust::cuda::par(s), data.begin(), data.end(), (T) 2, (T) 5);
+  thrust::replace(thrust::cuda::par.on(s), data.begin(), data.end(), (T) 1, (T) 4);
+  thrust::replace(thrust::cuda::par.on(s), data.begin(), data.end(), (T) 2, (T) 5);
 
   cudaStreamSynchronize(s);
 

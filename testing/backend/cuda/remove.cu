@@ -325,7 +325,7 @@ void TestRemoveCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove(thrust::cuda::par(s),
+  typename Vector::iterator end = thrust::remove(thrust::cuda::par.on(s),
                                                  data.begin(), 
                                                  data.end(), 
                                                  (T) 2);
@@ -358,7 +358,7 @@ void TestRemoveCopyCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_copy(thrust::cuda::par(s),
+  typename Vector::iterator end = thrust::remove_copy(thrust::cuda::par.on(s),
                                                       data.begin(), 
                                                       data.end(), 
                                                       result.begin(), 
@@ -390,7 +390,7 @@ void TestRemoveIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_if(thrust::cuda::par(s),
+  typename Vector::iterator end = thrust::remove_if(thrust::cuda::par.on(s),
                                                     data.begin(), 
                                                     data.end(), 
                                                     is_even<T>());
@@ -428,7 +428,7 @@ void TestRemoveIfStencilCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_if(thrust::cuda::par(s),
+  typename Vector::iterator end = thrust::remove_if(thrust::cuda::par.on(s),
                                                     data.begin(), 
                                                     data.end(),
                                                     stencil.begin(),
@@ -462,7 +462,7 @@ void TestRemoveCopyIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_copy_if(thrust::cuda::par(s),
+  typename Vector::iterator end = thrust::remove_copy_if(thrust::cuda::par.on(s),
                                                          data.begin(), 
                                                          data.end(), 
                                                          result.begin(), 
@@ -503,7 +503,7 @@ void TestRemoveCopyIfStencilCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_copy_if(thrust::cuda::par(s),
+  typename Vector::iterator end = thrust::remove_copy_if(thrust::cuda::par.on(s),
                                                          data.begin(), 
                                                          data.end(), 
                                                          stencil.begin(),

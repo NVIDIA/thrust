@@ -70,7 +70,7 @@ void TestAdjacentDifferenceCudaStreams()
   thrust::device_vector<int> output(3);
   input[0] = 1; input[1] = 4; input[2] = 6;
   
-  thrust::adjacent_difference(thrust::cuda::par(s), input.begin(), input.end(), output.begin());
+  thrust::adjacent_difference(thrust::cuda::par.on(s), input.begin(), input.end(), output.begin());
 
   cudaStreamSynchronize(s);
   

@@ -74,7 +74,7 @@ void TestSetIntersectionCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Iterator end = thrust::set_intersection(thrust::cuda::par(s),
+  Iterator end = thrust::set_intersection(thrust::cuda::par.on(s),
                                           a.begin(), a.end(),
                                           b.begin(), b.end(),
                                           result.begin());
