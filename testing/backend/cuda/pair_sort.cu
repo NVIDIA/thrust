@@ -4,13 +4,13 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__
-void stable_sort_kernel(Iterator1 first, Iterator1 last, Iterator2 is_supported)
+void stable_sort_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 is_supported)
 {
 #if (__CUDA_ARCH__ >= 200)
   *is_supported = true;
-  thrust::stable_sort(thrust::seq, first, last);
+  thrust::stable_sort(exec, first, last);
 #else
   *is_supported = false;
 #endif
@@ -28,37 +28,45 @@ struct make_pair_functor
 }; // end make_pair_functor
 
 
-template<typename T>
-  struct TestPairStableSortDeviceSeq
+template<typename ExecutionPolicy>
+void TestPairStableSortDevice(ExecutionPolicy exec)
 {
-  void operator()(const size_t n)
+  size_t n = 10000;
+  typedef thrust::pair<int,int> P;
+
+  thrust::host_vector<int>   h_p1 = unittest::random_integers<int>(n);
+  thrust::host_vector<int>   h_p2 = unittest::random_integers<int>(n);
+  thrust::host_vector<P>   h_pairs(n);
+
+  // zip up pairs on the host
+  thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_pairs.begin(), make_pair_functor());
+
+  thrust::device_vector<P> d_pairs = h_pairs;
+
+  thrust::device_vector<bool> is_supported(1);
+
+  stable_sort_kernel<<<1,1>>>(exec, d_pairs.begin(), d_pairs.end(), is_supported.begin());
+
+  if(is_supported[0])
   {
-    typedef thrust::pair<T,T> P;
+    // sort on the host
+    thrust::stable_sort(h_pairs.begin(), h_pairs.end());
 
-    thrust::host_vector<T>   h_p1 = unittest::random_integers<T>(n);
-    thrust::host_vector<T>   h_p2 = unittest::random_integers<T>(n);
-    thrust::host_vector<P>   h_pairs(n);
-
-    // zip up pairs on the host
-    thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_pairs.begin(), make_pair_functor());
-
-    thrust::device_vector<P> d_pairs = h_pairs;
-
-    thrust::device_vector<bool> is_supported(1);
-
-    stable_sort_kernel<<<1,1>>>(d_pairs.begin(), d_pairs.end(), is_supported.begin());
-
-    if(is_supported[0])
-    {
-      // sort on the host
-      thrust::stable_sort(h_pairs.begin(), h_pairs.end());
-
-      ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
-    }
+    ASSERT_EQUAL_QUIET(h_pairs, d_pairs);
   }
 };
-VariableUnitTest<
-  TestPairStableSortDeviceSeq,
-  unittest::type_list<unittest::int8_t,unittest::int32_t>
-> TestPairStableSortDeviceSeqInstance;
+
+
+void TestPairStableSortDeviceSeq()
+{
+  TestPairStableSortDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestPairStableSortDeviceSeq);
+
+
+void TestPairStableSortDeviceDevice()
+{
+  TestPairStableSortDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestPairStableSortDeviceDevice);
 

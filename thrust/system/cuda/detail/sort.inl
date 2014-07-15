@@ -111,25 +111,13 @@ typename enable_if_primitive_sort<RandomAccessIterator,StrictWeakOrdering>::type
 {
   // ensure sequence has trivial iterators
   thrust::detail::trivial_sequence<RandomAccessIterator,DerivedPolicy> keys(exec, first, last);
-  
-  // CUDA path for thrust::stable_sort with primitive keys
-  // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
-  // method is implemented with a primitive sort
-  thrust::system::cuda::detail::detail::stable_primitive_sort(exec, keys.begin(), keys.end());
+
+  thrust::system::cuda::detail::detail::stable_primitive_sort(exec, keys.begin(), keys.end(), comp);
   
   // copy results back, if necessary
   if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
   {
     thrust::copy(exec, keys.begin(), keys.end(), first);
-  }
-  
-  // if comp is greater<T> then reverse the keys
-  typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-  const bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
-  
-  if(reverse)
-  {
-    thrust::reverse(exec, first, last);
   }
 }
 
@@ -160,26 +148,11 @@ typename enable_if_primitive_sort<RandomAccessIterator1,StrictWeakOrdering>::typ
                      RandomAccessIterator2 values_first,
                      StrictWeakOrdering comp)
 {
-  // path for thrust::stable_sort_by_key with primitive keys
-  // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
-  // method is implemented with stable_primitive_sort_by_key
-  
-  // if comp is greater<T> then reverse the keys and values
-  typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-  const bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
-  
-  // note, we also have to reverse the (unordered) input to preserve stability
-  if(reverse)
-  {
-    thrust::reverse(exec, keys_first,  keys_last);
-    thrust::reverse(exec, values_first, values_first + (keys_last - keys_first));
-  }
-  
   // ensure sequences have trivial iterators
   thrust::detail::trivial_sequence<RandomAccessIterator1,DerivedPolicy> keys(exec, keys_first, keys_last);
   thrust::detail::trivial_sequence<RandomAccessIterator2,DerivedPolicy> values(exec, values_first, values_first + (keys_last - keys_first));
   
-  thrust::system::cuda::detail::detail::stable_primitive_sort_by_key(exec, keys.begin(), keys.end(), values.begin());
+  thrust::system::cuda::detail::detail::stable_primitive_sort_by_key(exec, keys.begin(), keys.end(), values.begin(), comp);
   
   // copy results back, if necessary
   if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
@@ -190,12 +163,6 @@ typename enable_if_primitive_sort<RandomAccessIterator1,StrictWeakOrdering>::typ
   if(!thrust::detail::is_trivial_iterator<RandomAccessIterator2>::value)
   {
     thrust::copy(exec, values.begin(), values.end(), values_first);
-  }
-  
-  if(reverse)
-  {
-    thrust::reverse(exec, keys_first,  keys_last);
-    thrust::reverse(exec, values_first, values_first + (keys_last - keys_first));
   }
 }
 
