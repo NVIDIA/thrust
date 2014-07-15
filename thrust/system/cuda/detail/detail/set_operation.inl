@@ -591,6 +591,13 @@ OutputIterator set_operation(thrust::cuda::execution_policy<DerivedPolicy> &exec
                              Compare comp,
                              SetOperation set_op)
 {
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
   using thrust::system::cuda::detail::device_properties;
   using thrust::system::cuda::detail::detail::launch_closure;
   namespace d = thrust::system::cuda::detail::detail::set_operation_detail;

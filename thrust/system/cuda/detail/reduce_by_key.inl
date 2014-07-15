@@ -353,6 +353,13 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
               BinaryPredicate binary_pred,
               BinaryFunction binary_op)
 {
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
   struct workaround
   {
     static __host__ __device__
