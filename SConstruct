@@ -79,6 +79,8 @@ gnu_linker_flags = {
   'workarounds' : []
 }
 
+nv_linker_flags = gnu_linker_flags
+
 clang_linker_flags = {
   'debug'       : [],
   'release'     : [],
@@ -88,12 +90,13 @@ clang_linker_flags = {
 msvc_linker_flags = {
   'debug'       : ['/debug'],
   'release'     : [],
-  'workarounds' : []
+  'workarounds' : ['/nologo']
 }
 
 linker_to_flags = {
   'gcc'  : gnu_linker_flags,
   'link' : msvc_linker_flags,
+  'nvcc' : nv_linker_flags,
   'clang++'  : clang_linker_flags
 }
 
@@ -248,7 +251,7 @@ def libs(env, CCX, host_backend, device_backend):
   return result
 
 
-def linker_flags(LINK, mode, platform, device_backend):
+def linker_flags(LINK, mode, platform, device_backend, arch):
   """Returns a list of command line flags needed by the linker"""
   result = []
 
@@ -324,6 +327,7 @@ def nv_compiler_flags(mode, device_backend, arch, cdp):
     # the weird -gencode flag is formatted like this:
     # -gencode=arch=compute_10,code=\"sm_20,compute_20\"
     result.append('-gencode=arch={0},\\"code={1},{2}\\"'.format(virtual_arch, machine_arch, virtual_arch))
+
   if mode == 'debug':
     # turn on debug mode
     # XXX make this work when we've debugged nvcc -G
@@ -435,16 +439,25 @@ for (host,device) in itertools.product(host_backends, device_backends):
   
   env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp']))
   
-  env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device))
-  
-  env.Append(LIBPATH = lib_paths(env, host, device))
-  
   env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
 
   # XXX this probably doesn't belong here
+  # XXX ideally we'd integrate this into site_scons
   if 'cudadevrt' in env['LIBS']:
     # nvcc is required to link against cudadevrt
     env.Replace(LINK = 'nvcc')
+
+    if os.name == 'nt':
+      # the nv linker uses the same command line as the gnu linker
+      env['LIBDIRPREFIX'] = '-L'
+      env['LIBLINKPREFIX'] = '-l'
+      env['LIBLINKSUFFIX'] = ''
+      env.Replace(LINKCOM = '$LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS')
+
+  # we Replace instead of Append, to avoid picking-up MSVC-specific flags on Windows
+  env.Replace(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device, env['arch']))
+   
+  env.Append(LIBPATH = lib_paths(env, host, device))
   
   # assemble the name of this configuration's targets directory
   targets_dir = 'targets/{0}_host_{1}_device_{2}'.format(host, device, env['mode'])
