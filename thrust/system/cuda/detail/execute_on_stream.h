@@ -56,12 +56,32 @@ class execute_on_stream_base
     {}
 
     __host__ __device__
+    DerivedPolicy on(const cudaStream_t &s) const
+    {
+      // create a copy of *this to return
+      // make sure it is the derived type
+      DerivedPolicy result = thrust::detail::derived_cast<DerivedPolicy&>(*this);
+
+      // change the result's stream to s
+      result.set_stream(s);
+
+      return result;
+    }
+
+  private:
+    // stream() is a friend function because we call it through ADL
+    __host__ __device__
     friend inline cudaStream_t stream(const execute_on_stream_base &exec)
     {
       return exec.m_stream;
     }
 
-  private:
+    __host__ __device__
+    inline void set_stream(const cudaStream_t &s)
+    {
+      m_stream = s;
+    }
+
     cudaStream_t m_stream;
 };
 

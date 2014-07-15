@@ -88,15 +88,17 @@ int main()
   thrust::device_vector<int> ball(1);
 
   // Invoke thrust::for_each with the thrust::cuda::par
-  // execution policy. Pass the stream s1 as an argument.
-  thrust::for_each(thrust::cuda::par(s1),
+  // execution policy. Pass the stream s1 as an argument
+  // to the .on() function
+  thrust::for_each(thrust::cuda::par.on(s1),
                    ball.begin(),
                    ball.end(),
                    ping());
 
   // Invoke thrust::for_each with the thrust::cuda::par
-  // execution policy. Pass the stream s2 as an argument.
-  thrust::for_each(thrust::cuda::par(s2),
+  // execution policy. Pass the stream s2 as an argument
+  // to the .on() function
+  thrust::for_each(thrust::cuda::par.on(s2),
                    ball.begin(),
                    ball.end(),
                    pong());
