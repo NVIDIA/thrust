@@ -124,7 +124,7 @@ void TestFillCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::fill(thrust::cuda::par(s), v.begin() + 1, v.begin() + 4, 7);
+  thrust::fill(thrust::cuda::par.on(s), v.begin() + 1, v.begin() + 4, 7);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(v[0], 0);
@@ -133,7 +133,7 @@ void TestFillCudaStreams()
   ASSERT_EQUAL(v[3], 7);
   ASSERT_EQUAL(v[4], 4);
   
-  thrust::fill(thrust::cuda::par(s), v.begin() + 0, v.begin() + 3, 8);
+  thrust::fill(thrust::cuda::par.on(s), v.begin() + 0, v.begin() + 3, 8);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(v[0], 8);
@@ -142,7 +142,7 @@ void TestFillCudaStreams()
   ASSERT_EQUAL(v[3], 7);
   ASSERT_EQUAL(v[4], 4);
   
-  thrust::fill(thrust::cuda::par(s), v.begin() + 2, v.end(), 9);
+  thrust::fill(thrust::cuda::par.on(s), v.begin() + 2, v.end(), 9);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(v[0], 8);
@@ -151,7 +151,7 @@ void TestFillCudaStreams()
   ASSERT_EQUAL(v[3], 9);
   ASSERT_EQUAL(v[4], 9);
   
-  thrust::fill(thrust::cuda::par(s), v.begin(), v.end(), 1);
+  thrust::fill(thrust::cuda::par.on(s), v.begin(), v.end(), 1);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(v[0], 1);

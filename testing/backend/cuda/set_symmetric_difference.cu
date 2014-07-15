@@ -76,7 +76,7 @@ void TestSetSymmetricDifferenceCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Iterator end = thrust::set_symmetric_difference(thrust::cuda::par(s),
+  Iterator end = thrust::set_symmetric_difference(thrust::cuda::par.on(s),
                                                   a.begin(), a.end(),
                                                   b.begin(), b.end(),
                                                   result.begin());

@@ -66,7 +66,7 @@ void TestGatherCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::gather(thrust::cuda::par(s), map.begin(), map.end(), src.begin(), dst.begin());
+  thrust::gather(thrust::cuda::par.on(s), map.begin(), map.end(), src.begin(), dst.begin());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(dst[0], 6);
@@ -163,7 +163,7 @@ void TestGatherIfCudaStreams(void)
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::gather_if(thrust::cuda::par(s), map.begin(), map.end(), flg.begin(), src.begin(), dst.begin());
+  thrust::gather_if(thrust::cuda::par.on(s), map.begin(), map.end(), flg.begin(), src.begin(), dst.begin());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(dst[0], 0);

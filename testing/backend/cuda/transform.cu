@@ -273,7 +273,7 @@ void TestTransformUnaryCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  iter = thrust::transform(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), thrust::negate<T>());
+  iter = thrust::transform(thrust::cuda::par.on(s), input.begin(), input.end(), output.begin(), thrust::negate<T>());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(iter - output.begin(), input.size());
@@ -302,7 +302,7 @@ void TestTransformBinaryCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  iter = thrust::transform(thrust::cuda::par(s), input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
+  iter = thrust::transform(thrust::cuda::par.on(s), input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(iter - output.begin(), input1.size());

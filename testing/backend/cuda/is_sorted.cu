@@ -54,26 +54,26 @@ void TestIsSortedCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.begin() + 0), true);
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.begin() + 1), true);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.begin() + 0), true);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.begin() + 1), true);
   
   // the following line crashes gcc 4.3
 #if (__GNUC__ == 4) && (__GNUC_MINOR__ == 3)
   // do nothing
 #else
   // compile this line on other compilers
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.begin() + 2), true);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.begin() + 2), true);
 #endif // GCC
 
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.begin() + 3), true);
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.begin() + 4), false);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.begin() + 3), true);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.begin() + 4), false);
   
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.begin() + 3, thrust::less<int>()),    true);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.begin() + 3, thrust::less<int>()),    true);
   
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.begin() + 1, thrust::greater<int>()), true);
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.begin() + 4, thrust::greater<int>()), false);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.begin() + 1, thrust::greater<int>()), true);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.begin() + 4, thrust::greater<int>()), false);
   
-  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par(s), v.begin(), v.end()), false);
+  ASSERT_EQUAL(thrust::is_sorted(thrust::cuda::par.on(s), v.begin(), v.end()), false);
 
   cudaStreamDestroy(s);
 }

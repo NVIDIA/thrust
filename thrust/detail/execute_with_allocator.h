@@ -47,16 +47,19 @@ template<typename Allocator, template <typename> class BaseSystem>
 
   Allocator &m_alloc;
 
+  __host__ __device__
   execute_with_allocator(const super_t &super, Allocator &alloc)
     : super_t(super),
       m_alloc(alloc)
   {}
 
+  __host__ __device__
   execute_with_allocator(Allocator &alloc)
     : m_alloc(alloc)
   {}
 
   template<typename T>
+  __host__ __device__
     friend thrust::pair<T*,std::ptrdiff_t>
       get_temporary_buffer(execute_with_allocator &system, std::ptrdiff_t n)
   {

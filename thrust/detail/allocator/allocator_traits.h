@@ -35,6 +35,7 @@ template<typename Alloc> struct allocator_system;
 namespace allocator_traits_detail
 {
 
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_value_type, value_type)
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_pointer, pointer)
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_const_pointer, const_pointer)
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_reference, reference)
@@ -238,6 +239,15 @@ template<typename Alloc>
   inline __host__ __device__
   static size_type max_size(const allocator_type &a);
 }; // end allocator_traits
+
+
+// we consider a type an allocator if T::value_type exists
+// it doesn't make much sense (containers, which are not allocators, will fulfill this requirement),
+// but allocator_traits is specified to work for any type with that nested typedef
+template<typename T>
+  struct is_allocator
+    : allocator_traits_detail::has_value_type<T>
+{};
 
 
 // XXX consider moving this non-standard functionality inside allocator_traits

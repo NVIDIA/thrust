@@ -70,7 +70,7 @@ void TestSetDifferenceCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Iterator end = thrust::set_difference(thrust::cuda::par(s), a.begin(), a.end(), b.begin(), b.end(), result.begin());
+  Iterator end = thrust::set_difference(thrust::cuda::par.on(s), a.begin(), a.end(), b.begin(), b.end(), result.begin());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL_QUIET(result.end(), end);

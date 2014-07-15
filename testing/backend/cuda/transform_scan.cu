@@ -111,7 +111,7 @@ void TestTransformScanCudaStreams()
   cudaStreamCreate(&s);
 
   // inclusive scan
-  iter = thrust::transform_inclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), thrust::negate<T>(), thrust::plus<T>());
+  iter = thrust::transform_inclusive_scan(thrust::cuda::par.on(s), input.begin(), input.end(), output.begin(), thrust::negate<T>(), thrust::plus<T>());
   cudaStreamSynchronize(s);
 
   result[0] = -1; result[1] = -4; result[2] = -2; result[3] = -6; result[4] = -1;
@@ -120,7 +120,7 @@ void TestTransformScanCudaStreams()
   ASSERT_EQUAL(output, result);
   
   // exclusive scan with 0 init
-  iter = thrust::transform_exclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), thrust::negate<T>(), 0, thrust::plus<T>());
+  iter = thrust::transform_exclusive_scan(thrust::cuda::par.on(s), input.begin(), input.end(), output.begin(), thrust::negate<T>(), 0, thrust::plus<T>());
   cudaStreamSynchronize(s);
 
   result[0] = 0; result[1] = -1; result[2] = -4; result[3] = -2; result[4] = -6;
@@ -129,7 +129,7 @@ void TestTransformScanCudaStreams()
   ASSERT_EQUAL(output, result);
   
   // exclusive scan with nonzero init
-  iter = thrust::transform_exclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
+  iter = thrust::transform_exclusive_scan(thrust::cuda::par.on(s), input.begin(), input.end(), output.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
   cudaStreamSynchronize(s);
 
   result[0] = 3; result[1] = 2; result[2] = -1; result[3] = 1; result[4] = -3;
@@ -139,7 +139,7 @@ void TestTransformScanCudaStreams()
   
   // inplace inclusive scan
   input = input_copy;
-  iter = thrust::transform_inclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), input.begin(), thrust::negate<T>(), thrust::plus<T>());
+  iter = thrust::transform_inclusive_scan(thrust::cuda::par.on(s), input.begin(), input.end(), input.begin(), thrust::negate<T>(), thrust::plus<T>());
   cudaStreamSynchronize(s);
 
   result[0] = -1; result[1] = -4; result[2] = -2; result[3] = -6; result[4] = -1;
@@ -148,7 +148,7 @@ void TestTransformScanCudaStreams()
 
   // inplace exclusive scan with init
   input = input_copy;
-  iter = thrust::transform_exclusive_scan(thrust::cuda::par(s), input.begin(), input.end(), input.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
+  iter = thrust::transform_exclusive_scan(thrust::cuda::par.on(s), input.begin(), input.end(), input.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
   cudaStreamSynchronize(s);
 
   result[0] = 3; result[1] = 2; result[2] = -1; result[3] = 1; result[4] = -3;

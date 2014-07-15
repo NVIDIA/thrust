@@ -66,44 +66,44 @@ void TestIsSortedUntilCudaStreams()
 
   Iterator last  = v.begin() + 0;
   Iterator ref = last;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last));
 
   last = v.begin() + 1;
   ref = last;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last));
 
   last = v.begin() + 2;
   ref = last;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last));
 
   last = v.begin() + 3;
   ref = v.begin() + 3;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last));
 
   last = v.begin() + 4;
   ref = v.begin() + 3;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last));
 
   last = v.begin() + 3;
   ref = v.begin() + 3;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::less<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last, thrust::less<T>()));
 
   last = v.begin() + 4;
   ref = v.begin() + 3;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::less<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last, thrust::less<T>()));
 
   last = v.begin() + 1;
   ref = v.begin() + 1;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::greater<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last, thrust::greater<T>()));
 
   last = v.begin() + 4;
   ref = v.begin() + 1;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::greater<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last, thrust::greater<T>()));
 
   first = v.begin() + 2;
   last = v.begin() + 4;
   ref = v.begin() + 4;
-  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par(s), first, last, thrust::greater<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::is_sorted_until(thrust::cuda::par.on(s), first, last, thrust::greater<T>()));
 
   cudaStreamDestroy(s);
 }

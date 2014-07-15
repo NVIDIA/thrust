@@ -57,7 +57,7 @@ void TestTransformReduceCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  T result = thrust::transform_reduce(thrust::cuda::par(s), data.begin(), data.end(), thrust::negate<T>(), init, thrust::plus<T>());
+  T result = thrust::transform_reduce(thrust::cuda::par.on(s), data.begin(), data.end(), thrust::negate<T>(), init, thrust::plus<T>());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(8, result);

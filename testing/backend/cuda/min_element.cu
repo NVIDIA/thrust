@@ -73,11 +73,11 @@ void TestMinElementCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL( *thrust::min_element(thrust::cuda::par(s), data.begin(), data.end()), 1);
-  ASSERT_EQUAL( thrust::min_element(thrust::cuda::par(s), data.begin(), data.end()) - data.begin(), 2);
+  ASSERT_EQUAL( *thrust::min_element(thrust::cuda::par.on(s), data.begin(), data.end()), 1);
+  ASSERT_EQUAL( thrust::min_element(thrust::cuda::par.on(s), data.begin(), data.end()) - data.begin(), 2);
   
-  ASSERT_EQUAL( *thrust::min_element(thrust::cuda::par(s), data.begin(), data.end(), thrust::greater<T>()), 5);
-  ASSERT_EQUAL( thrust::min_element(thrust::cuda::par(s), data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 1);
+  ASSERT_EQUAL( *thrust::min_element(thrust::cuda::par.on(s), data.begin(), data.end(), thrust::greater<T>()), 5);
+  ASSERT_EQUAL( thrust::min_element(thrust::cuda::par.on(s), data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 1);
 
   cudaStreamDestroy(s);
 }

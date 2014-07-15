@@ -202,7 +202,7 @@ void TestForEachCudaStreams()
   mark_present_for_each<int> f;
   f.ptr = thrust::raw_pointer_cast(output.data());
   
-  thrust::for_each(thrust::cuda::par(s), input.begin(), input.end(), f);
+  thrust::for_each(thrust::cuda::par.on(s), input.begin(), input.end(), f);
 
   cudaStreamSynchronize(s);
   

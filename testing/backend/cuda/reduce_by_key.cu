@@ -195,7 +195,7 @@ void TestReduceByKeyCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  new_last = thrust::reduce_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin());
+  new_last = thrust::reduce_by_key(thrust::cuda::par.on(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin());
 
   ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
   ASSERT_EQUAL(new_last.second - output_values.begin(), 5);
@@ -214,7 +214,7 @@ void TestReduceByKeyCudaStreams()
   // test BinaryPredicate
   initialize_keys(keys);  initialize_values(values);
   
-  new_last = thrust::reduce_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_reduce<T>());
+  new_last = thrust::reduce_by_key(thrust::cuda::par.on(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_reduce<T>());
 
   ASSERT_EQUAL(new_last.first  - output_keys.begin(),   3);
   ASSERT_EQUAL(new_last.second - output_values.begin(), 3);
@@ -229,7 +229,7 @@ void TestReduceByKeyCudaStreams()
   // test BinaryFunction
   initialize_keys(keys);  initialize_values(values);
 
-  new_last = thrust::reduce_by_key(thrust::cuda::par(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), thrust::equal_to<T>(), thrust::plus<T>());
+  new_last = thrust::reduce_by_key(thrust::cuda::par.on(s), keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), thrust::equal_to<T>(), thrust::plus<T>());
 
   ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
   ASSERT_EQUAL(new_last.second - output_values.begin(), 5);

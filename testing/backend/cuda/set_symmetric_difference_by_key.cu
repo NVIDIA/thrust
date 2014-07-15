@@ -97,7 +97,7 @@ void TestSetSymmetricDifferenceByKeyCudaStreams()
   cudaStreamCreate(&s);
 
   thrust::pair<Iterator,Iterator> end =
-    thrust::set_symmetric_difference_by_key(thrust::cuda::par(s),
+    thrust::set_symmetric_difference_by_key(thrust::cuda::par.on(s),
                                             a_key.begin(), a_key.end(),
                                             b_key.begin(), b_key.end(),
                                             a_val.begin(),

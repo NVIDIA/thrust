@@ -58,7 +58,7 @@ void TestInnerProductCudaStreams()
   cudaStreamCreate(&s);
   
   int init = 3;
-  int result = thrust::inner_product(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin(), init);
+  int result = thrust::inner_product(thrust::cuda::par.on(s), v1.begin(), v1.end(), v2.begin(), init);
   ASSERT_EQUAL(result, 7);
 
   cudaStreamDestroy(s);

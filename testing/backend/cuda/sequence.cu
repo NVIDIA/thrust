@@ -79,7 +79,7 @@ void TestSequenceCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::sequence(thrust::cuda::par(s), v.begin(), v.end());
+  thrust::sequence(thrust::cuda::par.on(s), v.begin(), v.end());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(v[0], 0);
@@ -88,7 +88,7 @@ void TestSequenceCudaStreams()
   ASSERT_EQUAL(v[3], 3);
   ASSERT_EQUAL(v[4], 4);
 
-  thrust::sequence(thrust::cuda::par(s), v.begin(), v.end(), 10);
+  thrust::sequence(thrust::cuda::par.on(s), v.begin(), v.end(), 10);
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(v[0], 10);
@@ -97,7 +97,7 @@ void TestSequenceCudaStreams()
   ASSERT_EQUAL(v[3], 13);
   ASSERT_EQUAL(v[4], 14);
   
-  thrust::sequence(thrust::cuda::par(s), v.begin(), v.end(), 10, 2);
+  thrust::sequence(thrust::cuda::par.on(s), v.begin(), v.end(), 10, 2);
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(v[0], 10);

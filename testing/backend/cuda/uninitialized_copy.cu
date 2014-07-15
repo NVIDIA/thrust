@@ -59,7 +59,7 @@ void TestUninitializedCopyCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::uninitialized_copy(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin());
+  thrust::uninitialized_copy(thrust::cuda::par.on(s), v1.begin(), v1.end(), v2.begin());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(v2[0], 0);
@@ -129,7 +129,7 @@ void TestUninitializedCopyNCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::uninitialized_copy_n(thrust::cuda::par(s), v1.begin(), v1.size(), v2.begin());
+  thrust::uninitialized_copy_n(thrust::cuda::par.on(s), v1.begin(), v1.size(), v2.begin());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(v2[0], 0);

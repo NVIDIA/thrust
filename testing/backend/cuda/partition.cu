@@ -522,7 +522,7 @@ void TestPartitionCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  Iterator iter = thrust::partition(thrust::cuda::par(s), data.begin(), data.end(), is_even<T>());
+  Iterator iter = thrust::partition(thrust::cuda::par.on(s), data.begin(), data.end(), is_even<T>());
   
   Vector ref(5);
   ref[0] = 2;

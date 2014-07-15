@@ -89,7 +89,7 @@ void TestUninitializedFillCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::uninitialized_fill(thrust::cuda::par(s), v.begin(), v.end(), exemplar);
+  thrust::uninitialized_fill(thrust::cuda::par.on(s), v.begin(), v.end(), exemplar);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(v[0], exemplar);
@@ -199,7 +199,7 @@ void TestUninitializedFillNCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::uninitialized_fill_n(thrust::cuda::par(s), v.begin(), v.size(), exemplar);
+  thrust::uninitialized_fill_n(thrust::cuda::par.on(s), v.begin(), v.size(), exemplar);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(v[0], exemplar);

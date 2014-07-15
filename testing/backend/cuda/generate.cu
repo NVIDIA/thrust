@@ -67,7 +67,7 @@ void TestGenerateCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::generate(thrust::cuda::par(s), result.begin(), result.end(), f);
+  thrust::generate(thrust::cuda::par.on(s), result.begin(), result.end(), f);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(result[0], value);
@@ -132,7 +132,7 @@ void TestGenerateNCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::generate_n(thrust::cuda::par(s), result.begin(), result.size(), f);
+  thrust::generate_n(thrust::cuda::par.on(s), result.begin(), result.size(), f);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(result[0], value);

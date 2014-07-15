@@ -73,11 +73,11 @@ void TestMaxElementCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL( *thrust::max_element(thrust::cuda::par(s), data.begin(), data.end()), 5);
-  ASSERT_EQUAL( thrust::max_element(thrust::cuda::par(s), data.begin(), data.end()) - data.begin(), 1);
+  ASSERT_EQUAL( *thrust::max_element(thrust::cuda::par.on(s), data.begin(), data.end()), 5);
+  ASSERT_EQUAL( thrust::max_element(thrust::cuda::par.on(s), data.begin(), data.end()) - data.begin(), 1);
   
-  ASSERT_EQUAL( *thrust::max_element(thrust::cuda::par(s), data.begin(), data.end(), thrust::greater<T>()), 1);
-  ASSERT_EQUAL( thrust::max_element(thrust::cuda::par(s), data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 2);
+  ASSERT_EQUAL( *thrust::max_element(thrust::cuda::par.on(s), data.begin(), data.end(), thrust::greater<T>()), 1);
+  ASSERT_EQUAL( thrust::max_element(thrust::cuda::par.on(s), data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 2);
 
   cudaStreamDestroy(s);
 }
