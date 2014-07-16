@@ -26,7 +26,6 @@
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/functional.h>
-#include <thrust/iterator/retag.h>
 #include <thrust/system/cuda/detail/execute_on_stream.h>
 
 namespace thrust
@@ -89,12 +88,7 @@ void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
 
   trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), cudaMemcpyDeviceToDevice, stream(thrust::detail::derived_cast(exec)));
 #else
-  // XXX transform is implemented with zip_iterator, which freaks out when the zipped iterators have unrelated system tags
-  //     force both iterators' system tags to DerivedPolicy
-  thrust::transform(exec,
-                    thrust::reinterpret_tag<DerivedPolicy>(first), thrust::reinterpret_tag<DerivedPolicy>(first + n),
-                    thrust::reinterpret_tag<DerivedPolicy>(result),
-                    thrust::identity<T>());
+  thrust::transform(exec, first, first + n, result, thrust::identity<T>());
 #endif
 }
 
