@@ -26,7 +26,6 @@
 #include <thrust/system/cuda/detail/bulk/detail/tail_flags.hpp>
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/retag.h>
 #include <thrust/detail/minmax.h>
 
 
@@ -86,8 +85,8 @@ void scatter_tails_n(ConcurrentGroup &group,
   // separate the scatters for __CUDA_ARCH__ < 200
 #if __CUDA_ARCH__ >= 200
   bulk::scatter_if(group,
-                   thrust::make_zip_iterator(thrust::make_tuple(values_first,         thrust::reinterpret_tag<thrust::cpp::tag>(keys_first))),
-                   thrust::make_zip_iterator(thrust::make_tuple(values_first + n - 1, thrust::reinterpret_tag<thrust::cpp::tag>(keys_first))),
+                   thrust::make_zip_iterator(thrust::make_tuple(values_first,         keys_first)),
+                   thrust::make_zip_iterator(thrust::make_tuple(values_first + n - 1, keys_first)),
                    thrust::make_transform_iterator(flags_first, thrust::placeholders::_1 - 1),
                    bulk::detail::make_tail_flags(flags_first, flags_first + n).begin(),
                    thrust::make_zip_iterator(thrust::make_tuple(values_result, keys_result)));
