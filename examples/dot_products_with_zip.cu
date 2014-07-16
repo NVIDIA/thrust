@@ -33,9 +33,10 @@ struct DotProduct : public thrust::binary_function<Float3,Float3,float>
 
 
 // Return a host vector with random values in the range [0,1)
-thrust::host_vector<float> random_vector(const size_t N)
+thrust::host_vector<float> random_vector(const size_t N,
+                                         unsigned int seed = thrust::default_random_engine::default_seed)
 {
-    thrust::default_random_engine rng;
+    thrust::default_random_engine rng(seed);
     thrust::uniform_real_distribution<float> u01(0.0f, 1.0f);
     thrust::host_vector<float> temp(N);
     for(size_t i = 0; i < N; i++) {
