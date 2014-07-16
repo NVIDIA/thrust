@@ -42,7 +42,7 @@
 #define BULK_NAMESPACE_SUFFIX                  }                  }                }                  }
 
 // rename "bulk" so it doesn't collide with another installation elsewhere
-#define bulk __bulk
+#define bulk bulk_
 
 #include <thrust/system/cuda/detail/bulk/bulk.hpp>
 
@@ -52,9 +52,6 @@
 // undef the macros
 #undef BULK_NAMESPACE_PREFIX
 #undef BULK_NAMESPACE_SUFFIX
-
-// define a top-level namespace we can rely on besides "bulk"
-namespace bulk_ = thrust::system::cuda::detail::__bulk;
 
 // redefine the macros if they were defined previously
 
