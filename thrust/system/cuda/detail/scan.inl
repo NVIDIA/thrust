@@ -120,6 +120,54 @@ struct exclusive_downsweep
 };
 
 
+template<typename T> struct accumulate_tiles_tuning_impl;
+
+
+template<> struct accumulate_tiles_tuning_impl<int>
+{
+  // determined from empirical testing on k20c & nvcc 6.5 RC
+  static const int groupsize = 128;
+  static const int grainsize = 9;
+};
+
+
+template<> struct accumulate_tiles_tuning_impl<double>
+{
+  // determined from empirical testing on k20c & nvcc 6.5 RC
+  static const int groupsize = 128;
+  static const int grainsize = 9;
+};
+
+
+// determined from empirical testing on k20c
+template<typename T>
+  struct accumulate_tiles_tuning
+{
+  static const int groupsize =
+    sizeof(T) <=     sizeof(int) ? accumulate_tiles_tuning_impl<int>::groupsize :
+    sizeof(T) <= 2 * sizeof(int) ? accumulate_tiles_tuning_impl<double>::groupsize :
+    128;
+  
+  static const int grainsize =
+    sizeof(T) <=     sizeof(int) ? accumulate_tiles_tuning_impl<int>::grainsize :
+    sizeof(T) <= 2 * sizeof(int) ? accumulate_tiles_tuning_impl<double>::grainsize :
+    3;
+};
+
+// this specialization accomodates scan_by_key,
+// whose intermediate type is a tuple
+template<typename T1, typename T2>
+  struct accumulate_tiles_tuning<thrust::tuple<T1,T2> >
+{
+  // determined from empirical testing on k20c
+  static const int groupsize = 128;
+  static const int grainsize = ((sizeof(T1) + sizeof(T2)) <= (2 * sizeof(double))) ? 5 : 3;
+};
+
+
+
+
+
 struct accumulate_tiles
 {
   template<typename ConcurrentGroup, typename RandomAccessIterator1, typename Decomposition, typename RandomAccessIterator2, typename BinaryFunction>
@@ -191,16 +239,8 @@ OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
   } // end if
   else
   {
-    // determined from empirical testing on k20c
-    const Size groupsize =
-      sizeof(intermediate_type) <=     sizeof(int) ? 128 :
-      sizeof(intermediate_type) <= 2 * sizeof(int) ? 256 :
-      128;
-
-    const Size grainsize =
-      sizeof(intermediate_type) <=     sizeof(int) ? 9 :
-      sizeof(intermediate_type) <= 2 * sizeof(int) ? 5 :
-      3;
+    const Size groupsize = scan_detail::accumulate_tiles_tuning<intermediate_type>::groupsize;
+    const Size grainsize = scan_detail::accumulate_tiles_tuning<intermediate_type>::grainsize;
 
     const Size tile_size = groupsize * grainsize;
     Size num_tiles = (n + tile_size - 1) / tile_size;
@@ -287,16 +327,8 @@ OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
   } // end if
   else
   {
-    // determined from empirical testing on k20c
-    const Size groupsize =
-      sizeof(intermediate_type) <=     sizeof(int) ? 128 :
-      sizeof(intermediate_type) <= 2 * sizeof(int) ? 256 :
-      128;
-
-    const Size grainsize =
-      sizeof(intermediate_type) <=     sizeof(int) ? 9 :
-      sizeof(intermediate_type) <= 2 * sizeof(int) ? 5 :
-      3;
+    const Size groupsize = scan_detail::accumulate_tiles_tuning<intermediate_type>::groupsize;
+    const Size grainsize = scan_detail::accumulate_tiles_tuning<intermediate_type>::grainsize;
 
     const Size tile_size = groupsize * grainsize;
     Size num_tiles = (n + tile_size - 1) / tile_size;
