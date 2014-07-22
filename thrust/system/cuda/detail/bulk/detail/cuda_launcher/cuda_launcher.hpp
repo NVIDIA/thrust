@@ -343,15 +343,28 @@ struct cuda_launcher<
   } // end go()
 
   __host__ __device__
+  static size_type choose_subscription(size_type block_size)
+  {
+    // given no other info, this is a reasonable guess
+    return block_size > 0 ? device_properties().maxThreadsPerMultiProcessor / block_size : 0;
+  }
+
+  __host__ __device__
   static thrust::tuple<size_type,size_type> configure(group_type g)
   {
     size_type block_size = thrust::min<size_type>(g.size(), super_t::choose_group_size(use_default));
+    size_type subscription = choose_subscription(block_size);
 
+    // do not oversubscribe the multiprocessors beyond this subscription rate
+    // we are also limited by the maximum physical grid size of this kernel
+    size_type max_blocks = thrust::min<size_type>(subscription * device_properties().multiProcessorCount,
+                                                  super_t::max_physical_grid_size());
+
+    // given no limits at all, how many blocks would we launch?
     size_type num_blocks = (block_size > 0) ? (g.size() + block_size - 1) / block_size : 0;
 
-    // don't request more blocks than we can physically launch
-    size_type max_num_blocks = super_t::max_physical_grid_size();
-    num_blocks = (num_blocks > max_num_blocks) ? max_num_blocks : num_blocks;
+    // don't ask for more blocks than the limit we prescribed for ourself
+    num_blocks = thrust::min<size_type>(num_blocks, max_blocks);
 
     return thrust::make_tuple(num_blocks, block_size);
   } // end configure()
