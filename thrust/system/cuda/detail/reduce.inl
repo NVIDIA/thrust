@@ -105,7 +105,7 @@ OutputType reduce(execution_policy<DerivedPolicy> &exec,
   cudaStream_t s = stream(thrust::detail::derived_cast(exec));
 
   const size_type groupsize = 128;
-  const size_type grainsize = 9;
+  const size_type grainsize = 7;
   const size_type tile_size = groupsize * grainsize;
   const size_type num_tiles = (n + tile_size - 1) / tile_size;
   const size_type subscription = 10;

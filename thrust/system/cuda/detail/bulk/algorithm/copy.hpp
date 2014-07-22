@@ -43,23 +43,24 @@ RandomAccessIterator2 copy_n(const bounded<bound,agent<grainsize> > &b,
 
   if(bound <= n)
   {
-    for(size_type i = 0; i < b.bound(); ++i)
+    for(size_type i = 0; i < b.bound(); ++i, ++result, ++first)
     {
-      result[i] = first[i];
+      *result = *first;
     } // end for i
   } // end if
   else
   {
-    for(size_type i = 0; i < b.bound(); ++i)
+    for(size_type i = 0; i < b.bound(); ++i, ++first)
     {
       if(i < n)
       {
-        result[i] = first[i];
+        *result = *first;
+        ++result;
       } // end if
     } // end for i
   } // end else
 
-  return result + n;
+  return result;
 } // end copy_n()
 
 
