@@ -340,23 +340,22 @@ class cuda_task<parallel_group<agent<grainsize>,groupsize>,Closure>
     {
       // guard use of CUDA built-ins from foreign compilers
 #ifdef __CUDA_ARCH__
-      const size_t grid_size = gridDim.x * blockDim.x;
+      typedef int size_type;
 
-      for(size_t offset = blockDim.x * blockIdx.x; offset < super_t::g.size(); offset += grid_size)
+      const size_type grid_size = gridDim.x * blockDim.x;
+
+      for(size_type tid = blockDim.x * blockIdx.x + threadIdx.x;
+          tid < super_t::g.size();
+          tid += grid_size)
       {
-        typename group_type::size_type tid = offset + threadIdx.x;
+        // instantiate a view of the exec group
+        parallel_group<agent<grainsize>,groupsize> this_group(
+          1,
+          agent<grainsize>(tid),
+          0
+        );
 
-        if(tid < super_t::g.size())
-        {
-          // instantiate a view of the exec group
-          parallel_group<agent<grainsize>,groupsize> this_group(
-            1,
-            agent<grainsize>(tid),
-            0
-          );
-
-          substitute_placeholders_and_execute(this_group, super_t::c);
-        } // end if
+        substitute_placeholders_and_execute(this_group, super_t::c);
       } // end for
 #endif
     } // end operator()
