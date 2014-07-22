@@ -32,7 +32,7 @@ namespace detail
 
 
 __host__ __device__
-inline device_properties_t device_properties(int device_id)
+inline device_properties_t device_properties_uncached(int device_id)
 {
   device_properties_t prop = {};
 
@@ -57,6 +57,46 @@ inline device_properties_t device_properties(int device_id)
   throw_on_error(error, "cudaDeviceGetProperty in get_device_properties");
 
   return prop;
+}
+
+
+inline device_properties_t device_properties_cached(int device_id)
+{
+  // cache the result of get_device_properties, because it is slow
+  // only cache the first few devices
+  static const int max_num_devices                              = 16;
+
+  static bool properties_exist[max_num_devices]                 = {0};
+  static device_properties_t device_properties[max_num_devices] = {};
+
+  if(device_id >= max_num_devices)
+  {
+    return device_properties_uncached(device_id);
+  }
+
+  if(!properties_exist[device_id])
+  {
+    device_properties[device_id] = device_properties_uncached(device_id);
+
+    // disallow the compiler to move the write to properties_exist[device_id]
+    // before the initialization of device_properties[device_id]
+    __thrust_compiler_fence();
+    
+    properties_exist[device_id] = true;
+  }
+
+  return device_properties[device_id];
+}
+
+
+__host__ __device__
+inline device_properties_t device_properties(int device_id)
+{
+#ifndef __CUDA_ARCH__
+  return device_properties_cached(device_id);
+#else
+  return device_properties_uncached(device_id);
+#endif
 }
 
 
@@ -113,7 +153,6 @@ inline function_attributes_t function_attributes(KernelFunction kernel)
   return function_attributes_t();
 #endif // __CUDACC__
 }
-
 
 __host__ __device__
 inline size_t compute_capability(const device_properties_t &properties)

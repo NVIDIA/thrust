@@ -44,23 +44,6 @@ namespace detail
 {
 
 
-template<typename Function>
-__host__ __device__
-size_t maximum_potential_occupancy(Function kernel, size_t num_threads, size_t num_smem_bytes)
-{
-#if __BULK_HAS_CUDART__
-  function_attributes_t attr = bulk::detail::function_attributes(kernel);
-
-  return bulk::detail::cuda_launch_config_detail::max_active_blocks_per_multiprocessor(device_properties(),
-                                                                                       attr,
-                                                                                       num_threads,
-                                                                                       0);
-#else
-  return 0;
-#endif
-}
-
-
 // XXX instead of passing block_size_ as a template parameter to cuda_launcher_base,
 //     find a way to fish it out of ExecutionGroup
 template<unsigned int block_size_, typename ExecutionGroup, typename Closure>
@@ -73,6 +56,12 @@ struct cuda_launcher_base
   typedef triple_chevron_launcher<block_size_, cuda_task<ExecutionGroup,Closure> > super_t;
   typedef typename super_t::task_type                                              task_type;
   typedef typename ExecutionGroup::size_type                                       size_type;
+
+
+  __host__ __device__
+  cuda_launcher_base()
+    : m_device_properties(bulk::detail::device_properties())
+  {}
 
 
   __host__ __device__
@@ -114,7 +103,7 @@ struct cuda_launcher_base
 
 
   __host__ __device__
-  static size_type choose_heap_size(size_type group_size, size_type requested_size)
+  size_type choose_heap_size(const device_properties_t &props, size_type group_size, size_type requested_size)
   {
     function_attributes_t attr = bulk::detail::function_attributes(super_t::global_function_pointer());
 
@@ -126,7 +115,6 @@ struct cuda_launcher_base
     } // end if
 
     // how much smem could we allocate without reducing occupancy?
-    device_properties_t props = device_properties();
     size_type result = 0, occupancy = 0;
     thrust::tie(result,occupancy) = dynamic_smem_occupancy_limit(props, attr, group_size, 0);
 
@@ -156,7 +144,7 @@ struct cuda_launcher_base
 
 
   __host__ __device__
-  static size_type choose_group_size(size_type requested_size)
+  size_type choose_group_size(size_type requested_size)
   {
     size_type result = requested_size;
 
@@ -172,7 +160,7 @@ struct cuda_launcher_base
 
 
   __host__ __device__
-  static size_type max_physical_grid_size()
+  size_type max_physical_grid_size()
   {
     // get the limit of the actual device
     int actual_limit = device_properties().maxGridSize[0];
@@ -194,6 +182,16 @@ struct cuda_launcher_base
 
     return thrust::min<size_type>(actual_limit, ptx_limit);
   } // end max_physical_grid_size()
+
+
+  __host__ __device__
+  const device_properties_t &device_properties() const
+  {
+    return m_device_properties;
+  }
+
+
+  device_properties_t m_device_properties;
 }; // end cuda_launcher_base
 
 
@@ -260,10 +258,10 @@ struct cuda_launcher<
   } // end go()
 
   __host__ __device__
-  static grid_type configure(grid_type g)
+  grid_type configure(grid_type g)
   {
     size_type block_size = super_t::choose_group_size(g.this_exec.size());
-    size_type heap_size  = super_t::choose_heap_size(block_size, g.this_exec.heap_size());
+    size_type heap_size  = super_t::choose_heap_size(device_properties(), block_size, g.this_exec.heap_size());
     size_type num_blocks = g.size();
 
     return make_grid<grid_type>(num_blocks, make_block<block_type>(block_size, heap_size));
@@ -303,7 +301,7 @@ struct cuda_launcher<
   } // end go()
 
   __host__ __device__
-  static block_type configure(block_type b)
+  block_type configure(block_type b)
   {
     size_type block_size = super_t::choose_group_size(b.size());
     size_type heap_size  = super_t::choose_heap_size(block_size, b.heap_size());
@@ -343,14 +341,14 @@ struct cuda_launcher<
   } // end go()
 
   __host__ __device__
-  static size_type choose_subscription(size_type block_size)
+  size_type choose_subscription(size_type block_size)
   {
     // given no other info, this is a reasonable guess
     return block_size > 0 ? device_properties().maxThreadsPerMultiProcessor / block_size : 0;
   }
 
   __host__ __device__
-  static thrust::tuple<size_type,size_type> configure(group_type g)
+  thrust::tuple<size_type,size_type> configure(group_type g)
   {
     size_type block_size = thrust::min<size_type>(g.size(), super_t::choose_group_size(use_default));
     size_type subscription = choose_subscription(block_size);
