@@ -304,7 +304,7 @@ struct cuda_launcher<
   block_type configure(block_type b)
   {
     size_type block_size = super_t::choose_group_size(b.size());
-    size_type heap_size  = super_t::choose_heap_size(block_size, b.heap_size());
+    size_type heap_size  = super_t::choose_heap_size(device_properties(), block_size, b.heap_size());
     return make_block<block_type>(block_size, heap_size);
   } // end configure()
 }; // end cuda_launcher
