@@ -21,8 +21,9 @@
 #include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/system/cuda/detail/detail/launch_calculator.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
-#include <thrust/system/cuda/detail/detail/uninitialized.h>
 #include <thrust/system/cuda/detail/execute_on_stream.h>
+#include <thrust/system/cuda/detail/detail/alignment.h>
+#include <thrust/system/cuda/detail/bulk.h>
 
 namespace thrust
 {
@@ -46,9 +47,9 @@ namespace detail
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 template<typename Closure>
 __global__ __launch_bounds__(Closure::context_type::ThreadsPerBlock::value, Closure::context_type::BlocksPerMultiprocessor::value)
-void launch_closure_by_value(uninitialized<Closure> f)
+void launch_closure_by_value(Closure f)
 {
-  f.get()();
+  f();
 }
 
 template<typename Closure>
@@ -72,7 +73,7 @@ template<typename Closure,
          bool launch_by_value = sizeof(Closure) <= 256>
   struct closure_launcher_base
 {
-  typedef void (*launch_function_t)(uninitialized<Closure>); 
+  typedef void (*launch_function_t)(Closure); 
  
   __host__ __device__
   static launch_function_t get_launch_function()
@@ -91,9 +92,15 @@ template<typename Closure,
 #if __BULK_HAS_CUDART__
     if(num_blocks > 0)
     {
-      uninitialized<Closure> c;
-      c.construct(f);
-      kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(thrust::detail::derived_cast(exec))>>>(c);
+#ifndef __CUDA_ARCH__
+      kernel<<<(unsigned int) num_blocks, (unsigned int) block_size, (unsigned int) smem_size, stream(thrust::detail::derived_cast(exec))>>>(f);
+#else
+      // XXX we can't pass parameters with constructors to kernels launched through the triple chevrons in __device__ code
+      //     use cudaLaunchDevice directly
+      void *param_buffer = cudaGetParameterBuffer(alignment_of<Closure>::value, sizeof(Closure));
+      std::memcpy(param_buffer, &f, sizeof(Closure));
+      cudaLaunchDevice(reinterpret_cast<void*>(kernel), param_buffer, dim3(num_blocks), dim3(block_size), smem_size, stream(thrust::detail::derived_cast(exec)));
+#endif // __CUDA_ARCH__
       synchronize_if_enabled("launch_closure_by_value");
     }
 #endif // __BULK_HAS_CUDART__
