@@ -229,11 +229,6 @@ T reduce(bulk::concurrent_group<> &g,
 {
   typedef int size_type;
 
-  const size_type groupsize = g.size();
-  typedef typename bulk::concurrent_group<>::agent_type agent_type;
-  const size_type grainsize = agent_type::static_grainsize;
-  const size_type elements_per_group = groupsize * grainsize;
-
   size_type tid = g.this_exec.index();
 
   T this_sum;
@@ -242,51 +237,16 @@ T reduce(bulk::concurrent_group<> &g,
 
   typename thrust::iterator_difference<RandomAccessIterator>::type n = last - first;
 
-  T *buffer = reinterpret_cast<T*>(bulk::malloc(g, groupsize * sizeof(T)));
-  
-  for(size_type input_idx = 0; input_idx < n; input_idx += elements_per_group)
+  T *buffer = reinterpret_cast<T*>(bulk::malloc(g, g.size() * sizeof(T)));
+
+  for(size_type i = tid; i < n; i += g.size())
   {
-    size_type partition_size = thrust::min<size_type>(elements_per_group, n - input_idx);
-
     typedef typename thrust::iterator_value<RandomAccessIterator>::type input_type;
-    
-    // load input into register
-    input_type inputs[grainsize];
-
-    // XXX this is a sequential strided copy
-    //     the stride is groupsize
-    if(partition_size >= elements_per_group)
-    {
-      for(size_type i = 0; i < grainsize; ++i)
-      {
-        inputs[i] = first[input_idx + groupsize * i + tid];
-      } // end for
-    } // end if
-    else
-    {
-      for(size_type i = 0; i < grainsize; ++i)
-      {
-        size_type index = groupsize * i + tid;
-        if(index < partition_size)
-        {
-          inputs[i] = first[input_idx + index];
-        } // end if
-      } // end for
-    } // end else
-    
-    // sum sequentially
-    for(size_type i = 0; i < grainsize; ++i)
-    {
-      size_type index = groupsize * i + g.this_exec.index();
-      if(index < partition_size)
-      {
-        input_type x = inputs[i];
-        this_sum = (i || this_sum_defined) ? binary_op(this_sum, x) : x;
-      } // end if
-    } // end for
+    input_type x = first[i];
+    this_sum = this_sum_defined ? binary_op(this_sum, x) : x;
 
     this_sum_defined = true;
-  } // end for
+  }
 
   if(this_sum_defined)
   {
@@ -296,7 +256,7 @@ T reduce(bulk::concurrent_group<> &g,
   g.wait();
 
   // reduce across the block
-  T result = detail::reduce_detail::destructive_reduce_n(g, buffer, thrust::min<size_type>(groupsize,n), init, binary_op);
+  T result = detail::reduce_detail::destructive_reduce_n(g, buffer, thrust::min<size_type>(g.size(),n), init, binary_op);
 
   bulk::free(g,buffer);
 
