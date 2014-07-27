@@ -620,10 +620,12 @@ static const detail::cursor<0> root;
 
 // shorthand for creating a parallel group of concurrent groups of agents
 inline __host__ __device__
-parallel_group<concurrent_group<> > grid(size_t num_groups, size_t group_size, size_t heap_size = use_default)
+parallel_group<concurrent_group<> > grid(size_t num_groups = use_default, size_t group_size = use_default, size_t heap_size = use_default)
 {
   return par(con(group_size,heap_size), num_groups);
 }
+               
+  
 
 
 inline __host__ __device__

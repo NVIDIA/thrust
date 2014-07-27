@@ -160,6 +160,32 @@ struct cuda_launcher_base
 
 
   __host__ __device__
+  size_type choose_subscription(size_type block_size)
+  {
+    // given no other info, this is a reasonable guess
+    return block_size > 0 ? device_properties().maxThreadsPerMultiProcessor / block_size : 0;
+  }
+
+
+  __host__ __device__
+  size_type choose_num_groups(size_type requested_num_groups, size_type group_size)
+  {
+    size_type result = requested_num_groups;
+
+    if(result == use_default)
+    {
+      // given no other info, a reasonable number of groups
+      // would simply occupy the machine as well as possible
+      size_type subscription = choose_subscription(group_size);
+
+      result = thrust::min<size_type>(subscription * device_properties().multiProcessorCount, max_physical_grid_size());
+    } // end if
+
+    return result;
+  } // end choose_num_groups()
+
+
+  __host__ __device__
   size_type max_physical_grid_size()
   {
     // get the limit of the actual device
@@ -266,6 +292,29 @@ struct cuda_launcher<
 
     return make_grid<grid_type>(num_blocks, make_block<block_type>(block_size, heap_size));
   } // end configure()
+
+  // chooses a number of groups and a group size
+  __host__ __device__
+  thrust::pair<size_type, size_type> choose_sizes(size_type requested_num_groups, size_type requested_group_size)
+  {
+    // if a static blocksize is set, we ignore the requested group size
+    // and just use the static value
+    size_type group_size = blocksize;
+    if(group_size == 0)
+    {
+      group_size = super_t::choose_group_size(requested_group_size);
+    } // end if
+
+    // if a static gridsize is set, we ignore the requested group size
+    // and just use the static value
+    size_type num_groups = gridsize;
+    if(num_groups == 0)
+    {
+      num_groups = super_t::choose_num_groups(requested_num_groups, group_size);
+    } // end if
+
+    return thrust::make_pair(num_groups, group_size);
+  } // end choose_sizes()
 }; // end cuda_launcher
 
 
@@ -341,22 +390,12 @@ struct cuda_launcher<
   } // end go()
 
   __host__ __device__
-  size_type choose_subscription(size_type block_size)
-  {
-    // given no other info, this is a reasonable guess
-    return block_size > 0 ? device_properties().maxThreadsPerMultiProcessor / block_size : 0;
-  }
-
-  __host__ __device__
   thrust::tuple<size_type,size_type> configure(group_type g)
   {
     size_type block_size = thrust::min<size_type>(g.size(), super_t::choose_group_size(use_default));
-    size_type subscription = choose_subscription(block_size);
 
-    // do not oversubscribe the multiprocessors beyond this subscription rate
-    // we are also limited by the maximum physical grid size of this kernel
-    size_type max_blocks = thrust::min<size_type>(subscription * device_properties().multiProcessorCount,
-                                                  super_t::max_physical_grid_size());
+    // don't ask for more than a reasonable number of blocks
+    size_type max_blocks = super_t::choose_num_groups(bulk::use_default, block_size);
 
     // given no limits at all, how many blocks would we launch?
     size_type num_blocks = (block_size > 0) ? (g.size() + block_size - 1) / block_size : 0;

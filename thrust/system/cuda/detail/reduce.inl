@@ -27,6 +27,7 @@
 #include <thrust/system/cuda/detail/decomposition.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/execute_on_stream.h>
+#include <thrust/detail/type_traits.h>
 
 namespace thrust
 {
@@ -90,11 +91,11 @@ template<typename DerivedPolicy,
          typename OutputType,
          typename BinaryFunction>
 __host__ __device__
-OutputType reduce(execution_policy<DerivedPolicy> &exec,
-                  InputIterator first,
-                  InputIterator last,
-                  OutputType init,
-                  BinaryFunction binary_op)
+OutputType tuned_reduce(execution_policy<DerivedPolicy> &exec,
+                        InputIterator first,
+                        InputIterator last,
+                        OutputType init,
+                        BinaryFunction binary_op)
 {
   typedef typename thrust::iterator_difference<InputIterator>::type size_type;
 
@@ -131,7 +132,95 @@ OutputType reduce(execution_policy<DerivedPolicy> &exec,
   } // end while
 
   return partial_sums[0];
+} // end tuned_reduce()
+
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputType,
+         typename BinaryFunction>
+__host__ __device__
+OutputType general_reduce(execution_policy<DerivedPolicy> &exec,
+                          InputIterator first,
+                          InputIterator last,
+                          OutputType init,
+                          BinaryFunction binary_op)
+{
+  typedef typename thrust::iterator_difference<InputIterator>::type size_type;
+
+  const size_type n = last - first;
+
+  if(n <= 0) return init;
+
+  cudaStream_t s = stream(thrust::detail::derived_cast(exec));
+
+  typedef thrust::detail::temporary_array<OutputType,thrust::cuda::tag> temporary_array;
+
+  // automatically choose a number of groups and a group size
+  size_type num_groups = 0;
+  size_type group_size = 0;
+
+  thrust::tie(num_groups, group_size) = bulk_::choose_sizes(bulk_::grid(), reduce_partitions(), bulk_::root.this_exec, first, uniform_decomposition<size_type>(), typename temporary_array::iterator(), init, binary_op);
+
+  num_groups = thrust::min<size_type>(num_groups, thrust::detail::util::divide_ri(n, group_size));
+
+  uniform_decomposition<size_type> decomp(n, num_groups);
+
+  thrust::cuda::tag t;
+  temporary_array partial_sums(t, decomp.size());
+
+  // reduce into partial sums
+  bulk_::async(bulk_::grid(decomp.size(), group_size, bulk_::use_default, s), reduce_partitions(), bulk_::root.this_exec, first, decomp, partial_sums.begin(), init, binary_op);
+
+  if(partial_sums.size() > 1)
+  {
+    // reduce the partial sums
+    bulk_::async(bulk_::grid(1, group_size, bulk_::use_default, s), reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
+  } // end while
+
+  return partial_sums[0];
+} // end general_reduce()
+
+
+// use a tuned implementation for arithmetic types
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputType,
+         typename BinaryFunction>
+__host__ __device__
+typename thrust::detail::enable_if<
+  thrust::detail::is_arithmetic<OutputType>::value,
+  OutputType
+>::type
+  reduce(execution_policy<DerivedPolicy> &exec,
+         InputIterator first,
+         InputIterator last,
+         OutputType init,
+         BinaryFunction binary_op)
+{
+  return reduce_detail::tuned_reduce(exec, first, last, init, binary_op);
 } // end reduce()
+
+
+// use a general implementation for non-arithmetic types
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputType,
+         typename BinaryFunction>
+__host__ __device__
+typename thrust::detail::disable_if<
+  thrust::detail::is_arithmetic<OutputType>::value,
+  OutputType
+>::type
+  reduce(execution_policy<DerivedPolicy> &exec,
+         InputIterator first,
+         InputIterator last,
+         OutputType init,
+         BinaryFunction binary_op)
+{
+  return reduce_detail::general_reduce(exec, first, last, init, binary_op);
+} // end reduce()
+
 
 
 } // end reduce_detail
