@@ -229,9 +229,6 @@ T reduce(bulk::concurrent_group<> &g,
 {
   typedef int size_type;
 
-  const size_type groupsize = g.size();
-  typedef typename bulk::concurrent_group<>::agent_type agent_type;
-
   size_type tid = g.this_exec.index();
 
   T this_sum;
@@ -240,7 +237,7 @@ T reduce(bulk::concurrent_group<> &g,
 
   typename thrust::iterator_difference<RandomAccessIterator>::type n = last - first;
 
-  T *buffer = reinterpret_cast<T*>(bulk::malloc(g, groupsize * sizeof(T)));
+  T *buffer = reinterpret_cast<T*>(bulk::malloc(g, g.size() * sizeof(T)));
 
   for(size_type i = tid; i < n; i += g.size())
   {
@@ -259,7 +256,7 @@ T reduce(bulk::concurrent_group<> &g,
   g.wait();
 
   // reduce across the block
-  T result = detail::reduce_detail::destructive_reduce_n(g, buffer, thrust::min<size_type>(groupsize,n), init, binary_op);
+  T result = detail::reduce_detail::destructive_reduce_n(g, buffer, thrust::min<size_type>(g.size(),n), init, binary_op);
 
   bulk::free(g,buffer);
 
