@@ -121,10 +121,13 @@ typename thrust::detail::enable_if<
   // important special case which avoids the expensive for loop below
   if(chunk_size == n)
   {
-    for(size_type i = 0; i < grainsize; ++i)
+    // offset iterators by tid before loop
+    first += tid;
+    result += tid;
+
+    for(size_type i = 0; i < grainsize; ++i, first += size, result += size)
     {
-      size_type idx = size * i + tid;
-      result[idx] = first[idx];
+      *result = *first;
     } // end for
   } // end if
   else
