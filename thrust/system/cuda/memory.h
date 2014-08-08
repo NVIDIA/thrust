@@ -44,11 +44,11 @@ template<typename> class pointer;
 /*! \cond
  */
 
-// specialize std::iterator_traits to avoid problems with the name of
+// specialize thrust::iterator_traits to avoid problems with the name of
 // pointer's constructor shadowing its nested pointer type
 // do this before pointer is defined so the specialization is correctly
 // used inside the definition
-namespace std
+namespace thrust
 {
 
 template<typename Element>
@@ -65,7 +65,7 @@ template<typename Element>
     typedef typename ptr::reference               reference;
 }; // end iterator_traits
 
-} // end std
+} // end thrust
 
 /*! \endcond
  */
