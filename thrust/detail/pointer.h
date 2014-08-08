@@ -32,11 +32,11 @@ template<typename Element, typename Tag, typename Reference = use_default, typen
 } // end thrust
 
 
-// specialize std::iterator_traits to avoid problems with the name of
+// specialize thrust::iterator_traits to avoid problems with the name of
 // pointer's constructor shadowing its nested pointer type
 // do this before pointer is defined so the specialization is correctly
 // used inside the definition
-namespace std
+namespace thrust
 {
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
@@ -54,7 +54,7 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     typedef typename ptr::reference         reference;
 }; // end iterator_traits
 
-} // end std
+} // end thrust
 
 
 namespace thrust
