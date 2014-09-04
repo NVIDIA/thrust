@@ -34,7 +34,7 @@ namespace detail
 __host__ __device__
 inline device_properties_t device_properties_uncached(int device_id)
 {
-    device_properties_t prop = {0,{0,0,0},0,0,0,0,0,0,0};
+  device_properties_t prop = {0,{0,0,0},0,0,0,0,0,0,0};
 
   cudaError_t error = cudaErrorNoDevice;
 
