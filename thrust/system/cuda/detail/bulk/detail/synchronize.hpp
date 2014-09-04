@@ -36,6 +36,7 @@ void synchronize(const char* message = "")
   bulk::detail::throw_on_error(cudaDeviceSynchronize(), message);
 #else
   bulk::detail::terminate_with_message("cudaDeviceSynchronize() requires CUDART");
+  (void)message; // Avoid unused parameter warnings
 #endif
 } // end terminate()
 

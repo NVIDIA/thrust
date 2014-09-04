@@ -34,7 +34,7 @@ namespace detail
 __host__ __device__
 inline device_properties_t device_properties_uncached(int device_id)
 {
-  device_properties_t prop = {};
+    device_properties_t prop = {0,{0,0,0},0,0,0,0,0,0,0};
 
   cudaError_t error = cudaErrorNoDevice;
 
@@ -52,6 +52,8 @@ inline device_properties_t device_properties_uncached(int device_id)
   error = cudaDeviceGetAttribute(&temp,                             cudaDevAttrMaxSharedMemoryPerBlock,     device_id);
   prop.sharedMemPerBlock = temp;
   error = cudaDeviceGetAttribute(&prop.warpSize,                    cudaDevAttrWarpSize,                    device_id);
+#else
+  (void) device_id; // Surpress unused parameter warnings
 #endif
 
   throw_on_error(error, "cudaDeviceGetProperty in get_device_properties");
