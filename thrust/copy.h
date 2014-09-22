@@ -242,7 +242,8 @@ template<typename InputIterator, typename Size, typename OutputIterator>
 
 /*! This version of \p copy_if copies elements from the range <tt>[first,last)</tt>
  *  to a range beginning at \p result, except that any element which causes \p pred
- *  to be \c false is not copied.
+ *  to be \c false is not copied. \p copy_if is stable, meaning that the relative
+ *  order of elements that are copied is unchanged.
  *
  *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
  *  \p copy_if performs the assignment <tt>*result = *(first+n)</tt> and \p result
@@ -307,7 +308,8 @@ __host__ __device__
 
 /*! This version of \p copy_if copies elements from the range <tt>[first,last)</tt>
  *  to a range beginning at \p result, except that any element which causes \p pred
- *  to \c false is not copied.
+ *  to \c false is not copied. \p copy_if is stable, meaning that the relative
+ *  order of elements that are copied is unchanged.
  *
  *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
  *  \p copy_if performs the assignment <tt>*result = *(first+n)</tt> and \p result
@@ -366,7 +368,8 @@ template<typename InputIterator,
 
 /*! This version of \p copy_if copies elements from the range <tt>[first,last)</tt>
  *  to a range beginning at \p result, except that any element whose corresponding stencil
- *  element causes \p pred to be \c false is not copied.
+ *  element causes \p pred to be \c false is not copied. \p copy_if is stable, meaning
+ *  that the relative order of elements that are copied is unchanged.
  *
  *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
  *  \p copy_if performs the assignment <tt>*result = *(first+n)</tt> and \p result
@@ -436,7 +439,8 @@ __host__ __device__
 
 /*! This version of \p copy_if copies elements from the range <tt>[first,last)</tt>
  *  to a range beginning at \p result, except that any element whose corresponding stencil
- *  element causes \p pred to be \c false is not copied.
+ *  element causes \p pred to be \c false is not copied. \p copy_if is stable, meaning
+ *  that the relative order of elements that are copied is unchanged.
  *
  *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
  *  \p copy_if performs the assignment <tt>*result = *(first+n)</tt> and \p result
