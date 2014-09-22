@@ -241,8 +241,8 @@ template<typename InputIterator, typename Size, typename OutputIterator>
 
 
 /*! This version of \p copy_if copies elements from the range <tt>[first,last)</tt>
- *  to a range beginning at \ presult, except that any element which causes \p pred
- *  to be \p pred to be \c false is not copied.
+ *  to a range beginning at \p result, except that any element which causes \p pred
+ *  to be \c false is not copied.
  *
  *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
  *  \p copy_if performs the assignment <tt>*result = *(first+n)</tt> and \p result
@@ -306,8 +306,8 @@ __host__ __device__
 
 
 /*! This version of \p copy_if copies elements from the range <tt>[first,last)</tt>
- *  to a range beginning at \ presult, except that any element which causes \p pred
- *  to be \p pred to be \c false is not copied.
+ *  to a range beginning at \p result, except that any element which causes \p pred
+ *  to \c false is not copied.
  *
  *  More precisely, for every integer \c n such that <tt>0 <= n < last-first</tt>,
  *  \p copy_if performs the assignment <tt>*result = *(first+n)</tt> and \p result
