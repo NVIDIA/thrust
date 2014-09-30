@@ -60,7 +60,7 @@ class execute_on_stream_base
     {
       // create a copy of *this to return
       // make sure it is the derived type
-      DerivedPolicy result = thrust::detail::derived_cast<DerivedPolicy&>(*this);
+      DerivedPolicy result = thrust::detail::derived_cast(*this);
 
       // change the result's stream to s
       result.set_stream(s);
