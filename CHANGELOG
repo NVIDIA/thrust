@@ -8,11 +8,9 @@ Summary
     providing a parallel algorithms library to CUDA programmers authoring custom kernels, as well as allowing
     Thrust programmers to nest their algorithm calls within functors. The thrust::seq execution policy
     allows users to require sequential algorithm execution in the calling thread and makes a
-    sequential algorithms library available to individual CUDA threads. The .on(stream) syntax allows rog to
-    request a CUDA stream for kernels launched during algorithm execution. 
-
-    TODO
-    device-side Thrust, CUDA streams, thrust::seq, and faster algorithm implementations
+    sequential algorithms library available to individual CUDA threads. The .on(stream) syntax allows users to
+    request a CUDA stream for kernels launched during algorithm execution. Finally, new CUDA algorithm
+    implementations provide substantial performance improvements.
 
 Breaking API Changes
     None.
@@ -57,14 +55,11 @@ New Examples
     async_reduce demonstrates ways to achieve algorithm invocations which are asynchronous with the calling thread.
 
 Other Enhancements
-    CUDA scan performance is XXX faster.
-    CUDA reduce_by_key performance is XXX faster.
-    CUDA reduce performance is XXX faster.
-    CUDA merge performance is XXX faster.
-    CUDA sort performance for int 32 is XXX faster
-    CUDA sort performance for int 64 is XXX faster
-    CUDA sort performance for float 32 is XXX faster
-    CUDA sort performance for float 64 is XXX faster
+    CUDA sort performance for user-defined types is 300% faster on Tesla K20c for large problem sizes.
+    CUDA merge performance is 200% faster on Tesla K20c for large problem sizes.
+    CUDA sort performance for primitive types is 50% faster on Tesla K20c for large problem sizes.
+    CUDA reduce_by_key performance is 25% faster on Tesla K20c for large problem sizes.
+    CUDA scan performance is 15% faster on Tesla K20c for large problem sizes.
     fallback_allocator example is simpler.
 
 Bug Fixes
