@@ -202,7 +202,7 @@ void stable_radix_sort_n(execution_policy<DerivedPolicy> &exec, T* first, size_t
     // set up double buffer
     cub_::DoubleBuffer<T> double_buffer;
     double_buffer.d_buffers[0] = thrust::raw_pointer_cast(&*first);
-    double_buffer.d_buffers[1] = reinterpret_cast<T*>(thrust::raw_pointer_cast(&temporary_storage[0]));
+    double_buffer.d_buffers[1] = reinterpret_cast<T*>(reinterpret_cast<void*>(thrust::raw_pointer_cast(&temporary_storage[0])));
 
     thrust::system::cuda::detail::throw_on_error(cub_sort_keys_wrapper(thrust::raw_pointer_cast(&temporary_storage[offset_to_additional_temp_storage]),
                                                                        num_additional_temp_storage_bytes,
@@ -445,11 +445,11 @@ void stable_radix_sort_by_key_n(execution_policy<DerivedPolicy> &exec,
     // set up double buffers
     cub_::DoubleBuffer<Key> double_buffer_keys;
     double_buffer_keys.d_buffers[0] = thrust::raw_pointer_cast(&*first1);
-    double_buffer_keys.d_buffers[1] = reinterpret_cast<Key*>(thrust::raw_pointer_cast(&temporary_storage[0]));
+    double_buffer_keys.d_buffers[1] = reinterpret_cast<Key*>(reinterpret_cast<void*>(thrust::raw_pointer_cast(&temporary_storage[0])));
 
     cub_::DoubleBuffer<Value> double_buffer_values;
     double_buffer_values.d_buffers[0] = thrust::raw_pointer_cast(&*first2);
-    double_buffer_values.d_buffers[1] = reinterpret_cast<Value*>(thrust::raw_pointer_cast(&temporary_storage[offset_to_values_buffer]));
+    double_buffer_values.d_buffers[1] = reinterpret_cast<Value*>(reinterpret_cast<void*>(thrust::raw_pointer_cast(&temporary_storage[offset_to_values_buffer])));
 
     thrust::system::cuda::detail::throw_on_error(cub_sort_pairs_wrapper(thrust::raw_pointer_cast(&temporary_storage[offset_to_additional_temp_storage]),
                                                                         num_additional_temp_storage_bytes,
