@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <typeinfo>
 #include <unittest/system.h>
 
 namespace unittest
