@@ -23,7 +23,7 @@
 // push_macro & pop_macro were introduced to gcc in version 4.3
 
 
-#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40300)
+#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40300) || defined(__clang__)
 #  ifdef __host__
 #    pragma push_macro("__host__")
 #    undef __host__
@@ -40,7 +40,7 @@
 #include <cuda_runtime_api.h>
 
 
-#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40300)
+#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40300) || defined(__clang__)
 #  ifdef BULK_HOST_NEEDS_RESTORATION
 #    pragma pop_macro("__host__")
 #    undef BULK_HOST_NEEDS_RESTORATION
