@@ -71,6 +71,7 @@ template<typename Alloc, typename T>
     : has_member_construct1_impl<Alloc, void(T*)>
 {};
 
+__thrust_hd_warning_disable__
 template<typename Alloc, typename T>
   inline __host__ __device__
     typename enable_if<
