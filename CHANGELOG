@@ -73,6 +73,7 @@ Bug Fixes
     #417 avoid using std::less<T> in binary search algorithms
     #418 avoid various warnings
     #443 including version.h no longer configures default systems
+    #578 nvcc produces warnings when sequential algorithms are used with cpu systems
 
 Known Issues
     When invoked with primitive data types, thrust::sort, thrust::sort_by_key, thrust::stable_sort, & thrust::stable_sort_by_key may
