@@ -36,6 +36,7 @@ namespace sequential
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -86,6 +87,7 @@ __host__ __device__
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
