@@ -169,7 +169,7 @@ inline function_attributes_t function_attributes(KernelFunction kernel)
   typedef void (*fun_ptr_type)();
 
   fun_ptr_type fun_ptr = reinterpret_cast<fun_ptr_type>(kernel);
-  throw_on_error(cudaFuncGetAttributes(&attributes, fun_ptr), "cudaFuncGetAttributes in function_attributes");
+  throw_on_error(cudaFuncGetAttributes(&attributes, reinterpret_cast<void*>(fun_ptr)), "cudaFuncGetAttributes in function_attributes");
 
   // be careful about how this is initialized!
   function_attributes_t result = {

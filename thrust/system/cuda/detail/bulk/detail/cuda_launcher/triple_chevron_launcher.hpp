@@ -54,7 +54,7 @@ namespace detail
 // it primarily serves to choose (statically) which __global__ function is used as the kernel
 // sm_20+ devices have 4096 bytes of parameter space
 // http://docs.nvidia.com/cuda/cuda-c-programming-guide/#function-parameters
-template<unsigned int block_size, typename Function, bool by_value = (sizeof(Function) <= 4096)> class triple_chevron_launcher_base;
+template<unsigned int block_size, typename Function, bool by_value = (sizeof(Function) <= 4096)> struct triple_chevron_launcher_base;
 
 
 template<unsigned int block_size, typename Function>

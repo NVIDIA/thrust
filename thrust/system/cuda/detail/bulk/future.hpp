@@ -131,7 +131,7 @@ class future<void>
     } // end operator=()
 
   private:
-    friend class detail::future_core_access;
+    friend struct detail::future_core_access;
 
     __host__ __device__
     future(cudaStream_t s, bool owns_stream)

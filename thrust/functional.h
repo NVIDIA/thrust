@@ -364,11 +364,11 @@ struct divides
 }; // end divides
 
 /*! \p modulus is a function object. Specifically, it is an Adaptable Binary Function.
- *  If \c f is an object of class <tt>divides<T></tt>, and \c x and \c y are objects
- *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x%y</tt>.
+ *  If \c f is an object of class <tt>modulus<T></tt>, and \c x and \c y are objects
+ *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x \% y</tt>.
  *
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
- *          and if \c x and \c y are objects of type \p T, then <tt>x%y</tt> must be defined and must have a return type that is convertible to \c T.
+ *          and if \c x and \c y are objects of type \p T, then <tt>x \% y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>modulus</tt> to take
  *  the modulus of one device_vectors of \c floats by another.
