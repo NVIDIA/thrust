@@ -24,6 +24,7 @@
 #include <thrust/iterator/iterator_categories.h>
 #include <thrust/iterator/detail/iterator_traversal_tags.h>
 #include <thrust/iterator/detail/is_iterator_category.h>
+#include <thrust/iterator/detail/iterator_category_with_system_and_traversal.h>
 #include <thrust/iterator/detail/iterator_category_to_traversal.h>
 
 namespace thrust
@@ -32,29 +33,6 @@ namespace thrust
 namespace detail
 {
 
-template<typename Category, typename System, typename Traversal>
-  struct iterator_category_with_system_and_traversal
-    : Category
-{
-}; // end iterator_category_with_system_and_traversal
-
-// specialize iterator_category_to_system for iterator_category_with_system_and_traversal
-template<typename Category> struct iterator_category_to_system;
-
-template<typename Category, typename System, typename Traversal>
-  struct iterator_category_to_system<iterator_category_with_system_and_traversal<Category,System,Traversal> >
-{
-  typedef System type;
-}; // end iterator_category_to_system
-
-// specialize iterator_category_to_traversal for iterator_category_with_system_and_traversal
-template<typename Category> struct iterator_category_to_traversal;
-
-template<typename Category, typename System, typename Traversal>
-  struct iterator_category_to_traversal<iterator_category_with_system_and_traversal<Category,System,Traversal> >
-{
-  typedef Traversal type;
-}; // end iterator_category_to_traversal
 
 // adapted from http://www.boost.org/doc/libs/1_37_0/libs/iterator/doc/iterator_facade.html#iterator-category
 //
