@@ -318,7 +318,7 @@ struct WarpReduceShfl
         temp = ReduceStep(temp, reduction_op, last_lane, offset);
 
         return reinterpret_cast<_T&>(temp);
-    }
+    }
 
     /// Reduction step (specialized for types other than small integers size 32b or less)
     template <typename _T, typename ReductionOp>

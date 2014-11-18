@@ -277,7 +277,7 @@ struct WarpScanSmem
         T               &output,            ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOp          scan_op)            ///< [in] Binary scan operator
     {
-        InclusiveScan(input, output, scan_op, Int2Type<Traits<T>::PRIMITIVE>());    }
+        InclusiveScan(input, output, scan_op, Int2Type<Traits<T>::PRIMITIVE>());    }
 
 
     /// Inclusive scan with aggregate
