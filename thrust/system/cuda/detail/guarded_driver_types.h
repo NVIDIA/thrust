@@ -35,6 +35,15 @@
 #    undef __device__
 #    define THRUST_DEVICE_NEEDS_RESTORATION
 #  endif
+#else // GNUC pre 4.5.0
+#  if !defined(__DRIVER_TYPES_H__)
+#    ifdef __host__
+#      undef __host__
+#    endif
+#    ifdef __device__
+#      undef __device__
+#    endif
+#  endif // __DRIVER_TYPES_H__
 #endif // __GNUC__
 
 
