@@ -34,6 +34,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/iterator/detail/iterator_category_with_system_and_traversal.h>
 #include <thrust/iterator/detail/iterator_traversal_tags.h>
+#include <thrust/iterator/detail/device_system_tag.h>
 
 // #include this for stl's iterator tags
 #include <iterator>
