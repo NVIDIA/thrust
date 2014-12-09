@@ -21,7 +21,7 @@
 // warnings from redefinitions of __host__ and __device__.
 // carefully save their definitions and restore them
 // can't tell exactly when push_macro & pop_macro were introduced to gcc; assume 4.5.0
-
+// for pre 4.5.0, fall back to old behavior (undefine __host__/__device__ if CUDA's host_defines has not been included)
 
 #if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40500) || defined(__clang__)
 #  ifdef __host__
@@ -34,6 +34,15 @@
 #    undef __device__
 #    define BULK_DEVICE_NEEDS_RESTORATION
 #  endif
+#else // GNUC pre 4.5.0
+#  if !defined(__HOST_DEFINES_H__)
+#    ifdef __host__
+#      undef __host__
+#    endif
+#    ifdef __device__
+#      undef __device__
+#    endif
+#  endif // __HOST_DEFINES_H_
 #endif // __GNUC__
 
 

@@ -49,6 +49,9 @@ New Features
 
         // execute for_each sequentially in this thread
         thrust::for_each(thrust::seq, begin, end, my_functor);
+        
+    Other
+      The new thrust::complex template provides complex number support.
 
 New Examples
     simple_cuda_streams demonstrates how to request a CUDA stream during algorithm execution.
@@ -84,6 +87,7 @@ Known Issues
 Acknowledgments
     Thanks to Sean Baxter for contributing faster CUDA reduce, merge, and scan implementations.
     Thanks to Duane Merrill for contributing a faster CUDA radix sort implementation.
+    Thanks to Filipe Maia for contributing the implementation of thrust::complex.
 
 #######################################
 #           Thrust v1.7.2             #
