@@ -1,7 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/fill.h>
 #include <thrust/execution_policy.h>
-
+#include <algorithm>
 
 template<typename ExecutionPolicy, typename Iterator, typename T>
 __global__
