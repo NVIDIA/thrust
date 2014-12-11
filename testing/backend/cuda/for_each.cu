@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/for_each.h>
 #include <thrust/execution_policy.h>
+#include <algorithm>
 
 static const size_t NUM_REGISTERS = 64;
 
