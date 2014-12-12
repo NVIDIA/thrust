@@ -98,7 +98,7 @@ struct adjacent_difference_closure
     input_copy += context.block_index() - 1;
       
     // prime the temp values for all threads so we don't need to launch a default constructor
-    InputType next_left = (context.block_index() == 0) ? *input : *input_copy;
+    InputType next_left = (context.block_index() == 0) ? thrust::raw_reference_cast(*input) : thrust::raw_reference_cast(*input_copy);
 
     index_type base = range.begin();
     index_type i    = range.begin() + context.thread_index();
