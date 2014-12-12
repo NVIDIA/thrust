@@ -19,31 +19,32 @@
 
 // the purpose of this header is to #include <cuda_runtime_api> without causing
 // warnings from redefinitions of __host__ and __device__.
-// carefully save their definitions and restore them
-// can't tell exactly when push_macro & pop_macro were introduced to gcc; assume 4.5.0
-// for pre 4.5.0, fall back to old behavior (undefine __host__/__device__ if CUDA's host_defines has not been included)
+// we only do this if host_defines.h has not been included yet
+// we carefully save the definitions of __host__ & __device__ and restore them
+// if the compiler does not have push_macro & pop_macro, just undef __host__ & __device__ and hope for the best
 
-#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40500) || defined(__clang__)
-#  ifdef __host__
-#    pragma push_macro("__host__")
-#    undef __host__
-#    define BULK_HOST_NEEDS_RESTORATION
-#  endif
-#  ifdef __device__
-#    pragma push_macro("__device__")
-#    undef __device__
-#    define BULK_DEVICE_NEEDS_RESTORATION
-#  endif
-#else // GNUC pre 4.5.0
-#  if !defined(__HOST_DEFINES_H__)
+// can't tell exactly when push_macro & pop_macro were introduced to gcc; assume 4.5.0
+#if !defined(__HOST_DEFINES_H__)
+#  if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40500) || defined(__clang__)
+#    ifdef __host__
+#      pragma push_macro("__host__")
+#      undef __host__
+#      define BULK_HOST_NEEDS_RESTORATION
+#    endif
+#    ifdef __device__
+#      pragma push_macro("__device__")
+#      undef __device__
+#      define BULK_DEVICE_NEEDS_RESTORATION
+#    endif
+#  else // GNUC pre 4.5.0
 #    ifdef __host__
 #      undef __host__
 #    endif
 #    ifdef __device__
 #      undef __device__
 #    endif
-#  endif // __HOST_DEFINES_H_
-#endif // __GNUC__
+#  endif // has push/pop_macro
+#endif // __HOST_DEFINES_H__
 
 
 #include <cuda_runtime_api.h>
