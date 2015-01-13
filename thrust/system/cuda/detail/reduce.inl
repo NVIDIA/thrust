@@ -174,8 +174,11 @@ OutputType general_reduce(execution_policy<DerivedPolicy> &exec,
 
   if(partial_sums.size() > 1)
   {
+    // need to rechoose the group_size because the type of the kernel launch below differs from the first one
+    thrust::tie(num_groups, group_size) = bulk_::choose_sizes(bulk_::grid(1), reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
+
     // reduce the partial sums
-    bulk_::async(bulk_::grid(1, group_size, bulk_::use_default, s), reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
+    bulk_::async(bulk_::grid(num_groups, group_size, bulk_::use_default, s), reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
   } // end while
 
   return partial_sums[0];
