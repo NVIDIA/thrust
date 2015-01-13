@@ -743,6 +743,11 @@ DECLARE_VARIABLE_UNITTEST(TestTransformIfBinaryToDiscardIterator);
 template <class T>
   void TestTransformUnaryCountingIterator(size_t n)
 {
+    // GCC 4.4.x has a known failure with auto-vectorization (due to -O3 or -ftree-vectorize) of this test
+    // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43251
+#if (__GNUC__ * 10000 + __GNUC_MINOR__ * 100) == 40400
+    KNOWN_FAILURE;
+#else
     // be careful not to generate a range larger than we can represent
     n = thrust::min<size_t>(n, std::numeric_limits<T>::max());
 
@@ -754,14 +759,20 @@ template <class T>
 
     thrust::transform(h_first, h_first + n, h_result.begin(), thrust::identity<T>());
     thrust::transform(d_first, d_first + n, d_result.begin(), thrust::identity<T>());
-    
+
     ASSERT_EQUAL(h_result, d_result);
+#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformUnaryCountingIterator);
 
 template <typename T>
   void TestTransformBinaryCountingIterator(size_t n)
 {
+    // GCC 4.4.x has a known failure with auto-vectorization (due to -O3 or -ftree-vectorize) of this test
+    // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43251
+#if (__GNUC__ * 10000 + __GNUC_MINOR__ * 100) == 40400
+    KNOWN_FAILURE;
+#else
     // be careful not to generate a range larger than we can represent
     n = thrust::min<size_t>(n, std::numeric_limits<T>::max());
 
@@ -773,8 +784,9 @@ template <typename T>
 
     thrust::transform(h_first, h_first + n, h_first, h_result.begin(), thrust::plus<T>());
     thrust::transform(d_first, d_first + n, d_first, d_result.begin(), thrust::plus<T>());
-    
+
     ASSERT_EQUAL(h_result, d_result);
+#endif
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformBinaryCountingIterator);
 
