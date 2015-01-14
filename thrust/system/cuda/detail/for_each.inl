@@ -40,27 +40,52 @@ namespace for_each_n_detail
 {
 
 
-// XXX We could make the kernel simply take first & f as parameters marshalled through async
-//     The problem is that confuses -arch=sm_1x compilation -- it causes nvcc to think some
-//     local pointers are global instead, which leades to a crash. Wrapping up first & f
-//     manually in the functor WARs those problems.
-template<typename Iterator, typename Function>
 struct for_each_kernel
 {
-  Iterator first;
-  Function f;
-
+  template<typename Iterator, typename Function, typename Size>
   __host__ __device__
-  for_each_kernel(Iterator first, Function f)
-    : first(first), f(f)
-  {}
-
-  __host__ __device__
-  void operator()(bulk_::agent<> &self)
+  void operator()(bulk_::parallel_group<bulk_::concurrent_group<> > &grid, Iterator first, Function f, Size n)
   {
-    f(first[self.index()]);
+    Size grid_size = grid.size() * grid.this_exec.size();
+
+    Size i = grid.this_exec.index() * grid.this_exec.size() + grid.this_exec.this_exec.index();
+
+    first += i;
+
+    while(i < n)
+    {
+      f(*first);
+      i += grid_size;
+      first += grid_size;
+    }
   }
 };
+
+
+template<typename Size>
+__host__ __device__
+bool use_wide_counter(Size n, unsigned int narrow_grid_size)
+{
+  // use the wide counter when n will not fit within an unsigned int
+  // or if incrementing an unsigned int by narrow_grid_size would overflow
+  // the counter
+  Size threshold = static_cast<Size>(UINT_MAX);
+
+  bool result = (sizeof(Size) > sizeof(unsigned int)) && (n > threshold);
+
+  if(!result)
+  {
+    // check if we'd overflow the little closure's counter
+    unsigned int narrow_n = static_cast<unsigned int>(n);
+
+    if((narrow_n - 1u) + narrow_grid_size < narrow_n)
+    {
+      result = true;
+    }
+  }
+
+  return result;
+}
 
 
 } // end for_each_n_detail
@@ -88,14 +113,35 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
     __host__ __device__
     static RandomAccessIterator parallel_path(execution_policy<DerivedPolicy> &exec, RandomAccessIterator first, Size n, UnaryFunction f)
     {
-      typedef for_each_n_detail::for_each_kernel<
-        RandomAccessIterator,
-        thrust::detail::wrapped_function<UnaryFunction,void>
-      > kernel_type;
+      thrust::detail::wrapped_function<UnaryFunction,void> wrapped_f(f);
 
-      kernel_type kernel(first,f);
+      // opportunistically narrow the type of n
 
-      bulk_::async(bulk_::par(stream(thrust::detail::derived_cast(exec)), n), kernel, bulk_::root.this_exec);
+      unsigned int narrow_n = static_cast<unsigned int>(n);
+      unsigned int narrow_num_groups = 0;
+      unsigned int narrow_group_size = 0;
+
+      // automatically choose a number of groups and a group size
+      thrust::tie(narrow_num_groups, narrow_group_size) = bulk_::choose_sizes(bulk_::grid(), for_each_n_detail::for_each_kernel(), bulk_::root, first, wrapped_f, narrow_n);
+
+      // do we need to use the wider type?
+      if(for_each_n_detail::use_wide_counter(n, narrow_num_groups * narrow_group_size))
+      {
+        Size num_groups = 0;
+        Size group_size = 0;
+        thrust::tie(num_groups, group_size) = bulk_::choose_sizes(bulk_::grid(), for_each_n_detail::for_each_kernel(), bulk_::root, first, wrapped_f, n);
+
+        num_groups = thrust::min<Size>(num_groups, thrust::detail::util::divide_ri(n, group_size));
+
+        bulk_::async(bulk_::grid(num_groups,group_size), for_each_n_detail::for_each_kernel(), bulk_::root, first, wrapped_f, n);
+      }
+      else
+      {
+        // we can use the narrower type for n
+        narrow_num_groups = thrust::min<unsigned int>(narrow_num_groups, thrust::detail::util::divide_ri(narrow_n, narrow_group_size));
+
+        bulk_::async(bulk_::grid(narrow_num_groups,narrow_group_size), for_each_n_detail::for_each_kernel(), bulk_::root, first, wrapped_f, narrow_n);
+      }
 
       return first + n;
     }
