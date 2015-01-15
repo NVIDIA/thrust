@@ -55,7 +55,7 @@ template<typename RandomAccessIterator,
 
       __host__ __device__
       tail_flag_functor(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
-        : binary_pred(binary_pred), iter(iter), n(last - first)
+        : binary_pred(binary_pred), iter(first), n(last - first)
       {}
 
       __host__ __device__ __thrust_forceinline__
