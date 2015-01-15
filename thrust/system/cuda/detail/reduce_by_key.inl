@@ -221,7 +221,8 @@ struct intermediate_type
 {};
 
 
-template<typename DerivedPolicy,
+template<typename Size,
+         typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
@@ -241,7 +242,7 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
 {
   typedef typename thrust::iterator_difference<InputIterator1>::type difference_type;
   typedef typename thrust::iterator_value<InputIterator2>::type      value_type;
-  typedef int size_type;
+  typedef Size size_type;
 
   const difference_type n = keys_last - keys_first;
 
@@ -329,6 +330,55 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
   difference_type result_size = interval_output_offsets[interval_output_offsets.size() - 1];
 
   return thrust::make_pair(keys_result + result_size, values_result + result_size);
+} // end reduce_by_key()
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
+__host__ __device__
+thrust::pair<OutputIterator1,OutputIterator2>
+reduce_by_key(execution_policy<DerivedPolicy> &exec,
+              InputIterator1 keys_first, 
+              InputIterator1 keys_last,
+              InputIterator2 values_first,
+              OutputIterator1 keys_result,
+              OutputIterator2 values_result,
+              BinaryPredicate binary_pred,
+              BinaryFunction binary_op)
+{
+  thrust::pair<OutputIterator1,OutputIterator2> result(keys_result, values_result);
+
+  typedef typename thrust::iterator_difference<InputIterator1>::type difference_type;
+
+  // opportunistically use a narrower type for counting when possible 
+  // this is a significant performance optimization in the range of 10-15%
+  if(keys_last - keys_first <= static_cast<difference_type>(UINT_MAX))
+  {
+    result = reduce_by_key_detail::reduce_by_key<unsigned int>(exec,
+                                                               keys_first, keys_last,
+                                                               values_first,
+                                                               keys_result,
+                                                               values_result,
+                                                               binary_pred,
+                                                               binary_op);
+  } // end if
+  else
+  {
+    result = reduce_by_key_detail::reduce_by_key<difference_type>(exec,
+                                                                  keys_first, keys_last,
+                                                                  values_first,
+                                                                  keys_result,
+                                                                  values_result,
+                                                                  binary_pred,
+                                                                  binary_op);
+  } // end else
+
+  return result;
 } // end reduce_by_key()
 
 
