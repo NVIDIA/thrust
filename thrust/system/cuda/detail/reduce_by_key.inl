@@ -16,6 +16,8 @@
 
 
 #include <thrust/detail/config.h>
+#include <thrust/reduce.h>
+#include <thrust/detail/seq.h>
 #include <thrust/system/cuda/detail/reduce_by_key.h>
 #include <thrust/system/cuda/detail/bulk.h>
 #include <thrust/functional.h>
@@ -39,11 +41,6 @@ namespace detail
 {
 namespace reduce_by_key_detail
 {
-
-
-// avoid accidentally picking up some other installation of bulk that
-// may be floating around
-namespace bulk_ = thrust::system::cuda::detail::bulk;
 
 
 struct reduce_by_key_kernel
@@ -182,6 +179,7 @@ template<typename DerivedPolicy,
          typename Iterator3,
          typename Iterator4,
          typename BinaryFunction>
+__host__ __device__
 void sum_tail_carries(execution_policy<DerivedPolicy> &exec,
                       Iterator1 interval_values_first,
                       Iterator1 interval_values_last,
@@ -223,16 +221,15 @@ struct intermediate_type
 {};
 
 
-} // end namespace reduce_by_key_detail
-
-
-template<typename DerivedPolicy,
+template<typename Size,
+         typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
          typename OutputIterator1,
          typename OutputIterator2,
          typename BinaryPredicate,
          typename BinaryFunction>
+__host__ __device__
 thrust::pair<OutputIterator1,OutputIterator2>
 reduce_by_key(execution_policy<DerivedPolicy> &exec,
               InputIterator1 keys_first, 
@@ -243,11 +240,9 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
               BinaryPredicate binary_pred,
               BinaryFunction binary_op)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename thrust::iterator_difference<InputIterator1>::type difference_type;
   typedef typename thrust::iterator_value<InputIterator2>::type      value_type;
-  typedef int size_type;
+  typedef Size size_type;
 
   const difference_type n = keys_last - keys_first;
 
@@ -290,7 +285,7 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
 
   size_type subscription = 100;
   size_type num_groups = thrust::min<size_type>(subscription * bulk_::concurrent_group<>::hardware_concurrency(), (n + interval_size - 1) / interval_size);
-  uniform_decomposition<size_type> decomp(n, num_groups);
+  aligned_decomposition<size_type> decomp(n, num_groups, tile_size);
 
   // count the number of tail flags in each interval
   thrust::detail::tail_flags<
@@ -335,6 +330,122 @@ reduce_by_key(execution_policy<DerivedPolicy> &exec,
   difference_type result_size = interval_output_offsets[interval_output_offsets.size() - 1];
 
   return thrust::make_pair(keys_result + result_size, values_result + result_size);
+} // end reduce_by_key()
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
+__host__ __device__
+thrust::pair<OutputIterator1,OutputIterator2>
+reduce_by_key(execution_policy<DerivedPolicy> &exec,
+              InputIterator1 keys_first, 
+              InputIterator1 keys_last,
+              InputIterator2 values_first,
+              OutputIterator1 keys_result,
+              OutputIterator2 values_result,
+              BinaryPredicate binary_pred,
+              BinaryFunction binary_op)
+{
+  thrust::pair<OutputIterator1,OutputIterator2> result(keys_result, values_result);
+
+  typedef typename thrust::iterator_difference<InputIterator1>::type difference_type;
+
+  // opportunistically use a narrower type for counting when possible 
+  // this is a significant performance optimization in the range of 10-15%
+  if(keys_last - keys_first <= static_cast<difference_type>(UINT_MAX))
+  {
+    result = reduce_by_key_detail::reduce_by_key<unsigned int>(exec,
+                                                               keys_first, keys_last,
+                                                               values_first,
+                                                               keys_result,
+                                                               values_result,
+                                                               binary_pred,
+                                                               binary_op);
+  } // end if
+  else
+  {
+    result = reduce_by_key_detail::reduce_by_key<difference_type>(exec,
+                                                                  keys_first, keys_last,
+                                                                  values_first,
+                                                                  keys_result,
+                                                                  values_result,
+                                                                  binary_pred,
+                                                                  binary_op);
+  } // end else
+
+  return result;
+} // end reduce_by_key()
+
+
+} // end namespace reduce_by_key_detail
+
+
+template<typename DerivedPolicy,
+         typename InputIterator1,
+         typename InputIterator2,
+         typename OutputIterator1,
+         typename OutputIterator2,
+         typename BinaryPredicate,
+         typename BinaryFunction>
+__host__ __device__
+thrust::pair<OutputIterator1,OutputIterator2>
+reduce_by_key(execution_policy<DerivedPolicy> &exec,
+              InputIterator1 keys_first, 
+              InputIterator1 keys_last,
+              InputIterator2 values_first,
+              OutputIterator1 keys_result,
+              OutputIterator2 values_result,
+              BinaryPredicate binary_pred,
+              BinaryFunction binary_op)
+{
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
+  struct workaround
+  {
+    static __host__ __device__
+    thrust::pair<OutputIterator1,OutputIterator2>
+    parallel_path(execution_policy<DerivedPolicy> &exec,
+                  InputIterator1 keys_first,
+                  InputIterator1 keys_last,
+                  InputIterator2 values_first,
+                  OutputIterator1 keys_result,
+                  OutputIterator2 values_result,
+                  BinaryPredicate binary_pred,
+                  BinaryFunction binary_op)
+    {
+      return thrust::system::cuda::detail::reduce_by_key_detail::reduce_by_key(exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+    }
+
+    static __host__ __device__
+    thrust::pair<OutputIterator1,OutputIterator2>
+    sequential_path(execution_policy<DerivedPolicy> &,
+                    InputIterator1 keys_first,
+                    InputIterator1 keys_last,
+                    InputIterator2 values_first,
+                    OutputIterator1 keys_result,
+                    OutputIterator2 values_result,
+                    BinaryPredicate binary_pred,
+                    BinaryFunction binary_op)
+    {
+      return thrust::reduce_by_key(thrust::seq, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+#else
+  return workaround::sequential_path(exec, keys_first, keys_last, values_first, keys_result, values_result, binary_pred, binary_op);
+#endif
 } // end reduce_by_key()
 
 

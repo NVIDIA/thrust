@@ -43,23 +43,24 @@ RandomAccessIterator2 copy_n(const bounded<bound,agent<grainsize> > &b,
 
   if(bound <= n)
   {
-    for(size_type i = 0; i < b.bound(); ++i)
+    for(size_type i = 0; i < b.bound(); ++i, ++result, ++first)
     {
-      result[i] = first[i];
+      *result = *first;
     } // end for i
   } // end if
   else
   {
-    for(size_type i = 0; i < b.bound(); ++i)
+    for(size_type i = 0; i < b.bound(); ++i, ++first)
     {
       if(i < n)
       {
-        result[i] = first[i];
+        *result = *first;
+        ++result;
       } // end if
     } // end for i
   } // end else
 
-  return result + n;
+  return result;
 } // end copy_n()
 
 
@@ -120,10 +121,13 @@ typename thrust::detail::enable_if<
   // important special case which avoids the expensive for loop below
   if(chunk_size == n)
   {
-    for(size_type i = 0; i < grainsize; ++i)
+    // offset iterators by tid before loop
+    first += tid;
+    result += tid;
+
+    for(size_type i = 0; i < grainsize; ++i, first += size, result += size)
     {
-      size_type idx = size * i + tid;
-      result[idx] = first[idx];
+      *result = *first;
     } // end for
   } // end if
   else

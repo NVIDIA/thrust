@@ -33,14 +33,17 @@ namespace cuda
 namespace detail
 {
 
-template <typename DerivedPolicy,
-          typename InputIterator,
-          typename OutputIterator,
-          typename BinaryFunction>
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename BinaryFunction>
+__host__ __device__
 OutputIterator adjacent_difference(execution_policy<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last,
                                    OutputIterator result,
                                    BinaryFunction binary_op);
+
 
 } // end namespace detail
 } // end namespace cuda

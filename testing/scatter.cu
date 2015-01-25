@@ -5,7 +5,7 @@
 #include <thrust/iterator/retag.h>
 #include <thrust/sequence.h>
 #include <thrust/fill.h>
-
+#include <algorithm>
 
 template <class Vector>
 void TestScatterSimple(void)

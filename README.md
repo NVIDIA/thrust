@@ -58,7 +58,7 @@ int main(void)
 {
   // generate random data serially
   thrust::host_vector<int> h_vec(100);
-  std:generate(h_vec.begin(), h_vec.end(), rand);
+  std::generate(h_vec.begin(), h_vec.end(), rand);
 
   // transfer to device and compute sum
   thrust::device_vector<int> d_vec = h_vec;

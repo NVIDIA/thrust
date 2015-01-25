@@ -62,6 +62,15 @@ typename thrust::detail::disable_if<
 template<typename T, typename System>
 __host__ __device__
   temporary_array<T,System>
+    ::temporary_array(thrust::execution_policy<System> &system)
+      :super_t(alloc_type(temporary_allocator<T,System>(system)))
+{
+} // end temporary_array::temporary_array()
+
+
+template<typename T, typename System>
+__host__ __device__
+  temporary_array<T,System>
     ::temporary_array(thrust::execution_policy<System> &system, size_type n)
       :super_t(n, alloc_type(temporary_allocator<T,System>(system)))
 {

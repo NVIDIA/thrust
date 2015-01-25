@@ -36,14 +36,16 @@ namespace detail
 namespace detail
 {
 
+
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
-                                       InputIterator begin, 
-                                       InputIterator end, 
-                                       OutputIterator result,
-                                       thrust::detail::false_type)
+__host__ __device__
+OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
+                                     InputIterator begin, 
+                                     InputIterator end, 
+                                     OutputIterator result,
+                                     thrust::detail::false_type)
 {
     // general case (mixed types)
     typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
@@ -73,52 +75,57 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
-                                       InputIterator begin, 
-                                       InputIterator end, 
-                                       OutputIterator result,
-                                       thrust::detail::true_type)
+__host__ __device__
+OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
+                                     InputIterator begin, 
+                                     InputIterator end, 
+                                     OutputIterator result,
+                                     thrust::detail::true_type)
 {
-    // specialization for device to device when the value_types match, operator= is not overloaded,
-    // and the iterators are pointers
-
-    // how many elements to copy?
-    typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
-
-    thrust::system::cuda::detail::trivial_copy_n(exec, begin, n, result);
-
-    return result + n;
+  // specialization for device to device when the value_types match, operator= is not overloaded,
+  // and the iterators are pointers
+  
+  // how many elements to copy?
+  typename thrust::iterator_traits<OutputIterator>::difference_type n = end - begin;
+  
+  thrust::system::cuda::detail::trivial_copy_n(exec, begin, n, result);
+  
+  return result + n;
 }
 
+
 } // end namespace detail
+
 
 /////////////////
 // Entry Point //
 /////////////////
 
+
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
-                                       InputIterator begin, 
-                                       InputIterator end, 
-                                       OutputIterator result)
+__host__ __device__
+OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
+                                     InputIterator begin, 
+                                     InputIterator end, 
+                                     OutputIterator result)
 {
-    typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
-    typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-
-    const bool use_trivial_copy = 
-        thrust::detail::is_same<InputType, OutputType>::value
-        && thrust::detail::is_trivial_iterator<InputIterator>::value 
-        && thrust::detail::is_trivial_iterator<OutputIterator>::value;
-
-    // XXX WAR unused variable warning
-    (void) use_trivial_copy;
-
-    return detail::copy_device_to_device(exec, begin, end, result,
-            thrust::detail::integral_constant<bool, use_trivial_copy>());
-
+  typedef typename thrust::iterator_traits<InputIterator>::value_type InputType;
+  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
+  
+  const bool use_trivial_copy = 
+      thrust::detail::is_same<InputType, OutputType>::value
+      && thrust::detail::is_trivial_iterator<InputIterator>::value 
+      && thrust::detail::is_trivial_iterator<OutputIterator>::value;
+  
+  // XXX WAR unused variable warning
+  (void) use_trivial_copy;
+  
+  return detail::copy_device_to_device(exec, begin, end, result,
+          thrust::detail::integral_constant<bool, use_trivial_copy>());
 }
+
 
 } // end namespace detail
 } // end namespace cuda

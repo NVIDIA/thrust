@@ -3,15 +3,16 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Function, typename Iterator3>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Function, typename Iterator3>
 __global__
-void transform_kernel(Iterator1 first, Iterator1 last, Iterator2 result1, Function f, Iterator3 result2)
+void transform_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result1, Function f, Iterator3 result2)
 {
-  *result2 = thrust::transform(thrust::seq, first, last, result1, f);
+  *result2 = thrust::transform(exec, first, last, result1, f);
 }
 
 
-void TestTransformUnaryDeviceSeq()
+template<typename ExecutionPolicy>
+void TestTransformUnaryDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::value_type T;
@@ -26,24 +27,36 @@ void TestTransformUnaryDeviceSeq()
 
   thrust::device_vector<typename Vector::iterator> iter_vec(1);
   
-  transform_kernel<<<1,1>>>(input.begin(), input.end(), output.begin(), thrust::negate<T>(), iter_vec.begin());
+  transform_kernel<<<1,1>>>(exec, input.begin(), input.end(), output.begin(), thrust::negate<T>(), iter_vec.begin());
   iter = iter_vec[0];
   
   ASSERT_EQUAL(iter - output.begin(), input.size());
   ASSERT_EQUAL(output, result);
 }
+
+void TestTransformUnaryDeviceSeq()
+{
+  TestTransformUnaryDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestTransformUnaryDeviceSeq);
 
-
-template<typename Iterator1, typename Iterator2, typename Function, typename Predicate, typename Iterator3>
-__global__
-void transform_if_kernel(Iterator1 first, Iterator1 last, Iterator2 result1, Function f, Predicate pred, Iterator3 result2)
+void TestTransformUnaryDeviceDevice()
 {
-  *result2 = thrust::transform_if(thrust::seq, first, last, result1, f, pred);
+  TestTransformUnaryDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestTransformUnaryDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Function, typename Predicate, typename Iterator3>
+__global__
+void transform_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result1, Function f, Predicate pred, Iterator3 result2)
+{
+  *result2 = thrust::transform_if(exec, first, last, result1, f, pred);
 }
 
 
-void TestTransformIfUnaryNoStencilDeviceSeq()
+template<typename ExecutionPolicy>
+void TestTransformIfUnaryNoStencilDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::value_type T;
@@ -60,7 +73,8 @@ void TestTransformIfUnaryNoStencilDeviceSeq()
 
   thrust::device_vector<typename Vector::iterator> iter_vec(1);
   
-  transform_if_kernel<<<1,1>>>(input.begin(), input.end(),
+  transform_if_kernel<<<1,1>>>(exec,
+                               input.begin(), input.end(),
                                output.begin(),
                                thrust::negate<T>(),
                                thrust::identity<T>(),
@@ -70,18 +84,30 @@ void TestTransformIfUnaryNoStencilDeviceSeq()
   ASSERT_EQUAL(iter - output.begin(), input.size());
   ASSERT_EQUAL(output, result);
 }
+
+void TestTransformIfUnaryNoStencilDeviceSeq()
+{
+  TestTransformIfUnaryNoStencilDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestTransformIfUnaryNoStencilDeviceSeq);
 
-
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Function, typename Predicate, typename Iterator4>
-__global__
-void transform_if_kernel(Iterator1 first, Iterator1 last, Iterator2 stencil_first, Iterator3 result1, Function f, Predicate pred, Iterator4 result2)
+void TestTransformIfUnaryNoStencilDeviceDevice()
 {
-  *result2 = thrust::transform_if(thrust::seq, first, last, stencil_first, result1, f, pred);
+  TestTransformIfUnaryNoStencilDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestTransformIfUnaryNoStencilDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Function, typename Predicate, typename Iterator4>
+__global__
+void transform_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 stencil_first, Iterator3 result1, Function f, Predicate pred, Iterator4 result2)
+{
+  *result2 = thrust::transform_if(exec, first, last, stencil_first, result1, f, pred);
 }
 
 
-void TestTransformIfUnaryDeviceSeq()
+template<typename ExecutionPolicy>
+void TestTransformIfUnaryDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::value_type T;
@@ -97,28 +123,46 @@ void TestTransformIfUnaryDeviceSeq()
   output[0]  =  1; output[1]  =  2; output[2]  =  3; 
   stencil[0] =  1; stencil[1] =  0; stencil[2] =  1;
   result[0]  = -1; result[1]  =  2; result[2]  = -3;
+
+  thrust::device_vector<typename Vector::iterator> iter_vec(1);
   
-  iter = thrust::transform_if(input.begin(), input.end(),
-                              stencil.begin(),
-                              output.begin(),
-                              thrust::negate<T>(),
-                              thrust::identity<T>());
+  transform_if_kernel<<<1,1>>>(exec,
+                               input.begin(), input.end(),
+                               stencil.begin(),
+                               output.begin(),
+                               thrust::negate<T>(),
+                               thrust::identity<T>(),
+                               iter_vec.begin());
+
+  iter = iter_vec[0];
   
   ASSERT_EQUAL(iter - output.begin(), input.size());
   ASSERT_EQUAL(output, result);
 }
+
+void TestTransformIfUnaryDeviceSeq()
+{
+  TestTransformIfUnaryDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestTransformIfUnaryDeviceSeq);
 
-
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Function, typename Iterator4>
-__global__
-void transform_kernel(Iterator1 first1, Iterator1 last1, Iterator2 first2, Iterator3 result1, Function f, Iterator4 result2)
+void TestTransformIfUnaryDeviceDevice()
 {
-  *result2 = thrust::transform(thrust::seq, first1, last1, first2, result1, f);
+  TestTransformIfUnaryDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestTransformIfUnaryDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Function, typename Iterator4>
+__global__
+void transform_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, Iterator3 result1, Function f, Iterator4 result2)
+{
+  *result2 = thrust::transform(exec, first1, last1, first2, result1, f);
 }
 
 
-void TestTransformBinaryDeviceSeq()
+template<typename ExecutionPolicy>
+void TestTransformBinaryDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::value_type T;
@@ -135,24 +179,36 @@ void TestTransformBinaryDeviceSeq()
 
   thrust::device_vector<typename Vector::iterator> iter_vec(1);
   
-  transform_kernel<<<1,1>>>(input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>(), iter_vec.begin());
+  transform_kernel<<<1,1>>>(exec, input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>(), iter_vec.begin());
   iter = iter_vec[0];
   
   ASSERT_EQUAL(iter - output.begin(), input1.size());
   ASSERT_EQUAL(output, result);
 }
+
+void TestTransformBinaryDeviceSeq()
+{
+  TestTransformBinaryDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestTransformBinaryDeviceSeq);
 
-
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Function, typename Predicate, typename Iterator5>
-__global__
-void transform_if_kernel(Iterator1 first1, Iterator1 last1, Iterator2 first2, Iterator3 stencil_first, Iterator4 result1, Function f, Predicate pred, Iterator5 result2)
+void TestTransformBinaryDeviceDevice()
 {
-  *result2 = thrust::transform_if(thrust::seq, first1, last1, first2, stencil_first, result1, f, pred);
+  TestTransformBinaryDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestTransformBinaryDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Function, typename Predicate, typename Iterator5>
+__global__
+void transform_if_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last1, Iterator2 first2, Iterator3 stencil_first, Iterator4 result1, Function f, Predicate pred, Iterator5 result2)
+{
+  *result2 = thrust::transform_if(exec, first1, last1, first2, stencil_first, result1, f, pred);
 }
 
 
-void TestTransformIfBinaryDeviceSeq()
+template<typename ExecutionPolicy>
+void TestTransformIfBinaryDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::value_type T;
@@ -172,19 +228,34 @@ void TestTransformIfBinaryDeviceSeq()
   result[0]  =  5; result[1]  =  2; result[2]  = -3;
   
   thrust::identity<T> identity;
+
+  thrust::device_vector<typename Vector::iterator> iter_vec(1);
   
-  iter = thrust::transform_if(input1.begin(), input1.end(),
-                              input2.begin(),
-                              stencil.begin(),
-                              output.begin(),
-                              thrust::minus<T>(),
-                              thrust::not1(identity));
+  transform_if_kernel<<<1,1>>>(exec,
+                               input1.begin(), input1.end(),
+                               input2.begin(),
+                               stencil.begin(),
+                               output.begin(),
+                               thrust::minus<T>(),
+                               thrust::not1(identity),
+                               iter_vec.begin());
+  iter = iter_vec[0];
   
   ASSERT_EQUAL(iter - output.begin(), input1.size());
   ASSERT_EQUAL(output, result);
 }
+
+void TestTransformIfBinaryDeviceSeq()
+{
+  TestTransformIfBinaryDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestTransformIfBinaryDeviceSeq);
 
+void TestTransformIfBinaryDeviceDevice()
+{
+  TestTransformIfBinaryDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestTransformIfBinaryDeviceDevice);
 
 void TestTransformUnaryCudaStreams()
 {
@@ -202,7 +273,7 @@ void TestTransformUnaryCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  iter = thrust::transform(thrust::cuda::par(s), input.begin(), input.end(), output.begin(), thrust::negate<T>());
+  iter = thrust::transform(thrust::cuda::par.on(s), input.begin(), input.end(), output.begin(), thrust::negate<T>());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(iter - output.begin(), input.size());
@@ -231,7 +302,7 @@ void TestTransformBinaryCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  iter = thrust::transform(thrust::cuda::par(s), input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
+  iter = thrust::transform(thrust::cuda::par.on(s), input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(iter - output.begin(), input1.size());

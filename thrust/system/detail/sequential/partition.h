@@ -47,6 +47,7 @@ namespace sequential
 {
 
 
+__thrust_hd_warning_disable__
 template<typename ForwardIterator1,
          typename ForwardIterator2>
 __host__ __device__
@@ -63,6 +64,7 @@ void iter_swap(ForwardIterator1 iter1, ForwardIterator2 iter2)
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
@@ -102,6 +104,7 @@ __host__ __device__
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
@@ -151,6 +154,7 @@ __host__ __device__
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
@@ -197,6 +201,7 @@ __host__ __device__
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
@@ -247,6 +252,7 @@ __host__ __device__
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator1,
@@ -285,6 +291,7 @@ __host__ __device__
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,

@@ -4,11 +4,11 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Predicate, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
 __global__
-void partition_kernel(Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
+void partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
 {
-  *result = thrust::partition(thrust::seq, first, last, pred);
+  *result = thrust::partition(exec, first, last, pred);
 }
 
 
@@ -20,7 +20,8 @@ struct is_even
 };
 
 
-void TestPartitionDeviceSeq(void)
+template<typename ExecutionPolicy>
+void TestPartitionDevice(ExecutionPolicy exec)
 {
   typedef int T;
   typedef typename thrust::device_vector<T>::iterator iterator;
@@ -34,7 +35,7 @@ void TestPartitionDeviceSeq(void)
 
   thrust::device_vector<iterator> result(1);
   
-  partition_kernel<<<1,1>>>(data.begin(), data.end(), is_even<T>(), result.begin());
+  partition_kernel<<<1,1>>>(exec, data.begin(), data.end(), is_even<T>(), result.begin());
   
   thrust::device_vector<T> ref(5);
   ref[0] = 2;
@@ -46,18 +47,32 @@ void TestPartitionDeviceSeq(void)
   ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
   ASSERT_EQUAL(ref, data);
 }
+
+
+void TestPartitionDeviceSeq()
+{
+  TestPartitionDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestPartitionDeviceSeq);
 
 
-template<typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3>
-__global__
-void partition_kernel(Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result)
+void TestPartitionDeviceDevice()
 {
-  *result = thrust::partition(thrust::seq, first, last, stencil_first, pred);
+  TestPartitionDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestPartitionDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3>
+__global__
+void partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result)
+{
+  *result = thrust::partition(exec, first, last, stencil_first, pred);
 }
 
 
-void TestPartitionStencilDeviceSeq()
+template<typename ExecutionPolicy>
+void TestPartitionStencilDevice(ExecutionPolicy exec)
 {
   typedef int T;
   typedef typename thrust::device_vector<T>::iterator iterator;
@@ -78,7 +93,7 @@ void TestPartitionStencilDeviceSeq()
 
   thrust::device_vector<iterator> result(1);
   
-  partition_kernel<<<1,1>>>(data.begin(), data.end(), stencil.begin(), is_even<T>(), result.begin());
+  partition_kernel<<<1,1>>>(exec, data.begin(), data.end(), stencil.begin(), is_even<T>(), result.begin());
   
   thrust::device_vector<T> ref(5);
   ref[0] = 1;
@@ -90,18 +105,32 @@ void TestPartitionStencilDeviceSeq()
   ASSERT_EQUAL(2, (iterator)result[0] - data.begin());
   ASSERT_EQUAL(ref, data);
 }
+
+
+void TestPartitionStencilDeviceSeq()
+{
+  TestPartitionStencilDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestPartitionStencilDeviceSeq);
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename Iterator4>
-__global__
-void partition_copy_kernel(Iterator1 first, Iterator1 last, Iterator2 true_result, Iterator3 false_result, Predicate pred, Iterator4 result)
+void TestPartitionStencilDeviceDevice()
 {
-  *result = thrust::partition_copy(thrust::seq, first, last, true_result, false_result, pred);
+  TestPartitionStencilDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestPartitionStencilDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename Iterator4>
+__global__
+void partition_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 true_result, Iterator3 false_result, Predicate pred, Iterator4 result)
+{
+  *result = thrust::partition_copy(exec, first, last, true_result, false_result, pred);
 }
 
 
-void TestPartitionCopyDeviceSeq()
+template<typename ExecutionPolicy>
+void TestPartitionCopyDevice(ExecutionPolicy exec)
 {
   typedef int T;
   typedef thrust::device_vector<T>::iterator iterator;
@@ -119,7 +148,7 @@ void TestPartitionCopyDeviceSeq()
   typedef thrust::pair<iterator,iterator> pair_type;
   thrust::device_vector<pair_type> iterators(1);
   
-  partition_copy_kernel<<<1,1>>>(data.begin(), data.end(), true_results.begin(), false_results.begin(), is_even<T>(), iterators.begin());
+  partition_copy_kernel<<<1,1>>>(exec, data.begin(), data.end(), true_results.begin(), false_results.begin(), is_even<T>(), iterators.begin());
   
   thrust::device_vector<T> true_ref(2);
   true_ref[0] =  2;
@@ -137,19 +166,32 @@ void TestPartitionCopyDeviceSeq()
   ASSERT_EQUAL(true_ref, true_results);
   ASSERT_EQUAL(false_ref, false_results);
 }
+
+
+void TestPartitionCopyDeviceSeq()
+{
+  TestPartitionCopyDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestPartitionCopyDeviceSeq);
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Predicate, typename Iterator5>
-__global__
-void partition_copy_kernel(Iterator1 first, Iterator1 last, Iterator2 stencil_first, Iterator3 true_result, Iterator4 false_result, Predicate pred, Iterator5 result)
+void TestPartitionCopyDeviceDevice()
 {
-  *result = thrust::partition_copy(thrust::seq, first, last, stencil_first, true_result, false_result, pred);
+  TestPartitionCopyDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestPartitionCopyDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Predicate, typename Iterator5>
+__global__
+void partition_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 stencil_first, Iterator3 true_result, Iterator4 false_result, Predicate pred, Iterator5 result)
+{
+  *result = thrust::partition_copy(exec, first, last, stencil_first, true_result, false_result, pred);
 }
 
 
-template<typename Vector>
-void TestPartitionCopyStencilDeviceSeq()
+template<typename ExecutionPolicy>
+void TestPartitionCopyStencilDevice(ExecutionPolicy exec)
 {
   typedef int T;
   
@@ -174,7 +216,7 @@ void TestPartitionCopyStencilDeviceSeq()
   typedef thrust::pair<iterator,iterator> pair_type;
   thrust::device_vector<pair_type> iterators(1);
 
-  partition_copy_kernel<<<1,1>>>(data.begin(), data.end(), stencil.begin(), true_results.begin(), false_results.begin(), is_even<T>(), iterators.begin());
+  partition_copy_kernel<<<1,1>>>(exec, data.begin(), data.end(), stencil.begin(), true_results.begin(), false_results.begin(), is_even<T>(), iterators.begin());
 
   pair_type ends = iterators[0];
   
@@ -192,23 +234,37 @@ void TestPartitionCopyStencilDeviceSeq()
   ASSERT_EQUAL(true_ref, true_results);
   ASSERT_EQUAL(false_ref, false_results);
 }
-DECLARE_VECTOR_UNITTEST(TestPartitionCopyStencilDeviceSeq);
 
 
-template<typename Iterator1, typename Predicate, typename Iterator2, typename Iterator3>
+void TestPartitionCopyStencilDeviceSeq()
+{
+  TestPartitionCopyStencilDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestPartitionCopyStencilDeviceSeq);
+
+
+void TestPartitionCopyStencilDeviceDevice()
+{
+  TestPartitionCopyStencilDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestPartitionCopyStencilDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2, typename Iterator3>
 __global__
-void stable_partition_kernel(Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result, Iterator3 is_supported)
+void stable_partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result, Iterator3 is_supported)
 {
 #if (__CUDA_ARCH__ >= 200)
   *is_supported = true;
-  *result = thrust::stable_partition(thrust::seq, first, last, pred);
+  *result = thrust::stable_partition(exec, first, last, pred);
 #else
   *is_supported = false;
 #endif
 }
 
 
-void TestStablePartitionDeviceSeq(void)
+template<typename ExecutionPolicy>
+void TestStablePartitionDevice(ExecutionPolicy exec)
 {
   typedef int T;
   typedef typename thrust::device_vector<T>::iterator iterator;
@@ -223,7 +279,7 @@ void TestStablePartitionDeviceSeq(void)
   thrust::device_vector<iterator> result(1);
   thrust::device_vector<bool> is_supported(1);
   
-  stable_partition_kernel<<<1,1>>>(data.begin(), data.end(), is_even<T>(), result.begin(), is_supported.begin());
+  stable_partition_kernel<<<1,1>>>(exec, data.begin(), data.end(), is_even<T>(), result.begin(), is_supported.begin());
   
   if(is_supported[0])
   {
@@ -238,23 +294,37 @@ void TestStablePartitionDeviceSeq(void)
     ASSERT_EQUAL(ref, data);
   }
 }
+
+
+void TestStablePartitionDeviceSeq()
+{
+  TestStablePartitionDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestStablePartitionDeviceSeq);
 
 
-template<typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3, typename Iterator4>
+void TestStablePartitionDeviceDevice()
+{
+  TestStablePartitionDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestStablePartitionDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3, typename Iterator4>
 __global__
-void stable_partition_kernel(Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result, Iterator4 is_supported)
+void stable_partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result, Iterator4 is_supported)
 {
 #if (__CUDA_ARCH__ >= 200)
   *is_supported = true;
-  *result = thrust::stable_partition(thrust::seq, first, last, stencil_first, pred);
+  *result = thrust::stable_partition(exec, first, last, stencil_first, pred);
 #else
   *is_supported = false;
 #endif
 }
 
 
-void TestStablePartitionStencilDeviceSeq()
+template<typename ExecutionPolicy>
+void TestStablePartitionStencilDevice(ExecutionPolicy exec)
 {
   typedef int T;
   typedef typename thrust::device_vector<T>::iterator iterator;
@@ -276,7 +346,7 @@ void TestStablePartitionStencilDeviceSeq()
   thrust::device_vector<iterator> result(1);
   thrust::device_vector<bool> is_supported(1);
   
-  stable_partition_kernel<<<1,1>>>(data.begin(), data.end(), stencil.begin(), is_even<T>(), result.begin(), is_supported.begin());
+  stable_partition_kernel<<<1,1>>>(exec, data.begin(), data.end(), stencil.begin(), is_even<T>(), result.begin(), is_supported.begin());
   
   if(is_supported[0])
   {
@@ -291,18 +361,32 @@ void TestStablePartitionStencilDeviceSeq()
     ASSERT_EQUAL(ref, data);
   }
 }
+
+
+void TestStablePartitionStencilDeviceSeq()
+{
+  TestStablePartitionStencilDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestStablePartitionStencilDeviceSeq);
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename Iterator4>
-__global__
-void stable_partition_copy_kernel(Iterator1 first, Iterator1 last, Iterator2 true_result, Iterator3 false_result, Predicate pred, Iterator4 result)
+void TestStablePartitionStencilDeviceDevice()
 {
-  *result = thrust::stable_partition_copy(thrust::seq, first, last, true_result, false_result, pred);
+  TestStablePartitionStencilDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestStablePartitionStencilDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename Iterator4>
+__global__
+void stable_partition_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 true_result, Iterator3 false_result, Predicate pred, Iterator4 result)
+{
+  *result = thrust::stable_partition_copy(exec, first, last, true_result, false_result, pred);
 }
 
 
-void TestStablePartitionCopyDeviceSeq()
+template<typename ExecutionPolicy>
+void TestStablePartitionCopyDevice(ExecutionPolicy exec)
 {
   typedef int T;
   typedef thrust::device_vector<T>::iterator iterator;
@@ -320,7 +404,7 @@ void TestStablePartitionCopyDeviceSeq()
   typedef thrust::pair<iterator,iterator> pair_type;
   thrust::device_vector<pair_type> iterators(1);
   
-  stable_partition_copy_kernel<<<1,1>>>(data.begin(), data.end(), true_results.begin(), false_results.begin(), is_even<T>(), iterators.begin());
+  stable_partition_copy_kernel<<<1,1>>>(exec, data.begin(), data.end(), true_results.begin(), false_results.begin(), is_even<T>(), iterators.begin());
   
   thrust::device_vector<T> true_ref(2);
   true_ref[0] =  2;
@@ -338,19 +422,32 @@ void TestStablePartitionCopyDeviceSeq()
   ASSERT_EQUAL(true_ref, true_results);
   ASSERT_EQUAL(false_ref, false_results);
 }
+
+
+void TestStablePartitionCopyDeviceSeq()
+{
+  TestStablePartitionCopyDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestStablePartitionCopyDeviceSeq);
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Predicate, typename Iterator5>
-__global__
-void stable_partition_copy_kernel(Iterator1 first, Iterator1 last, Iterator2 stencil_first, Iterator3 true_result, Iterator4 false_result, Predicate pred, Iterator5 result)
+void TestStablePartitionCopyDeviceDevice()
 {
-  *result = thrust::stable_partition_copy(thrust::seq, first, last, stencil_first, true_result, false_result, pred);
+  TestStablePartitionCopyDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestStablePartitionCopyDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Predicate, typename Iterator5>
+__global__
+void stable_partition_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 stencil_first, Iterator3 true_result, Iterator4 false_result, Predicate pred, Iterator5 result)
+{
+  *result = thrust::stable_partition_copy(exec, first, last, stencil_first, true_result, false_result, pred);
 }
 
 
-template<typename Vector>
-void TestStablePartitionCopyStencilDeviceSeq()
+template<typename ExecutionPolicy>
+void TestStablePartitionCopyStencilDevice(ExecutionPolicy exec)
 {
   typedef int T;
   
@@ -375,7 +472,7 @@ void TestStablePartitionCopyStencilDeviceSeq()
   typedef thrust::pair<iterator,iterator> pair_type;
   thrust::device_vector<pair_type> iterators(1);
 
-  stable_partition_copy_kernel<<<1,1>>>(data.begin(), data.end(), stencil.begin(), true_results.begin(), false_results.begin(), is_even<T>(), iterators.begin());
+  stable_partition_copy_kernel<<<1,1>>>(exec, data.begin(), data.end(), stencil.begin(), true_results.begin(), false_results.begin(), is_even<T>(), iterators.begin());
 
   pair_type ends = iterators[0];
   
@@ -393,7 +490,20 @@ void TestStablePartitionCopyStencilDeviceSeq()
   ASSERT_EQUAL(true_ref, true_results);
   ASSERT_EQUAL(false_ref, false_results);
 }
-DECLARE_VECTOR_UNITTEST(TestStablePartitionCopyStencilDeviceSeq);
+
+
+void TestStablePartitionCopyStencilDeviceSeq()
+{
+  TestStablePartitionCopyStencilDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestStablePartitionCopyStencilDeviceSeq);
+
+
+void TestStablePartitionCopyStencilDeviceDevice()
+{
+  TestStablePartitionCopyStencilDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestStablePartitionCopyStencilDeviceDevice);
 
 
 void TestPartitionCudaStreams()
@@ -412,7 +522,7 @@ void TestPartitionCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  Iterator iter = thrust::partition(thrust::cuda::par(s), data.begin(), data.end(), is_even<T>());
+  Iterator iter = thrust::partition(thrust::cuda::par.on(s), data.begin(), data.end(), is_even<T>());
   
   Vector ref(5);
   ref[0] = 2;

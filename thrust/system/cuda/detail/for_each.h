@@ -34,22 +34,27 @@ namespace cuda
 namespace detail
 {
 
+
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename UnaryFunction>
-  RandomAccessIterator for_each(execution_policy<DerivedPolicy> &s,
-                                RandomAccessIterator first,
-                                RandomAccessIterator last,
-                                UnaryFunction f);
+__host__ __device__
+RandomAccessIterator for_each(execution_policy<DerivedPolicy> &s,
+                              RandomAccessIterator first,
+                              RandomAccessIterator last,
+                              UnaryFunction f);
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename Size,
          typename UnaryFunction>
-  RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &s,
-                                  RandomAccessIterator first,
-                                  Size n,
-                                  UnaryFunction f);
+__host__ __device__
+RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &s,
+                                RandomAccessIterator first,
+                                Size n,
+                                UnaryFunction f);
+
 
 } // end namespace detail
 } // end namespace cuda

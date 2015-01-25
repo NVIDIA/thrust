@@ -79,6 +79,8 @@ gnu_linker_flags = {
   'workarounds' : []
 }
 
+nv_linker_flags = gnu_linker_flags
+
 clang_linker_flags = {
   'debug'       : [],
   'release'     : [],
@@ -88,12 +90,13 @@ clang_linker_flags = {
 msvc_linker_flags = {
   'debug'       : ['/debug'],
   'release'     : [],
-  'workarounds' : []
+  'workarounds' : ['/nologo']
 }
 
 linker_to_flags = {
   'gcc'  : gnu_linker_flags,
   'link' : msvc_linker_flags,
+  'nvcc' : nv_linker_flags,
   'clang++'  : clang_linker_flags
 }
 
@@ -229,11 +232,15 @@ def libs(env, CCX, host_backend, device_backend):
   # we don't have to do this with cl
   if CCX == 'g++':
     result.append('stdc++')
-
+    result.append('m')
 
   # link against backend-specific runtimes
   if host_backend == 'cuda' or device_backend == 'cuda':
     result.append(cuda_installation()[3])
+
+    # XXX clean this up
+    if env['cdp']:
+      result.append('cudadevrt')
 
   if host_backend == 'omp' or device_backend == 'omp':
     result.append(omp_installation(CCX)[3])
@@ -244,7 +251,7 @@ def libs(env, CCX, host_backend, device_backend):
   return result
 
 
-def linker_flags(LINK, mode, platform, device_backend):
+def linker_flags(LINK, mode, platform, device_backend, arch):
   """Returns a list of command line flags needed by the linker"""
   result = []
 
@@ -311,15 +318,16 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
   return result
 
 
-def nv_compiler_flags(mode, device_backend, arch):
+def nv_compiler_flags(mode, device_backend, arch, cdp):
   """Returns a list of command line flags specific to nvcc"""
   result = []
   for machine_arch in arch:
     # transform arch_XX to compute_XX
     virtual_arch = machine_arch.replace('sm','compute')
     # the weird -gencode flag is formatted like this:
-    # -gencode=arch=compute_10,code=\"sm_10,compute_10\"
+    # -gencode=arch=compute_10,code=\"sm_20,compute_20\"
     result.append('-gencode=arch={0},\\"code={1},{2}\\"'.format(virtual_arch, machine_arch, virtual_arch))
+
   if mode == 'debug':
     # turn on debug mode
     # XXX make this work when we've debugged nvcc -G
@@ -327,6 +335,8 @@ def nv_compiler_flags(mode, device_backend, arch):
     pass
   if device_backend != 'cuda':
     result.append("--x=c++")
+  if cdp != False:
+    result.append("-rdc=true")
 
   if device_backend == 'cuda' and master_env['PLATFORM'] == 'darwin':
     (release, versioninfo, machine) = platform.mac_ver()
@@ -355,9 +365,15 @@ def command_line_variables():
   vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
                         allowed_values = ('release', 'debug')))
   
-  # add a variable to handle compute capability
-  vars.Add(ListVariable('arch', 'Compute capability code generation', 'sm_10',
-                        ['sm_10', 'sm_11', 'sm_12', 'sm_13', 'sm_20', 'sm_21', 'sm_30', 'sm_35']))
+  # XXX allow the option to send sm_1x to nvcc even nvcc may not support it
+  vars.Add(ListVariable('arch', 'Compute capability code generation', 'sm_20',
+                        ['sm_10', 'sm_11', 'sm_12', 'sm_13',
+                         'sm_20', 'sm_21',
+                         'sm_30', 'sm_32', 'sm_35', 'sm_37',
+                         'sm_50']))
+
+  # add a variable to handle CUDA dynamic parallelism
+  vars.Add(BoolVariable('cdp', 'Enable CUDA dynamic parallelism', False))
   
   # add a variable to handle warnings
   # only enable Wall by default on compilers other than cl
@@ -421,13 +437,27 @@ for (host,device) in itertools.product(host_backends, device_backends):
   
   env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror']))
   
-  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch']))
-  
-  env.Append(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device))
-  
-  env.Append(LIBPATH = lib_paths(env, host, device))
+  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp']))
   
   env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
+
+  # XXX this probably doesn't belong here
+  # XXX ideally we'd integrate this into site_scons
+  if 'cudadevrt' in env['LIBS']:
+    # nvcc is required to link against cudadevrt
+    env.Replace(LINK = 'nvcc')
+
+    if os.name == 'nt':
+      # the nv linker uses the same command line as the gnu linker
+      env['LIBDIRPREFIX'] = '-L'
+      env['LIBLINKPREFIX'] = '-l'
+      env['LIBLINKSUFFIX'] = ''
+      env.Replace(LINKCOM = '$LINK -o $TARGET $LINKFLAGS $__RPATH $SOURCES $_LIBDIRFLAGS $_LIBFLAGS')
+
+  # we Replace instead of Append, to avoid picking-up MSVC-specific flags on Windows
+  env.Replace(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device, env['arch']))
+   
+  env.Append(LIBPATH = lib_paths(env, host, device))
   
   # assemble the name of this configuration's targets directory
   targets_dir = 'targets/{0}_host_{1}_device_{2}'.format(host, device, env['mode'])

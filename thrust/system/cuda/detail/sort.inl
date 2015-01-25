@@ -27,6 +27,10 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/detail/trivial_sequence.h>
+#include <thrust/detail/copy.h>
+#include <thrust/detail/seq.h>
+#include <thrust/sort.h>
+#include <thrust/system/cuda/detail/bulk.h>
 
 
 /*
@@ -57,8 +61,6 @@ namespace cuda
 {
 namespace detail
 {
-
-
 namespace stable_sort_detail
 {
 
@@ -100,79 +102,57 @@ template<typename RandomAccessIterator, typename StrictWeakCompare>
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  typename enable_if_primitive_sort<RandomAccessIterator,StrictWeakOrdering>::type
-    stable_sort(execution_policy<DerivedPolicy> &exec,
-                RandomAccessIterator first,
-                RandomAccessIterator last,
-                StrictWeakOrdering comp)
+__host__ __device__
+typename enable_if_primitive_sort<RandomAccessIterator,StrictWeakOrdering>::type
+  stable_sort(execution_policy<DerivedPolicy> &exec,
+              RandomAccessIterator first,
+              RandomAccessIterator last,
+              StrictWeakOrdering comp)
 {
   // ensure sequence has trivial iterators
   thrust::detail::trivial_sequence<RandomAccessIterator,DerivedPolicy> keys(exec, first, last);
-  
-  // CUDA path for thrust::stable_sort with primitive keys
-  // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
-  // method is implemented with a primitive sort
-  thrust::system::cuda::detail::detail::stable_primitive_sort(exec, keys.begin(), keys.end());
+
+  thrust::system::cuda::detail::detail::stable_primitive_sort(exec, keys.begin(), keys.end(), comp);
   
   // copy results back, if necessary
   if(!thrust::detail::is_trivial_iterator<RandomAccessIterator>::value)
   {
     thrust::copy(exec, keys.begin(), keys.end(), first);
   }
-  
-  // if comp is greater<T> then reverse the keys
-  typedef typename thrust::iterator_traits<RandomAccessIterator>::value_type KeyType;
-  const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
-  
-  if(reverse)
-  {
-    thrust::reverse(first, last);
-  }
 }
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  typename enable_if_comparison_sort<RandomAccessIterator,StrictWeakOrdering>::type
-    stable_sort(execution_policy<DerivedPolicy> &exec,
-                RandomAccessIterator first,
-                RandomAccessIterator last,
-                StrictWeakOrdering comp)
+__host__ __device__
+typename enable_if_comparison_sort<RandomAccessIterator,StrictWeakOrdering>::type
+  stable_sort(execution_policy<DerivedPolicy> &exec,
+              RandomAccessIterator first,
+              RandomAccessIterator last,
+              StrictWeakOrdering comp)
 {
   thrust::system::cuda::detail::detail::stable_merge_sort(exec, first, last, comp);
 }
+
 
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  typename enable_if_primitive_sort<RandomAccessIterator1,StrictWeakOrdering>::type
-    stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
-                       RandomAccessIterator1 keys_first,
-                       RandomAccessIterator1 keys_last,
-                       RandomAccessIterator2 values_first,
-                       StrictWeakOrdering comp)
+__host__ __device__
+typename enable_if_primitive_sort<RandomAccessIterator1,StrictWeakOrdering>::type
+  stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
+                     RandomAccessIterator1 keys_first,
+                     RandomAccessIterator1 keys_last,
+                     RandomAccessIterator2 values_first,
+                     StrictWeakOrdering comp)
 {
-  // path for thrust::stable_sort_by_key with primitive keys
-  // (e.g. int, float, short, etc.) and a less<T> or greater<T> comparison
-  // method is implemented with stable_primitive_sort_by_key
-  
-  // if comp is greater<T> then reverse the keys and values
-  typedef typename thrust::iterator_traits<RandomAccessIterator1>::value_type KeyType;
-  const static bool reverse = thrust::detail::is_same<StrictWeakOrdering, typename thrust::greater<KeyType> >::value;
-  
-  // note, we also have to reverse the (unordered) input to preserve stability
-  if(reverse)
-  {
-    thrust::reverse(exec, keys_first,  keys_last);
-    thrust::reverse(exec, values_first, values_first + (keys_last - keys_first));
-  }
-  
   // ensure sequences have trivial iterators
   thrust::detail::trivial_sequence<RandomAccessIterator1,DerivedPolicy> keys(exec, keys_first, keys_last);
   thrust::detail::trivial_sequence<RandomAccessIterator2,DerivedPolicy> values(exec, values_first, values_first + (keys_last - keys_first));
   
-  thrust::system::cuda::detail::detail::stable_primitive_sort_by_key(exec, keys.begin(), keys.end(), values.begin());
+  thrust::system::cuda::detail::detail::stable_primitive_sort_by_key(exec, keys.begin(), keys.end(), values.begin(), comp);
   
   // copy results back, if necessary
   if(!thrust::detail::is_trivial_iterator<RandomAccessIterator1>::value)
@@ -184,12 +164,6 @@ template<typename DerivedPolicy,
   {
     thrust::copy(exec, values.begin(), values.end(), values_first);
   }
-  
-  if(reverse)
-  {
-    thrust::reverse(exec, keys_first,  keys_last);
-    thrust::reverse(exec, values_first, values_first + (keys_last - keys_first));
-  }
 }
 
 
@@ -197,12 +171,13 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  typename enable_if_comparison_sort<RandomAccessIterator1,StrictWeakOrdering>::type
-    stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
-                       RandomAccessIterator1 keys_first,
-                       RandomAccessIterator1 keys_last,
-                       RandomAccessIterator2 values_first,
-                       StrictWeakOrdering comp)
+__host__ __device__
+typename enable_if_comparison_sort<RandomAccessIterator1,StrictWeakOrdering>::type
+  stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
+                     RandomAccessIterator1 keys_first,
+                     RandomAccessIterator1 keys_last,
+                     RandomAccessIterator2 values_first,
+                     StrictWeakOrdering comp)
 {
   thrust::system::cuda::detail::detail::stable_merge_sort_by_key(exec, keys_first, keys_last, values_first, comp);
 }
@@ -214,10 +189,11 @@ template<typename DerivedPolicy,
 template<typename DerivedPolicy,
          typename RandomAccessIterator,
          typename StrictWeakOrdering>
-  void stable_sort(execution_policy<DerivedPolicy> &exec,
-                   RandomAccessIterator first,
-                   RandomAccessIterator last,
-                   StrictWeakOrdering comp)
+__host__ __device__
+void stable_sort(execution_policy<DerivedPolicy> &exec,
+                 RandomAccessIterator first,
+                 RandomAccessIterator last,
+                 StrictWeakOrdering comp)
 {
   // we're attempting to launch a kernel, assert we're compiling with nvcc
   // ========================================================================
@@ -225,8 +201,32 @@ template<typename DerivedPolicy,
   // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
   // ========================================================================
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
-  
-  stable_sort_detail::stable_sort(exec, first, last, comp);
+
+  struct workaround
+  {
+    __host__ __device__
+    static void parallel_path(execution_policy<DerivedPolicy> &exec,
+                              RandomAccessIterator first,
+                              RandomAccessIterator last,
+                              StrictWeakOrdering comp)
+    {
+      stable_sort_detail::stable_sort(exec, first, last, comp);
+    }
+
+    __host__ __device__
+    static void sequential_path(RandomAccessIterator first,
+                                RandomAccessIterator last,
+                                StrictWeakOrdering comp)
+    {
+      thrust::sort(thrust::seq, first, last, comp);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  workaround::parallel_path(exec, first, last, comp);
+#else
+  workaround::sequential_path(first, last, comp);
+#endif
 }
 
 
@@ -234,11 +234,12 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>
-  void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
-                          RandomAccessIterator1 keys_first,
-                          RandomAccessIterator1 keys_last,
-                          RandomAccessIterator2 values_first,
-                          StrictWeakOrdering comp)
+__host__ __device__
+void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
+                        RandomAccessIterator1 keys_first,
+                        RandomAccessIterator1 keys_last,
+                        RandomAccessIterator2 values_first,
+                        StrictWeakOrdering comp)
 {
   // we're attempting to launch a kernel, assert we're compiling with nvcc
   // ========================================================================
@@ -246,8 +247,34 @@ template<typename DerivedPolicy,
   // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
   // ========================================================================
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
+  struct workaround
+  {
+    __host__ __device__
+    static void parallel_path(execution_policy<DerivedPolicy> &exec,
+                              RandomAccessIterator1 keys_first,
+                              RandomAccessIterator1 keys_last,
+                              RandomAccessIterator2 values_first,
+                              StrictWeakOrdering comp)
+    {
+      stable_sort_detail::stable_sort_by_key(exec, keys_first, keys_last, values_first, comp);
+    }
+
+    __host__ __device__
+    static void sequential_path(RandomAccessIterator1 keys_first,
+                                RandomAccessIterator1 keys_last,
+                                RandomAccessIterator2 values_first,
+                                StrictWeakOrdering comp)
+    {
+      thrust::stable_sort_by_key(thrust::seq, keys_first, keys_last, values_first, comp);
+    }
+  };
   
-  stable_sort_detail::stable_sort_by_key(exec, keys_first, keys_last, values_first, comp);
+#if __BULK_HAS_CUDART__
+  workaround::parallel_path(exec, keys_first, keys_last, values_first, comp);
+#else
+  workaround::sequential_path(keys_first, keys_last, values_first, comp);
+#endif
 }
 
 

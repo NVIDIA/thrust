@@ -14,41 +14,9 @@
  *  limitations under the License.
  */
 
-
-/*! \file fill.h
- *  \brief Device implementation of fill.
- */
-
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/execution_policy.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cuda
-{
-namespace detail
-{
-
-template<typename DerivedPolicy, typename ForwardIterator, typename T>
-  void fill(execution_policy<DerivedPolicy> &exec,
-            ForwardIterator first,
-            ForwardIterator last,
-            const T &value);
-
-template<typename DerivedPolicy, typename OutputIterator, typename Size, typename T>
-  OutputIterator fill_n(execution_policy<DerivedPolicy> &exec,
-                        OutputIterator first,
-                        Size n,
-                        const T &value);
-
-} // end namespace detail
-} // end namespace cuda
-} // end namespace system
-} // end namespace thrust
-
-#include <thrust/system/cuda/detail/fill.inl>
+// this system has no special version of this algorithm
 

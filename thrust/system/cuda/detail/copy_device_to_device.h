@@ -37,10 +37,11 @@ namespace detail
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator>
-  OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
-                                       InputIterator begin, 
-                                       InputIterator end, 
-                                       OutputIterator result);
+__host__ __device__
+OutputIterator copy_device_to_device(execution_policy<DerivedPolicy> &exec,
+                                     InputIterator begin, 
+                                     InputIterator end, 
+                                     OutputIterator result);
 
 } // end namespace detail
 } // end namespace cuda

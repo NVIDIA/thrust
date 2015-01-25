@@ -90,6 +90,7 @@ template<typename Size, typename InputIterator1, typename InputIterator2, typena
   Size n1, n2;
   Compare comp;
 
+  __host__ __device__
   find_partition_offsets_functor(Size partition_size,
                                  InputIterator1 first1, InputIterator1 last1,
                                  InputIterator2 first2, InputIterator2 last2,
@@ -113,13 +114,14 @@ template<typename Size, typename InputIterator1, typename InputIterator2, typena
 
 
 template<typename Size, typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare>
-  OutputIterator find_partition_offsets(thrust::cuda::execution_policy<DerivedPolicy> &exec,
-                                        Size num_partitions,
-                                        Size partition_size,
-                                        InputIterator1 first1, InputIterator1 last1,
-                                        InputIterator2 first2, InputIterator2 last2,
-                                        OutputIterator result,
-                                        Compare comp)
+__host__ __device__
+OutputIterator find_partition_offsets(thrust::cuda::execution_policy<DerivedPolicy> &exec,
+                                      Size num_partitions,
+                                      Size partition_size,
+                                      InputIterator1 first1, InputIterator1 last1,
+                                      InputIterator2 first2, InputIterator2 last2,
+                                      OutputIterator result,
+                                      Compare comp)
 {
   find_partition_offsets_functor<Size,InputIterator1,InputIterator2,Compare> f(partition_size, first1, last1, first2, last2, comp);
 
@@ -444,6 +446,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
   Compare        comp;
   SetOperation   set_op;
 
+  __host__ __device__
   count_set_operation_closure(InputIterator1 input_partition_offsets,
                               Size           num_partitions,
                               InputIterator2 first1,
@@ -469,6 +472,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
 
 
 template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename OutputIterator, typename Compare, typename SetOperation>
+__host__ __device__
   count_set_operation_closure<threads_per_block,work_per_thread,InputIterator1,Size,InputIterator2,InputIterator3,OutputIterator,Compare,SetOperation>
     make_count_set_operation_closure(InputIterator1 input_partition_offsets,
                                      Size           num_partitions,
@@ -531,6 +535,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
   Compare        comp;
   SetOperation   set_op;
 
+  __host__ __device__
   set_operation_closure(InputIterator1 input_partition_offsets,
                         Size           num_partitions,
                         InputIterator2 first1,
@@ -558,6 +563,7 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
 
 
 template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIterator1, typename Size, typename InputIterator2, typename InputIterator3, typename InputIterator4, typename OutputIterator, typename Compare, typename SetOperation>
+__host__ __device__
   set_operation_closure<threads_per_block,work_per_thread,InputIterator1,Size,InputIterator2,InputIterator3,InputIterator4,OutputIterator,Compare,SetOperation>
     make_set_operation_closure(InputIterator1 input_partition_offsets,
                                Size           num_partitions,
@@ -577,13 +583,21 @@ template<uint16_t threads_per_block, uint16_t work_per_thread, typename InputIte
 
 
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Compare, typename SetOperation>
-  OutputIterator set_operation(thrust::cuda::execution_policy<DerivedPolicy> &exec,
-                               InputIterator1 first1, InputIterator1 last1,
-                               InputIterator2 first2, InputIterator2 last2,
-                               OutputIterator result,
-                               Compare comp,
-                               SetOperation set_op)
+__host__ __device__
+OutputIterator set_operation(thrust::cuda::execution_policy<DerivedPolicy> &exec,
+                             InputIterator1 first1, InputIterator1 last1,
+                             InputIterator2 first2, InputIterator2 last2,
+                             OutputIterator result,
+                             Compare comp,
+                             SetOperation set_op)
 {
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
   using thrust::system::cuda::detail::device_properties;
   using thrust::system::cuda::detail::detail::launch_closure;
   namespace d = thrust::system::cuda::detail::detail::set_operation_detail;

@@ -32,6 +32,7 @@ namespace detail
 
 // given any old execution_policy, we return stream 0 by default
 template<typename DerivedPolicy>
+__host__ __device__
 inline cudaStream_t stream(const execution_policy<DerivedPolicy> &exec)
 {
   return 0;
@@ -44,20 +45,43 @@ class execute_on_stream_base
   : public thrust::system::cuda::detail::execution_policy<DerivedPolicy>
 {
   public:
+    __host__ __device__
     execute_on_stream_base()
       : m_stream(0)
     {}
 
+    __host__ __device__
     execute_on_stream_base(cudaStream_t stream)
       : m_stream(stream)
     {}
 
+    __host__ __device__
+    DerivedPolicy on(const cudaStream_t &s) const
+    {
+      // create a copy of *this to return
+      // make sure it is the derived type
+      DerivedPolicy result = thrust::detail::derived_cast(*this);
+
+      // change the result's stream to s
+      result.set_stream(s);
+
+      return result;
+    }
+
+  private:
+    // stream() is a friend function because we call it through ADL
+    __host__ __device__
     friend inline cudaStream_t stream(const execute_on_stream_base &exec)
     {
       return exec.m_stream;
     }
 
-  private:
+    __host__ __device__
+    inline void set_stream(const cudaStream_t &s)
+    {
+      m_stream = s;
+    }
+
     cudaStream_t m_stream;
 };
 
@@ -69,6 +93,7 @@ class execute_on_stream
   typedef execute_on_stream_base<execute_on_stream> super_t;
 
   public:
+    __host__ __device__
     inline execute_on_stream(cudaStream_t stream) 
       : super_t(stream)
     {}

@@ -427,7 +427,10 @@ class singleton_on_chip_allocator
         void lock()
         {
           // spin while waiting
-          while(try_lock());
+          while(try_lock())
+          {
+            ;
+          }
         } // end lock()
 
 

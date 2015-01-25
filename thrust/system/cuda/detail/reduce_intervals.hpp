@@ -18,15 +18,10 @@ namespace reduce_intervals_detail
 {
 
 
-// avoid accidentally picking up some other installation of bulk that
-// may be floating around
-namespace bulk_ = thrust::system::cuda::detail::bulk;
-
-
 struct reduce_intervals_kernel
 {
   template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Decomposition, typename RandomAccessIterator2, typename BinaryFunction>
-  __device__ void operator()(bulk_::concurrent_group<bulk::agent<grainsize>,groupsize> &this_group,
+  __device__ void operator()(bulk_::concurrent_group<bulk_::agent<grainsize>,groupsize> &this_group,
                              RandomAccessIterator1 first,
                              Decomposition decomp,
                              RandomAccessIterator2 result,
@@ -52,10 +47,9 @@ struct reduce_intervals_kernel
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename Decomposition, typename RandomAccessIterator2, typename BinaryFunction>
+__host__ __device__
 RandomAccessIterator2 reduce_intervals_(execution_policy<DerivedPolicy> &exec, RandomAccessIterator1 first, Decomposition decomp, RandomAccessIterator2 result, BinaryFunction binary_op)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename thrust::iterator_value<RandomAccessIterator2>::type result_type;
   const size_t groupsize = 128;
   size_t heap_size = groupsize * sizeof(result_type);
@@ -66,6 +60,7 @@ RandomAccessIterator2 reduce_intervals_(execution_policy<DerivedPolicy> &exec, R
 
 
 template<typename DerivedPolicy, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename BinaryFunction>
+__host__ __device__
 RandomAccessIterator2 reduce_intervals_(execution_policy<DerivedPolicy> &exec, RandomAccessIterator1 first, RandomAccessIterator1 last, Size interval_size, RandomAccessIterator2 result, BinaryFunction binary_op)
 {
   return thrust::system::cuda::detail::reduce_intervals_(exec, first, make_blocked_decomposition<Size>(last - first,interval_size), result, binary_op);

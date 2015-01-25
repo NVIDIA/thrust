@@ -3,20 +3,22 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5, typename Iterator6>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5, typename Iterator6>
 __global__
-void set_intersection_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
+void set_intersection_by_key_kernel(ExecutionPolicy exec,
+                                    Iterator1 keys_first1, Iterator1 keys_last1,
                                     Iterator2 keys_first2, Iterator2 keys_last2,
                                     Iterator3 values_first1,
                                     Iterator4 keys_result,
                                     Iterator5 values_result,
                                     Iterator6 result)
 {
-  *result = thrust::set_intersection_by_key(thrust::seq, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result);
+  *result = thrust::set_intersection_by_key(exec, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, keys_result, values_result);
 }
 
 
-void TestSetIntersectionByKeyDeviceSeq()
+template<typename ExecutionPolicy>
+void TestSetIntersectionByKeyDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::iterator Iterator;
@@ -38,7 +40,8 @@ void TestSetIntersectionByKeyDeviceSeq()
   typedef thrust::pair<Iterator,Iterator> iter_pair;
   thrust::device_vector<iter_pair> end_vec(1);
 
-  set_intersection_by_key_kernel<<<1,1>>>(a_key.begin(), a_key.end(),
+  set_intersection_by_key_kernel<<<1,1>>>(exec,
+                                          a_key.begin(), a_key.end(),
                                           b_key.begin(), b_key.end(),
                                           a_val.begin(),
                                           result_key.begin(),
@@ -52,7 +55,20 @@ void TestSetIntersectionByKeyDeviceSeq()
   ASSERT_EQUAL(ref_key, result_key);
   ASSERT_EQUAL(ref_val, result_val);
 }
+
+
+void TestSetIntersectionByKeyDeviceSeq()
+{
+  TestSetIntersectionByKeyDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestSetIntersectionByKeyDeviceSeq);
+
+
+void TestSetIntersectionByKeyDeviceDevice()
+{
+  TestSetIntersectionByKeyDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestSetIntersectionByKeyDeviceDevice);
 
 
 void TestSetIntersectionByKeyCudaStreams()
@@ -78,7 +94,7 @@ void TestSetIntersectionByKeyCudaStreams()
   cudaStreamCreate(&s);
 
   thrust::pair<Iterator,Iterator> end =
-    thrust::set_intersection_by_key(thrust::cuda::par(s),
+    thrust::set_intersection_by_key(thrust::cuda::par.on(s),
                                     a_key.begin(), a_key.end(),
                                     b_key.begin(), b_key.end(),
                                     a_val.begin(),

@@ -5,7 +5,8 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1,
+template<typename ExecutionPolicy,
+         typename Iterator1,
          typename Iterator2,
          typename Iterator3,
          typename Iterator4,
@@ -13,7 +14,8 @@ template<typename Iterator1,
          typename Iterator6,
          typename Iterator7>
 __global__
-void merge_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
+void merge_by_key_kernel(ExecutionPolicy exec,
+                         Iterator1 keys_first1, Iterator1 keys_last1,
                          Iterator2 keys_first2, Iterator2 keys_last2,
                          Iterator3 values_first1,
                          Iterator4 values_first2,
@@ -21,11 +23,12 @@ void merge_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
                          Iterator6 values_result,
                          Iterator7 result)
 {
-  *result = thrust::merge_by_key(thrust::seq, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
+  *result = thrust::merge_by_key(exec, keys_first1, keys_last1, keys_first2, keys_last2, values_first1, values_first2, keys_result, values_result);
 }
 
 
-void TestMergeByKeyDeviceSeq()
+template<typename ExecutionPolicy>
+void TestMergeByKeyDevice(ExecutionPolicy exec)
 {
   thrust::device_vector<int> a_key(3), a_val(3), b_key(4), b_val(4);
 
@@ -50,7 +53,8 @@ void TestMergeByKeyDeviceSeq()
 
   thrust::device_vector<thrust::pair<Iterator,Iterator> > result_ends(1);
 
-  merge_by_key_kernel<<<1,1>>>(a_key.begin(), a_key.end(),
+  merge_by_key_kernel<<<1,1>>>(exec,
+                               a_key.begin(), a_key.end(),
                                b_key.begin(), b_key.end(),
                                a_val.begin(), b_val.begin(),
                                result_key.begin(),
@@ -63,7 +67,20 @@ void TestMergeByKeyDeviceSeq()
   ASSERT_EQUAL(ref_key, result_key);
   ASSERT_EQUAL(ref_val, result_val);
 }
+
+
+void TestMergeByKeyDeviceSeq()
+{
+  TestMergeByKeyDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestMergeByKeyDeviceSeq);
+
+
+void TestMergeByKeyDeviceDevice()
+{
+  TestMergeByKeyDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestMergeByKeyDeviceDevice);
 
 
 void TestMergeByKeyCudaStreams()
@@ -94,7 +111,7 @@ void TestMergeByKeyCudaStreams()
   cudaStreamCreate(&s);
 
   thrust::pair<Iterator,Iterator> ends =
-    thrust::merge_by_key(thrust::cuda::par(s),
+    thrust::merge_by_key(thrust::cuda::par.on(s),
                          a_key.begin(), a_key.end(),
                          b_key.begin(), b_key.end(),
                          a_val.begin(), b_val.begin(),

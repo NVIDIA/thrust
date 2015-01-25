@@ -3,15 +3,16 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator, typename T>
+template<typename ExecutionPolicy, typename Iterator, typename T>
 __global__
-void uninitialized_fill_kernel(Iterator first, Iterator last, T val)
+void uninitialized_fill_kernel(ExecutionPolicy exec, Iterator first, Iterator last, T val)
 {
-  thrust::uninitialized_fill(thrust::seq, first, last, val);
+  thrust::uninitialized_fill(exec, first, last, val);
 }
 
 
-void TestUninitializedFillDeviceSeq()
+template<typename ExecutionPolicy>
+void TestUninitializedFillDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::value_type T;
@@ -21,7 +22,7 @@ void TestUninitializedFillDeviceSeq()
   
   T exemplar(7);
   
-  uninitialized_fill_kernel<<<1,1>>>(v.begin() + 1, v.begin() + 4, exemplar);
+  uninitialized_fill_kernel<<<1,1>>>(exec, v.begin() + 1, v.begin() + 4, exemplar);
   
   ASSERT_EQUAL(v[0], 0);
   ASSERT_EQUAL(v[1], exemplar);
@@ -31,7 +32,7 @@ void TestUninitializedFillDeviceSeq()
   
   exemplar = 8;
   
-  uninitialized_fill_kernel<<<1,1>>>(v.begin() + 0, v.begin() + 3, exemplar);
+  uninitialized_fill_kernel<<<1,1>>>(exec, v.begin() + 0, v.begin() + 3, exemplar);
   
   ASSERT_EQUAL(v[0], exemplar);
   ASSERT_EQUAL(v[1], exemplar);
@@ -41,7 +42,7 @@ void TestUninitializedFillDeviceSeq()
   
   exemplar = 9;
   
-  uninitialized_fill_kernel<<<1,1>>>(v.begin() + 2, v.end(), exemplar);
+  uninitialized_fill_kernel<<<1,1>>>(exec, v.begin() + 2, v.end(), exemplar);
   
   ASSERT_EQUAL(v[0], 8);
   ASSERT_EQUAL(v[1], 8);
@@ -51,7 +52,7 @@ void TestUninitializedFillDeviceSeq()
   
   exemplar = 1;
   
-  uninitialized_fill_kernel<<<1,1>>>(v.begin(), v.end(), exemplar);
+  uninitialized_fill_kernel<<<1,1>>>(exec, v.begin(), v.end(), exemplar);
   
   ASSERT_EQUAL(v[0], exemplar);
   ASSERT_EQUAL(v[1], exemplar);
@@ -59,7 +60,20 @@ void TestUninitializedFillDeviceSeq()
   ASSERT_EQUAL(v[3], exemplar);
   ASSERT_EQUAL(v[4], exemplar);
 }
+
+
+void TestUninitializedFillDeviceSeq()
+{
+  TestUninitializedFillDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestUninitializedFillDeviceSeq);
+
+
+void TestUninitializedFillDeviceDevice()
+{
+  TestUninitializedFillDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestUninitializedFillDeviceDevice);
 
 
 void TestUninitializedFillCudaStreams()
@@ -75,7 +89,7 @@ void TestUninitializedFillCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::uninitialized_fill(thrust::cuda::par(s), v.begin(), v.end(), exemplar);
+  thrust::uninitialized_fill(thrust::cuda::par.on(s), v.begin(), v.end(), exemplar);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(v[0], exemplar);
@@ -89,15 +103,16 @@ void TestUninitializedFillCudaStreams()
 DECLARE_UNITTEST(TestUninitializedFillCudaStreams);
 
 
-template<typename Iterator1, typename Size, typename T, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator1, typename Size, typename T, typename Iterator2>
 __global__
-void uninitialized_fill_n_kernel(Iterator1 first, Size n, T val, Iterator2 result)
+void uninitialized_fill_n_kernel(ExecutionPolicy exec, Iterator1 first, Size n, T val, Iterator2 result)
 {
-  *result = thrust::uninitialized_fill_n(thrust::seq, first, n, val);
+  *result = thrust::uninitialized_fill_n(exec, first, n, val);
 }
 
 
-void TestUninitializedFillNDeviceSeq()
+template<typename ExecutionPolicy>
+void TestUninitializedFillNDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::value_type T;
@@ -109,7 +124,7 @@ void TestUninitializedFillNDeviceSeq()
 
   thrust::device_vector<Vector::iterator> iter_vec(1);
   
-  uninitialized_fill_n_kernel<<<1,1>>>(v.begin() + 1, 3, exemplar, iter_vec.begin());
+  uninitialized_fill_n_kernel<<<1,1>>>(exec, v.begin() + 1, 3, exemplar, iter_vec.begin());
   Vector::iterator iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], 0);
@@ -121,7 +136,7 @@ void TestUninitializedFillNDeviceSeq()
   
   exemplar = 8;
   
-  uninitialized_fill_n_kernel<<<1,1>>>(v.begin() + 0, 3, exemplar, iter_vec.begin());
+  uninitialized_fill_n_kernel<<<1,1>>>(exec, v.begin() + 0, 3, exemplar, iter_vec.begin());
   iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], exemplar);
@@ -133,7 +148,7 @@ void TestUninitializedFillNDeviceSeq()
   
   exemplar = 9;
   
-  uninitialized_fill_n_kernel<<<1,1>>>(v.begin() + 2, 3, exemplar, iter_vec.begin());
+  uninitialized_fill_n_kernel<<<1,1>>>(exec, v.begin() + 2, 3, exemplar, iter_vec.begin());
   iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], 8);
@@ -145,7 +160,7 @@ void TestUninitializedFillNDeviceSeq()
   
   exemplar = 1;
   
-  uninitialized_fill_n_kernel<<<1,1>>>(v.begin(), v.size(), exemplar, iter_vec.begin());
+  uninitialized_fill_n_kernel<<<1,1>>>(exec, v.begin(), v.size(), exemplar, iter_vec.begin());
   iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], exemplar);
@@ -155,7 +170,20 @@ void TestUninitializedFillNDeviceSeq()
   ASSERT_EQUAL(v[4], exemplar);
   ASSERT_EQUAL_QUIET(v.end(), iter);
 }
+
+
+void TestUninitializedFillNDeviceSeq()
+{
+  TestUninitializedFillNDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestUninitializedFillNDeviceSeq);
+
+
+void TestUninitializedFillNDeviceDevice()
+{
+  TestUninitializedFillNDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestUninitializedFillNDeviceDevice);
 
 
 void TestUninitializedFillNCudaStreams()
@@ -171,7 +199,7 @@ void TestUninitializedFillNCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::uninitialized_fill_n(thrust::cuda::par(s), v.begin(), v.size(), exemplar);
+  thrust::uninitialized_fill_n(thrust::cuda::par.on(s), v.begin(), v.size(), exemplar);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(v[0], exemplar);

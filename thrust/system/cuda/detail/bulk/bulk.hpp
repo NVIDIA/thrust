@@ -18,9 +18,11 @@
 
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
 #include <thrust/system/cuda/detail/bulk/execution_policy.hpp>
+#include <thrust/system/cuda/detail/bulk/choose_sizes.hpp>
 #include <thrust/system/cuda/detail/bulk/future.hpp>
 #include <thrust/system/cuda/detail/bulk/async.hpp>
 #include <thrust/system/cuda/detail/bulk/malloc.hpp>
 #include <thrust/system/cuda/detail/bulk/algorithm.hpp>
+#include <thrust/system/cuda/detail/bulk/iterator.hpp>
 #include <thrust/system/cuda/detail/bulk/uninitialized.hpp>
 

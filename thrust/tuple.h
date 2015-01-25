@@ -109,7 +109,7 @@ template<class T>
  *  ...
  *  thrust::tuple<int, const char *> t(13, "thrust");
  *
- *  std::cout << "The 1st value of t is " << thrust::get<1>(t) << std::endl;
+ *  std::cout << "The 1st value of t is " << thrust::get<0>(t) << std::endl;
  *  \endcode
  *
  *  \see pair
@@ -140,7 +140,7 @@ get(detail::cons<HT, TT>& t);
  *  ...
  *  thrust::tuple<int, const char *> t(13, "thrust");
  *
- *  std::cout << "The 1st value of t is " << thrust::get<1>(t) << std::endl;
+ *  std::cout << "The 1st value of t is " << thrust::get<0>(t) << std::endl;
  *  \endcode
  *
  *  \see pair

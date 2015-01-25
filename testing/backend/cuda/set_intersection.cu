@@ -6,18 +6,19 @@
 #include <thrust/iterator/discard_iterator.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
 __global__
-void set_intersection_kernel(Iterator1 first1, Iterator1 last1,
+void set_intersection_kernel(ExecutionPolicy exec, Iterator1 first1, Iterator1 last1,
                              Iterator2 first2, Iterator2 last2,
                              Iterator3 result1,
                              Iterator4 result2)
 {
-  *result2 = thrust::set_intersection(thrust::seq, first1, last1, first2, last2, result1);
+  *result2 = thrust::set_intersection(exec, first1, last1, first2, last2, result1);
 }
 
 
-void TestSetIntersectionDeviceSeq()
+template<typename ExecutionPolicy>
+void TestSetIntersectionDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::iterator Iterator;
@@ -33,13 +34,26 @@ void TestSetIntersectionDeviceSeq()
   Vector result(2);
   thrust::device_vector<Iterator> end_vec(1);
 
-  set_intersection_kernel<<<1,1>>>(a.begin(), a.end(), b.begin(), b.end(), result.begin(), end_vec.begin());
+  set_intersection_kernel<<<1,1>>>(exec, a.begin(), a.end(), b.begin(), b.end(), result.begin(), end_vec.begin());
   Iterator end = end_vec.front();
 
   ASSERT_EQUAL_QUIET(result.end(), end);
   ASSERT_EQUAL(ref, result);
 }
+
+
+void TestSetIntersectionDeviceSeq()
+{
+  TestSetIntersectionDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestSetIntersectionDeviceSeq);
+
+
+void TestSetIntersectionDeviceDevice()
+{
+  TestSetIntersectionDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestSetIntersectionDeviceDevice);
 
 
 void TestSetIntersectionCudaStreams()
@@ -60,7 +74,7 @@ void TestSetIntersectionCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Iterator end = thrust::set_intersection(thrust::cuda::par(s),
+  Iterator end = thrust::set_intersection(thrust::cuda::par.on(s),
                                           a.begin(), a.end(),
                                           b.begin(), b.end(),
                                           result.begin());

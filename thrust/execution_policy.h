@@ -340,7 +340,11 @@ static const detail::host_t host;
  *  \see host_execution_policy
  *  \see thrust::device
  */
+#ifdef __CUDA_ARCH__
+static const __device__ detail::device_t device;
+#else
 static const detail::device_t device;
+#endif
 
 
 // define seq for the purpose of Doxygenating it

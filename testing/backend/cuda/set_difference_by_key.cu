@@ -4,9 +4,10 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5, typename Iterator6, typename Iterator7>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Iterator5, typename Iterator6, typename Iterator7>
 __global__
-void set_difference_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
+void set_difference_by_key_kernel(ExecutionPolicy exec,
+                                  Iterator1 keys_first1, Iterator1 keys_last1,
                                   Iterator2 keys_first2, Iterator2 keys_last2,
                                   Iterator3 values_first1,
                                   Iterator4 values_first2,
@@ -14,7 +15,7 @@ void set_difference_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
                                   Iterator6 values_result,
                                   Iterator7 result)
 {
-  *result = thrust::set_difference_by_key(thrust::seq,
+  *result = thrust::set_difference_by_key(exec,
                                           keys_first1, keys_last1,
                                           keys_first2, keys_last2,
                                           values_first1,
@@ -24,7 +25,8 @@ void set_difference_by_key_kernel(Iterator1 keys_first1, Iterator1 keys_last1,
 }
 
 
-void TestSetDifferenceByKeyDeviceSeq()
+template<typename ExecutionPolicy>
+void TestSetDifferenceByKeyDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::iterator Iterator;
@@ -48,7 +50,8 @@ void TestSetDifferenceByKeyDeviceSeq()
 
   thrust::device_vector<iter_pair> end_vec(1);
 
-  set_difference_by_key_kernel<<<1,1>>>(a_key.begin(), a_key.end(),
+  set_difference_by_key_kernel<<<1,1>>>(exec,
+                                        a_key.begin(), a_key.end(),
                                         b_key.begin(), b_key.end(),
                                         a_val.begin(),
                                         b_val.begin(),
@@ -63,7 +66,20 @@ void TestSetDifferenceByKeyDeviceSeq()
   ASSERT_EQUAL(ref_key, result_key);
   ASSERT_EQUAL(ref_val, result_val);
 }
+
+
+void TestSetDifferenceByKeyDeviceSeq()
+{
+  TestSetDifferenceByKeyDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestSetDifferenceByKeyDeviceSeq);
+
+
+void TestSetDifferenceByKeyDeviceDevice()
+{
+  TestSetDifferenceByKeyDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestSetDifferenceByKeyDeviceDevice);
 
 
 void TestSetDifferenceByKeyCudaStreams()
@@ -90,7 +106,7 @@ void TestSetDifferenceByKeyCudaStreams()
   cudaStreamCreate(&s);
 
   thrust::pair<Iterator,Iterator> end =
-    thrust::set_difference_by_key(thrust::cuda::par(s),
+    thrust::set_difference_by_key(thrust::cuda::par.on(s),
                                   a_key.begin(), a_key.end(),
                                   b_key.begin(), b_key.end(),
                                   a_val.begin(),

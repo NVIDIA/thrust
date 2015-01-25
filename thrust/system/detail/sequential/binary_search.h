@@ -36,6 +36,7 @@ namespace sequential
 {
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T,
@@ -80,6 +81,7 @@ ForwardIterator lower_bound(sequential::execution_policy<DerivedPolicy> &,
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T,
@@ -124,6 +126,7 @@ ForwardIterator upper_bound(sequential::execution_policy<DerivedPolicy> &,
 }
 
 
+__thrust_hd_warning_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T,

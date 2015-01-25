@@ -6,8 +6,6 @@
 #include <thrust/sort.h>
 #include <thrust/system/cuda/detail/detail/stable_radix_sort.h>
 
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-
 using namespace unittest;
 
 template <class Vector>
@@ -62,13 +60,15 @@ struct TestRadixSortKeyValueSimple
 {
   void operator()(const size_t dummy)
   {
+    typedef typename Vector::value_type T;
+
     Vector unsorted_keys, unsorted_values;
     Vector   sorted_keys,   sorted_values;
 
     InitializeSimpleKeyValueRadixSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
 
     thrust::cuda::tag cuda_tag;
-    thrust::system::cuda::detail::detail::stable_radix_sort_by_key(cuda_tag, unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin());
+    thrust::system::cuda::detail::detail::stable_radix_sort_by_key(cuda_tag, unsorted_keys.begin(), unsorted_keys.end(), unsorted_values.begin(), thrust::less<T>());
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
     ASSERT_EQUAL(unsorted_values, sorted_values);
@@ -111,13 +111,11 @@ struct TestRadixSortByKey
     thrust::stable_sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin());
 
     thrust::cuda::tag cuda_tag;
-    thrust::system::cuda::detail::detail::stable_radix_sort_by_key(cuda_tag, d_keys.begin(), d_keys.end(), d_values.begin());
+    thrust::system::cuda::detail::detail::stable_radix_sort_by_key(cuda_tag, d_keys.begin(), d_keys.end(), d_values.begin(), thrust::less<T>());
 
     ASSERT_ALMOST_EQUAL(h_keys, d_keys);
     ASSERT_ALMOST_EQUAL(h_values, d_values);
   }
 };
 VariableUnitTest<TestRadixSortByKey, RadixSortKeyTypes> TestRadixSortByKeyInstance;
-
-#endif // THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 

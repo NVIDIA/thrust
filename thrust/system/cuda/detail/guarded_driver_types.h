@@ -21,10 +21,10 @@
 // the purpose of this header is to #include <driver_types.h> without causing
 // warnings from redefinitions of __host__ and __device__.
 // carefully save their definitions and restore them
-// push_macro & pop_macro were introduced to gcc in version 4.3
+// can't tell exactly when push_macro & pop_macro were introduced to gcc; assume 4.5.0
 
 
-#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40300)
+#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40500)
 #  ifdef __host__
 #    pragma push_macro("__host__")
 #    undef __host__
@@ -35,13 +35,22 @@
 #    undef __device__
 #    define THRUST_DEVICE_NEEDS_RESTORATION
 #  endif
+#else // GNUC pre 4.5.0
+#  if !defined(__DRIVER_TYPES_H__)
+#    ifdef __host__
+#      undef __host__
+#    endif
+#    ifdef __device__
+#      undef __device__
+#    endif
+#  endif // __DRIVER_TYPES_H__
 #endif // __GNUC__
 
 
 #include <driver_types.h>
 
 
-#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40300)
+#if !defined(__GNUC__) || ((10000 * __GNUC__ + 100 * __GNUC_MINOR__ + __GNUC_PATCHLEVEL__) >= 40500)
 #  ifdef THRUST_HOST_NEEDS_RESTORATION
 #    pragma pop_macro("__host__")
 #    undef THRUST_HOST_NEEDS_RESTORATION

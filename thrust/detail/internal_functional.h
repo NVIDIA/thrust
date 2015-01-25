@@ -34,141 +34,141 @@ namespace detail
 {
 
 // unary_negate does not need to know argument_type
-template <typename Predicate>
+template<typename Predicate>
 struct unary_negate
 {
-    typedef bool result_type;
-
-    Predicate pred;
-
-    __host__ __device__
-    explicit unary_negate(const Predicate& pred) : pred(pred) {}
-
-    template <typename T>
-    __host__ __device__
-    bool operator()(const T& x)
-    {
-        return !bool(pred(x));
-    }
+  typedef bool result_type;
+  
+  Predicate pred;
+  
+  __host__ __device__
+  explicit unary_negate(const Predicate& pred) : pred(pred) {}
+  
+  template <typename T>
+  __host__ __device__
+  bool operator()(const T& x)
+  {
+    return !bool(pred(x));
+  }
 };
 
 // binary_negate does not need to know first_argument_type or second_argument_type
-template <typename Predicate>
+template<typename Predicate>
 struct binary_negate
 {
-    typedef bool result_type;
-
-    Predicate pred;
-
-    __host__ __device__
-    explicit binary_negate(const Predicate& pred) : pred(pred) {}
-
-    template <typename T1, typename T2>
-        __host__ __device__
-        bool operator()(const T1& x, const T2& y)
-        {
-            return !bool(pred(x,y));
-        }
+  typedef bool result_type;
+  
+  Predicate pred;
+  
+  __host__ __device__
+  explicit binary_negate(const Predicate& pred) : pred(pred) {}
+  
+  template <typename T1, typename T2>
+  __host__ __device__
+  bool operator()(const T1& x, const T2& y)
+  {
+    return !bool(pred(x,y));
+  }
 };
 
 template<typename Predicate>
-  __host__ __device__
-  thrust::detail::unary_negate<Predicate> not1(const Predicate &pred)
+__host__ __device__
+thrust::detail::unary_negate<Predicate> not1(const Predicate &pred)
 {
-    return thrust::detail::unary_negate<Predicate>(pred);
+  return thrust::detail::unary_negate<Predicate>(pred);
 }
 
 template<typename Predicate>
-  __host__ __device__
-  thrust::detail::binary_negate<Predicate> not2(const Predicate &pred)
+__host__ __device__
+thrust::detail::binary_negate<Predicate> not2(const Predicate &pred)
 {
-    return thrust::detail::binary_negate<Predicate>(pred);
+  return thrust::detail::binary_negate<Predicate>(pred);
 }
 
 
 // convert a predicate to a 0 or 1 integral value
-template <typename Predicate, typename IntegralType>
+template<typename Predicate, typename IntegralType>
 struct predicate_to_integral
 {
-    Predicate pred;
-
-    __host__ __device__
-    explicit predicate_to_integral(const Predicate& pred) : pred(pred) {}
-
-    template <typename T>
-        __host__ __device__
-        bool operator()(const T& x)
-        {
-            return pred(x) ? IntegralType(1) : IntegralType(0);
-        }
+  Predicate pred;
+  
+  __host__ __device__
+  explicit predicate_to_integral(const Predicate& pred) : pred(pred) {}
+  
+  template <typename T>
+  __host__ __device__
+  bool operator()(const T& x)
+  {
+    return pred(x) ? IntegralType(1) : IntegralType(0);
+  }
 };
 
 
 // note that detail::equal_to does not force conversion from T2 -> T1 as equal_to does
-template <typename T1>
+template<typename T1>
 struct equal_to
 {
-    typedef bool result_type;
-
-    template <typename T2>
-        __host__ __device__
-        bool operator()(const T1& lhs, const T2& rhs) const
-        {
-            return lhs == rhs;
-        }
+  typedef bool result_type;
+  
+  template <typename T2>
+  __host__ __device__
+  bool operator()(const T1& lhs, const T2& rhs) const
+  {
+    return lhs == rhs;
+  }
 };
 
 // note that equal_to_value does not force conversion from T2 -> T1 as equal_to does
-template <typename T2>
+template<typename T2>
 struct equal_to_value
 {
-    T2 rhs;
-
-    __host__ __device__
-    equal_to_value(const T2& rhs) : rhs(rhs) {}
-
-    template <typename T1>
-        __host__ __device__
-        bool operator()(const T1& lhs) const
-        {
-            return lhs == rhs;
-        }
+  T2 rhs;
+  
+  __host__ __device__
+  equal_to_value(const T2& rhs) : rhs(rhs) {}
+  
+  template <typename T1>
+  __host__ __device__
+  bool operator()(const T1& lhs) const
+  {
+    return lhs == rhs;
+  }
 };
 
-template <typename Predicate>
+template<typename Predicate>
 struct tuple_binary_predicate
 {
-    typedef bool result_type;
-
-    __host__ __device__
-        tuple_binary_predicate(const Predicate& p) : pred(p) {}
-
-    template<typename Tuple>
-        __host__ __device__
-        bool operator()(const Tuple& t) const
-        { 
-            return pred(thrust::get<0>(t), thrust::get<1>(t));
-        }
-
-    Predicate pred;
+  typedef bool result_type;
+  
+  __host__ __device__
+  tuple_binary_predicate(const Predicate& p) : pred(p) {}
+  
+  template<typename Tuple>
+  __host__ __device__
+  bool operator()(const Tuple& t) const
+  { 
+    return pred(thrust::get<0>(t), thrust::get<1>(t));
+  }
+  
+  mutable Predicate pred;
 };
 
-template <typename Predicate>
+template<typename Predicate>
 struct tuple_not_binary_predicate
 {
-    typedef bool result_type;
-
-    __host__ __device__
-        tuple_not_binary_predicate(const Predicate& p) : pred(p) {}
-
-    template<typename Tuple>
-        __host__ __device__
-        bool operator()(const Tuple& t) const
-        { 
-            return !pred(thrust::get<0>(t), thrust::get<1>(t));
-        }
-
-    Predicate pred;
+  typedef bool result_type;
+  
+  __host__ __device__
+  tuple_not_binary_predicate(const Predicate& p) : pred(p) {}
+  
+  template<typename Tuple>
+  __host__ __device__
+  bool operator()(const Tuple& t) const
+  { 
+    return !pred(thrust::get<0>(t), thrust::get<1>(t));
+  }
+  
+  mutable Predicate pred;
 };
 
 template<typename Generator>
@@ -459,7 +459,7 @@ template<typename System, typename T>
 template <typename T>
 struct fill_functor
 {
-  const T exemplar;
+  T exemplar;
 
   __host__ __device__
   fill_functor(const T& _exemplar) 

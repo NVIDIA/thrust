@@ -3,18 +3,20 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
 __global__
-void set_union_kernel(Iterator1 first1, Iterator1 last1,
+void set_union_kernel(ExecutionPolicy exec,
+                      Iterator1 first1, Iterator1 last1,
                       Iterator2 first2, Iterator2 last2,
                       Iterator3 result1,
                       Iterator4 result2)
 {
-  *result2 = thrust::set_union(thrust::seq, first1, last1, first2, last2, result1);
+  *result2 = thrust::set_union(exec, first1, last1, first2, last2, result1);
 }
 
 
-void TestSetUnionDeviceSeq()
+template<typename ExecutionPolicy>
+void TestSetUnionDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::iterator Iterator;
@@ -30,7 +32,8 @@ void TestSetUnionDeviceSeq()
   Vector result(5);
   thrust::device_vector<Iterator> end_vec(1);
 
-  set_union_kernel<<<1,1>>>(a.begin(), a.end(),
+  set_union_kernel<<<1,1>>>(exec,
+                            a.begin(), a.end(),
                             b.begin(), b.end(),
                             result.begin(),
                             end_vec.begin());
@@ -39,7 +42,20 @@ void TestSetUnionDeviceSeq()
   ASSERT_EQUAL_QUIET(result.end(), end);
   ASSERT_EQUAL(ref, result);
 }
+
+
+void TestSetUnionDeviceSeq()
+{
+  TestSetUnionDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestSetUnionDeviceSeq);
+
+
+void TestSetUnionDeviceDevice()
+{
+  TestSetUnionDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestSetUnionDeviceDevice);
 
 
 void TestSetUnionCudaStreams()
@@ -60,7 +76,7 @@ void TestSetUnionCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Iterator end = thrust::set_union(thrust::cuda::par(s),
+  Iterator end = thrust::set_union(thrust::cuda::par.on(s),
                                    a.begin(), a.end(),
                                    b.begin(), b.end(),
                                    result.begin());

@@ -1,23 +1,24 @@
 #include <unittest/unittest.h>
 #include <thrust/scatter.h>
 #include <thrust/execution_policy.h>
+#include <algorithm>
 
-
-template<typename Iterator1, typename Iterator2, typename Iterator3>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3>
 __global__
-void scatter_kernel(Iterator1 first, Iterator1 last, Iterator2 map_first, Iterator3 result)
+void scatter_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 map_first, Iterator3 result)
 {
-  thrust::scatter(thrust::seq, first, last, map_first, result);
+  thrust::scatter(exec, first, last, map_first, result);
 }
 
 
-template<typename T>
-void TestScatterDeviceSeq(const size_t n)
+template<typename ExecutionPolicy>
+void TestScatterDevice(ExecutionPolicy exec)
 {
+  size_t n = 1000;
   const size_t output_size = std::min((size_t) 10, 2 * n);
   
-  thrust::host_vector<T> h_input(n, (T) 1);
-  thrust::device_vector<T> d_input(n, (T) 1);
+  thrust::host_vector<int> h_input(n, 1);
+  thrust::device_vector<int> d_input(n, 1);
   
   thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
   
@@ -28,22 +29,33 @@ void TestScatterDeviceSeq(const size_t n)
   
   thrust::device_vector<unsigned int> d_map = h_map;
   
-  thrust::host_vector<T>   h_output(output_size, (T) 0);
-  thrust::device_vector<T> d_output(output_size, (T) 0);
+  thrust::host_vector<int>   h_output(output_size, 0);
+  thrust::device_vector<int> d_output(output_size, 0);
   
   thrust::scatter(h_input.begin(), h_input.end(), h_map.begin(), h_output.begin());
-  scatter_kernel<<<1,1>>>(d_input.begin(), d_input.end(), d_map.begin(), d_output.begin());
+  scatter_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_map.begin(), d_output.begin());
   
   ASSERT_EQUAL(h_output, d_output);
 }
-DECLARE_VARIABLE_UNITTEST(TestScatterDeviceSeq);
 
-
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Function>
-__global__
-void scatter_if_kernel(Iterator1 first, Iterator1 last, Iterator2 map_first, Iterator3 stencil_first, Iterator4 result, Function f)
+void TestScatterDeviceSeq()
 {
-  thrust::scatter_if(thrust::seq, first, last, map_first, stencil_first, result, f);
+  TestScatterDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestScatterDeviceSeq);
+
+void TestScatterDeviceDevice()
+{
+  TestScatterDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestScatterDeviceDevice);
+
+
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Function>
+__global__
+void scatter_if_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 map_first, Iterator3 stencil_first, Iterator4 result, Function f)
+{
+  thrust::scatter_if(exec, first, last, map_first, stencil_first, result, f);
 }
 
 
@@ -54,13 +66,14 @@ struct is_even_scatter_if
 };
 
 
-template<typename T>
-void TestScatterIfDeviceSeq(const size_t n)
+template<typename ExecutionPolicy>
+void TestScatterIfDevice(ExecutionPolicy exec)
 {
+  size_t n = 1000;
   const size_t output_size = std::min((size_t) 10, 2 * n);
   
-  thrust::host_vector<T> h_input(n, (T) 1);
-  thrust::device_vector<T> d_input(n, (T) 1);
+  thrust::host_vector<int> h_input(n, 1);
+  thrust::device_vector<int> d_input(n, 1);
   
   thrust::host_vector<unsigned int> h_map = unittest::random_integers<unsigned int>(n);
   
@@ -71,15 +84,28 @@ void TestScatterIfDeviceSeq(const size_t n)
   
   thrust::device_vector<unsigned int> d_map = h_map;
   
-  thrust::host_vector<T>   h_output(output_size, (T) 0);
-  thrust::device_vector<T> d_output(output_size, (T) 0);
+  thrust::host_vector<int>   h_output(output_size, 0);
+  thrust::device_vector<int> d_output(output_size, 0);
   
   thrust::scatter_if(h_input.begin(), h_input.end(), h_map.begin(), h_map.begin(), h_output.begin(), is_even_scatter_if<unsigned int>());
-  scatter_if_kernel<<<1,1>>>(d_input.begin(), d_input.end(), d_map.begin(), d_map.begin(), d_output.begin(), is_even_scatter_if<unsigned int>());
+  scatter_if_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_map.begin(), d_map.begin(), d_output.begin(), is_even_scatter_if<unsigned int>());
   
   ASSERT_EQUAL(h_output, d_output);
 }
-DECLARE_VARIABLE_UNITTEST(TestScatterIfDeviceSeq);
+
+
+void TestScatterIfDeviceSeq()
+{
+  TestScatterIfDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestScatterIfDeviceSeq);
+
+
+void TestScatterIfDeviceDevice()
+{
+  TestScatterIfDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestScatterIfDeviceDevice);
 
 
 void TestScatterCudaStreams()
@@ -98,7 +124,7 @@ void TestScatterCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::scatter(thrust::cuda::par(s), src.begin(), src.end(), map.begin(), dst.begin());
+  thrust::scatter(thrust::cuda::par.on(s), src.begin(), src.end(), map.begin(), dst.begin());
 
   cudaStreamSynchronize(s);
 
@@ -134,7 +160,7 @@ void TestScatterIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::scatter_if(thrust::cuda::par(s), src.begin(), src.end(), map.begin(), flg.begin(), dst.begin());
+  thrust::scatter_if(thrust::cuda::par.on(s), src.begin(), src.end(), map.begin(), flg.begin(), dst.begin());
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(dst[0], 0);

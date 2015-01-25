@@ -17,7 +17,11 @@
 #pragma once
 
 #include <thrust/system/cuda/detail/bulk/detail/config.hpp>
+#include <thrust/system/cuda/detail/bulk/detail/terminate.hpp>
+#include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
+#include <cstdio>
+
 
 BULK_NAMESPACE_PREFIX
 namespace bulk
@@ -26,11 +30,21 @@ namespace detail
 {
 
 
-inline void throw_on_error(cudaError_t e, const char *message)
+inline __host__ __device__
+void throw_on_error(cudaError_t e, const char *message)
 {
   if(e)
   {
+#ifndef __CUDA_ARCH__
     throw thrust::system_error(e, thrust::cuda_category(), message);
+#else
+#  if (__BULK_HAS_PRINTF__ && __BULK_HAS_CUDART__)
+    printf("Error after %s: %s\n", message, cudaGetErrorString(e));
+#  elif __BULK_HAS_PRINTF__
+    printf("Error: %s\n", message);
+#  endif
+    bulk::detail::terminate();
+#endif
   } // end if
 } // end throw_on_error()
 

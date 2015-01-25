@@ -3,11 +3,11 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator, typename Function>
+template<typename ExecutionPolicy, typename Iterator, typename Function>
 __global__
-void generate_kernel(Iterator first, Iterator last, Function f)
+void generate_kernel(ExecutionPolicy exec, Iterator first, Iterator last, Function f)
 {
-  thrust::generate(thrust::seq, first, last, f);
+  thrust::generate(exec, first, last, f);
 }
 
 
@@ -24,8 +24,8 @@ struct return_value
 };
 
 
-template<typename T>
-void TestGenerateDeviceSeq(const size_t n)
+template<typename T, typename ExecutionPolicy>
+void TestGenerateDevice(ExecutionPolicy exec, const size_t n)
 {
   thrust::host_vector<T> h_result(n);
   thrust::device_vector<T> d_result(n);
@@ -34,11 +34,26 @@ void TestGenerateDeviceSeq(const size_t n)
   return_value<T> f(value);
   
   thrust::generate(h_result.begin(), h_result.end(), f);
-  generate_kernel<<<1,1>>>(d_result.begin(), d_result.end(), f);
+  generate_kernel<<<1,1>>>(exec, d_result.begin(), d_result.end(), f);
   
   ASSERT_EQUAL(h_result, d_result);
 }
+
+
+template<typename T>
+void TestGenerateDeviceSeq(const size_t n)
+{
+  TestGenerateDevice<T>(thrust::seq, n);
+}
 DECLARE_VARIABLE_UNITTEST(TestGenerateDeviceSeq);
+
+
+template<typename T>
+void TestGenerateDeviceDevice(const size_t n)
+{
+  TestGenerateDevice<T>(thrust::device, n);
+}
+DECLARE_VARIABLE_UNITTEST(TestGenerateDeviceDevice);
 
 
 void TestGenerateCudaStreams()
@@ -52,7 +67,7 @@ void TestGenerateCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::generate(thrust::cuda::par(s), result.begin(), result.end(), f);
+  thrust::generate(thrust::cuda::par.on(s), result.begin(), result.end(), f);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(result[0], value);
@@ -66,16 +81,16 @@ void TestGenerateCudaStreams()
 DECLARE_UNITTEST(TestGenerateCudaStreams);
 
 
-template<typename Iterator, typename Size, typename Function>
+template<typename ExecutionPolicy, typename Iterator, typename Size, typename Function>
 __global__
-void generate_n_kernel(Iterator first, Size n, Function f)
+void generate_n_kernel(ExecutionPolicy exec, Iterator first, Size n, Function f)
 {
-  thrust::generate_n(thrust::seq, first, n, f);
+  thrust::generate_n(exec, first, n, f);
 }
 
 
-template<typename T>
-void TestGenerateNDeviceSeq(const size_t n)
+template<typename T, typename ExecutionPolicy>
+void TestGenerateNDevice(ExecutionPolicy exec, const size_t n)
 {
   thrust::host_vector<T> h_result(n);
   thrust::device_vector<T> d_result(n);
@@ -84,11 +99,26 @@ void TestGenerateNDeviceSeq(const size_t n)
   return_value<T> f(value);
   
   thrust::generate_n(h_result.begin(), h_result.size(), f);
-  generate_n_kernel<<<1,1>>>(d_result.begin(), d_result.size(), f);
+  generate_n_kernel<<<1,1>>>(exec, d_result.begin(), d_result.size(), f);
   
   ASSERT_EQUAL(h_result, d_result);
 }
+
+
+template<typename T>
+void TestGenerateNDeviceSeq(const size_t n)
+{
+  TestGenerateNDevice<T>(thrust::seq, n);
+}
 DECLARE_VARIABLE_UNITTEST(TestGenerateNDeviceSeq);
+
+
+template<typename T>
+void TestGenerateNDeviceDevice(const size_t n)
+{
+  TestGenerateNDevice<T>(thrust::device, n);
+}
+DECLARE_VARIABLE_UNITTEST(TestGenerateNDeviceDevice);
 
 
 void TestGenerateNCudaStreams()
@@ -102,7 +132,7 @@ void TestGenerateNCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
   
-  thrust::generate_n(thrust::cuda::par(s), result.begin(), result.size(), f);
+  thrust::generate_n(thrust::cuda::par.on(s), result.begin(), result.size(), f);
   cudaStreamSynchronize(s);
   
   ASSERT_EQUAL(result[0], value);

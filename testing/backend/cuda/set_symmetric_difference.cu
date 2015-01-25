@@ -3,18 +3,20 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4>
 __global__
-void set_symmetric_difference_kernel(Iterator1 first1, Iterator1 last1,
+void set_symmetric_difference_kernel(ExecutionPolicy exec,
+                                     Iterator1 first1, Iterator1 last1,
                                      Iterator2 first2, Iterator2 last2,
                                      Iterator3 result1,
                                      Iterator4 result2)
 {
-  *result2 = thrust::set_symmetric_difference(thrust::seq, first1, last1, first2, last2, result1);
+  *result2 = thrust::set_symmetric_difference(exec, first1, last1, first2, last2, result1);
 }
 
 
-void TestSetSymmetricDifferenceDeviceSeq()
+template<typename ExecutionPolicy>
+void TestSetSymmetricDifferenceDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::iterator Iterator;
@@ -30,7 +32,8 @@ void TestSetSymmetricDifferenceDeviceSeq()
   Vector result(5);
   thrust::device_vector<Iterator> end_vec(1);
 
-  set_symmetric_difference_kernel<<<1,1>>>(a.begin(), a.end(),
+  set_symmetric_difference_kernel<<<1,1>>>(exec,
+                                           a.begin(), a.end(),
                                            b.begin(), b.end(),
                                            result.begin(),
                                            end_vec.begin());
@@ -39,7 +42,20 @@ void TestSetSymmetricDifferenceDeviceSeq()
   ASSERT_EQUAL_QUIET(result.end(), end);
   ASSERT_EQUAL(ref, result);
 }
+
+
+void TestSetSymmetricDifferenceDeviceSeq()
+{
+  TestSetSymmetricDifferenceDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestSetSymmetricDifferenceDeviceSeq);
+
+
+void TestSetSymmetricDifferenceDeviceDevice()
+{
+  TestSetSymmetricDifferenceDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestSetSymmetricDifferenceDeviceDevice);
 
 
 void TestSetSymmetricDifferenceCudaStreams()
@@ -60,7 +76,7 @@ void TestSetSymmetricDifferenceCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  Iterator end = thrust::set_symmetric_difference(thrust::cuda::par(s),
+  Iterator end = thrust::set_symmetric_difference(thrust::cuda::par.on(s),
                                                   a.begin(), a.end(),
                                                   b.begin(), b.end(),
                                                   result.begin());

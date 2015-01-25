@@ -34,6 +34,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
+__host__ __device__
 RandomAccessIterator3 set_difference(execution_policy<DerivedPolicy> &exec,
                                      RandomAccessIterator1 first1,
                                      RandomAccessIterator1 last1,
@@ -48,6 +49,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
+__host__ __device__
 RandomAccessIterator3 set_intersection(execution_policy<DerivedPolicy> &exec,
                                        RandomAccessIterator1 first1,
                                        RandomAccessIterator1 last1,
@@ -62,6 +64,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
+__host__ __device__
 RandomAccessIterator3 set_symmetric_difference(execution_policy<DerivedPolicy> &exec,
                                                RandomAccessIterator1 first1,
                                                RandomAccessIterator1 last1,
@@ -76,6 +79,7 @@ template<typename DerivedPolicy,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
+__host__ __device__
 RandomAccessIterator3 set_union(execution_policy<DerivedPolicy> &exec,
                                 RandomAccessIterator1 first1,
                                 RandomAccessIterator1 last1,

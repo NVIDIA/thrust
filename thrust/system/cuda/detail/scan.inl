@@ -20,7 +20,8 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/static_assert.h>
+#include <thrust/scan.h>
+#include <thrust/detail/seq.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits/function_traits.h>
 #include <thrust/system/cuda/detail/decomposition.h>
@@ -37,11 +38,6 @@ namespace detail
 {
 namespace scan_detail
 {
-
-
-// avoid accidentally picking up some other installation of bulk that
-// may be floating around
-namespace bulk_ = thrust::system::cuda::detail::bulk;
 
 
 struct inclusive_scan_n
@@ -119,9 +115,57 @@ struct exclusive_downsweep
   
     typename thrust::iterator_value<RandomAccessIterator2>::type carry = carries_first[this_group.index()];
 
-    bulk::exclusive_scan(this_group, first, last, result, carry, binary_op);
+    bulk_::exclusive_scan(this_group, first, last, result, carry, binary_op);
   }
 };
+
+
+template<typename T> struct accumulate_tiles_tuning_impl;
+
+
+template<> struct accumulate_tiles_tuning_impl<int>
+{
+  // determined from empirical testing on k20c & nvcc 6.5 RC
+  static const int groupsize = 128;
+  static const int grainsize = 9;
+};
+
+
+template<> struct accumulate_tiles_tuning_impl<double>
+{
+  // determined from empirical testing on k20c & nvcc 6.5 RC
+  static const int groupsize = 128;
+  static const int grainsize = 9;
+};
+
+
+// determined from empirical testing on k20c
+template<typename T>
+  struct accumulate_tiles_tuning
+{
+  static const int groupsize =
+    sizeof(T) <=     sizeof(int) ? accumulate_tiles_tuning_impl<int>::groupsize :
+    sizeof(T) <= 2 * sizeof(int) ? accumulate_tiles_tuning_impl<double>::groupsize :
+    128;
+  
+  static const int grainsize =
+    sizeof(T) <=     sizeof(int) ? accumulate_tiles_tuning_impl<int>::grainsize :
+    sizeof(T) <= 2 * sizeof(int) ? accumulate_tiles_tuning_impl<double>::grainsize :
+    3;
+};
+
+// this specialization accomodates scan_by_key,
+// whose intermediate type is a tuple
+template<typename T1, typename T2>
+  struct accumulate_tiles_tuning<thrust::tuple<T1,T2> >
+{
+  // determined from empirical testing on k20c
+  static const int groupsize = 128;
+  static const int grainsize = ((sizeof(T1) + sizeof(T2)) <= (2 * sizeof(double))) ? 5 : 3;
+};
+
+
+
 
 
 struct accumulate_tiles
@@ -154,21 +198,17 @@ struct accumulate_tiles
 }; // end accumulate_tiles
 
 
-} // end scan_detail
-
-
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename AssociativeOperator>
-  OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                AssociativeOperator binary_op)
+__host__ __device__
+OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              AssociativeOperator binary_op)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename bulk_::detail::scan_detail::scan_intermediate<
     InputIterator,
     OutputIterator,
@@ -199,16 +239,8 @@ template<typename DerivedPolicy,
   } // end if
   else
   {
-    // determined from empirical testing on k20c
-    const Size groupsize =
-      sizeof(intermediate_type) <=     sizeof(int) ? 128 :
-      sizeof(intermediate_type) <= 2 * sizeof(int) ? 256 :
-      128;
-
-    const Size grainsize =
-      sizeof(intermediate_type) <=     sizeof(int) ? 9 :
-      sizeof(intermediate_type) <= 2 * sizeof(int) ? 5 :
-      3;
+    const Size groupsize = scan_detail::accumulate_tiles_tuning<intermediate_type>::groupsize;
+    const Size grainsize = scan_detail::accumulate_tiles_tuning<intermediate_type>::grainsize;
 
     const Size tile_size = groupsize * grainsize;
     Size num_tiles = (n + tile_size - 1) / tile_size;
@@ -257,15 +289,14 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename T,
          typename AssociativeOperator>
-  OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
-                                InputIterator first,
-                                InputIterator last,
-                                OutputIterator result,
-                                T init,
-                                AssociativeOperator binary_op)
+__host__ __device__
+OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              T init,
+                              AssociativeOperator binary_op)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename bulk_::detail::scan_detail::scan_intermediate<
     InputIterator,
     OutputIterator,
@@ -296,16 +327,8 @@ template<typename DerivedPolicy,
   } // end if
   else
   {
-    // determined from empirical testing on k20c
-    const Size groupsize =
-      sizeof(intermediate_type) <=     sizeof(int) ? 128 :
-      sizeof(intermediate_type) <= 2 * sizeof(int) ? 256 :
-      128;
-
-    const Size grainsize =
-      sizeof(intermediate_type) <=     sizeof(int) ? 9 :
-      sizeof(intermediate_type) <= 2 * sizeof(int) ? 5 :
-      3;
+    const Size groupsize = scan_detail::accumulate_tiles_tuning<intermediate_type>::groupsize;
+    const Size grainsize = scan_detail::accumulate_tiles_tuning<intermediate_type>::grainsize;
 
     const Size tile_size = groupsize * grainsize;
     Size num_tiles = (n + tile_size - 1) / tile_size;
@@ -347,6 +370,111 @@ template<typename DerivedPolicy,
   } // end else
 
   return result + n;
+} // end exclusive_scan()
+
+
+} // end scan_detail
+
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename AssociativeOperator>
+__host__ __device__
+OutputIterator inclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              AssociativeOperator binary_op)
+{
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
+  struct workaround
+  {
+    __host__ __device__
+    static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
+                                        InputIterator first,
+                                        InputIterator last,
+                                        OutputIterator result,
+                                        AssociativeOperator binary_op)
+    {
+      return thrust::system::cuda::detail::scan_detail::inclusive_scan(exec, first, last, result, binary_op);
+    }
+
+    __host__ __device__
+    static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
+                                          InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          AssociativeOperator binary_op)
+    {
+      return thrust::inclusive_scan(thrust::seq, first, last, result, binary_op);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, last, result, binary_op);
+#else
+  return workaround::sequential_path(exec, first, last, result, binary_op);
+#endif
+} // end inclusive_scan()
+
+
+template<typename DerivedPolicy,
+         typename InputIterator,
+         typename OutputIterator,
+         typename T,
+         typename AssociativeOperator>
+__host__ __device__
+OutputIterator exclusive_scan(execution_policy<DerivedPolicy> &exec,
+                              InputIterator first,
+                              InputIterator last,
+                              OutputIterator result,
+                              T init,
+                              AssociativeOperator binary_op)
+{
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
+  struct workaround
+  {
+    __host__ __device__
+    static OutputIterator parallel_path(execution_policy<DerivedPolicy> &exec,
+                                        InputIterator first,
+                                        InputIterator last,
+                                        OutputIterator result,
+                                        T init,
+                                        AssociativeOperator binary_op)
+    {
+      return thrust::system::cuda::detail::scan_detail::exclusive_scan(exec, first, last, result, init, binary_op);
+    }
+
+    __host__ __device__
+    static OutputIterator sequential_path(execution_policy<DerivedPolicy> &,
+                                          InputIterator first,
+                                          InputIterator last,
+                                          OutputIterator result,
+                                          T init,
+                                          AssociativeOperator binary_op)
+    {
+      return thrust::exclusive_scan(thrust::seq, first, last, result, init, binary_op);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first, last, result, init, binary_op);
+#else
+  return workaround::sequential_path(exec, first, last, result, init, binary_op);
+#endif
 } // end exclusive_scan()
 
 

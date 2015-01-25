@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/sort.h>
 #include <thrust/functional.h>
+#include <thrust/execution_policy.h>
 
 
 template <typename T>
@@ -197,71 +198,6 @@ void TestMergeSortDescendingKeyValue(void)
     ASSERT_EQUAL(h_values, d_values);
 }
 DECLARE_UNITTEST(TestMergeSortDescendingKeyValue);
-
-
-void TestMergeSortUnalignedSimple(void)
-{
-    typedef thrust::device_vector<int> Vector;
-    typedef typename Vector::value_type T;
-
-    Vector unsorted_keys;
-    Vector   sorted_keys;
-
-    InitializeSimpleKeySortTest(unsorted_keys, sorted_keys);
-    
-    for(int offset = 1; offset < 16; offset++){
-        size_t n = unsorted_keys.size() + offset;
-
-        Vector unaligned_unsorted_keys(n, 0);
-        Vector   unaligned_sorted_keys(n, 0);
-        
-        thrust::copy(unsorted_keys.begin(), unsorted_keys.end(), unaligned_unsorted_keys.begin() + offset);
-        thrust::copy(  sorted_keys.begin(),   sorted_keys.end(),   unaligned_sorted_keys.begin() + offset);
-   
-        thrust::cuda::tag cuda_tag;
-        thrust::system::cuda::detail::detail::stable_merge_sort(cuda_tag, unaligned_unsorted_keys.begin() + offset, unaligned_unsorted_keys.end(), thrust::less<T>());
-
-        ASSERT_EQUAL(unaligned_unsorted_keys, unaligned_sorted_keys);
-    }
-}
-DECLARE_UNITTEST(TestMergeSortUnalignedSimple);
-
-
-void TestMergeSortByKeyUnalignedSimple(void)
-{
-    typedef thrust::device_vector<int> Vector;
-    typedef typename Vector::value_type T;
-
-    Vector unsorted_keys, unsorted_values;
-    Vector   sorted_keys,   sorted_values;
-
-    InitializeSimpleKeyValueSortTest(unsorted_keys, unsorted_values, sorted_keys, sorted_values);
-
-    for(int offset = 1; offset < 16; offset++)
-    {
-        size_t n = unsorted_keys.size() + offset;
-
-        Vector   unaligned_unsorted_keys(n, 0);
-        Vector     unaligned_sorted_keys(n, 0);
-        Vector unaligned_unsorted_values(n, 0);
-        Vector   unaligned_sorted_values(n, 0);
-        
-        thrust::copy(  unsorted_keys.begin(),   unsorted_keys.end(),   unaligned_unsorted_keys.begin() + offset);
-        thrust::copy(    sorted_keys.begin(),     sorted_keys.end(),     unaligned_sorted_keys.begin() + offset);
-        thrust::copy(unsorted_values.begin(), unsorted_values.end(), unaligned_unsorted_values.begin() + offset);
-        thrust::copy(  sorted_values.begin(),   sorted_values.end(),   unaligned_sorted_values.begin() + offset);
-   
-        thrust::cuda::tag cuda_tag;
-        thrust::system::cuda::detail::detail::stable_merge_sort_by_key(cuda_tag,
-                                                                       unaligned_unsorted_keys.begin() + offset, 
-                                                                       unaligned_unsorted_keys.end(), 
-                                                                       unaligned_unsorted_values.begin() + offset,
-                                                                       thrust::less<T>());
-
-        ASSERT_EQUAL(unaligned_unsorted_values, unaligned_sorted_values);
-    }
-}
-DECLARE_UNITTEST(TestMergeSortByKeyUnalignedSimple);
 
 
 template<typename U>

@@ -41,19 +41,17 @@ void _TestStableSortByKeyWithLargeKeys(void)
 
 void TestStableSortByKeyWithLargeKeys(void)
 {
-    _TestStableSortByKeyWithLargeKeys<int,    1>();
-    _TestStableSortByKeyWithLargeKeys<int,    2>();
     _TestStableSortByKeyWithLargeKeys<int,    4>();
     _TestStableSortByKeyWithLargeKeys<int,    8>();
     _TestStableSortByKeyWithLargeKeys<int,   16>();
-    _TestStableSortByKeyWithLargeKeys<int,   32>();
-    _TestStableSortByKeyWithLargeKeys<int,   64>();
-    _TestStableSortByKeyWithLargeKeys<int,  128>();
-    _TestStableSortByKeyWithLargeKeys<int,  256>();
-    _TestStableSortByKeyWithLargeKeys<int,  512>();
-    _TestStableSortByKeyWithLargeKeys<int, 1024>();
 
 // XXX these take too long to compile
+//    _TestStableSortByKeyWithLargeKeys<int,   32>();
+//    _TestStableSortByKeyWithLargeKeys<int,   64>();
+//    _TestStableSortByKeyWithLargeKeys<int,  128>();
+//    _TestStableSortByKeyWithLargeKeys<int,  256>();
+//    _TestStableSortByKeyWithLargeKeys<int,  512>();
+//    _TestStableSortByKeyWithLargeKeys<int, 1024>();
 //    _TestStableSortByKeyWithLargeKeys<int, 2048>();
 //    _TestStableSortByKeyWithLargeKeys<int, 4096>();
 //    _TestStableSortByKeyWithLargeKeys<int, 8192>();
@@ -94,20 +92,20 @@ void _TestStableSortByKeyWithLargeValues(void)
 
 void TestStableSortByKeyWithLargeValues(void)
 {
-    _TestStableSortByKeyWithLargeValues<int,    1>();
-    _TestStableSortByKeyWithLargeValues<int,    2>();
     _TestStableSortByKeyWithLargeValues<int,    4>();
     _TestStableSortByKeyWithLargeValues<int,    8>();
     _TestStableSortByKeyWithLargeValues<int,   16>();
-    _TestStableSortByKeyWithLargeValues<int,   32>();
-    _TestStableSortByKeyWithLargeValues<int,   64>();
-    _TestStableSortByKeyWithLargeValues<int,  128>();
-    _TestStableSortByKeyWithLargeValues<int,  256>();
-    _TestStableSortByKeyWithLargeValues<int,  512>();
-    _TestStableSortByKeyWithLargeValues<int, 1024>();
-    _TestStableSortByKeyWithLargeValues<int, 2048>();
-    //_TestStableSortByKeyWithLargeValues<int, 4096>();
-    //_TestStableSortByKeyWithLargeValues<int, 8192>();
+    
+// XXX these take too long to compile
+//    _TestStableSortByKeyWithLargeValues<int,   32>();
+//    _TestStableSortByKeyWithLargeValues<int,   64>();
+//    _TestStableSortByKeyWithLargeValues<int,  128>();
+//    _TestStableSortByKeyWithLargeValues<int,  256>();
+//    _TestStableSortByKeyWithLargeValues<int,  512>();
+//    _TestStableSortByKeyWithLargeValues<int, 1024>();
+//    _TestStableSortByKeyWithLargeValues<int, 2048>();
+//    _TestStableSortByKeyWithLargeValues<int, 4096>();
+//    _TestStableSortByKeyWithLargeValues<int, 8192>();
 }
 DECLARE_UNITTEST(TestStableSortByKeyWithLargeValues);
 
@@ -138,20 +136,20 @@ void _TestStableSortByKeyWithLargeKeysAndValues(void)
 
 void TestStableSortByKeyWithLargeKeysAndValues(void)
 {
-    _TestStableSortByKeyWithLargeKeysAndValues<int,    1>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int,    2>();
     _TestStableSortByKeyWithLargeKeysAndValues<int,    4>();
     _TestStableSortByKeyWithLargeKeysAndValues<int,    8>();
     _TestStableSortByKeyWithLargeKeysAndValues<int,   16>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int,   32>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int,   64>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int,  128>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int,  256>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int,  512>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int, 1024>();
-    _TestStableSortByKeyWithLargeKeysAndValues<int, 2048>();
-    //_TestStableSortByKeyWithLargeKeysAndValues<int, 4096>();
-    //_TestStableSortByKeyWithLargeKeysAndValues<int, 8192>();
+
+// XXX these take too long to compile
+//    _TestStableSortByKeyWithLargeKeysAndValues<int,   32>();
+//    _TestStableSortByKeyWithLargeKeysAndValues<int,   64>();
+//    _TestStableSortByKeyWithLargeKeysAndValues<int,  128>();
+//    _TestStableSortByKeyWithLargeKeysAndValues<int,  256>();
+//    _TestStableSortByKeyWithLargeKeysAndValues<int,  512>();
+//    _TestStableSortByKeyWithLargeKeysAndValues<int, 1024>();
+//    _TestStableSortByKeyWithLargeKeysAndValues<int, 2048>();
+//    _TestStableSortByKeyWithLargeKeysAndValues<int, 4096>();
+//    _TestStableSortByKeyWithLargeKeysAndValues<int, 8192>();
 }
 DECLARE_UNITTEST(TestStableSortByKeyWithLargeKeysAndValues);
 

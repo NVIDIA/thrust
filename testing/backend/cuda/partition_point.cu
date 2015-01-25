@@ -4,11 +4,11 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Predicate, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2>
 __global__
-void partition_point_kernel(Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
+void partition_point_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result)
 {
-  *result = thrust::partition_point(thrust::seq, first, last, pred);
+  *result = thrust::partition_point(exec, first, last, pred);
 }
 
 
@@ -20,20 +20,34 @@ struct is_even
 };
 
 
-template<typename T>
-void TestPartitionPointDeviceSeq(size_t n)
+template<typename ExecutionPolicy>
+void TestPartitionPointDevice(ExecutionPolicy exec)
 {
-  thrust::device_vector<T> v = unittest::random_integers<T>(n);
-  typedef typename thrust::device_vector<T>::iterator iterator;
+  size_t n = 1000;
+  thrust::device_vector<int> v = unittest::random_integers<int>(n);
+  typedef typename thrust::device_vector<int>::iterator iterator;
 
-  iterator ref = thrust::stable_partition(v.begin(), v.end(), is_even<T>());
+  iterator ref = thrust::stable_partition(v.begin(), v.end(), is_even<int>());
 
   thrust::device_vector<iterator> result(1);
-  partition_point_kernel<<<1,1>>>(v.begin(), v.end(), is_even<T>(), result.begin());
+  partition_point_kernel<<<1,1>>>(exec, v.begin(), v.end(), is_even<int>(), result.begin());
 
   ASSERT_EQUAL(ref - v.begin(), (iterator)result[0] - v.begin());
 }
-DECLARE_VARIABLE_UNITTEST(TestPartitionPointDeviceSeq);
+
+
+void TestPartitionPointDeviceSeq()
+{
+  TestPartitionPointDevice(thrust::seq);
+}
+DECLARE_UNITTEST(TestPartitionPointDeviceSeq);
+
+
+void TestPartitionPointDeviceDevice()
+{
+  TestPartitionPointDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestPartitionPointDeviceDevice);
 
 
 void TestPartitionPointCudaStreams()
@@ -53,11 +67,11 @@ void TestPartitionPointCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par(s), first, last, thrust::identity<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par.on(s), first, last, thrust::identity<T>()));
 
   last = v.begin() + 3;
   ref = last;
-  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par(s), first, last, thrust::identity<T>()));
+  ASSERT_EQUAL_QUIET(ref, thrust::partition_point(thrust::cuda::par.on(s), first, last, thrust::identity<T>()));
 
   cudaStreamDestroy(s);
 }

@@ -14,6 +14,9 @@
  *  limitations under the License.
  */
 
+#include <thrust/detail/config.h>
+#include <thrust/merge.h>
+#include <thrust/detail/seq.h>
 #include <thrust/system/cuda/detail/merge.h>
 #include <thrust/system/cuda/detail/bulk.h>
 #include <thrust/detail/temporary_array.h>
@@ -32,11 +35,6 @@ namespace detail
 {
 namespace merge_detail
 {
-
-
-// avoid accidentally picking up some other installation of bulk that
-// may be floating around
-namespace bulk_ = thrust::system::cuda::detail::bulk;
 
 
 template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Size,typename RandomAccessIterator2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
@@ -136,6 +134,7 @@ struct locate_merge_path
   RandomAccessIterator2 first2, last2;
   Compare comp;
 
+  __host__ __device__
   locate_merge_path(Size partition_size, RandomAccessIterator1 first1, RandomAccessIterator1 last1, RandomAccessIterator2 first2, RandomAccessIterator2 last2, Compare comp)
     : partition_size(partition_size),
       first1(first1), last1(last1),
@@ -155,14 +154,12 @@ struct locate_merge_path
 };
 
 
-} // end merge_detail
-
-
 template<typename DerivedPolicy,
          typename RandomAccessIterator1,
          typename RandomAccessIterator2, 
 	 typename RandomAccessIterator3,
          typename Compare>
+__host__ __device__
 RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator1 first1,
                             RandomAccessIterator1 last1,
@@ -171,8 +168,6 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
                             RandomAccessIterator3 result,
                             Compare comp)
 {
-  namespace bulk_ = thrust::system::cuda::detail::bulk;
-
   typedef typename thrust::iterator_value<RandomAccessIterator1>::type value_type;
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type difference_type;
   typedef int size_type;
@@ -192,10 +187,69 @@ RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
 
   // merge partitions
   size_type heap_size = tile_size * sizeof(value_type);
-  bulk_::concurrent_group<bulk::agent<grainsize>,groupsize> g(heap_size);
+  bulk_::concurrent_group<bulk_::agent<grainsize>,groupsize> g(heap_size);
   bulk_::async(bulk_::par(stream(thrust::detail::derived_cast(exec)), g, num_groups), merge_detail::merge_kernel(), bulk_::root.this_exec, first1, last1 - first1, first2, last2 - first2, merge_paths.begin(), result, comp);
 
   return result + n;
+} // end merge()
+
+
+} // end merge_detail
+
+
+template<typename DerivedPolicy,
+         typename RandomAccessIterator1,
+         typename RandomAccessIterator2, 
+	 typename RandomAccessIterator3,
+         typename Compare>
+__host__ __device__
+RandomAccessIterator3 merge(execution_policy<DerivedPolicy> &exec,
+                            RandomAccessIterator1 first1,
+                            RandomAccessIterator1 last1,
+                            RandomAccessIterator2 first2,
+                            RandomAccessIterator2 last2,
+                            RandomAccessIterator3 result,
+                            Compare comp)
+{
+  // we're attempting to launch a kernel, assert we're compiling with nvcc
+  // ========================================================================
+  // X Note to the user: If you've found this line due to a compiler error, X
+  // X you need to compile your code using nvcc, rather than g++ or cl.exe  X
+  // ========================================================================
+  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC>::value) );
+
+  struct workaround
+  {
+    __host__ __device__
+    static RandomAccessIterator3 parallel_path(execution_policy<DerivedPolicy> &exec,
+                                               RandomAccessIterator1 first1,
+                                               RandomAccessIterator1 last1,
+                                               RandomAccessIterator2 first2,
+                                               RandomAccessIterator2 last2,
+                                               RandomAccessIterator3 result,
+                                               Compare comp)
+    {
+      return thrust::system::cuda::detail::merge_detail::merge(exec, first1, last1, first2, last2, result, comp);
+    }
+
+    __host__ __device__
+    static RandomAccessIterator3 sequential_path(execution_policy<DerivedPolicy> &,
+                                                 RandomAccessIterator1 first1,
+                                                 RandomAccessIterator1 last1,
+                                                 RandomAccessIterator2 first2,
+                                                 RandomAccessIterator2 last2,
+                                                 RandomAccessIterator3 result,
+                                                 Compare comp)
+    {
+      return thrust::merge(thrust::seq, first1, last1, first2, last2, result, comp);
+    }
+  };
+
+#if __BULK_HAS_CUDART__
+  return workaround::parallel_path(exec, first1, last1, first2, last2, result, comp);
+#else
+  return workaround::sequential_path(exec, first1, last1, first2, last2, result, comp);
+#endif
 } // end merge()
 
 

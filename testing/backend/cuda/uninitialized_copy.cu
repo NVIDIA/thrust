@@ -3,15 +3,16 @@
 #include <thrust/execution_policy.h>
 
 
-template<typename Iterator1, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
 __global__
-void uninitialized_copy_kernel(Iterator1 first, Iterator1 last, Iterator2 result)
+void uninitialized_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 result)
 {
-  thrust::uninitialized_copy(thrust::seq, first, last, result);
+  thrust::uninitialized_copy(exec, first, last, result);
 }
 
 
-void TestUninitializedCopyDeviceSeq()
+template<typename ExecutionPolicy>
+void TestUninitializedCopyDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::value_type T;
@@ -21,14 +22,27 @@ void TestUninitializedCopyDeviceSeq()
   
   // copy to Vector
   Vector v2(5);
-  uninitialized_copy_kernel<<<1,1>>>(v1.begin(), v1.end(), v2.begin());
+  uninitialized_copy_kernel<<<1,1>>>(exec, v1.begin(), v1.end(), v2.begin());
   ASSERT_EQUAL(v2[0], 0);
   ASSERT_EQUAL(v2[1], 1);
   ASSERT_EQUAL(v2[2], 2);
   ASSERT_EQUAL(v2[3], 3);
   ASSERT_EQUAL(v2[4], 4);
 }
+
+
+void TestUninitializedCopyDeviceSeq()
+{
+  TestUninitializedCopyDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestUninitializedCopyDeviceSeq);
+
+
+void TestUninitializedCopyDeviceDevice()
+{
+  TestUninitializedCopyDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestUninitializedCopyDeviceDevice);
 
 
 void TestUninitializedCopyCudaStreams()
@@ -45,7 +59,7 @@ void TestUninitializedCopyCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::uninitialized_copy(thrust::cuda::par(s), v1.begin(), v1.end(), v2.begin());
+  thrust::uninitialized_copy(thrust::cuda::par.on(s), v1.begin(), v1.end(), v2.begin());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(v2[0], 0);
@@ -59,15 +73,16 @@ void TestUninitializedCopyCudaStreams()
 DECLARE_UNITTEST(TestUninitializedCopyCudaStreams);
 
 
-template<typename Iterator1, typename Size, typename Iterator2>
+template<typename ExecutionPolicy, typename Iterator1, typename Size, typename Iterator2>
 __global__
-void uninitialized_copy_n_kernel(Iterator1 first, Size n, Iterator2 result)
+void uninitialized_copy_n_kernel(ExecutionPolicy exec, Iterator1 first, Size n, Iterator2 result)
 {
-  thrust::uninitialized_copy_n(thrust::seq, first, n, result);
+  thrust::uninitialized_copy_n(exec, first, n, result);
 }
 
 
-void TestUninitializedCopyNDeviceSeq()
+template<typename ExecutionPolicy>
+void TestUninitializedCopyNDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
   typedef typename Vector::value_type T;
@@ -77,14 +92,27 @@ void TestUninitializedCopyNDeviceSeq()
   
   // copy to Vector
   Vector v2(5);
-  uninitialized_copy_n_kernel<<<1,1>>>(v1.begin(), v1.size(), v2.begin());
+  uninitialized_copy_n_kernel<<<1,1>>>(exec, v1.begin(), v1.size(), v2.begin());
   ASSERT_EQUAL(v2[0], 0);
   ASSERT_EQUAL(v2[1], 1);
   ASSERT_EQUAL(v2[2], 2);
   ASSERT_EQUAL(v2[3], 3);
   ASSERT_EQUAL(v2[4], 4);
 }
+
+
+void TestUninitializedCopyNDeviceSeq()
+{
+  TestUninitializedCopyNDevice(thrust::seq);
+}
 DECLARE_UNITTEST(TestUninitializedCopyNDeviceSeq);
+
+
+void TestUninitializedCopyNDeviceDevice()
+{
+  TestUninitializedCopyNDevice(thrust::device);
+}
+DECLARE_UNITTEST(TestUninitializedCopyNDeviceDevice);
 
 
 void TestUninitializedCopyNCudaStreams()
@@ -101,7 +129,7 @@ void TestUninitializedCopyNCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  thrust::uninitialized_copy_n(thrust::cuda::par(s), v1.begin(), v1.size(), v2.begin());
+  thrust::uninitialized_copy_n(thrust::cuda::par.on(s), v1.begin(), v1.size(), v2.begin());
   cudaStreamSynchronize(s);
 
   ASSERT_EQUAL(v2[0], 0);
