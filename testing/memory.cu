@@ -198,8 +198,9 @@ template<typename T>
 
 void TestGetTemporaryBufferDispatchExplicit()
 {
-#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION < 40300)
+#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION <= 40300)
   // gcc 4.2 does not do adl correctly for get_temporary_buffer
+  // gcc 4.3 does not do adl correctly for malloc
   KNOWN_FAILURE;
 #else
   const size_t n = 9001;
@@ -233,8 +234,9 @@ void TestGetTemporaryBufferDispatchImplicit()
   }
   else
   {
-#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION < 40300)
+#if defined(THRUST_GCC_VERSION) && (THRUST_GCC_VERSION <= 40300)
     // gcc 4.2 does not do adl correctly for get_temporary_buffer
+    // gcc 4.3 does not do adl correctly for malloc
     KNOWN_FAILURE;
 #else
     thrust::device_vector<int> vec(9001);
