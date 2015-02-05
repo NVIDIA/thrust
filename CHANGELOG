@@ -3,10 +3,14 @@
 #######################################
 
 Summary
-    TODO
+    Small bug fixes
 
 Bug Fixes
-    TODO
+    #615 CUDA for_each accesses illegal memory locations when given a large range
+    #620 CUDA's reduce_by_key fails on large input
+
+Known Issues
+    #628 CUDA's reduce_by_key fails on sm_50 devices
 
 #######################################
 #           Thrust v1.8.0             #
