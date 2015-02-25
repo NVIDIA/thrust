@@ -16,9 +16,7 @@
 
 #pragma once
 
-#include <thrust/system_error.h>
-#include <thrust/system/cuda/error.h>
-#include <thrust/system/cuda/detail/terminate.h>
+#include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/bulk.h>
 #include <cstdio>
 
@@ -36,19 +34,7 @@ namespace detail
 inline __host__ __device__
 void throw_on_error(cudaError_t error, const char *message)
 {
-  if(error)
-  {
-#ifndef __CUDA_ARCH__
-    throw thrust::system_error(error, thrust::cuda_category(), message);
-#else
-#  if (__BULK_HAS_PRINTF__ && __BULK_HAS_CUDART__)
-    printf("Error after %s: %s\n", message, cudaGetErrorString(error));
-#  elif __BULK_HAS_PRINTF__
-    printf("Error after %s\n", message);
-#  endif
-    thrust::system::cuda::detail::terminate();
-#endif
-  }
+  thrust::system::cuda::detail::bulk_::detail::throw_on_error(error, message);
 }
 
 
