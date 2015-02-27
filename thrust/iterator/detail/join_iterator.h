@@ -105,7 +105,7 @@ class join_iterator
     typename super_t::reference dereference() const
     {
       size_type i = *super_t::base();
-      return (i < m_n1) ? m_iter1[i] : m_iter2[i];
+      return (i < m_n1) ? m_iter1[i] : static_cast<typename super_t::reference>(m_iter2[i]);
     } // end dereference()
 
 
