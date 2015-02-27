@@ -22,6 +22,7 @@
 #include <thrust/functional.h>
 #include <thrust/detail/internal_functional.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/constant_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
 
 namespace thrust
@@ -178,17 +179,20 @@ thrust::pair<OutputIterator1,OutputIterator2>
                           OutputIterator2                          values_result,
                           StrictWeakOrdering                       comp)
 {
-  typedef thrust::tuple<InputIterator1, InputIterator3>   iterator_tuple1;
-  typedef thrust::tuple<InputIterator2, InputIterator2>   iterator_tuple2;
-  typedef thrust::tuple<OutputIterator1, OutputIterator2> iterator_tuple3;
+  typedef typename thrust::iterator_value<InputIterator3>::type value_type1;
+  typedef thrust::constant_iterator<value_type1>                constant_iterator;
+
+  typedef thrust::tuple<InputIterator1, InputIterator3>     iterator_tuple1;
+  typedef thrust::tuple<InputIterator2, constant_iterator>  iterator_tuple2;
+  typedef thrust::tuple<OutputIterator1, OutputIterator2>   iterator_tuple3;
 
   typedef thrust::zip_iterator<iterator_tuple1> zip_iterator1;
   typedef thrust::zip_iterator<iterator_tuple2> zip_iterator2;
   typedef thrust::zip_iterator<iterator_tuple3> zip_iterator3;
 
-  // fabricate a values_first2 by "sending" keys twice
-  // it should never be dereferenced by set_intersection
-  InputIterator2 values_first2 = keys_first2;
+  // fabricate a values_first2 by repeating a default-constructed value_type1
+  // XXX assumes value_type1 is default-constructible
+  constant_iterator values_first2 = thrust::make_constant_iterator(value_type1());
 
   zip_iterator1 zipped_first1 = thrust::make_zip_iterator(thrust::make_tuple(keys_first1, values_first1));
   zip_iterator1 zipped_last1  = thrust::make_zip_iterator(thrust::make_tuple(keys_last1, values_first1));
