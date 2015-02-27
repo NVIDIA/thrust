@@ -18,8 +18,11 @@
 #include <thrust/detail/allocator/temporary_allocator.h>
 #include <thrust/detail/temporary_buffer.h>
 #include <thrust/system/detail/bad_alloc.h>
-#include <thrust/system/cuda/detail/terminate.h>
 #include <cassert>
+
+#ifdef __NVCC__
+#include <thrust/system/cuda/detail/terminate.h>
+#endif
 
 namespace thrust
 {
