@@ -1235,9 +1235,11 @@ struct unary_negate
   __host__ __device__
   bool operator()(const typename Predicate::argument_type& x) { return !pred(x); }
 
-  /*! \cond */
+  /*! \cond
+   */
   Predicate pred;
-  /*! \endcond */
+  /*! \endcond
+   */
 }; // end unary_negate
 
 /*! \p not1 is a helper function to simplify the creation of Adaptable Predicates:
@@ -1290,9 +1292,11 @@ struct binary_negate
       return !pred(x,y); 
   }
 
-  /*! \cond */
+  /*! \cond
+   */
   Predicate pred;
-  /*! \endcond */
+  /*! \endcond
+   */
 }; // end binary_negate
 
 /*! \p not2 is a helper function to simplify the creation of Adaptable Binary Predicates:
