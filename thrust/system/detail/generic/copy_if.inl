@@ -140,7 +140,7 @@ __host__ __device__
   typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
   
   // use 32-bit indices when possible (almost always)
-  if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > (std::numeric_limits<unsigned int>::max)())
+  if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > UINT_MAX)
   {
     result = detail::copy_if<difference_type>(exec, first, last, stencil, result, pred);
   } // end if
