@@ -25,6 +25,7 @@
 #include <thrust/distance.h>
 #include <thrust/transform.h>
 #include <thrust/detail/internal_functional.h>
+#include <thrust/detail/integer_traits.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/scan.h>
@@ -140,7 +141,7 @@ __host__ __device__
   typename thrust::detail::make_unsigned<difference_type>::type unsigned_n(n);
   
   // use 32-bit indices when possible (almost always)
-  if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > (std::numeric_limits<unsigned int>::max)())
+  if(sizeof(difference_type) > sizeof(unsigned int) && unsigned_n > thrust::detail::integer_traits<unsigned int>::const_max)
   {
     result = detail::copy_if<difference_type>(exec, first, last, stencil, result, pred);
   } // end if
