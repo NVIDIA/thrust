@@ -55,6 +55,7 @@ void initialize_keys(thrust::device_vector<MyStruct>& structures)
 int main(void)
 {
   size_t N = 2 * 1024 * 1024;
+  float aos_time, soa_time;
 
   // Sort Key-Value pairs using Array of Structures (AoS) storage 
   {
@@ -66,7 +67,9 @@ int main(void)
 
     thrust::sort(structures.begin(), structures.end());
 
-    std::cout << "AoS sort took " << 1e3 * t.elapsed() << " milliseconds" << std::endl;
+    aos_time = 1e3 * t.elapsed();
+    std::cout << "AoS sort took " << aos_time << " milliseconds" << std::endl;
+    assert(thrust::is_sorted(structures.begin(),structures.end()));
   }
 
   // Sort Key-Value pairs using Structure of Arrays (SoA) storage 
@@ -80,9 +83,12 @@ int main(void)
 
     thrust::sort_by_key(keys.begin(), keys.end(), values.begin());
 
-    std::cout << "SoA sort took " << 1e3 * t.elapsed() << " milliseconds" << std::endl;
+    soa_time = 1e3 * t.elapsed();
+    std::cout << "SoA sort took " << soa_time << " milliseconds" << std::endl;
+    assert(thrust::is_sorted(keys.begin(), keys.end()));
   }
 
+  assert(soa_time < aos_time);
   return 0;
 }
 

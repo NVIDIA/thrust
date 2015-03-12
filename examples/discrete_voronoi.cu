@@ -119,10 +119,12 @@ void print(int m, int n, const thrust::device_vector<T>& d_data)
     }
 }
 
-
-void generate_random_sites(thrust::host_vector<int> &t, int Nb, int m, int n)
+/* Used to generate consistant output for .gold comparison
+ *   -rand option for seeded random */
+#define STATIC_SEED 1
+void generate_random_sites(thrust::host_vector<int> &t, int Nb, int m, int n, int s)
 {
-  thrust::default_random_engine rng;
+  thrust::default_random_engine rng(s);
   thrust::uniform_int_distribution<int> dist(0, m * n - 1);
 
   for(int k = 0; k < Nb; k++)
@@ -189,26 +191,46 @@ void display_time(timer& t)
   std::cout << "  ( "<< 1e3 * t.elapsed() << "ms )" << std::endl;
 }
 
-int main(void)
+int main(int argc, char* argv[])
 {
   int m = 2048; // number of rows
   int n = 2048; // number of columns  
   int s = 1000; // number of sites
+  bool rand_input = (argc == 2 && strcmp(argv[1] , "-rand") == 0);
   
   timer t;
- 
+  
+  if(argc > 2)
+  {
+    std::cout << "Error: too many arguments. -rand for random input" << std::endl;
+    exit(1);
+  }
+
   //Host vector to encode a 2D image
   std::cout << "[Inititialize " << m << "x" << n << " Image]" << std::endl;
   t.restart();
   thrust::host_vector<int> seeds_host(m*n, m*n);
-  generate_random_sites(seeds_host,s,m,n);
-  display_time(t);
+  if(rand_input)
+  {
+    generate_random_sites(seeds_host, s, m, n, time(NULL));
+    display_time(t);
+  } 
+  else if(argc == 2)
+  {
+    std::cout << "Error: invalid argument. -rand for random input" << std::endl;
+    exit(1);
+  }
+  else
+  {
+    generate_random_sites(seeds_host, s, m, n, STATIC_SEED);
+  }
   
   std::cout<<"[Copy to Device]" << std::endl;
   t.restart();
   thrust::device_vector<int> seeds = seeds_host;
   thrust::device_vector<int> temp(seeds);
-  display_time(t);
+  if(rand_input)
+    display_time(t);
 
   //JFA+1  : before entering the log(n) loop, we perform a jump with k=1
   std::cout<<"[JFA stepping]" << std::endl;
@@ -223,18 +245,23 @@ int main(void)
     seeds.swap(temp);
   }
 
-  display_time(t);
+  if(rand_input)
+    display_time(t);
   std::cout <<"  ( " <<  seeds.size() / (1e6 * t.elapsed()) << " MPixel/s ) " << std::endl;
   
+  print(m, n, seeds);
+
   std::cout << "[Device to Host Copy]" << std::endl;
   t.restart();
   seeds_host = seeds;
-  display_time(t);
+  if(rand_input)
+    display_time(t);
   
   std::cout << "[PGM Export]" << std::endl;
   t.restart();
   vector_to_pgm(seeds_host, m, n, "discrete_voronoi.pgm");
-  display_time(t);
+  if(rand_input)
+    display_time(t);
 
   return 0;
 }
