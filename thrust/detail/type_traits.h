@@ -312,15 +312,15 @@ template<typename From, typename To>
   struct is_convertible_sfinae
 {
   private:
-    typedef char                          one_byte;
-    typedef struct { char two_chars[2]; } two_bytes;
+    typedef char                          yes;
+    typedef struct { char two_chars[2]; } no;
 
-    static one_byte  test(To);
-    static two_bytes test(...);
-    static From      m_from;
+    static inline yes   test(To) { return yes(); }
+    static inline no    test(...) { return no(); } 
+    static inline typename remove_reference<From>::type& from() { typename remove_reference<From>::type* ptr = 0; return *ptr; }
 
   public:
-    static const bool value = sizeof(test(m_from)) == sizeof(one_byte);
+    static const bool value = sizeof(test(from())) == sizeof(yes);
 }; // end is_convertible_sfinae
 
 
