@@ -66,7 +66,7 @@ int main(void)
     timer t;
 
     thrust::sort(structures.begin(), structures.end());
-    assert(thrust::is_sorted(structures.begin(), structure.end()));
+    assert(thrust::is_sorted(structures.begin(), structures.end()));
 
     std::cout << "AoS sort took " << 1e3 * t.elapsed() << " milliseconds" << std::endl;
   }
