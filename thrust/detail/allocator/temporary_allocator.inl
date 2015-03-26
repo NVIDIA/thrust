@@ -18,8 +18,11 @@
 #include <thrust/detail/allocator/temporary_allocator.h>
 #include <thrust/detail/temporary_buffer.h>
 #include <thrust/system/detail/bad_alloc.h>
-#include <thrust/system/cuda/detail/terminate.h>
 #include <cassert>
+
+#ifdef __NVCC__
+#include <thrust/system/cuda/detail/terminate.h>
+#endif
 
 namespace thrust
 {
@@ -45,7 +48,7 @@ __host__ __device__
 #if !defined(__CUDA_ARCH__)
     throw thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
 #else
-    thrust::system::cuda::detail::terminate();
+    thrust::system::cuda::detail::terminate_with_message("temporary_buffer::allocate: get_temporary_buffer failed");
 #endif
   } // end if
 

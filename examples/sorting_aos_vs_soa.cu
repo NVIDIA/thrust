@@ -1,6 +1,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/sort.h>
 #include <thrust/random.h>
+#include <assert.h>
 
 #include "include/timer.h"
 
@@ -65,6 +66,7 @@ int main(void)
     timer t;
 
     thrust::sort(structures.begin(), structures.end());
+    assert(thrust::is_sorted(structures.begin(), structures.end()));
 
     std::cout << "AoS sort took " << 1e3 * t.elapsed() << " milliseconds" << std::endl;
   }
@@ -79,6 +81,7 @@ int main(void)
     timer t;
 
     thrust::sort_by_key(keys.begin(), keys.end(), values.begin());
+    assert(thrust::is_sorted(keys.begin(), keys.end()));
 
     std::cout << "SoA sort took " << 1e3 * t.elapsed() << " milliseconds" << std::endl;
   }

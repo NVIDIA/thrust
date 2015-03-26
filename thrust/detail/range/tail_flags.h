@@ -41,29 +41,25 @@ template<typename RandomAccessIterator,
     struct tail_flag_functor
     {
       BinaryPredicate binary_pred; // this must be the first member for performance reasons
+      RandomAccessIterator iter;
       IndexType n;
 
       typedef ValueType result_type;
 
       __host__ __device__
-      tail_flag_functor(IndexType n)
-        : binary_pred(), n(n)
+      tail_flag_functor(RandomAccessIterator first, RandomAccessIterator last)
+        : binary_pred(), iter(first), n(last - first)
       {}
 
       __host__ __device__
-      tail_flag_functor(IndexType n, BinaryPredicate binary_pred)
-        : binary_pred(binary_pred), n(n)
+      tail_flag_functor(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
+        : binary_pred(binary_pred), iter(first), n(last - first)
       {}
 
-      template<typename Tuple>
       __host__ __device__ __thrust_forceinline__
-      result_type operator()(const Tuple &t)
+      result_type operator()(const IndexType &i)
       {
-        const IndexType i = thrust::get<0>(t);
-
-        // note that we do not dereference the tuple's 2nd element when i >= n
-        // and therefore do not dereference a bad location at the boundary
-        return (i == (n - 1) || !binary_pred(thrust::get<1>(t), thrust::get<2>(t)));
+        return (i == (n - 1) || !binary_pred(iter[i], iter[i+1]));
       }
     };
 
@@ -72,22 +68,22 @@ template<typename RandomAccessIterator,
   public:
     typedef thrust::transform_iterator<
       tail_flag_functor,
-      thrust::zip_iterator<thrust::tuple<counting_iterator,RandomAccessIterator,RandomAccessIterator> >
+      counting_iterator
     > iterator;
 
     __thrust_hd_warning_disable__
     __host__ __device__
     tail_flags(RandomAccessIterator first, RandomAccessIterator last)
-      : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first + 1)),
-                                                tail_flag_functor(last - first))),
+      : m_begin(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0),
+                                                tail_flag_functor(first, last))),
         m_end(m_begin + (last - first))
     {}
 
     __thrust_hd_warning_disable__
     __host__ __device__
     tail_flags(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
-      : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first + 1)),
-                                                tail_flag_functor(last - first, binary_pred))),
+      : m_begin(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0),
+                                                tail_flag_functor(first, last, binary_pred))),
         m_end(m_begin + (last - first))
     {}
 

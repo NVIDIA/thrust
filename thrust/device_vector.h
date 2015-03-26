@@ -56,10 +56,12 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     typedef detail::vector_base<T,Alloc> Parent;
 
   public:
-    /*! \cond */
+    /*! \cond
+     */
     typedef typename Parent::size_type  size_type;
     typedef typename Parent::value_type value_type;
-    /*! \endcond */
+    /*! \endcond
+     */
 
     /*! This constructor creates an empty \p device_vector.
      */
@@ -69,7 +71,7 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
 
     /*! This constructor creates a \p device_vector with the given
      *  size.
-     *  \param n The number of elements to initially craete.
+     *  \param n The number of elements to initially create.
      */
     __host__
     explicit device_vector(size_type n)

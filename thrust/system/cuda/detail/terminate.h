@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/detail/bulk.h>
 
 namespace thrust
 {
@@ -31,9 +32,14 @@ namespace detail
 inline __device__
 void terminate()
 {
-#ifdef __CUDA_ARCH__
-  asm("trap;");
-#endif
+  thrust::system::cuda::detail::bulk_::detail::terminate();
+}
+
+
+__host__ __device__
+inline void terminate_with_message(const char* message)
+{
+  thrust::system::cuda::detail::bulk_::detail::terminate_with_message(message);
 }
 
 
