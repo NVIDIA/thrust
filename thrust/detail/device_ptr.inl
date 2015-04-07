@@ -21,7 +21,6 @@
 
 #include <thrust/device_ptr.h>
 #include <thrust/device_reference.h>
-
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
 
@@ -63,3 +62,4 @@ template<typename T>
 
 } // end namespace detail
 } // end namespace thrust
+

@@ -171,3 +171,4 @@ inline device_ptr<T> device_pointer_cast(const device_ptr<T> &ptr);
 
 #include <thrust/detail/device_ptr.inl>
 #include <thrust/detail/raw_pointer_cast.h>
+

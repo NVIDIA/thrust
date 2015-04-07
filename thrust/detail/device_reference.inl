@@ -50,3 +50,4 @@ void swap(device_reference<T> &a, device_reference<T> &b)
 } // end swap()
 
 } // end thrust
+

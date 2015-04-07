@@ -980,3 +980,4 @@ operator<<(std::basic_ostream<charT, traits> &os, const device_reference<T> &y);
 } // end thrust
 
 #include <thrust/detail/device_reference.inl>
+
