@@ -24,6 +24,7 @@
 #include <thrust/detail/reference_forward_declaration.h>
 #include <ostream>
 
+
 namespace thrust
 {
 
@@ -189,3 +190,4 @@ operator<<(std::basic_ostream<charT, traits> &os,
 } // end thrust
 
 #include <thrust/detail/pointer.inl>
+

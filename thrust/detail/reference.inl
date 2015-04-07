@@ -72,7 +72,7 @@ template<typename Element, typename Pointer, typename Derived>
     reference<Element,Pointer,Derived>
       ::operator=(const reference &other)
 {
-  assign_from(&other);
+  assign_from(&other); 
   return static_cast<derived_type&>(*this);
 } // end reference::operator=()
 
