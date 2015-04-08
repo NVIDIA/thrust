@@ -356,6 +356,13 @@ template<typename Element, typename Pointer, typename Derived>
   return static_cast<derived_type&>(*this);
 } // end reference::operator^=()
 
-  
-} // end thrust
+template<typename Element, typename Pointer, typename Derived,
+         typename charT, typename traits>
+std::basic_ostream<charT, traits> &
+operator<<(std::basic_ostream<charT, traits> &os,
+           const reference<Element, Pointer, Derived> &y) {
+  typedef typename reference<Element, Pointer, Derived>::value_type value_type;
+  return os << static_cast<value_type>(y);
+} // end operator<<()
 
+} // end thrust

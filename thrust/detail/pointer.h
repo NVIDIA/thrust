@@ -22,6 +22,8 @@
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/reference_forward_declaration.h>
+#include <ostream>
+
 
 namespace thrust
 {
@@ -177,6 +179,13 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     __host__ __device__
     Element *get() const;
 }; // end pointer
+
+// Output stream operator
+template<typename Element, typename Tag, typename Reference, typename Derived,
+         typename charT, typename traits>
+std::basic_ostream<charT, traits> &
+operator<<(std::basic_ostream<charT, traits> &os,
+           const pointer<Element, Tag, Reference, Derived> &p);
 
 } // end thrust
 

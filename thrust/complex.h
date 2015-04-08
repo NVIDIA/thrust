@@ -541,8 +541,9 @@ template <typename T> __host__ __device__ complex<T> atanh(const complex<T>& z);
  *  \param os The output stream.
  *  \param z The \p complex number to output.
  */
-template<typename ValueType,class charT, class traits>
-std::basic_ostream<charT, traits>& operator<<(std::basic_ostream<charT, traits>& os, const complex<ValueType>& z);
+template<typename ValueType, typename charT, typename traits>
+std::basic_ostream<charT, traits>&
+operator<<(std::basic_ostream<charT, traits>& os, const complex<ValueType>& z);
 
 /*! Reads a \p complex number from an input stream.
  *  The recognized formats are:
@@ -555,7 +556,7 @@ std::basic_ostream<charT, traits>& operator<<(std::basic_ostream<charT, traits>&
  *  \param is The input stream.
  *  \param z The \p complex number to set.
  */
-template<typename ValueType, typename charT, class traits>
+template<typename ValueType, typename charT, typename traits>
 std::basic_istream<charT, traits>&
 operator>>(std::basic_istream<charT, traits>& is, complex<ValueType>& z);
 

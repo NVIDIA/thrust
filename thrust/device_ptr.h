@@ -23,7 +23,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/memory.h>
-#include <ostream>
 
 namespace thrust
 {
@@ -121,14 +120,19 @@ template<typename T>
 #endif // end doxygen-only members
 }; // end device_ptr
 
-/*! This operator outputs the value of a \p device_ptr's raw pointer to a \p std::basic_ostream.
+// declare these methods for the purpose of Doxygenating them
+// they actually are defined for a derived-from class
+#if 0
+/*! Writes to an output stream the value of a \p device_ptr's raw pointer.
  *
- *  \param os The std::basic_ostream of interest.
- *  \param p The device_ptr of interest.
+ *  \param os The output stream.
+ *  \param p The \p device_ptr to output.
  *  \return os.
  */
-template<class E, class T, class Y>
-inline std::basic_ostream<E, T> &operator<<(std::basic_ostream<E, T> &os, const device_ptr<Y> &p);
+template<typename T, typename charT, typename traits>
+std::basic_ostream<charT, traits> &
+operator<<(std::basic_ostream<charT, traits> &os, const device_ptr<T> &p);
+#endif
 
 /*! \}
  */
