@@ -21,8 +21,6 @@
 
 #include <thrust/device_ptr.h>
 #include <thrust/device_reference.h>
-#include <iostream>
-
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/iterator_traits.h>
 
@@ -40,13 +38,6 @@ template<typename T>
 {
   return ptr;
 } // end device_pointer_cast()
-
-// output to ostream
-template<class E, class T, class Y>
-  std::basic_ostream<E, T> &operator<<(std::basic_ostream<E, T> &os, const device_ptr<Y> &p)
-{
-  return os << p.get();
-} // end operator<<()
 
 
 namespace detail

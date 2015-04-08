@@ -20,6 +20,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/use_default.h>
 #include <thrust/detail/reference_forward_declaration.h>
+#include <ostream>
 
 
 namespace thrust
@@ -160,7 +161,13 @@ template<typename Element, typename Pointer, typename Derived>
     value_type convert_to_value_type(System *system) const;
 }; // end reference
 
-  
+// Output stream operator
+template<typename Element, typename Pointer, typename Derived,
+         typename charT, typename traits>
+std::basic_ostream<charT, traits> &
+operator<<(std::basic_ostream<charT, traits> &os,
+           const reference<Element, Pointer, Derived> &y);
+
 } // end thrust
 
 #include <thrust/detail/reference.inl>

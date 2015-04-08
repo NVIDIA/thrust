@@ -80,6 +80,13 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
   return super_t::base();
 } // end pointer::get
 
+template<typename Element, typename Tag, typename Reference, typename Derived,
+         typename charT, typename traits>
+std::basic_ostream<charT, traits> &
+operator<<(std::basic_ostream<charT, traits> &os,
+           const pointer<Element, Tag, Reference, Derived> &p) {
+  return os << p.get();
+}
 
 namespace detail
 {

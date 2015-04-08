@@ -960,6 +960,20 @@ template<typename T>
 __host__ __device__
 void swap(device_reference<T> &x, device_reference<T> &y);
 
+// declare these methods for the purpose of Doxygenating them
+// they actually are defined for a derived-from class
+#if 0
+/*! Writes to an output stream the value of a \p device_reference.
+ *
+ *  \param os The output stream.
+ *  \param y The \p device_reference to output.
+ *  \return os.
+ */
+template<typename T, typename charT, typename traits>
+std::basic_ostream<charT, traits> &
+operator<<(std::basic_ostream<charT, traits> &os, const device_reference<T> &y);
+#endif
+
 /*! \}
  */
 
