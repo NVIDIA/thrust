@@ -183,8 +183,8 @@ struct tag : thrust::system::cuda::execution_policy<tag> { unspecified };
  *    thrust::counting_iterator<int> iter(0);
  *  
  *    // execute for_each on two different streams
- *    thrust::for_each(thrust::cuda::par(s1), iter, iter + 1, printf_functor(s1));
- *    thrust::for_each(thrust::cuda::par(s2), iter, iter + 1, printf_functor(s2));
+ *    thrust::for_each(thrust::cuda::par.on(s1), iter, iter + 1, printf_functor(s1));
+ *    thrust::for_each(thrust::cuda::par.on(s2), iter, iter + 1, printf_functor(s2));
  *  
  *    // synchronize with both streams
  *    cudaStreamSynchronize(s1);
@@ -198,7 +198,7 @@ struct tag : thrust::system::cuda::execution_policy<tag> { unspecified };
  *  }
  *  \endcode
  *
- *  Even when using CUDA streams with \p thrust::cuda::par, there is no guarantee of concurrency. Algorithms
+ *  Even when using CUDA streams with \p thrust::cuda::par.on(), there is no guarantee of concurrency. Algorithms
  *  which return a data-dependent result or whose implementations require temporary memory allocation may
  *  cause blocking synchronization events. Moreover, it may be necessary to explicitly synchronize through
  *  \p cudaStreamSynchronize or similar before any effects induced through algorithm execution are visible to
