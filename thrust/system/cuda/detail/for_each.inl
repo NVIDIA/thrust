@@ -140,7 +140,7 @@ RandomAccessIterator for_each_n(execution_policy<DerivedPolicy> &exec,
         // we can use the narrower type for n
         narrow_num_groups = thrust::min<unsigned int>(narrow_num_groups, thrust::detail::util::divide_ri(narrow_n, narrow_group_size));
 
-   //     bulk_::async(bulk_::grid(narrow_num_groups,narrow_group_size,0,stream(thrust::detail::derived_cast(exec))), for_each_n_detail::for_each_kernel(), bulk_::root, first, wrapped_f, narrow_n);
+        bulk_::async(bulk_::grid(narrow_num_groups,narrow_group_size,0,stream(thrust::detail::derived_cast(exec))), for_each_n_detail::for_each_kernel(), bulk_::root, first, wrapped_f, narrow_n);
       }
 
       return first + n;
