@@ -3,13 +3,15 @@
 #######################################
 
 Summary
-   TODO
+    Small bug fixes
 
 Bug Fixes
-   TODO
+    #632 CUDA set_intersection_by_key error
+    #651 thrust::copy between host & device is not interoperable with thrust::cuda::par.on(stream)
+    #664 CUDA for_each ignores execution policy's stream
 
 Known Issues
-   TODO
+    #628 CUDA's reduce_by_key fails on sm_50 devices
 
 #######################################
 #           Thrust v1.8.1             #
