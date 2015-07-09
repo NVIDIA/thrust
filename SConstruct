@@ -35,9 +35,7 @@ gnu_compiler_flags = {
   'omp'                : ['-fopenmp'],
   'tbb'                : [],
   'cuda'               : [],
-  'workarounds'        : [],
-  'c++03'              : [],
-  'c++11'              : ['-std=c++11']
+  'workarounds'        : []
 }
 
 clang_compiler_flags = {
@@ -50,9 +48,7 @@ clang_compiler_flags = {
   'omp'                : ['-fopenmp'],
   'tbb'                : [],
   'cuda'               : [],
-  'workarounds'        : [],
-  'c++03'              : [],
-  'c++11'              : ['-std=c++11']
+  'workarounds'        : []
 }
 
 msvc_compiler_flags = {
@@ -68,9 +64,7 @@ msvc_compiler_flags = {
 
   # avoid min/max problems due to windows.h
   # suppress warnings due to "decorated name length exceeded"
-  'workarounds'        : ['/DNOMINMAX', '/wd4503'],
-  'c++03'              : [],
-  'c++11'              : []
+  'workarounds'        : ['/DNOMINMAX', '/wd4503']
 }
 
 compiler_to_flags = {
@@ -287,7 +281,7 @@ def macros(mode, host_backend, device_backend):
   return result
 
 
-def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_all, warnings_as_errors, cpp_standard):
+def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_all, warnings_as_errors):
   """Returns a list of command line flags needed by the c or c++ compiler"""
   # start with all platform-independent preprocessor macros
   result = macros(mode, host_backend, device_backend)
@@ -320,9 +314,6 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
 
   # workarounds
   result.extend(flags['workarounds'])
-
-  # select C++ standard
-  result.extend(flags[cpp_standard])
   
   return result
 
@@ -452,7 +443,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   # populate the environment
   env.Append(CPPPATH = inc_paths(env, host, device))
   
-  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror'], env['std']))
+  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror']))
   
   env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp'], env['std']))
   
