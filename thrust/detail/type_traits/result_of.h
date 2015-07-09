@@ -35,7 +35,7 @@ namespace detail
 template<typename Signature>
   struct result_of
 {
-  using type = typename std::result_of<Signature>::type;
+  typedef typename std::result_of<Signature>::type type;
 };
 
 #else
