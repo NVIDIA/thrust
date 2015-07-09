@@ -314,7 +314,7 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
 
   # workarounds
   result.extend(flags['workarounds'])
-  
+
   return result
 
 
