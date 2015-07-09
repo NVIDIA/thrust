@@ -58,9 +58,7 @@ template<typename Operation> struct binary_traits;
  *  };
  *  \endcode
  *
- *  \note unary_function is currently redundant with the C++ STL type
- *  \c std::unary_function. We reserve it here for potential additional
- *  functionality at a later date.
+ *  \note Inheriting from unary_function is optional if C+11 support is enabled.
  *
  *  \see http://www.sgi.com/tech/stl/unary_function.html
  *  \see binary_function
@@ -98,9 +96,7 @@ struct unary_function
  *  };
  *  \endcode
  *
- *  \note binary_function is currently redundant with the C++ STL type
- *  \c std::binary_function. We reserve it here for potential additional
- *  functionality at a later date.
+ *  \note Inheriting from binary_function is optional if C+11 support is enabled.
  *
  *  \see http://www.sgi.com/tech/stl/binary_function.html
  *  \see unary_function
