@@ -365,7 +365,7 @@ def command_line_variables():
   # allow the user discretion to select the MSVC version
   vars = Variables()
   if os.name == 'nt':
-    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0')))
+    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0', '11.0', '12.0', '13.0')))
   
   # add a variable to handle the host backend
   vars.Add(ListVariable('host_backend', 'The host backend to target', 'cpp',
