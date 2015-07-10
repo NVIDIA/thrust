@@ -58,12 +58,12 @@ int main()
   // copy all the algorithm parameters
   auto begin     = data.begin();
   auto end       = data.end();
-  auto init      = 0;
-  auto binary_op = thrust::plus<int>();
+  auto init      = 0u;
+  auto binary_op = thrust::plus<unsigned int>();
 
   // std::async captures the algorithm parameters by value
   // use std::launch::async to ensure the creation of a new thread
-  std::future<int> future_result = std::async(std::launch::async, [=]
+  std::future<unsigned int> future_result = std::async(std::launch::async, [=]
   {
     return thrust::reduce(begin, end, init, binary_op);
   });
