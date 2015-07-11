@@ -321,9 +321,8 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
   # workarounds
   result.extend(flags['workarounds'])
 
-  # select C++ standard, only set -std=... if we did not yet set it via nvcc
-  if device_backend != 'cuda':
-    result.extend(flags[cpp_standard])
+  # select C++ standard
+  result.extend(flags[cpp_standard])
 
   return result
 
