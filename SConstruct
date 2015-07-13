@@ -321,13 +321,13 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
   # workarounds
   result.extend(flags['workarounds'])
 
-  # select C++ standard
+  # c++ standard
   result.extend(flags[cpp_standard])
 
   return result
 
 
-def nv_compiler_flags(mode, device_backend, arch, cdp, cpp_standard):
+def nv_compiler_flags(mode, device_backend, arch, cdp):
   """Returns a list of command line flags specific to nvcc"""
   result = []
   for machine_arch in arch:
@@ -352,10 +352,6 @@ def nv_compiler_flags(mode, device_backend, arch, cdp, cpp_standard):
     if(release[0:5] == '10.8.'):
       result.append('-ccbin')
       result.append(master_env.subst('$CXX'))
-
-  # select C++ standard
-  if cpp_standard == 'c++11':
-    result.append("-std=c++11")
   
   return result
 
@@ -378,7 +374,7 @@ def command_line_variables():
   vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
                         allowed_values = ('release', 'debug')))
   
-  # XXX allow the option to send sm_1x to nvcc even nvcc may not support it
+  # allow the option to send sm_1x to nvcc even though nvcc may not support it
   vars.Add(ListVariable('arch', 'Compute capability code generation', 'sm_20',
                         ['sm_10', 'sm_11', 'sm_12', 'sm_13',
                          'sm_20', 'sm_21',
@@ -396,6 +392,10 @@ def command_line_variables():
   vars.Add(BoolVariable('Werror', 'Treat warnings as errors', os.name != 'nt'))
   
   # add a variable to switch between C++ standards
+  vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
+                        allowed_values = ('c++03', 'c++11')))
+
+  # add a variable to select C++ standard
   vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
                         allowed_values = ('c++03', 'c++11')))
 
@@ -454,7 +454,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   
   env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror'], env['std']))
   
-  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp'], env['std']))
+  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp']))
   
   env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
 
