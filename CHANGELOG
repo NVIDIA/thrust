@@ -1,4 +1,33 @@
 #######################################
+#           Thrust v1.9.0             #
+#######################################
+
+Summary
+    TODO
+
+Breaking API Changes
+    None.
+
+New Features
+    TODO
+
+New Examples
+    TODO
+
+Other Enhancements
+    If C++11 support is enabled, functors do not have to inherit from thrust::unary_function/thrust::binary_function anymore when using them with thrust::transform_iterator.
+
+Bug Fixes
+    TODO
+
+Known Issues
+    TODO
+
+Acknowledgments
+    Thanks to Manuel Schiller for contributing a C++11 based enhancement regarding the deduction of functor return types.
+    
+
+#######################################
 #           Thrust v1.8.2             #
 #######################################
 

@@ -35,7 +35,9 @@ gnu_compiler_flags = {
   'omp'                : ['-fopenmp'],
   'tbb'                : [],
   'cuda'               : [],
-  'workarounds'        : []
+  'workarounds'        : [],
+  'c++03'              : [],
+  'c++11'              : ['-std=c++11']
 }
 
 clang_compiler_flags = {
@@ -48,7 +50,9 @@ clang_compiler_flags = {
   'omp'                : ['-fopenmp'],
   'tbb'                : [],
   'cuda'               : [],
-  'workarounds'        : []
+  'workarounds'        : [],
+  'c++03'              : [],
+  'c++11'              : ['-std=c++11']
 }
 
 msvc_compiler_flags = {
@@ -64,7 +68,9 @@ msvc_compiler_flags = {
 
   # avoid min/max problems due to windows.h
   # suppress warnings due to "decorated name length exceeded"
-  'workarounds'        : ['/DNOMINMAX', '/wd4503']
+  'workarounds'        : ['/DNOMINMAX', '/wd4503'],
+  'c++03'              : [],
+  'c++11'              : []
 }
 
 compiler_to_flags = {
@@ -281,7 +287,7 @@ def macros(mode, host_backend, device_backend):
   return result
 
 
-def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_all, warnings_as_errors):
+def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_all, warnings_as_errors, cpp_standard):
   """Returns a list of command line flags needed by the c or c++ compiler"""
   # start with all platform-independent preprocessor macros
   result = macros(mode, host_backend, device_backend)
@@ -315,10 +321,13 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
   # workarounds
   result.extend(flags['workarounds'])
 
+  # select C++ standard
+  result.extend(flags[cpp_standard])
+
   return result
 
 
-def nv_compiler_flags(mode, device_backend, arch, cdp):
+def nv_compiler_flags(mode, device_backend, arch, cdp, cpp_standard):
   """Returns a list of command line flags specific to nvcc"""
   result = []
   for machine_arch in arch:
@@ -344,6 +353,10 @@ def nv_compiler_flags(mode, device_backend, arch, cdp):
       result.append('-ccbin')
       result.append(master_env.subst('$CXX'))
 
+  # select C++ standard
+  if cpp_standard == 'c++11':
+    result.append("-std=c++11")
+  
   return result
 
 
@@ -381,6 +394,10 @@ def command_line_variables():
   
   # add a variable to treat warnings as errors
   vars.Add(BoolVariable('Werror', 'Treat warnings as errors', os.name != 'nt'))
+  
+  # add a variable to switch between C++ standards
+  vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
+                        allowed_values = ('c++03', 'c++11')))
 
   return vars
 
@@ -435,9 +452,9 @@ for (host,device) in itertools.product(host_backends, device_backends):
   # populate the environment
   env.Append(CPPPATH = inc_paths(env, host, device))
   
-  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror']))
+  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror'], env['std']))
   
-  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp']))
+  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp'], env['std']))
   
   env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
 
