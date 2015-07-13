@@ -36,7 +36,7 @@ gnu_compiler_flags = {
   'tbb'                : [],
   'cuda'               : [],
   'workarounds'        : [],
-  'c++03'              : ['-std=c++03'],
+  'c++03'              : [],
   'c++11'              : ['-std=c++11']
 }
 
@@ -51,7 +51,7 @@ clang_compiler_flags = {
   'tbb'                : [],
   'cuda'               : [],
   'workarounds'        : [],
-  'c++03'              : ['-std=c++03'],
+  'c++03'              : [],
   'c++11'              : ['-std=c++11']
 }
 
@@ -352,7 +352,7 @@ def nv_compiler_flags(mode, device_backend, arch, cdp):
     if(release[0:5] == '10.8.'):
       result.append('-ccbin')
       result.append(master_env.subst('$CXX'))
-
+  
   return result
 
 
@@ -360,7 +360,7 @@ def command_line_variables():
   # allow the user discretion to select the MSVC version
   vars = Variables()
   if os.name == 'nt':
-    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0')))
+    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0', '11.0', '12.0', '13.0')))
   
   # add a variable to handle the host backend
   vars.Add(ListVariable('host_backend', 'The host backend to target', 'cpp',
@@ -390,6 +390,10 @@ def command_line_variables():
   
   # add a variable to treat warnings as errors
   vars.Add(BoolVariable('Werror', 'Treat warnings as errors', os.name != 'nt'))
+  
+  # add a variable to switch between C++ standards
+  vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
+                        allowed_values = ('c++03', 'c++11')))
 
   # add a variable to select C++ standard
   vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
