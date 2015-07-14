@@ -109,10 +109,6 @@ template<typename ExecutionPolicy,
                        BinaryPredicate binary_pred)
 {
   typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
-
-  // empty sequence
-  if(keys_first == keys_last)
-    return thrust::make_pair(keys_output, values_output);
   
   difference_type n = thrust::distance(keys_first, keys_last);
 
