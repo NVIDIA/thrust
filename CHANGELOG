@@ -16,6 +16,7 @@ New Examples
 
 Other Enhancements
     If C++11 support is enabled, functors do not have to inherit from thrust::unary_function/thrust::binary_function anymore when using them with thrust::transform_iterator.
+    The performance of thrust::unique* is improved.
 
 Bug Fixes
     TODO
@@ -24,7 +25,7 @@ Known Issues
     TODO
 
 Acknowledgments
-    Thanks to Manuel Schiller for contributing a C++11 based enhancement regarding the deduction of functor return types.
+    Thanks to Manuel Schiller for contributing a C++11 based enhancement regarding the deduction of functor return types and improving the performance of thrust::unique. 
     
 
 #######################################
