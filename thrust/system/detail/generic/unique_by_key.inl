@@ -26,6 +26,7 @@
 #include <thrust/detail/internal_functional.h>
 #include <thrust/detail/copy_if.h>
 #include <thrust/unique.h>
+#include <thrust/detail/range/head_flags.h>
 
 namespace thrust
 {
@@ -109,25 +110,18 @@ template<typename ExecutionPolicy,
 {
   typedef typename thrust::iterator_traits<InputIterator1>::difference_type difference_type;
   
-  // empty sequence
-  if(keys_first == keys_last)
-    return thrust::make_pair(keys_output, values_output);
-  
   difference_type n = thrust::distance(keys_first, keys_last);
-  
-  thrust::detail::temporary_array<int,ExecutionPolicy> stencil(exec,n);
-  
-  // mark first element in each group
-  stencil[0] = 1; 
-  thrust::transform(exec, keys_first, keys_last - 1, keys_first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
-  
+
+  thrust::detail::head_flags<InputIterator1, BinaryPredicate> stencil(keys_first, keys_last, binary_pred);
+
+  using namespace thrust::placeholders;
   thrust::zip_iterator< thrust::tuple<OutputIterator1, OutputIterator2> > result =
     thrust::copy_if(exec,
                     thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)),
                     thrust::make_zip_iterator(thrust::make_tuple(keys_first, values_first)) + n,
                     stencil.begin(),
                     thrust::make_zip_iterator(thrust::make_tuple(keys_output, values_output)),
-                    thrust::identity<int>());
+                    _1);
   
   difference_type output_size = result - thrust::make_zip_iterator(thrust::make_tuple(keys_output, values_output));
                                   
