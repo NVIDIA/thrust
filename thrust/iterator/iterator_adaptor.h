@@ -184,18 +184,18 @@ template<typename Derived,
      */
   private: // Core iterator interface for iterator_facade
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     typename iterator_adaptor::reference dereference() const
     { return *m_iterator; }
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
     __host__ __device__
     bool equal(iterator_adaptor<OtherDerived, OtherIterator, V, S, T, R, D> const& x) const
     { return m_iterator == x.base(); }
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     void advance(typename iterator_adaptor::difference_type n)
     {
@@ -203,12 +203,12 @@ template<typename Derived,
       m_iterator += n;
     }
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     void increment()
     { ++m_iterator; }
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     void decrement()
     {
@@ -216,7 +216,7 @@ template<typename Derived,
       --m_iterator;
     }
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     template<typename OtherDerived, typename OtherIterator, typename V, typename S, typename T, typename R, typename D>
     __host__ __device__
     typename iterator_adaptor::difference_type distance_to(iterator_adaptor<OtherDerived, OtherIterator, V, S, T, R, D> const& y) const

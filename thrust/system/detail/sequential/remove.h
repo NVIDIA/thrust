@@ -35,7 +35,7 @@ namespace sequential
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
@@ -77,7 +77,7 @@ __host__ __device__
 }
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
@@ -126,7 +126,7 @@ __host__ __device__
 }
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
@@ -159,7 +159,7 @@ __host__ __device__
 }
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,

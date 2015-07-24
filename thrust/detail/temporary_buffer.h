@@ -49,7 +49,7 @@ __host__ __device__
 } // end detail
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename T, typename DerivedPolicy>
 __host__ __device__
   thrust::pair<thrust::pointer<T,DerivedPolicy>, typename thrust::pointer<T,DerivedPolicy>::difference_type>
@@ -61,7 +61,7 @@ __host__ __device__
 } // end get_temporary_buffer()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
   void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer p)

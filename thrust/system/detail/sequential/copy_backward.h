@@ -28,7 +28,7 @@ namespace sequential
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename BidirectionalIterator1,
          typename BidirectionalIterator2>
 __host__ __device__

@@ -31,7 +31,7 @@ namespace thrust
 namespace detail
 {
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   contiguous_storage<T,Alloc>
@@ -43,7 +43,7 @@ __host__ __device__
   ;
 } // end contiguous_storage::contiguous_storage()
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   contiguous_storage<T,Alloc>
@@ -55,7 +55,7 @@ __host__ __device__
   allocate(n);
 } // end contiguous_storage::contiguous_storage()
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   contiguous_storage<T,Alloc>

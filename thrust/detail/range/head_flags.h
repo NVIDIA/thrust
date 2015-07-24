@@ -82,7 +82,7 @@ template<typename RandomAccessIterator,
       thrust::zip_iterator<thrust::tuple<counting_iterator,RandomAccessIterator,RandomAccessIterator> >
     > iterator;
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     head_flags_with_init(RandomAccessIterator first, RandomAccessIterator last, init_type init)
       : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first - 1)),
@@ -90,7 +90,7 @@ template<typename RandomAccessIterator,
         m_end(m_begin + (last - first))
     {}
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     head_flags_with_init(RandomAccessIterator first, RandomAccessIterator last, init_type init, BinaryPredicate binary_pred)
       : m_begin(thrust::make_transform_iterator(thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<IndexType>(0), first, first - 1)),

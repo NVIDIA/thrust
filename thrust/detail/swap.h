@@ -22,7 +22,7 @@
 namespace thrust
 {
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename Assignable1, typename Assignable2>
 __host__ __device__
 inline void swap(Assignable1 &a, Assignable2 &b)

@@ -31,7 +31,7 @@ namespace thrust
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator>
 __host__ __device__
   typename thrust::iterator_traits<InputIterator>::value_type
@@ -42,7 +42,7 @@ __host__ __device__
 } // end reduce()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename T>
 __host__ __device__
   T reduce(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -55,7 +55,7 @@ __host__ __device__
 } // end reduce()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename T,
@@ -72,7 +72,7 @@ __host__ __device__
 } // end reduce()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -92,7 +92,7 @@ __host__ __device__
 } // end reduce_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -114,7 +114,7 @@ __host__ __device__
 } // end reduce_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,

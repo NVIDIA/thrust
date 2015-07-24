@@ -41,7 +41,7 @@ template<typename Function, typename Result>
     : m_f(f)
   {}
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Argument>
   inline __host__ __device__
     Result operator()(Argument &x) const
@@ -51,7 +51,7 @@ template<typename Function, typename Result>
     return static_cast<Result>(m_f(thrust::raw_reference_cast(x)));
   }
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Argument>
     inline __host__ __device__ Result operator()(const Argument &x) const
   {
@@ -60,7 +60,7 @@ template<typename Function, typename Result>
     return static_cast<Result>(m_f(thrust::raw_reference_cast(x)));
   }
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Argument1, typename Argument2>
     inline __host__ __device__ Result operator()(Argument1 &x, Argument2 &y) const
   {
@@ -69,7 +69,7 @@ template<typename Function, typename Result>
     return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
   }
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Argument1, typename Argument2>
     inline __host__ __device__ Result operator()(const Argument1 &x, Argument2 &y) const
   {
@@ -78,7 +78,7 @@ template<typename Function, typename Result>
     return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
   }
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Argument1, typename Argument2>
     inline __host__ __device__ Result operator()(const Argument1 &x, const Argument2 &y) const
   {
@@ -87,7 +87,7 @@ template<typename Function, typename Result>
     return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
   }
 
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Argument1, typename Argument2>
     inline __host__ __device__ Result operator()(Argument1 &x, const Argument2 &y) const
   {

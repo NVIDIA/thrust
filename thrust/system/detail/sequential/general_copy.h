@@ -65,7 +65,7 @@ struct reference_is_assignable
 // introduce an iterator assign helper to deal with assignments from
 // a wrapped reference
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename OutputIterator, typename InputIterator>
 inline __host__ __device__
 typename thrust::detail::enable_if<
@@ -77,7 +77,7 @@ iter_assign(OutputIterator dst, InputIterator src)
 }
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename OutputIterator, typename InputIterator>
 inline __host__ __device__
 typename thrust::detail::disable_if<
@@ -95,7 +95,7 @@ iter_assign(OutputIterator dst, InputIterator src)
 } // end general_copy_detail
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename InputIterator,
          typename OutputIterator>
 __host__ __device__
@@ -117,7 +117,7 @@ __host__ __device__
 } // end general_copy()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
