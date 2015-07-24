@@ -30,7 +30,7 @@ namespace thrust
 {
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __host__ __device__
 ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -43,7 +43,7 @@ ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedP
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -57,7 +57,7 @@ ForwardIterator lower_bound(const thrust::detail::execution_policy_base<DerivedP
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template<typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __host__ __device__
 ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -70,7 +70,7 @@ ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedP
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template<typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -84,7 +84,7 @@ ForwardIterator upper_bound(const thrust::detail::execution_policy_base<DerivedP
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __host__ __device__
 bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -97,7 +97,7 @@ bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &e
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -111,7 +111,7 @@ bool binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &e
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename T, typename StrictWeakOrdering>
 __host__ __device__
 thrust::pair<ForwardIterator, ForwardIterator>
@@ -126,7 +126,7 @@ equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename LessThanComparable>
 __host__ __device__
 thrust::pair<ForwardIterator, ForwardIterator>
@@ -140,7 +140,7 @@ equal_range(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __host__ __device__
 OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -155,7 +155,7 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __host__ __device__
 OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -171,7 +171,7 @@ OutputIterator lower_bound(const thrust::detail::execution_policy_base<DerivedPo
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __host__ __device__
 OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -186,7 +186,7 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __host__ __device__
 OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -202,7 +202,7 @@ OutputIterator upper_bound(const thrust::detail::execution_policy_base<DerivedPo
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator>
 __host__ __device__
 OutputIterator binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -217,7 +217,7 @@ OutputIterator binary_search(const thrust::detail::execution_policy_base<Derived
 }
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename ForwardIterator, typename InputIterator, typename OutputIterator, typename StrictWeakOrdering>
 __host__ __device__
 OutputIterator binary_search(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,

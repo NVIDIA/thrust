@@ -28,7 +28,7 @@ namespace thrust
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -46,7 +46,7 @@ OutputIterator set_difference(const thrust::detail::execution_policy_base<Derive
 } // end set_difference()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -66,7 +66,7 @@ OutputIterator set_difference(const thrust::detail::execution_policy_base<Derive
 } // end set_difference()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -91,7 +91,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end set_difference_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -118,7 +118,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end set_difference_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -136,7 +136,7 @@ OutputIterator set_intersection(const thrust::detail::execution_policy_base<Deri
 } // end set_intersection()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -156,7 +156,7 @@ OutputIterator set_intersection(const thrust::detail::execution_policy_base<Deri
 } // end set_intersection()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -179,7 +179,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end set_intersection_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -204,7 +204,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end set_intersection_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -222,7 +222,7 @@ OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_b
 } // end set_symmetric_difference()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -242,7 +242,7 @@ OutputIterator set_symmetric_difference(const thrust::detail::execution_policy_b
 } // end set_symmetric_difference()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -267,7 +267,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end set_symmetric_difference_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -294,7 +294,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end set_symmetric_difference_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -312,7 +312,7 @@ OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPoli
 } // end set_union()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -332,7 +332,7 @@ OutputIterator set_union(const thrust::detail::execution_policy_base<DerivedPoli
 } // end set_union()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -357,7 +357,7 @@ thrust::pair<OutputIterator1,OutputIterator2>
 } // end set_union_by_key()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,

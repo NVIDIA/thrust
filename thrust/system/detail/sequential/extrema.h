@@ -36,7 +36,7 @@ namespace sequential
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
@@ -66,7 +66,7 @@ ForwardIterator min_element(sequential::execution_policy<DerivedPolicy> &,
 }
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>
@@ -96,7 +96,7 @@ ForwardIterator max_element(sequential::execution_policy<DerivedPolicy> &,
 }
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename BinaryPredicate>

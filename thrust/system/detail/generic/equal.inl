@@ -41,8 +41,8 @@ bool equal(thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 first1,
 
 
 // the == below could be a __host__ function in the case of std::vector::iterator::operator==
-// we make this exception for equal and use __thrust_hd_warning_disable__ because it is used in vector's implementation
-__thrust_hd_warning_disable__
+// we make this exception for equal and use __thrust_exec_check_disable__ because it is used in vector's implementation
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator1, typename InputIterator2, typename BinaryPredicate>
 __host__ __device__
 bool equal(thrust::execution_policy<DerivedPolicy> &exec, InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, BinaryPredicate binary_pred)

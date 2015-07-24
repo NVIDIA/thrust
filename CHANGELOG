@@ -6,6 +6,7 @@ Summary
     Small bug fixes
 
 Bug Fixes
+    Avoid warnings and errors concerning user functions called from __host__ __device__ functions
     #632 CUDA set_intersection_by_key error
     #651 thrust::copy between host & device is not interoperable with thrust::cuda::par.on(stream)
     #664 CUDA for_each ignores execution policy's stream

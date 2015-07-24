@@ -30,7 +30,7 @@ namespace thrust
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator>
 __host__ __device__
   void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -42,7 +42,7 @@ __host__ __device__
 } // end sequence()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __host__ __device__
   void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -55,7 +55,7 @@ __host__ __device__
 } // end sequence()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __host__ __device__
   void sequence(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,

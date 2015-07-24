@@ -52,15 +52,15 @@ template<typename T, typename Alloc>
     typedef thrust::detail::normal_iterator<pointer>       iterator;
     typedef thrust::detail::normal_iterator<const_pointer> const_iterator;
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     explicit contiguous_storage(const allocator_type &alloc = allocator_type());
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     explicit contiguous_storage(size_type n, const allocator_type &alloc = allocator_type());
 
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     ~contiguous_storage(void);
 

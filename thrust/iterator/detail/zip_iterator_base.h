@@ -46,7 +46,7 @@ public:
   inline __host__ __device__
   advance_iterator(DiffType step) : m_step(step) {}
   
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Iterator>
   inline __host__ __device__
   void operator()(Iterator& it) const
@@ -59,7 +59,7 @@ private:
 
 struct increment_iterator
 {
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Iterator>
   inline __host__ __device__
   void operator()(Iterator& it)
@@ -69,7 +69,7 @@ struct increment_iterator
 
 struct decrement_iterator
 {
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Iterator>
   inline __host__ __device__
   void operator()(Iterator& it)
@@ -88,7 +88,7 @@ struct dereference_iterator
   }; // end apply
 
   // XXX silence warnings of the form "calling a __host__ function from a __host__ __device__ function is not allowed
-  __thrust_hd_warning_disable__
+  __thrust_exec_check_disable__
   template<typename Iterator>
   __host__ __device__
     typename apply<Iterator>::type operator()(Iterator const& it)

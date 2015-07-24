@@ -28,7 +28,7 @@ namespace thrust
 {
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator>
 OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
@@ -40,7 +40,7 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
 } // end adjacent_difference()
 
 
-__thrust_hd_warning_disable__ 
+__thrust_exec_check_disable__ 
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
 OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                                    InputIterator first, InputIterator last, 
