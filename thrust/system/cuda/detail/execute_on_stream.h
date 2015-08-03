@@ -30,12 +30,13 @@ namespace detail
 {
 
 
-// given any old execution_policy, we return stream 0 by default
+// given any old execution_policy, we return the legacy stream by default
+// XXX we might actually want to use the per-thread default stream instead
 template<typename DerivedPolicy>
 __host__ __device__
 inline cudaStream_t stream(const execution_policy<DerivedPolicy> &exec)
 {
-  return 0;
+  return cudaStreamLegacy;
 }
 
 
@@ -47,7 +48,7 @@ class execute_on_stream_base
   public:
     __host__ __device__
     execute_on_stream_base()
-      : m_stream(0)
+      : m_stream(cudaStreamLegacy)
     {}
 
     __host__ __device__
