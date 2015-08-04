@@ -115,9 +115,9 @@ void trivial_copy_n(cross_system<System1,System2> &systems,
 
   cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(systems.system1), thrust::detail::derived_cast(systems.system2));
 
-  // XXX use stream 0 for now
+  // XXX use the globally-blocking legacy stream for now
   //     we may wish to enable async host <-> device copy in the future
-  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, 0);
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, cudaStreamLegacy);
 }
 
 
