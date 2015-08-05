@@ -25,6 +25,7 @@
 #if defined(__CUDACC__)
 
 #define __thrust_exec_check_disable__ \
+#pragma hd_warning_disable \
 #pragma nv_exec_check_disable
 #else
 
