@@ -95,7 +95,11 @@ __device__ T destructive_accumulate_n(ConcurrentGroup &g, RandomAccessIterator f
     g.wait();
   }
 
-  return binary_op(init, first[n - 1]);
+  T result = binary_op(init, first[n - 1]);
+
+  g.wait();
+
+  return result;
 }
 
 
