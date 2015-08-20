@@ -30,7 +30,7 @@ namespace thrust
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
 __host__ __device__
   typename thrust::iterator_traits<InputIterator>::difference_type
@@ -41,7 +41,7 @@ __host__ __device__
 } // end count()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __host__ __device__
   typename thrust::iterator_traits<InputIterator>::difference_type

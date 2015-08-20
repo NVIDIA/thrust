@@ -25,7 +25,7 @@ namespace thrust
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename OutputIterator>
 __host__ __device__
   OutputIterator copy(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -38,7 +38,7 @@ __host__ __device__
 } // end copy()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename InputIterator, typename Size, typename OutputIterator>
 __host__ __device__
   OutputIterator copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
@@ -55,7 +55,7 @@ namespace detail
 {
 
 
-__thrust_hd_warning_disable__ // because we might call e.g. std::ostream_iterator's constructor
+__thrust_exec_check_disable__ // because we might call e.g. std::ostream_iterator's constructor
 template<typename System1,
          typename System2,
          typename InputIterator,
@@ -73,7 +73,7 @@ __host__ __device__
 } // end two_system_copy()
 
 
-__thrust_hd_warning_disable__ // because we might call e.g. std::ostream_iterator's constructor
+__thrust_exec_check_disable__ // because we might call e.g. std::ostream_iterator's constructor
 template<typename System1,
          typename System2,
          typename InputIterator,

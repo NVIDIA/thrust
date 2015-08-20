@@ -193,7 +193,7 @@ template<typename BidirectionalIterator>
   /*! \cond
    */
   private:
-    __thrust_hd_warning_disable__
+    __thrust_exec_check_disable__
     __host__ __device__
     typename super_t::reference dereference(void) const;
 

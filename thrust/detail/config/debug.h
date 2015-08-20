@@ -18,7 +18,7 @@
 
 #ifndef THRUST_DEBUG
 #  ifndef NDEBUG
-#    if (DEBUG || _DEBUG)
+#    if defined(DEBUG) || defined(_DEBUG)
 #      define THRUST_DEBUG 1
 #    endif // (DEBUG || _DEBUG)
 #  endif // NDEBUG

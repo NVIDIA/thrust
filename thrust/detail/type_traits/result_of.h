@@ -20,10 +20,25 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
 
+#if __cplusplus >= 201103L || defined(__cpp_lib_result_of_sfinae)
+// necessary for std::result_of
+#include <type_traits>
+#endif
+
 namespace thrust
 {
 namespace detail
 {
+
+#if __cplusplus >= 201103L || defined(__cpp_lib_result_of_sfinae)
+
+template<typename Signature>
+  struct result_of
+{
+  typedef typename std::result_of<Signature>::type type;
+};
+
+#else
 
 template<typename Signature, typename Enable = void> struct result_of;
 
@@ -46,6 +61,8 @@ template<typename Functor, typename Arg1, typename Arg2>
 {
   typedef typename Functor::result_type type;
 };
+
+#endif // __cplusplus >= 201103L
 
 } // end detail
 } // end thrust

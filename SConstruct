@@ -35,7 +35,9 @@ gnu_compiler_flags = {
   'omp'                : ['-fopenmp'],
   'tbb'                : [],
   'cuda'               : [],
-  'workarounds'        : []
+  'workarounds'        : [],
+  'c++03'              : [],
+  'c++11'              : ['-std=c++11']
 }
 
 clang_compiler_flags = {
@@ -48,7 +50,9 @@ clang_compiler_flags = {
   'omp'                : ['-fopenmp'],
   'tbb'                : [],
   'cuda'               : [],
-  'workarounds'        : []
+  'workarounds'        : [],
+  'c++03'              : [],
+  'c++11'              : ['-std=c++11']
 }
 
 msvc_compiler_flags = {
@@ -64,7 +68,9 @@ msvc_compiler_flags = {
 
   # avoid min/max problems due to windows.h
   # suppress warnings due to "decorated name length exceeded"
-  'workarounds'        : ['/DNOMINMAX', '/wd4503']
+  'workarounds'        : ['/DNOMINMAX', '/wd4503'],
+  'c++03'              : [],
+  'c++11'              : []
 }
 
 compiler_to_flags = {
@@ -281,7 +287,7 @@ def macros(mode, host_backend, device_backend):
   return result
 
 
-def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_all, warnings_as_errors):
+def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_all, warnings_as_errors, cpp_standard):
   """Returns a list of command line flags needed by the c or c++ compiler"""
   # start with all platform-independent preprocessor macros
   result = macros(mode, host_backend, device_backend)
@@ -315,6 +321,9 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
   # workarounds
   result.extend(flags['workarounds'])
 
+  # c++ standard
+  result.extend(flags[cpp_standard])
+
   return result
 
 
@@ -343,7 +352,7 @@ def nv_compiler_flags(mode, device_backend, arch, cdp):
     if(release[0:5] == '10.8.'):
       result.append('-ccbin')
       result.append(master_env.subst('$CXX'))
-
+  
   return result
 
 
@@ -351,7 +360,7 @@ def command_line_variables():
   # allow the user discretion to select the MSVC version
   vars = Variables()
   if os.name == 'nt':
-    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0')))
+    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0', '11.0', '12.0', '13.0')))
   
   # add a variable to handle the host backend
   vars.Add(ListVariable('host_backend', 'The host backend to target', 'cpp',
@@ -365,7 +374,7 @@ def command_line_variables():
   vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
                         allowed_values = ('release', 'debug')))
   
-  # XXX allow the option to send sm_1x to nvcc even nvcc may not support it
+  # allow the option to send sm_1x to nvcc even though nvcc may not support it
   vars.Add(ListVariable('arch', 'Compute capability code generation', 'sm_20',
                         ['sm_10', 'sm_11', 'sm_12', 'sm_13',
                          'sm_20', 'sm_21',
@@ -381,6 +390,14 @@ def command_line_variables():
   
   # add a variable to treat warnings as errors
   vars.Add(BoolVariable('Werror', 'Treat warnings as errors', os.name != 'nt'))
+  
+  # add a variable to switch between C++ standards
+  vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
+                        allowed_values = ('c++03', 'c++11')))
+
+  # add a variable to select C++ standard
+  vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
+                        allowed_values = ('c++03', 'c++11')))
 
   return vars
 
@@ -435,7 +452,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   # populate the environment
   env.Append(CPPPATH = inc_paths(env, host, device))
   
-  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror']))
+  env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror'], env['std']))
   
   env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp']))
   

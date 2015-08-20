@@ -29,7 +29,7 @@ namespace generic
 namespace detail
 {
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename InputIterator, typename Distance>
 __host__ __device__
 void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
@@ -41,7 +41,7 @@ void advance(InputIterator& i, Distance n, thrust::incrementable_traversal_tag)
   } // end while
 } // end advance()
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename InputIterator, typename Distance>
 __host__ __device__
 void advance(InputIterator& i, Distance n, thrust::random_access_traversal_tag)

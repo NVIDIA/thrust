@@ -32,7 +32,7 @@ namespace sequential
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename RandomAccessIterator,
          typename StrictWeakOrdering>
 __host__ __device__
@@ -80,7 +80,7 @@ void insertion_sort(RandomAccessIterator first,
 }
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename RandomAccessIterator1,
          typename RandomAccessIterator2,
          typename StrictWeakOrdering>

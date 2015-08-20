@@ -30,7 +30,7 @@ namespace thrust
 {
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename T>
@@ -45,7 +45,7 @@ __host__ __device__
 } // end remove()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
@@ -62,7 +62,7 @@ __host__ __device__
 } // end remove_copy()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename Predicate>
@@ -77,7 +77,7 @@ __host__ __device__
 } // end remove_if()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename OutputIterator,
@@ -94,7 +94,7 @@ __host__ __device__
 } // end remove_copy_if()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename ForwardIterator,
          typename InputIterator,
@@ -111,7 +111,7 @@ __host__ __device__
 } // end remove_if()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,

@@ -75,7 +75,7 @@ template<typename IteratorTuple>
 } // end zip_iterator::dereference()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename IteratorTuple>
   template<typename OtherIteratorTuple>
   __host__ __device__
@@ -117,7 +117,7 @@ __host__ __device__
 } // end zip_iterator::decrement()
 
 
-__thrust_hd_warning_disable__
+__thrust_exec_check_disable__
 template<typename IteratorTuple>
   template <typename OtherIteratorTuple>
   __host__ __device__
