@@ -127,7 +127,7 @@ __global__ void RadixSortScanBinsKernel(
     BlockScanRunningPrefixOp<Offset, Sum> prefix_op(0, Sum());
     while (block_offset + BlockScanSweepT::TILE_ITEMS <= num_counts)
     {
-        block_scan.ConsumeTile<true, false>(block_offset, prefix_op);
+        block_scan.template ConsumeTile<true, false>(block_offset, prefix_op);
         block_offset += BlockScanSweepT::TILE_ITEMS;
     }
 }
