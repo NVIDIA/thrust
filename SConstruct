@@ -486,6 +486,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   # invoke each SConscript with a variant directory
   env.SConscript('examples/SConscript',    exports='env', variant_dir = 'examples/'    + targets_dir, duplicate = 0)
   env.SConscript('testing/SConscript',     exports='env', variant_dir = 'testing/'     + targets_dir, duplicate = 0)
+  env.SConscript('tests/SConscript',       exports='env', variant_dir = 'tests/'       + targets_dir, duplicate = 0)
   env.SConscript('performance/SConscript', exports='env', variant_dir = 'performance/' + targets_dir, duplicate = 0)
 
 env = master_env
