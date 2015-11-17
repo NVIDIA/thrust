@@ -56,21 +56,27 @@ template<typename Allocator, typename InputType, typename OutputType>
 };
 
 
+// we need to use allocator_traits<Allocator>::construct() to
+// copy construct a T if either:
+// 1. Allocator has a 2-argument construct() member or
+// 2. T has a non-trivial copy constructor
 template<typename Allocator, typename T>
   struct needs_copy_construct_via_allocator
-    : has_member_construct2<
-        Allocator,
-        T,
-        T
+    : integral_constant<
+        bool,
+        (has_member_construct2<Allocator,T,T>::value || !has_trivial_copy_constructor<T>::value)
       >
 {};
 
 
 // we know that std::allocator::construct's only effect is to call T's
-// copy constructor, so we needn't use it for copy construction
+// copy constructor, so we needn't consider or use its construct() member for copy construction
 template<typename U, typename T>
   struct needs_copy_construct_via_allocator<std::allocator<U>, T>
-    : thrust::detail::false_type
+    : integral_constant<
+        bool,
+        !has_trivial_copy_constructor<T>::value
+      >
 {};
 
 
