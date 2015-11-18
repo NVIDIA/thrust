@@ -1,4 +1,5 @@
 Import('env')
+import os
 
 # clone the parent's env so that we do not modify it
 my_env = env.Clone()
@@ -25,12 +26,12 @@ my_env.Append(CPPPATH = Dir('.').srcnode())
 sources = []
 extensions  = ['*.cu', '*.cpp']
 
-# gather sources in the current directorie
+# gather sources in the current directory
 for ext in extensions:
   sources.extend(my_env.Glob(ext))
 
-# gather sources from directories
-sources.extend(SConscript('backend/SConscript', exports='env'))
+# gather sources from backend directory
+backend_sources = SConscript('backend/SConscript', exports='env') 
 
 # filter sources
 import re
@@ -39,22 +40,69 @@ pattern = re.compile(filter_exp)
 def test_filter(src):
   return pattern.search(src.get_contents())
 
-sources = filter(test_filter, sources)
+sources         = filter(test_filter,         sources)
+backend_sources = filter(test_filter, backend_sources)
 
-tester = my_env.Program('tester', sources)
+# remove testframework* from the sources in the current directory
+testframework_src = []
+for s in sources:
+    if "testframework" in str(s):
+        sources.remove(s);
+        testframework_src.append(str(s))
+        break
+
+# remove testframework* from the sources in the backend directory
+backend_testframework_src = []
+for s in backend_sources:
+    if "testframework" in str(s):
+        backend_sources.remove(s);
+        testframework_src.append(str(s))
+        break
+
+# at this point, testframework_src contains list of source files that drive the test
+# these must be included with each test during build process
+
+
+# make a program out of each source file containing unit test
+#   if needed, sources files can be further split if we want to increase
+#   granularity of unit testing
+unit_tests = []
+for s in sources:
+    name = "test."+os.path.splitext(os.path.basename(str(s)))[0]
+    test = my_env.Program(name, testframework_src + [str(s)]);
+    my_env.Alias(name, [test])
+    unit_tests.append(test);
+
+# same as above but of unit tests in backend directory
+backend=env['device_backend']
+for s in backend_sources:
+    name = "test."+backend+"."+os.path.splitext(os.path.basename(str(s)))[0]
+    test = my_env.Program(name, testframework_src + [str(s)]);
+    my_env.Alias(name, [test])
+    unit_tests.append(test);
+
 
 # create a 'unit_tests' alias
-unit_tests_alias = my_env.Alias('unit_tests', [tester])
+unit_tests_alias = my_env.Alias('unit_tests', unit_tests)
 
 # add the verbose tester to the 'run_unit_tests' alias
-run_unit_tests_alias = my_env.Alias('run_unit_tests', [tester], tester[0].abspath + ' --verbose')
+unit_tests_verbose_exe = []
+unit_tests_exe = []
+for t in unit_tests:
+    unit_tests_exe.append(t[0].abspath);
+    unit_tests_verbose_exe.append(t[0].abspath + " --verbose");
+
+run_unit_tests_alias = my_env.Alias('run_unit_tests', unit_tests,  unit_tests_verbose_exe);
 
 # always build the 'run_unit_tests' target whether or not it needs it
 my_env.AlwaysBuild(run_unit_tests_alias)
 
 # add the unit tests alias to the 'run_tests' alias
-my_env.Alias('run_tests', [tester], tester[0].abspath)
+my_env.Alias('run_tests', unit_tests, unit_tests_exe);
 
 # build children
 SConscript('trivial_tests/SConscript', exports='env')
+
+# TODO:  a python program that collates output/executes individual unit tests binaries and report a single pass/failure output.
+
 
