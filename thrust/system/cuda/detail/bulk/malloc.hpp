@@ -354,7 +354,8 @@ class singleton_unsafe_on_chip_allocator
 class singleton_on_chip_allocator
 {
   public:
-    inline __device__ 
+    // XXX mark as __host__ to WAR a warning from uninitialized.construct
+    inline __device__ __host__
     singleton_on_chip_allocator(size_t max_data_segment_size)
       : m_mutex(),
         m_alloc(max_data_segment_size)
