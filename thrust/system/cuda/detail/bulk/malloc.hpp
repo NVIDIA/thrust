@@ -54,7 +54,7 @@ extern __shared__ int s_data_segment_begin[];
 class os
 {
   public:
-    __device__ __host__ inline os(size_t max_data_segment_size)
+    __device__ inline os(size_t max_data_segment_size)
       : m_program_break(s_data_segment_begin),
         m_max_data_segment_size(max_data_segment_size)
     {
@@ -118,7 +118,7 @@ class os
 class singleton_unsafe_on_chip_allocator
 {
   public:
-    __device__ __host__ inline singleton_unsafe_on_chip_allocator(size_t max_data_segment_size)
+    __device__ inline singleton_unsafe_on_chip_allocator(size_t max_data_segment_size)
       : m_os(max_data_segment_size)
     {}
   
@@ -354,8 +354,7 @@ class singleton_unsafe_on_chip_allocator
 class singleton_on_chip_allocator
 {
   public:
-    // XXX mark as __host__ to WAR a warning from uninitialized.construct
-    inline __device__ __host__
+    inline __device__
     singleton_on_chip_allocator(size_t max_data_segment_size)
       : m_mutex(),
         m_alloc(max_data_segment_size)
@@ -406,7 +405,7 @@ class singleton_on_chip_allocator
     class mutex
     {
       public:
-        inline __device__ __host__
+        inline __device__
         mutex()
           : m_in_use(0)
         {}
