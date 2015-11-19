@@ -2,9 +2,8 @@
 #include <thrust/copy.h>
 #include <thrust/functional.h>
 #include <thrust/device_vector.h>
-
-// for printing
 #include <iterator>
+#include <iostream>
 
 int main(void)
 {

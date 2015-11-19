@@ -6,6 +6,7 @@
 #include <thrust/reduce.h>
 
 #include <cassert>
+#include <iostream>
 
 int main(void)
 {
