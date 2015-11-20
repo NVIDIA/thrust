@@ -63,35 +63,22 @@ for s in backend_sources:
 # these must be included with each test during build process
 
 
-# build an object file 
-host_backend = env['host_backend']
-device_backend = env['device_backend']
-
-testframework_obj = []
-for s in testframework_src:
-    name_obj = "obj_"+host_backend+"_"+device_backend+"_"+os.path.basename(str(s)).replace('.','_')
-    o = my_env.Object(name_obj, s)
-    testframework_obj.append(o)
-
-print host_backend, device_backend
 # make a program out of each source file containing unit test
 #   if needed, sources files can be further split if we want to increase
 #   granularity of unit testing
 unit_tests = []
 for s in sources:
     name = "test."+os.path.splitext(os.path.basename(str(s)))[0]
-    name_obj = "obj_"+host_backend+"_"+device_backend+"_"+os.path.basename(str(s)).replace('.','_')
-    o = my_env.Object(name_obj, s)
-    test = my_env.Program(name, testframework_obj+[o]); 
+    test = my_env.Program(name, testframework_src + [str(s)]);
+    my_env.Alias(name, [test])
     unit_tests.append(test);
 
 # same as above but of unit tests in backend directory
 backend=env['device_backend']
 for s in backend_sources:
     name = "test."+backend+"."+os.path.splitext(os.path.basename(str(s)))[0]
-    name_obj = "obj_"+host_backend+"_"+device_backend+"_"+"_"+backend+"_"+os.path.basename(str(s)).replace('.','_')
-    o = my_env.Object(name_obj, s)
-    test = my_env.Program(name, testframework_obj+[o]); 
+    test = my_env.Program(name, testframework_src + [str(s)]);
+    my_env.Alias(name, [test])
     unit_tests.append(test);
 
 
