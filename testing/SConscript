@@ -26,11 +26,11 @@ my_env.Append(CPPPATH = Dir('.').srcnode())
 sources = []
 extensions  = ['*.cu', '*.cpp']
 
-# gather sources in the current directory
+# gather sources in the current directorie
 for ext in extensions:
   sources.extend(my_env.Glob(ext))
 
-# gather sources from backend directory
+# gather sources from directories
 backend_sources = SConscript('backend/SConscript', exports='env') 
 
 # filter sources
@@ -43,7 +43,6 @@ def test_filter(src):
 sources         = filter(test_filter,         sources)
 backend_sources = filter(test_filter, backend_sources)
 
-# remove testframework* from the sources in the current directory
 testframework_src = []
 for s in sources:
     if "testframework" in str(s):
@@ -51,21 +50,13 @@ for s in sources:
         testframework_src.append(str(s))
         break
 
-# remove testframework* from the sources in the backend directory
 backend_testframework_src = []
 for s in backend_sources:
     if "testframework" in str(s):
         backend_sources.remove(s);
         testframework_src.append(str(s))
-        break
-
-# at this point, testframework_src contains list of source files that drive the test
-# these must be included with each test during build process
 
 
-# make a program out of each source file containing unit test
-#   if needed, sources files can be further split if we want to increase
-#   granularity of unit testing
 unit_tests = []
 for s in sources:
     name = "test."+os.path.splitext(os.path.basename(str(s)))[0]
@@ -73,7 +64,6 @@ for s in sources:
     my_env.Alias(name, [test])
     unit_tests.append(test);
 
-# same as above but of unit tests in backend directory
 backend=env['device_backend']
 for s in backend_sources:
     name = "test."+backend+"."+os.path.splitext(os.path.basename(str(s)))[0]
@@ -102,7 +92,4 @@ my_env.Alias('run_tests', unit_tests, unit_tests_exe);
 
 # build children
 SConscript('trivial_tests/SConscript', exports='env')
-
-# TODO:  a python program that collates output/executes individual unit tests binaries and report a single pass/failure output.
-
 
