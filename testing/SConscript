@@ -82,7 +82,7 @@ for t in unit_tests:
     unit_tests_exe.append(t[0].abspath);
     unit_tests_verbose_exe.append(t[0].abspath + " --verbose");
 
-run_unit_tests_alias = my_env.Alias('run_unit_tests', unit_tests,  unit_tests_verbose_exe);
+run_unit_tests_alias = my_env.Alias('run_unit_tests', unit_tests,  unit_tests_exe);
 
 # always build the 'run_unit_tests' target whether or not it needs it
 my_env.AlwaysBuild(run_unit_tests_alias)
