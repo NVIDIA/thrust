@@ -1,7 +1,7 @@
 Import('env')
 
 # clone the parent's env so that we do not modify it
-my_env = env.Clone()
+my_env = env.Clone(LIBS="testframework", LIBPATH=".")
 
 vars = Variables()
 
@@ -51,7 +51,7 @@ for s in src2rm:
 testsrc  = ["testframework.cpp"]
 testsrc += ["backend/cuda/testframework.cu"]
 testframework = my_env.Library('testframework', testsrc)
-tester        = my_env.Program('tester', sources, LIBS="testframework", LIBPATH=".")
+tester        = my_env.Program('tester', sources)
 
 # create a 'unit_tests' alias
 #unit_tests_alias = my_env.Alias('unit_tests', [tester])
