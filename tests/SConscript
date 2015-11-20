@@ -1,5 +1,4 @@
 Import('env')
-import os
 
 # clone the parent's env so that we do not modify it
 my_env = env.Clone()
@@ -31,7 +30,7 @@ for ext in extensions:
   sources.extend(my_env.Glob(ext))
 
 # gather sources from directories
-backend_sources = SConscript('backend/SConscript', exports='env') 
+sources.extend(SConscript('backend/SConscript', exports='env'))
 
 # filter sources
 import re
@@ -40,32 +39,19 @@ pattern = re.compile(filter_exp)
 def test_filter(src):
   return pattern.search(src.get_contents())
 
-sources         = filter(test_filter,         sources)
-backend_sources = filter(test_filter, backend_sources)
+sources = filter(test_filter, sources)
 
-testframework_src = []
+src2rm = []
 for s in sources:
     if "testframework" in str(s):
-        sources.remove(s);
-        testframework_src.append(str(s))
-        break
+        src2rm += [s]
+for s in src2rm:
+    sources.remove(s)
 
-backend_testframework_src = []
-for s in backend_sources:
-    if "testframework" in str(s):
-        backend_sources.remove(s);
-        testframework_src.append(str(s))
-
-
-for s in sources:
-    name = os.path.splitext(os.path.basename(str(s)))[0]
-    my_env.Program("test."+name, testframework_src + [str(s)]);
-
-backend=env['device_backend']
-for s in backend_sources:
-    name = os.path.splitext(os.path.basename(str(s)))[0]
-    my_env.Program("test."+backend+"."+name, testframework_src + [str(s)]);
-
+testsrc  = ["testframework.cpp"]
+testsrc += ["backend/cuda/testframework.cu"]
+testframework = my_env.Library('testframework', testsrc)
+tester        = my_env.Program('tester', sources, LIBS="testframework", LIBPATH=".")
 
 # create a 'unit_tests' alias
 #unit_tests_alias = my_env.Alias('unit_tests', [tester])
