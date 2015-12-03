@@ -117,7 +117,7 @@ void trivial_copy_n(cross_system<System1,System2> &systems,
 
   // XXX use the globally-blocking legacy stream for now
   //     we may wish to enable async host <-> device copy in the future
-  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, cudaStreamLegacy);
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, legacy_stream());
 }
 
 
