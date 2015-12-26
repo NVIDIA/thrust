@@ -24,7 +24,10 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/internal_functional.h>
+#include <thrust/iterator/discard_iterator.h>
+#include <thrust/detail/range/head_flags.h>
 #include <thrust/scan.h>
+#include <thrust/copy.h>
 
 namespace thrust
 {
@@ -36,6 +39,25 @@ namespace generic
 {
 namespace detail
 {
+
+// for *_scan_by_key the arguments of the BinaryPredicate for head_flags must be swapped: 
+// "consecutive iterators i and i+1 in the range [first1, last1) belong to the same segment if binary_pred(*i, *(i+1)) is true"
+template<typename BinaryPredicate>
+struct swap_arguments_binary_predicate
+{
+  BinaryPredicate binary_pred;
+
+  __host__ __device__
+  swap_arguments_binary_predicate(BinaryPredicate binary_pred) : binary_pred(binary_pred) {}
+
+  template<typename T1, typename T2>
+  __host__ __device__ __thrust_forceinline__
+  bool operator()(const T1& lhs, const T2& rhs)
+  {
+      return binary_pred(rhs, lhs);
+  }
+}; // end swap_arguments
+
 
 
 template <typename OutputType, typename HeadFlagType, typename AssociativeOperator>
@@ -117,8 +139,8 @@ __host__ __device__
   if(n != 0)
   {
     // compute head flags
-    thrust::detail::temporary_array<HeadFlagType,DerivedPolicy> flags(exec, n);
-    flags[0] = 1; thrust::transform(exec, first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
+    typedef detail::swap_arguments_binary_predicate<BinaryPredicate> SwappedBinaryPredicate;
+    thrust::detail::head_flags<InputIterator1, SwappedBinaryPredicate> head_flags(first1, last1, SwappedBinaryPredicate(binary_pred));
 
     // scan key-flag tuples, 
     // For additional details refer to Section 2 of the following paper
@@ -126,9 +148,9 @@ __host__ __device__
     //    NVIDIA Technical Report NVR-2008-003, December 2008
     //    http://mgarland.org/files/papers/nvr-2008-003.pdf
     thrust::inclusive_scan(exec,
-                           thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())),
-                           thrust::make_zip_iterator(thrust::make_tuple(first2, flags.begin())) + n,
-                           thrust::make_zip_iterator(thrust::make_tuple(result, flags.begin())),
+                           thrust::make_zip_iterator(thrust::make_tuple(first2, head_flags.begin())),
+                           thrust::make_zip_iterator(thrust::make_tuple(first2, head_flags.begin())) + n,
+                           thrust::make_zip_iterator(thrust::make_tuple(result, thrust::make_discard_iterator())),
                            detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
   }
 
@@ -190,6 +212,47 @@ __host__ __device__
 }
 
 
+template <typename RandomAccessIterator,
+          typename ValueType,
+          typename IndexType = typename thrust::iterator_difference<RandomAccessIterator>::type>
+struct init_functor
+{
+    typedef ValueType result_type;
+    const ValueType init;
+    const RandomAccessIterator begin;
+
+    __host__ __device__
+    init_functor(RandomAccessIterator begin, const ValueType& init) : begin(begin), init(init) {}
+
+    template <typename Tuple>
+    __host__ __device__ __thrust_forceinline__
+    result_type operator()(const Tuple& t) const
+    {
+        // shift input one to the right and initialize segments with init
+        if (thrust::get<1>(t))
+        {
+            return init;
+        }
+        const IndexType i = thrust::get<0>(t);
+        return *(begin + i - 1);
+    }
+};
+
+
+template<typename Iterator>
+__host__ __device__
+  bool iterator_equal(const Iterator& it1, const Iterator& it2)
+{
+    return it1 == it2;
+}
+
+template<typename Iterator1, typename Iterator2>
+__host__ __device__
+  bool iterator_equal(const Iterator1&, const Iterator2&)
+{
+    return false;
+}
+
 template<typename DerivedPolicy,
          typename InputIterator1,
          typename InputIterator2,
@@ -214,27 +277,48 @@ __host__ __device__
 
   if(n != 0)
   {
-    InputIterator2 last2 = first2 + n;
-
     // compute head flags
-    thrust::detail::temporary_array<HeadFlagType,DerivedPolicy> flags(exec, n);
-    flags[0] = 1; thrust::transform(exec, first1, last1 - 1, first1 + 1, flags.begin() + 1, thrust::detail::not2(binary_pred));
+    typedef detail::swap_arguments_binary_predicate<BinaryPredicate> SwappedBinaryPredicate;
+    typedef thrust::detail::head_flags<InputIterator1, SwappedBinaryPredicate> HeadFlags;
+    HeadFlags head_flags(first1, last1, SwappedBinaryPredicate(binary_pred));
 
-    // shift input one to the right and initialize segments with init
-    thrust::detail::temporary_array<OutputType,DerivedPolicy> temp(exec, n);
-    thrust::replace_copy_if(exec, first2, last2 - 1, flags.begin() + 1, temp.begin() + 1, thrust::negate<HeadFlagType>(), init);
-    temp[0] = init;
+    typedef thrust::counting_iterator<std::size_t> CountingIterator;
+    typedef thrust::tuple<CountingIterator, typename HeadFlags::iterator> IteratorTuple;
+    typedef thrust::zip_iterator<IteratorTuple> ZipIterator;
+    
+    ZipIterator zip_it(thrust::make_tuple(CountingIterator(0), head_flags.begin()));
 
-    // scan key-flag tuples, 
+    typedef init_functor<InputIterator2, T> InitFunction;
+    typedef thrust::transform_iterator<InitFunction, ZipIterator> InitTransformIterator;
+
+    InitTransformIterator transform_it(zip_it, InitFunction(first2, init));
+
+    // scan key-flag tuples,
     // For additional details refer to Section 2 of the following paper
     //    S. Sengupta, M. Harris, and M. Garland. "Efficient parallel scan algorithms for GPUs"
     //    NVIDIA Technical Report NVR-2008-003, December 2008
     //    http://mgarland.org/files/papers/nvr-2008-003.pdf
-    thrust::inclusive_scan(exec,
-                           thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())),
-                           thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), flags.begin())) + n,
-                           thrust::make_zip_iterator(thrust::make_tuple(result,       flags.begin())),
-                           detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
+    
+    
+    // in-place
+    if (iterator_equal(first2, result))
+    {
+        thrust::detail::temporary_array<OutputType, DerivedPolicy> temp(exec, n);
+        thrust::inclusive_scan(exec,
+                               thrust::make_zip_iterator(thrust::make_tuple(transform_it, head_flags.begin())),
+                               thrust::make_zip_iterator(thrust::make_tuple(transform_it, head_flags.begin())) + n,
+                               thrust::make_zip_iterator(thrust::make_tuple(temp.begin(), thrust::make_discard_iterator())),
+                               detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
+        thrust::copy(exec, temp.begin(), temp.end(), result);
+    }
+    else
+    {
+        thrust::inclusive_scan(exec,
+                               thrust::make_zip_iterator(thrust::make_tuple(transform_it, head_flags.begin())),
+                               thrust::make_zip_iterator(thrust::make_tuple(transform_it, head_flags.begin())) + n,
+                               thrust::make_zip_iterator(thrust::make_tuple(result,       thrust::make_discard_iterator())),
+                               detail::segmented_scan_functor<OutputType, HeadFlagType, AssociativeOperator>(binary_op));
+    }
   }
 
   return result + n;
