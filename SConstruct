@@ -462,6 +462,10 @@ elif master_env['PLATFORM'] == 'win32':
   master_env['ENV']['TBBROOT'] = os.environ['TBBROOT']
   master_env['ENV']['PATH'] += ';' + tbb_installation(master_env)[0]
 
+# if the environment variable NVVMIR_LIBRARY_DIR is set, provide it to nvcc to prevent the following error:
+# "nvcc fatal : Path to libdevice library not specified"
+if 'NVVMIR_LIBRARY_DIR' in os.environ:
+  master_env['ENV']['NVVMIR_LIBRARY_DIR'] = os.environ['NVVMIR_LIBRARY_DIR']
 
 # get the list of requested backends
 host_backends = master_env.subst('$host_backend').split()
