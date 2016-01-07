@@ -30,12 +30,11 @@ namespace thrust
 namespace detail
 {
 
-
-template<typename Signature, typename Enable = void> struct result_of;
+template<typename Signature, typename Enable = void> struct result_of_adaptable_function;
 
 // specialization for unary invocations of things which have result_type
 template<typename Functor, typename Arg1>
-  struct result_of<
+  struct result_of_adaptable_function<
     Functor(Arg1),
     typename thrust::detail::enable_if<thrust::detail::has_result_type<Functor>::value>::type
   >
@@ -45,7 +44,7 @@ template<typename Functor, typename Arg1>
 
 // specialization for binary invocations of things which have result_type
 template<typename Functor, typename Arg1, typename Arg2>
-  struct result_of<
+  struct result_of_adaptable_function<
     Functor(Arg1,Arg2),
     typename thrust::detail::enable_if<thrust::detail::has_result_type<Functor>::value>::type
   >
@@ -56,7 +55,7 @@ template<typename Functor, typename Arg1, typename Arg2>
 #if __cplusplus >= 201103L || (defined(__cpp_variadic_templates) && defined(__cpp_lib_result_of_sfinae))
 
 template <typename Functor, typename... Args>
-struct result_of<Functor(Args...),
+struct result_of_adaptable_function<Functor(Args...),
                  typename thrust::detail::enable_if<
                      !thrust::detail::has_result_type<Functor>::value>::type>
     : std::result_of<Functor(Args...)> {};

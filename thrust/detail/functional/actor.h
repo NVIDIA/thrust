@@ -30,7 +30,7 @@
 #include <thrust/detail/functional/value.h>
 #include <thrust/detail/functional/composite.h>
 #include <thrust/detail/functional/operators/assignment_operator.h>
-#include <thrust/detail/type_traits/result_of.h>
+#include <thrust/detail/type_traits/result_of_adaptable_function.h>
 
 namespace thrust
 {
@@ -153,7 +153,7 @@ template<typename T>
 
 // provide specializations for result_of for nullary, unary, and binary invocations of actor
 template<typename Eval>
-  struct result_of<
+  struct result_of_adaptable_function<
     thrust::detail::functional::actor<Eval>()
   >
 {
@@ -164,7 +164,7 @@ template<typename Eval>
 }; // end result_of
 
 template<typename Eval, typename Arg1>
-  struct result_of<
+  struct result_of_adaptable_function<
     thrust::detail::functional::actor<Eval>(Arg1)
   >
 {
@@ -175,7 +175,7 @@ template<typename Eval, typename Arg1>
 }; // end result_of
 
 template<typename Eval, typename Arg1, typename Arg2>
-  struct result_of<
+  struct result_of_adaptable_function<
     thrust::detail::functional::actor<Eval>(Arg1,Arg2)
   >
 {

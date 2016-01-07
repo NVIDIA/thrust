@@ -204,7 +204,7 @@ template<typename InputIterator,
   //   TemporaryType = OutputIterator::value_type
   //
   // XXX upon c++0x, TemporaryType needs to be:
-  // result_of<BinaryFunction>::type
+  // result_of_adaptable_function<BinaryFunction>::type
   
   using namespace thrust::detail;
 
@@ -256,7 +256,7 @@ template<typename InputIterator,
   //   TemporaryType = OutputIterator::value_type
   //
   // XXX upon c++0x, TemporaryType needs to be:
-  // result_of<BinaryFunction>::type
+  // result_of_adaptable_function<BinaryFunction>::type
 
   using namespace thrust::detail;
 
