@@ -101,7 +101,7 @@ __host__ __device__
     //   TemporaryType = OutputIterator2::value_type
     //
     // XXX upon c++0x, TemporaryType needs to be:
-    // result_of<BinaryFunction>::type
+    // result_of_adaptable_function<BinaryFunction>::type
 
     typedef typename thrust::detail::eval_if<
       thrust::detail::has_result_type<BinaryFunction>::value,
