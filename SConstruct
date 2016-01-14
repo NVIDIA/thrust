@@ -348,7 +348,7 @@ def nv_compiler_flags(mode, device_backend, arch, cdp):
   return result
 
 def clang_compiler_flags(mode, arch):
-  """Returns a list of command line flags specific to nvcc"""
+  """Returns a list of command line flags specific to clang"""
   result = []
   for machine_arch in arch:
     result.append('--cuda-gpu-arch={0}'.format(machine_arch))
