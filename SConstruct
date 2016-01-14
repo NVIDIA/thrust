@@ -106,23 +106,15 @@ linker_to_flags = {
   'clang++'  : clang_linker_flags
 }
 
-
-def cuda_installation():
+def cuda_installation(env):
   """Returns the details of CUDA's installation
   returns (bin_path,lib_path,inc_path,library_name)
   """
 
-  # determine defaults
-  if os.name == 'nt':
-    bin_path = 'C:/CUDA/bin'
-    lib_path = 'C:/CUDA/lib'
-    inc_path = 'C:/CUDA/include'
-  elif os.name == 'posix':
-    bin_path = '/usr/local/cuda/bin'
-    lib_path = '/usr/local/cuda/lib'
-    inc_path = '/usr/local/cuda/include'
-  else:
-    raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
+  cuda_path = env['cuda_path']
+  bin_path = cuda_path + '/bin'
+  lib_path = cuda_path + '/lib'
+  inc_path = cuda_path + '/include'
 
   if master_env['PLATFORM'] != 'darwin' and platform.machine()[-2:] == '64':
     lib_path += '64'
@@ -135,7 +127,7 @@ def cuda_installation():
   if 'CUDA_INC_PATH' in os.environ:
     inc_path = os.path.abspath(os.environ['CUDA_INC_PATH'])
 
-  return (bin_path,lib_path,inc_path,'cudart')
+  return (bin_path,lib_path,inc_path,'cudart',cuda_path)
 
 
 def omp_installation(CXX):
@@ -205,7 +197,7 @@ def inc_paths(env, host_backend, device_backend):
   result.append(thrust_inc_path)
   
   if host_backend == 'cuda' or device_backend == 'cuda':
-    cuda_inc_path = cuda_installation()[2]
+    cuda_inc_path = cuda_installation(env)[2]
     result.append(cuda_inc_path)
 
   if host_backend == 'tbb' or device_backend == 'tbb':
@@ -220,7 +212,7 @@ def lib_paths(env, host_backend, device_backend):
   result = []
 
   if host_backend == 'cuda' or device_backend == 'cuda':
-    cuda_lib_path = cuda_installation()[1]
+    cuda_lib_path = cuda_installation(env)[1]
     result.append(cuda_lib_path)
 
   if host_backend == 'tbb' or device_backend == 'tbb':
@@ -242,7 +234,7 @@ def libs(env, CCX, host_backend, device_backend):
 
   # link against backend-specific runtimes
   if host_backend == 'cuda' or device_backend == 'cuda':
-    result.append(cuda_installation()[3])
+    result.append(cuda_installation(env)[3])
 
     # XXX clean this up
     if env['cdp']:
@@ -355,6 +347,12 @@ def nv_compiler_flags(mode, device_backend, arch, cdp):
   
   return result
 
+def clang_compiler_flags(mode, arch):
+  """Returns a list of command line flags specific to clang"""
+  result = []
+  for machine_arch in arch:
+    result.append('--cuda-gpu-arch={0}'.format(machine_arch))
+  return result
 
 def command_line_variables():
   # allow the user discretion to select the MSVC version
@@ -399,13 +397,29 @@ def command_line_variables():
   vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
                         allowed_values = ('c++03', 'c++11')))
 
+  vars.Add(EnumVariable('cuda_compiler', 'CUDA compiler', 'nvcc',
+                        allowed_values = ('nvcc', 'clang')))
+
+  # determine defaults
+  if 'CUDA_PATH' in os.environ:
+    default_cuda_path = os.path.abspath(os.environ['CUDA_PATH'])
+  elif os.name == 'nt':
+    default_cuda_path = 'C:/CUDA'
+  elif os.name == 'posix':
+    default_cuda_path = '/usr/local/cuda'
+  else:
+    raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
+
+  vars.Add(PathVariable('cuda_path', 'CUDA installation path', default_cuda_path))
+
   return vars
 
 
 # create a master Environment
 vars = command_line_variables()
 
-master_env = Environment(variables = vars, tools = ['default', 'nvcc', 'zip'])
+master_env = Environment(variables = vars, tools = ['default', 'zip'])
+Tool(master_env['cuda_compiler'])(master_env)
 
 # XXX it might be a better idea to harvest help text from subsidiary
 #     SConscripts and only add their help text if one of their targets
@@ -419,9 +433,9 @@ master_env.AddMethod(RecursiveGlob)
 # which depend on shared libraries (e.g., cudart)
 # we don't need to do this on windows
 if master_env['PLATFORM'] == 'posix':
-  master_env['ENV'].setdefault('LD_LIBRARY_PATH', []).append(cuda_installation()[1])
+  master_env['ENV'].setdefault('LD_LIBRARY_PATH', []).append(cuda_installation(master_env)[1])
 elif master_env['PLATFORM'] == 'darwin':
-  master_env['ENV'].setdefault('DYLD_LIBRARY_PATH', []).append(cuda_installation()[1])
+  master_env['ENV'].setdefault('DYLD_LIBRARY_PATH', []).append(cuda_installation(master_env)[1])
   # Check if g++ really is g++
   if(master_env.subst('$CXX') == 'g++'):
     output = subprocess.check_output(['g++','--version'])
@@ -455,6 +469,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror'], env['std']))
   
   env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp']))
+  env.Append(CLANGFLAGS = clang_compiler_flags(env['mode'], env['arch']))
   
   env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
 
@@ -474,10 +489,10 @@ for (host,device) in itertools.product(host_backends, device_backends):
   # we Replace instead of Append, to avoid picking-up MSVC-specific flags on Windows
   env.Replace(LINKFLAGS = linker_flags(env.subst('$LINK'), env['mode'], env['PLATFORM'], device, env['arch']))
    
-  env.Append(LIBPATH = lib_paths(env, host, device))
+  env.Append(LIBPATH = lib_paths(env, host, device), RPATH = lib_paths(env, host, device))
   
   # assemble the name of this configuration's targets directory
-  targets_dir = 'targets/{0}_host_{1}_device_{2}'.format(host, device, env['mode'])
+  targets_dir = 'targets/{0}_host_{1}_device_{2}_{3}'.format(host, device, env['mode'], env['cuda_compiler'])
 
   # allow subsidiary SConscripts to peek at the backends
   env['host_backend'] = host
@@ -490,4 +505,3 @@ for (host,device) in itertools.product(host_backends, device_backends):
 
 env = master_env
 master_env.SConscript('SConscript', exports='env', variant_dir = 'targets', duplicate = False)
-

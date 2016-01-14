@@ -15,24 +15,22 @@ import os
 import platform
 
 
-def get_cuda_paths():
+def get_cuda_paths(env):
   """Determines CUDA {bin,lib,include} paths
   
   returns (bin_path,lib_path,inc_path)
   """
 
+  cuda_path = env['cuda_path']
+
   # determine defaults
-  if os.name == 'nt':
-    bin_path = 'C:/CUDA/bin'
-    lib_path = 'C:/CUDA/lib'
-    inc_path = 'C:/CUDA/include'
-  elif os.name == 'posix':
-    bin_path = '/usr/local/cuda/bin'
-    lib_path = '/usr/local/cuda/lib'
-    inc_path = '/usr/local/cuda/include'
+  if os.name == 'posix':
+    bin_path = cuda_path + '/bin'
+    lib_path = cuda_path + '/lib'
+    inc_path = cuda_path + '/include'
   else:
     raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
-   
+
   if platform.machine()[-2:] == '64':
     lib_path += '64'
 
@@ -45,7 +43,6 @@ def get_cuda_paths():
     inc_path = os.path.abspath(os.environ['CUDA_INC_PATH'])
 
   return (bin_path,lib_path,inc_path)
-
 
 
 CUDASuffixes = ['.cu']
@@ -157,10 +154,9 @@ def generate(env):
   # XXX add code to generate builders for other miscellaneous
   # CUDA files here, such as .gpu, etc.
 
-  (bin_path,lib_path,inc_path) = get_cuda_paths()
+  (bin_path,lib_path,inc_path) = get_cuda_paths(env)
     
   env.PrependENVPath('PATH', bin_path)
 
 def exists(env):
   return env.Detect('nvcc')
-
