@@ -24,6 +24,16 @@
 
 #include <thrust/system/detail/sequential/for_each.h>
 
+// SCons can't see through the #defines below to figure out what this header
+// includes, so we fake it out by specifying all possible files we might end up
+// including inside an #if 0.
+#if 0
+#include <thrust/system/cpp/detail/for_each.h>
+#include <thrust/system/cuda/detail/for_each.h>
+#include <thrust/system/omp/detail/for_each.h>
+#include <thrust/system/tbb/detail/for_each.h>
+#endif
+
 #define __THRUST_HOST_SYSTEM_FOR_EACH_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/for_each.h>
 #include __THRUST_HOST_SYSTEM_FOR_EACH_HEADER
 #undef __THRUST_HOST_SYSTEM_FOR_EACH_HEADER
