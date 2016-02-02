@@ -238,7 +238,8 @@ class parallel_group<ExecutionAgent,dynamic_group_size>
 inline __host__ __device__
 parallel_group<> par(size_t size)
 {
-  return parallel_group<>(size);
+  typedef parallel_group<>::size_type size_type;
+  return parallel_group<>(static_cast<size_type>(size));
 }
 
 
@@ -247,7 +248,8 @@ template<typename ExecutionAgent>
 __host__ __device__
 parallel_group<ExecutionAgent> par(ExecutionAgent exec, size_t size)
 {
-  return parallel_group<ExecutionAgent>(size, exec);
+  typedef typename parallel_group<ExecutionAgent>::size_type size_type;
+  return parallel_group<ExecutionAgent>(static_cast<size_type>(size), exec);
 }
 
 
@@ -300,7 +302,8 @@ class async_launch
 inline __host__ __device__
 async_launch<bulk::parallel_group<> > par(cudaStream_t s, size_t num_threads)
 {
-  return async_launch<bulk::parallel_group<> >(bulk::parallel_group<>(num_threads), s);
+  typedef bulk::parallel_group<>::size_type size_type;
+  return async_launch<bulk::parallel_group<> >(bulk::parallel_group<>(static_cast<size_type>(num_threads)), s);
 }
 
 
@@ -316,7 +319,8 @@ inline async_launch<bulk::parallel_group<> > par(bulk::future<void> &before, siz
 {
   cudaEvent_t before_event = bulk::detail::future_core_access::event(before);
 
-  return async_launch<bulk::parallel_group<> >(bulk::parallel_group<>(num_threads), before_event);
+  typedef bulk::parallel_group<>::size_type size_type;
+  return async_launch<bulk::parallel_group<> >(bulk::parallel_group<>(static_cast<size_type>(num_threads)), before_event);
 }
 
 
@@ -436,7 +440,8 @@ class concurrent_group<ExecutionAgent,dynamic_group_size>
 inline __host__ __device__
 concurrent_group<> con(size_t size, size_t heap_size = use_default)
 {
-  return concurrent_group<>(size,heap_size);
+  typedef concurrent_group<>::size_type size_type;
+  return concurrent_group<>(static_cast<size_type>(size),static_cast<size_type>(heap_size));
 }
 
 
@@ -445,7 +450,8 @@ template<typename ExecutionAgent>
 __host__ __device__
 concurrent_group<ExecutionAgent> con(ExecutionAgent exec, size_t size, size_t heap_size = use_default)
 {
-  return concurrent_group<ExecutionAgent>(size,heap_size,exec);
+  typedef typename concurrent_group<ExecutionAgent>::size_type size_type;
+  return concurrent_group<ExecutionAgent>(static_cast<size_type>(size),static_cast<size_type>(heap_size),exec);
 }
 
 
@@ -455,7 +461,8 @@ __host__ __device__
 concurrent_group<bulk::agent<grainsize>,groupsize>
 con(size_t heap_size)
 {
-  return concurrent_group<bulk::agent<grainsize>,groupsize>(heap_size);
+  typedef typename concurrent_group<bulk::agent<grainsize>,groupsize>::size_type size_type;
+  return concurrent_group<bulk::agent<grainsize>,groupsize>(static_cast<size_type>(heap_size));
 }
 
 
