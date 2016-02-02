@@ -29,8 +29,13 @@ namespace unittest
 
 static size_t MAX_OUTPUT_LINES = 10;
 
+#ifndef __APPLE_CC__
 static double DEFAULT_RELATIVE_TOL = 1e-4;
 static double DEFAULT_ABSOLUTE_TOL = 1e-4;
+#else
+#define DEFAULT_RELATIVE_TOL (1e-4)
+#define DEFAULT_ABSOLUTE_TOL (1e-4)
+#endif
 
 template<typename T>
   struct value_type
