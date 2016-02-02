@@ -18,39 +18,18 @@
  *  \brief An allocator which creates new elements in "managed" memory with \p cudaManagedMalloc
  */
 
-#pragma once
-
-#include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
-#include <stdexcept>
+#include <algorithm>
+#include <functional>
 #include <limits>
+#include <numeric>
+#include <stdexcept>
 #include <string>
-#include <thrust/system/system_error.h>
-#include <thrust/system/cuda/error.h>
 
-namespace thrust
-{
+#include <thrust/device_vector.h>
+#include <thrust/system/cpp/execution_policy.h>
+#include <thrust/system/cuda/execution_policy.h>
+#include <thrust/sort.h>
 
-namespace system
-{
-
-namespace cuda
-{
-
-namespace experimental
-{
-
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes
- *  \ingroup memory_management
- *  \{
- */
-
-/*! \p managed_allocator is a CUDA-specific host memory allocator
- *  that employs \c cudaMallocHost for allocation.
- *
- *  \see http://www.sgi.com/tech/stl/Allocators.html
- */
 template<typename T> class managed_allocator;
 
 template<>
@@ -84,64 +63,31 @@ template<typename T>
     typedef std::size_t    size_type;
     typedef std::ptrdiff_t difference_type;
 
-    // convert a managed_allocator<T> to managed_allocator<U>
     template<typename U>
       struct rebind
     {
       typedef managed_allocator<U> other;
     }; // end rebind
 
-    /*! \p managed_allocator's null constructor does nothing.
-     */
     __host__ __device__
     inline managed_allocator() {}
 
-    /*! \p managed_allocator's null destructor does nothing.
-     */
     __host__ __device__
     inline ~managed_allocator() {}
 
-    /*! \p managed_allocator's copy constructor does nothing.
-     */
     __host__ __device__
     inline managed_allocator(managed_allocator const &) {}
 
-    /*! This version of \p managed_allocator's copy constructor
-     *  is templated on the \c value_type of the \p managed_allocator
-     *  to copy from.  It is provided merely for convenience; it
-     *  does nothing.
-     */
     template<typename U>
     __host__ __device__
     inline managed_allocator(managed_allocator<U> const &) {}
 
-    /*! This method returns the address of a \c reference of
-     *  interest.
-     *
-     *  \p r The \c reference of interest.
-     *  \return \c r's address.
-     */
     __host__ __device__
     inline pointer address(reference r) { return &r; }
 
-    /*! This method returns the address of a \c const_reference
-     *  of interest.
-     *
-     *  \p r The \c const_reference of interest.
-     *  \return \c r's address.
-     */
     __host__ __device__
     inline const_pointer address(const_reference r) { return &r; }
 
-    /*! This method allocates storage for objects in managed device
-     *  memory.
-     *
-     *  \p cnt The number of objects to allocate.
-     *  \return a \c pointer to the newly allocated objects.
-     *  \note This method does not invoke \p value_type's constructor.
-     *        It is the responsibility of the caller to initialize the
-     *        objects at the returned \c pointer. 
-     */
     __host__
     inline pointer allocate(size_type cnt,
                             const_pointer = 0)
@@ -162,16 +108,6 @@ template<typename T>
       return result;
     } // end allocate()
 
-    /*! This method deallocates managed device memory previously allocated
-     *  with this \c managed_allocator.
-     *
-     *  \p p A \c pointer to the previously allocated memory.
-     *  \p cnt The number of objects previously allocated at
-     *         \p p.
-     *  \note This method does not invoke \p value_type's destructor.
-     *        It is the responsibility of the caller to destroy
-     *        the objects stored at \p p.
-     */
     __host__
     inline void deallocate(pointer p, size_type cnt)
     {
@@ -183,57 +119,70 @@ template<typename T>
       } // end if
     } // end deallocate()
 
-    /*! This method returns the maximum size of the \c cnt parameter
-     *  accepted by the \p allocate() method.
-     *
-     *  \return The maximum number of objects that may be allocated
-     *          by a single call to \p allocate().
-     */
     inline size_type max_size() const
     {
       return (std::numeric_limits<size_type>::max)() / sizeof(T);
     } // end max_size()
 
-    /*! This method tests this \p managed_allocator for equality to
-     *  another.
-     *
-     *  \param x The other \p managed_allocator of interest.
-     *  \return This method always returns \c true.
-     */
     __host__ __device__
     inline bool operator==(managed_allocator const& x) { return true; }
 
-    /*! This method tests this \p managed_allocator for inequality
-     *  to another.
-     *
-     *  \param x The other \p managed_allocator of interest.
-     *  \return This method always returns \c false.
-     */
     __host__ __device__
     inline bool operator!=(managed_allocator const &x) { return !operator==(x); }
 }; // end managed_allocator
 
-/*! \}
- */
-
-} // end experimental
-
-} // end cuda
-
-} // end system
-
-// alias cuda's members at top-level
-namespace cuda
+template<typename Vector>
+void operate(Vector& vec)
 {
+  try
+  {
+    // initialize data on host
+    thrust::tabulate(thrust::cpp::par, vec.begin(), vec.end(), thrust::placeholders::_1 % 1024);
 
-namespace experimental
+    // sort data on device
+    thrust::sort(thrust::cuda::par, vec.begin(), vec.end());
+
+    // synchronize to avoid bus error
+    cudaDeviceSynchronize();
+  }
+  catch(std::exception)
+  {
+    std::cout << "caught std::exception from sort" << std::endl;
+  }
+}
+
+
+int main()
 {
+  // check whether device supports mapped host memory
+  int device;
+  cudaGetDevice(&device);
+  cudaDeviceProp properties;
+  cudaGetDeviceProperties(&properties, device);
 
-using thrust::system::cuda::experimental::managed_allocator;
+  // this example requires both unified addressing and memory mapping
+  if(!properties.unifiedAddressing || !properties.canMapHostMemory)
+  {
+    std::cout << "Device #" << device 
+              << " [" << properties.name << "] does not support memory mapping" << std::endl;
+    return 0;
+  }
+  else
+  {
+    std::cout << "Testing managed_allocator on device #" << device 
+              << " [" << properties.name << "] with " 
+              << properties.totalGlobalMem << " bytes of device memory" << std::endl;
+  }
 
-} // end experimental
+  size_t size = 1 << 5;
+  thrust::host_vector<int, managed_allocator<int> > host_vec(size);
+  operate(host_vec);
 
-} // end cuda
+  thrust::device_vector<int, managed_allocator<int> > device_vec(size);
+  operate(device_vec);
 
-} // end thrust
+  thrust::copy(device_vec.begin(), device_vec.end(), std::ostream_iterator<int>(std::cout, " "));
+  std::cout << std::endl;
 
+  return 0;
+}
