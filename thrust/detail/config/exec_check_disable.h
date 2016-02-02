@@ -22,7 +22,7 @@
 
 #include <thrust/detail/config.h>
 
-#if defined(__CUDACC__) && !defined(__clang__)
+#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
 
 #define __thrust_exec_check_disable__ \
 #pragma hd_warning_disable \
