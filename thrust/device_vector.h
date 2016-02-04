@@ -69,6 +69,9 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     device_vector(void)
       :Parent() {}
 
+    __host__
+    ~device_vector(void) {}
+
     /*! This constructor creates a \p device_vector with the given
      *  size.
      *  \param n The number of elements to initially create.

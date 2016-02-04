@@ -69,6 +69,9 @@ template<typename T, typename Alloc = std::allocator<T> >
     host_vector(void)
       :Parent() {}
 
+    __host__
+    ~host_vector(void) {}
+
     /*! This constructor creates a \p host_vector with the given
      *  size.
      *  \param n The number of elements to initially craete.
