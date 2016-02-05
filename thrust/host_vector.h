@@ -69,12 +69,15 @@ template<typename T, typename Alloc = std::allocator<T> >
     host_vector(void)
       :Parent() {}
 
+    /*! Define an empty destructor to explicitly specify
+     *  its execution space qualifier.
+     */
     __host__
     ~host_vector(void) {}
 
     /*! This constructor creates a \p host_vector with the given
      *  size.
-     *  \param n The number of elements to initially craete.
+     *  \param n The number of elements to initially create.
      */
     __host__
     explicit host_vector(size_type n)

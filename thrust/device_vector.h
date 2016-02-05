@@ -69,6 +69,9 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     device_vector(void)
       :Parent() {}
 
+    /*! Define an empty destructor to explicitly specify
+     *  its execution space qualifier.
+     */
     __host__
     ~device_vector(void) {}
 
