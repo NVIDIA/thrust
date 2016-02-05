@@ -69,6 +69,13 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     device_vector(void)
       :Parent() {}
 
+    /*! The destructor erases the elements.
+     */
+    //  Define an empty destructor to explicitly specify
+    //  its execution space qualifier, as a workaround for nvcc warning
+    __host__
+    ~device_vector(void) {}
+
     /*! This constructor creates a \p device_vector with the given
      *  size.
      *  \param n The number of elements to initially create.
