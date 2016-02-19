@@ -32,6 +32,7 @@ public:
   __host__ __device__
   difference_type size() const { return thrust::distance(first, last); }
 
+
   __host__ __device__
   reference operator[](difference_type n)
   {
@@ -133,6 +134,16 @@ make_range_view(Iterator first, Iterator last)
 {
   return range_view<Iterator>(first, last);
 }
+
+// This helper function creates a range_view from a Vector
+template <class Vector>
+range_view<typename Vector::iterator>
+__host__
+make_range_view(Vector& v)
+{
+  return range_view<typename Vector::iterator>(v.begin(), v.end());
+}
+
 
 // This saxpy functor stores view of X, Y, Z array, and accesses them in
 // vector-like way
