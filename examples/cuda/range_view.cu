@@ -11,10 +11,12 @@ public:
   typedef Iterator iterator;
 
 private:
+  typedef typename thrust::iterator_traits<iterator>::difference_type difference_type;
+  typedef typename thrust::iterator_traits<iterator>::reference reference;
+
+private:
   const iterator first;
   const iterator last;
-  typedef typename thrust::iterator_traits<iterator>::difference_type size_type;
-  typedef typename thrust::iterator_traits<iterator>::reference reference;
 
 
 public:
@@ -25,15 +27,15 @@ public:
   ~range_view() {}
 
   __host__ __device__
-  size_type size() const { return thrust::distance(first, last); }
+  difference_type size() const { return thrust::distance(first, last); }
 
   __host__ __device__
-  reference operator[](size_type n)
+  reference operator[](difference_type n)
   {
     return *(first + n);
   }
   __host__ __device__
-  const reference operator[](size_type n) const
+  const reference operator[](difference_type n) const
   {
     return *(first + n);
   }
