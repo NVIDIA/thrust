@@ -4,6 +4,9 @@
 #include <thrust/execution_policy.h>
 #include <iostream>
 
+// This example demonstrates implementaiton of range_view containers
+// which stores an iterator range with Vector-like interface
+
 template<class Iterator>
 class range_view
 {
@@ -112,6 +115,8 @@ public:
 
 };
 
+// This helper function reates a range_view from iterator and the number of
+// elements
 template <class Iterator, class Size>
 range_view<Iterator>
 __host__ __device__
@@ -120,6 +125,7 @@ make_range_view(Iterator first, Size n)
   return range_view<Iterator>(first, first+n);
 }
 
+// This helper function creates a range_view from a pair of iterators
 template <class Iterator>
 range_view<Iterator>
 __host__ __device__
@@ -128,6 +134,8 @@ make_range_view(Iterator first, Iterator last)
   return range_view<Iterator>(first, last);
 }
 
+// This saxpy functor stores view of X, Y, Z array, and accesses them in
+// vector-like way
 template<class View1, class View2, class View3>
 struct saxpy_functor : public thrust::unary_function<int,void>
 {
@@ -149,6 +157,8 @@ struct saxpy_functor : public thrust::unary_function<int,void>
   }
 };
 
+// saxpy function, which can either be called form host or device
+// The views are passed by value
 template<class View1, class View2, class View3>
 __host__ __device__
 void saxpy(float A, View1 X, View2 Y, View3 Z)
@@ -193,12 +203,20 @@ int main(int argc, char* argv[])
 
   saxpy_kernel<<<1, 1>>>(
       2.0, 
+
+      // make a range view of a pair of transform_iterators
       make_range_view(thrust::make_transform_iterator(X.cbegin(), f1()),
                       thrust::make_transform_iterator(X.cend(), f1())),
+
+      // range view of normal_iterators
       make_range_view(Y.begin(), thrust::distance(Y.begin(), Y.end())),
+
+      // range view of naked pointers
       make_range_view(Z.data().get(), 4));
   assert(cudaSuccess == cudaDeviceSynchronize());
 
+  // print values from original device_vector<float> Z 
+  // to ensure that range view was mapped to this vector
   for (int i = 0, n = Z.size(); i < n; ++i)
   {
     cout << "z[" << i << "]= " << Z[i] << endl;
