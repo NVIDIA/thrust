@@ -5,7 +5,7 @@
 #include <iostream>
 
 template<class RandomAccessIterator>
-class array_view
+class range_view
 {
 public:
   typedef RandomAccessIterator iterator;
@@ -19,10 +19,10 @@ private:
 
 public:
   __host__ __device__
-  array_view(RandomAccessIterator first, RandomAccessIterator last)
+  range_view(RandomAccessIterator first, RandomAccessIterator last)
       : first(first), last(last) {}
   __host__ __device__
-  ~array_view() {}
+  ~range_view() {}
 
   __host__ __device__
   size_type size() const { return thrust::distance(first, last); }
@@ -111,31 +111,31 @@ public:
 };
 
 template <class RandomAccessIterator, class Size>
-array_view<RandomAccessIterator>
+range_view<RandomAccessIterator>
 __host__ __device__
-make_array_view(RandomAccessIterator first, Size n)
+make_range_view(RandomAccessIterator first, Size n)
 {
-  return array_view<RandomAccessIterator>(first, first+n);
+  return range_view<RandomAccessIterator>(first, first+n);
 }
 
 template <class RandomAccessIterator>
-array_view<RandomAccessIterator>
+range_view<RandomAccessIterator>
 __host__ __device__
-make_array_view(RandomAccessIterator first, RandomAccessIterator last)
+make_range_view(RandomAccessIterator first, RandomAccessIterator last)
 {
-  return array_view<RandomAccessIterator>(first, last);
+  return range_view<RandomAccessIterator>(first, last);
 }
 
-template<class ArrayView>
+template<class ArrayView1, class ArrayView2, class ArrayView3>
 struct saxpy_functor : public thrust::unary_function<int,void>
 {
   const float a;
-  ArrayView x;
-  ArrayView y;
-  ArrayView z;
+  ArrayView1 x;
+  ArrayView2 y;
+  ArrayView3 z;
 
   __host__ __device__
-  saxpy_functor(float _a, ArrayView _x, ArrayView _y, ArrayView _z)
+  saxpy_functor(float _a, ArrayView1 _x, ArrayView2 _y, ArrayView3 _z)
       : a(_a), x(_x), y(_y), z(_z)
   {
   }
@@ -147,24 +147,33 @@ struct saxpy_functor : public thrust::unary_function<int,void>
   }
 };
 
-template<class ArrayView>
+template<class ArrayView1, class ArrayView2, class ArrayView3>
 __host__ __device__
-void saxpy(float A, ArrayView X, ArrayView Y, ArrayView Z)
+void saxpy(float A, ArrayView1 X, ArrayView2 Y, ArrayView3 Z)
 {
   // Z = A * X + Y
   const int size = X.size();
   thrust::for_each(thrust::device,
       thrust::make_counting_iterator(0),
       thrust::make_counting_iterator(size),
-      saxpy_functor<ArrayView>(A,X,Y,Z));
+      saxpy_functor<ArrayView1,ArrayView2,ArrayView3>(A,X,Y,Z));
 }
 
-template<class ArrayView>
+template<class ArrayView1, class ArrayView2, class ArrayView3>
 __global__
-void saxpy_kernel(float A, ArrayView X, ArrayView Y, ArrayView Z)
+void saxpy_kernel(float A, ArrayView1 X, ArrayView2 Y, ArrayView3 Z)
 {
   saxpy(A, X, Y, Z);
 }
+
+struct f1 : public thrust::unary_function<float,float>
+{
+  __host__ __device__
+  float operator()(float x)
+  {
+    return x*3;
+  }
+};
 
 int main(int argc, char* argv[])
 {
@@ -182,9 +191,9 @@ int main(int argc, char* argv[])
 
   saxpy_kernel<<<1, 1>>>(
       2.0, 
-      make_array_view(X.begin(), X.end()),
-      make_array_view(Y.begin(), thrust::distance(Y.begin(), Y.end())),
-      make_array_view(Z.begin(), 4)
+      make_range_view(thrust::make_transform_iterator(X.cbegin(),f1()), thrust::make_transform_iterator(X.cend(),f1())),
+      make_range_view(Y.cbegin(), thrust::distance(Y.cbegin(), Y.cend())),
+      make_range_view(Z.data().get(), 4)
       );
   assert(cudaSuccess == cudaDeviceSynchronize());
 
