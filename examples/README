@@ -4,8 +4,8 @@ norm example.
   $ nvcc norm.cu -o norm
 
 These examples are also available online:
-  http://code.google.com/p/thrust/source/browse/#hg/examples
+  https://github.com/thrust/thrust/tree/master/examples
 
 For additional information refer to the Quick Start Guide:
-  http://code.google.com/p/thrust/wiki/QuickStartGuide
+  https://github.com/thrust/thrust/wiki/Quick-Start-Guide
 

@@ -136,7 +136,7 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
- *      printf("%d\n");
+ *      printf("%d\n", x);
  *    }
  *  };
  *  ...
@@ -194,7 +194,7 @@ InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPoli
  *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
- *      printf("%d\n");
+ *      printf("%d\n", x);
  *    }
  *  };
  *  ...
@@ -249,7 +249,7 @@ InputIterator for_each(InputIterator first,
  *      // note that using printf in a __device__ function requires
  *      // code compiled for a GPU with compute capability 2.0 or
  *      // higher (nvcc --arch=sm_20)
- *      printf("%d\n");
+ *      printf("%d\n", x);
  *    }
  *  };
  *  ...

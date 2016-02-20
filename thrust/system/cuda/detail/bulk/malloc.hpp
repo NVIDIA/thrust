@@ -354,8 +354,13 @@ class singleton_unsafe_on_chip_allocator
 class singleton_on_chip_allocator
 {
   public:
+#if defined(__NVCC__) && defined(CUDA_VERSION) && (CUDA_VERSION <= 7000)
     // XXX mark as __host__ to WAR a warning from uninitialized.construct
+    // XXX eliminate this WAR after CUDA 8 is released
     inline __device__ __host__
+#else
+    inline __device__
+#endif
     singleton_on_chip_allocator(size_t max_data_segment_size)
       : m_mutex(),
         m_alloc(max_data_segment_size)
