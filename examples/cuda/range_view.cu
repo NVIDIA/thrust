@@ -4,18 +4,18 @@
 #include <thrust/execution_policy.h>
 #include <iostream>
 
-// This example demonstrates implementation of range_view container
-// for an iterator range with Vector-like interface
+
+// This example demonstrates the use of a view: a non-owning wrapper for an
+// iterator range which presents a container-like interface to the user.
 //
-// For example, this functionality is helpful when a class or __host__ __device__ /
-// __global__ function wishes to accept a device_vector by reference, which is
-// illegal today. Instead, such a class or a function can accept a range_view by value
-// and in this way provide a view for a device_vector content that can be
-// accessed via a vector-like interface.
+// For example, a view of a device_vector's data can be helpful when we wish to
+// access that data from a device function. Even though device_vectors are not
+// accessible from device functions, the range_view class allows us to access
+// and manipulate its data as if we were manipulating a real container.
 //
 
 // This example demonstrate use of range_view with for_each algorithm which is
-// dispatch from GPU.
+// dispatch from GPU
 //
 
 template<class Iterator>
