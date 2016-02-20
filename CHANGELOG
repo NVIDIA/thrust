@@ -26,7 +26,22 @@ Known Issues
 
 Acknowledgments
     Thanks to Manuel Schiller for contributing a C++11 based enhancement regarding the deduction of functor return types and improving the performance of thrust::unique. 
-    
+
+#######################################
+#           Thrust v1.8.3             #
+#######################################
+
+Summary
+    Small bug fixes
+
+New Examples
+  range_view demonstrates use of a view: a non-owning wrapper for an iterator range with a container-like interface
+
+Bug Fixes
+    TODO
+
+Known Issues
+    TODO
 
 #######################################
 #           Thrust v1.8.2             #
