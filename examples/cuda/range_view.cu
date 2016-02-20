@@ -4,8 +4,19 @@
 #include <thrust/execution_policy.h>
 #include <iostream>
 
-// This example demonstrates implementaiton of range_view containers
-// which stores an iterator range with Vector-like interface
+// This example demonstrates implementation of range_view container
+// for an iterator range with Vector-like interface
+//
+// For example, this functionality is helpful when a class or __host__ __device__ /
+// __global__ function wishes to accept a device_vector by reference, which is
+// illegal today. Instead, such a class or a function can accept a range_view by value
+// and in this way provide a view for a device_vector content that can be
+// accessed via a vector-like interface.
+//
+
+// This example demonstrate use of range_view with for_each algorithm which is
+// dispatch from GPU.
+//
 
 template<class Iterator>
 class range_view
@@ -116,7 +127,7 @@ public:
 
 };
 
-// This helper function reates a range_view from iterator and the number of
+// This helper function creates a range_view from iterator and the number of
 // elements
 template <class Iterator, class Size>
 range_view<Iterator>
