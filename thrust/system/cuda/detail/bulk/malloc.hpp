@@ -38,7 +38,7 @@ inline __device__ bool is_on_chip(void *ptr)
 template<typename T>
 inline __device__ T *on_chip_cast(T *ptr)
 {
-#if defined(__CUDA__) && defined(__NVCC__) && !defined(__clang__)
+#if defined(__NVCC__) && !(defined(__CUDA__) && defined(__clang__))
   // The below is UB in three ways:
   //  * s_begin is not defined anywhere, so using it is an ODR violation.
   //  * Pointer arithmetic is not defined to wrap, so (ptr - s_begin) + s_begin
