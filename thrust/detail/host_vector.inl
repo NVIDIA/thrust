@@ -26,6 +26,7 @@ namespace thrust
 
 template<typename T, typename Alloc>
   template<typename OtherT, typename OtherAlloc>
+    __host__
     host_vector<T,Alloc>
       ::host_vector(const device_vector<OtherT,OtherAlloc> &v)
         :Parent(v)
