@@ -23,8 +23,8 @@ class range_view
 {
 public:
   typedef Iterator iterator;
-
-private:
+  typedef typename thrust::iterator_traits<iterator>::value_type value_type;
+  typedef typename thrust::iterator_traits<iterator>::pointer pointer;
   typedef typename thrust::iterator_traits<iterator>::difference_type difference_type;
   typedef typename thrust::iterator_traits<iterator>::reference reference;
 
