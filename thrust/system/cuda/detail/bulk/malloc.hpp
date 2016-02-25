@@ -38,9 +38,24 @@ inline __device__ bool is_on_chip(void *ptr)
 template<typename T>
 inline __device__ T *on_chip_cast(T *ptr)
 {
+#if defined(__NVCC__) && !(defined(__CUDA__) && defined(__clang__))
+  // The below is UB in three ways:
+  //  * s_begin is not defined anywhere, so using it is an ODR violation.
+  //  * Pointer arithmetic is not defined to wrap, so (ptr - s_begin) + s_begin
+  //    is not necessarily ptr.
+  //  * Given a base pointer p, it's illegal to compute an address that's beyond
+  //    1 + the allocated size of p.  So in particular, if p is unallocated (as
+  //    here), it's illegal to do *any* pointer arithmetic on p.
+  //
+  // Some of this UB causes clang to miscompile this function.  Since it's just
+  // an optimization, enable it only for nvcc for now.  We can revisit this if
+  // the performance impact is large.
   extern __shared__ char s_begin[];
   void *result = (reinterpret_cast<char*>(ptr) - s_begin) + s_begin;
   return reinterpret_cast<T*>(result);
+#else
+  return ptr;
+#endif
 } // end on_chip_cast()
 
 
