@@ -228,6 +228,8 @@ template<typename T>
 template<typename T> struct is_reference     : public false_type {};
 template<typename T> struct is_reference<T&> : public true_type {};
 
+template<typename T> struct is_proxy_reference  : public false_type {};
+
 template<typename T> struct is_device_reference                                : public false_type {};
 template<typename T> struct is_device_reference< thrust::device_reference<T> > : public true_type {};
 
