@@ -48,6 +48,13 @@ struct transform_output_iterator_base
     > type;
 };
 
+template <class OutputIterator, class UnaryFunction>
+struct is_proxy_reference<
+    transform_output_iterator_proxy<OutputIterator, UnaryFunction> >
+    : public thrust::detail::true_type
+{
+};
+
 } // end detail
 } // end thrust
 
