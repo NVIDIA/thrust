@@ -66,6 +66,22 @@ template<typename System1,
   return cudaMemcpyHostToDevice;
 } // end cuda_memcpy_kind()
 
+template<typename System>
+cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::execution_policy<System> &,
+                                const thrust::cuda::execution_policy<System> &)
+{
+#if defined(_WIN32) && !defined(_WIN64)
+  // On Win32 we assume cudaMemcpyDeviceToDevice on copy with cuda::par
+  // and raw pointers. This is the only legal option in Win32 with cuda::par policy.
+  return cudaMemcpyDeviceToDevice;
+#else
+  // In 64-bit mode copy with cuda::par can legally accept both host and device raw pointers
+  // the memcopy kind will be decided by the CUDA runtime based on UVA space of the pointer.
+  return cudaMemcpyDefault;
+#endif
+} // end cuda_memcpy_kind()
+
+
 
 } // end namespace trivial_copy_detail
 
@@ -91,7 +107,8 @@ void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
   // we need to have cudaMemcpyAsync figure out the directionality of the copy dynamically
   // using cudaMemcpyDefault
 
-  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), cudaMemcpyDefault, stream(thrust::detail::derived_cast(exec)));
+  cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(exec), thrust::detail::derived_cast(exec));
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, stream(thrust::detail::derived_cast(exec)));
 #else
   thrust::transform(exec, first, first + n, result, thrust::identity<T>());
 #endif
