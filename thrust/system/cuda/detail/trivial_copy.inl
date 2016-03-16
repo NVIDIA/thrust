@@ -71,10 +71,12 @@ cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::execution_policy<System> &,
                                 const thrust::cuda::execution_policy<System> &)
 {
 #if defined(_WIN32) && !defined(_WIN64)
-  // in 32-bit mode we can't use cudaMemcpyDefault, 
-  // assume DeviceToDevice copy instead
+  // On Win32 we assume cudaMemcpyDeviceToDevice on copy with cuda::par
+  // and raw pointers. This is the only legal option in Win32 with cuda::par policy.
   return cudaMemcpyDeviceToDevice;
 #else
+  // In 64-bit mode copy with cuda::par can legally accept both host and device raw pointers
+  // the memcopy kind will be decided by the CUDA runtime based on UVA space of the pointer.
   return cudaMemcpyDefault;
 #endif
 } // end cuda_memcpy_kind()
