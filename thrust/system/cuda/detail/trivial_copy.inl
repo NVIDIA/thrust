@@ -66,6 +66,16 @@ template<typename System1,
   return cudaMemcpyHostToDevice;
 } // end cuda_memcpy_kind()
 
+#if defined(_WIN32) && !defined(_WIN64)
+template<typename System>
+cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::execution_policy<System> &,
+                                const thrust::cuda::execution_policy<System> &)
+{
+  return cudaMemcpyDeviceToDevice;
+} // end cuda_memcpy_kind()
+#endif
+
+
 
 } // end namespace trivial_copy_detail
 
@@ -91,7 +101,14 @@ void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
   // we need to have cudaMemcpyAsync figure out the directionality of the copy dynamically
   // using cudaMemcpyDefault
 
-  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), cudaMemcpyDefault, stream(thrust::detail::derived_cast(exec)));
+#if defined(_WIN32) && !defined(_WIN64)
+  // in 32-bit mode we can't use cudaMemcpyDefault, thus compute memcpy kind explictly
+  cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(exec), thrust::detail::derived_cast(exec));
+#else
+  cudaMemcpyKind kind = cudaMemcpyDefault;
+#endif
+
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, stream(thrust::detail::derived_cast(exec)));
 #else
   thrust::transform(exec, first, first + n, result, thrust::identity<T>());
 #endif
