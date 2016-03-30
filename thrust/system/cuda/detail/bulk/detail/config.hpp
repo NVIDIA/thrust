@@ -27,8 +27,7 @@
 #if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
 #  ifndef __bulk_exec_check_disable__
 #    define __bulk_exec_check_disable__ \
-#    pragma nv_exec_check_disable \
-#    pragma hd_warning_disable
+#    pragma nv_exec_check_disable
 #  endif // __bulk_exec_check_disable__
 #else
 #  define __bulk_exec_check_disable__
