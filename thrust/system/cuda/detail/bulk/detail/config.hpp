@@ -27,7 +27,7 @@
 #if defined(__CUDACC__)
 #  ifndef __bulk_hd_warning_disable__
 #    define __bulk_hd_warning_disable__ \
-#    pragma hd_warning_disable
+#    pragma nv_exec_check_disable
 #  endif // __bulk_hd_warning_disable__
 #else
 #  define __bulk_hd_warning_disable__
