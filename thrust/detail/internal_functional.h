@@ -271,7 +271,8 @@ template<typename T>
   struct is_non_const_reference
     : thrust::detail::and_<
         thrust::detail::not_<thrust::detail::is_const<T> >,
-        thrust::detail::is_reference<T>
+        thrust::detail::or_<thrust::detail::is_reference<T>,
+                            thrust::detail::is_proxy_reference<T> >
       >
 {};
 

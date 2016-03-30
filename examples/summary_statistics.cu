@@ -5,6 +5,7 @@
 #include <thrust/extrema.h>
 #include <cmath>
 #include <limits>
+#include <iostream>
 
 // This example computes several statistical properties of a data
 // series in a single reduction.  The algorithm is described in detail here:
