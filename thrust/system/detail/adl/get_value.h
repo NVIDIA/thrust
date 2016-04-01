@@ -24,6 +24,16 @@
 
 #include <thrust/system/detail/sequential/get_value.h>
 
+// SCons can't see through the #defines below to figure out what this header
+// includes, so we fake it out by specifying all possible files we might end up
+// including inside an #if 0.
+#if 0
+#include <thrust/system/cpp/detail/get_value.h>
+#include <thrust/system/cuda/detail/get_value.h>
+#include <thrust/system/omp/detail/get_value.h>
+#include <thrust/system/tbb/detail/get_value.h>
+#endif
+
 #define __THRUST_HOST_SYSTEM_GET_VALUE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/get_value.h>
 #include __THRUST_HOST_SYSTEM_GET_VALUE_HEADER
 #undef __THRUST_HOST_SYSTEM_GET_VALUE_HEADER

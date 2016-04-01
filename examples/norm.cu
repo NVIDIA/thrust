@@ -3,6 +3,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/host_vector.h>
 #include <cmath>
+#include <iostream>
 
 //   This example computes the norm [1] of a vector.  The norm is 
 // computed by squaring all numbers in the vector, summing the 

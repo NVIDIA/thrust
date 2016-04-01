@@ -590,7 +590,7 @@ template<typename InputIterator,
  *  int A[N] = {1, 4, 2, 8, 5, 7};
  *  int S[N] = {0, 1, 1, 1, 0, 0};
  *
- *  int *new_end = thrust::remove(thrust::host, A, A + N, S, thrust::identity<int>());
+ *  int *new_end = thrust::remove_if(thrust::host, A, A + N, S, thrust::identity<int>());
  *  // The first three values of A are now {1, 5, 7}
  *  // Values beyond new_end are unspecified
  *  \endcode
@@ -650,7 +650,7 @@ __host__ __device__
  *  int A[N] = {1, 4, 2, 8, 5, 7};
  *  int S[N] = {0, 1, 1, 1, 0, 0};
  *
- *  int *new_end = thrust::remove(A, A + N, S, thrust::identity<int>());
+ *  int *new_end = thrust::remove_if(A, A + N, S, thrust::identity<int>());
  *  // The first three values of A are now {1, 5, 7}
  *  // Values beyond new_end are unspecified
  *  \endcode

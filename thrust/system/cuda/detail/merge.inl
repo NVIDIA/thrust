@@ -66,11 +66,11 @@ RandomAccessIterator4
 
 struct merge_kernel
 {
-  template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Size, typename RandomAccessIterator2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
+  template<std::size_t groupsize, std::size_t grainsize, typename RandomAccessIterator1, typename Size1, typename RandomAccessIterator2, typename Size2, typename RandomAccessIterator3, typename RandomAccessIterator4, typename Compare>
   __device__
   void operator()(bulk_::concurrent_group<bulk_::agent<grainsize>,groupsize> &g,
-                  RandomAccessIterator1 first1, Size n1,
-                  RandomAccessIterator2 first2, Size n2,
+                  RandomAccessIterator1 first1, Size1 n1,
+                  RandomAccessIterator2 first2, Size2 n2,
                   RandomAccessIterator3 merge_paths_first,
                   RandomAccessIterator4 result,
                   Compare comp)
