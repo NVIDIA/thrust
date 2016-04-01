@@ -24,8 +24,8 @@
 
 #if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
 
-#define __thrust_exec_check_disable__ \
-#pragma nv_exec_check_disable
+#define __thrust_exec_check_disable__ #pragma nv_exec_check_disable
+
 #else
 
 #define __thrust_exec_check_disable__
