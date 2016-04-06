@@ -27,6 +27,7 @@
 #include <thrust/system/cuda/detail/decomposition.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/execute_on_stream.h>
+#include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
@@ -131,7 +132,11 @@ OutputType tuned_reduce(execution_policy<DerivedPolicy> &exec,
     bulk_::async(bulk_::par(s, g, 1), reduce_detail::reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
   } // end while
 
-  return partial_sums[0];
+  OutputType result;
+  thrust::copy(exec, partial_sums.begin(), partial_sums.begin() + 1, &result);
+  synchronize(s, "Failed to synchronize in thrust::system::cuda::detail::reduce_detail::tuned_reduce");
+
+  return result;
 } // end tuned_reduce()
 
 
@@ -154,7 +159,7 @@ OutputType general_reduce(execution_policy<DerivedPolicy> &exec,
 
   cudaStream_t s = stream(thrust::detail::derived_cast(exec));
 
-  typedef thrust::detail::temporary_array<OutputType,thrust::cuda::tag> temporary_array;
+  typedef thrust::detail::temporary_array<OutputType,DerivedPolicy> temporary_array;
 
   // automatically choose a number of groups and a group size
   size_type num_groups = 0;
@@ -165,9 +170,8 @@ OutputType general_reduce(execution_policy<DerivedPolicy> &exec,
   num_groups = thrust::min<size_type>(num_groups, thrust::detail::util::divide_ri(n, group_size));
 
   uniform_decomposition<size_type> decomp(n, num_groups);
-
-  thrust::cuda::tag t;
-  temporary_array partial_sums(t, decomp.size());
+//
+  temporary_array partial_sums(exec, decomp.size());
 
   // reduce into partial sums
   bulk_::async(bulk_::grid(decomp.size(), group_size, bulk_::use_default, s), reduce_partitions(), bulk_::root.this_exec, first, decomp, partial_sums.begin(), init, binary_op);
@@ -181,7 +185,11 @@ OutputType general_reduce(execution_policy<DerivedPolicy> &exec,
     bulk_::async(bulk_::grid(num_groups, group_size, bulk_::use_default, s), reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
   } // end while
 
-  return partial_sums[0];
+  OutputType result;
+  thrust::copy(exec, partial_sums.begin(), partial_sums.begin() + 1, &result);
+  synchronize(s, "Failed to synchronize in thrust::system::cuda::detail::reduce_detail::general_reduce");
+
+  return result;
 } // end general_reduce()
 
 
