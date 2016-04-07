@@ -132,11 +132,7 @@ OutputType tuned_reduce(execution_policy<DerivedPolicy> &exec,
     bulk_::async(bulk_::par(s, g, 1), reduce_detail::reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
   } // end while
 
-  OutputType result;
-  thrust::copy(exec, partial_sums.begin(), partial_sums.begin() + 1, &result);
-  synchronize(s, "Failed to synchronize in thrust::system::cuda::detail::reduce_detail::tuned_reduce");
-
-  return result;
+  return get_value(exec, &partial_sums[0]);
 } // end tuned_reduce()
 
 
@@ -185,11 +181,7 @@ OutputType general_reduce(execution_policy<DerivedPolicy> &exec,
     bulk_::async(bulk_::grid(num_groups, group_size, bulk_::use_default, s), reduce_partitions(), bulk_::root.this_exec, partial_sums.begin(), partial_sums.end(), partial_sums.begin(), binary_op);
   } // end while
 
-  OutputType result;
-  thrust::copy(exec, partial_sums.begin(), partial_sums.begin() + 1, &result);
-  synchronize(s, "Failed to synchronize in thrust::system::cuda::detail::reduce_detail::general_reduce");
-
-  return result;
+  return get_value(exec, &partial_sums[0]);
 } // end general_reduce()
 
 
