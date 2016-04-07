@@ -27,7 +27,6 @@
 #include <thrust/system/cuda/detail/decomposition.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/execute_on_stream.h>
-#include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/detail/type_traits.h>
 
 namespace thrust
@@ -166,7 +165,6 @@ OutputType general_reduce(execution_policy<DerivedPolicy> &exec,
   num_groups = thrust::min<size_type>(num_groups, thrust::detail::util::divide_ri(n, group_size));
 
   uniform_decomposition<size_type> decomp(n, num_groups);
-//
   temporary_array partial_sums(exec, decomp.size());
 
   // reduce into partial sums

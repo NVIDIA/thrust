@@ -33,7 +33,7 @@ inline __host__ __device__
 void synchronize(const char *message = "");
 
 inline __host__ __device__
-void synchronize(cudaStream_t, const char *message = "");
+void synchronize(cudaStream_t stream, const char *message = "");
 
 
 inline __host__ __device__
