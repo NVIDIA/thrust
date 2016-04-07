@@ -24,6 +24,14 @@ namespace thrust
 
 template <typename T>
 inline __host__ __device__  complex<T>
+::complex()
+{
+  // Intentionally empty. Providing an empty constructor allows
+  // for complex<T> variables with shared, device or global scope.
+}
+
+template <typename T>
+inline __host__ __device__  complex<T>
 ::complex(const T & re, const T& im)
 {
   real(re);
