@@ -92,13 +92,14 @@ template<typename Element, typename Pointer, typename Derived>
   template<typename System>
     typename reference<Element,Pointer,Derived>::value_type
       reference<Element,Pointer,Derived>
-        ::convert_to_value_type(System *system) const
+        ::convert_to_value_type(System &system) const
 {
   using thrust::system::detail::generic::select_system;
-  return strip_const_get_value(select_system(*system));
+  return strip_const_get_value(select_system(system));
 } // end convert_to_value_type()
 
 
+__thrust_exec_check_disable__
 template<typename Element, typename Pointer, typename Derived>
   reference<Element,Pointer,Derived>
     ::operator typename reference<Element,Pointer,Derived>::value_type () const
@@ -109,7 +110,7 @@ template<typename Element, typename Pointer, typename Derived>
   // XXX use null a reference for dispatching
   // XXX this assumes that the eventual invocation of
   // XXX get_value will not access system state
-  System *system = 0;
+  System system;
 
   return convert_to_value_type(system);
 } // end reference::operator value_type ()
@@ -132,14 +133,15 @@ template<typename Element, typename Pointer, typename Derived>
 template<typename Element, typename Pointer, typename Derived>
   template<typename System1, typename System2, typename OtherPointer>
     void reference<Element,Pointer,Derived>
-      ::assign_from(System1 *system1, System2 *system2, OtherPointer src)
+      ::assign_from(System1 &system1, System2 &system2, OtherPointer src)
 {
   using thrust::system::detail::generic::select_system;
 
-  strip_const_assign_value(select_system(*system1, *system2), src);
+  strip_const_assign_value(select_system(system1, system2), src);
 } // end assign_from()
 
 
+__thrust_exec_check_disable__
 template<typename Element, typename Pointer, typename Derived>
   template<typename OtherPointer>
     void reference<Element,Pointer,Derived>
@@ -152,8 +154,8 @@ template<typename Element, typename Pointer, typename Derived>
   // XXX use null references for dispatching
   // XXX this assumes that the eventual invocation of
   // XXX assign_value will not access system state
-  System1 *system1 = 0;
-  System2 *system2 = 0;
+  System1 system1;
+  System2 system2;
 
   assign_from(system1, system2, src);
 } // end assign_from()
@@ -175,15 +177,16 @@ template<typename Element, typename Pointer, typename Derived>
 template<typename Element, typename Pointer, typename Derived>
   template<typename System>
     void reference<Element,Pointer,Derived>
-      ::swap(System *system, derived_type &other)
+      ::swap(System &system, derived_type &other)
 {
   using thrust::system::detail::generic::select_system;
   using thrust::system::detail::generic::iter_swap;
 
-  iter_swap(select_system(*system, *system), m_ptr, other.m_ptr);
+  iter_swap(select_system(system, system), m_ptr, other.m_ptr);
 } // end reference::swap()
 
 
+__thrust_exec_check_disable__
 template<typename Element, typename Pointer, typename Derived>
   void reference<Element,Pointer,Derived>
     ::swap(derived_type &other)
@@ -194,7 +197,7 @@ template<typename Element, typename Pointer, typename Derived>
   // XXX use null references for dispatching
   // XXX this assumes that the eventual invocation
   // XXX of iter_swap will not access system state
-  System *system = 0;
+  System system;
 
   swap(system, other);
 } // end reference::swap()

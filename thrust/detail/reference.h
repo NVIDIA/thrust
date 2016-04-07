@@ -144,7 +144,7 @@ template<typename Element, typename Pointer, typename Derived>
     // XXX this helper exists only to avoid warnings about null references from the other assign_from
     template<typename System1, typename System2, typename OtherPointer>
     inline __host__ __device__
-    void assign_from(System1 *system1, System2 *system2, OtherPointer src);
+    void assign_from(System1 &system1, System2 &system2, OtherPointer src);
 
     template<typename System, typename OtherPointer>
     __host__ __device__
@@ -153,12 +153,12 @@ template<typename Element, typename Pointer, typename Derived>
     // XXX this helper exists only to avoid warnings about null references from the other swap
     template<typename System>
     inline __host__ __device__
-    void swap(System *system, derived_type &other);
+    void swap(System &system, derived_type &other);
 
     // XXX this helper exists only to avoid warnings about null references from operator value_type ()
     template<typename System>
     inline __host__ __device__
-    value_type convert_to_value_type(System *system) const;
+    value_type convert_to_value_type(System &system) const;
 }; // end reference
 
 // Output stream operator

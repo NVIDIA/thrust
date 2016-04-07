@@ -87,9 +87,7 @@ template<typename System1,
 cudaStream_t cuda_memcpy_stream(const thrust::cuda::execution_policy<System1> &exec,
                                 const thrust::cpp::execution_policy<System2> &)
 {
-  if (&exec)
-    return stream(derived_cast(exec));
-  return legacy_stream();
+  return stream(derived_cast(exec));
 } // end cuda_memcpy_stream()
 
 template<typename System1,
@@ -97,9 +95,7 @@ template<typename System1,
 cudaStream_t cuda_memcpy_stream(const thrust::cpp::execution_policy<System1> &,
                                 const thrust::cuda::execution_policy<System2> &exec)
 {
-  if (&exec)
-    return stream(derived_cast(exec));
-  return legacy_stream();
+  return stream(derived_cast(exec));
 } // end cuda_memcpy_stream()
 
 
@@ -107,20 +103,7 @@ template<typename System>
 cudaStream_t cuda_memcpy_stream(const thrust::cuda::execution_policy<System> &,
                                 const thrust::cuda::execution_policy<System> &exec)
 {
-  if (&exec)
-    return stream(derived_cast(exec));
-  return legacy_stream();
-} // end cuda_memcpy_stream()
-
-
-
-template<class System>
-cudaStream_t cuda_memcpy_stream(const thrust::system::cuda::detail::execute_on_stream &exec,
-                                const thrust::cuda::execution_policy<System> &)
-{
-  if (&exec)
-    return stream(exec);
-  return legacy_stream();
+  return stream(derived_cast(exec));
 } // end cuda_memcpy_stream()
 
 
