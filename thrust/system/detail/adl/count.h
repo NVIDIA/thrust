@@ -24,6 +24,16 @@
 
 #include <thrust/system/detail/sequential/count.h>
 
+// SCons can't see through the #defines below to figure out what this header
+// includes, so we fake it out by specifying all possible files we might end up
+// including inside an #if 0.
+#if 0
+#include <thrust/system/cpp/detail/count.h>
+#include <thrust/system/cuda/detail/count.h>
+#include <thrust/system/omp/detail/count.h>
+#include <thrust/system/tbb/detail/count.h>
+#endif
+
 #define __THRUST_HOST_SYSTEM_COUNT_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/count.h>
 #include __THRUST_HOST_SYSTEM_COUNT_HEADER
 #undef __THRUST_HOST_SYSTEM_COUNT_HEADER

@@ -24,6 +24,16 @@
 
 #include <thrust/system/detail/sequential/generate.h>
 
+// SCons can't see through the #defines below to figure out what this header
+// includes, so we fake it out by specifying all possible files we might end up
+// including inside an #if 0.
+#if 0
+#include <thrust/system/cpp/detail/generate.h>
+#include <thrust/system/cuda/detail/generate.h>
+#include <thrust/system/omp/detail/generate.h>
+#include <thrust/system/tbb/detail/generate.h>
+#endif
+
 #define __THRUST_HOST_SYSTEM_GENERATE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/generate.h>
 #include __THRUST_HOST_SYSTEM_GENERATE_HEADER
 #undef __THRUST_HOST_SYSTEM_GENERATE_HEADER

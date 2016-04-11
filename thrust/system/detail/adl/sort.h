@@ -24,6 +24,16 @@
 
 #include <thrust/system/detail/sequential/sort.h>
 
+// SCons can't see through the #defines below to figure out what this header
+// includes, so we fake it out by specifying all possible files we might end up
+// including inside an #if 0.
+#if 0
+#include <thrust/system/cpp/detail/sort.h>
+#include <thrust/system/cuda/detail/sort.h>
+#include <thrust/system/omp/detail/sort.h>
+#include <thrust/system/tbb/detail/sort.h>
+#endif
+
 #define __THRUST_HOST_SYSTEM_SORT_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/sort.h>
 #include __THRUST_HOST_SYSTEM_SORT_HEADER
 #undef __THRUST_HOST_SYSTEM_SORT_HEADER

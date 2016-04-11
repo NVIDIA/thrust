@@ -2,13 +2,10 @@
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/permutation_iterator.h>
 #include <thrust/functional.h>
-
 #include <thrust/fill.h>
 #include <thrust/device_vector.h>
-
-// for printing
 #include <thrust/copy.h>
-#include <ostream>
+#include <iostream>
 
 // this example illustrates how to make strided access to a range of values
 // examples:
