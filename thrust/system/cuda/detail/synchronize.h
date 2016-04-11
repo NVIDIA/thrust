@@ -32,9 +32,13 @@ namespace detail
 inline __host__ __device__
 void synchronize(const char *message = "");
 
+inline __host__ __device__
+void synchronize(cudaStream_t stream, const char *message = "");
+
 
 inline __host__ __device__
 void synchronize_if_enabled(const char *message = "");
+
 
 
 } // end namespace detail
