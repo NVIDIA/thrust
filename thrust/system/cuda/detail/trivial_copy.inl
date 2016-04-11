@@ -160,7 +160,6 @@ void trivial_copy_n(cross_system<System1,System2> &systems,
   cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(systems.system1), thrust::detail::derived_cast(systems.system2));
 
 
-  // XXX
   // async host <-> device copy , but synchronize on a user provided stream
   cudaStream_t s = trivial_copy_detail::cuda_memcpy_stream(derived_cast(systems.system1), derived_cast(systems.system2));
   trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, s);
