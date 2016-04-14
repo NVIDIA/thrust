@@ -1,4 +1,37 @@
 #######################################
+#           Thrust v1.9.0             #
+#######################################
+
+Summary
+    TODO
+
+Breaking API Changes
+    None.
+
+New Features
+    Types
+      thrust::transform_output_iterator 
+
+New Examples
+    transform_output_iterator demonstrates use of a transform_output_iterator - 
+    a new fancy output iterator which transform output before storing result the memory
+
+Other Enhancements
+    If C++11 support is enabled, functors do not have to inherit from thrust::unary_function/thrust::binary_function 
+    anymore when using them with thrust::transform_iterator.
+    The performance of thrust::unique* is improved.
+
+Bug Fixes
+    TODO
+
+Known Issues
+    TODO
+
+Acknowledgments
+    Thanks to Manuel Schiller for contributing a C++11 based enhancement regarding the deduction of 
+    functor return types, improving the performance of thrust::unique and implementing transform_output_iterator
+
+#######################################
 #           Thrust v1.8.3             #
 #######################################
 
@@ -11,6 +44,9 @@ New Examples
 Bug Fixes
     copy_if now copies in a user provided stream instead of a default_stream
     {min,max,minmax}_element can now accept raw device pointer with device execution policy
+
+Known Issues
+    TODO
 
 #######################################
 #           Thrust v1.8.2             #

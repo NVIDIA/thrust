@@ -24,6 +24,7 @@ namespace random
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   discard_block_engine<Engine,p,r>
     ::discard_block_engine()
       : m_e(), m_n(0)
@@ -31,6 +32,7 @@ template<typename Engine, size_t p, size_t r>
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   discard_block_engine<Engine,p,r>
     ::discard_block_engine(result_type s)
       : m_e(s), m_n(0)
@@ -38,6 +40,7 @@ template<typename Engine, size_t p, size_t r>
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   discard_block_engine<Engine,p,r>
     ::discard_block_engine(const base_type &urng)
       : m_e(urng), m_n(0)
@@ -45,6 +48,7 @@ template<typename Engine, size_t p, size_t r>
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   void discard_block_engine<Engine,p,r>
     ::seed(void)
 {
@@ -54,6 +58,7 @@ template<typename Engine, size_t p, size_t r>
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   void discard_block_engine<Engine,p,r>
     ::seed(result_type s)
 {
@@ -63,6 +68,7 @@ template<typename Engine, size_t p, size_t r>
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   typename discard_block_engine<Engine,p,r>::result_type
     discard_block_engine<Engine,p,r>
       ::operator()(void)
@@ -82,6 +88,7 @@ template<typename Engine, size_t p, size_t r>
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   void discard_block_engine<Engine,p,r>
     ::discard(unsigned long long z)
 {
@@ -94,6 +101,7 @@ template<typename Engine, size_t p, size_t r>
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   const typename discard_block_engine<Engine,p,r>::base_type &
     discard_block_engine<Engine,p,r>
       ::base(void) const
@@ -152,6 +160,7 @@ template<typename Engine, size_t p, size_t r>
 
 
 template<typename Engine, size_t p, size_t r>
+  __host__ __device__
   bool discard_block_engine<Engine,p,r>
     ::equal(const discard_block_engine<Engine,p,r> &rhs) const
 {
@@ -180,6 +189,7 @@ operator>>(std::basic_istream<CharT,Traits> &is,
 
 
 template<typename Engine, size_t p, size_t r>
+__host__ __device__
 bool operator==(const discard_block_engine<Engine,p,r> &lhs,
                 const discard_block_engine<Engine,p,r> &rhs)
 {
@@ -188,6 +198,7 @@ bool operator==(const discard_block_engine<Engine,p,r> &lhs,
 
 
 template<typename Engine, size_t p, size_t r>
+__host__ __device__
 bool operator!=(const discard_block_engine<Engine,p,r> &lhs,
                 const discard_block_engine<Engine,p,r> &rhs)
 {

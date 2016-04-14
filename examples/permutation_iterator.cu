@@ -1,6 +1,7 @@
 #include <thrust/iterator/permutation_iterator.h>
 #include <thrust/reduce.h>
 #include <thrust/device_vector.h>
+#include <iostream>
 
 // this example fuses a gather operation with a reduction for
 // greater efficiency than separate gather() and reduce() calls
