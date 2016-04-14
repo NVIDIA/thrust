@@ -6,12 +6,11 @@ Summary
     Small bug fixes
 
 New Examples
-  range_view demonstrates use of a view: a non-owning wrapper for an iterator range with a container-like interface
-
-
+    range_view demonstrates use of a view: a non-owning wrapper for an iterator range with a container-like interface
 
 Bug Fixes
-    TODO
+    copy_if now copies in a user provided stream instead of a default_stream
+    {min,max,minmax}_element can now accept raw device pointer with device execution policy
 
 #######################################
 #           Thrust v1.8.2             #
