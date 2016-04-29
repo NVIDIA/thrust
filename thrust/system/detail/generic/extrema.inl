@@ -172,7 +172,7 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
       (exec,
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
-       thrust::tuple<InputType, IndexType>(get_value(derived_cast(exec), &first[0]), 0),
+       thrust::tuple<InputType, IndexType>(get_iterator_value(derived_cast(exec), first), 0),
        detail::min_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
   return first + thrust::get<1>(result);
@@ -209,7 +209,7 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
       (exec,
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
-       thrust::tuple<InputType, IndexType>(get_value(derived_cast(exec),&first[0]), 0),
+       thrust::tuple<InputType, IndexType>(get_iterator_value(derived_cast(exec),first), 0),
        detail::max_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
   return first + thrust::get<1>(result);
@@ -247,7 +247,8 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
        detail::duplicate_tuple<InputType, IndexType>(),
-       detail::duplicate_tuple<InputType, IndexType>()(thrust::tuple<InputType, IndexType>(get_value(derived_cast(exec),&first[0]), 0)),
+       detail::duplicate_tuple<InputType, IndexType>()(
+         thrust::tuple<InputType, IndexType>(get_itetor_value(derived_cast(exec),first), 0)),
        detail::minmax_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
   return thrust::make_pair(first + thrust::get<1>(thrust::get<0>(result)), first + thrust::get<1>(thrust::get<1>(result)));
