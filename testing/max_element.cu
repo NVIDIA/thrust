@@ -1,6 +1,8 @@
 #include <unittest/unittest.h>
 #include <thrust/extrema.h>
 #include <thrust/iterator/retag.h>
+#include <thrust/iterator/transform_iterator.h>
+#include <thrust/functional.h>
 
 template <class Vector>
 void TestMaxElementSimple(void)
@@ -22,6 +24,30 @@ void TestMaxElementSimple(void)
     ASSERT_EQUAL( thrust::max_element(data.begin(), data.end(), thrust::greater<T>()) - data.begin(), 2);
 }
 DECLARE_VECTOR_UNITTEST(TestMaxElementSimple);
+
+template <class Vector>
+void TestMaxElementWithTransform(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector data(6);
+    data[0] = 3;
+    data[1] = 5;
+    data[2] = 1;
+    data[3] = 2;
+    data[4] = 5;
+    data[5] = 1;
+
+    ASSERT_EQUAL( *thrust::max_element(
+          thrust::make_transform_iterator(data.begin(), thrust::negate<T>()),
+          thrust::make_transform_iterator(data.end(),   thrust::negate<T>())), -1);
+    ASSERT_EQUAL( *thrust::max_element(
+          thrust::make_transform_iterator(data.begin(), thrust::negate<T>()),
+          thrust::make_transform_iterator(data.end(),   thrust::negate<T>()),
+          thrust::greater<T>()), -5);
+    
+}
+DECLARE_VECTOR_UNITTEST(TestMaxElementWithTransform);
 
 template<typename T>
 void TestMaxElement(const size_t n)
