@@ -248,7 +248,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
        detail::duplicate_tuple<InputType, IndexType>(),
        detail::duplicate_tuple<InputType, IndexType>()(
-         thrust::tuple<InputType, IndexType>(get_itetor_value(derived_cast(exec),first), 0)),
+         thrust::tuple<InputType, IndexType>(get_iterator_value(derived_cast(exec),first), 0)),
        detail::minmax_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
   return thrust::make_pair(first + thrust::get<1>(thrust::get<0>(result)), first + thrust::get<1>(thrust::get<1>(result)));
