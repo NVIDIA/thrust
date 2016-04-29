@@ -22,6 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/get_iterator_value.h>
 #include <thrust/extrema.h>
 #include <thrust/functional.h>
 #include <thrust/pair.h>

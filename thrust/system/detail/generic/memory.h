@@ -59,16 +59,6 @@ template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
 void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer);
 
-template<typename DerivedPolicy, typename Iterator>
-__host__ __device__
-typename thrust::iterator_traits<Iterator>::value_type
-get_iterator_value(thrust::execution_policy<DerivedPolicy> &, Iterator);
-
-template<typename DerivedPolicy, typename Pointer>
-__host__ __device__
-typename thrust::detail::pointer_traits<Pointer*>::element_type
-get_iterator_value(thrust::execution_policy<DerivedPolicy> &, Pointer*);
-
 template<typename Pointer1, typename Pointer2>
 __host__ __device__
 void iter_swap(tag, Pointer1, Pointer2);
