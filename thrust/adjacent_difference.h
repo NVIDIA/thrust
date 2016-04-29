@@ -129,7 +129,7 @@ OutputIterator adjacent_difference(const thrust::detail::execution_policy_base<D
  *
  *  thrust::adjacent_difference(thrust::device, d_data.begin(), d_data.end(), d_result.begin(), thrust::plus<int>());
  *
- *  // d_data is now [1, 3, 3, 3, 3, 3, 3, 3]
+ *  // d_result is now [1, 3, 3, 3, 3, 3, 3, 3]
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
@@ -226,7 +226,7 @@ OutputIterator adjacent_difference(InputIterator first, InputIterator last,
  *
  *  thrust::adjacent_difference(d_data.begin(), d_data.end(), d_result.begin(), thrust::plus<int>());
  *
- *  // d_data is now [1, 3, 3, 3, 3, 3, 3, 3]
+ *  // d_result is now [1, 3, 3, 3, 3, 3, 3, 3]
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/adjacent_difference.html
