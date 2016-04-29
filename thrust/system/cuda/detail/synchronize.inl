@@ -37,6 +37,16 @@ void synchronize(const char *message)
 
 
 inline __host__ __device__
+void synchronize(cudaStream_t stream, const char *message)
+{
+#if !defined(__CUDA_ARCH__)
+  throw_on_error(cudaStreamSynchronize(stream), message);
+#else
+  synchronize(message);
+#endif
+}
+
+inline __host__ __device__
 void synchronize_if_enabled(const char *message)
 {
 // XXX this could potentially be a runtime decision

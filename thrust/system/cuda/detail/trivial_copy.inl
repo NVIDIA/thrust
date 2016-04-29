@@ -22,6 +22,7 @@
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
 #include <thrust/system/cuda/detail/throw_on_error.h>
+#include <thrust/system/cuda/detail/synchronize.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/raw_pointer_cast.h>
@@ -51,8 +52,8 @@ inline void checked_cudaMemcpyAsync(void *dst, const void *src, size_t count, en
 
 template<typename System1,
          typename System2>
-  cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::execution_policy<System1> &,
-                                  const thrust::cpp::execution_policy<System2> &)
+cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::execution_policy<System1> &,
+                                const thrust::cpp::execution_policy<System2> &)
 {
   return cudaMemcpyDeviceToHost;
 } // end cuda_memcpy_kind()
@@ -60,11 +61,53 @@ template<typename System1,
 
 template<typename System1,
          typename System2>
-  cudaMemcpyKind cuda_memcpy_kind(const thrust::cpp::execution_policy<System1> &,
-                                  const thrust::cuda::execution_policy<System2> &)
+cudaMemcpyKind cuda_memcpy_kind(const thrust::cpp::execution_policy<System1> &,
+                                const thrust::cuda::execution_policy<System2> &)
 {
   return cudaMemcpyHostToDevice;
 } // end cuda_memcpy_kind()
+
+template<typename System>
+cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::execution_policy<System> &,
+                                const thrust::cuda::execution_policy<System> &)
+{
+#if defined(_WIN32) && !defined(_WIN64)
+  // On Win32 we assume cudaMemcpyDeviceToDevice on copy with cuda::par
+  // and raw pointers. This is the only legal option in Win32 with cuda::par policy.
+  return cudaMemcpyDeviceToDevice;
+#else
+  // In 64-bit mode copy with cuda::par can legally accept both host and device raw pointers
+  // the memcopy kind will be decided by the CUDA runtime based on UVA space of the pointer.
+  return cudaMemcpyDefault;
+#endif
+} // end cuda_memcpy_kind()
+
+template<typename System1,
+         typename System2>
+cudaStream_t cuda_memcpy_stream(const thrust::cuda::execution_policy<System1> &exec,
+                                const thrust::cpp::execution_policy<System2> &)
+{
+  return stream(derived_cast(exec));
+} // end cuda_memcpy_stream()
+
+template<typename System1,
+         typename System2>
+cudaStream_t cuda_memcpy_stream(const thrust::cpp::execution_policy<System1> &,
+                                const thrust::cuda::execution_policy<System2> &exec)
+{
+  return stream(derived_cast(exec));
+} // end cuda_memcpy_stream()
+
+
+template<typename System>
+cudaStream_t cuda_memcpy_stream(const thrust::cuda::execution_policy<System> &,
+                                const thrust::cuda::execution_policy<System> &exec)
+{
+  return stream(derived_cast(exec));
+} // end cuda_memcpy_stream()
+
+
+
 
 
 } // end namespace trivial_copy_detail
@@ -91,7 +134,8 @@ void trivial_copy_n(execution_policy<DerivedPolicy> &exec,
   // we need to have cudaMemcpyAsync figure out the directionality of the copy dynamically
   // using cudaMemcpyDefault
 
-  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), cudaMemcpyDefault, stream(thrust::detail::derived_cast(exec)));
+  cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(exec), thrust::detail::derived_cast(exec));
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, stream(thrust::detail::derived_cast(exec)));
 #else
   thrust::transform(exec, first, first + n, result, thrust::identity<T>());
 #endif
@@ -115,9 +159,11 @@ void trivial_copy_n(cross_system<System1,System2> &systems,
 
   cudaMemcpyKind kind = trivial_copy_detail::cuda_memcpy_kind(thrust::detail::derived_cast(systems.system1), thrust::detail::derived_cast(systems.system2));
 
-  // XXX use the globally-blocking legacy stream for now
-  //     we may wish to enable async host <-> device copy in the future
-  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, legacy_stream());
+
+  // async host <-> device copy , but synchronize on a user provided stream
+  cudaStream_t s = trivial_copy_detail::cuda_memcpy_stream(derived_cast(systems.system1), derived_cast(systems.system2));
+  trivial_copy_detail::checked_cudaMemcpyAsync(dst, src, n * sizeof(T), kind, s);
+  synchronize(s, "failed synchronize in thrust::system::cuda::detail::trivial_copy_n");
 }
 
 

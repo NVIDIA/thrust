@@ -119,6 +119,7 @@ __host__ __device__
 // we must prepare for His coming
 struct gozer
 {
+  __thrust_exec_check_disable__
   template<typename T>
   inline __host__ __device__
   void operator()(T &x)
