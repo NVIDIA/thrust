@@ -83,3 +83,22 @@ void TestMinElementCudaStreams()
 }
 DECLARE_UNITTEST(TestMinElementCudaStreams);
 
+void TestMinElementDevicePointer()
+{
+  typedef thrust::device_vector<int> Vector;
+  typedef typename Vector::value_type T;
+
+  Vector data(6);
+  data[0] = 3;
+  data[1] = 5;
+  data[2] = 1;
+  data[3] = 2;
+  data[4] = 5;
+  data[5] = 1;
+
+  T* raw_ptr = thrust::raw_pointer_cast(data.data());
+  size_t n = data.size();
+  ASSERT_EQUAL( thrust::min_element(thrust::device, raw_ptr, raw_ptr+n) - raw_ptr, 2);
+  ASSERT_EQUAL( thrust::min_element(thrust::device, raw_ptr, raw_ptr+n, thrust::greater<T>()) - raw_ptr, 1);
+}
+DECLARE_UNITTEST(TestMinElementDevicePointer);
