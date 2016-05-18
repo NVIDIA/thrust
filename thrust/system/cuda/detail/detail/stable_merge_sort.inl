@@ -36,6 +36,7 @@
 #include <thrust/detail/internal_functional.h>
 #include <thrust/system/cuda/detail/temporary_indirect_permutation.h>
 #include <thrust/system/cuda/detail/runtime_introspection.h>
+#include <thrust/detail/raw_reference_cast.h>
 
 
 namespace thrust
@@ -206,7 +207,7 @@ struct merge_adjacent_partitions_closure
     Size start1 = 0, end1 = 0, start2 = 0, end2 = 0;
 
     thrust::tie(start1,end1,start2,end2) =
-      locate_merge_partitions(n, ctx.block_index(), num_blocks_per_merge, work_per_block, merge_paths[ctx.block_index()], merge_paths[ctx.block_index() + 1]);
+      locate_merge_partitions(n, ctx.block_index(), num_blocks_per_merge, work_per_block, thrust::raw_reference_cast(merge_paths[ctx.block_index()]), thrust::raw_reference_cast(merge_paths[ctx.block_index() + 1]));
 
     block::staged_bounded_merge<work_per_thread>(ctx,
                                                  first + start1, end1 - start1,

@@ -171,7 +171,7 @@ template<typename Context,
       first  += context.block_dimension(),
       result += context.block_dimension())
   {
-    *result = *first;
+    thrust::raw_reference_cast(*result) = thrust::raw_reference_cast(*first);
   } // end for
 
   return end_of_output;
@@ -206,7 +206,7 @@ RandomAccessIterator2 async_copy_n(Context &ctx, RandomAccessIterator1 first, Si
 {
   for(Size i = ctx.thread_index(); i < n; i += ctx.block_dimension())
   {
-    result[i] = first[i];
+    thrust::raw_reference_cast(result[i]) = thrust::raw_reference_cast(first[i]);
   }
 
   return result + n;
@@ -240,7 +240,7 @@ RandomAccessIterator2 async_copy_n_global_to_shared(Context &ctx, RandomAccessIt
     {
       unsigned int idx = ctx.block_dimension() * i + ctx.thread_index();
 
-      reg[i] = first[idx];
+      reg[i] = thrust::raw_reference_cast(first[idx]);
     }
   }
   else
@@ -249,7 +249,7 @@ RandomAccessIterator2 async_copy_n_global_to_shared(Context &ctx, RandomAccessIt
     {
       unsigned int idx = ctx.block_dimension() * i + ctx.thread_index();
 
-      if(idx < n) reg[i] = first[idx];
+      if(idx < n) reg[i] = thrust::raw_reference_cast(first[idx]);
     }
   }
 
@@ -260,7 +260,7 @@ RandomAccessIterator2 async_copy_n_global_to_shared(Context &ctx, RandomAccessIt
     {
       unsigned int idx = ctx.block_dimension() * i + ctx.thread_index();
 
-      result[idx] = reg[i];
+      thrust::raw_reference_cast(result[idx]) = reg[i];
     }
   }
   else
@@ -269,7 +269,7 @@ RandomAccessIterator2 async_copy_n_global_to_shared(Context &ctx, RandomAccessIt
     {
       unsigned int idx = ctx.block_dimension() * i + ctx.thread_index();
 
-      if(idx < n) result[idx] = reg[i];
+      if(idx < n) thrust::raw_reference_cast(result[idx]) = reg[i];
     }
   }
 
