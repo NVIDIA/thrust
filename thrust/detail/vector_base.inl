@@ -102,7 +102,7 @@ template<typename T, typename Alloc>
       vector_base<T,Alloc>
         ::operator=(vector_base &&v)
   {
-    //We don't check for self move assignement : undefined behaviour
+    assert(this != &v);
     vector_base tmp;
     swap(tmp);
     swap(v);
