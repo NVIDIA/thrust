@@ -4,9 +4,7 @@
 #include <vector>
 #include <list>
 #include <limits>
-#if __cplusplus >= 201103L
-  #include <utility>
-#endif
+#include <utility>
 
 template <class Vector>
 void TestVectorZeroSize(void)

@@ -83,7 +83,7 @@ template<typename T, typename Alloc>
   #if __cplusplus >= 201103L
     /*! Move constructor use the move semantic over an exemplar
      * vector_base.
-     *  \param v The vector_base to copy.
+     *  \param v The vector_base to move.
      */
     vector_base(vector_base &&v);
   #endif
@@ -96,7 +96,7 @@ template<typename T, typename Alloc>
   #if __cplusplus >= 201103L
     /*! Move assign operator use the move semantic over an exemplar
      * vector_base.
-     *  \param v The vector_base to copy.
+     *  \param v The vector_base to move.
      */
     vector_base &operator=(vector_base &&v);
   #endif

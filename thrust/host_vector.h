@@ -25,9 +25,7 @@
 #include <memory>
 #include <thrust/detail/vector_base.h>
 #include <vector>
-#if __cplusplus >= 201103L
-  #include <utility>
-#endif
+#include <utility>
 
 namespace thrust
 {
@@ -105,16 +103,16 @@ template<typename T, typename Alloc = std::allocator<T> >
 
     #if __cplusplus >= 201103L
       /*! Move constructor use the move semantic over an exemplar
-       * vector_base.
-       *  \param v The vector_base to copy.
+       * host_vector.
+       *  \param v The host_vector to move.
        */
        __host__
       host_vector(host_vector &&v)
         :Parent(std::forward<Parent>(v)) {}
 
       /*! Move assign operator use the move semantic over an exemplar
-       * vector_base.
-       *  \param v The vector_base to copy.
+       * host_vector.
+       *  \param v The host_vector to move.
        */
        __host__
        host_vector &operator=(host_vector &&v)
