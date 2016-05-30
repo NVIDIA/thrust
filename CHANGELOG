@@ -21,7 +21,7 @@ Other Enhancements
     anymore when using them with thrust::transform_iterator.
     The performance of thrust::unique* is improved.
     If C++11 support is enabled, the move constructor and move assignment operator have been implemented
-    for host_vector,device_vector,cuda::vector,omp::vector and tbb::vector.
+    for host_vector,device_vector,cpp::vector,cuda::vector,omp::vector and tbb::vector.
 
 Bug Fixes
     TODO
