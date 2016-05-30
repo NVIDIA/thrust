@@ -90,6 +90,13 @@ template<typename T, typename Allocator = allocator<T> >
      *  \param x The other \p tbb::vector to copy.
      */
     vector(const vector &x);
+    
+  #if __cplusplus >= 201103L
+    /*! Move constructor use the move semantic over another \p tbb::vector.
+     *  \param x The other \p tbb::vector to move from.
+     */
+    vector(vector &&x);
+  #endif
 
     /*! This constructor copies from another Thrust vector-like object.
      *  \param x The other object to copy from.
@@ -111,6 +118,14 @@ template<typename T, typename Allocator = allocator<T> >
     vector(InputIterator first, InputIterator last);
 
     // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
+
+  #if __cplusplus >= 201103L
+    /*! Move assignment operator use move semantic over another \p tbb::vector.
+     *  \param x The other \p tbb::vector to move from.
+     *  \return <tt>*this</tt>
+     */
+     vector &operator=(vector &&x);
+  #endif
 
     /*! Assignment operator assigns from a \c std::vector.
      *  \param x The \c std::vector to assign from.

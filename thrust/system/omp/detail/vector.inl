@@ -19,6 +19,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/omp/vector.h>
 
+#include <utility>
+
 namespace thrust
 {
 namespace system
@@ -50,6 +52,14 @@ template<typename T, typename Allocator>
       : super_t(x)
 {}
 
+#if __cplusplus >= 201103L
+  template<typename T, typename Allocator>
+    vector<T,Allocator>
+      ::vector(vector &&x)
+        : super_t(std::forward<super_t>(x))
+  {}
+#endif
+
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
     vector<T,Allocator>
@@ -70,6 +80,17 @@ template<typename T, typename Allocator>
       ::vector(InputIterator first, InputIterator last)
         : super_t(first,last)
 {}
+
+#if __cplusplus >= 201103L
+  template<typename T, typename Allocator>
+    vector<T,Allocator> &
+      vector<T,Allocator>
+        ::operator=(vector &&x)
+  {
+    super_t::operator=(std::forward<super_t>(x));
+    return *this;
+  }
+#endif
 
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
