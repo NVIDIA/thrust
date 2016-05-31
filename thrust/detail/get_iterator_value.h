@@ -16,6 +16,9 @@
  */
 
 #include <thrust/detail/config.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/execution_policy.h>
+#include <thrust/system/detail/generic/memory.h>
 
 namespace thrust {
 namespace detail {
