@@ -19,7 +19,7 @@
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/execution_policy.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
-#include <thrust/system/detail/generic/memory.h>
+#include <thrust/system/detail/generic/memory.h> // for get_value()
 
 namespace thrust {
 namespace detail {
