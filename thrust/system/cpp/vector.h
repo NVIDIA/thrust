@@ -130,6 +130,12 @@ template<typename T, typename Allocator = allocator<T> >
      *  \return <tt>*this</tt>
      */
      vector &operator=(vector &&x);
+
+     /*! Assignment operator assigns from another \p cpp::vector.
+      *  \param x The other object to assign from.
+      *  \return <tt>*this</tt>
+      */
+     vector &operator=(const vector &x)=default;
   #endif
 
     /*! Assignment operator assigns from a \c std::vector.

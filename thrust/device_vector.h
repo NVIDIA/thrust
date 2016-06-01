@@ -117,13 +117,6 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
      __host__
      device_vector &operator=(device_vector &&v)
      { Parent::operator=(std::forward<Parent>(v)); return *this; }
-
-     /*! Assign operator copies from an exemplar \p device_vector with different type.
-      *  \param v The \p device_vector to copy.
-      */
-     __host__
-     device_vector &operator=(const device_vector &v)
-     { Parent::operator=(v); return *this; }
   #endif
 
     /*! Copy constructor copies from an exemplar \p device_vector with different type.
@@ -133,6 +126,13 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     __device__
     device_vector(const device_vector<OtherT,OtherAlloc> &v)
       :Parent(v) {}
+
+    /*! Assign operator copies from an exemplar \p device_vector with same type.
+     *  \param v The \p device_vector to copy.
+     */
+    __host__
+    device_vector &operator=(const device_vector &v)
+    { Parent::operator=(v); return *this; }
 
     /*! Assign operator copies from an exemplar \p device_vector with different type.
      *  \param v The \p device_vector to copy.
