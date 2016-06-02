@@ -122,7 +122,7 @@ def cuda_installation():
    
   # fix up the name of the lib directory on 64b platforms
   if platform.machine()[-2:] == '64':
-    if os.name == 'posix' and master_env['PLATFORM'] != 'darwin':
+    if os.name == 'posix' and platform.system() != 'Darwin':
       lib_path += '64'
     elif os.name == 'nt':
       lib_path += '/x64'
