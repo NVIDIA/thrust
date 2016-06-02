@@ -23,16 +23,16 @@ def get_cuda_paths(env):
 
   cuda_path = env['cuda_path']
 
-  # determine defaults
-  if os.name == 'posix':
-    bin_path = cuda_path + '/bin'
-    lib_path = cuda_path + '/lib'
-    inc_path = cuda_path + '/include'
-  else:
-    raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
-
+  bin_path = cuda_path + '/bin'
+  lib_path = cuda_path + '/lib'
+  inc_path = cuda_path + '/include'
+   
+  # fix up the name of the lib directory on 64b platforms
   if platform.machine()[-2:] == '64':
-    lib_path += '64'
+    if os.name == 'posix' and platform.system() != 'Darwin':
+      lib_path += '64'
+    elif os.name == 'nt':
+      lib_path += '/x64'
 
   # override with environment variables
   if 'CUDA_BIN_PATH' in os.environ:

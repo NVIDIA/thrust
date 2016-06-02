@@ -116,10 +116,18 @@ def cuda_installation(env):
   lib_path = cuda_path + '/lib'
   inc_path = cuda_path + '/include'
 
-  if master_env['PLATFORM'] != 'darwin' and platform.machine()[-2:] == '64':
-    lib_path += '64'
+  bin_path = cuda_path + '/bin'
+  lib_path = cuda_path + '/lib'
+  inc_path = cuda_path + '/include'
+   
+  # fix up the name of the lib directory on 64b platforms
+  if platform.machine()[-2:] == '64':
+    if os.name == 'posix' and platform.system() != 'Darwin':
+      lib_path += '64'
+    elif os.name == 'nt':
+      lib_path += '/x64'
 
-  # override with environement variables
+  # override with environment variables
   if 'CUDA_BIN_PATH' in os.environ:
     bin_path = os.path.abspath(os.environ['CUDA_BIN_PATH'])
   if 'CUDA_LIB_PATH' in os.environ:
