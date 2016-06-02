@@ -40,7 +40,7 @@ namespace detail
 //   result = OutputIterator2::value_type
 //
 // XXX upon c++0x, TemporaryType needs to be:
-// result_of<BinaryFunction>::type
+// result_of_adaptable_function<BinaryFunction>::type
 template<typename InputIterator, typename OutputIterator, typename Function>
   struct intermediate_type_from_function_and_iterators
     : eval_if<

@@ -27,6 +27,7 @@ namespace thrust
 
 template<typename T>
   template<typename OtherT>
+    __host__ __device__
     device_reference<T> &
       device_reference<T>
         ::operator=(const device_reference<OtherT> &other)
@@ -35,6 +36,7 @@ template<typename T>
 } // end operator=()
 
 template<typename T>
+  __host__ __device__
   device_reference<T> &
     device_reference<T>
       ::operator=(const value_type &x)

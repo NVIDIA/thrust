@@ -21,6 +21,7 @@ namespace thrust
 {
 
 template <typename T1, typename T2>
+  __host__ __device__
   pair<T1,T2>
     ::pair(void)
       :first(),second()
@@ -30,6 +31,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
+  __host__ __device__
   pair<T1,T2>
     ::pair(const T1 &x, const T2 &y)
       :first(x),second(y)
@@ -40,6 +42,7 @@ template <typename T1, typename T2>
 
 template <typename T1, typename T2>
   template <typename U1, typename U2>
+    __host__ __device__
     pair<T1,T2>
       ::pair(const pair<U1,U2> &p)
         :first(p.first),second(p.second)
@@ -50,6 +53,7 @@ template <typename T1, typename T2>
 
 template <typename T1, typename T2>
   template <typename U1, typename U2>
+    __host__ __device__
     pair<T1,T2>
       ::pair(const std::pair<U1,U2> &p)
         :first(p.first),second(p.second)

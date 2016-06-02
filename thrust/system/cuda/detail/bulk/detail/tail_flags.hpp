@@ -73,7 +73,7 @@ template<typename RandomAccessIterator,
       counting_iterator
     > iterator;
 
-    __thrust_exec_check_disable__
+    __bulk_exec_check_disable__
     __host__ __device__
     tail_flags_(RandomAccessIterator first, RandomAccessIterator last)
       : m_begin(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0),
@@ -81,7 +81,7 @@ template<typename RandomAccessIterator,
         m_end(m_begin + (last - first))
     {}
 
-    __thrust_exec_check_disable__
+    __bulk_exec_check_disable__
     __host__ __device__
     tail_flags_(RandomAccessIterator first, RandomAccessIterator last, BinaryPredicate binary_pred)
       : m_begin(thrust::make_transform_iterator(thrust::counting_iterator<IndexType>(0),

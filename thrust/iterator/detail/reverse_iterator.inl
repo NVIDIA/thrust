@@ -25,7 +25,7 @@ namespace detail
 
 __thrust_exec_check_disable__
 template<typename Iterator>
-__host__ __device__
+  __host__ __device__
   Iterator prior(Iterator x)
 {
   return --x;
@@ -34,6 +34,7 @@ __host__ __device__
 } // end detail
 
 template<typename BidirectionalIterator>
+  __host__ __device__
   reverse_iterator<BidirectionalIterator>
     ::reverse_iterator(BidirectionalIterator x)
       :super_t(x)
@@ -42,6 +43,7 @@ template<typename BidirectionalIterator>
 
 template<typename BidirectionalIterator>
   template<typename OtherBidirectionalIterator>
+    __host__ __device__
     reverse_iterator<BidirectionalIterator>
       ::reverse_iterator(reverse_iterator<OtherBidirectionalIterator> const &r
 // XXX msvc screws this up
@@ -59,6 +61,7 @@ template<typename BidirectionalIterator>
 } // end reverse_iterator::reverse_iterator()
 
 template<typename BidirectionalIterator>
+  __host__ __device__
   typename reverse_iterator<BidirectionalIterator>::super_t::reference
     reverse_iterator<BidirectionalIterator>
       ::dereference(void) const
@@ -67,6 +70,7 @@ template<typename BidirectionalIterator>
 } // end reverse_iterator::increment()
 
 template<typename BidirectionalIterator>
+  __host__ __device__
   void reverse_iterator<BidirectionalIterator>
     ::increment(void)
 {
@@ -74,6 +78,7 @@ template<typename BidirectionalIterator>
 } // end reverse_iterator::increment()
 
 template<typename BidirectionalIterator>
+  __host__ __device__
   void reverse_iterator<BidirectionalIterator>
     ::decrement(void)
 {
@@ -81,6 +86,7 @@ template<typename BidirectionalIterator>
 } // end reverse_iterator::decrement()
 
 template<typename BidirectionalIterator>
+  __host__ __device__
   void reverse_iterator<BidirectionalIterator>
     ::advance(typename super_t::difference_type n)
 {
@@ -89,6 +95,7 @@ template<typename BidirectionalIterator>
 
 template<typename BidirectionalIterator>
   template<typename OtherBidirectionalIterator>
+    __host__ __device__
     typename reverse_iterator<BidirectionalIterator>::super_t::difference_type
       reverse_iterator<BidirectionalIterator>
         ::distance_to(reverse_iterator<OtherBidirectionalIterator> const &y) const

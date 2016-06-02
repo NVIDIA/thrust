@@ -100,7 +100,7 @@ __host__ __device__ inline int isfinite(double x){
 
 #else
 
-#  ifdef __CUDACC__
+#  if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
 
 // sometimes the CUDA toolkit provides these these names as macros,
 // sometimes functions in the global scope
