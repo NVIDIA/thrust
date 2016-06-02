@@ -81,6 +81,15 @@ template<typename T, typename Allocator>
         : super_t(first,last)
 {}
 
+template<typename T, typename Allocator>
+  vector<T,Allocator> &
+    vector<T,Allocator>
+      ::operator=(const vector &x)
+{
+  super_t::operator=(x);
+  return *this;
+}
+
 #if __cplusplus >= 201103L
   template<typename T, typename Allocator>
     vector<T,Allocator> &

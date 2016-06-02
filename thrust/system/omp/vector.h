@@ -101,12 +101,6 @@ template<typename T, typename Allocator = allocator<T> >
      *  \param x The other \p omp::vector to move from.
      */
     vector(vector &&x);
-
-    /*! Assignment operator assigns from another \p omp::vector.
-     *  \param x The other object to assign from.
-     *  \return <tt>*this</tt>
-     */
-    vector &operator=(const vector &x)=default;
   #endif
 
     /*! This constructor copies from another Thrust vector-like object.
@@ -129,6 +123,12 @@ template<typename T, typename Allocator = allocator<T> >
     vector(InputIterator first, InputIterator last);
 
     // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
+
+    /*! Assignment operator assigns from another \p omp::vector.
+    *  \param x The other object to assign from.
+    *  \return <tt>*this</tt>
+    */
+   vector &operator=(const vector &x);
 
   #if __cplusplus >= 201103L
     /*! Move assignment operator use move semantic over another \p omp::vector.

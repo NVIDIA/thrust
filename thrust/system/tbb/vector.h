@@ -119,18 +119,18 @@ template<typename T, typename Allocator = allocator<T> >
 
     // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
 
+    /*! Assignment operator assigns from another \p tbb::vector.
+     *  \param x The other object to assign from.
+     *  \return <tt>*this</tt>
+     */
+    vector &operator=(const vector &x);
+
   #if __cplusplus >= 201103L
     /*! Move assignment operator use move semantic over another \p tbb::vector.
      *  \param x The other \p tbb::vector to move from.
      *  \return <tt>*this</tt>
      */
      vector &operator=(vector &&x);
-
-     /*! Assignment operator assigns from another \p tbb::vector.
-      *  \param x The other object to assign from.
-      *  \return <tt>*this</tt>
-      */
-     vector &operator=(const vector &x)=default;
   #endif
 
     /*! Assignment operator assigns from a \c std::vector.
