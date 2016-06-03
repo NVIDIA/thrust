@@ -4,7 +4,7 @@
 #include <vector>
 #include <list>
 #include <limits>
-
+#include <utility>
 
 template <class Vector>
 void TestVectorZeroSize(void)
@@ -754,3 +754,32 @@ void TestVectorReversed(void)
 }
 DECLARE_VECTOR_UNITTEST(TestVectorReversed);
 
+#if __cplusplus >= 201103L
+  template <class Vector>
+  void TestVectorMoveSemantic(void)
+  {
+    //test move construction
+    Vector v1(3);
+    const auto ptr1 = v1.data();
+    const auto size1 = v1.size();
+
+    Vector v2(std::move(v1));
+    const auto ptr2 = v2.data();
+    const auto size2 = v2.size();
+
+    //test move assignment
+    Vector v3(3);
+    const auto ptr3 = v3.data();
+    const auto size3 = v3.size();
+
+    v2 = std::move(v3);
+    const auto ptr4 = v2.data();
+    const auto size4 = v2.size();
+
+    ASSERT_EQUAL(ptr1, ptr2);
+    ASSERT_EQUAL(size1, size2);
+    ASSERT_EQUAL(ptr3, ptr4);
+    ASSERT_EQUAL(size3, size4);
+  }
+  DECLARE_VECTOR_UNITTEST(TestVectorMoveSemantic);
+#endif
