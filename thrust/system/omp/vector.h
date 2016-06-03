@@ -97,7 +97,7 @@ template<typename T, typename Allocator = allocator<T> >
     vector(const vector &x);
 
   #if __cplusplus >= 201103L
-    /*! Move constructor use the move semantic over another \p omp::vector.
+    /*! Move constructor moves another \p omp::vector.
      *  \param x The other \p omp::vector to move from.
      */
     vector(vector &&x);
@@ -124,15 +124,15 @@ template<typename T, typename Allocator = allocator<T> >
 
     // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
 
-    /*! Assignment operator assigns from another \p omp::vector.
+    /*! Copy assignment operator assigns from another \p omp::vector.
     *  \param x The other object to assign from.
     *  \return <tt>*this</tt>
     */
    vector &operator=(const vector &x);
 
   #if __cplusplus >= 201103L
-    /*! Move assignment operator use move semantic over another \p omp::vector.
-     *  \param x The other \p omp::vector to move from.
+    /*! Move assignment operator moves another \p omp::vector.
+     *  \param x The other \p omp::vector to move.
      *  \return <tt>*this</tt>
      */
      vector &operator=(vector &&x);

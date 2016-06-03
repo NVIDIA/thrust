@@ -96,7 +96,7 @@ template<typename T, typename Allocator = allocator<T> >
     vector(const vector &x);
 
   #if __cplusplus >= 201103L
-    /*! Move constructor use the move semantic over another \p cuda::vector.
+    /*! Move constructor moves another \p cuda::vector.
      *  \param x The other \p cuda::vector to move from.
      */
     vector(vector &&x);
@@ -123,14 +123,14 @@ template<typename T, typename Allocator = allocator<T> >
 
     // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
 
-    /*! Assignment operator assigns from another \p cuda::vector.
+    /*! Copy assignment operator assigns from another \p cuda::vector.
      *  \param x The other object to assign from.
      *  \return <tt>*this</tt>
      */
     vector &operator=(const vector &x);
 
   #if __cplusplus >= 201103L
-    /*! Move assignment operator use move semantic over another \p cuda::vector.
+    /*! Move assignment operator moves another \p cuda::vector.
      *  \param x The other \p cuda::vector to move from.
      *  \return <tt>*this</tt>
      */

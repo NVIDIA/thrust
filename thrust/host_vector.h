@@ -102,13 +102,12 @@ template<typename T, typename Alloc = std::allocator<T> >
       :Parent(v) {}
 
   #if __cplusplus >= 201103L
-    /*! Move constructor use the move semantic over an exemplar
-     * host_vector.
+    /*! Move constructor moves from another host_vector.
      *  \param v The host_vector to move.
      */
      __host__
     host_vector(host_vector &&v)
-      :Parent(std::forward<Parent>(v)) {}
+      :Parent(std::move(v)) {}
   #endif
 
   /*! Assign operator copies from an exemplar \p host_vector.
@@ -119,13 +118,12 @@ template<typename T, typename Alloc = std::allocator<T> >
   { Parent::operator=(v); return *this; }
 
   #if __cplusplus >= 201103L
-    /*! Move assign operator use the move semantic over an exemplar
-     * host_vector.
+    /*! Move assign operator moves from another host_vector.
      *  \param v The host_vector to move.
      */
      __host__
      host_vector &operator=(host_vector &&v)
-     { Parent::operator=(std::forward<Parent>(v)); return *this; }
+     { Parent::operator=(std::move(v)); return *this; }
   #endif
 
     /*! Copy constructor copies from an exemplar \p host_vector with different type.

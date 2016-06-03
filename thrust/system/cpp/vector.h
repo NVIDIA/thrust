@@ -97,7 +97,7 @@ template<typename T, typename Allocator = allocator<T> >
     vector(const vector &x);
 
   #if __cplusplus >= 201103L
-    /*! Move constructor use the move semantic over another \p cpp::vector.
+    /*! Move constructor moves from over another \p cpp::vector.
      *  \param x The other \p cpp::vector to move from.
      */
     vector(vector &&x);
@@ -131,7 +131,7 @@ template<typename T, typename Allocator = allocator<T> >
     vector &operator=(const vector &x);
 
   #if __cplusplus >= 201103L
-    /*! Move assignment operator use move semantic over another \p cpp::vector.
+    /*! Move assignment operator moves from another \p cpp::vector.
      *  \param x The other \p cpp::vector to move from.
      *  \return <tt>*this</tt>
      */
