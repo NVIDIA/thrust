@@ -30,7 +30,6 @@
 
 # Makefile for building Thrust unit test driver
 
-
 ifndef PROFILE
 ifdef VULCAN_TOOLKIT_BASE
 include $(VULCAN_TOOLKIT_BASE)/build/getprofile.mk
