@@ -18,7 +18,7 @@
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/type_traits/result_of.h>
+#include <thrust/detail/type_traits/result_of_adaptable_function.h>
 
 namespace thrust
 {
@@ -37,7 +37,7 @@ struct transform_iterator_base
     // By default, dereferencing the iterator yields the same as the function.
     typedef typename thrust::detail::ia_dflt_help<
       Reference,
-      thrust::detail::result_of<UnaryFunc(typename thrust::iterator_value<Iterator>::type)>
+      thrust::detail::result_of_adaptable_function<UnaryFunc(typename thrust::iterator_value<Iterator>::type)>
     >::type reference;
 
     // To get the default for Value: remove any reference on the
