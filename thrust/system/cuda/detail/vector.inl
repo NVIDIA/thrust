@@ -18,7 +18,6 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/vector.h>
-
 #include <utility>
 
 namespace thrust
@@ -56,7 +55,7 @@ template<typename T, typename Allocator>
   template<typename T, typename Allocator>
     vector<T,Allocator>
       ::vector(vector &&x)
-        : super_t(std::forward<super_t>(x))
+        : super_t(std::move(x))
   {}
 #endif
 
@@ -96,7 +95,7 @@ template<typename T, typename Allocator>
       vector<T,Allocator>
         ::operator=(vector &&x)
   {
-    super_t::operator=(std::forward<super_t>(x));
+    super_t::operator=(std::move(x));
     return *this;
   }
 #endif

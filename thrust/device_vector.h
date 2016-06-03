@@ -102,16 +102,15 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
       :Parent(v) {}
 
   #if __cplusplus >= 201103L
-    /*! Move constructor use the move semantic over an exemplar
-     * device_vector.
+    /*! Move constructor moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
      __host__
     device_vector(device_vector &&v)
-      :Parent(std::forward<Parent>(v)) {}
+      :Parent(std::move(v)) {}
   #endif
 
-  /*! Assign operator copies from an exemplar \p device_vector with same type.
+  /*! Copy assign operator copies another \p device_vector with the same type.
    *  \param v The \p device_vector to copy.
    */
   __host__
@@ -119,13 +118,12 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
   { Parent::operator=(v); return *this; }
 
   #if __cplusplus >= 201103L
-    /*! Move assign operator use the move semantic over an exemplar
-     * device_vector.
+    /*! Move assign operator moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
      __host__
      device_vector &operator=(device_vector &&v)
-     { Parent::operator=(std::forward<Parent>(v)); return *this; }
+     { Parent::operator=(std::move(v)); return *this; }
   #endif
 
     /*! Copy constructor copies from an exemplar \p device_vector with different type.
