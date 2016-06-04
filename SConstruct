@@ -106,22 +106,28 @@ def cuda_installation():
   returns (bin_path,lib_path,inc_path,library_name)
   """
 
-  # determine defaults
-  if os.name == 'nt':
-    bin_path = 'C:/CUDA/bin'
-    lib_path = 'C:/CUDA/lib'
-    inc_path = 'C:/CUDA/include'
+  # find the top-level CUDA directory
+  if 'CUDA_PATH' in os.environ:
+    cuda_path = os.path.abspath(os.environ['CUDA_PATH'])
+  elif os.name == 'nt':
+    cuda_path = 'C:/CUDA'
   elif os.name == 'posix':
-    bin_path = '/usr/local/cuda/bin'
-    lib_path = '/usr/local/cuda/lib'
-    inc_path = '/usr/local/cuda/include'
+    cuda_path = '/usr/local/cuda'
   else:
     raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
 
-  if master_env['PLATFORM'] != 'darwin' and platform.machine()[-2:] == '64':
-    lib_path += '64'
+  bin_path = cuda_path + '/bin'
+  lib_path = cuda_path + '/lib'
+  inc_path = cuda_path + '/include'
+   
+  # fix up the name of the lib directory on 64b platforms
+  if platform.machine()[-2:] == '64':
+    if os.name == 'posix' and platform.system() != 'Darwin':
+      lib_path += '64'
+    elif os.name == 'nt':
+      lib_path += '/x64'
 
-  # override with environement variables
+  # override with environment variables
   if 'CUDA_BIN_PATH' in os.environ:
     bin_path = os.path.abspath(os.environ['CUDA_BIN_PATH'])
   if 'CUDA_LIB_PATH' in os.environ:
@@ -351,7 +357,7 @@ def command_line_variables():
   # allow the user discretion to select the MSVC version
   vars = Variables()
   if os.name == 'nt':
-    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0')))
+    vars.Add(EnumVariable('MSVC_VERSION', 'MS Visual C++ version', None, allowed_values=('8.0', '9.0', '10.0', '11.0', '12.0', '13.0')))
   
   # add a variable to handle the host backend
   vars.Add(ListVariable('host_backend', 'The host backend to target', 'cpp',
