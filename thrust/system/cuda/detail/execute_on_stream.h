@@ -113,7 +113,7 @@ class execute_on_stream
 
   public:
     __host__ __device__
-    inline execute_on_stream(cudaStream_t stream = default_stream())
+    inline execute_on_stream(cudaStream_t stream) 
       : super_t(stream)
     {}
 };
