@@ -160,6 +160,7 @@ struct CopyConstructTest
 #endif
   }
 
+  __host__ __device__
   CopyConstructTest &operator=(const CopyConstructTest &x)
   {
     copy_constructed_on_host   = x.copy_constructed_on_host;

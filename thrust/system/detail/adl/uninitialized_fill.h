@@ -24,6 +24,16 @@
 
 #include <thrust/system/detail/sequential/uninitialized_fill.h>
 
+// SCons can't see through the #defines below to figure out what this header
+// includes, so we fake it out by specifying all possible files we might end up
+// including inside an #if 0.
+#if 0
+#include <thrust/system/cpp/detail/uninitialized_fill.h>
+#include <thrust/system/cuda/detail/uninitialized_fill.h>
+#include <thrust/system/omp/detail/uninitialized_fill.h>
+#include <thrust/system/tbb/detail/uninitialized_fill.h>
+#endif
+
 #define __THRUST_HOST_SYSTEM_UNINITIALIZED_FILL_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/uninitialized_fill.h>
 #include __THRUST_HOST_SYSTEM_UNINITIALIZED_FILL_HEADER
 #undef __THRUST_HOST_SYSTEM_UNINITIALIZED_FILL_HEADER

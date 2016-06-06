@@ -95,6 +95,13 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector(const vector &x);
 
+  #if __cplusplus >= 201103L
+    /*! Move constructor moves another \p cuda::vector.
+     *  \param x The other \p cuda::vector to move from.
+     */
+    vector(vector &&x);
+  #endif
+
     /*! This constructor copies from another Thrust vector-like object.
      *  \param x The other object to copy from.
      */
@@ -115,7 +122,21 @@ template<typename T, typename Allocator = allocator<T> >
     vector(InputIterator first, InputIterator last);
 
     // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
-    //
+
+    /*! Copy assignment operator assigns from another \p cuda::vector.
+     *  \param x The other object to assign from.
+     *  \return <tt>*this</tt>
+     */
+    vector &operator=(const vector &x);
+
+  #if __cplusplus >= 201103L
+    /*! Move assignment operator moves another \p cuda::vector.
+     *  \param x The other \p cuda::vector to move from.
+     *  \return <tt>*this</tt>
+     */
+     vector &operator=(vector &&x);
+  #endif
+
     /*! Assignment operator assigns from a \c std::vector.
      *  \param x The \c std::vector to assign from.
      *  \return <tt>*this</tt>

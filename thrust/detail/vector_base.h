@@ -80,10 +80,24 @@ template<typename T, typename Alloc>
      */
     vector_base(const vector_base &v);
 
-    /*! assign operator makes a copy of an exemplar vector_base.
+  #if __cplusplus >= 201103L
+    /*! Move constructor moves from another vector_base.
+     *  \param v The vector_base to move.
+     */
+    vector_base(vector_base &&v);
+  #endif
+
+    /*! Copy assign operator copies from another vector_base.
      *  \param v The vector_base to copy.
      */
     vector_base &operator=(const vector_base &v);
+
+  #if __cplusplus >= 201103L
+    /*! Move assign operator moves from another vector_base.
+     *  \param v The vector_base to move.
+     */
+    vector_base &operator=(vector_base &&v);
+  #endif
 
     /*! Copy constructor copies from an exemplar vector_base with different
      *  type.

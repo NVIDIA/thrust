@@ -31,6 +31,7 @@
 #include <thrust/detail/copy_if.h>
 #include <thrust/distance.h>
 #include <thrust/functional.h>
+#include <thrust/detail/range/head_flags.h>
 
 namespace thrust
 {
@@ -97,17 +98,11 @@ __host__ __device__
                              OutputIterator output,
                              BinaryPredicate binary_pred)
 {
-  // empty sequence
-  if(first == last)
-    return output;
+  thrust::detail::head_flags<InputIterator, BinaryPredicate> stencil(first, last, binary_pred);
   
-  thrust::detail::temporary_array<int,DerivedPolicy> stencil(exec, thrust::distance(first, last));
+  using namespace thrust::placeholders;
   
-  // mark first element in each group
-  stencil[0] = 1; 
-  thrust::transform(exec, first, last - 1, first + 1, stencil.begin() + 1, thrust::detail::not2(binary_pred)); 
-  
-  return thrust::copy_if(exec, first, last, stencil.begin(), output, thrust::identity<int>());
+  return thrust::copy_if(exec, first, last, stencil.begin(), output, _1);
 } // end unique_copy()
 
 

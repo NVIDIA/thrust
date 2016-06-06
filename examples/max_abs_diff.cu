@@ -14,7 +14,7 @@ struct abs_diff : public thrust::binary_function<T,T,T>
     __host__ __device__
     T operator()(const T& a, const T& b)
     {
-        return std::fabs(b - a);
+        return fabsf(b - a);
     }
 };
 

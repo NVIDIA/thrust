@@ -129,7 +129,7 @@ struct tag : thrust::system::tbb::execution_policy<tag> { unspecified };
  *    __host__ __device__
  *    void operator()(int x)
  *    {
- *      printf("%d\n");
+ *      printf("%d\n", x);
  *    }
  *  };
  *  ...

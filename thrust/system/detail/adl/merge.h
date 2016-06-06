@@ -24,6 +24,16 @@
 
 #include <thrust/system/detail/sequential/merge.h>
 
+// SCons can't see through the #defines below to figure out what this header
+// includes, so we fake it out by specifying all possible files we might end up
+// including inside an #if 0.
+#if 0
+#include <thrust/system/cpp/detail/merge.h>
+#include <thrust/system/cuda/detail/merge.h>
+#include <thrust/system/omp/detail/merge.h>
+#include <thrust/system/tbb/detail/merge.h>
+#endif
+
 #define __THRUST_HOST_SYSTEM_MERGE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/merge.h>
 #include __THRUST_HOST_SYSTEM_MERGE_HEADER
 #undef __THRUST_HOST_SYSTEM_MERGE_HEADER
