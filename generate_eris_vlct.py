@@ -30,7 +30,7 @@ thrust_tests_vlct_template = """
   # default timeout value of 900 seconds will be used.
   "timeout" : "3600",
   # Default timeout for individual tests, in seconds (optional).
-  "testtimeout" : "240",
+  "testtimeout" : "270",
   # The tests in the testsuite (required).
   "tests" : [
     %(THRUST_EXEC)s
