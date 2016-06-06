@@ -83,11 +83,26 @@ cudaMemcpyKind cuda_memcpy_kind(const thrust::cuda::execution_policy<System> &,
 } // end cuda_memcpy_kind()
 
 namespace {
-// XXX: required to fix clang++-3.7 warning (nvbug 200202717)
+// XXX: WAR for clang++ >= 3.7.0
+//      (a) warnings (nvbug 200202717) &  (b) errors (nvbug 200204101)
+//      (a) Clang issues a warning when the address of a reference is tested for null
+//      (b) With -O2 & -O3 clang assumes that the address of a reference is not a null
+//      and optimizes conditional stmt as "true", which segfaults when the reference
+//      is actually bound to nullptr (for example thrust/detail/reference.inl:155)
 template<class T> 
-T const* cast_to_ptr(T const& t)
+bool is_valid_policy(T const& t)
 {
-  return &t;
+  volatile size_t value = reinterpret_cast<size_t>(&t);
+  if (value)
+  {
+    if (value == 0)
+    {
+      fprintf(stderr, " clang WAR failed. Terminate.\n");
+      std::terminate();
+    }
+    return true;
+  }
+  return false;
 }
 }
 
@@ -96,7 +111,7 @@ template<typename System1,
 cudaStream_t cuda_memcpy_stream(const thrust::cuda::execution_policy<System1> &exec,
                                 const thrust::cpp::execution_policy<System2> &)
 {
-  if (cast_to_ptr(exec))
+  if (is_valid_policy(exec))
     return stream(derived_cast(exec));
   return legacy_stream();
 } // end cuda_memcpy_stream()
@@ -106,7 +121,7 @@ template<typename System1,
 cudaStream_t cuda_memcpy_stream(const thrust::cpp::execution_policy<System1> &,
                                 const thrust::cuda::execution_policy<System2> &exec)
 {
-  if (cast_to_ptr(exec))
+  if (is_valid_policy(exec))
     return stream(derived_cast(exec));
   return legacy_stream();
 } // end cuda_memcpy_stream()
@@ -116,7 +131,7 @@ template<typename System>
 cudaStream_t cuda_memcpy_stream(const thrust::cuda::execution_policy<System> &,
                                 const thrust::cuda::execution_policy<System> &exec)
 {
-  if (cast_to_ptr(exec))
+  if (is_valid_policy(exec))
     return stream(derived_cast(exec));
   return legacy_stream();
 } // end cuda_memcpy_stream()
@@ -127,7 +142,7 @@ template<class System>
 cudaStream_t cuda_memcpy_stream(const thrust::system::cuda::detail::execute_on_stream &exec,
                                 const thrust::cuda::execution_policy<System> &)
 {
-  if (cast_to_ptr(exec))
+  if (is_valid_policy(exec))
     return stream(exec);
   return legacy_stream();
 } // end cuda_memcpy_stream()
