@@ -47,6 +47,10 @@ New Examples
 Bug Fixes
     copy_if now copies in a user provided stream instead of a default_stream
     {min,max,minmax}_element can now accept raw device pointer with device execution policy
+    If C++11 support is enabled, functors do not have to inherit from thrust::unary_function/thrust::binary_function
+    anymore when using them with thrust::transform_iterator.
+
+    
 
 Known Issues
     TODO

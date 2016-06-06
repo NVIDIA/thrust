@@ -381,7 +381,13 @@ struct radix_sort_dispatcher<2>
                   RandomAccessIterator1 keys1, RandomAccessIterator2 keys2,
                   const size_t N)
   {
-    if(N < (1 << 16))
+#ifdef __QNX__
+    // XXX war for nvbug 200193674
+    const bool condition = true;
+#else
+    const bool condition = N < (1 << 16);
+#endif
+    if (condition)
     {
       radix_sort_detail::radix_sort<8,false>(exec, keys1, keys2, static_cast<int *>(0), static_cast<int *>(0), N);
     }
@@ -403,7 +409,13 @@ struct radix_sort_dispatcher<2>
                   RandomAccessIterator3 vals1, RandomAccessIterator4 vals2,
                   const size_t N)
   {
-    if(N < (1 << 15))
+#ifdef __QNX__
+    // XXX war for nvbug 200193674
+    const bool condition = true;
+#else
+    const bool condition = N < (1 << 15);
+#endif
+    if (condition)
     {
       radix_sort_detail::radix_sort<8,true>(exec, keys1, keys2, vals1, vals2, N);
     }

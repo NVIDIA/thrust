@@ -24,6 +24,7 @@ struct Foo
   bool *set_me_upon_destruction;
 };
 
+#if !defined(__QNX__)
 void TestDeviceDeleteDestructorInvocation(void)
 {
   KNOWN_FAILURE;
@@ -43,4 +44,4 @@ void TestDeviceDeleteDestructorInvocation(void)
 //  ASSERT_EQUAL(true, destructor_flag[0]);
 }
 DECLARE_UNITTEST(TestDeviceDeleteDestructorInvocation);
-
+#endif
