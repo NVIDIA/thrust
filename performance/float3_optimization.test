@@ -10,7 +10,7 @@ PREAMBLE = \
     {
         template <typename Tuple>
         __host__ __device__
-        Tuple operator()(const Tuple& t) const
+        thrust::tuple<T, T, T> operator()(const Tuple& t) const
         {
             T x = thrust::get<0>(t);
             T y = thrust::get<1>(t);
@@ -20,7 +20,7 @@ PREAMBLE = \
             T ry =-0.80f*x +  0.60f*y +  0.00f*z;
             T rz = 0.48f*x +  0.64f*y +  0.60f*z;
 
-            return Tuple(rx, ry, rz);
+            return thrust::make_tuple(rx, ry, rz);
         }
     };
     

@@ -74,6 +74,15 @@ template<typename T, typename Alloc>
   range_init(v.begin(), v.end());
 } // end vector_base::vector_base()
 
+#if __cplusplus >= 201103L
+  template<typename T, typename Alloc>
+    vector_base<T,Alloc>
+      ::vector_base(vector_base &&v) : vector_base()
+  {
+    swap(v);
+  } //end vector_base::vector_base()
+#endif
+
 template<typename T, typename Alloc>
   vector_base<T,Alloc> &
     vector_base<T,Alloc>
@@ -86,6 +95,19 @@ template<typename T, typename Alloc>
 
   return *this;
 } // end vector_base::operator=()
+
+#if __cplusplus >= 201103L
+  template<typename T, typename Alloc>
+    vector_base<T,Alloc> &
+      vector_base<T,Alloc>
+        ::operator=(vector_base &&v)
+  {
+    vector_base tmp;
+    swap(tmp);
+    swap(v);
+    return *this;
+  } // end vector_base::operator=()
+#endif
 
 template<typename T, typename Alloc>
   template<typename OtherT, typename OtherAlloc>

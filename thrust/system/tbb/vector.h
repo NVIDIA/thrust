@@ -2,7 +2,7 @@
  *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in ctbbliance with the License.
+ *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -90,6 +90,13 @@ template<typename T, typename Allocator = allocator<T> >
      *  \param x The other \p tbb::vector to copy.
      */
     vector(const vector &x);
+    
+  #if __cplusplus >= 201103L
+    /*! Move constructor use the move semantic over another \p tbb::vector.
+     *  \param x The other \p tbb::vector to move from.
+     */
+    vector(vector &&x);
+  #endif
 
     /*! This constructor copies from another Thrust vector-like object.
      *  \param x The other object to copy from.
@@ -111,6 +118,20 @@ template<typename T, typename Allocator = allocator<T> >
     vector(InputIterator first, InputIterator last);
 
     // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
+
+    /*! Assignment operator assigns from another \p tbb::vector.
+     *  \param x The other object to assign from.
+     *  \return <tt>*this</tt>
+     */
+    vector &operator=(const vector &x);
+
+  #if __cplusplus >= 201103L
+    /*! Move assignment operator use move semantic over another \p tbb::vector.
+     *  \param x The other \p tbb::vector to move from.
+     *  \return <tt>*this</tt>
+     */
+     vector &operator=(vector &&x);
+  #endif
 
     /*! Assignment operator assigns from a \c std::vector.
      *  \param x The \c std::vector to assign from.

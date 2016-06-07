@@ -31,6 +31,7 @@ namespace thrust
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename OtherElement, typename OtherPointer, typename OtherDerived>
+    __host__ __device__
     reference<Element,Pointer,Derived>
       ::reference(const reference<OtherElement,OtherPointer,OtherDerived> &other,
                   typename thrust::detail::enable_if_convertible<
@@ -42,6 +43,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 
 template<typename Element, typename Pointer, typename Derived>
+  __host__ __device__
   reference<Element,Pointer,Derived>
     ::reference(const pointer &ptr)
       : m_ptr(ptr)
@@ -49,6 +51,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 
 template<typename Element, typename Pointer, typename Derived>
+  __host__ __device__
   typename reference<Element,Pointer,Derived>::pointer
     reference<Element,Pointer,Derived>
       ::operator&() const
@@ -58,6 +61,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 
 template<typename Element, typename Pointer, typename Derived>
+  __host__ __device__
   typename reference<Element,Pointer,Derived>::derived_type &
     reference<Element,Pointer,Derived>
       ::operator=(const value_type &v)
@@ -68,6 +72,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 
 template<typename Element, typename Pointer, typename Derived>
+  __host__ __device__
   typename reference<Element,Pointer,Derived>::derived_type &
     reference<Element,Pointer,Derived>
       ::operator=(const reference &other)
@@ -79,6 +84,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename OtherElement, typename OtherPointer, typename OtherDerived>
+    __host__ __device__
     typename reference<Element,Pointer,Derived>::derived_type &
       reference<Element,Pointer,Derived>
         ::operator=(const reference<OtherElement,OtherPointer,OtherDerived> &other)
@@ -100,6 +106,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 
 template<typename Element, typename Pointer, typename Derived>
+  __host__ __device__
   reference<Element,Pointer,Derived>
     ::operator typename reference<Element,Pointer,Derived>::value_type () const
 {
@@ -117,6 +124,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename System>
+    __host__ __device__
     typename reference<Element,Pointer,Derived>::value_type
       reference<Element,Pointer,Derived>
         ::strip_const_get_value(const System &system) const
@@ -142,6 +150,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename OtherPointer>
+    __host__ __device__
     void reference<Element,Pointer,Derived>
       ::assign_from(OtherPointer src)
 {
@@ -161,6 +170,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename System, typename OtherPointer>
+    __host__ __device__
     void reference<Element,Pointer,Derived>
       ::strip_const_assign_value(const System &system, OtherPointer src)
 {
@@ -185,6 +195,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 
 template<typename Element, typename Pointer, typename Derived>
+  __host__ __device__
   void reference<Element,Pointer,Derived>
     ::swap(derived_type &other)
 {

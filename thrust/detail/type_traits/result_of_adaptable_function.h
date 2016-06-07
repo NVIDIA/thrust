@@ -20,6 +20,11 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
 
+#if __cplusplus >= 201103L || defined(__cpp_lib_result_of_sfinae)
+// necessary for std::result_of
+#include <type_traits>
+#endif
+
 namespace thrust
 {
 namespace detail

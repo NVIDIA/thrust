@@ -24,17 +24,13 @@
 #define BULK_NAMESPACE_SUFFIX
 #endif
 
-#if defined(__CUDACC__)
-#  ifndef __bulk_hd_warning_disable__
-#    if __CUDACC_VER__ >= 75000
-#      define __bulk_hd_warning_disable__ #pragma nv_exec_check_disable
-#    else
-#      define __bulk_hd_warning_disable__ #pragma hd_warning_disable
-#    endif /* __CUDACC_VER__ */
-#  endif // __bulk_hd_warning_disable__
+#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
+#  ifndef __bulk_exec_check_disable__
+#    define __bulk_exec_check_disable__ #pragma nv_exec_check_disable
+#  endif // __bulk_exec_check_disable__
 #else
-#  define __bulk_hd_warning_disable__
-#endif // __bulk_hd_warning_disable__
+#  define __bulk_exec_check_disable__
+#endif // __bulk_exec_check_disable__
 
 #include <thrust/version.h>
 
