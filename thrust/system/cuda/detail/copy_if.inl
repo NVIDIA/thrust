@@ -211,7 +211,7 @@ OutputIterator copy_if(execution_policy<DerivedPolicy> &exec,
   Closure closure(first, predicate_stencil, block_results.begin(), decomp, output);
   detail::launch_closure(exec, closure, decomp.size(), ThreadsPerBlock);
 
-  return output + block_results[decomp.size() - 1];
+  return output + get_value(exec,&block_results[decomp.size() - 1]);
 } // end copy_if()
 
 
