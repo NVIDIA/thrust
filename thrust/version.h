@@ -67,6 +67,13 @@
  */
 #define THRUST_SUBMINOR_VERSION  (THRUST_VERSION % 100)
 
+/*! \def THRUST_PATCH_NUMBER
+ *  \brief The preprocessor macro \p THRUST_PATCH_NUMBER encodes the
+ *         patch number of the Thrust library.
+ */
+#define THRUST_PATCH_NUMBER 1
+
+
 // Declare these namespaces here for the purpose of Doxygenating them
 
 /*! \namespace thrust

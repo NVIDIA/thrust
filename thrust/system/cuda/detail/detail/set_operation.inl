@@ -645,7 +645,7 @@ OutputIterator set_operation(thrust::cuda::execution_policy<DerivedPolicy> &exec
                  num_blocks,
                  threads_per_block);
 
-  return result + output_partition_offsets[num_partitions];
+  return result + get_value(exec,&output_partition_offsets[num_partitions]);
 }
 
 

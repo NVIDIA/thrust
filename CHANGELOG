@@ -35,17 +35,18 @@ Acknowledgments
     Thanks to Thibault Notargiacomo for the implementation of move semantics for the vector_base based class.
 
 #######################################
-#           Thrust v1.8.3             #
+#           Thrust v1.8.3-1           #
 #######################################
 
 Summary
     Small bug fixes
+    Introduces THRUST_PATCH_NUMBER macro, defined in thrust/version.h, to track bug fixes after a new CUDA release.
 
 New Examples
     range_view demonstrates use of a view: a non-owning wrapper for an iterator range with a container-like interface
 
 Bug Fixes
-    copy_if now copies in a user provided stream instead of a default_stream
+    copy_if, set_operations, reduce_by_key, and their ilks access temporary data in a user provided stream instead of a default one
     {min,max,minmax}_element can now accept raw device pointer with device execution policy
     If C++11 support is enabled, functors do not have to inherit from thrust::unary_function/thrust::binary_function
     anymore when using them with thrust::transform_iterator.
