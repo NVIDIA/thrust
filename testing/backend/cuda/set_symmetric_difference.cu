@@ -61,7 +61,7 @@ DECLARE_UNITTEST(TestSetSymmetricDifferenceDeviceDevice);
 void TestSetSymmetricDifferenceCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::iterator Iterator;
+  typedef Vector::iterator Iterator;
 
   Vector a(4), b(5);
 

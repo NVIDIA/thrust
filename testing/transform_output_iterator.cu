@@ -43,7 +43,6 @@ void TestMakeTransformOutputIterator(void)
     typedef typename Vector::value_type T;
 
     typedef thrust::negate<T> UnaryFunction;
-    typedef typename Vector::iterator Iterator;
 
     Vector input(4);
     Vector output(4);

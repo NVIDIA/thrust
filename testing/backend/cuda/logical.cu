@@ -58,7 +58,7 @@ DECLARE_UNITTEST(TestAllOfDeviceDevice);
 void TestAllOfCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
   
   Vector v(3, 1);
 
@@ -136,7 +136,7 @@ DECLARE_UNITTEST(TestAnyOfDeviceDevice);
 void TestAnyOfCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector v(3, 1);
 
@@ -214,7 +214,7 @@ DECLARE_UNITTEST(TestNoneOfDeviceDevice);
 void TestNoneOfCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector v(3, 1);
 

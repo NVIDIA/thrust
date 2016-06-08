@@ -990,8 +990,6 @@ struct is_ordered
 template<typename Vector>
 void TestPartitionZipIterator(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector data1(5);
     Vector data2(5);
 
@@ -1029,8 +1027,6 @@ DECLARE_VECTOR_UNITTEST(TestPartitionZipIterator);
 template<typename Vector>
 void TestPartitionStencilZipIterator(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector data(5);
     data[0] = 1;
     data[1] = 0;
@@ -1072,8 +1068,6 @@ DECLARE_VECTOR_UNITTEST(TestPartitionStencilZipIterator);
 template<typename Vector>
 void TestStablePartitionZipIterator(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector data1(5);
     Vector data2(5);
 
@@ -1111,8 +1105,6 @@ DECLARE_VECTOR_UNITTEST(TestStablePartitionZipIterator);
 template<typename Vector>
 void TestStablePartitionStencilZipIterator(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector data(5);
     data[0] = 1;
     data[1] = 0;

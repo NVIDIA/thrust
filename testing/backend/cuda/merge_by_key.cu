@@ -86,7 +86,7 @@ DECLARE_UNITTEST(TestMergeByKeyDeviceDevice);
 void TestMergeByKeyCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::iterator Iterator;
+  typedef Vector::iterator Iterator;
 
   Vector a_key(3), a_val(3), b_key(4), b_val(4);
 

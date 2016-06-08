@@ -59,8 +59,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorLowerBoundDescendingSimple);
 template <class Vector>
 void TestVectorUpperBoundDescendingSimple(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector vec(5);
 
     vec[0] = 8;
@@ -97,8 +95,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorUpperBoundDescendingSimple);
 template <class Vector>
 void TestVectorBinarySearchDescendingSimple(void)
 {
-  typedef typename Vector::value_type T;
-
   Vector vec(5);
 
   vec[0] = 8;

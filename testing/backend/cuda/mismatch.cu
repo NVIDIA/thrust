@@ -63,7 +63,6 @@ DECLARE_UNITTEST(TestMismatchDeviceDevice);
 void TestMismatchCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
 
   Vector a(4); Vector b(4);
   a[0] = 1; b[0] = 1;

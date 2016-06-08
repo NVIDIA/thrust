@@ -53,8 +53,8 @@ DECLARE_UNITTEST(TestPartitionPointDeviceDevice);
 void TestPartitionPointCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
-  typedef typename Vector::iterator Iterator;
+  typedef Vector::value_type T;
+  typedef Vector::iterator Iterator;
 
   Vector v(4);
   v[0] = 1; v[1] = 1; v[2] = 1; v[3] = 0;

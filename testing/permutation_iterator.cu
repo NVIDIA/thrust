@@ -118,8 +118,6 @@ DECLARE_VECTOR_UNITTEST(TestPermutationIteratorScatter);
 template <class Vector>
 void TestMakePermutationIterator(void)
 {
-    typedef typename Vector::iterator Iterator;
-
     Vector source(8);
     Vector indices(4);
     Vector output(4, 10);
@@ -282,7 +280,6 @@ template <typename Vector>
 void TestPermutationIteratorWithCountingIterator(void)
 {
   typedef typename Vector::value_type T;
-  typedef typename Vector::iterator Iterator;
   
   typename thrust::counting_iterator<T> input(0), index(0);
 
