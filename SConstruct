@@ -385,7 +385,7 @@ def command_line_variables():
                         ['sm_10', 'sm_11', 'sm_12', 'sm_13',
                          'sm_20', 'sm_21',
                          'sm_30', 'sm_32', 'sm_35', 'sm_37',
-                         'sm_50']))
+                         'sm_50', 'sm_52']))
 
   # add a variable to handle CUDA dynamic parallelism
   vars.Add(BoolVariable('cdp', 'Enable CUDA dynamic parallelism', False))
