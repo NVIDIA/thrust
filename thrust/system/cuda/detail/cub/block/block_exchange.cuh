@@ -705,8 +705,8 @@ public:
     :
         temp_storage(temp_storage.Alias()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z)),
-        warp_id((WARPS == 1) ? 0 : linear_tid / WARP_THREADS),
         lane_id(LaneId()),
+        warp_id((WARPS == 1) ? 0 : linear_tid / WARP_THREADS),
         warp_offset(warp_id * WARP_TIME_SLICED_ITEMS)
     {}
 
