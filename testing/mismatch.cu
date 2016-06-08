@@ -5,8 +5,6 @@
 template <class Vector>
 void TestMismatchSimple(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector a(4); Vector b(4);
     a[0] = 1; b[0] = 1;
     a[1] = 2; b[1] = 2;

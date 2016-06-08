@@ -61,7 +61,7 @@ DECLARE_UNITTEST(TestSetUnionDeviceDevice);
 void TestSetUnionCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::iterator Iterator;
+  typedef Vector::iterator Iterator;
 
   Vector a(3), b(4);
 

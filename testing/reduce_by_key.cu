@@ -172,14 +172,6 @@ struct TestReduceByKeyToDiscardIterator
         thrust::device_vector<K> d_keys_output(n);
         thrust::device_vector<V> d_vals_output(n);
 
-        typedef typename thrust::host_vector<K>::iterator   HostKeyIterator;
-        typedef typename thrust::host_vector<V>::iterator   HostValIterator;
-        typedef typename thrust::device_vector<K>::iterator DeviceKeyIterator;
-        typedef typename thrust::device_vector<V>::iterator DeviceValIterator;
-
-        typedef typename thrust::pair<HostKeyIterator,  HostValIterator>   HostIteratorPair;
-        typedef typename thrust::pair<DeviceKeyIterator,DeviceValIterator> DeviceIteratorPair;
-
         thrust::host_vector<K> unique_keys = h_keys;
         unique_keys.erase(thrust::unique(unique_keys.begin(), unique_keys.end()), unique_keys.end());
 

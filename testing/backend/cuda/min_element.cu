@@ -60,7 +60,7 @@ DECLARE_UNITTEST(TestMinElementDeviceDevice);
 void TestMinElementCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(6);
   data[0] = 3;
@@ -86,7 +86,7 @@ DECLARE_UNITTEST(TestMinElementCudaStreams);
 void TestMinElementDevicePointer()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(6);
   data[0] = 3;

@@ -33,7 +33,7 @@ template <typename UnaryFunction, typename OutputIterator>
 {
   public:
     __host__ __device__
-    transform_output_iterator_proxy(const OutputIterator& out, UnaryFunction fun) : fun(fun), out(out)
+    transform_output_iterator_proxy(const OutputIterator& out, UnaryFunction fun) : out(out), fun(fun)
     {
     }
 

@@ -60,7 +60,7 @@ DECLARE_UNITTEST(TestMaxElementDeviceDevice);
 void TestMaxElementCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(6);
   data[0] = 3;
@@ -86,7 +86,7 @@ DECLARE_UNITTEST(TestMaxElementCudaStreams);
 void TestMaxElementDevicePointer()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(6);
   data[0] = 3;

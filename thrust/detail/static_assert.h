@@ -70,6 +70,12 @@ template<typename, bool x>
    typedef ::thrust::detail::static_assert_test<\
       sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
          THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
+#elif (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG)
+  // clang will complain about this typedef being unused unless we annotate it as such
+#  define THRUST_STATIC_ASSERT( B ) \
+   typedef ::thrust::detail::static_assert_test<\
+      sizeof(::thrust::detail::STATIC_ASSERTION_FAILURE< (bool)( B ) >)>\
+         THRUST_JOIN(thrust_static_assert_typedef_, __LINE__) __attribute__((unused))
 #else
 #  define THRUST_STATIC_ASSERT( B ) \
    typedef ::thrust::detail::static_assert_test<\

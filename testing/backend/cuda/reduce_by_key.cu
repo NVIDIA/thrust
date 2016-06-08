@@ -179,12 +179,12 @@ DECLARE_UNITTEST(TestReduceByKeyDeviceDevice);
 void TestReduceByKeyCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector keys;
   Vector values;
 
-  typename thrust::pair<typename Vector::iterator, typename Vector::iterator> new_last;
+  thrust::pair<Vector::iterator, Vector::iterator> new_last;
 
   // basic test
   initialize_keys(keys);  initialize_values(values);

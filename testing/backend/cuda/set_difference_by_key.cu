@@ -85,7 +85,7 @@ DECLARE_UNITTEST(TestSetDifferenceByKeyDeviceDevice);
 void TestSetDifferenceByKeyCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::iterator Iterator;
+  typedef Vector::iterator Iterator;
 
   Vector a_key(4), b_key(5);
   Vector a_val(4), b_val(5);

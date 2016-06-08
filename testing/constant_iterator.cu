@@ -98,7 +98,6 @@ void TestConstantIteratorCopy(void)
 {
   using namespace thrust;
 
-  typedef typename Vector::value_type T;
   typedef constant_iterator<int> ConstIter;
 
   Vector result(4);

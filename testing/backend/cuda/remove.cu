@@ -313,7 +313,7 @@ DECLARE_UNITTEST(TestRemoveCopyIfStencilDeviceDevice);
 void TestRemoveCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(5);
   data[0] =  1; 
@@ -325,10 +325,10 @@ void TestRemoveCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove(thrust::cuda::par.on(s),
-                                                 data.begin(), 
-                                                 data.end(), 
-                                                 (T) 2);
+  Vector::iterator end = thrust::remove(thrust::cuda::par.on(s),
+                                        data.begin(), 
+                                        data.end(), 
+                                        (T) 2);
 
   ASSERT_EQUAL(end - data.begin(), 3);
 
@@ -344,7 +344,7 @@ DECLARE_UNITTEST(TestRemoveCudaStreams);
 void TestRemoveCopyCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(5);
   data[0] =  1; 
@@ -358,11 +358,11 @@ void TestRemoveCopyCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_copy(thrust::cuda::par.on(s),
-                                                      data.begin(), 
-                                                      data.end(), 
-                                                      result.begin(), 
-                                                      (T) 2);
+  Vector::iterator end = thrust::remove_copy(thrust::cuda::par.on(s),
+                                             data.begin(), 
+                                             data.end(), 
+                                             result.begin(), 
+                                             (T) 2);
 
   ASSERT_EQUAL(end - result.begin(), 3);
 
@@ -378,7 +378,7 @@ DECLARE_UNITTEST(TestRemoveCopyCudaStreams);
 void TestRemoveIfCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(5);
   data[0] =  1; 
@@ -390,10 +390,10 @@ void TestRemoveIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_if(thrust::cuda::par.on(s),
-                                                    data.begin(), 
-                                                    data.end(), 
-                                                    is_even<T>());
+  Vector::iterator end = thrust::remove_if(thrust::cuda::par.on(s),
+                                           data.begin(), 
+                                           data.end(), 
+                                           is_even<T>());
 
   ASSERT_EQUAL(end - data.begin(), 3);
 
@@ -409,7 +409,7 @@ DECLARE_UNITTEST(TestRemoveIfCudaStreams);
 void TestRemoveIfStencilCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(5);
   data[0] =  1; 
@@ -428,11 +428,11 @@ void TestRemoveIfStencilCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_if(thrust::cuda::par.on(s),
-                                                    data.begin(), 
-                                                    data.end(),
-                                                    stencil.begin(),
-                                                    thrust::identity<T>());
+  Vector::iterator end = thrust::remove_if(thrust::cuda::par.on(s),
+                                           data.begin(), 
+                                           data.end(),
+                                           stencil.begin(),
+                                           thrust::identity<T>());
 
   ASSERT_EQUAL(end - data.begin(), 3);
 
@@ -448,7 +448,7 @@ DECLARE_UNITTEST(TestRemoveIfStencilCudaStreams);
 void TestRemoveCopyIfCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(5);
   data[0] =  1; 
@@ -462,11 +462,11 @@ void TestRemoveCopyIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_copy_if(thrust::cuda::par.on(s),
-                                                         data.begin(), 
-                                                         data.end(), 
-                                                         result.begin(), 
-                                                         is_even<T>());
+  Vector::iterator end = thrust::remove_copy_if(thrust::cuda::par.on(s),
+                                                data.begin(), 
+                                                data.end(), 
+                                                result.begin(), 
+                                                is_even<T>());
 
   ASSERT_EQUAL(end - result.begin(), 3);
 
@@ -482,7 +482,7 @@ DECLARE_UNITTEST(TestRemoveCopyIfCudaStreams);
 void TestRemoveCopyIfStencilCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(5);
   data[0] =  1; 
@@ -503,12 +503,12 @@ void TestRemoveCopyIfStencilCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::remove_copy_if(thrust::cuda::par.on(s),
-                                                         data.begin(), 
-                                                         data.end(), 
-                                                         stencil.begin(),
-                                                         result.begin(), 
-                                                         thrust::identity<T>());
+  Vector::iterator end = thrust::remove_copy_if(thrust::cuda::par.on(s),
+                                                data.begin(), 
+                                                data.end(), 
+                                                stencil.begin(),
+                                                result.begin(), 
+                                                thrust::identity<T>());
 
   ASSERT_EQUAL(end - result.begin(), 3);
 

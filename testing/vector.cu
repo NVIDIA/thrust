@@ -38,8 +38,6 @@ DECLARE_UNITTEST(TestVectorBool);
 template <class Vector>
 void TestVectorFrontBack(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(3);
     v[0] = 0; v[1] = 1; v[2] = 2;
 
@@ -52,8 +50,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorFrontBack);
 template <class Vector>
 void TestVectorData(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(3);
     v[0] = 0; v[1] = 1; v[2] = 2;
 
@@ -79,8 +75,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorData);
 template <class Vector>
 void TestVectorElementAssignment(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(3);
 
     v[0] = 0; v[1] = 1; v[2] = 2;
@@ -344,8 +338,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorWithInitialValue);
 template <class Vector>
 void TestVectorSwap(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(3);
     v[0] = 0; v[1] = 1; v[2] = 2;
 
@@ -364,8 +356,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorSwap);
 template <class Vector>
 void TestVectorErasePosition(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(5);
     v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
 
@@ -405,8 +395,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorErasePosition);
 template <class Vector>
 void TestVectorEraseRange(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(6);
     v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4; v[5] = 5;
 
@@ -564,8 +552,6 @@ DECLARE_UNITTEST(TestVectorInequality);
 template <class Vector>
 void TestVectorResizing(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v;
 
     v.resize(3);
@@ -622,8 +608,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorResizing);
 template <class Vector>
 void TestVectorReserving(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v;
 
     v.reserve(3);
@@ -655,8 +639,6 @@ DECLARE_VECTOR_UNITTEST(TestVectorReserving)
 template <class Vector>
 void TestVectorShrinkToFit(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v;
 
     v.reserve(200);
@@ -735,7 +717,6 @@ template <typename Vector>
 void TestVectorReversed(void)
 {
   Vector v(3);
-  typedef typename Vector::value_type T;
   v[0] = 0; v[1] = 1; v[2] = 2;
 
   ASSERT_EQUAL(3, v.rend() - v.rbegin());

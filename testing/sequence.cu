@@ -43,8 +43,6 @@ DECLARE_UNITTEST(TestSequenceDispatchImplicit);
 template <class Vector>
 void TestSequenceSimple(void)
 {
-    typedef typename Vector::value_type T;
-    
     Vector v(5);
 
     thrust::sequence(v.begin(), v.end());

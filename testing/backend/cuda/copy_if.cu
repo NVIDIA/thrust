@@ -90,7 +90,6 @@ DECLARE_UNITTEST(TestCopyIfDeviceDevice);
 void TestCopyIfCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
 
   Vector data(5);
   data[0] =  1; 
@@ -104,11 +103,11 @@ void TestCopyIfCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::copy_if(thrust::cuda::par.on(s),
-                                                  data.begin(), 
-                                                  data.end(), 
-                                                  result.begin(),
-                                                  is_even<int>());
+  Vector::iterator end = thrust::copy_if(thrust::cuda::par.on(s),
+                                         data.begin(), 
+                                         data.end(), 
+                                         result.begin(),
+                                         is_even<int>());
 
   ASSERT_EQUAL(end - result.begin(), 2);
 
@@ -196,7 +195,7 @@ DECLARE_UNITTEST(TestCopyIfStencilDeviceDevice);
 void TestCopyIfStencilCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(5);
   data[0] =  1; 
@@ -217,12 +216,12 @@ void TestCopyIfStencilCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
-  typename Vector::iterator end = thrust::copy_if(thrust::cuda::par.on(s),
-                                                  data.begin(), 
-                                                  data.end(),
-                                                  stencil.begin(),
-                                                  result.begin(),
-                                                  thrust::identity<T>());
+  Vector::iterator end = thrust::copy_if(thrust::cuda::par.on(s),
+                                         data.begin(), 
+                                         data.end(),
+                                         stencil.begin(),
+                                         result.begin(),
+                                         thrust::identity<T>());
 
   ASSERT_EQUAL(end - result.begin(), 2);
 

@@ -75,7 +75,7 @@ DECLARE_UNITTEST(TestSetUnionByKeyDeviceDevice);
 void TestSetUnionByKeyCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::iterator Iterator;
+  typedef Vector::iterator Iterator;
 
   Vector a_key(3), b_key(4);
   Vector a_val(3), b_val(4);

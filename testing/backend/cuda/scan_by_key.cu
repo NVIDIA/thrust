@@ -98,8 +98,8 @@ DECLARE_UNITTEST(TestScanByKeyDeviceDevice);
 void TestInclusiveScanByKeyCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
-  typedef typename Vector::iterator   Iterator;
+  typedef Vector::value_type T;
+  typedef Vector::iterator   Iterator;
 
   Vector keys(7);
   Vector vals(7);
@@ -160,8 +160,8 @@ DECLARE_UNITTEST(TestInclusiveScanByKeyCudaStreams);
 void TestExclusiveScanByKeyCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
-  typedef typename Vector::iterator   Iterator;
+  typedef Vector::value_type T;
+  typedef Vector::iterator   Iterator;
 
   Vector keys(7);
   Vector vals(7);
