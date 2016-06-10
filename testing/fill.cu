@@ -67,8 +67,6 @@ DECLARE_UNITTEST(TestFillDiscardIterator);
 template <class Vector>
 void TestFillMixedTypes(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(4);
 
     thrust::fill(v.begin(), v.end(), (long) 10);
@@ -191,8 +189,6 @@ DECLARE_UNITTEST(TestFillNDiscardIterator);
 template <class Vector>
 void TestFillNMixedTypes(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(4);
 
     typename Vector::iterator iter = thrust::fill_n(v.begin(), v.size(), (long) 10);

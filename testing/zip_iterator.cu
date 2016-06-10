@@ -148,6 +148,7 @@ template <typename T>
   {
     using namespace thrust;
 
+#if 0
     // test host types
     typedef typename host_vector<T>::iterator          Iterator1;
     typedef typename host_vector<T>::const_iterator    Iterator2;
@@ -155,10 +156,12 @@ template <typename T>
     typedef zip_iterator<IteratorTuple1> ZipIterator1;
 
     typedef typename iterator_traversal<ZipIterator1>::type zip_iterator_traversal_type1;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_traversal_type1, random_access_traversal_tag>::value) );
 
 
+#if 0
     // test device types
     typedef typename device_vector<T>::iterator        Iterator3;
     typedef typename device_vector<T>::const_iterator  Iterator4;
@@ -166,6 +169,7 @@ template <typename T>
     typedef zip_iterator<IteratorTuple2> ZipIterator2;
 
     typedef typename iterator_traversal<ZipIterator2>::type zip_iterator_traversal_type2;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_traversal_type2, thrust::random_access_traversal_tag>::value) );
   } // end operator()()
@@ -182,6 +186,7 @@ template <typename T>
 
     // XXX these assertions complain about undefined references to integral_constant<...>::value
 
+#if 0
     // test host types
     typedef typename host_vector<T>::iterator          Iterator1;
     typedef typename host_vector<T>::const_iterator    Iterator2;
@@ -189,10 +194,12 @@ template <typename T>
     typedef zip_iterator<IteratorTuple1> ZipIterator1;
 
     typedef typename iterator_system<ZipIterator1>::type zip_iterator_system_type1;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_same<zip_iterator_system_type1, experimental::space::host>::value) );
 
 
+#if 0
     // test device types
     typedef typename device_vector<T>::iterator        Iterator3;
     typedef typename device_vector<T>::const_iterator  Iterator4;
@@ -200,10 +207,12 @@ template <typename T>
     typedef zip_iterator<IteratorTuple1> ZipIterator2;
 
     typedef typename iterator_system<ZipIterator2>::type zip_iterator_system_type2;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type2, experimental::space::device>::value) );
 
 
+#if 0
     // test any
     typedef counting_iterator<T>         Iterator5;
     typedef counting_iterator<const T>   Iterator6;
@@ -211,42 +220,51 @@ template <typename T>
     typedef zip_iterator<IteratorTuple3> ZipIterator3;
 
     typedef typename iterator_system<ZipIterator3>::type zip_iterator_system_type3;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type3, thrust::experimental::space::any>::value) );
 
     
+#if 0
     // test host/any
     typedef tuple<Iterator1, Iterator5>                IteratorTuple4;
     typedef zip_iterator<IteratorTuple4> ZipIterator4;
 
     typedef typename iterator_system<ZipIterator4>::type zip_iterator_system_type4;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type4, thrust::host_system_tag>::value) );
 
 
+#if 0
     // test any/host
     typedef tuple<Iterator5, Iterator1>                IteratorTuple5;
     typedef zip_iterator<IteratorTuple5> ZipIterator5;
 
     typedef typename iterator_system<ZipIterator5>::type zip_iterator_system_type5;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type5, thrust::host_system_tag>::value) );
 
 
+#if 0
     // test device/any
     typedef tuple<Iterator3, Iterator5>                IteratorTuple6;
     typedef zip_iterator<IteratorTuple6> ZipIterator6;
 
     typedef typename iterator_system<ZipIterator6>::type zip_iterator_system_type6;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type6, thrust::device_system_tag>::value) );
 
 
+#if 0
     // test any/device
     typedef tuple<Iterator5, Iterator3>                IteratorTuple7;
     typedef zip_iterator<IteratorTuple7> ZipIterator7;
 
     typedef typename iterator_system<ZipIterator7>::type zip_iterator_system_type7;
+#endif
 
     //ASSERT_EQUAL(true, (detail::is_convertible<zip_iterator_system_type7, thrust::device_system_tag>::value) );
   } // end operator()()

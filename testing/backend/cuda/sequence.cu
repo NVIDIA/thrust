@@ -72,7 +72,6 @@ DECLARE_UNITTEST(TestSequenceDeviceDevice);
 void TestSequenceCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
   
   Vector v(5);
 

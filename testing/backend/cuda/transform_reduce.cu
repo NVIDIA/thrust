@@ -47,7 +47,7 @@ DECLARE_UNITTEST(TestTransformReduceDeviceDevice);
 void TestTransformReduceCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
   
   Vector data(3);
   data[0] = 1; data[1] = -2; data[2] = 3;

@@ -103,8 +103,6 @@ DECLARE_UNITTEST(TestUninitializedCopyNDispatchImplicit);
 template <class Vector>
 void TestUninitializedCopySimplePOD(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v1(5);
     v1[0] = 0; v1[1] = 1; v1[2] = 2; v1[3] = 3; v1[4] = 4;
 
@@ -123,8 +121,6 @@ DECLARE_VECTOR_UNITTEST(TestUninitializedCopySimplePOD);
 template<typename Vector>
 void TestUninitializedCopyNSimplePOD(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v1(5);
     v1[0] = 0; v1[1] = 1; v1[2] = 2; v1[3] = 3; v1[4] = 4;
 
@@ -160,6 +156,7 @@ struct CopyConstructTest
 #endif
   }
 
+  __host__ __device__
   CopyConstructTest &operator=(const CopyConstructTest &x)
   {
     copy_constructed_on_host   = x.copy_constructed_on_host;

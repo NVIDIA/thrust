@@ -323,8 +323,6 @@ DECLARE_VECTOR_UNITTEST(TestInclusiveScanByKeyTransformIterator);
 template <typename Vector>
 void TestScanByKeyReusedKeys(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector keys(7);
     Vector vals(7);
 
@@ -544,7 +542,6 @@ DECLARE_UNITTEST(TestScanByKeyMixedTypes);
 
 void TestScanByKeyLargeInput()
 {
-    typedef int T;
     const unsigned int N = 1 << 20;
 
     thrust::host_vector<unsigned int> vals_sizes = unittest::random_integers<unsigned int>(10);

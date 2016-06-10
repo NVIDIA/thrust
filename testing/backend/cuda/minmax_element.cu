@@ -80,7 +80,6 @@ DECLARE_UNITTEST(TestMinMaxElementDeviceDevice);
 void TestMinMaxElementCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
 
   Vector data(6);
   data[0] = 3;
@@ -105,7 +104,7 @@ DECLARE_UNITTEST(TestMinMaxElementCudaStreams);
 void TestMinMaxElementDevicePointer()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
   Vector data(6);
   data[0] = 3;

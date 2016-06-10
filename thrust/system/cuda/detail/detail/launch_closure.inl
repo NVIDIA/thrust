@@ -86,10 +86,12 @@ template<typename Closure,
   static void launch(execution_policy<DerivedPolicy> &exec, Closure f, Size1 num_blocks, Size2 block_size, Size3 smem_size)
   {
     // this ensures that the kernel gets instantiated identically for all values of __CUDA_ARCH__
-    launch_function_t kernel = get_launch_function();
+    get_launch_function();
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #if __BULK_HAS_CUDART__
+    launch_function_t kernel = get_launch_function();
+
     if(num_blocks > 0)
     {
 #ifndef __CUDA_ARCH__

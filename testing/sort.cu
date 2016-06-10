@@ -64,8 +64,6 @@ void InitializeSimpleKeySortTest(Vector& unsorted_keys, Vector& sorted_keys)
 template <class Vector>
 void TestSortSimple(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector unsorted_keys;
     Vector   sorted_keys;
 

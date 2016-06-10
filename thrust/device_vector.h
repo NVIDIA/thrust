@@ -104,7 +104,7 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
      *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __device__
+    __device__ explicit
     device_vector(const device_vector<OtherT,OtherAlloc> &v)
       :Parent(v) {}
 

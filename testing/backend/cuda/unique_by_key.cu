@@ -132,7 +132,7 @@ void TestUniqueByKeyCudaStreams()
   Vector keys;
   Vector values;
   
-  typedef thrust::pair<typename Vector::iterator, typename Vector::iterator> iter_pair;
+  typedef thrust::pair<Vector::iterator, Vector::iterator> iter_pair;
   iter_pair new_last;
   
   // basic test
@@ -270,7 +270,7 @@ void TestUniqueCopyByKeyCudaStreams()
   Vector keys;
   Vector values;
 
-  typedef thrust::pair<typename Vector::iterator, typename Vector::iterator> iter_pair;
+  typedef thrust::pair<Vector::iterator, Vector::iterator> iter_pair;
   iter_pair new_last;
 
   // basic test

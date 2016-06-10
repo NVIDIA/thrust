@@ -260,9 +260,9 @@ DECLARE_UNITTEST(TestTransformIfBinaryDeviceDevice);
 void TestTransformUnaryCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
   
-  typename Vector::iterator iter;
+  Vector::iterator iter;
 
   Vector input(3);
   Vector output(3);
@@ -287,9 +287,9 @@ DECLARE_UNITTEST(TestTransformUnaryCudaStreams);
 void TestTransformBinaryCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
+  typedef Vector::value_type T;
 
-  typename Vector::iterator iter;
+  Vector::iterator iter;
 
   Vector input1(3);
   Vector input2(3);

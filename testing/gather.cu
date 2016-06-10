@@ -13,8 +13,6 @@ __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 template <class Vector>
 void TestGatherSimple(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector map(5);  // gather indices
     Vector src(8);  // source vector
     Vector dst(5);  // destination vector
@@ -141,8 +139,6 @@ DECLARE_VARIABLE_UNITTEST(TestGatherToDiscardIterator);
 template <class Vector>
 void TestGatherIfSimple(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector flg(5);  // predicate array
     Vector map(5);  // gather indices
     Vector src(8);  // source vector
@@ -315,8 +311,6 @@ DECLARE_VARIABLE_UNITTEST(TestGatherIfToDiscardIterator);
 template <typename Vector>
 void TestGatherCountingIterator(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector source(10);
     thrust::sequence(source.begin(), source.end(), 0);
 

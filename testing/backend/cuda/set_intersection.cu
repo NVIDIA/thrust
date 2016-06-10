@@ -21,7 +21,7 @@ template<typename ExecutionPolicy>
 void TestSetIntersectionDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::iterator Iterator;
+  typedef Vector::iterator Iterator;
 
   Vector a(3), b(4);
 
@@ -59,7 +59,7 @@ DECLARE_UNITTEST(TestSetIntersectionDeviceDevice);
 void TestSetIntersectionCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::iterator Iterator;
+  typedef Vector::iterator Iterator;
 
   Vector a(3), b(4);
 

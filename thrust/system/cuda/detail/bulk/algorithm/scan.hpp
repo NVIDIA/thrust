@@ -363,8 +363,6 @@ __device__ void scan_with_buffer(bulk::concurrent_group<bulk::agent<grainsize>,g
 
   typedef typename bulk::concurrent_group<bulk::agent<grainsize>,groupsize>::size_type size_type;
 
-  size_type tid = g.this_exec.index();
-
   const size_type elements_per_group = groupsize * grainsize;
 
   for(; first < last; first += elements_per_group, result += elements_per_group)

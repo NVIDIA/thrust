@@ -20,7 +20,7 @@
 #include <thrust/system/detail/bad_alloc.h>
 #include <cassert>
 
-#ifdef __NVCC__
+#ifdef __CUDACC__
 #include <thrust/system/cuda/detail/terminate.h>
 #endif
 

@@ -90,7 +90,7 @@ void InitializeSimpleStableKeySortTest(Vector& unsorted_keys, Vector& sorted_key
 void TestMergeSortKeySimple(void)
 {
     typedef thrust::device_vector<int> Vector;
-    typedef typename Vector::value_type T;
+    typedef Vector::value_type T;
 
     Vector unsorted_keys;
     Vector   sorted_keys;
@@ -108,7 +108,7 @@ DECLARE_UNITTEST(TestMergeSortKeySimple);
 void TestMergeSortKeyValueSimple(void)
 {
     typedef thrust::device_vector<int> Vector;
-    typedef typename Vector::value_type T;
+    typedef Vector::value_type T;
 
     Vector unsorted_keys, unsorted_values;
     Vector   sorted_keys,   sorted_values;
@@ -127,7 +127,7 @@ DECLARE_UNITTEST(TestMergeSortKeyValueSimple);
 void TestMergeSortStableKeySimple(void)
 {
     typedef thrust::device_vector<int> Vector;
-    typedef typename Vector::value_type T;
+    typedef Vector::value_type T;
 
     Vector unsorted_keys;
     Vector   sorted_keys;
