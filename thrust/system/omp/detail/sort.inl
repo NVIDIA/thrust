@@ -133,6 +133,9 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
 
     #pragma omp barrier
 
+    // XXX For some reason, MSVC 2015 yields an error unless we include this meaningless semicolon here
+    ;
+
     IndexType nseg = decomp.size();
     IndexType h = 2;
 
@@ -208,6 +211,9 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
     }
 
     #pragma omp barrier
+
+    // XXX For some reason, MSVC 2015 yields an error unless we include this meaningless semicolon here
+    ;
 
     IndexType nseg = decomp.size();
     IndexType h = 2;
