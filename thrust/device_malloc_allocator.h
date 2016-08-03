@@ -142,6 +142,9 @@ template<typename T>
     __host__
     inline void deallocate(pointer p, size_type cnt)
     {
+      // silence unused parameter warning while still leaving the parameter name for Doxygen
+      (void)(cnt);
+
       device_free(p);
     } // end deallocate()
 
