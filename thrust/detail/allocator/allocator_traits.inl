@@ -178,7 +178,7 @@ __host__ __device__
     has_member_max_size<Alloc>::value,
     typename allocator_traits<Alloc>::size_type
   >::type
-    max_size(const Alloc &a)
+    max_size(const Alloc &)
 {
   typedef typename allocator_traits<Alloc>::size_type size_type;
   return thrust::detail::integer_traits<size_type>::const_max;
@@ -202,7 +202,7 @@ __host__ __device__
     has_member_system<Alloc>::value,
     typename allocator_system<Alloc>::type
   >::type
-    system(Alloc &a)
+    system(Alloc &)
 {
   // return a copy of a default-constructed system
   typename allocator_system<Alloc>::type result;
