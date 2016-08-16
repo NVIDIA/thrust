@@ -1,5 +1,5 @@
 #######################################
-#           Thrust v1.8.3-1           #
+#           Thrust v1.8.3-2           #
 #######################################
 
 Summary
@@ -14,6 +14,7 @@ Bug Fixes
     {min,max,minmax}_element can now accept raw device pointer with device execution policy
     If C++11 support is enabled, functors do not have to inherit from thrust::unary_function/thrust::binary_function
     anymore when using them with thrust::transform_iterator.
+    vector_base::clear is not implemented via vector_base::erase, which do not require default constructor
 
     
 
