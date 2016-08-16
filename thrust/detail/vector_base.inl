@@ -478,7 +478,7 @@ template<typename T, typename Alloc>
   void vector_base<T,Alloc>
     ::clear(void)
 {
-  resize(0);
+  erase(begin(), end());
 } // end vector_base::~vector_dev()
 
 template<typename T, typename Alloc>
