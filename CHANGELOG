@@ -35,7 +35,7 @@ Acknowledgments
     Thanks to Thibault Notargiacomo for the implementation of move semantics for the vector_base based class.
 
 #######################################
-#           Thrust v1.8.3-1           #
+#           Thrust v1.8.3-2           #
 #######################################
 
 Summary
@@ -50,6 +50,7 @@ Bug Fixes
     {min,max,minmax}_element can now accept raw device pointer with device execution policy
     If C++11 support is enabled, functors do not have to inherit from thrust::unary_function/thrust::binary_function
     anymore when using them with thrust::transform_iterator.
+    clear() operations on vector types no longer requires the element type to have a default constructor
 
     
 
