@@ -2,7 +2,7 @@
  *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in ctbbliance with the License.
+ *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -18,6 +18,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/tbb/vector.h>
+#include <utility>
 
 namespace thrust
 {
@@ -48,7 +49,15 @@ template<typename T, typename Allocator>
   vector<T,Allocator>
     ::vector(const vector &x)
       : super_t(x)
-{}
+  {}
+
+#if __cplusplus >= 201103L
+  template<typename T, typename Allocator>
+    vector<T,Allocator>
+      ::vector(vector &&x)
+        : super_t(std::move(x))
+  {}
+#endif
 
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
@@ -72,6 +81,26 @@ template<typename T, typename Allocator>
 {}
 
 template<typename T, typename Allocator>
+  vector<T,Allocator> &
+    vector<T,Allocator>
+      ::operator=(const vector &x)
+{
+  super_t::operator=(x);
+  return *this;
+}
+
+#if __cplusplus >= 201103L
+  template<typename T, typename Allocator>
+    vector<T,Allocator> &
+      vector<T,Allocator>
+        ::operator=(vector &&x)
+  {
+    super_t::operator=(std::move(x));
+    return *this;
+  }
+#endif
+
+template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
     vector<T,Allocator> &
       vector<T,Allocator>
@@ -90,7 +119,7 @@ template<typename T, typename Allocator>
   super_t::operator=(x);
   return *this;
 }
-      
+    
 } // end tbb
 } // end system
 } // end thrust

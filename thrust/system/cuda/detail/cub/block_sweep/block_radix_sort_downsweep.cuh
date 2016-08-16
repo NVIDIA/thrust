@@ -674,8 +674,8 @@ struct BlockRadixSortDownsweep
     :
         temp_storage(temp_storage.Alias()),
         d_keys_in(reinterpret_cast<UnsignedBits*>(d_keys_in)),
-        d_keys_out(reinterpret_cast<UnsignedBits*>(d_keys_out)),
         d_values_in(d_values_in),
+        d_keys_out(reinterpret_cast<UnsignedBits*>(d_keys_out)),
         d_values_out(d_values_out),
         current_bit(current_bit),
         num_bits(num_bits)

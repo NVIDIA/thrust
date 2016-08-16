@@ -6,7 +6,6 @@
 template <typename Vector>
 void TestDistance(void)
 {
-    typedef typename Vector::value_type T;
     typedef typename Vector::iterator Iterator;
 
     Vector v(100);

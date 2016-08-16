@@ -5,8 +5,6 @@
 template <class Vector>
 void TestMinMaxElementSimple(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector data(6);
     data[0] = 3;
     data[1] = 5;

@@ -303,7 +303,7 @@ inline __device__
       __shared__ uninitialized_array<value_type, block_size * work_per_thread> s_input;
   
       value_type *s_input_end1 = thrust::system::cuda::detail::block::copy_n(ctx, first1, subpartition_size.first,  s_input.begin());
-      value_type *s_input_end2 = thrust::system::cuda::detail::block::copy_n(ctx, first2, subpartition_size.second, s_input_end1);
+      thrust::system::cuda::detail::block::copy_n(ctx, first2, subpartition_size.second, s_input_end1);
   
       result += block::bounded_count_set_operation_n<block_size,work_per_thread>(ctx,
                                                                                  s_input.begin(), subpartition_size.first,
@@ -362,7 +362,7 @@ OutputIterator set_operation(statically_blocked_thread_array<block_size> &ctx,
       __shared__ uninitialized_array<value_type, block_size * work_per_thread> s_input;
   
       value_type *s_input_end1 = thrust::system::cuda::detail::block::copy_n(ctx, first1, subpartition_size.first,  s_input.begin());
-      value_type *s_input_end2 = thrust::system::cuda::detail::block::copy_n(ctx, first2, subpartition_size.second, s_input_end1);
+      thrust::system::cuda::detail::block::copy_n(ctx, first2, subpartition_size.second, s_input_end1);
   
       result = block::bounded_set_operation_n<block_size,work_per_thread>(ctx,
                                                                           s_input.begin(), subpartition_size.first,

@@ -4,8 +4,6 @@
 
 void TestDevicePointerManipulation(void)
 {
-    typedef int T;
-
     thrust::device_vector<int> data(5);
 
     thrust::device_ptr<int> begin(&data[0]);

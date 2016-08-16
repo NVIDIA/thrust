@@ -25,6 +25,7 @@
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/detail/vector_base.h>
 #include <vector>
+#include <utility>
 
 namespace thrust
 {
@@ -99,6 +100,31 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     __host__
     device_vector(const device_vector &v)
       :Parent(v) {}
+
+  #if __cplusplus >= 201103L
+    /*! Move constructor moves from another \p device_vector.
+     *  \param v The device_vector to move.
+     */
+     __host__
+    device_vector(device_vector &&v)
+      :Parent(std::move(v)) {}
+  #endif
+
+  /*! Copy assign operator copies another \p device_vector with the same type.
+   *  \param v The \p device_vector to copy.
+   */
+  __host__
+  device_vector &operator=(const device_vector &v)
+  { Parent::operator=(v); return *this; }
+
+  #if __cplusplus >= 201103L
+    /*! Move assign operator moves from another \p device_vector.
+     *  \param v The device_vector to move.
+     */
+     __host__
+     device_vector &operator=(device_vector &&v)
+     { Parent::operator=(std::move(v)); return *this; }
+  #endif
 
     /*! Copy constructor copies from an exemplar \p device_vector with different type.
      *  \param v The \p device_vector to copy.

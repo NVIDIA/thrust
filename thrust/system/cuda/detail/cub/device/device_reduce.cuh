@@ -653,8 +653,10 @@ struct DeviceReduce
         bool                        debug_synchronous  = false)     ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
     {
         typedef int                 Offset;         // Signed integer type for global offsets
+#if (THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_CLANG)
         typedef NullType*           FlagIterator;   // Flag iterator type (not used)
         typedef NullType            SelectOp;       // Selection op (not used)
+#endif
         typedef Equality            EqualityOp;     // Default == operator
 
         return DeviceReduceByKeyDispatch<KeysInputIterator, UniqueOutputIterator, ValuesInputIterator, AggregatesOutputIterator, NumRunsOutputIterator, EqualityOp, ReductionOp, Offset>::Dispatch(

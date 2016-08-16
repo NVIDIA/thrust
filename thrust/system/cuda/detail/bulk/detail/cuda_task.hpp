@@ -258,7 +258,7 @@ class cuda_task<
       this_grid.this_exec.wait();
 #endif
 
-      substitute_placeholders_and_execute(this_grid, super_t::c);
+      super_t::substitute_placeholders_and_execute(this_grid, super_t::c);
 #endif
     } // end operator()
 }; // end cuda_task
@@ -312,7 +312,7 @@ class cuda_task<
       this_block.wait();
 #endif
 
-      substitute_placeholders_and_execute(this_block, super_t::c);
+      super_t::substitute_placeholders_and_execute(this_block, super_t::c);
 #endif
     } // end operator()
 }; // end cuda_task
@@ -355,7 +355,7 @@ class cuda_task<parallel_group<agent<grainsize>,groupsize>,Closure>
           0
         );
 
-        substitute_placeholders_and_execute(this_group, super_t::c);
+        super_t::substitute_placeholders_and_execute(this_group, super_t::c);
       } // end for
 #endif
     } // end operator()

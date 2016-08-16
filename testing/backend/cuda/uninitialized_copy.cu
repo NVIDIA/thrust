@@ -15,7 +15,6 @@ template<typename ExecutionPolicy>
 void TestUninitializedCopyDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
   
   Vector v1(5);
   v1[0] = 0; v1[1] = 1; v1[2] = 2; v1[3] = 3; v1[4] = 4;
@@ -48,7 +47,6 @@ DECLARE_UNITTEST(TestUninitializedCopyDeviceDevice);
 void TestUninitializedCopyCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
   
   Vector v1(5);
   v1[0] = 0; v1[1] = 1; v1[2] = 2; v1[3] = 3; v1[4] = 4;
@@ -85,7 +83,6 @@ template<typename ExecutionPolicy>
 void TestUninitializedCopyNDevice(ExecutionPolicy exec)
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
   
   Vector v1(5);
   v1[0] = 0; v1[1] = 1; v1[2] = 2; v1[3] = 3; v1[4] = 4;
@@ -118,7 +115,6 @@ DECLARE_UNITTEST(TestUninitializedCopyNDeviceDevice);
 void TestUninitializedCopyNCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
   
   Vector v1(5);
   v1[0] = 0; v1[1] = 1; v1[2] = 2; v1[3] = 3; v1[4] = 4;

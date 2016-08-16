@@ -54,7 +54,6 @@ VariableUnitTest<TestReduceDeviceDevice, IntegralTypes> TestReduceDeviceDeviceIn
 void TestReduceCudaStreams()
 {
   typedef thrust::device_vector<int> Vector;
-  typedef typename Vector::value_type T;
 
   Vector v(3);
   v[0] = 1; v[1] = -2; v[2] = 3;

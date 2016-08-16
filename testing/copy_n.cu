@@ -96,8 +96,6 @@ DECLARE_VECTOR_UNITTEST(TestCopyNMatchingTypes);
 template <class Vector>
 void TestCopyNMixedTypes(void)
 {
-    typedef typename Vector::value_type T;
-
     Vector v(5);
     v[0] = 0; v[1] = 1; v[2] = 2; v[3] = 3; v[4] = 4;
 
