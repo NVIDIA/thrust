@@ -596,7 +596,7 @@ __device__ __forceinline__ int WarpAny(int cond)
 
 #else
 
-    return __any(cond);
+    return ::__any(cond);
 
 #endif
 }
