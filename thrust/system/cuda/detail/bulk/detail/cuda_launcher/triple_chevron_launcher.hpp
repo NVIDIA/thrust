@@ -74,13 +74,7 @@ struct triple_chevron_launcher_base<block_size,Function,true>
   __host__ __device__
   static global_function_pointer_t global_function_pointer()
   {
-    // Don't try to take the address of launch_by_value from the device side if
-    // we don't support launching kernels from __device__ functions.
-#if !defined(__CUDA_ARCH__) || defined(__CUDACC_RDC__)
     return launch_by_value<block_size,Function>;
-#else
-    return NULL;
-#endif
   }
 };
 
@@ -104,13 +98,7 @@ struct triple_chevron_launcher_base<block_size,Function,false>
   __host__ __device__
   static global_function_pointer_t global_function_pointer()
   {
-    // Don't try to take the address of launch_by_pointer from the device side
-    // if we don't support launching kernels from __device__ functions.
-#if !defined(__CUDA_ARCH__) || defined(__CUDACC_RDC__)
     return launch_by_pointer<block_size,Function>;
-#else
-    return NULL;
-#endif
   }
 };
 
