@@ -96,6 +96,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename System>
+    __host__ __device__
     typename reference<Element,Pointer,Derived>::value_type
       reference<Element,Pointer,Derived>
         ::convert_to_value_type(System *system) const
@@ -139,6 +140,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename System1, typename System2, typename OtherPointer>
+    __host__ __device__
     void reference<Element,Pointer,Derived>
       ::assign_from(System1 *system1, System2 *system2, OtherPointer src)
 {
