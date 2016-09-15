@@ -22,6 +22,7 @@ ifeq ($(OS), win32)
 CUDACC_FLAGS += -Xcompiler /bigobj
 endif
 
+ARCH_NEG_FILTER += 20 21
 # Determine which SASS to generate
 # if DVS (either per-CL or on-demand)
 ifneq ($(or $(THRUST_DVS),$(THRUST_DVS_NIGHTLY)),)
@@ -57,11 +58,15 @@ endif
 endif
 endif
 
-BUILD_SRC_SUFFIX=$(suffix $(BUILD_SRC))
+ifeq ($(SRC_PATH),)
+SRC_PATH:=$(dir $(BUILD_SRC))
+BUILD_SRC:=$(notdir $(BUILD_SRC))
+endif
+BUILD_SRC_SUFFIX:=$(suffix $(BUILD_SRC))
 ifeq ($(BUILD_SRC_SUFFIX),.cu)
-  CU_FILES_ABSPATH += $(BUILD_SRC)
+  CU_FILES += $(BUILD_SRC)
 else ifeq ($(BUILD_SRC_SUFFIX),.cpp)
-  FILES_ABSPATH += $(BUILD_SRC)
+  FILES += $(BUILD_SRC)
 endif
 $(BUILD_SRC).CUDACC_FLAGS += $(BUILD_SRC_FLAGS)
 

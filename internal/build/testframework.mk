@@ -1,11 +1,12 @@
 STATIC_LIBRARY := testframework
-BUILD_SRC      := $(ROOTDIR)/thrust/testing/testframework.cpp
 
-CUTESTFRMWRK := $(ROOTDIR)/thrust/testing/backend/cuda/testframework.cu
-$(CUTESTFRMWRK).CUDACC_FLAGS    := -I$(ROOTDIR)/thrust/testing/backend/cuda/
-$(CUTESTFRMWRK).TARGET_BASENAME := testframework_cu
+SRC_PATH := $(ROOTDIR)/thrust/testing/
+BUILD_SRC := testframework.cpp
 
-CU_FILES_ABSPATH += $(CUTESTFRMWRK)
+CUSRC := backend/cuda/testframework.cu
+$(CUSRC).CUDACC_FLAGS    := -I$(ROOTDIR)/thrust/testing/backend/cuda/
+$(CUSRC).TARGET_BASENAME := testframework_cu
+CU_FILES += $(CUSRC)
 
 INCLUDES_ABSPATH += $(ROOTDIR)/thrust/testing
 
