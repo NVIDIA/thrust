@@ -3,10 +3,10 @@
   # Descriptive name for the component
   "name"      : "Thrust L2 Tests",
   # Component owner (email address)
-  "owner"     : "mrepasy@nvidia.com",
+  "owner"     : "egaburov@nvidia.com",
   "module"    : "CUDA - Thrust",
   # Build timeout (in seconds).
-  "buildtimeout" : "28800",
+  "buildtimeout" : "115200",
   # Define variables usable in this component
   "env"       : [ "THRUST_TESTS_BIN_DIR=${VULCAN_BUILD_DIR}/bin/${VULCAN_ARCH}_${VULCAN_OS}${VULCAN_ABI}_${VULCAN_BUILD}"
                 ],
