@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/logical.h>
-#include <thrust/system/cuda/detail/logical.h>
+#include <thrust/system/cuda_bulk/detail/logical.h>
 #include <thrust/system/omp/detail/logical.h>
 #include <thrust/system/tbb/detail/logical.h>
 #endif

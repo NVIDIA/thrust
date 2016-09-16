@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -75,7 +75,7 @@ struct BlockHistogramSort
             4,
             (PTX_ARCH >= 350) ? true : false,
             BLOCK_SCAN_WARP_SCANS,
-            (PTX_ARCH >= 350) ? cudaSharedMemBankSizeEightByte : cudaSharedMemBankSizeFourByte,
+            cudaSharedMemBankSizeFourByte,
             BLOCK_DIM_Y,
             BLOCK_DIM_Z,
             PTX_ARCH>
@@ -138,7 +138,7 @@ struct BlockHistogramSort
         {}
 
         // Discontinuity predicate
-        __device__ __forceinline__ bool operator()(const T &a, const T &b, unsigned int b_index)
+        __device__ __forceinline__ bool operator()(const T &a, const T &b, int b_index)
         {
             if (a != b)
             {
@@ -158,10 +158,10 @@ struct BlockHistogramSort
 
     // Composite data onto an existing histogram
     template <
-        typename            HistoCounter>
+        typename            CounterT     >
     __device__ __forceinline__ void Composite(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
-        HistoCounter        histogram[BINS])                 ///< [out] Reference to shared/global memory histogram
+        CounterT            histogram[BINS])                 ///< [out] Reference to shared/device-accessible memory histogram
     {
         enum { TILE_SIZE = BLOCK_THREADS * ITEMS_PER_THREAD };
 
@@ -206,7 +206,7 @@ struct BlockHistogramSort
         for(; histo_offset + BLOCK_THREADS <= BINS; histo_offset += BLOCK_THREADS)
         {
             int thread_offset = histo_offset + linear_tid;
-            HistoCounter count = temp_storage.run_end[thread_offset] - temp_storage.run_begin[thread_offset];
+            CounterT      count = temp_storage.run_end[thread_offset] - temp_storage.run_begin[thread_offset];
             histogram[thread_offset] += count;
         }
 
@@ -214,7 +214,7 @@ struct BlockHistogramSort
         if ((BINS % BLOCK_THREADS != 0) && (histo_offset + linear_tid < BINS))
         {
             int thread_offset = histo_offset + linear_tid;
-            HistoCounter count = temp_storage.run_end[thread_offset] - temp_storage.run_begin[thread_offset];
+            CounterT      count = temp_storage.run_end[thread_offset] - temp_storage.run_begin[thread_offset];
             histogram[thread_offset] += count;
         }
     }

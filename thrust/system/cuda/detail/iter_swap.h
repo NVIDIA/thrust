@@ -16,18 +16,15 @@
 
 #pragma once
 
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/detail/config.h>
+#include <thrust/system/cuda/config.h>
+
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/swap.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cuda
-{
-namespace detail
-{
+BEGIN_NS_THRUST
+namespace cuda_cub {
 
 
 template<typename Pointer1, typename Pointer2>
@@ -39,7 +36,7 @@ void iter_swap(tag, Pointer1 a, Pointer2 b)
   {
     __host__ inline static void host_path(Pointer1 a, Pointer2 b)
     {
-      thrust::swap_ranges(a, a + 1, b);
+      cuda_cub::swap_ranges(a, a + 1, b);
     }
 
     __device__ inline static void device_path(Pointer1 a, Pointer2 b)
@@ -58,8 +55,6 @@ void iter_swap(tag, Pointer1 a, Pointer2 b)
 } // end iter_swap()
 
 
-} // end detail
-} // end cuda
-} // end system
-} // end thrust
-
+} // end cuda_cub
+END_NS_THRUST
+#endif

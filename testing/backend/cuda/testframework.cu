@@ -194,7 +194,7 @@ int CUDATestDriver::current_device_architecture() const
   return 100 * deviceProp.major + 10 * deviceProp.minor;
 }
 
-UnitTestDriver &driver_instance(thrust::system::cuda::tag)
+UnitTestDriver &driver_instance(thrust::cuda::tag)
 {
   static CUDATestDriver s_instance;
   return s_instance;

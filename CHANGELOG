@@ -1,4 +1,20 @@
 #######################################
+#           Thrust v1.8.4-0           #
+#######################################
+
+Summary
+    Multiple bug fixes
+    Performance improvement
+
+Details
+    CUDA backend has been rewritten from scratch to use CUB collectives. 
+    Any code that depends on CUDA backend implementation details will likely
+    fail to compile. This was necessary to deliver performance improvements
+    across-the-board in Thrust.
+
+
+
+#######################################
 #           Thrust v1.8.3-2           #
 #######################################
 

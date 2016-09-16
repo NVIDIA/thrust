@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -277,7 +277,8 @@ struct WarpScanSmem
         T               &output,            ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOp          scan_op)            ///< [in] Binary scan operator
     {
-        InclusiveScan(input, output, scan_op, Int2Type<Traits<T>::PRIMITIVE>());    }
+        InclusiveScan(input, output, scan_op, Int2Type<Traits<T>::PRIMITIVE>());
+    }
 
 
     /// Inclusive scan with aggregate

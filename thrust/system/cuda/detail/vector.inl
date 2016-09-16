@@ -21,9 +21,7 @@
 
 namespace thrust
 {
-namespace system
-{
-namespace cuda
+namespace cuda_cub
 {
 
 template<typename T, typename Allocator>
@@ -91,7 +89,6 @@ template<typename T, typename Allocator>
   return *this;
 }
       
-} // end cuda
-} // end system
+} // end cuda_cub
 } // end thrust
 

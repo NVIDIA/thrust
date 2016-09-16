@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -54,7 +54,7 @@ namespace cub {
 
 
 /// CUB error reporting macro (prints error messages to stderr)
-#if (defined(DEBUG) || defined(_DEBUG))
+#if (defined(DEBUG) || defined(_DEBUG)) && !defined(CUB_STDERR)
     #define CUB_STDERR
 #endif
 
@@ -67,8 +67,14 @@ namespace cub {
  */
 __host__ __device__ __forceinline__ cudaError_t Debug(
     cudaError_t     error,
+#ifdef CUB_STDERR
     const char*     filename,
-    int             line)
+    int             line
+#else
+    const char*     ,
+    int             
+#endif
+    )
 {
 #ifdef CUB_STDERR
     if (error)
@@ -77,7 +83,7 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
         fprintf(stderr, "CUDA error %d [%s, %d]: %s\n", error, filename, line, cudaGetErrorString(error));
         fflush(stderr);
     #elif (CUB_PTX_ARCH >= 200)
-        printf("CUDA error %d [block %d, thread %d, %s, %d]\n", error, blockIdx.x, threadIdx.x, filename, line);
+        printf("CUDA error %d [block (%d,%d,%d) thread (%d,%d,%d), %s, %d]\n", error, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, filename, line);
     #endif
     }
 #endif
@@ -88,22 +94,28 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
 /**
  * \brief Debug macro
  */
-#define CubDebug(e) cub::Debug((e), __FILE__, __LINE__)
+#ifndef CubDebug
+    #define CubDebug(e) cub::Debug((e), __FILE__, __LINE__)
+#endif
 
 
 /**
  * \brief Debug macro with exit
  */
-#define CubDebugExit(e) if (cub::Debug((e), __FILE__, __LINE__)) { exit(1); }
+#ifndef CubDebugExit
+    #define CubDebugExit(e) if (cub::Debug((e), __FILE__, __LINE__)) { exit(1); }
+#endif
 
 
 /**
  * \brief Log macro for printf statements.
  */
-#if (CUB_PTX_ARCH == 0)
-    #define CubLog(format, ...) printf(format,__VA_ARGS__);
-#elif (CUB_PTX_ARCH >= 200)
-    #define CubLog(format, ...) printf("[block %d, thread %d]: " format, blockIdx.x, threadIdx.x, __VA_ARGS__);
+#if !defined(_CubLog)
+    #if (CUB_PTX_ARCH == 0)
+        #define _CubLog(format, ...) printf(format,__VA_ARGS__);
+    #elif (CUB_PTX_ARCH >= 200)
+        #define _CubLog(format, ...) printf("[block (%d,%d,%d), thread (%d,%d,%d)]: " format, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, __VA_ARGS__);
+    #endif
 #endif
 
 

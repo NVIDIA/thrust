@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -118,7 +118,7 @@ enum BlockHistogramAlgorithm
  * are partitioned across 128 threads where each thread owns 4 samples.
  * \par
  * \code
- * #include <cub/cub.cuh>   // or equivalently <cub/block/block_histogram.cuh>
+ * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_histogram.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -141,7 +141,7 @@ enum BlockHistogramAlgorithm
  * \endcode
  *
  * \par Performance and Usage Considerations
- * - The histogram output can be constructed in shared or global memory
+ * - The histogram output can be constructed in shared or device-accessible memory
  * - See cub::BlockHistogramAlgorithm for performance details regarding algorithmic alternatives
  *
  */
@@ -260,7 +260,7 @@ public:
      * where each thread owns 4 samples.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_histogram.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -285,10 +285,10 @@ public:
      *
      * \endcode
      *
-     * \tparam HistoCounter         <b>[inferred]</b> Histogram counter type
+     * \tparam CounterT              <b>[inferred]</b> Histogram counter type
      */
-    template <typename HistoCounter>
-    __device__ __forceinline__ void InitHistogram(HistoCounter histogram[BINS])
+    template <typename CounterT     >
+    __device__ __forceinline__ void InitHistogram(CounterT      histogram[BINS])
     {
         // Initialize histogram bin counts to zeros
         int histo_offset = 0;
@@ -307,7 +307,7 @@ public:
 
 
     /**
-     * \brief Constructs a block-wide histogram in shared/global memory.  Each thread contributes an array of input elements.
+     * \brief Constructs a block-wide histogram in shared/device-accessible memory.  Each thread contributes an array of input elements.
      *
      * \par
      * - \granularity
@@ -318,7 +318,7 @@ public:
      * are partitioned across 128 threads where each thread owns 4 samples.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_histogram.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -340,13 +340,13 @@ public:
      *
      * \endcode
      *
-     * \tparam HistoCounter         <b>[inferred]</b> Histogram counter type
+     * \tparam CounterT              <b>[inferred]</b> Histogram counter type
      */
     template <
-        typename            HistoCounter>
+        typename            CounterT     >
     __device__ __forceinline__ void Histogram(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
-        HistoCounter        histogram[BINS])                ///< [out] Reference to shared/global memory histogram
+        CounterT             histogram[BINS])                ///< [out] Reference to shared/device-accessible memory histogram
     {
         // Initialize histogram bin counts to zeros
         InitHistogram(histogram);
@@ -360,7 +360,7 @@ public:
 
 
     /**
-     * \brief Updates an existing block-wide histogram in shared/global memory.  Each thread composites an array of input elements.
+     * \brief Updates an existing block-wide histogram in shared/device-accessible memory.  Each thread composites an array of input elements.
      *
      * \par
      * - \granularity
@@ -372,7 +372,7 @@ public:
      * where each thread owns 4 samples.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_histogram.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -397,13 +397,13 @@ public:
      *
      * \endcode
      *
-     * \tparam HistoCounter         <b>[inferred]</b> Histogram counter type
+     * \tparam CounterT              <b>[inferred]</b> Histogram counter type
      */
     template <
-        typename            HistoCounter>
+        typename            CounterT     >
     __device__ __forceinline__ void Composite(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
-        HistoCounter        histogram[BINS])                 ///< [out] Reference to shared/global memory histogram
+        CounterT             histogram[BINS])                 ///< [out] Reference to shared/device-accessible memory histogram
     {
         InternalBlockHistogram(temp_storage).Composite(items, histogram);
     }

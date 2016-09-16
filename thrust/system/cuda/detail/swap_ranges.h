@@ -1,22 +1,101 @@
-/*
- *  Copyright 2008-2013 NVIDIA Corporation
+/******************************************************************************
+ * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the NVIDIA CORPORATION nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL NVIDIA CORPORATION BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-
+ ******************************************************************************/
 #pragma once
 
-#include <thrust/detail/config.h>
 
-// cuda has no special swap_ranges
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <iterator>
+#include <thrust/system/cuda/detail/transform.h>
+#include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/swap.h>
+#include <thrust/system/cuda/detail/parallel_for.h>
+#include <thrust/distance.h>
 
+BEGIN_NS_THRUST
+
+namespace cuda_cub {
+
+namespace __swap_ranges {
+
+
+  template <class ItemsIt1, class ItemsIt2>
+  struct swap_f
+  {
+    ItemsIt1 items1;
+    ItemsIt2 items2;
+
+    typedef  typename iterator_traits<ItemsIt1>::value_type value1_type;
+    typedef  typename iterator_traits<ItemsIt2>::value_type value2_type;
+
+    THRUST_FUNCTION
+    swap_f(ItemsIt1 items1_, ItemsIt2 items2_)
+        : items1(items1_), items2(items2_) {}
+
+    template<class Size>
+    void THRUST_DEVICE_FUNCTION operator()(Size idx)
+    {
+      value1_type item1 = items1[idx];
+      value2_type item2 = items2[idx];
+      // XXX thrust::swap is buggy
+      // if reference_type of ItemIt1/ItemsIt2
+      // is a proxy reference, then KABOOM!
+      // to avoid this, just copy the value first before swap
+      // *todo* specialize on real & proxy references
+      using thrust::swap;
+      swap(item1, item2);
+      items1[idx] = item1;
+      items2[idx] = item2;
+    }
+  };
+}    // namespace __swap_ranges
+
+template <class Derived,
+          class ItemsIt1,
+          class ItemsIt2>
+ItemsIt2 __host__ __device__
+swap_ranges(execution_policy<Derived> &policy,
+            ItemsIt1                   first1,
+            ItemsIt1                   last1,
+            ItemsIt2                   first2)
+{
+  typedef typename iterator_traits<ItemsIt1>::difference_type size_type;
+
+  size_type num_items = static_cast<size_type>(thrust::distance(first1, last1));
+
+  cuda_cub::parallel_for(policy,
+                         __swap_ranges::swap_f<ItemsIt1,
+                                               ItemsIt2>(first1, first2),
+                         num_items);
+
+  return first2 + num_items;
+}
+
+
+}    // namespace cuda_
+
+END_NS_THRUST
+#endif

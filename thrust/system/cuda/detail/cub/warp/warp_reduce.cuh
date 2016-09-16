@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -80,7 +80,7 @@ namespace cub {
  * 128 threads (one per each of the 32-thread warps).
  * \par
  * \code
- * #include <cub/cub.cuh>
+ * #include <detail/cub/cub.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -108,7 +108,7 @@ namespace cub {
  * 128 threads.
  * \par
  * \code
- * #include <cub/cub.cuh>
+ * #include <detail/cub/cub.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -224,7 +224,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -266,7 +266,7 @@ public:
      * block of 32 threads (one warp).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, int valid_items)
      * {
@@ -311,7 +311,7 @@ public:
      * reduction within a block of 32 threads (one warp).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -340,10 +340,10 @@ public:
      *
      */
     template <
-        typename            Flag>
+        typename            FlagT>
     __device__ __forceinline__ T HeadSegmentedSum(
         T                   input,              ///< [in] Calling thread's input
-        Flag                head_flag)          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
+        FlagT                head_flag)          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
     {
         return HeadSegmentedReduce(input, head_flag, cub::Sum());
     }
@@ -359,7 +359,7 @@ public:
      * reduction within a block of 32 threads (one warp).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -387,10 +387,10 @@ public:
      * \tparam ReductionOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
      */
     template <
-        typename            Flag>
+        typename            FlagT>
     __device__ __forceinline__ T TailSegmentedSum(
         T                   input,              ///< [in] Calling thread's input
-        Flag                tail_flag)          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
+        FlagT                tail_flag)          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
     {
         return TailSegmentedReduce(input, tail_flag, cub::Sum());
     }
@@ -415,7 +415,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -463,7 +463,7 @@ public:
      * block of 32 threads (one warp).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, int valid_items)
      * {
@@ -512,7 +512,7 @@ public:
      * reduction within a block of 32 threads (one warp).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -541,10 +541,10 @@ public:
      */
     template <
         typename            ReductionOp,
-        typename            Flag>
+        typename            FlagT>
     __device__ __forceinline__ T HeadSegmentedReduce(
         T                   input,              ///< [in] Calling thread's input
-        Flag                head_flag,          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
+        FlagT                head_flag,          ///< [in] Head flag denoting whether or not \p input is the start of a new segment
         ReductionOp         reduction_op)       ///< [in] Reduction operator
     {
         return InternalWarpReduce(temp_storage).template SegmentedReduce<true>(input, head_flag, reduction_op);
@@ -563,7 +563,7 @@ public:
      * reduction within a block of 32 threads (one warp).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -592,10 +592,10 @@ public:
      */
     template <
         typename            ReductionOp,
-        typename            Flag>
+        typename            FlagT>
     __device__ __forceinline__ T TailSegmentedReduce(
         T                   input,              ///< [in] Calling thread's input
-        Flag                tail_flag,          ///< [in] Tail flag denoting whether or not \p input is the end of the current segment
+        FlagT                tail_flag,          ///< [in] Tail flag denoting whether or not \p input is the end of the current segment
         ReductionOp         reduction_op)       ///< [in] Reduction operator
     {
         return InternalWarpReduce(temp_storage).template SegmentedReduce<false>(input, tail_flag, reduction_op);

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -85,7 +85,7 @@ namespace cub {
  * 128 threads (one per each of the 32-thread warps).
  * \par
  * \code
- * #include <cub/cub.cuh>
+ * #include <detail/cub/cub.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -113,7 +113,7 @@ namespace cub {
  * 128 threads.
  * \par
  * \code
- * #include <cub/cub.cuh>
+ * #include <detail/cub/cub.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -228,7 +228,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -270,7 +270,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -322,7 +322,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -366,7 +366,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -416,7 +416,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -462,7 +462,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -519,7 +519,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -566,7 +566,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -624,7 +624,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -671,7 +671,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -729,7 +729,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -776,7 +776,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -827,7 +827,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -882,7 +882,7 @@ public:
      * lanes<sub>0</sub> in each of four warps to all other threads in those warps.
      * \par
      * \code
-     * #include <cub/cub.cuh>
+     * #include <detail/cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {

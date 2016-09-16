@@ -31,18 +31,15 @@ namespace detail
 {
 
 template<typename T>
-  struct pointer_raw_pointer< thrust::cuda::pointer<T> >
+  struct pointer_raw_pointer< thrust::cuda_cub::pointer<T> >
 {
-  typedef typename thrust::cuda::pointer<T>::raw_pointer type;
+  typedef typename thrust::cuda_cub::pointer<T>::raw_pointer type;
 }; // end pointer_raw_pointer
 
 } // end detail
 #endif
 
-namespace system
-{
-namespace cuda
-{
+namespace cuda_cub {
 
 template <typename T>
 template <typename OtherT>
@@ -67,14 +64,14 @@ __host__ __device__
 pointer<void> malloc(std::size_t n)
 {
   tag cuda_tag;
-  return pointer<void>(thrust::system::cuda::detail::malloc(cuda_tag, n));
+  return pointer<void>(thrust::cuda_cub::malloc(cuda_tag, n));
 } // end malloc()
 
 template<typename T>
 __host__ __device__
 pointer<T> malloc(std::size_t n)
 {
-  pointer<void> raw_ptr = thrust::system::cuda::malloc(sizeof(T) * n);
+  pointer<void> raw_ptr = thrust::cuda_cub::malloc(sizeof(T) * n);
   return pointer<T>(reinterpret_cast<T*>(raw_ptr.get()));
 } // end malloc()
 
@@ -82,10 +79,9 @@ __host__ __device__
 void free(pointer<void> ptr)
 {
   tag cuda_tag;
-  return thrust::system::cuda::detail::free(cuda_tag, ptr.get());
+  return thrust::cuda_cub::free(cuda_tag, ptr.get());
 } // end free()
 
-} // end cuda
-} // end system
+} // end cuda_
 } // end thrust
 

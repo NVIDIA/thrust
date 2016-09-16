@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/unique_by_key.h>
-#include <thrust/system/cuda/detail/unique_by_key.h>
+#include <thrust/system/cuda_bulk/detail/unique_by_key.h>
 #include <thrust/system/omp/detail/unique_by_key.h>
 #include <thrust/system/tbb/detail/unique_by_key.h>
 #endif

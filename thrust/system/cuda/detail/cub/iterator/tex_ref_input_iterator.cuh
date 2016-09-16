@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -91,13 +91,13 @@ struct IteratorTexRef
         static TexRef ref;
 
         /// Bind texture
-        static cudaError_t BindTexture(void *d_in)
+        static cudaError_t BindTexture(void *d_in, size_t &offset)
         {
             if (d_in)
             {
                 cudaChannelFormatDesc tex_desc = cudaCreateChannelDesc<TextureWord>();
                 ref.channelDesc = tex_desc;
-                return (CubDebug(cudaBindTexture(NULL, ref, d_in)));
+                return (CubDebug(cudaBindTexture(&offset, ref, d_in)));
             }
 
             return cudaSuccess;
@@ -151,28 +151,28 @@ typename IteratorTexRef<T>::template TexId<UNIQUE_ID>::TexRef IteratorTexRef<T>:
  * \brief A random-access input wrapper for dereferencing array values through texture cache.  Uses older Tesla/Fermi-style texture references.
  *
  * \par Overview
- * - TexRefInputIterator wraps a native device pointer of type <tt>ValueType*</tt>. References
+ * - TexRefInputIteratorTwraps a native device pointer of type <tt>ValueType*</tt>. References
  *   to elements are to be loaded through texture cache.
  * - Can be used to load any data type from memory through texture cache.
  * - Can be manipulated and exchanged within and between host and device
  *   functions, can only be constructed within host functions, and can only be
  *   dereferenced within device functions.
  * - The \p UNIQUE_ID template parameter is used to statically name the underlying texture
- *   reference.  Only one TexRefInputIterator instance can be bound at any given time for a
+ *   reference.  Only one TexRefInputIteratorTinstance can be bound at any given time for a
  *   specific combination of (1) data type \p T, (2) \p UNIQUE_ID, (3) host
  *   thread, and (4) compilation .o unit.
- * - With regard to nested/dynamic parallelism, TexRefInputIterator iterators may only be
+ * - With regard to nested/dynamic parallelism, TexRefInputIteratorTiterators may only be
  *   created by the host thread and used by a top-level kernel (i.e. the one which is launched
  *   from the host).
  * - Compatible with Thrust API v1.7 or newer.
  * - Compatible with CUDA toolkit v5.5 or newer.
  *
  * \par Snippet
- * The code snippet below illustrates the use of \p TexRefInputIterator to
+ * The code snippet below illustrates the use of \p TexRefInputIteratorTto
  * dereference a device array of doubles through texture cache.
  * \par
  * \code
- * #include <cub/cub.cuh>   // or equivalently <cub/iterator/tex_ref_input_iterator.cuh>
+ * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/iterator/tex_ref_input_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * int num_items;   // e.g., 7
@@ -195,19 +195,19 @@ typename IteratorTexRef<T>::template TexId<UNIQUE_ID>::TexRef IteratorTexRef<T>:
  *
  * \tparam T                    The value type of this iterator
  * \tparam UNIQUE_ID            A globally-unique identifier (within the compilation unit) to name the underlying texture reference
- * \tparam Offset               The difference type of this iterator (Default: \p ptrdiff_t)
+ * \tparam OffsetT              The difference type of this iterator (Default: \p ptrdiff_t)
  */
 template <
     typename    T,
     int         UNIQUE_ID,
-    typename    Offset = ptrdiff_t>
+    typename    OffsetT = ptrdiff_t>
 class TexRefInputIterator
 {
 public:
 
     // Required iterator traits
     typedef TexRefInputIterator                 self_type;              ///< My own type
-    typedef Offset                              difference_type;        ///< Type to express the result of subtracting one iterator from another
+    typedef OffsetT                             difference_type;        ///< Type to express the result of subtracting one iterator from another
     typedef T                                   value_type;             ///< The type of the element the iterator can point to
     typedef T*                                  pointer;                ///< The type of a pointer to an element the iterator can point to
     typedef T                                   reference;              ///< The type of a reference to an element the iterator can point to
@@ -233,23 +233,26 @@ private:
     typedef typename IteratorTexRef<T>::template TexId<UNIQUE_ID> TexId;
 
 public:
-
+/*
     /// Constructor
     __host__ __device__ __forceinline__ TexRefInputIterator()
     :
         ptr(NULL),
         tex_offset(0)
     {}
-
+*/
     /// Use this iterator to bind \p ptr with a texture reference
+    template <typename QualifiedT>
     cudaError_t BindTexture(
-        T               *ptr,                   ///< Native pointer to wrap that is aligned to cudaDeviceProp::textureAlignment
-        size_t          bytes,                  ///< Number of bytes in the range
-        size_t          tex_offset = 0)         ///< Offset (in items) from \p ptr denoting the position of the iterator
+        QualifiedT      *ptr,                   ///< Native pointer to wrap that is aligned to cudaDeviceProp::textureAlignment
+        size_t          bytes = size_t(-1),     ///< Number of bytes in the range
+        size_t          tex_offset = 0)         ///< OffsetT (in items) from \p ptr denoting the position of the iterator
     {
-        this->ptr = ptr;
-        this->tex_offset = (difference_type) tex_offset;
-        return TexId::BindTexture(ptr);
+        this->ptr = const_cast<typename RemoveQualifiers<QualifiedT>::Type *>(ptr);
+        size_t offset;
+        cudaError_t retval = TexId::BindTexture(this->ptr + tex_offset, offset);
+        this->tex_offset = (difference_type) (offset / sizeof(QualifiedT));
+        return retval;
     }
 
     /// Unbind this iterator from its texture reference
@@ -331,7 +334,8 @@ public:
     template <typename Distance>
     __host__ __device__ __forceinline__ reference operator[](Distance n) const
     {
-        return *(*this + n);
+        self_type offset = (*this) + n;
+        return *offset;
     }
 
     /// Structure dereference

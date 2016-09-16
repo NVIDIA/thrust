@@ -35,7 +35,11 @@ int main(void)
   thrust::device_ptr<int> wrapped_ptr = thrust::device_pointer_cast(raw_ptr);
 
   // back to where we started
-  assert(wrapped_ptr == d_ptr);
+  if (!(wrapped_ptr == d_ptr))
+  {
+    std::cout << "FATAL: (wrapped_ptr == d_ptr) is FALSE" << std::endl;
+    return -1;
+  }
 
   // deallocate device memory
   thrust::device_free(d_ptr);

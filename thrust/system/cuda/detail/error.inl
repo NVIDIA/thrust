@@ -27,19 +27,19 @@ namespace system
 {
 
 
-error_code make_error_code(cuda::errc::errc_t e)
+error_code make_error_code(cuda_cub::errc::errc_t e)
 {
   return error_code(static_cast<int>(e), cuda_category());
 } // end make_error_code()
 
 
-error_condition make_error_condition(cuda::errc::errc_t e)
+error_condition make_error_condition(cuda_cub::errc::errc_t e)
 {
   return error_condition(static_cast<int>(e), cuda_category());
 } // end make_error_condition()
 
 
-namespace cuda
+namespace cuda_cub
 {
 
 namespace detail
@@ -66,7 +66,7 @@ class cuda_error_category
 
     inline virtual error_condition default_error_condition(int ev) const
     {
-      using namespace cuda::errc;
+      using namespace cuda_cub::errc;
 
       if(ev < ::cudaErrorApiFailureBase)
       {
@@ -79,12 +79,12 @@ class cuda_error_category
 
 } // end detail
 
-} // end namespace cuda
+} // end namespace cuda_cub
 
 
 const error_category &cuda_category(void)
 {
-  static const cuda::detail::cuda_error_category result;
+  static const cuda_cub::detail::cuda_error_category result;
   return result;
 }
 

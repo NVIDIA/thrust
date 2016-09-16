@@ -16,20 +16,15 @@
 
 #pragma once
 
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/execution_policy.h>
-#include <thrust/system/cuda/detail/assign_value.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cross_system.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/iterator/iterator_traits.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace cuda
-{
-namespace detail
-{
+BEGIN_NS_THRUST
+namespace cuda_cub {
 
 
 namespace
@@ -86,8 +81,7 @@ inline __host__ __device__
 } // end get_value()
 
 
-} // end detail
-} // end cuda
-} // end system
-} // end thrust
+} // end cuda_cub
+END_NS_THRUST
 
+#endif

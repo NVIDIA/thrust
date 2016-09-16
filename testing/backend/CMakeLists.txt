@@ -1,0 +1,18 @@
+
+FILE(GLOB SOURCES_CU  *.cu)
+FILE(GLOB SOURCES_CPP *.cpp)
+set(SOURCES_BACKEND ${SOURCES_CU} ${SOURCES_CPP})
+
+string(TOLOWER ${DEVICE_BACKEND} backend)
+add_subdirectory(${backend})
+
+#set(SOURCES ${SOURCES} ${SOURCES_BACKEND} PARENT_SCOPE)
+set(SOURCES_BACKEND ${SOURCES_BACKEND} PARENT_SCOPE)
+
+list(LENGTH SOURCES_BACKEND index)
+message(STATUS "Found ${index} tests in backend")
+
+set(DRIVER ${DRIVER} PARENT_SCOPE)
+
+
+

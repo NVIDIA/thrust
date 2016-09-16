@@ -29,16 +29,16 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/copy_if.h>
-#include <thrust/system/cuda/detail/copy_if.h>
+#include <thrust/system/cuda_bulk/detail/copy_if.h>
 #include <thrust/system/omp/detail/copy_if.h>
 #include <thrust/system/tbb/detail/copy_if.h>
 #endif
 
-#define __THRUST_HOST_SYSTEM_BINARY_SEARCH_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/copy_if.h>
-#include __THRUST_HOST_SYSTEM_BINARY_SEARCH_HEADER
-#undef __THRUST_HOST_SYSTEM_BINARY_SEARCH_HEADER
+#define __THRUST_HOST_SYSTEM_COPY_IF_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/copy_if.h>
+#include __THRUST_HOST_SYSTEM_COPY_IF_HEADER
+#undef __THRUST_HOST_SYSTEM_COPY_IF_HEADER
 
-#define __THRUST_DEVICE_SYSTEM_BINARY_SEARCH_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/copy_if.h>
-#include __THRUST_DEVICE_SYSTEM_BINARY_SEARCH_HEADER
-#undef __THRUST_DEVICE_SYSTEM_BINARY_SEARCH_HEADER
+#define __THRUST_DEVICE_SYSTEM_COPY_IF_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/detail/copy_if.h>
+#include __THRUST_DEVICE_SYSTEM_COPY_IF_HEADER
+#undef __THRUST_DEVICE_SYSTEM_COPY_IF_HEADER
 

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -321,12 +321,12 @@ struct BlockScanRaking
                 T exclusive_partial;
                 WarpScan(temp_storage.warp_scan).Scan(upsweep_partial, inclusive_partial, exclusive_partial, identity, scan_op);
 
-                // Broadcast aggregate to other threads
-                if (threadIdx.x == RAKING_THREADS - 1)
-                    temp_storage.block_aggregate = inclusive_partial;
-
                 // Exclusive raking downsweep scan
                 ExclusiveDownsweep(scan_op, exclusive_partial);
+
+                // Broadcast aggregate to other threads
+                if (linear_tid == RAKING_THREADS - 1)
+                    temp_storage.block_aggregate = inclusive_partial;
             }
 
             __syncthreads();
@@ -355,16 +355,15 @@ struct BlockScanRaking
         if (WARP_SYNCHRONOUS)
         {
             // Short-circuit directly to warp-synchronous scan
-            T exclusive_partial;
-            WarpScan(temp_storage.warp_scan).ExclusiveScan(input, exclusive_partial, identity, scan_op, block_aggregate);
+            WarpScan(temp_storage.warp_scan).ExclusiveScan(input, output, identity, scan_op, block_aggregate);
 
             // Obtain warp-wide prefix in lane0, then broadcast to other lanes
-            output = block_prefix_callback_op(block_aggregate);
-            output = WarpScan(temp_storage.warp_scan).Broadcast(output, 0);
+            T prefix = block_prefix_callback_op(block_aggregate);
+            prefix = WarpScan(temp_storage.warp_scan).Broadcast(prefix, 0);
 
-            // Update prefix with exclusive warpscan partial
-            if (linear_tid > 0)
-                output = scan_op(output, exclusive_partial);
+            output = scan_op(prefix, output);
+            if (linear_tid == 0)
+                output = prefix;
         }
         else
         {
@@ -386,7 +385,7 @@ struct BlockScanRaking
                 WarpScan(temp_storage.warp_scan).Scan(upsweep_partial, inclusive_partial, exclusive_partial, identity, scan_op);
 
                 // Broadcast aggregate to other lanes (through smem because we eventually want it in all threads)
-                if (threadIdx.x == RAKING_THREADS - 1)
+                if (linear_tid == RAKING_THREADS - 1)
                     ThreadStore<STORE_VOLATILE>(&temp_storage.block_aggregate, inclusive_partial);
                 block_aggregate = ThreadLoad<LOAD_VOLATILE>(&temp_storage.block_aggregate);
 
@@ -490,12 +489,12 @@ struct BlockScanRaking
                 T exclusive_partial;
                 WarpScan(temp_storage.warp_scan).Scan(upsweep_partial, inclusive_partial, exclusive_partial, scan_op);
 
-                // Broadcast aggregate to all threads
-                if (threadIdx.x == RAKING_THREADS - 1)
-                    temp_storage.block_aggregate = inclusive_partial;
-
                 // Exclusive raking downsweep scan
                 ExclusiveDownsweep(scan_op, exclusive_partial, (linear_tid != 0));
+
+                // Broadcast aggregate to all threads
+                if (linear_tid == RAKING_THREADS - 1)
+                    temp_storage.block_aggregate = inclusive_partial;
             }
 
             __syncthreads();
@@ -523,16 +522,15 @@ struct BlockScanRaking
         if (WARP_SYNCHRONOUS)
         {
             // Short-circuit directly to warp-synchronous scan
-            T exclusive_partial;
-            WarpScan(temp_storage.warp_scan).ExclusiveScan(input, exclusive_partial, scan_op, block_aggregate);
+            WarpScan(temp_storage.warp_scan).ExclusiveScan(input, output, scan_op, block_aggregate);
 
             // Obtain warp-wide prefix in lane0, then broadcast to other lanes
-            output = block_prefix_callback_op(block_aggregate);
-            output = WarpScan(temp_storage.warp_scan).Broadcast(output, 0);
+            T prefix = block_prefix_callback_op(block_aggregate);
+            prefix = WarpScan(temp_storage.warp_scan).Broadcast(prefix, 0);
 
-            // Update prefix with exclusive warpscan partial
-            if (linear_tid > 0)
-                output = scan_op(output, exclusive_partial);
+            output = scan_op(prefix, output);
+            if (linear_tid == 0)
+                output = prefix;
         }
         else
         {
@@ -554,7 +552,7 @@ struct BlockScanRaking
                 WarpScan(temp_storage.warp_scan).Scan(upsweep_partial, inclusive_partial, exclusive_partial, scan_op);
 
                 // Broadcast aggregate to other lanes (through smem because we eventually want it in all threads)
-                if (threadIdx.x == RAKING_THREADS - 1)
+                if (linear_tid == RAKING_THREADS - 1)
                     ThreadStore<STORE_VOLATILE>(&temp_storage.block_aggregate, inclusive_partial);
                 block_aggregate = ThreadLoad<LOAD_VOLATILE>(&temp_storage.block_aggregate);
 
@@ -659,12 +657,12 @@ struct BlockScanRaking
                 T exclusive_partial;
                 WarpScan(temp_storage.warp_scan).Scan(upsweep_partial, inclusive_partial, exclusive_partial, scan_op);
 
-                // Broadcast aggregate to all threads
-                if (threadIdx.x == RAKING_THREADS - 1)
-                    temp_storage.block_aggregate = inclusive_partial;
-
                 // Inclusive raking downsweep scan
                 InclusiveDownsweep(scan_op, exclusive_partial, (linear_tid != 0));
+
+                // Broadcast aggregate to all threads
+                if (linear_tid == RAKING_THREADS - 1)
+                    temp_storage.block_aggregate = inclusive_partial;
             }
 
             __syncthreads();
@@ -722,7 +720,7 @@ struct BlockScanRaking
                 WarpScan(temp_storage.warp_scan).Scan(upsweep_partial, inclusive_partial, exclusive_partial, scan_op);
 
                 // Broadcast aggregate to other lanes (through smem because we eventually want it in all threads)
-                if (threadIdx.x == RAKING_THREADS - 1)
+                if (linear_tid == RAKING_THREADS - 1)
                     ThreadStore<STORE_VOLATILE>(&temp_storage.block_aggregate, inclusive_partial);
                 block_aggregate = ThreadLoad<LOAD_VOLATILE>(&temp_storage.block_aggregate);
 

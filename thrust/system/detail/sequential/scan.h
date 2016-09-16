@@ -85,7 +85,8 @@ __host__ __device__
   {
     ValueType sum = *first;
 
-    *result = sum;
+    // the first item is just a copy of the first input value
+    *result = *first;
 
     for(++first, ++result; first != last; ++first, ++result)
       *result = sum = wrapped_binary_op(sum,*first);

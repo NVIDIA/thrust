@@ -405,6 +405,12 @@ template <typename Boolean>
 {
 }; // end not_
 
+template<bool B, class T, class F>
+struct conditional { typedef T type; };
+ 
+template<class T, class F>
+struct conditional<false, T, F> { typedef F type; };
+
 template <bool, typename Then, typename Else>
   struct eval_if
 {

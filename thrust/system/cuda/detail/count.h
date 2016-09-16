@@ -1,22 +1,91 @@
-/*
- *  Copyright 2008-2013 NVIDIA Corporation
+/******************************************************************************
+ * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the NVIDIA CORPORATION nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL NVIDIA CORPORATION BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-
+ ******************************************************************************/
 #pragma once
 
-#include <thrust/detail/config.h>
 
-// this system has no special version of this algorithm 
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <thrust/system/cuda/config.h>
 
+#include <thrust/system/cuda/detail/util.h>
+#include <thrust/system/cuda/detail/reduce.h>
+#include <thrust/distance.h>
+
+BEGIN_NS_THRUST
+namespace cuda_cub {
+
+template <class Derived,
+          class InputIt,
+          class UnaryPred>
+typename iterator_traits<InputIt>::difference_type __host__ __device__
+count_if(execution_policy<Derived> &policy,
+         InputIt                    first,
+         InputIt                    last,
+         UnaryPred                  unary_pred)
+{
+  typedef typename iterator_traits<InputIt>::difference_type size_type;
+  typedef transform_input_iterator_t<size_type,
+                                     InputIt,
+                                     UnaryPred>
+      flag_iterator_t;
+
+  return cuda_cub::reduce_n(policy,
+                            flag_iterator_t(first, unary_pred),
+                            thrust::distance(first, last),
+                            size_type(0),
+                            plus<size_type>());
+}
+
+template<class Value>
+struct count_f
+{
+  // XXX this will copy construct value, if that is not possible, then KABOOM!
+  Value value;
+
+  __host__ __device__
+  count_f(Value value_) : value(value_) {}
+
+  __device__ bool operator()(Value x) const { return x == value; }
+};
+
+template <class Derived,
+          class InputIt,
+          class Value>
+typename iterator_traits<InputIt>::difference_type __host__ __device__
+count(execution_policy<Derived> &policy,
+      InputIt                    first,
+      InputIt                    last,
+      Value const &              value)
+{
+  return cuda_cub::count_if(policy,
+                            first,
+                            last,
+                            count_f<Value>(value));
+}
+
+} // namespace cuda_cub
+END_NS_THRUST
+#endif

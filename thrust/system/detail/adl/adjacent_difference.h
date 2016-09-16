@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/adjacent_difference.h>
-#include <thrust/system/cuda/detail/adjacent_difference.h>
+#include <thrust/system/cuda_bulk/detail/adjacent_difference.h>
 #include <thrust/system/omp/detail/adjacent_difference.h>
 #include <thrust/system/tbb/detail/adjacent_difference.h>
 #endif

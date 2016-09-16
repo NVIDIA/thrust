@@ -24,7 +24,7 @@ endif
 
 
 USE_NEW_PROJECT_MK := 1
-
+ARCH_NEG_FILTER += 20 21
 
 
 

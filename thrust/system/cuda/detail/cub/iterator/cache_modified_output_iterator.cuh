@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -80,7 +80,7 @@ namespace cub {
  * (i.e., write-through to system memory).
  * \par
  * \code
- * #include <cub/cub.cuh>   // or equivalently <cub/iterator/cache_modified_output_iterator.cuh>
+ * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/iterator/cache_modified_output_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * double *d_out;              // e.g., [, , , , , , ]
@@ -100,12 +100,12 @@ namespace cub {
  *
  * \tparam CacheStoreModifier     The cub::CacheStoreModifier to use when accessing data
  * \tparam ValueType            The value type of this iterator
- * \tparam Offset               The difference type of this iterator (Default: \p ptrdiff_t)
+ * \tparam OffsetT              The difference type of this iterator (Default: \p ptrdiff_t)
  */
 template <
     CacheStoreModifier  MODIFIER,
     typename            ValueType,
-    typename            Offset = ptrdiff_t>
+    typename            OffsetT = ptrdiff_t>
 class CacheModifiedOutputIterator
 {
 private:
@@ -119,7 +119,7 @@ private:
         __host__ __device__ __forceinline__ Reference(ValueType* ptr) : ptr(ptr) {}
 
         /// Assignment
-        __host__ __device__ __forceinline__ ValueType operator =(ValueType val)
+        __device__ __forceinline__ ValueType operator =(ValueType val)
         {
             ThreadStore<MODIFIER>(ptr, val);
             return val;
@@ -130,7 +130,7 @@ public:
 
     // Required iterator traits
     typedef CacheModifiedOutputIterator         self_type;              ///< My own type
-    typedef Offset                              difference_type;        ///< Type to express the result of subtracting one iterator from another
+    typedef OffsetT                             difference_type;        ///< Type to express the result of subtracting one iterator from another
     typedef ValueType                           value_type;             ///< The type of the element the iterator can point to
     typedef ValueType*                          pointer;                ///< The type of a pointer to an element the iterator can point to
     typedef Reference                           reference;              ///< The type of a reference to an element the iterator can point to
@@ -154,10 +154,11 @@ private:
 public:
 
     /// Constructor
+    template <typename QualifiedValueType>
     __host__ __device__ __forceinline__ CacheModifiedOutputIterator(
-        ValueType* ptr)     ///< Native pointer to wrap
+        QualifiedValueType* ptr)     ///< Native pointer to wrap
     :
-        ptr(ptr)
+        ptr(const_cast<typename RemoveQualifiers<QualifiedValueType>::Type *>(ptr))
     {}
 
     /// Postfix increment

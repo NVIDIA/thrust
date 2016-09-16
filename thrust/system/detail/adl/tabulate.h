@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/tabulate.h>
-#include <thrust/system/cuda/detail/tabulate.h>
+#include <thrust/system/cuda_bulk/detail/tabulate.h>
 #include <thrust/system/omp/detail/tabulate.h>
 #include <thrust/system/tbb/detail/tabulate.h>
 #endif

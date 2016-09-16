@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/malloc_and_free.h>
-#include <thrust/system/cuda/detail/malloc_and_free.h>
+#include <thrust/system/cuda_bulk/detail/malloc_and_free.h>
 #include <thrust/system/omp/detail/malloc_and_free.h>
 #include <thrust/system/tbb/detail/malloc_and_free.h>
 #endif

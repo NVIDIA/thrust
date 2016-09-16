@@ -1,22 +1,128 @@
-/*
- *  Copyright 2008-2013 NVIDIA Corporation
+/******************************************************************************
+ * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions are met:
+ *     * Redistributions of source code must retain the above copyright
+ *       notice, this list of conditions and the following disclaimer.
+ *     * Redistributions in binary form must reproduce the above copyright
+ *       notice, this list of conditions and the following disclaimer in the
+ *       documentation and/or other materials provided with the distribution.
+ *     * Neither the name of the NVIDIA CORPORATION nor the
+ *       names of its contributors may be used to endorse or promote products
+ *       derived from this software without specific prior written permission.
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL NVIDIA CORPORATION BE LIABLE FOR ANY
+ * DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ * ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
- */
-
+ ******************************************************************************/
 #pragma once
 
-#include <thrust/detail/config.h>
 
-// this system has no special version of this algorithm 
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <thrust/system/cuda/detail/copy_if.h>
 
+BEGIN_NS_THRUST
+namespace cuda_cub {
+
+// in-place
+  
+template <class Derived,
+          class InputIt,
+          class StencilIt,
+          class Predicate>
+InputIt __host__ __device__
+remove_if(execution_policy<Derived> &policy,
+          InputIt                    first,
+          InputIt                    last,
+          StencilIt                  stencil,
+          Predicate                  predicate)
+{
+  return cuda_cub::copy_if(policy, first, last, stencil, first, detail::not1(predicate));
+}
+
+template <class Derived,
+          class InputIt,
+          class Predicate>
+InputIt __host__ __device__
+remove_if(execution_policy<Derived> &policy,
+          InputIt                    first,
+          InputIt                    last,
+          Predicate                  predicate)
+{
+  return cuda_cub::copy_if(policy, first, last, first, detail::not1(predicate));
+}
+
+
+template <class Derived,
+          class InputIt,
+          class T>
+InputIt __host__ __device__
+remove(execution_policy<Derived> &policy,
+       InputIt                    first,
+       InputIt                    last,
+       const T &                  value)
+{
+  detail::equal_to_value<T> pred(value);
+  return cuda_cub::remove_if(policy, first, last, pred);
+}
+
+// copy
+
+template <class Derived,
+          class InputIt,
+          class StencilIt,
+          class OutputIt,
+          class Predicate>
+OutputIt __host__ __device__
+remove_copy_if(execution_policy<Derived> &policy,
+               InputIt                    first,
+               InputIt                    last,
+               StencilIt                  stencil,
+               OutputIt                   result,
+               Predicate                  predicate)
+{
+  return cuda_cub::copy_if(policy, first, last, stencil, result, detail::not1(predicate));
+}
+
+template <class Derived,
+          class InputIt,
+          class OutputIt,
+          class Predicate>
+OutputIt __host__ __device__
+remove_copy_if(execution_policy<Derived> &policy,
+               InputIt                    first,
+               InputIt                    last,
+               OutputIt                   result,
+               Predicate                  predicate)
+{
+  return cuda_cub::copy_if(policy, first, last, result, detail::not1(predicate));
+}
+
+
+template <class Derived,
+          class InputIt,
+          class OutputIt,
+          class T>
+OutputIt __host__ __device__
+remove_copy(execution_policy<Derived> &policy,
+            InputIt                    first,
+            InputIt                    last,
+            OutputIt                   result,
+            const T &                  value)
+{
+  detail::equal_to_value<T> pred(value);
+  return cuda_cub::remove_copy_if(policy, first, last, result, pred);
+}
+
+}    // namespace cuda_cub
+END_NS_THRUST
+#endif

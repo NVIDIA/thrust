@@ -31,10 +31,10 @@ void TestStableSortWithLargeKeys(void)
     _TestStableSortWithLargeKeys<int,   64>();
     _TestStableSortWithLargeKeys<int,  128>();
     _TestStableSortWithLargeKeys<int,  256>();
-    _TestStableSortWithLargeKeys<int,  512>();
-    _TestStableSortWithLargeKeys<int, 1024>();
 
 // XXX these take too long to compile
+//    _TestStableSortWithLargeKeys<int,  512>();
+//    _TestStableSortWithLargeKeys<int, 1024>();
 //    _TestStableSortWithLargeKeys<int, 2048>();
 //    _TestStableSortWithLargeKeys<int, 4096>();
 //    _TestStableSortWithLargeKeys<int, 8192>();

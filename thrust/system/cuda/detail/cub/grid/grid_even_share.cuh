@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -65,28 +65,28 @@ namespace cub {
  * GridEvenShare.  The instance can be passed to child threadblocks which can
  * initialize their per-threadblock offsets using \p BlockInit().
  *
- * \tparam Offset       Signed integer type for global offsets
+ * \tparam OffsetT      Signed integer type for global offsets
  */
-template <typename Offset>
+template <typename OffsetT>
 struct GridEvenShare
 {
-    Offset      total_grains;
+    OffsetT     total_grains;
     int         big_blocks;
-    Offset      big_share;
-    Offset      normal_share;
-    Offset      normal_base_offset;
+    OffsetT     big_share;
+    OffsetT     normal_share;
+    OffsetT     normal_base_offset;
 
     /// Total number of input items
-    Offset      num_items;
+    OffsetT     num_items;
 
     /// Grid size in threadblocks
     int         grid_size;
 
-    /// Offset into input marking the beginning of the owning thread block's segment of input tiles
-    Offset      block_offset;
+    /// OffsetT into input marking the beginning of the owning thread block's segment of input tiles
+    OffsetT     block_offset;
 
-    /// Offset into input of marking the end (one-past) of the owning thread block's segment of input tiles
-    Offset      block_end;
+    /// OffsetT into input of marking the end (one-past) of the owning thread block's segment of input tiles
+    OffsetT     block_end;
 
     /**
      * \brief Default constructor.  Zero-initializes block-specific fields.
@@ -101,7 +101,7 @@ struct GridEvenShare
      * \brief Constructor.  Initializes the grid-specific members \p num_items and \p grid_size. To be called prior prior to kernel launch)
      */
     __host__ __device__ __forceinline__ GridEvenShare(
-        Offset   num_items,                 ///< Total number of input items
+        OffsetT  num_items,                 ///< Total number of input items
         int     max_grid_size,              ///< Maximum grid size allowable (actual grid size may be less if not warranted by the the number of input items)
         int     schedule_granularity)       ///< Granularity by which the input can be parcelled into and distributed among threablocks.  Usually the thread block's native tile size (or a multiple thereof.
     {
@@ -110,7 +110,7 @@ struct GridEvenShare
         this->block_end             = num_items;
         this->total_grains          = (num_items + schedule_granularity - 1) / schedule_granularity;
         this->grid_size             = CUB_MIN(total_grains, max_grid_size);
-        Offset grains_per_block     = total_grains / grid_size;
+        OffsetT grains_per_block     = total_grains / grid_size;
         this->big_blocks            = total_grains - (grains_per_block * grid_size);        // leftover grains go to big blocks
         this->normal_share          = grains_per_block * schedule_granularity;
         this->normal_base_offset    = big_blocks * schedule_granularity;

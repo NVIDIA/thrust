@@ -16,26 +16,29 @@
 
 #pragma once
 
-#include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/execution_policy.h>
-#include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
-#include <thrust/system/system_error.h>
-#include <thrust/system/cuda/error.h>
-#include <thrust/system/detail/bad_alloc.h>
-#include <thrust/system/cuda/detail/throw_on_error.h>
-#include <thrust/detail/malloc_and_free.h>
+
+#include <thrust/detail/config.h>
 #include <thrust/detail/seq.h>
+#include <thrust/memory.h>
+#include <thrust/system/cuda/config.h>
+#include <thrust/system/cuda/detail/cub/util_allocator.cuh>
+#include <thrust/system/cuda/detail/util.h>
 
 
-namespace thrust
+BEGIN_NS_THRUST
+namespace cuda_cub {
+
+#ifdef THRUST_CACHING_DEVICE_MALLOC
+#define __CUB_CACHING_MALLOC
+#ifndef __CUDA_ARCH__
+inline cub::CachingDeviceAllocator &get_allocator()
 {
-namespace system
-{
-namespace cuda
-{
-namespace detail
-{
+  static cub::CachingDeviceAllocator g_allocator(true);
+  return g_allocator;
+}
+#endif
+#endif
 
 
 // note that malloc returns a raw pointer to avoid
@@ -47,13 +50,17 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
   void *result = 0;
 
 #ifndef __CUDA_ARCH__
-  // XXX use cudaMalloc in __device__ code when it becomes available
-  cudaError_t error = cudaMalloc(reinterpret_cast<void**>(&result), n);
+#ifdef __CUB_CACHING_MALLOC
+  cub::CachingDeviceAllocator &alloc = get_allocator();
+  cudaError_t status = alloc.DeviceAllocate(&result, n);
+#else
+  cudaError_t status = cudaMalloc(&result, n);
+#endif
 
-  if(error)
+  if(status != cudaSuccess)
   {
-    throw thrust::system::detail::bad_alloc(thrust::cuda_category().message(error).c_str());
-  } // end if
+    cuda_cub::throw_on_error(status, "device malloc failed");
+  } 
 #else
   result = thrust::raw_pointer_cast(thrust::malloc(thrust::seq, n));
 #endif
@@ -67,16 +74,17 @@ __host__ __device__
 void free(execution_policy<DerivedPolicy> &, Pointer ptr)
 {
 #ifndef __CUDA_ARCH__
-  // XXX use cudaFree in __device__ code when it becomes available
-  throw_on_error(cudaFree(thrust::raw_pointer_cast(ptr)), "cudaFree in free");
+#ifdef __CUB_CACHING_MALLOC
+  cub::CachingDeviceAllocator &alloc = get_allocator();
+  cudaError_t status = alloc.DeviceFree(thrust::raw_pointer_cast(ptr));
+#else
+  cudaError_t status = cudaFree(thrust::raw_pointer_cast(ptr));
+#endif
+  cuda_cub::throw_on_error(status, "device free failed");
 #else
   thrust::free(thrust::seq, ptr);
 #endif
 } // end free()
 
-
-} // end detail
-} // end cuda
-} // end system
-} // end thrust
-
+}    // namespace cuda_cub
+END_NS_THRUST

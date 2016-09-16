@@ -1,0 +1,9 @@
+FILE(GLOB SOURCES_CU  *.cu)
+FILE(GLOB SOURCES_CPP *.cpp)
+set(SOURCES_BACKEND ${SOURCES_CU})
+
+install(FILES ${SOURCES_BACKEND} DESTINATION "examples/omp" COMPONENT examples)
+
+if (NOT "x${DEVICE_BACKEND}" STREQUAL "xOMP")
+  return()
+endif()

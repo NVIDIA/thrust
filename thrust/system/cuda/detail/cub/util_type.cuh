@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -35,6 +35,7 @@
 
 #include <iostream>
 #include <limits>
+#include <cfloat>
 
 #include "util_macro.cuh"
 #include "util_arch.cuh"
@@ -108,6 +109,135 @@ struct Equals <A, A>
 };
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
+
+
+/******************************************************************************
+ * Static math
+ ******************************************************************************/
+
+/**
+ * \brief Statically determine log2(N), rounded up.
+ *
+ * For example:
+ *     Log2<8>::VALUE   // 3
+ *     Log2<3>::VALUE   // 2
+ */
+template <int N, int CURRENT_VAL = N, int COUNT = 0>
+struct Log2
+{
+    /// Static logarithm value
+    enum { VALUE = Log2<N, (CURRENT_VAL >> 1), COUNT + 1>::VALUE };         // Inductive case
+};
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+
+template <int N, int COUNT>
+struct Log2<N, 0, COUNT>
+{
+    enum {VALUE = (1 << (COUNT - 1) < N) ?                                  // Base case
+        COUNT :
+        COUNT - 1 };
+};
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
+
+
+/**
+ * \brief Statically determine if N is a power-of-two
+ */
+template <int N>
+struct PowerOfTwo
+{
+    enum { VALUE = ((N & (N - 1)) == 0) };
+};
+
+
+
+/******************************************************************************
+ * Pointer vs. iterator detection
+ ******************************************************************************/
+
+/**
+ * \brief Pointer vs. iterator
+ */
+template <typename Tp>
+struct IsPointer
+{
+    enum { VALUE = 0 };
+};
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+
+template <typename Tp>
+struct IsPointer<Tp*>
+{
+    enum { VALUE = 1 };
+};
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
+
+
+
+/******************************************************************************
+ * Qualifier detection
+ ******************************************************************************/
+
+/**
+ * \brief Volatile modifier test
+ */
+template <typename Tp>
+struct IsVolatile
+{
+    enum { VALUE = 0 };
+};
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+
+template <typename Tp>
+struct IsVolatile<Tp volatile>
+{
+    enum { VALUE = 1 };
+};
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
+
+
+/******************************************************************************
+ * Qualifier removal
+ ******************************************************************************/
+
+/**
+ * \brief Removes \p const and \p volatile qualifiers from type \p Tp.
+ *
+ * For example:
+ *     <tt>typename RemoveQualifiers<volatile int>::Type         // int;</tt>
+ */
+template <typename Tp, typename Up = Tp>
+struct RemoveQualifiers
+{
+    /// Type without \p const and \p volatile qualifiers
+    typedef Up Type;
+};
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+
+template <typename Tp, typename Up>
+struct RemoveQualifiers<Tp, volatile Up>
+{
+    typedef Up Type;
+};
+
+template <typename Tp, typename Up>
+struct RemoveQualifiers<Tp, const Up>
+{
+    typedef Up Type;
+};
+
+template <typename Tp, typename Up>
+struct RemoveQualifiers<Tp, const volatile Up>
+{
+    typedef Up Type;
+};
 
 
 /******************************************************************************
@@ -196,6 +326,10 @@ template <> struct AlignBytes<double2>              { enum { ALIGN_BYTES = 16 };
 template <> struct AlignBytes<longlong4>            { enum { ALIGN_BYTES = 16 }; };
 template <> struct AlignBytes<ulonglong4>           { enum { ALIGN_BYTES = 16 }; };
 template <> struct AlignBytes<double4>              { enum { ALIGN_BYTES = 16 }; };
+
+template <typename T> struct AlignBytes<volatile T> : AlignBytes<T> {};
+template <typename T> struct AlignBytes<const T> : AlignBytes<T> {};
+template <typename T> struct AlignBytes<const volatile T> : AlignBytes<T> {};
 
 
 /// Unit-words of data movement
@@ -286,6 +420,12 @@ struct UnitWord <char2>
 #endif
     typedef unsigned short      TextureWord;
 };
+
+
+template <typename T> struct UnitWord<volatile T> : UnitWord<T> {};
+template <typename T> struct UnitWord<const T> : UnitWord<T> {};
+template <typename T> struct UnitWord<const volatile T> : UnitWord<T> {};
+
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
@@ -500,35 +640,6 @@ struct Uninitialized
 
 
 /**
- * \brief An item value paired with a corresponding offset
- */
-template <typename _T, typename _Offset>
-struct ItemOffsetPair
-{
-    typedef _T        T;                ///< Item data type
-    typedef _Offset   Offset;           ///< Integer offset data type
-
-#if (CUB_PTX_ARCH == 0)
-    union
-    {
-        Offset                              offset;     ///< Offset
-        typename UnitWord<T>::DeviceWord    align0;     ///< Alignment/padding (for Win32 consistency between host/device)
-    };
-#else
-    Offset                                  offset;     ///< Offset
-#endif
-
-    T                                       value;      ///< Item value
-
-    /// Inequality operator
-    __host__ __device__ __forceinline__ bool operator !=(const ItemOffsetPair &b)
-    {
-        return (value != b.value) || (offset != b.offset);
-    }
-};
-
-
-/**
  * \brief A key identifier paired with a corresponding value
  */
 template <typename _Key, typename _Value>
@@ -537,8 +648,18 @@ struct KeyValuePair
     typedef _Key    Key;                ///< Key data type
     typedef _Value  Value;              ///< Value data type
 
-    Value                   value;      ///< Item value
-    Key                     key;        ///< Item key
+    // XXX #if branch doesn't compile if key has non-trivial ctor
+#if 0 && (CUB_PTX_ARCH == 0)
+    union
+    {
+        Key                                     key;        ///< Item key
+        typename UnitWord<Value>::DeviceWord    align0;     ///< Alignment/padding (for Win32 consistency between host/device)
+    };
+#else
+    Key key;    ///< Item key
+#endif
+
+    Value value;    ///< Item value
 
     /// Inequality operator
     __host__ __device__ __forceinline__ bool operator !=(const KeyValuePair &b)
@@ -581,8 +702,12 @@ __host__ __device__ __forceinline__ T ZeroInitialize()
 template <typename T, int COUNT>
 struct ArrayWrapper
 {
-    /// Static array of type \p T
+
+    /// Statically-sized array of type \p T
     T array[COUNT];
+
+    /// Constructor
+    __host__ __device__ __forceinline__ ArrayWrapper() {}
 };
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
@@ -624,139 +749,11 @@ struct DoubleBuffer
 
     /// \brief Return pointer to the currently valid buffer
     __host__ __device__ __forceinline__ T* Current() { return d_buffers[selector]; }
+
+    /// \brief Return pointer to the currently invalid buffer
+    __host__ __device__ __forceinline__ T* Alternate() { return d_buffers[selector ^ 1]; }
+
 };
-
-
-
-/******************************************************************************
- * Static math
- ******************************************************************************/
-
-/**
- * \brief Statically determine log2(N), rounded up.
- *
- * For example:
- *     Log2<8>::VALUE   // 3
- *     Log2<3>::VALUE   // 2
- */
-template <int N, int CURRENT_VAL = N, int COUNT = 0>
-struct Log2
-{
-    /// Static logarithm value
-    enum { VALUE = Log2<N, (CURRENT_VAL >> 1), COUNT + 1>::VALUE };         // Inductive case
-};
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-template <int N, int COUNT>
-struct Log2<N, 0, COUNT>
-{
-    enum {VALUE = (1 << (COUNT - 1) < N) ?                                  // Base case
-        COUNT :
-        COUNT - 1 };
-};
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
-
-/**
- * \brief Statically determine if N is a power-of-two
- */
-template <int N>
-struct PowerOfTwo
-{
-    enum { VALUE = ((N & (N - 1)) == 0) };
-};
-
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-
-/******************************************************************************
- * Pointer vs. iterator detection
- ******************************************************************************/
-
-/**
- * \brief Pointer vs. iterator
- */
-template <typename Tp>
-struct IsPointer
-{
-    enum { VALUE = 0 };
-};
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-template <typename Tp>
-struct IsPointer<Tp*>
-{
-    enum { VALUE = 1 };
-};
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
-
-
-/******************************************************************************
- * Qualifier detection
- ******************************************************************************/
-
-/**
- * \brief Volatile modifier test
- */
-template <typename Tp>
-struct IsVolatile
-{
-    enum { VALUE = 0 };
-};
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-template <typename Tp>
-struct IsVolatile<Tp volatile>
-{
-    enum { VALUE = 1 };
-};
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
-
-/******************************************************************************
- * Qualifier removal
- ******************************************************************************/
-
-/**
- * \brief Removes \p const and \p volatile qualifiers from type \p Tp.
- *
- * For example:
- *     <tt>typename RemoveQualifiers<volatile int>::Type         // int;</tt>
- */
-template <typename Tp, typename Up = Tp>
-struct RemoveQualifiers
-{
-    /// Type without \p const and \p volatile qualifiers
-    typedef Up Type;
-};
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-
-template <typename Tp, typename Up>
-struct RemoveQualifiers<Tp, volatile Up>
-{
-    typedef Up Type;
-};
-
-template <typename Tp, typename Up>
-struct RemoveQualifiers<Tp, const Up>
-{
-    typedef Up Type;
-};
-
-template <typename Tp, typename Up>
-struct RemoveQualifiers<Tp, const volatile Up>
-{
-    typedef Up Type;
-};
-
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 
 
@@ -798,12 +795,10 @@ struct EnableIf
     typedef T Type;
 };
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
 
 template <class T>
 struct EnableIf<false, T> {};
 
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 
 /******************************************************************************
@@ -846,7 +841,8 @@ public:
     static const bool HAS_PARAM = sizeof(Test<BinaryOp>(NULL)) == sizeof(char);
 };
 
-#endif // DOXYGEN_SHOULD_SKIP_THIS
+
+
 
 /******************************************************************************
  * Simple type traits utilities.
@@ -874,7 +870,7 @@ enum Category
 /**
  * \brief Basic type traits
  */
-template <Category _CATEGORY, bool _PRIMITIVE, bool _NULL_TYPE, typename _UnsignedBits>
+template <Category _CATEGORY, bool _PRIMITIVE, bool _NULL_TYPE, typename _UnsignedBits, typename T>
 struct BaseTraits
 {
     /// Category
@@ -886,18 +882,17 @@ struct BaseTraits
     };
 };
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
 
 /**
  * Basic type traits (unsigned primitive specialization)
  */
-template <typename _UnsignedBits>
-struct BaseTraits<UNSIGNED_INTEGER, true, false, _UnsignedBits>
+template <typename _UnsignedBits, typename T>
+struct BaseTraits<UNSIGNED_INTEGER, true, false, _UnsignedBits, T>
 {
     typedef _UnsignedBits       UnsignedBits;
 
     static const Category       CATEGORY    = UNSIGNED_INTEGER;
-    static const UnsignedBits   MIN_KEY     = UnsignedBits(0);
+    static const UnsignedBits   LOWEST_KEY  = UnsignedBits(0);
     static const UnsignedBits   MAX_KEY     = UnsignedBits(-1);
 
     enum
@@ -916,20 +911,32 @@ struct BaseTraits<UNSIGNED_INTEGER, true, false, _UnsignedBits>
     {
         return key;
     }
+
+    static __host__ __device__ __forceinline__ T Max()
+    {
+        UnsignedBits retval = MAX_KEY;
+        return reinterpret_cast<T&>(retval);
+    }
+
+    static __host__ __device__ __forceinline__ T Lowest()
+    {
+        UnsignedBits retval = LOWEST_KEY;
+        return reinterpret_cast<T&>(retval);
+    }
 };
 
 
 /**
  * Basic type traits (signed primitive specialization)
  */
-template <typename _UnsignedBits>
-struct BaseTraits<SIGNED_INTEGER, true, false, _UnsignedBits>
+template <typename _UnsignedBits, typename T>
+struct BaseTraits<SIGNED_INTEGER, true, false, _UnsignedBits, T>
 {
     typedef _UnsignedBits       UnsignedBits;
 
     static const Category       CATEGORY    = SIGNED_INTEGER;
     static const UnsignedBits   HIGH_BIT    = UnsignedBits(1) << ((sizeof(UnsignedBits) * 8) - 1);
-    static const UnsignedBits   MIN_KEY     = HIGH_BIT;
+    static const UnsignedBits   LOWEST_KEY  = HIGH_BIT;
     static const UnsignedBits   MAX_KEY     = UnsignedBits(-1) ^ HIGH_BIT;
 
     enum
@@ -948,21 +955,65 @@ struct BaseTraits<SIGNED_INTEGER, true, false, _UnsignedBits>
         return key ^ HIGH_BIT;
     };
 
+    static __host__ __device__ __forceinline__ T Max()
+    {
+        UnsignedBits retval = MAX_KEY;
+        return reinterpret_cast<T&>(retval);
+    }
+
+    static __host__ __device__ __forceinline__ T Lowest()
+    {
+        UnsignedBits retval = LOWEST_KEY;
+        return reinterpret_cast<T&>(retval);
+    }
+};
+
+template <typename _T>
+struct FpLimits;
+
+template <>
+struct FpLimits<float>
+{
+    static __host__ __device__ __forceinline__ float Max() {
+        return FLT_MAX;
+    }
+
+    static __host__ __device__ __forceinline__ float Lowest() {
+        return FLT_MAX * float(-1);
+    }
+};
+
+template <>
+struct FpLimits<double>
+{
+    static __host__ __device__ __forceinline__ double Max() {
+        return DBL_MAX;
+    }
+
+    static __host__ __device__ __forceinline__ double Lowest() {
+        return DBL_MAX  * double(-1);
+    }
 };
 
 
 /**
  * Basic type traits (fp primitive specialization)
  */
-template <typename _UnsignedBits>
-struct BaseTraits<FLOATING_POINT, true, false, _UnsignedBits>
+template <typename _UnsignedBits, typename T>
+struct BaseTraits<FLOATING_POINT, true, false, _UnsignedBits, T>
 {
     typedef _UnsignedBits       UnsignedBits;
 
     static const Category       CATEGORY    = FLOATING_POINT;
     static const UnsignedBits   HIGH_BIT    = UnsignedBits(1) << ((sizeof(UnsignedBits) * 8) - 1);
-    static const UnsignedBits   MIN_KEY     = UnsignedBits(-1);
+    static const UnsignedBits   LOWEST_KEY  = UnsignedBits(-1);
     static const UnsignedBits   MAX_KEY     = UnsignedBits(-1) ^ HIGH_BIT;
+
+    enum
+    {
+        PRIMITIVE       = true,
+        NULL_TYPE       = false,
+    };
 
     static __device__ __forceinline__ UnsignedBits TwiddleIn(UnsignedBits key)
     {
@@ -976,42 +1027,41 @@ struct BaseTraits<FLOATING_POINT, true, false, _UnsignedBits>
         return key ^ mask;
     };
 
-    enum
-    {
-        PRIMITIVE       = true,
-        NULL_TYPE       = false,
-    };
-};
+    static __host__ __device__ __forceinline__ T Max() {
+        return FpLimits<T>::Max();
+    }
 
-#endif // DOXYGEN_SHOULD_SKIP_THIS
+    static __host__ __device__ __forceinline__ T Lowest() {
+        return FpLimits<T>::Lowest();
+    }
+};
 
 
 /**
  * \brief Numeric type traits
  */
-template <typename T> struct NumericTraits :            BaseTraits<NOT_A_NUMBER, false, false, T> {};
+template <typename T> struct NumericTraits :            BaseTraits<NOT_A_NUMBER, false, false, T, T> {};
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+template <> struct NumericTraits<NullType> :            BaseTraits<NOT_A_NUMBER, false, true, NullType, NullType> {};
 
-template <> struct NumericTraits<NullType> :            BaseTraits<NOT_A_NUMBER, false, true, NullType> {};
+template <> struct NumericTraits<char> :                BaseTraits<(std::numeric_limits<char>::is_signed) ? SIGNED_INTEGER : UNSIGNED_INTEGER, true, false, unsigned char, char> {};
+template <> struct NumericTraits<signed char> :         BaseTraits<SIGNED_INTEGER, true, false, unsigned char, signed char> {};
+template <> struct NumericTraits<short> :               BaseTraits<SIGNED_INTEGER, true, false, unsigned short, short> {};
+template <> struct NumericTraits<int> :                 BaseTraits<SIGNED_INTEGER, true, false, unsigned int, int> {};
+template <> struct NumericTraits<long> :                BaseTraits<SIGNED_INTEGER, true, false, unsigned long, long> {};
+template <> struct NumericTraits<long long> :           BaseTraits<SIGNED_INTEGER, true, false, unsigned long long, long long> {};
 
-template <> struct NumericTraits<char> :                BaseTraits<(std::numeric_limits<char>::is_signed) ? SIGNED_INTEGER : UNSIGNED_INTEGER, true, false, unsigned char> {};
-template <> struct NumericTraits<signed char> :         BaseTraits<SIGNED_INTEGER, true, false, unsigned char> {};
-template <> struct NumericTraits<short> :               BaseTraits<SIGNED_INTEGER, true, false, unsigned short> {};
-template <> struct NumericTraits<int> :                 BaseTraits<SIGNED_INTEGER, true, false, unsigned int> {};
-template <> struct NumericTraits<long> :                BaseTraits<SIGNED_INTEGER, true, false, unsigned long> {};
-template <> struct NumericTraits<long long> :           BaseTraits<SIGNED_INTEGER, true, false, unsigned long long> {};
+template <> struct NumericTraits<unsigned char> :       BaseTraits<UNSIGNED_INTEGER, true, false, unsigned char, unsigned char> {};
+template <> struct NumericTraits<unsigned short> :      BaseTraits<UNSIGNED_INTEGER, true, false, unsigned short, unsigned short> {};
+template <> struct NumericTraits<unsigned int> :        BaseTraits<UNSIGNED_INTEGER, true, false, unsigned int, unsigned int> {};
+template <> struct NumericTraits<unsigned long> :       BaseTraits<UNSIGNED_INTEGER, true, false, unsigned long, unsigned long> {};
+template <> struct NumericTraits<unsigned long long> :  BaseTraits<UNSIGNED_INTEGER, true, false, unsigned long long, unsigned long long> {};
 
-template <> struct NumericTraits<unsigned char> :       BaseTraits<UNSIGNED_INTEGER, true, false, unsigned char> {};
-template <> struct NumericTraits<unsigned short> :      BaseTraits<UNSIGNED_INTEGER, true, false, unsigned short> {};
-template <> struct NumericTraits<unsigned int> :        BaseTraits<UNSIGNED_INTEGER, true, false, unsigned int> {};
-template <> struct NumericTraits<unsigned long> :       BaseTraits<UNSIGNED_INTEGER, true, false, unsigned long> {};
-template <> struct NumericTraits<unsigned long long> :  BaseTraits<UNSIGNED_INTEGER, true, false, unsigned long long> {};
+template <> struct NumericTraits<float> :               BaseTraits<FLOATING_POINT, true, false, unsigned int, float> {};
+template <> struct NumericTraits<double> :              BaseTraits<FLOATING_POINT, true, false, unsigned long long, double> {};
 
-template <> struct NumericTraits<float> :               BaseTraits<FLOATING_POINT, true, false, unsigned int> {};
-template <> struct NumericTraits<double> :              BaseTraits<FLOATING_POINT, true, false, unsigned long long> {};
+template <> struct NumericTraits<bool> :                BaseTraits<UNSIGNED_INTEGER, true, false, UnitWord<bool>::VolatileWord, bool> {};
 
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 
 /**
@@ -1020,6 +1070,8 @@ template <> struct NumericTraits<double> :              BaseTraits<FLOATING_POIN
 template <typename T>
 struct Traits : NumericTraits<typename RemoveQualifiers<T>::Type> {};
 
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 
 /** @} */       // end group UtilModule

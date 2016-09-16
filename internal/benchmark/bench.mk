@@ -20,5 +20,6 @@ ifeq ($(ABITYPE), androideabi)
     CUDACC_FLAGS += $(GENSASS_SM32)
 endif
 endif
+ARCH_NEG_FILTER += 20 21
 
 include $(ROOTDIR)/build/common.mk

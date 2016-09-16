@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -76,9 +76,9 @@ namespace cub {
  * Iterative work management can be implemented simply with a pair of flip-flopping
  * work buffers, each with an associated set of fill and drain GridQueue descriptors.
  *
- * \tparam Offset Signed integer type for global offsets
+ * \tparam OffsetT Signed integer type for global offsets
  */
-template <typename Offset>
+template <typename OffsetT>
 class GridQueue
 {
 private:
@@ -91,7 +91,7 @@ private:
     };
 
     /// Pair of counters
-    Offset *d_counters;
+    OffsetT *d_counters;
 
 public:
 
@@ -99,7 +99,7 @@ public:
     __host__ __device__ __forceinline__
     static size_t AllocationSize()
     {
-        return sizeof(Offset) * 2;
+        return sizeof(OffsetT) * 2;
     }
 
 
@@ -114,13 +114,13 @@ public:
     __host__ __device__ __forceinline__ GridQueue(
         void *d_storage)                    ///< Device allocation to back the GridQueue.  Must be at least as big as <tt>AllocationSize()</tt>.
     :
-        d_counters((Offset*) d_storage)
+        d_counters((OffsetT*) d_storage)
     {}
 
 
     /// This operation sets the fill-size and resets the drain counter, preparing the GridQueue for draining in the next kernel instance.  To be called by the host or by a kernel prior to that which will be draining.
     __host__ __device__ __forceinline__ cudaError_t FillAndResetDrain(
-        Offset fill_size,
+        OffsetT fill_size,
         cudaStream_t stream = 0)
     {
 #if (CUB_PTX_ARCH > 0)
@@ -128,10 +128,10 @@ public:
         d_counters[DRAIN] = 0;
         return cudaSuccess;
 #else
-        Offset counters[2];
+        OffsetT counters[2];
         counters[FILL] = fill_size;
         counters[DRAIN] = 0;
-        return CubDebug(cudaMemcpyAsync(d_counters, counters, sizeof(Offset) * 2, cudaMemcpyHostToDevice, stream));
+        return CubDebug(cudaMemcpyAsync(d_counters, counters, sizeof(OffsetT) * 2, cudaMemcpyHostToDevice, stream));
 #endif
     }
 
@@ -143,46 +143,46 @@ public:
         d_counters[DRAIN] = 0;
         return cudaSuccess;
 #else
-        return FillAndResetDrain(0, stream);
+        return CubDebug(cudaMemsetAsync(d_counters + DRAIN, 0, sizeof(OffsetT), stream));
 #endif
     }
 
 
     /// This operation resets the fill counter.  To be called by the host or by a kernel prior to that which will be filling.
-    __host__ __device__ __forceinline__ cudaError_t ResetFill()
+    __host__ __device__ __forceinline__ cudaError_t ResetFill(cudaStream_t stream = 0)
     {
 #if (CUB_PTX_ARCH > 0)
         d_counters[FILL] = 0;
         return cudaSuccess;
 #else
-        return CubDebug(cudaMemset(d_counters + FILL, 0, sizeof(Offset)));
+        return CubDebug(cudaMemsetAsync(d_counters + FILL, 0, sizeof(OffsetT), stream));
 #endif
     }
 
 
     /// Returns the fill-size established by the parent or by the previous kernel.
     __host__ __device__ __forceinline__ cudaError_t FillSize(
-        Offset &fill_size,
+        OffsetT &fill_size,
         cudaStream_t stream = 0)
     {
 #if (CUB_PTX_ARCH > 0)
         fill_size = d_counters[FILL];
         return cudaSuccess;
 #else
-        return CubDebug(cudaMemcpyAsync(&fill_size, d_counters + FILL, sizeof(Offset), cudaMemcpyDeviceToHost, stream));
+        return CubDebug(cudaMemcpyAsync(&fill_size, d_counters + FILL, sizeof(OffsetT), cudaMemcpyDeviceToHost, stream));
 #endif
     }
 
 
-    /// Drain num_items.  Returns offset from which to read items.
-    __device__ __forceinline__ Offset Drain(Offset num_items)
+    /// Drain \p num_items from the queue.  Returns offset from which to read items.  To be called from CUDA kernel.
+    __device__ __forceinline__ OffsetT Drain(OffsetT num_items)
     {
         return atomicAdd(d_counters + DRAIN, num_items);
     }
 
 
-    /// Fill num_items.  Returns offset from which to write items.
-    __device__ __forceinline__ Offset Fill(Offset num_items)
+    /// Fill \p num_items into the queue.  Returns offset from which to write items.    To be called from CUDA kernel.
+    __device__ __forceinline__ OffsetT Fill(OffsetT num_items)
     {
         return atomicAdd(d_counters + FILL, num_items);
     }
@@ -195,10 +195,10 @@ public:
 /**
  * Reset grid queue (call with 1 block of 1 thread)
  */
-template <typename Offset>
+template <typename OffsetT>
 __global__ void FillAndResetDrainKernel(
-    GridQueue<Offset>    grid_queue,
-    Offset               num_items)
+    GridQueue<OffsetT>   grid_queue,
+    OffsetT              num_items)
 {
     grid_queue.FillAndResetDrain(num_items);
 }

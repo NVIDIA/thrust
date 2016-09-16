@@ -47,7 +47,7 @@
  *         <tt>THRUST_VERSION / 100 % 1000</tt> is the minor version.
  *         <tt>THRUST_VERSION / 100000</tt> is the major version.
  */
-#define THRUST_VERSION 100803
+#define THRUST_VERSION 100804
 
 /*! \def THRUST_MAJOR_VERSION
  *  \brief The preprocessor macro \p THRUST_MAJOR_VERSION encodes the
@@ -71,7 +71,7 @@
  *  \brief The preprocessor macro \p THRUST_PATCH_NUMBER encodes the
  *         patch number of the Thrust library.
  */
-#define THRUST_PATCH_NUMBER 2
+#define THRUST_PATCH_NUMBER 0
 
 
 // Declare these namespaces here for the purpose of Doxygenating them

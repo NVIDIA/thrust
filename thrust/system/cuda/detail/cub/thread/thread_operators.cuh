@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -100,6 +100,13 @@ struct InequalityWrapper
     {
         return !op(a, b);
     }
+    
+    /// Boolean inequality operator, returns <tt>(a != b)</tt>
+    template <typename T>
+    __host__ __device__ __forceinline__ bool operator()(const T &a, const T &b) 
+    {
+        return !op(a, b);
+    }
 };
 
 
@@ -132,20 +139,22 @@ struct Max
 
 
 /**
- * \brief Arg max functor (keeps the value and offset of the first occurrence of the l item)
+ * \brief Arg max functor (keeps the value and offset of the first occurrence of the larger item)
  */
 struct ArgMax
 {
     /// Boolean max operator, preferring the item having the smaller offset in case of ties
-    template <typename T, typename Offset>
-    __host__ __device__ __forceinline__ ItemOffsetPair<T, Offset> operator()(
-        const ItemOffsetPair<T, Offset> &a,
-        const ItemOffsetPair<T, Offset> &b) const
+    template <typename T, typename OffsetT>
+    __host__ __device__ __forceinline__ KeyValuePair<OffsetT, T> operator()(
+        const KeyValuePair<OffsetT, T> &a,
+        const KeyValuePair<OffsetT, T> &b) const
     {
-        if (a.value == b.value)
-            return (b.offset < a.offset) ? b : a;
+// Mooch BUG (device reduce argmax gk110 3.2 million random fp32)
+//        return ((b.value > a.value) || ((a.value == b.value) && (b.key < a.key))) ? b : a;
 
-        return (b.value > a.value) ? b : a;
+        if ((b.value > a.value) || ((a.value == b.value) && (b.key < a.key)))
+            return b;
+        return a;
     }
 };
 
@@ -170,15 +179,17 @@ struct Min
 struct ArgMin
 {
     /// Boolean min operator, preferring the item having the smaller offset in case of ties
-    template <typename T, typename Offset>
-    __host__ __device__ __forceinline__ ItemOffsetPair<T, Offset> operator()(
-        const ItemOffsetPair<T, Offset> &a,
-        const ItemOffsetPair<T, Offset> &b) const
+    template <typename T, typename OffsetT>
+    __host__ __device__ __forceinline__ KeyValuePair<OffsetT, T> operator()(
+        const KeyValuePair<OffsetT, T> &a,
+        const KeyValuePair<OffsetT, T> &b) const
     {
-        if (a.value == b.value)
-            return (b.offset < a.offset) ? b : a;
+// Mooch BUG (device reduce argmax gk110 3.2 million random fp32)
+//        return ((b.value < a.value) || ((a.value == b.value) && (b.key < a.key))) ? b : a;
 
-        return (b.value < a.value) ? b : a;
+        if ((b.value < a.value) || ((a.value == b.value) && (b.key < a.key)))
+            return b;
+        return a;
     }
 };
 
@@ -199,50 +210,108 @@ struct Cast
 
 
 /**
+ * \brief Binary operator wrapper for switching non-commutative scan arguments
+ */
+template <typename ScanOp>
+class SwizzleScanOp
+{
+private:
+
+    /// Wrapped scan operator
+    ScanOp scan_op;
+
+public:
+
+    /// Constructor
+    __host__ __device__ __forceinline__
+    SwizzleScanOp(ScanOp scan_op) : scan_op(scan_op) {}
+
+    /// Switch the scan arguments
+    template <typename T>
+    __host__ __device__ __forceinline__
+    T operator()(const T &a, const T &b)
+    {
+        return scan_op(b, a);
+    }
+};
+
+
+/**
  * \brief Reduce-by-segment functor.
  *
- * Given two cub::ItemOffsetPair inputs \p a and \p b and a
+ * Given two cub::KeyValuePair inputs \p a and \p b and a
  * binary associative combining operator \p <tt>f(const T &x, const T &y)</tt>,
- * an instance of this functor returns a cub::ItemOffsetPair whose \p offset
- * field is <tt>a.offset</tt> + <tt>a.offset</tt>, and whose \p value field
- * is either b.value if b.offset is non-zero, or f(a.value, b.value) otherwise.
+ * an instance of this functor returns a cub::KeyValuePair whose \p key
+ * field is <tt>a.key</tt> + <tt>a.key</tt>, and whose \p value field
+ * is either b.value if b.key is non-zero, or f(a.value, b.value) otherwise.
  *
  * ReduceBySegmentOp is an associative, non-commutative binary combining operator
- * for input sequences of cub::ItemOffsetPair pairings.  Such
+ * for input sequences of cub::KeyValuePair pairings.  Such
  * sequences are typically used to represent a segmented set of values to be reduced
  * and a corresponding set of {0,1}-valued integer "head flags" demarcating the
  * first value of each segment.
  *
  */
-template <
-    typename ReductionOp,                           ///< Binary reduction operator to apply to values
-    typename ItemOffsetPair>                        ///< ItemOffsetPair pairing of T (value) and Offset (head flag)
-class ReduceBySegmentOp
+template <typename ReductionOpT>    ///< Binary reduction operator to apply to values
+struct ReduceBySegmentOp
 {
-private:
-
     /// Wrapped reduction operator
-    ReductionOp op;
-
-public:
+    ReductionOpT op;
 
     /// Constructor
-    __host__ __device__ __forceinline__ ReduceBySegmentOp(ReductionOp op) : op(op) {}
+    __host__ __device__ __forceinline__ ReduceBySegmentOp() {}
+
+    /// Constructor
+    __host__ __device__ __forceinline__ ReduceBySegmentOp(ReductionOpT op) : op(op) {}
 
     /// Scan operator
-    __host__ __device__ __forceinline__ ItemOffsetPair operator()(
-        const ItemOffsetPair &first,       ///< First partial reduction
-        const ItemOffsetPair &second)      ///< Second partial reduction
+    template <typename KeyValuePairT>       ///< KeyValuePair pairing of T (value) and OffsetT (head flag)
+    __host__ __device__ __forceinline__ KeyValuePairT operator()(
+        const KeyValuePairT &first,         ///< First partial reduction
+        const KeyValuePairT &second)        ///< Second partial reduction
     {
-        // This expression uses less registers and is faster when compiled with Open64
-        ItemOffsetPair retval;
-        retval.offset = first.offset + second.offset;
-        retval.value = (second.offset) ?
+        KeyValuePairT retval;
+        retval.key = first.key + second.key;
+        retval.value = (second.key) ?
                 second.value :                          // The second partial reduction spans a segment reset, so it's value aggregate becomes the running aggregate
                 op(first.value, second.value);          // The second partial reduction does not span a reset, so accumulate both into the running aggregate
         return retval;
     }
 };
+
+
+
+template <typename ReductionOpT>    ///< Binary reduction operator to apply to values
+struct ReduceByKeyOp
+{
+    /// Wrapped reduction operator
+    ReductionOpT op;
+
+    /// Constructor
+    __host__ __device__ __forceinline__ ReduceByKeyOp() {}
+
+    /// Constructor
+    __host__ __device__ __forceinline__ ReduceByKeyOp(ReductionOpT op) : op(op) {}
+
+    /// Scan operator
+    template <typename KeyValuePairT>
+    __host__ __device__ __forceinline__ KeyValuePairT operator()(
+        const KeyValuePairT &first,       ///< First partial reduction
+        const KeyValuePairT &second)      ///< Second partial reduction
+    {
+        KeyValuePairT retval = second;
+
+        if (first.key == second.key)
+            retval.value = op(first.value, retval.value);
+
+        return retval;
+    }
+};
+
+
+
+
+
 
 
 /** @} */       // end group UtilModule

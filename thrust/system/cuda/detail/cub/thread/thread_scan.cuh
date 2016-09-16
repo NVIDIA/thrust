@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -90,7 +90,7 @@ __device__ __forceinline__ T ThreadScanExclusive(
 /**
  * \brief Perform a sequential exclusive prefix scan over \p LENGTH elements of the \p input array, seeded with the specified \p prefix.  The aggregate is returned.
  *
- * \tparam LENGTH     Length of \p input and \p output arrays
+ * \tparam LENGTH     LengthT of \p input and \p output arrays
  * \tparam T          <b>[inferred]</b> The data type to be scanned.
  * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */
@@ -120,7 +120,7 @@ __device__ __forceinline__ T ThreadScanExclusive(
 /**
  * \brief Perform a sequential exclusive prefix scan over the statically-sized \p input array, seeded with the specified \p prefix.  The aggregate is returned.
  *
- * \tparam LENGTH     <b>[inferred]</b> Length of \p input and \p output arrays
+ * \tparam LENGTH     <b>[inferred]</b> LengthT of \p input and \p output arrays
  * \tparam T          <b>[inferred]</b> The data type to be scanned.
  * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */
@@ -181,7 +181,7 @@ __device__ __forceinline__ T ThreadScanInclusive(
 /**
  * \brief Perform a sequential inclusive prefix scan over \p LENGTH elements of the \p input array.  The aggregate is returned.
  *
- * \tparam LENGTH     Length of \p input and \p output arrays
+ * \tparam LENGTH     LengthT of \p input and \p output arrays
  * \tparam T          <b>[inferred]</b> The data type to be scanned.
  * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */
@@ -205,7 +205,7 @@ __device__ __forceinline__ T ThreadScanInclusive(
 /**
  * \brief Perform a sequential inclusive prefix scan over the statically-sized \p input array.  The aggregate is returned.
  *
- * \tparam LENGTH     <b>[inferred]</b> Length of \p input and \p output arrays
+ * \tparam LENGTH     <b>[inferred]</b> LengthT of \p input and \p output arrays
  * \tparam T          <b>[inferred]</b> The data type to be scanned.
  * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */
@@ -225,7 +225,7 @@ __device__ __forceinline__ T ThreadScanInclusive(
 /**
  * \brief Perform a sequential inclusive prefix scan over \p LENGTH elements of the \p input array, seeded with the specified \p prefix.  The aggregate is returned.
  *
- * \tparam LENGTH     Length of \p input and \p output arrays
+ * \tparam LENGTH     LengthT of \p input and \p output arrays
  * \tparam T          <b>[inferred]</b> The data type to be scanned.
  * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */
@@ -255,7 +255,7 @@ __device__ __forceinline__ T ThreadScanInclusive(
 /**
  * \brief Perform a sequential inclusive prefix scan over the statically-sized \p input array, seeded with the specified \p prefix.  The aggregate is returned.
  *
- * \tparam LENGTH     <b>[inferred]</b> Length of \p input and \p output arrays
+ * \tparam LENGTH     <b>[inferred]</b> LengthT of \p input and \p output arrays
  * \tparam T          <b>[inferred]</b> The data type to be scanned.
  * \tparam ScanOp     <b>[inferred]</b> Binary scan operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */

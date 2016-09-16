@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/count.h>
-#include <thrust/system/cuda/detail/count.h>
+#include <thrust/system/cuda_bulk/detail/count.h>
 #include <thrust/system/omp/detail/count.h>
 #include <thrust/system/tbb/detail/count.h>
 #endif

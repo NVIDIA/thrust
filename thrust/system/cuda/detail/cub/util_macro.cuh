@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,60 +46,56 @@ namespace cub {
  * @{
  */
 
-/**
- * Align struct
- */
-#if defined(_WIN32) || defined(_WIN64)
-    #define CUB_ALIGN(bytes) __declspec(align(32))
-#else
-    #define CUB_ALIGN(bytes) __attribute__((aligned(bytes)))
+#ifndef CUB_ALIGN
+    #if defined(_WIN32) || defined(_WIN64)
+        /// Align struct
+        #define CUB_ALIGN(bytes) __declspec(align(32))
+    #else
+        /// Align struct
+        #define CUB_ALIGN(bytes) __attribute__((aligned(bytes)))
+    #endif
 #endif
 
-/**
- * Select maximum(a, b)
- */
-#define CUB_MAX(a, b) (((b) > (a)) ? (b) : (a))
+#ifndef CUB_MAX
+    /// Select maximum(a, b)
+    #define CUB_MAX(a, b) (((b) > (a)) ? (b) : (a))
+#endif
 
-/**
- * Select minimum(a, b)
- */
-#define CUB_MIN(a, b) (((b) < (a)) ? (b) : (a))
+#ifndef CUB_MIN
+    /// Select minimum(a, b)
+    #define CUB_MIN(a, b) (((b) < (a)) ? (b) : (a))
+#endif
 
-/**
- * Quotient of x/y rounded down to nearest integer
- */
-#define CUB_QUOTIENT_FLOOR(x, y) ((x) / (y))
+#ifndef CUB_QUOTIENT_FLOOR
+    /// Quotient of x/y rounded down to nearest integer
+    #define CUB_QUOTIENT_FLOOR(x, y) ((x) / (y))
+#endif
 
-/**
- * Quotient of x/y rounded up to nearest integer
- */
-#define CUB_QUOTIENT_CEILING(x, y) (((x) + (y) - 1) / (y))
+#ifndef CUB_QUOTIENT_CEILING
+    /// Quotient of x/y rounded up to nearest integer
+    #define CUB_QUOTIENT_CEILING(x, y) (((x) + (y) - 1) / (y))
+#endif
 
-/**
- * x rounded up to the nearest multiple of y
- */
-#define CUB_ROUND_UP_NEAREST(x, y) ((((x) + (y) - 1) / (y)) * y)
+#ifndef CUB_ROUND_UP_NEAREST
+    /// x rounded up to the nearest multiple of y
+    #define CUB_ROUND_UP_NEAREST(x, y) ((((x) + (y) - 1) / (y)) * y)
+#endif
 
-/**
- * x rounded down to the nearest multiple of y
- */
-#define CUB_ROUND_DOWN_NEAREST(x, y) (((x) / (y)) * y)
+#ifndef CUB_ROUND_DOWN_NEAREST
+    /// x rounded down to the nearest multiple of y
+    #define CUB_ROUND_DOWN_NEAREST(x, y) (((x) / (y)) * y)
+#endif
 
-/**
- * Return character string for given type
- */
-#define CUB_TYPE_STRING(type) ""#type
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
-    #define CUB_CAT_(a, b) a ## b
-    #define CUB_CAT(a, b) CUB_CAT_(a, b)
-#endif // DOXYGEN_SHOULD_SKIP_THIS
+#ifndef CUB_STATIC_ASSERT
+    #ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
+        #define CUB_CAT_(a, b) a ## b
+        #define CUB_CAT(a, b) CUB_CAT_(a, b)
+    #endif // DOXYGEN_SHOULD_SKIP_THIS
 
-/**
- * Static assert
- */
-#define CUB_STATIC_ASSERT(cond, msg) typedef int CUB_CAT(cub_static_assert, __LINE__)[(cond) ? 1 : -1]
-
+    /// Static assert
+    #define CUB_STATIC_ASSERT(cond, msg) typedef int CUB_CAT(cub_static_assert, __LINE__)[(cond) ? 1 : -1]
+#endif
 
 /** @} */       // end group UtilModule
 

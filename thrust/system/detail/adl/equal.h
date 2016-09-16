@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/equal.h>
-#include <thrust/system/cuda/detail/equal.h>
+#include <thrust/system/cuda_bulk/detail/equal.h>
 #include <thrust/system/omp/detail/equal.h>
 #include <thrust/system/tbb/detail/equal.h>
 #endif

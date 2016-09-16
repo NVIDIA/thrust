@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -64,8 +64,8 @@ namespace cub {
  * \brief A random-access input wrapper for transforming dereferenced values.
  *
  * \par Overview
- * - TransformInputIterator wraps a unary conversion functor of type \p
- *   ConversionOp and a random-access input iterator of type <tt>InputIterator</tt>,
+ * - TransformInputIteratorTwraps a unary conversion functor of type \p
+ *   ConversionOp and a random-access input iterator of type <tt>InputIteratorT</tt>,
  *   using the former to produce references of type \p ValueType from the latter.
  * - Can be used with any data type.
  * - Can be constructed, manipulated, and exchanged within and between host and device
@@ -74,11 +74,11 @@ namespace cub {
  * - Compatible with Thrust API v1.7 or newer.
  *
  * \par Snippet
- * The code snippet below illustrates the use of \p TransformInputIterator to
+ * The code snippet below illustrates the use of \p TransformInputIteratorTto
  * dereference an array of integers, tripling the values and converting them to doubles.
  * \par
  * \code
- * #include <cub/cub.cuh>   // or equivalently <cub/iterator/transform_input_iterator.cuh>
+ * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/iterator/transform_input_iterator.cuh>
  *
  * // Functor for tripling integer values and converting to doubles
  * struct TripleDoubler
@@ -105,22 +105,22 @@ namespace cub {
  *
  * \tparam ValueType            The value type of this iterator
  * \tparam ConversionOp         Unary functor type for mapping objects of type \p InputType to type \p ValueType.  Must have member <tt>ValueType operator()(const InputType &datum)</tt>.
- * \tparam InputIterator        The type of the wrapped input iterator
- * \tparam Offset               The difference type of this iterator (Default: \p ptrdiff_t)
+ * \tparam InputIteratorT       The type of the wrapped input iterator
+ * \tparam OffsetT              The difference type of this iterator (Default: \p ptrdiff_t)
  *
  */
 template <
     typename ValueType,
     typename ConversionOp,
-    typename InputIterator,
-    typename Offset = ptrdiff_t>
+    typename InputIteratorT,
+    typename OffsetT = ptrdiff_t>
 class TransformInputIterator
 {
 public:
 
     // Required iterator traits
     typedef TransformInputIterator              self_type;              ///< My own type
-    typedef Offset                              difference_type;        ///< Type to express the result of subtracting one iterator from another
+    typedef OffsetT                             difference_type;        ///< Type to express the result of subtracting one iterator from another
     typedef ValueType                           value_type;             ///< The type of the element the iterator can point to
     typedef ValueType*                          pointer;                ///< The type of a pointer to an element the iterator can point to
     typedef ValueType                           reference;              ///< The type of a reference to an element the iterator can point to
@@ -139,14 +139,14 @@ public:
 
 private:
 
-    ConversionOp  conversion_op;
-    InputIterator input_itr;
+    ConversionOp    conversion_op;
+    InputIteratorT  input_itr;
 
 public:
 
     /// Constructor
     __host__ __device__ __forceinline__ TransformInputIterator(
-        InputIterator       input_itr,          ///< Input iterator to wrap
+        InputIteratorT      input_itr,          ///< Input iterator to wrap
         ConversionOp        conversion_op)      ///< Conversion functor to wrap
     :
         conversion_op(conversion_op),

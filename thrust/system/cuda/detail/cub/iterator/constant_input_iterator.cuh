@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -64,7 +64,7 @@ namespace cub {
  * \brief A random-access input generator for dereferencing a sequence of homogeneous values
  *
  * \par Overview
- * - Read references to a ConstantInputIterator iterator always return the supplied constant
+ * - Read references to a ConstantInputIteratorTiterator always return the supplied constant
  *   of type \p ValueType.
  * - Can be used with any data type.
  * - Can be constructed, manipulated, dereferenced, and exchanged within and between host and device
@@ -72,11 +72,11 @@ namespace cub {
  * - Compatible with Thrust API v1.7 or newer.
  *
  * \par Snippet
- * The code snippet below illustrates the use of \p ConstantInputIterator to
+ * The code snippet below illustrates the use of \p ConstantInputIteratorTto
  * dereference a sequence of homogeneous doubles.
  * \par
  * \code
- * #include <cub/cub.cuh>   // or equivalently <cub/iterator/constant_input_iterator.cuh>
+ * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/iterator/constant_input_iterator.cuh>
  *
  * cub::ConstantInputIterator<double> itr(5.0);
  *
@@ -88,18 +88,18 @@ namespace cub {
  * \endcode
  *
  * \tparam ValueType            The value type of this iterator
- * \tparam Offset               The difference type of this iterator (Default: \p ptrdiff_t)
+ * \tparam OffsetT              The difference type of this iterator (Default: \p ptrdiff_t)
  */
 template <
     typename ValueType,
-    typename Offset = ptrdiff_t>
+    typename OffsetT = ptrdiff_t>
 class ConstantInputIterator
 {
 public:
 
     // Required iterator traits
     typedef ConstantInputIterator               self_type;              ///< My own type
-    typedef Offset                              difference_type;        ///< Type to express the result of subtracting one iterator from another
+    typedef OffsetT                             difference_type;        ///< Type to express the result of subtracting one iterator from another
     typedef ValueType                           value_type;             ///< The type of the element the iterator can point to
     typedef ValueType*                          pointer;                ///< The type of a pointer to an element the iterator can point to
     typedef ValueType                           reference;              ///< The type of a reference to an element the iterator can point to
@@ -119,9 +119,9 @@ public:
 private:
 
     ValueType   val;
-    Offset      offset;
+    OffsetT     offset;
 #ifdef _WIN32
-    Offset      pad[CUB_MAX(1, (16 / sizeof(Offset) - 1))];        // Workaround for win32 parameter-passing bug (ulonglong2 argmin DeviceReduce)
+    OffsetT     pad[CUB_MAX(1, (16 / sizeof(OffsetT) - 1))];        // Workaround for win32 parameter-passing bug (ulonglong2 argmin DeviceReduce)
 #endif
 
 public:
@@ -129,7 +129,7 @@ public:
     /// Constructor
     __host__ __device__ __forceinline__ ConstantInputIterator(
         ValueType   val,            ///< Starting value for the iterator instance to report
-        Offset      offset = 0)     ///< Base offset
+        OffsetT     offset = 0)     ///< Base offset
     :
         val(val),
         offset(offset)

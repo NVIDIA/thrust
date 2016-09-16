@@ -257,7 +257,7 @@ void TestScanMixedTypes(void)
     
     // float -> float with plus<int> operator (int accumulator)
     thrust::inclusive_scan(float_input.begin(), float_input.end(), float_output.begin(), thrust::plus<int>());
-    ASSERT_EQUAL(float_output[0],  1.0);
+    ASSERT_EQUAL(float_output[0],  1.5);
     ASSERT_EQUAL(float_output[1],  3.0);
     ASSERT_EQUAL(float_output[2],  6.0);
     ASSERT_EQUAL(float_output[3], 10.0);
@@ -496,8 +496,7 @@ void TestScanWithLargeTypes(void)
 {
   _TestScanWithLargeTypes<int,  1>();
 
-  // XXX these are too big for sm_1x
-#if THRUST_DEVICE_SYSTEM != THRUST_DEVICE_SYSTEM_CUDA && !defined(__QNX__)
+#if !defined(__QNX__)
   _TestScanWithLargeTypes<int,  8>();
   _TestScanWithLargeTypes<int, 64>();
 #else

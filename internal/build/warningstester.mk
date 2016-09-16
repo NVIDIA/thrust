@@ -13,6 +13,8 @@ include $(ROOTDIR)/build/config/$(PROFILE).mk
 endif
 endif
 
+ARCH_NEG_FILTER += 20 21
+
 ifdef VULCAN_TOOLKIT_BASE
 include $(VULCAN_TOOLKIT_BASE)/build/config/DetectOS.mk
 else
@@ -36,7 +38,7 @@ CUDACC_FLAGS += -I$(GENERATED_SOURCES)
 
 ifeq ($(OS),Linux)
     ifndef USEPGCXX
-        CUDACC_FLAGS += -Xcompiler "-pedantic -Wall -Wextra -Winit-self -Woverloaded-virtual -Wcast-align -Wcast-qual -Wno-long-long"
+        CUDACC_FLAGS += -Xcompiler "-pedantic -Wall -Wextra -Winit-self -Woverloaded-virtual -Wcast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros"
 
         GCC_VERSION = $(shell $(CC) -dumpversion | sed -e 's/\.//g')
         ifeq ($(shell if test $(GCC_VERSION) -ge 430; then echo true; fi),true)

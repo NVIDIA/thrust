@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -59,7 +59,7 @@ namespace cub {
  *
  * \par Overview
  * - It is commonplace for blocks of threads to rearrange data items between
- *   threads.  For example, the global memory subsystem prefers access patterns
+ *   threads.  For example, the device-accessible memory subsystem prefers access patterns
  *   where data items are "striped" across threads (where consecutive threads access consecutive items),
  *   yet most block-wide operations prefer a "blocked" partitioning of items across threads
  *   (where consecutive items belong to a single thread).
@@ -68,7 +68,7 @@ namespace cub {
  *   - Transposing between [<em>blocked</em>](index.html#sec5sec3) and [<em>warp-striped</em>](index.html#sec5sec3) arrangements
  *   - Scattering ranked items to a [<em>blocked arrangement</em>](index.html#sec5sec3)
  *   - Scattering ranked items to a [<em>striped arrangement</em>](index.html#sec5sec3)
- * - \blocked
+ * - \rowmajor
  *
  * \par A Simple Example
  * \blockcollective{BlockExchange}
@@ -77,7 +77,7 @@ namespace cub {
  * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
  * \par
  * \code
- * #include <cub/cub.cuh>   // or equivalently <cub/block/block_exchange.cuh>
+ * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_exchange.cuh>
  *
  * __global__ void ExampleKernel(int *d_data, ...)
  * {
@@ -145,7 +145,8 @@ private:
         WARP_TIME_SLICED_ITEMS      = WARP_TIME_SLICED_THREADS * ITEMS_PER_THREAD,
 
         // Insert padding if the number of items per thread is a power of two
-        INSERT_PADDING              = 0, // Mooch PowerOfTwo<ITEMS_PER_THREAD>::VALUE,
+//        INSERT_PADDING              = PowerOfTwo<ITEMS_PER_THREAD>::VALUE,
+        INSERT_PADDING              = 0,
         PADDING_ITEMS               = (INSERT_PADDING) ? (TIME_SLICED_ITEMS >> LOG_SMEM_BANKS) : 0,
     };
 
@@ -511,10 +512,10 @@ private:
     /**
      * Exchanges data items annotated by rank into <em>blocked</em> arrangement.  Specialized for no timeslicing.
      */
-    template <typename Offset>
+    template <typename OffsetT>
     __device__ __forceinline__ void ScatterToBlocked(
         T               items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
         Int2Type<false> time_slicing)
     {
         #pragma unroll
@@ -539,10 +540,10 @@ private:
     /**
      * Exchanges data items annotated by rank into <em>blocked</em> arrangement.  Specialized for warp-timeslicing.
      */
-    template <typename Offset>
+    template <typename OffsetT>
     __device__ __forceinline__ void ScatterToBlocked(
         T               items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
         Int2Type<true>  time_slicing)
     {
         T temp_items[ITEMS_PER_THREAD];
@@ -591,10 +592,10 @@ private:
     /**
      * Exchanges data items annotated by rank into <em>striped</em> arrangement.  Specialized for no timeslicing.
      */
-    template <typename Offset>
+    template <typename OffsetT>
     __device__ __forceinline__ void ScatterToStriped(
         T               items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
         Int2Type<false> time_slicing)
     {
         #pragma unroll
@@ -620,10 +621,10 @@ private:
     /**
      * Exchanges data items annotated by rank into <em>striped</em> arrangement.  Specialized for warp-timeslicing.
      */
-    template <typename Offset>
+    template <typename OffsetT>
     __device__ __forceinline__ void ScatterToStriped(
         T               items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD],    ///< [in] Corresponding scatter ranks
         Int2Type<true> time_slicing)
     {
         T temp_items[ITEMS_PER_THREAD];
@@ -705,8 +706,8 @@ public:
     :
         temp_storage(temp_storage.Alias()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z)),
-        lane_id(LaneId()),
         warp_id((WARPS == 1) ? 0 : linear_tid / WARP_THREADS),
+        lane_id(LaneId()),
         warp_offset(warp_id * WARP_TIME_SLICED_ITEMS)
     {}
 
@@ -728,7 +729,7 @@ public:
      * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_exchange.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_exchange.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -748,7 +749,7 @@ public:
      * \endcode
      * \par
      * Suppose the set of striped input \p thread_data across the block of threads is
-     * <tt>{ [0,128,256,384], [1,129,257,385], ..., [127,255,383,511] }</tt> after loading from global memory.
+     * <tt>{ [0,128,256,384], [1,129,257,385], ..., [127,255,383,511] }</tt> after loading from device-accessible memory.
      * The corresponding output \p thread_data in those threads will be
      * <tt>{ [0,1,2,3], [4,5,6,7], [8,9,10,11], ..., [508,509,510,511] }</tt>.
      *
@@ -770,7 +771,7 @@ public:
      * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_exchange.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_exchange.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -796,7 +797,7 @@ public:
      * <tt>{ [0,1,2,3], [4,5,6,7], [8,9,10,11], ..., [508,509,510,511] }</tt>.
      * The corresponding output \p thread_data in those threads will be
      * <tt>{ [0,128,256,384], [1,129,257,385], ..., [127,255,383,511] }</tt> in
-     * preparation for storing to global memory.
+     * preparation for storing to device-accessible memory.
      *
      */
     __device__ __forceinline__ void BlockedToStriped(
@@ -817,7 +818,7 @@ public:
      * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_exchange.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_exchange.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -838,7 +839,7 @@ public:
      * \par
      * Suppose the set of warp-striped input \p thread_data across the block of threads is
      * <tt>{ [0,32,64,96], [1,33,65,97], [2,34,66,98], ..., [415,447,479,511] }</tt>
-     * after loading from global memory.  (The first 128 items are striped across
+     * after loading from device-accessible memory.  (The first 128 items are striped across
      * the first warp of 32 threads, the second 128 items are striped across the second warp, etc.)
      * The corresponding output \p thread_data in those threads will be
      * <tt>{ [0,1,2,3], [4,5,6,7], [8,9,10,11], ..., [508,509,510,511] }</tt>.
@@ -861,7 +862,7 @@ public:
      * of 512 integer items partitioned across 128 threads where each thread owns 4 items.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_exchange.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_exchange.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
      * {
@@ -887,7 +888,7 @@ public:
      * <tt>{ [0,1,2,3], [4,5,6,7], [8,9,10,11], ..., [508,509,510,511] }</tt>.
      * The corresponding output \p thread_data in those threads will be
      * <tt>{ [0,32,64,96], [1,33,65,97], [2,34,66,98], ..., [415,447,479,511] }</tt>
-     * in preparation for storing to global memory. (The first 128 items are striped across
+     * in preparation for storing to device-accessible memory. (The first 128 items are striped across
      * the first warp of 32 threads, the second 128 items are striped across the second warp, etc.)
      *
      */
@@ -911,12 +912,12 @@ public:
      * \par
      * - \smemreuse
      *
-     * \tparam Offset                               <b>[inferred]</b> Signed integer type for local offsets
+     * \tparam OffsetT                              <b>[inferred]</b> Signed integer type for local offsets
      */
-    template <typename Offset>
+    template <typename OffsetT>
     __device__ __forceinline__ void ScatterToBlocked(
         T               items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
     {
         ScatterToBlocked(items, ranks, Int2Type<WARP_TIME_SLICING>());
     }
@@ -928,12 +929,12 @@ public:
      * \par
      * - \smemreuse
      *
-     * \tparam Offset                               <b>[inferred]</b> Signed integer type for local offsets
+     * \tparam OffsetT                              <b>[inferred]</b> Signed integer type for local offsets
      */
-    template <typename Offset>
+    template <typename OffsetT>
     __device__ __forceinline__ void ScatterToStriped(
         T               items[ITEMS_PER_THREAD],    ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD])    ///< [in] Corresponding scatter ranks
     {
         ScatterToStriped(items, ranks, Int2Type<WARP_TIME_SLICING>());
     }
@@ -945,12 +946,12 @@ public:
      * \par
      * - \smemreuse
      *
-     * \tparam Offset                               <b>[inferred]</b> Signed integer type for local offsets
+     * \tparam OffsetT                              <b>[inferred]</b> Signed integer type for local offsets
      */
-    template <typename Offset>
+    template <typename OffsetT>
     __device__ __forceinline__ void ScatterToStripedGuarded(
         T               items[ITEMS_PER_THREAD],        ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD])        ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD])        ///< [in] Corresponding scatter ranks
     {
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
@@ -978,13 +979,13 @@ public:
      * \par
      * - \smemreuse
      *
-     * \tparam Offset                               <b>[inferred]</b> Signed integer type for local offsets
-     * \tparam ValidFlag                            <b>[inferred]</b> Flag type denoting which items are valid
+     * \tparam OffsetT                              <b>[inferred]</b> Signed integer type for local offsets
+     * \tparam ValidFlag                            <b>[inferred]</b> FlagT type denoting which items are valid
      */
-    template <typename Offset, typename ValidFlag>
+    template <typename OffsetT, typename ValidFlag>
     __device__ __forceinline__ void ScatterToStriped(
         T               items[ITEMS_PER_THREAD],        ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD],        ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD],        ///< [in] Corresponding scatter ranks
         ValidFlag       is_valid[ITEMS_PER_THREAD])     ///< [in] Corresponding flag denoting item validity
     {
         #pragma unroll
@@ -1022,6 +1023,8 @@ template <
     int         PTX_ARCH                = CUB_PTX_ARCH>
 class WarpExchange
 {
+private:
+
     /******************************************************************************
      * Constants
      ******************************************************************************/
@@ -1091,12 +1094,12 @@ public:
      * \par
      * - \smemreuse
      *
-     * \tparam Offset                               <b>[inferred]</b> Signed integer type for local offsets
+     * \tparam OffsetT                              <b>[inferred]</b> Signed integer type for local offsets
      */
-    template <typename Offset>
+    template <typename OffsetT>
     __device__ __forceinline__ void ScatterToStriped(
         T               items[ITEMS_PER_THREAD],        ///< [in-out] Items to exchange
-        Offset          ranks[ITEMS_PER_THREAD])        ///< [in] Corresponding scatter ranks
+        OffsetT         ranks[ITEMS_PER_THREAD])        ///< [in] Corresponding scatter ranks
     {
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)

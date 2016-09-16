@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -61,11 +61,11 @@ struct BlockHistogramAtomic
     /// Composite data onto an existing histogram
     template <
         typename            T,
-        typename            HistoCounter,
+        typename            CounterT,     
         int                 ITEMS_PER_THREAD>
     __device__ __forceinline__ void Composite(
         T                   (&items)[ITEMS_PER_THREAD],     ///< [in] Calling thread's input values to histogram
-        HistoCounter        histogram[BINS])                 ///< [out] Reference to shared/global memory histogram
+        CounterT             histogram[BINS])                 ///< [out] Reference to shared/device-accessible memory histogram
     {
         // Update histogram
         #pragma unroll

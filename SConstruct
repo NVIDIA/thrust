@@ -35,6 +35,7 @@ gnu_compiler_flags = {
   'omp'                : ['-fopenmp'],
   'tbb'                : [],
   'cuda'               : [],
+  'cuda_bulk'          : [],
   'workarounds'        : [],
   'c++03'              : [],
   'c++11'              : ['-std=c++11']
@@ -50,6 +51,7 @@ clang_compiler_flags = {
   'omp'                : ['-fopenmp'],
   'tbb'                : [],
   'cuda'               : [],
+  'cuda_bulk'          : [],
   'workarounds'        : [],
   'c++03'              : [],
   'c++11'              : ['-std=c++11']
@@ -65,6 +67,7 @@ msvc_compiler_flags = {
   'omp'                : ['/openmp'],
   'tbb'                : [],
   'cuda'               : [],
+  'cuda_bulk'          : [],
 
   # avoid min/max problems due to windows.h
   # suppress warnings due to "decorated name length exceeded"
@@ -207,6 +210,10 @@ def inc_paths(env, host_backend, device_backend):
   if host_backend == 'cuda' or device_backend == 'cuda':
     cuda_inc_path = cuda_installation(env)[2]
     result.append(cuda_inc_path)
+  
+  if host_backend == 'cuda_bulk' or device_backend == 'cuda_bulk':
+    cuda_inc_path = cuda_installation(env)[2]
+    result.append(cuda_inc_path)
 
   if host_backend == 'tbb' or device_backend == 'tbb':
     tbb_inc_path  = tbb_installation(env)[2]
@@ -220,6 +227,10 @@ def lib_paths(env, host_backend, device_backend):
   result = []
 
   if host_backend == 'cuda' or device_backend == 'cuda':
+    cuda_lib_path = cuda_installation(env)[1]
+    result.append(cuda_lib_path)
+  
+  if host_backend == 'cuda_bulk' or device_backend == 'cuda_bulk':
     cuda_lib_path = cuda_installation(env)[1]
     result.append(cuda_lib_path)
 
@@ -242,6 +253,9 @@ def libs(env, CCX, host_backend, device_backend):
 
   # link against backend-specific runtimes
   if host_backend == 'cuda' or device_backend == 'cuda':
+    result.append(cuda_installation(env)[3])
+  
+  if host_backend == 'cuda_bulk' or device_backend == 'cuda_bulk':
     result.append(cuda_installation(env)[3])
 
     # XXX clean this up
@@ -342,12 +356,12 @@ def nv_compiler_flags(mode, device_backend, arch, cdp):
     # XXX make this work when we've debugged nvcc -G
     #result.append('-G')
     pass
-  if device_backend != 'cuda':
+  if device_backend != 'cuda' and device_backend != 'cuda_bulk':
     result.append("--x=c++")
   if cdp != False:
     result.append("-rdc=true")
 
-  if device_backend == 'cuda' and master_env['PLATFORM'] == 'darwin':
+  if (device_backend == 'cuda' or device_backend == 'cuda_bulk') and master_env['PLATFORM'] == 'darwin':
     (release, versioninfo, machine) = platform.mac_ver()
     if(release[0:5] == '10.8.'):
       result.append('-ccbin')
@@ -374,7 +388,7 @@ def command_line_variables():
   
   # add a variable to handle the device backend
   vars.Add(ListVariable('device_backend', 'The parallel device backend to target', 'cuda',
-                        ['cuda', 'omp', 'tbb', 'cpp']))
+                        ['cuda', 'cuda_bulk', 'omp', 'tbb', 'cpp']))
   
   # add a variable to handle release/debug mode
   vars.Add(EnumVariable('mode', 'Release versus debug mode', 'release',
@@ -385,7 +399,7 @@ def command_line_variables():
                         ['sm_10', 'sm_11', 'sm_12', 'sm_13',
                          'sm_20', 'sm_21',
                          'sm_30', 'sm_32', 'sm_35', 'sm_37',
-                         'sm_50', 'sm_52']))
+                         'sm_50', 'sm_52', 'sm_60', 'sm_61']))
 
   # add a variable to handle CUDA dynamic parallelism
   vars.Add(BoolVariable('cdp', 'Enable CUDA dynamic parallelism', False))

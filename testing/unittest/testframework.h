@@ -159,11 +159,18 @@ TEST##UnitTest TEST##Instance
 
 // Macro to create host and device versions of a
 // unit test for a couple data types
+#if 0
 #define DECLARE_VECTOR_UNITTEST(VTEST)                                                                            \
 void VTEST##Host(void)   {  VTEST< thrust::host_vector<short> >();   VTEST< thrust::host_vector<int> >();   }    \
 void VTEST##Device(void) {  VTEST< thrust::device_vector<short> >(); VTEST< thrust::device_vector<int> >(); }    \
 DECLARE_UNITTEST(VTEST##Host);                                                                                    \
 DECLARE_UNITTEST(VTEST##Device);
+#else
+#define DECLARE_VECTOR_UNITTEST(VTEST)                                                                            \
+void VTEST##Host(void)   {  VTEST< thrust::host_vector<short> >();   VTEST< thrust::host_vector<int> >();   }    \
+void VTEST##Device(void) {  VTEST< thrust::device_vector<short> >(); VTEST< thrust::device_vector<int> >(); }    \
+DECLARE_UNITTEST(VTEST##Device);
+#endif
 
 // Macro to create instances of a test for several 
 // data types and array sizes

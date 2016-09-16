@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -85,7 +85,7 @@ __device__ __forceinline__ T ThreadReduce(
 /**
  * \brief Perform a sequential reduction over \p LENGTH elements of the \p input array, seeded with the specified \p prefix.  The aggregate is returned.
  *
- * \tparam LENGTH     Length of input array
+ * \tparam LENGTH     LengthT of input array
  * \tparam T          <b>[inferred]</b> The data type to be reduced.
  * \tparam ScanOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */
@@ -105,7 +105,7 @@ __device__ __forceinline__ T ThreadReduce(
 /**
  * \brief Perform a sequential reduction over \p LENGTH elements of the \p input array.  The aggregate is returned.
  *
- * \tparam LENGTH     Length of input array
+ * \tparam LENGTH     LengthT of input array
  * \tparam T          <b>[inferred]</b> The data type to be reduced.
  * \tparam ScanOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */
@@ -125,7 +125,7 @@ __device__ __forceinline__ T ThreadReduce(
 /**
  * \brief Perform a sequential reduction over the statically-sized \p input array, seeded with the specified \p prefix.  The aggregate is returned.
  *
- * \tparam LENGTH     <b>[inferred]</b> Length of \p input array
+ * \tparam LENGTH     <b>[inferred]</b> LengthT of \p input array
  * \tparam T          <b>[inferred]</b> The data type to be reduced.
  * \tparam ScanOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */
@@ -138,14 +138,14 @@ __device__ __forceinline__ T ThreadReduce(
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
 {
-    return ThreadReduce<LENGTH>(input, reduction_op, prefix);
+    return ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
 }
 
 
 /**
  * \brief Serial reduction with the specified operator
  *
- * \tparam LENGTH     <b>[inferred]</b> Length of \p input array
+ * \tparam LENGTH     <b>[inferred]</b> LengthT of \p input array
  * \tparam T          <b>[inferred]</b> The data type to be reduced.
  * \tparam ScanOp     <b>[inferred]</b> Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
  */

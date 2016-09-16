@@ -1,7 +1,7 @@
 
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2014, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -29,7 +29,7 @@
 
 /**
  * \file
- * cub::DeviceRunLengthEncode provides device-wide, parallel operations for computing a run-length encoding across a sequence of data items residing within global memory.
+ * cub::DeviceRunLengthEncode provides device-wide, parallel operations for computing a run-length encoding across a sequence of data items residing within device-accessible memory.
  */
 
 #pragma once
@@ -37,8 +37,8 @@
 #include <stdio.h>
 #include <iterator>
 
-#include "dispatch/device_rle_dispatch.cuh"
-#include "dispatch/device_reduce_by_key_dispatch.cuh"
+#include "dispatch/dispatch_rle.cuh"
+#include "dispatch/dispatch_reduce_by_key.cuh"
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
@@ -49,8 +49,8 @@ namespace cub {
 
 
 /**
- * \brief DeviceRunLengthEncode provides device-wide, parallel operations for demarcating "runs" of same-valued items within a sequence residing within global memory. ![](run_length_encode_logo.png)
- * \ingroup DeviceModule
+ * \brief DeviceRunLengthEncode provides device-wide, parallel operations for demarcating "runs" of same-valued items within a sequence residing within device-accessible memory. ![](run_length_encode_logo.png)
+ * \ingroup SingleModule
  *
  * \par Overview
  * A <a href="http://en.wikipedia.org/wiki/Run-length_encoding"><em>run-length encoding</em></a>
@@ -88,7 +88,6 @@ struct DeviceRunLengthEncode
      * - The total number of runs encountered is written to \p d_num_runs_out.
      * - The <tt>==</tt> equality operator is used to determine whether values are equivalent
      * - \devicestorage
-     * - \cdp
      *
      * \par Performance
      * The following charts illustrate saturated encode performance across different
@@ -108,9 +107,9 @@ struct DeviceRunLengthEncode
      * The code snippet below illustrates the run-length encoding of a sequence of \p int values.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_run_length_encode.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_run_length_encode.cuh>
      *
-     * // Declare, allocate, and initialize device pointers for input and output
+     * // Declare, allocate, and initialize device-accessible pointers for input and output
      * int          num_items;          // e.g., 8
      * int          *d_in;              // e.g., [0, 2, 2, 9, 5, 5, 5, 8]
      * int          *d_unique_out;      // e.g., [ ,  ,  ,  ,  ,  ,  ,  ]
@@ -135,49 +134,49 @@ struct DeviceRunLengthEncode
      *
      * \endcode
      *
-     * \tparam InputIterator            <b>[inferred]</b> Random-access input iterator type for reading input items \iterator
-     * \tparam UniqueOutputIterator     <b>[inferred]</b> Random-access output iterator type for writing unique output items \iterator
-     * \tparam LengthsOutputIterator    <b>[inferred]</b> Random-access output iterator type for writing output counts \iterator
-     * \tparam NumRunsOutputIterator    <b>[inferred]</b> Output iterator type for recording the number of runs encountered \iterator
+     * \tparam InputIteratorT           <b>[inferred]</b> Random-access input iterator type for reading input items \iterator
+     * \tparam UniqueOutputIteratorT    <b>[inferred]</b> Random-access output iterator type for writing unique output items \iterator
+     * \tparam LengthsOutputIteratorT   <b>[inferred]</b> Random-access output iterator type for writing output counts \iterator
+     * \tparam NumRunsOutputIteratorT   <b>[inferred]</b> Output iterator type for recording the number of runs encountered \iterator
      */
     template <
-        typename                    InputIterator,
-        typename                    UniqueOutputIterator,
-        typename                    LengthsOutputIterator,
-        typename                    NumRunsOutputIterator>
+        typename                    InputIteratorT,
+        typename                    UniqueOutputIteratorT,
+        typename                    LengthsOutputIteratorT,
+        typename                    NumRunsOutputIteratorT>
     CUB_RUNTIME_FUNCTION __forceinline__
     static cudaError_t Encode(
-        void                        *d_temp_storage,                ///< [in] %Device allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
+        void*               d_temp_storage,                ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
         size_t                      &temp_storage_bytes,            ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
-        InputIterator               d_in,                           ///< [in] Pointer to the input sequence of keys
-        UniqueOutputIterator        d_unique_out,                   ///< [out] Pointer to the output sequence of unique keys (one key per run)
-        LengthsOutputIterator       d_counts_out,                   ///< [out] Pointer to the output sequence of run-lengths (one count per run)
-        NumRunsOutputIterator       d_num_runs_out,                     ///< [out] Pointer to total number of runs
+        InputIteratorT              d_in,                           ///< [in] Pointer to the input sequence of keys
+        UniqueOutputIteratorT       d_unique_out,                   ///< [out] Pointer to the output sequence of unique keys (one key per run)
+        LengthsOutputIteratorT      d_counts_out,                   ///< [out] Pointer to the output sequence of run-lengths (one count per run)
+        NumRunsOutputIteratorT      d_num_runs_out,                     ///< [out] Pointer to total number of runs
         int                         num_items,                      ///< [in] Total number of associated key+value pairs (i.e., the length of \p d_in_keys and \p d_in_values)
         cudaStream_t                stream             = 0,         ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous  = false)     ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
     {
         // Data type of value iterator
-        typedef typename std::iterator_traits<LengthsOutputIterator>::value_type Value;
+        typedef typename std::iterator_traits<LengthsOutputIteratorT>::value_type Value;
 
-        typedef int         Offset;                     // Signed integer type for global offsets
-        typedef NullType*   FlagIterator;               // Flag iterator type (not used)
+        typedef int         OffsetT;                     // Signed integer type for global offsets
+        typedef NullType*   FlagIterator;               // FlagT iterator type (not used)
         typedef NullType    SelectOp;                   // Selection op (not used)
         typedef Equality    EqualityOp;                 // Default == operator
         typedef cub::Sum    ReductionOp;                // Value reduction operator
 
         // Generator type for providing 1s values for run-length reduction
-        typedef ConstantInputIterator<Value, Offset> LengthsInputIterator;
+        typedef ConstantInputIterator<Value, OffsetT> LengthsInputIteratorT;
 
         Value one_val;
         one_val = 1;
 
-        return DeviceReduceByKeyDispatch<InputIterator, UniqueOutputIterator, LengthsInputIterator, LengthsOutputIterator, NumRunsOutputIterator, EqualityOp, ReductionOp, Offset>::Dispatch(
+        return DispatchReduceByKey<InputIteratorT, UniqueOutputIteratorT, LengthsInputIteratorT, LengthsOutputIteratorT, NumRunsOutputIteratorT, EqualityOp, ReductionOp, OffsetT>::Dispatch(
             d_temp_storage,
             temp_storage_bytes,
             d_in,
             d_unique_out,
-            LengthsInputIterator(one_val),
+            LengthsInputIteratorT(one_val),
             d_counts_out,
             d_num_runs_out,
             EqualityOp(),
@@ -198,7 +197,6 @@ struct DeviceRunLengthEncode
      * - The total number of runs encountered is written to \p d_num_runs_out.
      * - The <tt>==</tt> equality operator is used to determine whether values are equivalent
      * - \devicestorage
-     * - \cdp
      *
      * \par Performance
      *
@@ -206,9 +204,9 @@ struct DeviceRunLengthEncode
      * The code snippet below illustrates the identification of non-trivial runs within a sequence of \p int values.
      * \par
      * \code
-     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_run_length_encode.cuh>
+     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_run_length_encode.cuh>
      *
-     * // Declare, allocate, and initialize device pointers for input and output
+     * // Declare, allocate, and initialize device-accessible pointers for input and output
      * int          num_items;          // e.g., 8
      * int          *d_in;              // e.g., [0, 2, 2, 9, 5, 5, 5, 8]
      * int          *d_offsets_out;     // e.g., [ ,  ,  ,  ,  ,  ,  ,  ]
@@ -233,32 +231,32 @@ struct DeviceRunLengthEncode
      *
      * \endcode
      *
-     * \tparam InputIterator            <b>[inferred]</b> Random-access input iterator type for reading input items \iterator
-     * \tparam OffsetsOutputIterator    <b>[inferred]</b> Random-access output iterator type for writing run-offset values \iterator
-     * \tparam LengthsOutputIterator    <b>[inferred]</b> Random-access output iterator type for writing run-length values \iterator
-     * \tparam NumRunsOutputIterator    <b>[inferred]</b> Output iterator type for recording the number of runs encountered \iterator
+     * \tparam InputIteratorT           <b>[inferred]</b> Random-access input iterator type for reading input items \iterator
+     * \tparam OffsetsOutputIteratorT   <b>[inferred]</b> Random-access output iterator type for writing run-offset values \iterator
+     * \tparam LengthsOutputIteratorT   <b>[inferred]</b> Random-access output iterator type for writing run-length values \iterator
+     * \tparam NumRunsOutputIteratorT   <b>[inferred]</b> Output iterator type for recording the number of runs encountered \iterator
      */
     template <
-        typename                InputIterator,
-        typename                OffsetsOutputIterator,
-        typename                LengthsOutputIterator,
-        typename                NumRunsOutputIterator>
+        typename                InputIteratorT,
+        typename                OffsetsOutputIteratorT,
+        typename                LengthsOutputIteratorT,
+        typename                NumRunsOutputIteratorT>
     CUB_RUNTIME_FUNCTION __forceinline__
     static cudaError_t NonTrivialRuns(
-        void                    *d_temp_storage,                ///< [in] %Device allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
+        void*               d_temp_storage,                ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
         size_t                  &temp_storage_bytes,            ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
-        InputIterator           d_in,                           ///< [in] Pointer to input sequence of data items
-        OffsetsOutputIterator   d_offsets_out,                  ///< [out] Pointer to output sequence of run-offsets (one offset per non-trivial run)
-        LengthsOutputIterator   d_lengths_out,                  ///< [out] Pointer to output sequence of run-lengths (one count per non-trivial run)
-        NumRunsOutputIterator   d_num_runs_out,                 ///< [out] Pointer to total number of runs (i.e., length of \p d_offsets_out)
+        InputIteratorT          d_in,                           ///< [in] Pointer to input sequence of data items
+        OffsetsOutputIteratorT  d_offsets_out,                  ///< [out] Pointer to output sequence of run-offsets (one offset per non-trivial run)
+        LengthsOutputIteratorT  d_lengths_out,                  ///< [out] Pointer to output sequence of run-lengths (one count per non-trivial run)
+        NumRunsOutputIteratorT  d_num_runs_out,                 ///< [out] Pointer to total number of runs (i.e., length of \p d_offsets_out)
         int                     num_items,                      ///< [in] Total number of associated key+value pairs (i.e., the length of \p d_in_keys and \p d_in_values)
         cudaStream_t            stream             = 0,         ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                    debug_synchronous  = false)     ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
     {
-        typedef int         Offset;                     // Signed integer type for global offsets
+        typedef int         OffsetT;                     // Signed integer type for global offsets
         typedef Equality    EqualityOp;                 // Default == operator
 
-        return DeviceRleDispatch<InputIterator, OffsetsOutputIterator, LengthsOutputIterator, NumRunsOutputIterator, EqualityOp, Offset>::Dispatch(
+        return DeviceRleDispatch<InputIteratorT, OffsetsOutputIteratorT, LengthsOutputIteratorT, NumRunsOutputIteratorT, EqualityOp, OffsetT>::Dispatch(
             d_temp_storage,
             temp_storage_bytes,
             d_in,

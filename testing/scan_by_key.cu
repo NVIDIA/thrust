@@ -363,7 +363,7 @@ template <typename T>
 void TestInclusiveScanByKey(const size_t n)
 {
     // XXX WAR nvbug 1541533
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#if 0 //THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
     if(typeid(T) == typeid(char) ||
        typeid(T) == typeid(unsigned char))
     {
@@ -432,7 +432,7 @@ template <typename T>
 void TestInclusiveScanByKeyInPlace(const size_t n)
 {
     // XXX WAR nvbug 1541533
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#if 0 //THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
     if(typeid(T) == typeid(char) ||
        typeid(T) == typeid(unsigned char))
     {
