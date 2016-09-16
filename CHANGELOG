@@ -24,7 +24,7 @@ Other Enhancements
     for host_vector,device_vector,cpp::vector,cuda::vector,omp::vector and tbb::vector.
 
 Bug Fixes
-    TODO
+    calculating sin(complex<double>) no longer has precision loss to float
 
 Known Issues
     TODO
