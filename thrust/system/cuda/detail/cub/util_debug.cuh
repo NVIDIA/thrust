@@ -41,7 +41,7 @@
 #include "util_arch.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -124,4 +124,4 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
 /** @} */       // end group UtilMgmt
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX  // Optional outer namespace(s)

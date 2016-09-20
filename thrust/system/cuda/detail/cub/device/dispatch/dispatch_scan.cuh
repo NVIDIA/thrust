@@ -47,7 +47,7 @@
 #include <thrust/system/cuda/detail/core/triple_chevron_launch.h>
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -589,6 +589,6 @@ struct DispatchScan
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX  // Optional outer namespace(s)
 
 

@@ -38,7 +38,7 @@
 #include "../thread/thread_load.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -207,5 +207,5 @@ public:
 /** @} */       // end group GridModule
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX  // Optional outer namespace(s)
 

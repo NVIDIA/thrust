@@ -48,7 +48,7 @@
 #include "../../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -845,6 +845,6 @@ struct DispatchSpmv
 
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX  // Optional outer namespace(s)
 
 

@@ -30,7 +30,7 @@
 #include "../util_ptx.cuh"
 #include "../util_namespace.cuh"
 
-CUB_NS_PREFIX
+THRUST_CUB_NS_PREFIX
 
 namespace cub {
 
@@ -41,3 +41,4 @@ sync_threadblock()
 } // func sync_threadblock();
 
 } // namespace cub
+THRUST_CUB_NS_POSTFIX

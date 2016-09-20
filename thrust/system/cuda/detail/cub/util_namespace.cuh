@@ -34,8 +34,8 @@
 #pragma once
 
 // For example:
-//#define CUB_NS_PREFIX namespace thrust{ namespace detail {
-//#define CUB_NS_POSTFIX } }
+//#define THRUST_CUB_NS_PREFIX namespace thrust{ namespace detail {
+//#define THRUST_CUB_NS_POSTFIX } }
 
-#define CUB_NS_PREFIX
-#define CUB_NS_POSTFIX
+#define THRUST_CUB_NS_PREFIX namespace thrust {   namespace cuda_cub {
+#define THRUST_CUB_NS_POSTFIX }  }

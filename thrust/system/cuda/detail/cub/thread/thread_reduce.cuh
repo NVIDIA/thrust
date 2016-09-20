@@ -37,7 +37,7 @@
 #include "../util_namespace.cuh"
 
 /// Optional outer namespace(s)
-CUB_NS_PREFIX
+THRUST_CUB_NS_PREFIX
 
 /// CUB namespace
 namespace cub {
@@ -98,7 +98,7 @@ __device__ __forceinline__ T ThreadReduce(
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
 {
-    return ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
+    return cub::ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
 }
 
 
@@ -118,7 +118,7 @@ __device__ __forceinline__ T ThreadReduce(
     ReductionOp reduction_op)           ///< [in] Binary reduction operator
 {
     T prefix = input[0];
-    return ThreadReduce<LENGTH - 1>(input + 1, reduction_op, prefix);
+    return cub::ThreadReduce<LENGTH - 1>(input + 1, reduction_op, prefix);
 }
 
 
@@ -138,7 +138,7 @@ __device__ __forceinline__ T ThreadReduce(
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
 {
-    return ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
+    return cub::ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
 }
 
 
@@ -157,7 +157,7 @@ __device__ __forceinline__ T ThreadReduce(
     T           (&input)[LENGTH],       ///< [in] Input array
     ReductionOp reduction_op)           ///< [in] Binary reduction operator
 {
-    return ThreadReduce<LENGTH>((T*) input, reduction_op);
+    return cub::ThreadReduce<LENGTH>((T*) input, reduction_op);
 }
 
 
@@ -166,4 +166,4 @@ __device__ __forceinline__ T ThreadReduce(
 /** @} */       // end group UtilModule
 
 }               // CUB namespace
-CUB_NS_POSTFIX  // Optional outer namespace(s)
+THRUST_CUB_NS_POSTFIX  // Optional outer namespace(s)
