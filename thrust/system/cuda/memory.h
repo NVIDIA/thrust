@@ -206,17 +206,24 @@ struct allocator
   __host__ __device__ inline ~allocator() {}
 };    // struct allocator
 
-}    // namespace cuda_
+}    // namespace cuda_cub
 
-
+namespace system {
 namespace cuda {
-
 using thrust::cuda_cub::pointer;
 using thrust::cuda_cub::reference;
 using thrust::cuda_cub::malloc;
 using thrust::cuda_cub::free;
 using thrust::cuda_cub::allocator;
+} // namespace cuda
+} /// namespace system
 
+namespace cuda {
+using thrust::cuda_cub::pointer;
+using thrust::cuda_cub::reference;
+using thrust::cuda_cub::malloc;
+using thrust::cuda_cub::free;
+using thrust::cuda_cub::allocator;
 }    // end cuda
 
 END_NS_THRUST

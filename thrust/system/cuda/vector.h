@@ -139,6 +139,12 @@ using thrust::cuda_cub::vector;
 
 } // end cuda_bulk
 
+namespace system {
+namespace cuda {
+using thrust::cuda_cub::vector;
+}
+}
+
 } // end thrust
 
 #include <thrust/system/cuda/detail/vector.inl>
