@@ -24,6 +24,7 @@
 #include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/cub/util_allocator.cuh>
 #include <thrust/system/cuda/detail/util.h>
+#include <thrust/system/detail/bad_alloc.h>
 
 
 BEGIN_NS_THRUST
@@ -59,7 +60,8 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 
   if(status != cudaSuccess)
   {
-    cuda_cub::throw_on_error(status, "device malloc failed");
+  //  cuda_cub::throw_on_error(status, "device malloc failed");
+    thrust::system::detail::bad_alloc(thrust::cuda_category().message(status).c_str());
   } 
 #else
   result = thrust::raw_pointer_cast(thrust::malloc(thrust::seq, n));
