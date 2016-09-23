@@ -212,6 +212,7 @@ namespace system {
 namespace cuda {
 using thrust::cuda_cub::pointer;
 using thrust::cuda_cub::reference;
+using thrust::cuda_cub::swap;
 using thrust::cuda_cub::malloc;
 using thrust::cuda_cub::free;
 using thrust::cuda_cub::allocator;

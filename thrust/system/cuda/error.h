@@ -170,12 +170,18 @@ inline error_condition make_error_condition(cuda_cub::errc::errc_t e);
 
 } // end system
 
-namespace cuda_cub
+namespace system {
+namespace cuda {
+namespace errc {
+using system::cuda_cub::errc::errc_t;
+} // namespace errc
+} // namespace cuda
+} // namespace system
+
+namespace cuda
 {
-
 // XXX replace with using system::cuda_errc upon c++0x
-namespace errc = system::cuda_cub::errc;
-
+namespace errc = system::cuda::errc;
 } // end cuda_cub
 
 using system::cuda_category;
