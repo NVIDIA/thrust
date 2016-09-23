@@ -805,6 +805,8 @@ namespace core {
       __host__ __device__ const T* data() const { return data_; }
       __host__ __device__ T& operator[](unsigned int idx) { return ((T*)data_)[idx]; }
       __host__ __device__ T const& operator[](unsigned int idx) const { return ((T*)data_)[idx]; }
+      __host__ __device__ T& operator[](int idx) { return ((T*)data_)[idx]; }
+      __host__ __device__ T const& operator[](int idx) const { return ((T*)data_)[idx]; }
       __host__ __device__ unsigned int size() const { return N; }
       __host__ __device__ operator ref&() { return *reinterpret_cast<ref*>(data_); }
       __host__ __device__ ref& get_ref() { return (ref&)*this; }
