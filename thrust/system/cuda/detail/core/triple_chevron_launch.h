@@ -134,44 +134,44 @@ namespace launcher {
       k<<<grid, block, shared_mem, stream>>>(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9);
       return cudaPeekAtLastError();
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     cudaError_t __host__
-    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA) const
+    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       k<<<grid, block, shared_mem, stream>>>(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA);
       return cudaPeekAtLastError();
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     cudaError_t __host__
-    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB) const
+    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       k<<<grid, block, shared_mem, stream>>>(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB);
       return cudaPeekAtLastError();
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     cudaError_t __host__
-    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC) const
+    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       k<<<grid, block, shared_mem, stream>>>(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC);
       return cudaPeekAtLastError();
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     cudaError_t __host__
-    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD) const
+    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
       k<<<grid, block, shared_mem, stream>>>(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD);
       return cudaPeekAtLastError();
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     cudaError_t __host__
-    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD, _E xE) const
+    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
       k<<<grid, block, shared_mem, stream>>>(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE);
       return cudaPeekAtLastError();
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E, class _F>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE, class _xF>
     cudaError_t __host__
-    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD, _E xE, _F xF) const
+    doit_host(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE, _xF xF) const
     {
       k<<<grid, block, shared_mem, stream>>>(x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE,xF);
       return cudaPeekAtLastError();
@@ -262,39 +262,39 @@ namespace launcher {
     {
       return argument_pack_size(align_up<Arg>(size) + sizeof(Arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     size_t __device__
-    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA) const
+    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       return argument_pack_size(align_up<Arg>(size) + sizeof(Arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     size_t __device__
-    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB) const
+    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       return argument_pack_size(align_up<Arg>(size) + sizeof(Arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     size_t __device__
-    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC) const
+    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       return argument_pack_size(align_up<Arg>(size) + sizeof(Arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     size_t __device__
-    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD) const
+    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD) const
     {
       return argument_pack_size(align_up<Arg>(size) + sizeof(Arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     size_t __device__
-    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD, _E xE) const
+    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE) const
     {
       return argument_pack_size(align_up<Arg>(size) + sizeof(Arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E, class _F>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE, class _xF>
     size_t __device__
-    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD, _E xE, _F xF) const
+    argument_pack_size(size_t size, Arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE, _xF xF) const
     {
       return argument_pack_size(align_up<Arg>(size) + sizeof(Arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, xF);
     }
@@ -384,39 +384,39 @@ namespace launcher {
     {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     void __device__
-    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA) const
+    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     void __device__
-    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB) const
+    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     void __device__
-    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC) const
+    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     void __device__
-    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD) const
+    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD) const
     {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     void __device__
-    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD, _E xE) const
+    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE) const
     {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);
     }
-    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E, class _F>
+    template <class Arg, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE, class _xF>
     void __device__
-    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD, _E xE, _F xF) const
+    fill_arguments(char* buffer, size_t offset, Arg arg, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE, _xF xF) const
     {
       fill_arguments(buffer, copy_arg(buffer, offset, arg), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, xF);
     }
@@ -567,9 +567,9 @@ namespace launcher {
 #endif
       return status;
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     cudaError_t __device__
-    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA) const
+    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       cudaError_t status = cudaErrorNotSupported;
 #if __THRUST_HAS_CUDART__
@@ -580,9 +580,9 @@ namespace launcher {
 #endif
       return status;
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     cudaError_t __device__
-    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB) const
+    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       cudaError_t status = cudaErrorNotSupported;
 #if __THRUST_HAS_CUDART__
@@ -593,9 +593,9 @@ namespace launcher {
 #endif
       return status;
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     cudaError_t __device__
-    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC) const
+    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       cudaError_t status = cudaErrorNotSupported;
 #if __THRUST_HAS_CUDART__
@@ -606,9 +606,9 @@ namespace launcher {
 #endif
       return status;
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     cudaError_t __device__
-    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD) const
+    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD) const
     {
       cudaError_t status = cudaErrorNotSupported;
 #if __THRUST_HAS_CUDART__
@@ -619,9 +619,9 @@ namespace launcher {
 #endif
       return status;
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     cudaError_t __device__
-    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD, _E xE) const
+    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE) const
     {
       cudaError_t status = cudaErrorNotSupported;
 #if __THRUST_HAS_CUDART__
@@ -632,9 +632,9 @@ namespace launcher {
 #endif
       return status;
     }
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E, class _F>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE, class _xF>
     cudaError_t __device__
-    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC,_D xD, _E xE, _F xF) const
+    doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE, _xF xF) const
     {
       cudaError_t status = cudaErrorNotSupported;
 #if __THRUST_HAS_CUDART__
@@ -750,44 +750,44 @@ namespace launcher {
       return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
     }
     __thrust_exec_check_disable__
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     cudaError_t THRUST_FUNCTION
-    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA) const
+    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
     }
     __thrust_exec_check_disable__
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     cudaError_t THRUST_FUNCTION
-    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB) const
+    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
     }
     __thrust_exec_check_disable__
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     cudaError_t THRUST_FUNCTION
-    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC) const
+    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
     }
     __thrust_exec_check_disable__
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     cudaError_t THRUST_FUNCTION
-    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD) const
+    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
       return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
     }
     __thrust_exec_check_disable__
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     cudaError_t THRUST_FUNCTION
-    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD, _E xE) const
+    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
       return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);
     }
     __thrust_exec_check_disable__
-    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E, class _F>
+    template <class K, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE, class _xF>
     cudaError_t THRUST_FUNCTION
-    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD, _E xE, _F xF) const
+    doit(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE, _xF xF) const
     {
       return THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(k, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, xF);
     }

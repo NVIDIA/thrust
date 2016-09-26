@@ -119,37 +119,37 @@ namespace core {
     extern __shared__ char shmem[];
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, shmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA)
+  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA)
   {
     extern __shared__ char shmem[];
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, shmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB)
+  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB)
   {
     extern __shared__ char shmem[];
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, shmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC)
+  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC)
   {
     extern __shared__ char shmem[];
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, shmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD)
+  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD)
   {
     extern __shared__ char shmem[];
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, shmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD, _E xE)
+  _kernel_agent(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE)
   {
     extern __shared__ char shmem[];
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, shmem);
@@ -239,37 +239,37 @@ namespace core {
     vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, vshmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA)
+  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA)
   {
     vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, vshmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB)
+  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB)
   {
     vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, vshmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC)
+  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC)
   {
     vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, vshmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD)
+  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD)
   {
     vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, vshmem);
   }
-  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+  template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
-  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD, _E xE)
+  _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE)
   {
     vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, vshmem);
@@ -302,16 +302,16 @@ namespace core {
   void __global__ _kernel_agent(_0,_1,_2,_3, _4, _5, _6, _7, _8) {}
   template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
   void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
-  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
-  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
-  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B,_C) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
-  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B,_C, _D) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
-  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B,_C, _D, _E) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
+  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
+  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
+  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB,_xC) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
+  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB,_xC, _xD) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
+  void __global__ _kernel_agent(_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB,_xC, _xD, _xE) {}
   ////////////////////////////////////////////////////////////
   template <class, class _0>
   void __global__ _kernel_agent_vshmem(char*,_0) {}
@@ -333,16 +333,16 @@ namespace core {
   void __global__ _kernel_agent_vshmem(char*,_0,_1,_2,_3, _4, _5, _6, _7, _8) {}
   template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
   void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
-  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
-  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
-  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B, _C) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
-  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B, _C, _D) {}
-  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
-  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _A, _B, _C, _D, _E) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
+  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
+  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
+  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
+  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD) {}
+  template <class, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
+  void __global__ _kernel_agent_vshmem(char*,_0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD, _xE) {}
 #endif
 #endif
 
@@ -630,39 +630,39 @@ namespace core {
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
-    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     static cuda_optional<int> THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
-    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     static cuda_optional<int> THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A,_B>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
-    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     static cuda_optional<int> THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
-    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     static cuda_optional<int> THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
-    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template<class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     static cuda_optional<int> THRUST_RUNTIME_FUNCTION
     get_max_blocks_per_sm(AgentPlan plan)
     {
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D,_E) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D,_E>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE>;
       return max_blocks_per_sm_impl(ptr, plan.block_threads);
     }
 #endif
@@ -884,9 +884,9 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
       }
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_A xA) const
+    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA) const
     {
       if (has_shmem)
       {
@@ -895,15 +895,15 @@ namespace core {
       else
       {
         assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A>;
+        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA>;
         print_info(ptr);
         launcher::triple_chevron(grid, plan.block_threads, 0, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
       }
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_A xA,_B xB) const
+    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB) const
     {
       if (has_shmem)
       {
@@ -912,15 +912,15 @@ namespace core {
       else
       {
         assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B>;
+        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB>;
         print_info(ptr);
         launcher::triple_chevron(grid, plan.block_threads, 0, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
       }
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_A xA,_B xB,_C xC) const
+    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC) const
     {
       if (has_shmem)
       {
@@ -929,15 +929,15 @@ namespace core {
       else
       {
         assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C>;
+        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC>;
         print_info(ptr);
         launcher::triple_chevron(grid, plan.block_threads, 0, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
       }
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_A xA,_B xB,_C xC,_D xD) const
+    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD) const
     {
       if (has_shmem)
       {
@@ -946,15 +946,15 @@ namespace core {
       else
       {
         assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D>;
+        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD>;
         print_info(ptr);
         launcher::triple_chevron(grid, plan.block_threads, 0, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
       }
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_A xA,_B xB,_C xC,_D xD,_E xE) const
+    launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD,_xE xE) const
     {
       if (has_shmem)
       {
@@ -963,7 +963,7 @@ namespace core {
       else
       {
         assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D,_E) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D,_E>;
+        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE>;
         print_info(ptr);
         launcher::triple_chevron(grid, plan.block_threads, 0, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD,xE);
@@ -1074,52 +1074,52 @@ namespace core {
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA) const
+    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       assert(vshmem == NULL);
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB) const
+    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       assert(vshmem == NULL);
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A,_B>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC) const
+    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       assert(vshmem == NULL);
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD) const
+    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
       assert(vshmem == NULL);
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     void CUB_RUNTIME_FUNCTION
-    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD, _E xE) const
+    launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
       assert(vshmem == NULL);
-      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D,_E) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_A,_B,_C,_D,_E>;
+      void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
           .doit(ptr,x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);
@@ -1199,37 +1199,37 @@ namespace core {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
       sync();
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     void CUB_RUNTIME_FUNCTION
-    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA) const
+    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
       sync();
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     void CUB_RUNTIME_FUNCTION
-    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB) const
+    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
       sync();
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     void CUB_RUNTIME_FUNCTION
-    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC) const
+    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
       sync();
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     void CUB_RUNTIME_FUNCTION
-    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD) const
+    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
       sync();
     }
-    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _A, class _B, class _C, class _D, class _E>
+    template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     void CUB_RUNTIME_FUNCTION
-    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _A xA, _B xB, _C xC, _D xD, _E xE) const
+    launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);
       sync();
