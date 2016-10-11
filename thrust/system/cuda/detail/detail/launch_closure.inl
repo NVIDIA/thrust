@@ -85,6 +85,8 @@ template<typename Closure,
   __device__
   static launch_function_t get_launch_function()
   {
+    assert(0); // clang doesn't support dynamic parallelism
+ 
     return NULL;
   }
 #else
@@ -140,6 +142,8 @@ template<typename Closure>
   __device__
   static launch_function_t get_launch_function(void)
   {
+    assert(0); // clang doesn't support dynamic parallelism
+
     return NULL;
   }
 #else

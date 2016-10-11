@@ -81,6 +81,8 @@ struct triple_chevron_launcher_base<block_size,Function,true>
   __device__
   static global_function_pointer_t global_function_pointer()
   {
+    bulk::detail::terminate(); //  clang doesn't support dynamic parallelism
+
     return NULL;
   }
 #else
@@ -119,6 +121,8 @@ struct triple_chevron_launcher_base<block_size,Function,false>
   __device__
   static global_function_pointer_t global_function_pointer()
   {
+    bulk::detail::terminate(); //  clang doesn't support dynamic parallelism
+    
     return NULL;
   }
 #else
