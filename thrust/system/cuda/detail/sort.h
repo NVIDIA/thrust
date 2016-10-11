@@ -1518,6 +1518,7 @@ namespace __smart_sort {
     // XXX need a good empiricaly formula for the threshold computation
     // based on sizeof(key_type) and gpu arch 
     typedef typename iterator_traits<KeysIt>::value_type key_type;
+#if 0 // see nvbugs/1825873
     typedef typename iterator_traits<KeysIt>::difference_type diff_type;
     diff_type n_threshold = 252984*sizeof(key_type)/sizeof(int);
 
@@ -1530,6 +1531,7 @@ namespace __smart_sort {
                                                    compare_op);
       return;
     };
+#endif
 
 
     // ensure sequences have trivial iterators
