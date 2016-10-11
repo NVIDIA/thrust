@@ -75,7 +75,11 @@ template<typename Closure,
 {
   typedef void (*launch_function_t)(Closure); 
  
+#if (defined(__clang__) && defined(__CUDA__))
+  __host__
+#else
   __host__ __device__
+#endif
   static launch_function_t get_launch_function()
   {
     return launch_closure_by_value<Closure>;
@@ -116,7 +120,11 @@ template<typename Closure>
 {
   typedef void (*launch_function_t)(const Closure *); 
  
+#if (defined(__clang__) && defined(__CUDA__))
+  __host__
+#else
   __host__ __device__
+#endif
   static launch_function_t get_launch_function(void)
   {
     return launch_closure_by_pointer<Closure>;

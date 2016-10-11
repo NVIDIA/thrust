@@ -71,7 +71,11 @@ struct triple_chevron_launcher_base<block_size,Function,true>
 {
   typedef void (*global_function_pointer_t)(Function);
 
+#if (defined(__clang__) && defined(__CUDA__))
+  __host__
+#else
   __host__ __device__
+#endif
   static global_function_pointer_t global_function_pointer()
   {
     return launch_by_value<block_size,Function>;
@@ -95,7 +99,11 @@ struct triple_chevron_launcher_base<block_size,Function,false>
 {
   typedef void (*global_function_pointer_t)(const Function*);
 
+#if (defined(__clang__) && defined(__CUDA__))
+  __host__
+#else
   __host__ __device__
+#endif
   static global_function_pointer_t global_function_pointer()
   {
     return launch_by_pointer<block_size,Function>;
