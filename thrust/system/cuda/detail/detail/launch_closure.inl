@@ -75,7 +75,7 @@ template<typename Closure,
 {
   typedef void (*launch_function_t)(Closure); 
  
-#if (defined(__clang__) && defined(__CUDA__))
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_CLANG
   __host__
   static launch_function_t get_launch_function()
   {
@@ -130,7 +130,7 @@ template<typename Closure>
 {
   typedef void (*launch_function_t)(const Closure *); 
  
-#if (defined(__clang__) && defined(__CUDA__))
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_CLANG
   __host__
   static launch_function_t get_launch_function(void)
   {
