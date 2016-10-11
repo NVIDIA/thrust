@@ -1518,7 +1518,8 @@ namespace __smart_sort {
     // XXX need a good empiricaly formula for the threshold computation
     // based on sizeof(key_type) and gpu arch 
     typedef typename iterator_traits<KeysIt>::value_type key_type;
-    size_t n_threshold = 252984*sizeof(key_type)/sizeof(int);
+    typedef typename iterator_traits<KeysIt>::difference_type diff_type;
+    diff_type n_threshold = 252984*sizeof(key_type)/sizeof(int);
 
     if (keys_last - keys_first <= n_threshold)
     {
