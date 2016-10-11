@@ -59,18 +59,6 @@ count_if(execution_policy<Derived> &policy,
                             plus<size_type>());
 }
 
-template<class Value>
-struct count_f
-{
-  // XXX this will copy construct value, if that is not possible, then KABOOM!
-  Value value;
-
-  __host__ __device__
-  count_f(Value value_) : value(value_) {}
-
-  __device__ bool operator()(Value x) const { return x == value; }
-};
-
 template <class Derived,
           class InputIt,
           class Value>
@@ -83,7 +71,7 @@ count(execution_policy<Derived> &policy,
   return cuda_cub::count_if(policy,
                             first,
                             last,
-                            count_f<Value>(value));
+                            detail::equal_to_value<Value>(value));
 }
 
 } // namespace cuda_cub
