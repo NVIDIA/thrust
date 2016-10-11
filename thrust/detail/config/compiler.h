@@ -73,8 +73,9 @@
 // CUDA-capable clang should behave similar to NVCC.
 #if defined(__CUDA__) && defined(__clang__)
 #define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_CLANG
-#elif defined(__CUDA__)
+#else
 #define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_NVCC
+#endif
 #else
 #define THRUST_DEVICE_COMPILER THRUST_DEVICE_COMPILER_UNKNOWN
 #endif
