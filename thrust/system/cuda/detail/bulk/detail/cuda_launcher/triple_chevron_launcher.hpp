@@ -71,11 +71,27 @@ struct triple_chevron_launcher_base<block_size,Function,true>
 {
   typedef void (*global_function_pointer_t)(Function);
 
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_CLANG
+  __host__
+  static global_function_pointer_t global_function_pointer()
+  {
+    return launch_by_value<block_size,Function>;
+  }
+
+  __device__
+  static global_function_pointer_t global_function_pointer()
+  {
+    bulk::detail::terminate(); //  clang doesn't support dynamic parallelism
+
+    return NULL;
+  }
+#else
   __host__ __device__
   static global_function_pointer_t global_function_pointer()
   {
     return launch_by_value<block_size,Function>;
   }
+#endif
 };
 
 
@@ -95,11 +111,27 @@ struct triple_chevron_launcher_base<block_size,Function,false>
 {
   typedef void (*global_function_pointer_t)(const Function*);
 
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_CLANG
+  __host__
+  static global_function_pointer_t global_function_pointer()
+  {
+    return launch_by_pointer<block_size,Function>;
+  }
+
+  __device__
+  static global_function_pointer_t global_function_pointer()
+  {
+    bulk::detail::terminate(); //  clang doesn't support dynamic parallelism
+    
+    return NULL;
+  }
+#else
   __host__ __device__
   static global_function_pointer_t global_function_pointer()
   {
     return launch_by_pointer<block_size,Function>;
   }
+#endif
 };
 
 
