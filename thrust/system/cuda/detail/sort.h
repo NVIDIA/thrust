@@ -243,8 +243,6 @@ namespace __merge_sort {
   template <class KeysIt,
             class ItemsIt,
             class Size,
-            class KeysOutputIt,
-            class ItemsOutputIt,
             class CompareOp,
             class SORT_ITEMS,
             class STABLE>
@@ -264,15 +262,19 @@ namespace __merge_sort {
       typedef typename core::BlockLoad<PtxPlan, KeysLoadIt>::type  BlockLoadKeys;
       typedef typename core::BlockLoad<PtxPlan, ItemsLoadIt>::type BlockLoadItems;
 
-      typedef typename core::BlockStore<PtxPlan, KeysOutputIt>::type  BlockStoreKeys;
-      typedef typename core::BlockStore<PtxPlan, ItemsOutputIt>::type BlockStoreItems;
+      typedef typename core::BlockStore<PtxPlan, KeysIt>::type     BlockStoreKeysIt;
+      typedef typename core::BlockStore<PtxPlan, ItemsIt>::type    BlockStoreItemsIt;
+      typedef typename core::BlockStore<PtxPlan, key_type*>::type  BlockStoreKeysRaw;
+      typedef typename core::BlockStore<PtxPlan, item_type*>::type BlockStoreItemsRaw;
 
       union TempStorage
       {
         typename BlockLoadKeys::TempStorage   load_keys;
         typename BlockLoadItems::TempStorage  load_items;
-        typename BlockStoreKeys::TempStorage  store_keys;
-        typename BlockStoreItems::TempStorage store_items;
+        typename BlockStoreKeysIt::TempStorage  store_keys_it;
+        typename BlockStoreItemsIt::TempStorage store_items_it;
+        typename BlockStoreKeysRaw::TempStorage  store_keys_raw;
+        typename BlockStoreItemsRaw::TempStorage store_items_raw;
 
         core::uninitialized_array<key_type, PtxPlan::ITEMS_PER_TILE + 1>  keys_shared;
         core::uninitialized_array<item_type, PtxPlan::ITEMS_PER_TILE + 1> items_shared;
@@ -281,13 +283,15 @@ namespace __merge_sort {
 
     typedef typename core::specialize_plan_msvc10_war<PtxPlan>::type::type ptx_plan;
 
-    typedef typename ptx_plan::KeysLoadIt      KeysLoadIt;
-    typedef typename ptx_plan::ItemsLoadIt     ItemsLoadIt;
-    typedef typename ptx_plan::BlockLoadKeys   BlockLoadKeys;
-    typedef typename ptx_plan::BlockLoadItems  BlockLoadItems;
-    typedef typename ptx_plan::BlockStoreKeys  BlockStoreKeys;
-    typedef typename ptx_plan::BlockStoreItems BlockStoreItems;
-    typedef typename ptx_plan::TempStorage     TempStorage;
+    typedef typename ptx_plan::KeysLoadIt         KeysLoadIt;
+    typedef typename ptx_plan::ItemsLoadIt        ItemsLoadIt;
+    typedef typename ptx_plan::BlockLoadKeys      BlockLoadKeys;
+    typedef typename ptx_plan::BlockLoadItems     BlockLoadItems;
+    typedef typename ptx_plan::BlockStoreKeysIt   BlockStoreKeysIt;
+    typedef typename ptx_plan::BlockStoreItemsIt  BlockStoreItemsIt;
+    typedef typename ptx_plan::BlockStoreKeysRaw  BlockStoreKeysRaw;
+    typedef typename ptx_plan::BlockStoreItemsRaw BlockStoreItemsRaw;
+    typedef typename ptx_plan::TempStorage        TempStorage;
 
     enum
     {
@@ -302,14 +306,17 @@ namespace __merge_sort {
       // Per thread data
       //---------------------------------------------------------------------
 
-      TempStorage&  storage;
-      KeysLoadIt    keys_in;
-      ItemsLoadIt   items_in;
-      Size          keys_count;
-      KeysOutputIt  keys_out;
-      ItemsOutputIt items_out;
-      CompareOp     compare_op;
-      
+      bool         ping;
+      TempStorage& storage;
+      KeysLoadIt   keys_in;
+      ItemsLoadIt  items_in;
+      Size         keys_count;
+      KeysIt       keys_out_it;
+      ItemsIt      items_out_it;
+      key_type*    keys_out_raw;
+      item_type*   items_out_raw;
+      CompareOp    compare_op;
+
       //---------------------------------------------------------------------
       // Serial stable sort network 
       //---------------------------------------------------------------------
@@ -515,23 +522,47 @@ namespace __merge_sort {
 
         sync_threadblock();
 
-        if (IS_LAST_TILE)
+        if (ping)
         {
-          BlockStoreKeys(storage.store_keys)
-              .Store(keys_out + tile_base, keys_loc, num_remaining);
+          if (IS_LAST_TILE)
+          {
+            BlockStoreKeysIt(storage.store_keys_it)
+                .Store(keys_out_it + tile_base, keys_loc, num_remaining);
+          }
+          else
+          {
+            BlockStoreKeysIt(storage.store_keys_it)
+                .Store(keys_out_it + tile_base, keys_loc);
+          }
+
+          if (SORT_ITEMS::value)
+          {
+            sync_threadblock();
+
+            BlockStoreItemsIt(storage.store_items_it)
+                .Store(items_out_it + tile_base, items_loc, num_remaining);
+          }
         }
         else
         {
-          BlockStoreKeys(storage.store_keys)
-              .Store(keys_out + tile_base, keys_loc);
-        }
+          if (IS_LAST_TILE)
+          {
+            BlockStoreKeysRaw(storage.store_keys_raw)
+                .Store(keys_out_raw + tile_base, keys_loc, num_remaining);
+          }
+          else
+          {
+            BlockStoreKeysRaw(storage.store_keys_raw)
+                .Store(keys_out_raw + tile_base, keys_loc);
+          }
 
-        if (SORT_ITEMS::value)
-        {
-          sync_threadblock();
+          if (SORT_ITEMS::value)
+          {
+            sync_threadblock();
 
-          BlockStoreItems(storage.store_items)
-              .Store(items_out + tile_base, items_loc, num_remaining);
+            BlockStoreItemsRaw(storage.store_items_raw)
+                .Store(items_out_raw + tile_base, items_loc, num_remaining);
+          }
         }
       }
 
@@ -540,19 +571,25 @@ namespace __merge_sort {
       //---------------------------------------------------------------------
 
       THRUST_DEVICE_FUNCTION
-      impl(TempStorage&  storage_,
-           KeysLoadIt    keys_in_,
-           ItemsLoadIt   items_in_,
-           Size          keys_count_,
-           KeysOutputIt  keys_out_,
-           ItemsOutputIt items_out_,
-           CompareOp     compare_op_)
-          : storage(storage_),
+      impl(bool         ping_,
+           TempStorage& storage_,
+           KeysLoadIt   keys_in_,
+           ItemsLoadIt  items_in_,
+           Size         keys_count_,
+           KeysIt       keys_out_it_,
+           ItemsIt      items_out_it_,
+           key_type*    keys_out_raw_,
+           item_type*   items_out_raw_,
+           CompareOp    compare_op_)
+          : ping(ping_),
+            storage(storage_),
             keys_in(keys_in_),
             items_in(items_in_),
             keys_count(keys_count_),
-            keys_out(keys_out_),
-            items_out(items_out_),
+            keys_out_it(keys_out_it_),
+            items_out_it(items_out_it_),
+            keys_out_raw(keys_out_raw_),
+            items_out_raw(items_out_raw_),
             compare_op(compare_op_)
       {
         int  tid           = threadIdx.x;
@@ -575,20 +612,24 @@ namespace __merge_sort {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(KeysIt        keys_in,
-                       ItemsIt       items_in,
-                       Size          keys_count,
-                       KeysOutputIt  keys_out,
-                       ItemsOutputIt items_out,
-                       CompareOp     compare_op,
-                       char*         shmem)
+    THRUST_AGENT_ENTRY(bool       ping,
+                       KeysIt     keys_inout,
+                       ItemsIt    items_inout,
+                       Size       keys_count,
+                       key_type*  keys_out,
+                       item_type* items_out,
+                       CompareOp  compare_op,
+                       char*      shmem)
     {
       TempStorage& storage = *reinterpret_cast<TempStorage*>(shmem);
 
-      impl(storage,
-           core::make_load_iterator(ptx_plan(), keys_in),
-           core::make_load_iterator(ptx_plan(), items_in),
+      impl(ping,
+           storage,
+           core::make_load_iterator(ptx_plan(), keys_inout),
+           core::make_load_iterator(ptx_plan(), items_inout),
            keys_count,
+           keys_inout,
+           items_inout,
            keys_out,
            items_out,
            compare_op);
@@ -600,6 +641,7 @@ namespace __merge_sort {
             class CompareOp>
   struct PartitionAgent
   {
+    typedef typename iterator_traits<KeysIt>::value_type key_type;
     template<class Arch>
     struct PtxPlan : PtxPolicy<256> {};
 
@@ -609,7 +651,9 @@ namespace __merge_sort {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(KeysIt    keys,
+    THRUST_AGENT_ENTRY(bool      ping,
+                       KeysIt    keys_ping,
+                       key_type* keys_pong,
                        Size      keys_count,
                        Size      num_partitions,
                        Size*     merge_partitions,
@@ -634,12 +678,20 @@ namespace __merge_sort {
         Size partition_at = min(keys2_end - keys1_beg,
                                 items_per_tile * ((coop - 1) & partition_idx));
 
-        Size partition_diag = merge_path(keys + keys1_beg,
-                                         keys + keys2_beg,
-                                         keys1_end - keys1_beg,
-                                         keys2_end - keys2_beg,
-                                         partition_at,
-                                         compare_op);
+        Size partition_diag = ping ? merge_path(keys_ping + keys1_beg,
+                                                keys_ping + keys2_beg,
+                                                keys1_end - keys1_beg,
+                                                keys2_end - keys2_beg,
+                                                partition_at,
+                                                compare_op)
+                                   : merge_path(keys_pong + keys1_beg,
+                                                keys_pong + keys2_beg,
+                                                keys1_end - keys1_beg,
+                                                keys2_end - keys2_beg,
+                                                partition_at,
+                                                compare_op);
+
+
         merge_partitions[partition_idx] = keys1_beg + partition_diag;
       }
     }
@@ -648,8 +700,6 @@ namespace __merge_sort {
   template <class KeysIt,
             class ItemsIt,
             class Size,
-            class KeysOutputIt,
-            class ItemsOutputIt,
             class CompareOp,
             class MERGE_ITEMS>
   struct MergeAgent
@@ -657,28 +707,44 @@ namespace __merge_sort {
     typedef typename iterator_traits<KeysIt>::value_type  key_type;
     typedef typename iterator_traits<ItemsIt>::value_type item_type;
 
+    typedef KeysIt     KeysOutputPongIt;
+    typedef ItemsIt    ItemsOutputPongIt;
+    typedef key_type*  KeysOutputPingIt;
+    typedef item_type* ItemsOutputPingIt;
+
     template<class Arch>
     struct PtxPlan : Tuning<Arch,key_type>::type
     {
       typedef Tuning<Arch,key_type> tuning;
 
-      typedef typename core::LoadIterator<PtxPlan, KeysIt>::type  KeysLoadIt;
-      typedef typename core::LoadIterator<PtxPlan, ItemsIt>::type ItemsLoadIt;
+      typedef typename core::LoadIterator<PtxPlan, KeysIt>::type     KeysLoadPingIt;
+      typedef typename core::LoadIterator<PtxPlan, ItemsIt>::type    ItemsLoadPingIt;
+      typedef typename core::LoadIterator<PtxPlan, key_type*>::type  KeysLoadPongIt;
+      typedef typename core::LoadIterator<PtxPlan, item_type*>::type ItemsLoadPongIt;
 
-      typedef typename core::BlockLoad<PtxPlan, KeysLoadIt>::type  BlockLoadKeys;
-      typedef typename core::BlockLoad<PtxPlan, ItemsLoadIt>::type BlockLoadItems;
+      typedef typename core::BlockLoad<PtxPlan, KeysLoadPingIt>::type  BlockLoadKeysPing;
+      typedef typename core::BlockLoad<PtxPlan, ItemsLoadPingIt>::type BlockLoadItemsPing;
+      typedef typename core::BlockLoad<PtxPlan, KeysLoadPongIt>::type  BlockLoadKeysPong;
+      typedef typename core::BlockLoad<PtxPlan, ItemsLoadPongIt>::type BlockLoadItemsPong;
 
-      typedef typename core::BlockStore<PtxPlan, KeysOutputIt>::type  BlockStoreKeys;
-      typedef typename core::BlockStore<PtxPlan, ItemsOutputIt>::type BlockStoreItems;
+      typedef typename core::BlockStore<PtxPlan, KeysOutputPongIt>::type  BlockStoreKeysPong;
+      typedef typename core::BlockStore<PtxPlan, ItemsOutputPongIt>::type BlockStoreItemsPong;
+      typedef typename core::BlockStore<PtxPlan, KeysOutputPingIt>::type  BlockStoreKeysPing;
+      typedef typename core::BlockStore<PtxPlan, ItemsOutputPingIt>::type BlockStoreItemsPing;
 
       // gather required temporary storage in a union
       //
       union TempStorage
       {
-        typename BlockLoadKeys::TempStorage   load_keys;
-        typename BlockLoadItems::TempStorage  load_items;
-        typename BlockStoreKeys::TempStorage  store_keys;
-        typename BlockStoreItems::TempStorage store_items;
+        typename BlockLoadKeysPing::TempStorage  load_keys_ping;
+        typename BlockLoadItemsPing::TempStorage load_items_ping;
+        typename BlockLoadKeysPong::TempStorage  load_keys_pong;
+        typename BlockLoadItemsPong::TempStorage load_items_pong;
+
+        typename BlockStoreKeysPing::TempStorage  store_keys_ping;
+        typename BlockStoreItemsPing::TempStorage store_items_ping;
+        typename BlockStoreKeysPong::TempStorage  store_keys_pong;
+        typename BlockStoreItemsPong::TempStorage store_items_pong;
 
         core::uninitialized_array<key_type, PtxPlan::ITEMS_PER_TILE + 1>  keys_shared;
         core::uninitialized_array<item_type, PtxPlan::ITEMS_PER_TILE + 1> items_shared;
@@ -687,12 +753,21 @@ namespace __merge_sort {
 
     typedef typename core::specialize_plan_msvc10_war<PtxPlan>::type::type ptx_plan;
 
-    typedef typename ptx_plan::KeysLoadIt      KeysLoadIt;
-    typedef typename ptx_plan::ItemsLoadIt     ItemsLoadIt;
-    typedef typename ptx_plan::BlockLoadKeys   BlockLoadKeys;
-    typedef typename ptx_plan::BlockLoadItems  BlockLoadItems;
-    typedef typename ptx_plan::BlockStoreKeys  BlockStoreKeys;
-    typedef typename ptx_plan::BlockStoreItems BlockStoreItems;
+    typedef typename ptx_plan::KeysLoadPingIt  KeysLoadPingIt;
+    typedef typename ptx_plan::ItemsLoadPingIt ItemsLoadPingIt;
+    typedef typename ptx_plan::KeysLoadPongIt  KeysLoadPongIt;
+    typedef typename ptx_plan::ItemsLoadPongIt ItemsLoadPongIt;
+
+    typedef typename ptx_plan::BlockLoadKeysPing  BlockLoadKeysPing;
+    typedef typename ptx_plan::BlockLoadItemsPing BlockLoadItemsPing;
+    typedef typename ptx_plan::BlockLoadKeysPong  BlockLoadKeysPong;
+    typedef typename ptx_plan::BlockLoadItemsPong BlockLoadItemsPong;
+
+    typedef typename ptx_plan::BlockStoreKeysPing  BlockStoreKeysPing;
+    typedef typename ptx_plan::BlockStoreItemsPing BlockStoreItemsPing;
+    typedef typename ptx_plan::BlockStoreKeysPong  BlockStoreKeysPong;
+    typedef typename ptx_plan::BlockStoreItemsPong BlockStoreItemsPong;
+
     typedef typename ptx_plan::TempStorage     TempStorage;
 
     enum
@@ -708,16 +783,25 @@ namespace __merge_sort {
       // Per thread data
       //---------------------------------------------------------------------
 
-      TempStorage&  storage;
-      KeysLoadIt    keys_in;
-      ItemsLoadIt   items_in;
-      Size          keys_count;
-      KeysOutputIt  keys_out;
-      ItemsOutputIt items_out;
-      CompareOp     compare_op;
-      Size*         merge_partitions;
-      Size          coop;
-      
+      bool            ping;
+      TempStorage&    storage;
+
+      KeysLoadPingIt  keys_in_ping;
+      ItemsLoadPingIt items_in_ping;
+      KeysLoadPongIt  keys_in_pong;
+      ItemsLoadPongIt items_in_pong;
+
+      Size            keys_count;
+
+      KeysOutputPongIt  keys_out_pong;
+      ItemsOutputPongIt items_out_pong;
+      KeysOutputPingIt  keys_out_ping;
+      ItemsOutputPingIt items_out_ping;
+
+      CompareOp       compare_op;
+      Size*           merge_partitions;
+      Size            coop;
+
       //---------------------------------------------------------------------
       // Utility functions
       //---------------------------------------------------------------------
@@ -807,11 +891,22 @@ namespace __merge_sort {
 
         // load keys1 & keys2
         key_type keys_loc[ITEMS_PER_THREAD];
-        gmem_to_reg<IS_FULL_TILE>(keys_loc,
-                                  keys_in + keys1_beg,
-                                  keys_in + keys2_beg,
-                                  num_keys1,
-                                  num_keys2);
+        if (ping)
+        {
+          gmem_to_reg<IS_FULL_TILE>(keys_loc,
+                                    keys_in_ping + keys1_beg,
+                                    keys_in_ping + keys2_beg,
+                                    num_keys1,
+                                    num_keys2);
+        }
+        else
+        {
+          gmem_to_reg<IS_FULL_TILE>(keys_loc,
+                                    keys_in_pong + keys1_beg,
+                                    keys_in_pong + keys2_beg,
+                                    num_keys1,
+                                    num_keys2);
+        }
         reg_to_shared(&storage.keys_shared[0], keys_loc);
         
         // preload items into registers already
@@ -819,11 +914,22 @@ namespace __merge_sort {
         item_type items_loc[ITEMS_PER_THREAD];
         if (MERGE_ITEMS::value)
         {
-          gmem_to_reg<IS_FULL_TILE>(items_loc,
-                                    items_in + keys1_beg,
-                                    items_in + keys2_beg,
-                                    num_keys1,
-                                    num_keys2);
+          if (ping)
+          {
+            gmem_to_reg<IS_FULL_TILE>(items_loc,
+                                      items_in_ping + keys1_beg,
+                                      items_in_ping + keys2_beg,
+                                      num_keys1,
+                                      num_keys2);
+          }
+          else
+          {
+            gmem_to_reg<IS_FULL_TILE>(items_loc,
+                                      items_in_pong + keys1_beg,
+                                      items_in_pong + keys2_beg,
+                                      num_keys1,
+                                      num_keys2);
+          }
         }
 
         sync_threadblock();
@@ -866,15 +972,31 @@ namespace __merge_sort {
 
         // write keys
         //
-        if (IS_FULL_TILE)
+        if (ping)
         {
-          BlockStoreKeys(storage.store_keys)
-              .Store(keys_out + tile_base, keys_loc);
+          if (IS_FULL_TILE)
+          {
+            BlockStoreKeysPing(storage.store_keys_ping)
+                .Store(keys_out_ping + tile_base, keys_loc);
+          }
+          else
+          {
+            BlockStoreKeysPing(storage.store_keys_ping)
+                .Store(keys_out_ping + tile_base, keys_loc, num_keys1 + num_keys2);
+          }
         }
         else
         {
-          BlockStoreKeys(storage.store_keys)
-              .Store(keys_out + tile_base, keys_loc, num_keys1+num_keys2);
+          if (IS_FULL_TILE)
+          {
+            BlockStoreKeysPong(storage.store_keys_pong)
+                .Store(keys_out_pong + tile_base, keys_loc);
+          }
+          else
+          {
+            BlockStoreKeysPong(storage.store_keys_pong)
+                .Store(keys_out_pong + tile_base, keys_loc, num_keys1 + num_keys2);
+          }
         }
 
         // if items are provided, merge them
@@ -898,15 +1020,31 @@ namespace __merge_sort {
 
           // write from reg to gmem
           //
-          if (IS_FULL_TILE)
+          if (ping)
           {
-            BlockStoreItems(storage.store_items)
-                .Store(items_out + tile_base, items_loc);
+            if (IS_FULL_TILE)
+            {
+              BlockStoreItemsPing(storage.store_items_ping)
+                  .Store(items_out_ping + tile_base, items_loc);
+            }
+            else
+            {
+              BlockStoreItemsPing(storage.store_items_ping)
+                  .Store(items_out_ping + tile_base, items_loc, count);
+            }
           }
           else
           {
-            BlockStoreItems(storage.store_items)
-                .Store(items_out + tile_base, items_loc, count);
+            if (IS_FULL_TILE)
+            {
+              BlockStoreItemsPong(storage.store_items_pong)
+                  .Store(items_out_pong + tile_base, items_loc);
+            }
+            else
+            {
+              BlockStoreItemsPong(storage.store_items_pong)
+                  .Store(items_out_pong + tile_base, items_loc, count);
+            }
           }
         }
       }
@@ -916,21 +1054,31 @@ namespace __merge_sort {
       //---------------------------------------------------------------------
 
       THRUST_DEVICE_FUNCTION
-      impl(TempStorage&  storage_,
-           KeysLoadIt    keys_in_,
-           ItemsLoadIt   items_in_,
-           Size          keys_count_,
-           KeysOutputIt  keys_out_,
-           ItemsOutputIt items_out_,
-           CompareOp     compare_op_,
-           Size*         merge_partitions_,
-           Size          coop_)
-          : storage(storage_),
-            keys_in(keys_in_),
-            items_in(items_in_),
+      impl(bool              ping_,
+           TempStorage&      storage_,
+           KeysLoadPingIt    keys_in_ping_,
+           ItemsLoadPingIt   items_in_ping_,
+           KeysLoadPongIt    keys_in_pong_,
+           ItemsLoadPongIt   items_in_pong_,
+           Size              keys_count_,
+           KeysOutputPingIt  keys_out_ping_,
+           ItemsOutputPingIt items_out_ping_,
+           KeysOutputPongIt  keys_out_pong_,
+           ItemsOutputPongIt items_out_pong_,
+           CompareOp         compare_op_,
+           Size*             merge_partitions_,
+           Size              coop_)
+          : ping(ping_),
+            storage(storage_),
+            keys_in_ping(keys_in_ping_),
+            items_in_ping(items_in_ping_),
+            keys_in_pong(keys_in_pong_),
+            items_in_pong(items_in_pong_),
             keys_count(keys_count_),
-            keys_out(keys_out_),
-            items_out(items_out_),
+            keys_out_ping(keys_out_ping_),
+            items_out_ping(items_out_ping_),
+            keys_out_pong(keys_out_pong_),
+            items_out_pong(items_out_pong_),
             compare_op(compare_op_),
             merge_partitions(merge_partitions_),
             coop(coop_)
@@ -963,24 +1111,30 @@ namespace __merge_sort {
     // Agent entry point
     //---------------------------------------------------------------------
 
-    THRUST_AGENT_ENTRY(KeysIt        keys_in,
-                       ItemsIt       items_in,
-                       Size          keys_count,
-                       KeysOutputIt  keys_out,
-                       ItemsOutputIt items_out,
-                       CompareOp     compare_op,
-                       Size*         merge_partitions,
-                       Size          coop,
-                       char*         shmem)
+    THRUST_AGENT_ENTRY(bool       ping,
+                       KeysIt     keys_ping,
+                       ItemsIt    items_ping,
+                       Size       keys_count,
+                       key_type*  keys_pong,
+                       item_type* items_pong,
+                       CompareOp  compare_op,
+                       Size*      merge_partitions,
+                       Size       coop,
+                       char*      shmem)
     {
       TempStorage& storage = *reinterpret_cast<TempStorage*>(shmem);
 
-      impl(storage,
-           core::make_load_iterator(ptx_plan(), keys_in),
-           core::make_load_iterator(ptx_plan(), items_in),
+      impl(ping,
+           storage,
+           core::make_load_iterator(ptx_plan(), keys_ping),
+           core::make_load_iterator(ptx_plan(), items_ping),
+           core::make_load_iterator(ptx_plan(), keys_pong),
+           core::make_load_iterator(ptx_plan(), items_pong),
            keys_count,
-           keys_out,
-           items_out,
+           keys_pong,
+           items_pong,
+           keys_ping,
+           items_ping,
            compare_op,
            merge_partitions,
            coop);
@@ -1053,62 +1207,32 @@ namespace __merge_sort {
         BlockSortAgent<KeysIt,
                        ItemsIt,
                        Size,
-                       KeysIt,
-                       ItemsIt,
                        CompareOp,
                        SORT_ITEMS,
                        STABLE> >
         block_sort_agent;
-    
-    typedef core::AgentLauncher<
-        BlockSortAgent<KeysIt,
-                       ItemsIt,
-                       Size,
-                       key_type*,
-                       item_type*,
-                       CompareOp,
-                       SORT_ITEMS,
-                       STABLE> >
-        block_sort_agent_ping;
 
     typedef core::AgentLauncher<PartitionAgent<KeysIt, Size, CompareOp> >
-        partition_agent_ping;
-
-    typedef core::AgentLauncher<
-        PartitionAgent<key_type*, Size, CompareOp> >
-        partition_agent_pong;
-
+        partition_agent;
 
     typedef core::AgentLauncher<
         MergeAgent<KeysIt,
                    ItemsIt,
                    Size,
-                   key_type*,
-                   item_type*,
                    CompareOp,
                    SORT_ITEMS> >
-        merge_agent_ping;
-    
-    typedef core::AgentLauncher<
-        MergeAgent<key_type*,
-                   item_type*,
-                   Size,
-                   KeysIt,
-                   ItemsIt,
-                   CompareOp,
-                   SORT_ITEMS> >
-        merge_agent_pong;
+        merge_agent;
 
     cudaError_t status = cudaSuccess;
 
     if (keys_count == 0)
       return status;
 
-    typename core::get_plan<partition_agent_ping>::type partition_plan =
-        partition_agent_ping::get_plan();
+    typename core::get_plan<partition_agent>::type partition_plan =
+        partition_agent::get_plan();
 
-    typename core::get_plan<merge_agent_ping>::type merge_plan =
-        merge_agent_ping::get_plan(stream);
+    typename core::get_plan<merge_agent>::type merge_plan =
+        merge_agent::get_plan(stream);
 
     AgentPlan block_sort_plan = merge_plan;
 
@@ -1146,74 +1270,41 @@ namespace __merge_sort {
     char* vshmem_ptr = temp_storage4 > 0 ? (char*)allocations[3] : NULL;
 
 
-    if (ping)
-    {
-      block_sort_agent(block_sort_plan, keys_count, stream, vshmem_ptr, "block_sort_agent", debug_sync)
-          .launch(keys, items, keys_count, keys, items, compare_op);
-    }
-    else
-    {
-      block_sort_agent_ping(block_sort_plan, keys_count, stream, vshmem_ptr, "block_sort_agent_ping", debug_sync)
-          .launch(keys, items, keys_count, keys_buffer, items_buffer, compare_op);
-    }
+    block_sort_agent(block_sort_plan, keys_count, stream, vshmem_ptr, "block_sort_agent", debug_sync)
+        .launch(ping, keys, items, keys_count, keys_buffer, items_buffer, compare_op);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
     int num_partitions = num_tiles + 1;
 
-    partition_agent_ping pa_ping(partition_plan, num_partitions, stream, "partition_agent_ping", debug_sync);
-    partition_agent_pong pa_pong(partition_plan, num_partitions, stream, "partition_agent_pong", debug_sync);
-    merge_agent_ping     ma_ping(merge_plan, keys_count, stream, vshmem_ptr, "merge_agent_ping", debug_sync);
-    merge_agent_pong     ma_pong(merge_plan, keys_count, stream, vshmem_ptr, "merge_agent_pong", debug_sync);
+    partition_agent pa(partition_plan, num_partitions, stream, "partition_agent", debug_sync);
+    merge_agent     ma(merge_plan, keys_count, stream, vshmem_ptr, "merge_agent", debug_sync);
 
     for (int pass = 0; pass < num_passes; ++pass, ping = !ping)
     {
       Size coop = Size(2) << pass;
 
-      if (ping)
-      {
-        pa_ping.launch(keys,
-                       keys_count,
-                       num_partitions,
-                       merge_partitions,
-                       compare_op,
-                       coop,
-                       merge_plan.items_per_tile);
-        CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
+      pa.launch(ping,
+                keys,
+                keys_buffer,
+                keys_count,
+                num_partitions,
+                merge_partitions,
+                compare_op,
+                coop,
+                merge_plan.items_per_tile);
+      CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
 
-        ma_ping.launch(keys,
-                       items,
-                       keys_count,
-                       keys_buffer,
-                       items_buffer,
-                       compare_op,
-                       merge_partitions,
-                       coop);
-        CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
-
-      }
-      else
-      {
-        pa_pong.launch(keys_buffer,
-                       keys_count,
-                       num_partitions,
-                       merge_partitions,
-                       compare_op,
-                       coop,
-                       merge_plan.items_per_tile);
-        CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
-
-
-        ma_pong.launch(keys_buffer,
-                       items_buffer,
-                       keys_count,
-                       keys,
-                       items,
-                       compare_op,
-                       merge_partitions,
-                       coop);
-        CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
-      }
+      ma.launch(ping,
+                keys,
+                items,
+                keys_count,
+                keys_buffer,
+                items_buffer,
+                compare_op,
+                merge_partitions,
+                coop);
+      CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
 
     return status;

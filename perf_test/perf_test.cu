@@ -259,16 +259,8 @@ void doit(P p, size_t N, size_t seed)
 
 
 #ifndef _ALL
-  { Merge<P,Vector>                       temp(p,A,B,U1);        benchmark(temp); } // merge
-  { MergeByKey<P,Vector>                  temp(p,A,B,C,D,U1,U2); benchmark(temp); } // merge_by_key
-  { SetDifference<P,Vector>               temp(p,A,B,U1);        benchmark(temp); } // set_operations
-  { SetIntersection<P,Vector>             temp(p,A,B,U1);        benchmark(temp); }
-  { SetSymmetricDifference<P,Vector>      temp(p,A,B,U1);        benchmark(temp); }
-  { SetUnion<P,Vector>                    temp(p,A,B,U1);        benchmark(temp); }
-  { SetDifferenceByKey<P,Vector>          temp(p,A,B,C,D,U1,U2); benchmark(temp); } // set_operations by_key
-  { SetIntersectionByKey<P,Vector>        temp(p,A,B,C,U1,U2);   benchmark(temp); }
- { SetSymmetricDifferenceByKey<P,Vector> temp(p,A,B,C,D,U1,U2); benchmark(temp); }
-  { SetUnionByKey<P,Vector>               temp(p,A,B,C,D,U1,U2); benchmark(temp); }
+  { ComparisonSort<P,Vector>              temp(p,A);             benchmark(temp); }
+  { ComparisonSortByKey<P,Vector>         temp(p,A,B);           benchmark(temp); }
 
 
 #else
@@ -379,6 +371,9 @@ int main(int argc, char **argv)
     std::cerr << "usage: driver [datasize]" << std::endl;
     exit(-1);
   }
+
+
+  std::cerr << "N= " << N << std::endl;
 
   size_t seed = (size_t)main;
   seed = 12345;

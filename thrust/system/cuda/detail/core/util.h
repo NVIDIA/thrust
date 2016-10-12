@@ -54,11 +54,11 @@ namespace core {
 #  define THRUST_TUNING_ARCH sm20
 #endif
 
-  struct sm20  { enum { ver = 200 }; };
-  struct sm30  { enum { ver = 300 }; };
-  struct sm35  { enum { ver = 350 }; };
-  struct sm52  { enum { ver = 520 }; };
-  struct sm60  { enum { ver = 600 }; };
+  struct sm20  { enum { ver = 200, warpSize = 32 }; };
+  struct sm30  { enum { ver = 300, warpSize = 32 }; };
+  struct sm35  { enum { ver = 350, warpSize = 32 }; };
+  struct sm52  { enum { ver = 520, warpSize = 32 }; };
+  struct sm60  { enum { ver = 600, warpSize = 32 }; };
 
   
   // supported SM versions
@@ -261,6 +261,11 @@ namespace core {
   {
     enum
     {
+          v1= temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<0>::type> >::value,
+          v2= temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<1>::type> >::value,
+          v3 =temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<2>::type> >::value,
+          v4 = temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<3>::type> >::value,
+          v5 = temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<4>::type> >::value,
       value =
           temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<0>::type> >::value <= MAX_SHMEM &&
           temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<1>::type> >::value <= MAX_SHMEM &&

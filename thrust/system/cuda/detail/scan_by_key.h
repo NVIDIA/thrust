@@ -72,30 +72,13 @@ namespace __scan_by_key {
   template <class Key, class Value>
   struct Tuning<sm20, Key, Value>
   {
-    enum
-    {
-      MAX_INPUT_BYTES      = mpl::max<size_t, sizeof(Key), sizeof(Value)>::value,
-      COMBINED_INPUT_BYTES = sizeof(Key) + sizeof(Value),
 
-      NOMINAL_4B_ITEMS_PER_THREAD = 9,
-
-      ITEMS_PER_THREAD = mpl::min<
-          int,
-          NOMINAL_4B_ITEMS_PER_THREAD,
-          mpl::max<
-              int,
-              1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
-               COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
-    };
-
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+    typedef PtxPolicy<32,
+                      1,
+                      cub::BLOCK_LOAD_DIRECT,
                       cub::LOAD_DEFAULT,
-                      cub::BLOCK_SCAN_RAKING_MEMOIZE,
-                      cub::BLOCK_STORE_WARP_TRANSPOSE>
+                      cub::BLOCK_SCAN_WARP_SCANS,
+                      cub::BLOCK_STORE_DIRECT>
         type;
   };    // Tuning sm20
 
@@ -209,10 +192,6 @@ namespace __scan_by_key {
 
     typedef cub::ReduceByKeyScanTileState<value_type, size_type> ScanTileState;
     typedef cub::ReduceBySegmentOp<ScanOp> ReduceBySegmentOp;
-    typedef cub::TilePrefixCallbackOp<size_value_pair_t,
-                                      ReduceBySegmentOp,
-                                      ScanTileState>
-        TilePrefixCallback;
 
     template <class Arch>
     struct PtxPlan : Tuning<Arch, key_type, value_type>::type
@@ -236,6 +215,11 @@ namespace __scan_by_key {
                                       Arch::ver>
           BlockDiscontinuityKeys;
 
+      typedef cub::TilePrefixCallbackOperator<size_value_pair_t,
+                                              ReduceBySegmentOp,
+                                              ScanTileState,
+                                              Arch>
+          TilePrefixCallback;
       typedef cub::BlockScan<size_value_pair_t,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
@@ -270,6 +254,7 @@ namespace __scan_by_key {
     typedef typename ptx_plan::BlockStoreValues BlockStoreValues;
 
     typedef typename ptx_plan::BlockDiscontinuityKeys BlockDiscontinuityKeys;
+    typedef typename ptx_plan::TilePrefixCallback     TilePrefixCallback;
     typedef typename ptx_plan::BlockScan              BlockScan;
     typedef typename ptx_plan::TempStorage            TempStorage;
 

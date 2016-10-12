@@ -33,6 +33,15 @@
 #include <thrust/system/cuda/detail/core/util.h>
 #include <cassert>
 
+#if 0
+#define __THRUST__TEMPLATE_DEBUG
+#endif
+
+#if __THRUST__TEMPLATE_DEBUG
+template<int...> class ID_impl;
+template<int... I> class Foo { ID_impl<I...> t;};
+#endif
+
 BEGIN_NS_THRUST
 namespace cuda_cub {
 namespace core {
@@ -165,7 +174,8 @@ namespace core {
   __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS,Agent::ptx_plan::MIN_BLOCKS)
       _kernel_agent_vshmem(char* vshmem, Args... args)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(args..., vshmem);
   }
 #else
@@ -173,105 +183,120 @@ namespace core {
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, vshmem);
   }
   template <class Agent, class _0, class _1>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, vshmem);
   }
   template <class Agent, class _0, class _1, class _2>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, vshmem);
   }
   template <class Agent, class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
   void __global__ __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS, Agent::ptx_plan::MIN_BLOCKS)
   _kernel_agent_vshmem(char* vshmem, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE)
   {
-    vshmem += blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
+    extern __shared__ char shmem[];
+    vshmem = vshmem == NULL ? shmem : vshmem + blockIdx.x * temp_storage_size<typename Agent::ptx_plan>::value;
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, vshmem);
   }
 #endif
@@ -358,6 +383,7 @@ namespace core {
     unsigned int    grid;
     char*           vshmem;
     bool            has_shmem;
+    size_t          shmem_size;
 
     enum
     {
@@ -366,6 +392,9 @@ namespace core {
     typedef
         typename has_enough_shmem<Agent,
                                   MAX_SHMEM_PER_BLOCK>::type has_enough_shmem_t;
+    typedef
+        has_enough_shmem<Agent,
+                                  MAX_SHMEM_PER_BLOCK> shm1;
 
     template <class Size>
     CUB_RUNTIME_FUNCTION
@@ -381,7 +410,8 @@ namespace core {
           debug_sync(debug_sync_),
           grid((count + plan.items_per_tile - 1) / plan.items_per_tile),
           vshmem(NULL),
-          has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size)
+          has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
+          shmem_size(has_shmem ? plan.shared_memory_size : 0)
     {
       assert(count > 0);
     }
@@ -401,7 +431,8 @@ namespace core {
           debug_sync(debug_sync_),
           grid((count + plan.items_per_tile - 1) / plan.items_per_tile),
           vshmem(vshmem),
-          has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size)
+          has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
+          shmem_size(has_shmem ? plan.shared_memory_size : 0)
     {
       assert(count > 0);
     }
@@ -418,7 +449,8 @@ namespace core {
           debug_sync(debug_sync_),
           grid(plan.grid_size),
           vshmem(NULL),
-          has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size)
+          has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
+          shmem_size(has_shmem ? plan.shared_memory_size : 0)
     {
       assert(plan.grid_size > 0);
     }
@@ -436,7 +468,8 @@ namespace core {
           debug_sync(debug_sync_),
           grid(plan.grid_size),
           vshmem(vshmem),
-          has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size)
+          has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
+          shmem_size(has_shmem ? plan.shared_memory_size : 0)
     {
       assert(plan.grid_size > 0);
     }
@@ -678,39 +711,44 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, Args... args) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       print_info(_kernel_agent<Agent, Args...>);
-      launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(_kernel_agent<Agent, Args...>, args...);
     }
     
     // If there is a risk of not having enough shared memory 
-    // we have no choice but to compile two kernels:
-    // one which uses shared memory in case at runtime we find that we actually
-    // to have enough
-    // other which accepts global memory pointer for temporary storage
-    // in case there is not enough hw shared memory 
+    // we compile generic kernel instead.
+    // This kernel is likely to be somewhat slower, but it can accomodate
+    // both shared and virtualized shared memories.
+    // Alternative option is to compile two kernels, one using shared and one
+    // using virtualized shared memory. While this can be slightly faster if we
+    // do actually have enough shared memory, the compilation time will double.
+    // 
     template <class... Args>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, Args... args) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), args...);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        print_info(_kernel_agent_vshmem<Agent, Args...>);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
-            .doit(_kernel_agent_vshmem<Agent, Args...>, vshmem, args...);
-      }
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      print_info(_kernel_agent_vshmem<Agent, Args...>);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
+          .doit(_kernel_agent_vshmem<Agent, Args...>, vshmem, args...);
     }
 
     template <class... Args>
     void CUB_RUNTIME_FUNCTION
     launch(Args... args) const
     {
+#if __THRUST__TEMPLATE_DEBUG
+#ifdef __CUDA_ARCH__
+      typedef typename Foo<
+        shm1::v1,
+        shm1::v2,
+        shm1::v3,
+        shm1::v4,
+        shm1::v5>::t tt;
+#endif
+#endif
       launch_impl(has_enough_shmem_t(),args...);
       sync();
     }
@@ -719,255 +757,150 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0) = _kernel_agent_vshmem<Agent, _0>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0) = _kernel_agent_vshmem<Agent, _0>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0);
-      }
     }
     template <class _0, class _1>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1) = _kernel_agent_vshmem<Agent, _0,_1>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1) = _kernel_agent_vshmem<Agent, _0, _1>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1);
-      }
     }
     template <class _0, class _1, class _2>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2) = _kernel_agent_vshmem<Agent, _0,_1,_2>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2) = _kernel_agent_vshmem<Agent, _0, _1, _2>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2);
-      }
     }
     template <class _0, class _1, class _2, class _3>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6,x7);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6,x7,x8);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8>;
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8>;
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6,x7,x8,x9);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
-      }
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD,_xE xE) const
     {
-      if (has_shmem)
-      {
-        launch_impl(detail::true_type(), x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE);
-      }
-      else
-      {
-        assert(vshmem != NULL);
-        void (*ptr)(char*, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE) = _kernel_agent_vshmem<Agent, _0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE>;
-        print_info(ptr);
-        launcher::triple_chevron(grid, plan.block_threads, 0, stream)
-          .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD,xE);
-      }
+      assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
+      void (*ptr)(char*, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD, _xE) = _kernel_agent_vshmem<Agent, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _xA, _xB, _xC, _xD, _xE>;
+      print_info(ptr);
+      launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
+          .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);
     }
 
     ////////////////////////////////////////////////////////
@@ -978,7 +911,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0) = _kernel_agent<Agent, _0>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -988,7 +921,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0, _1) = _kernel_agent<Agent, _0, _1>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -998,7 +931,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2) = _kernel_agent<Agent, _0, _1, _2>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1008,7 +941,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3) = _kernel_agent<Agent, _0, _1, _2,_3>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1018,7 +951,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4) = _kernel_agent<Agent, _0, _1, _2,_3,_4>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1028,7 +961,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1038,7 +971,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1048,7 +981,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1058,7 +991,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1068,7 +1001,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1078,7 +1011,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1088,7 +1021,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1098,7 +1031,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1108,7 +1041,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
@@ -1118,7 +1051,7 @@ namespace core {
     void CUB_RUNTIME_FUNCTION
     launch_impl(detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
-      assert(vshmem == NULL);
+      assert(has_shmem && vshmem == NULL);
       void (*ptr)(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE) = _kernel_agent<Agent, _0, _1, _2,_3,_4,_5,_6,_7,_8,_9,_xA,_xB,_xC,_xD,_xE>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)

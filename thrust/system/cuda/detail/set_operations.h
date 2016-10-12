@@ -225,27 +225,11 @@ namespace __set_operations {
   template<class T, class U>
   struct Tuning<sm20,T,U>
   {
-    enum
-    {
-      MAX_INPUT_BYTES             = mpl::max<size_t, sizeof(T), sizeof(U)>::value,
-      COMBINED_INPUT_BYTES        = sizeof(T),    // + sizeof(Value),
-      NOMINAL_4B_ITEMS_PER_THREAD = 11,
-      ITEMS_PER_THREAD            = mpl::min<
-          int,
-          NOMINAL_4B_ITEMS_PER_THREAD,
-          mpl::max<
-              int,
-              1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
-               COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
-    };
-
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+    typedef PtxPolicy<32,
+                      1,
+                      cub::BLOCK_LOAD_DIRECT,
                       cub::LOAD_DEFAULT,
-                      cub::BLOCK_SCAN_RAKING_MEMOIZE>
+                      cub::BLOCK_SCAN_WARP_SCANS>
         type;
   }; // tuning sm20
 
@@ -351,10 +335,6 @@ namespace __set_operations {
     typedef value1_type value_type;
     
     typedef cub::ScanTileState<Size> ScanTileState;
-    typedef cub::TilePrefixCallbackOp<Size,
-                                      cub::Sum,
-                                      ScanTileState>
-        TilePrefixCallback;
     
     template <class Arch>
     struct PtxPlan : Tuning<Arch, key_type, value_type>::type
@@ -370,6 +350,12 @@ namespace __set_operations {
       typedef typename core::BlockLoad<PtxPlan, KeysLoadIt2>::type   BlockLoadKeys2;
       typedef typename core::BlockLoad<PtxPlan, ValuesLoadIt1>::type BlockLoadValues1;
       typedef typename core::BlockLoad<PtxPlan, ValuesLoadIt2>::type BlockLoadValues2;
+
+      typedef cub::TilePrefixCallbackOperator<Size,
+                                              cub::Sum,
+                                              ScanTileState,
+                                              Arch>
+          TilePrefixCallback;
 
       typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
@@ -426,6 +412,7 @@ namespace __set_operations {
     typedef typename ptx_plan::BlockLoadValues1 BlockLoadValues1;
     typedef typename ptx_plan::BlockLoadValues2 BlockLoadValues2;
 
+    typedef typename ptx_plan::TilePrefixCallback TilePrefixCallback;
     typedef typename ptx_plan::BlockScan BlockScan;
 
     typedef typename ptx_plan::TempStorage TempStorage;

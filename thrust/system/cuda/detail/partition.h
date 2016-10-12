@@ -113,18 +113,10 @@ namespace __partition {
   template<class T>
   struct Tuning<sm20, T>
   {
-    const static int INPUT_SIZE = sizeof(T);
-
-    enum
-    {
-      NOMINAL_4B_ITEMS_PER_THREAD = 7,
-      ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(3, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T)))),
-    };
-
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
+    typedef PtxPolicy<32,
                       1,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      1,
+                      cub::BLOCK_LOAD_DIRECT,
                       cub::LOAD_DEFAULT,
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
@@ -158,10 +150,6 @@ namespace __partition {
 
 
     typedef cub::ScanTileState<Size> ScanTileState;
-    typedef cub::TilePrefixCallbackOp<Size,
-                                      cub::Sum,
-                                      ScanTileState>
-        TilePrefixCallback;
 
     template <class Arch>
     struct PtxPlan : Tuning<Arch, item_type>::type
@@ -174,6 +162,11 @@ namespace __partition {
       typedef typename core::BlockLoad<PtxPlan, ItemsLoadIt>::type   BlockLoadItems;
       typedef typename core::BlockLoad<PtxPlan, StencilLoadIt>::type BlockLoadStencil;
 
+      typedef cub::TilePrefixCallbackOperator<Size,
+                                              cub::Sum,
+                                              ScanTileState,
+                                              Arch>
+          TilePrefixCallback;
       typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
@@ -199,12 +192,13 @@ namespace __partition {
     };    // struct PtxPlan
     typedef typename core::specialize_plan_msvc10_war<PtxPlan>::type::type ptx_plan;
 
-    typedef typename ptx_plan::ItemsLoadIt      ItemsLoadIt;
-    typedef typename ptx_plan::StencilLoadIt    StencilLoadIt;
-    typedef typename ptx_plan::BlockLoadItems   BlockLoadItems;
-    typedef typename ptx_plan::BlockLoadStencil BlockLoadStencil;
-    typedef typename ptx_plan::BlockScan        BlockScan;
-    typedef typename ptx_plan::TempStorage      TempStorage;
+    typedef typename ptx_plan::ItemsLoadIt        ItemsLoadIt;
+    typedef typename ptx_plan::StencilLoadIt      StencilLoadIt;
+    typedef typename ptx_plan::BlockLoadItems     BlockLoadItems;
+    typedef typename ptx_plan::BlockLoadStencil   BlockLoadStencil;
+    typedef typename ptx_plan::TilePrefixCallback TilePrefixCallback;
+    typedef typename ptx_plan::BlockScan          BlockScan;
+    typedef typename ptx_plan::TempStorage        TempStorage;
 
     enum
     {

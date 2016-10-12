@@ -176,18 +176,9 @@ namespace __unique {
   template<class T>
   struct Tuning<sm20,T>
   {
-    const static int INPUT_SIZE = sizeof(T);
-    enum
-    {
-      NOMINAL_4B_ITEMS_PER_THREAD = 7,
-      //
-      ITEMS_PER_THREAD = items_per_thread<T,
-                                          NOMINAL_4B_ITEMS_PER_THREAD>::value
-    };
-
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+    typedef PtxPolicy<32,
+                      1,
+                      cub::BLOCK_LOAD_DIRECT,
                       cub::LOAD_DEFAULT,
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
@@ -203,10 +194,6 @@ namespace __unique {
     typedef typename iterator_traits<ItemsIt>::value_type item_type;
 
     typedef cub::ScanTileState<Size> ScanTileState;
-    typedef cub::TilePrefixCallbackOp<Size,
-                                      cub::Sum,
-                                      ScanTileState>
-        TilePrefixCallback;
 
     template <class Arch>
     struct PtxPlan : Tuning<Arch, item_type>::type
@@ -224,6 +211,11 @@ namespace __unique {
                                       Arch::ver>
           BlockDiscontinuityItems;
 
+      typedef cub::TilePrefixCallbackOperator<Size,
+                                              cub::Sum,
+                                              ScanTileState,
+                                              Arch>
+          TilePrefixCallback;
       typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
@@ -255,6 +247,7 @@ namespace __unique {
     typedef typename ptx_plan::ItemsLoadIt             ItemsLoadIt;
     typedef typename ptx_plan::BlockLoadItems          BlockLoadItems;
     typedef typename ptx_plan::BlockDiscontinuityItems BlockDiscontinuityItems;
+    typedef typename ptx_plan::TilePrefixCallback      TilePrefixCallback;
     typedef typename ptx_plan::BlockScan               BlockScan;
     typedef typename ptx_plan::shared_items_t          shared_items_t;
     typedef typename ptx_plan::TempStorage             TempStorage;

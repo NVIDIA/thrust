@@ -159,8 +159,8 @@ namespace __scan {
     typedef sm20 Arch;
     enum
     {
-      NOMINAL_4B_BLOCK_THREADS    = 256,
-      NOMINAL_4B_ITEMS_PER_THREAD = 15,
+      NOMINAL_4B_BLOCK_THREADS    = 32,
+      NOMINAL_4B_ITEMS_PER_THREAD = 1,
     };
 
     typedef PtxPolicy<THRUST_BLOCK_THREADS<Arch,
@@ -170,10 +170,10 @@ namespace __scan {
                                               NOMINAL_4B_ITEMS_PER_THREAD,
                                               NOMINAL_4B_BLOCK_THREADS,
                                               T>::value,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::BLOCK_LOAD_DIRECT,
                       cub::LOAD_DEFAULT,
-                      cub::BLOCK_STORE_WARP_TRANSPOSE,
-                      cub::BLOCK_SCAN_RAKING_MEMOIZE>
+                      cub::BLOCK_STORE_DIRECT,
+                      cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // struct Tuning for sm20
 
@@ -258,8 +258,6 @@ namespace __scan {
   struct ScanAgent
   {
     typedef cub::ScanTileState<T> ScanTileState;
-    typedef cub::TilePrefixCallbackOp<T, ScanOp, ScanTileState>
-        TilePrefixCallback;
     typedef cub::BlockScanRunningPrefixOp<T, ScanOp> RunningPrefixCallback;
 
     template<class Arch>
@@ -267,10 +265,13 @@ namespace __scan {
     {
       typedef Tuning<Arch, T, T> tuning;
 
+
       typedef typename core::LoadIterator<PtxPlan, InputIt>::type LoadIt;
       typedef typename core::BlockLoad<PtxPlan, LoadIt, T>::type    BlockLoad;
       typedef typename core::BlockStore<PtxPlan, OutputIt, T>::type BlockStore;
 
+      typedef cub::TilePrefixCallbackOperator<T, ScanOp, ScanTileState, Arch>
+          TilePrefixCallback;
       typedef cub::BlockScan<T,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
@@ -293,11 +294,12 @@ namespace __scan {
     };    // struct PtxPlan
     typedef typename core::specialize_plan_msvc10_war<PtxPlan>::type::type ptx_plan;
 
-    typedef typename ptx_plan::LoadIt      LoadIt;
-    typedef typename ptx_plan::BlockLoad   BlockLoad;
-    typedef typename ptx_plan::BlockStore  BlockStore;
-    typedef typename ptx_plan::BlockScan   BlockScan;
-    typedef typename ptx_plan::TempStorage TempStorage;
+    typedef typename ptx_plan::LoadIt             LoadIt;
+    typedef typename ptx_plan::BlockLoad          BlockLoad;
+    typedef typename ptx_plan::BlockStore         BlockStore;
+    typedef typename ptx_plan::TilePrefixCallback TilePrefixCallback;
+    typedef typename ptx_plan::BlockScan          BlockScan;
+    typedef typename ptx_plan::TempStorage        TempStorage;
 
     enum
     {

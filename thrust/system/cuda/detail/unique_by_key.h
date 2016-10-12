@@ -180,18 +180,9 @@ namespace __unique_by_key {
   template<class T>
   struct Tuning<sm20,T>
   {
-    const static int INPUT_SIZE = sizeof(T);
-    enum
-    {
-      NOMINAL_4B_ITEMS_PER_THREAD = 7,
-      //
-      ITEMS_PER_THREAD = items_per_thread<T,
-                                          NOMINAL_4B_ITEMS_PER_THREAD>::value
-    };
-
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+    typedef PtxPolicy<32,
+                      1,
+                      cub::BLOCK_LOAD_DIRECT,
                       cub::LOAD_DEFAULT,
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
@@ -210,10 +201,6 @@ namespace __unique_by_key {
     typedef typename iterator_traits<ValInputIt>::value_type value_type;
 
     typedef cub::ScanTileState<Size> ScanTileState;
-    typedef cub::TilePrefixCallbackOp<Size,
-                                      cub::Sum,
-                                      ScanTileState>
-        TilePrefixCallback;
 
     template <class Arch>
     struct PtxPlan : Tuning<Arch, key_type>::type
@@ -233,6 +220,11 @@ namespace __unique_by_key {
                                       Arch::ver>
           BlockDiscontinuityKeys;
 
+      typedef cub::TilePrefixCallbackOperator<Size,
+                                              cub::Sum,
+                                              ScanTileState,
+                                              Arch>
+          TilePrefixCallback;
       typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
@@ -270,6 +262,7 @@ namespace __unique_by_key {
     typedef typename ptx_plan::BlockLoadKeys          BlockLoadKeys;
     typedef typename ptx_plan::BlockLoadValues        BlockLoadValues;
     typedef typename ptx_plan::BlockDiscontinuityKeys BlockDiscontinuityKeys;
+    typedef typename ptx_plan::TilePrefixCallback     TilePrefixCallback;
     typedef typename ptx_plan::BlockScan              BlockScan;
     typedef typename ptx_plan::TempStorage            TempStorage;
     typedef typename ptx_plan::shared_keys_t          shared_keys_t;
