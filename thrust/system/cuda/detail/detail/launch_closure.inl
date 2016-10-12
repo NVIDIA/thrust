@@ -75,27 +75,11 @@ template<typename Closure,
 {
   typedef void (*launch_function_t)(Closure); 
  
-#if defined(__CUDA__) && defined(__clang__)
-  __host__
-  static launch_function_t get_launch_function()
-  {
-    return launch_closure_by_value<Closure>;
-  }
-
-  __device__
-  static launch_function_t get_launch_function()
-  {
-    assert(0); // clang doesn't support dynamic parallelism
- 
-    return NULL;
-  }
-#else
   __host__ __device__
   static launch_function_t get_launch_function()
   {
     return launch_closure_by_value<Closure>;
   }
-#endif
 
   template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
   __host__ __device__
@@ -132,27 +116,11 @@ template<typename Closure>
 {
   typedef void (*launch_function_t)(const Closure *); 
  
-#if defined(__CUDA__) && defined(__clang__)
-  __host__
-  static launch_function_t get_launch_function(void)
-  {
-    return launch_closure_by_pointer<Closure>;
-  }
-
-  __device__
-  static launch_function_t get_launch_function(void)
-  {
-    assert(0); // clang doesn't support dynamic parallelism
-
-    return NULL;
-  }
-#else
   __host__ __device__
   static launch_function_t get_launch_function(void)
   {
     return launch_closure_by_pointer<Closure>;
   }
-#endif
 
   template<typename DerivedPolicy, typename Size1, typename Size2, typename Size3>
   __host__ __device__

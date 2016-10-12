@@ -71,27 +71,11 @@ struct triple_chevron_launcher_base<block_size,Function,true>
 {
   typedef void (*global_function_pointer_t)(Function);
 
-#if defined(__CUDA__) && defined(__clang__)
-  __host__
-  static global_function_pointer_t global_function_pointer()
-  {
-    return launch_by_value<block_size,Function>;
-  }
-
-  __device__
-  static global_function_pointer_t global_function_pointer()
-  {
-    bulk::detail::terminate(); //  clang doesn't support dynamic parallelism
-
-    return NULL;
-  }
-#else
   __host__ __device__
   static global_function_pointer_t global_function_pointer()
   {
     return launch_by_value<block_size,Function>;
   }
-#endif
 };
 
 
@@ -111,27 +95,11 @@ struct triple_chevron_launcher_base<block_size,Function,false>
 {
   typedef void (*global_function_pointer_t)(const Function*);
 
-#if defined (__CUDA__) && defined(__clang__)
-  __host__
-  static global_function_pointer_t global_function_pointer()
-  {
-    return launch_by_pointer<block_size,Function>;
-  }
-
-  __device__
-  static global_function_pointer_t global_function_pointer()
-  {
-    bulk::detail::terminate(); //  clang doesn't support dynamic parallelism
-    
-    return NULL;
-  }
-#else
   __host__ __device__
   static global_function_pointer_t global_function_pointer()
   {
     return launch_by_pointer<block_size,Function>;
   }
-#endif
 };
 
 
@@ -241,3 +209,4 @@ class triple_chevron_launcher<block_size_,Function,false> : protected triple_che
 } // end detail
 } // end bul
 BULK_NAMESPACE_SUFFIX
+
