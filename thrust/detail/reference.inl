@@ -186,6 +186,7 @@ template<typename Element, typename Pointer, typename Derived>
 
 template<typename Element, typename Pointer, typename Derived>
   template<typename System>
+    __host__ __device__
     void reference<Element,Pointer,Derived>
       ::swap(System *system, derived_type &other)
 {
