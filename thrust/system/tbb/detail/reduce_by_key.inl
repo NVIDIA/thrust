@@ -81,7 +81,7 @@ template<typename InputIterator1,
   thrust::pair<
     InputIterator1,
     thrust::pair<
-      typename InputIterator1::value_type,
+      typename thrust::iterator_value<InputIterator1>::type,
       typename partial_sum_type<InputIterator2,BinaryFunction>::type
     >
   >
@@ -98,7 +98,7 @@ template<typename InputIterator1,
   thrust::reverse_iterator<InputIterator1> keys_last_r(keys_first);
   thrust::reverse_iterator<InputIterator2> values_first_r(values_first + n);
 
-  typename InputIterator1::value_type result_key = *keys_first_r;
+  typename thrust::iterator_value<InputIterator1>::type result_key = *keys_first_r;
   typename partial_sum_type<InputIterator2,BinaryFunction>::type result_value = *values_first_r;
 
   // consume the entirety of the first key's sequence
@@ -122,7 +122,7 @@ template<typename InputIterator1,
   thrust::tuple<
     OutputIterator1,
     OutputIterator2,
-    typename InputIterator1::value_type,
+    typename thrust::iterator_value<InputIterator1>::type,
     typename partial_sum_type<InputIterator2,BinaryFunction>::type
   >
     reduce_by_key_with_carry(InputIterator1 keys_first, 
@@ -136,7 +136,7 @@ template<typename InputIterator1,
   // first, consume the last sequence to produce the carry
   // XXX is there an elegant way to pose this such that we don't need to default construct carry?
   thrust::pair<
-    typename InputIterator1::value_type,
+    typename thrust::iterator_value<InputIterator1>::type,
     typename partial_sum_type<InputIterator2,BinaryFunction>::type
   > carry;
 
