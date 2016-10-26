@@ -100,6 +100,7 @@ template<typename Alloc, typename T, typename Arg1>
     : has_member_construct2_impl<Alloc, void(T*,const Arg1 &)>
 {};
 
+__thrust_exec_check_disable__
 template<typename Alloc, typename T, typename Arg1>
   inline __host__ __device__
     typename enable_if<
