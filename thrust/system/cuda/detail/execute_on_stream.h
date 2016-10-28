@@ -52,7 +52,7 @@ inline cudaStream_t default_stream()
 // given any old execution_policy, we return the default stream
 template<typename DerivedPolicy>
 __host__ __device__
-inline cudaStream_t stream(const execution_policy<DerivedPolicy> &exec)
+inline cudaStream_t stream(const execution_policy<DerivedPolicy> &)
 {
   return default_stream();
 }

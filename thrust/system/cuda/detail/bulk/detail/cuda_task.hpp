@@ -158,7 +158,7 @@ template<typename Block>
 struct block_maker
 {
   __host__ __device__
-  static Block make(typename Block::size_type     size,
+  static Block make(typename Block::size_type,
                     typename Block::size_type     heap_size,
                     typename Block::agent_type    thread,
                     typename Block::size_type     index)

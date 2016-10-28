@@ -270,7 +270,8 @@ struct CachingDeviceAllocator
             min_bin_bytes(IntPow(bin_growth, min_bin)),
             max_bin_bytes(IntPow(bin_growth, max_bin)),
             max_cached_bytes(max_cached_bytes),
-            debug(false)
+            debug(false),
+            skip_cleanup(skip_cleanup)
     #if (CUB_PTX_ARCH == 0)   // Only define STL container members in host code
             ,cached_blocks(BlockDescriptor::SizeCompare),
             live_blocks(BlockDescriptor::PtrCompare)
