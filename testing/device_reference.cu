@@ -206,3 +206,26 @@ void TestDeviceReferenceManipulation(void)
 }
 DECLARE_UNITTEST(TestDeviceReferenceManipulation);
 
+void TestDeviceReferenceSwap(void)
+{
+  typedef int T;
+
+  thrust::device_vector<T> v(2);
+  thrust::device_reference<T> ref1 = v.front();
+  thrust::device_reference<T> ref2 = v.back();
+
+  ref1 = 7;
+  ref2 = 13;
+
+  // test thrust::swap()
+  thrust::swap(ref1, ref2);
+  ASSERT_EQUAL(13, ref1);
+  ASSERT_EQUAL(7, ref2);
+
+  // test .swap()
+  ref1.swap(ref2);
+  ASSERT_EQUAL(7, ref1);
+  ASSERT_EQUAL(13, ref2);
+}
+DECLARE_UNITTEST(TestDeviceReferenceSwap);
+
