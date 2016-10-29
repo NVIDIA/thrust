@@ -46,7 +46,7 @@ template<typename T>
 
 template<typename T>
 __host__ __device__
-void swap(device_reference<T> &a, device_reference<T> &b)
+void swap(device_reference<T> a, device_reference<T> b)
 {
   a.swap(b);
 } // end swap()

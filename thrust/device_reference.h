@@ -958,7 +958,7 @@ template<typename T>
  */
 template<typename T>
 __host__ __device__
-void swap(device_reference<T> &x, device_reference<T> &y);
+void swap(device_reference<T> x, device_reference<T> y);
 
 // declare these methods for the purpose of Doxygenating them
 // they actually are defined for a derived-from class
