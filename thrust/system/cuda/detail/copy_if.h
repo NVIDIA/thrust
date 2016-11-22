@@ -580,7 +580,7 @@ namespace __copy_if {
     THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
-                       char *        shmem)
+                       char *        /*shmem*/)
     {
       tile_state.InitializeStatus(num_tiles);
       if (blockIdx.x == 0 && threadIdx.x == 0)

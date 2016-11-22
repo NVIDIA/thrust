@@ -29,6 +29,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/util.h>
+#include <cstdio>
 
 namespace thrust
 {
@@ -50,6 +51,7 @@ void terminate()
 inline __host__ __device__
 void terminate_with_message(const char* message)
 {
+  printf("%s\n", message);
   thrust::cuda_cub::terminate();
 }
 

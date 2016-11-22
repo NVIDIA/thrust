@@ -58,11 +58,11 @@ template<typename ExecutionPolicy,
          typename OutputType,
          typename BinaryFunction>
 __host__ __device__
-  OutputType reduce(thrust::execution_policy<ExecutionPolicy> &exec,
-                    RandomAccessIterator first,
-                    RandomAccessIterator last,
-                    OutputType init,
-                    BinaryFunction binary_op)
+  OutputType reduce(thrust::execution_policy<ExecutionPolicy> &,
+                    RandomAccessIterator,
+                    RandomAccessIterator,
+                    OutputType,
+                    BinaryFunction)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );

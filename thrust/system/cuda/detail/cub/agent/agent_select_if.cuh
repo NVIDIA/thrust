@@ -258,11 +258,11 @@ struct AgentSelectIf
      */
     template <bool IS_FIRST_TILE, bool IS_LAST_TILE>
     __device__ __forceinline__ void InitializeSelections(
-        OffsetT                     tile_offset,
+        OffsetT                     /*tile_offset*/,
         OffsetT                     num_tile_items,
         T                           (&items)[ITEMS_PER_THREAD],
         OffsetT                     (&selection_flags)[ITEMS_PER_THREAD],
-        Int2Type<USE_SELECT_OP>     select_method)
+        Int2Type<USE_SELECT_OP>     /*select_method*/)
     {
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
@@ -283,9 +283,9 @@ struct AgentSelectIf
     __device__ __forceinline__ void InitializeSelections(
         OffsetT                     tile_offset,
         OffsetT                     num_tile_items,
-        T                           (&items)[ITEMS_PER_THREAD],
+        T                           (&/*items*/)[ITEMS_PER_THREAD],
         OffsetT                     (&selection_flags)[ITEMS_PER_THREAD],
-        Int2Type<USE_SELECT_FLAGS>  select_method)
+        Int2Type<USE_SELECT_FLAGS>  /*select_method*/)
     {
         __syncthreads();
 
@@ -319,7 +319,7 @@ struct AgentSelectIf
         OffsetT                     num_tile_items,
         T                           (&items)[ITEMS_PER_THREAD],
         OffsetT                     (&selection_flags)[ITEMS_PER_THREAD],
-        Int2Type<USE_DISCONTINUITY> select_method)
+        Int2Type<USE_DISCONTINUITY> /*select_method*/)
     {
         if (IS_FIRST_TILE)
         {
@@ -387,11 +387,11 @@ struct AgentSelectIf
         T               (&items)[ITEMS_PER_THREAD],
         OffsetT         (&selection_flags)[ITEMS_PER_THREAD],
         OffsetT         (&selection_indices)[ITEMS_PER_THREAD],
-        int             num_tile_items,                             ///< Number of valid items in this tile
+        int             /*num_tile_items*/,                             ///< Number of valid items in this tile
         int             num_tile_selections,                        ///< Number of selections in this tile
         OffsetT         num_selections_prefix,                      ///< Total number of selections prior to this tile
-        OffsetT         num_rejected_prefix,                        ///< Total number of rejections prior to this tile
-        Int2Type<false> is_keep_rejects)                            ///< Marker type indicating whether to keep rejected items in the second partition
+        OffsetT         /*num_rejected_prefix*/,                        ///< Total number of rejections prior to this tile
+        Int2Type<false> /*is_keep_rejects*/)                            ///< Marker type indicating whether to keep rejected items in the second partition
     {
         __syncthreads();
 
@@ -427,7 +427,7 @@ struct AgentSelectIf
         int             num_tile_selections,                        ///< Number of selections in this tile
         OffsetT         num_selections_prefix,                      ///< Total number of selections prior to this tile
         OffsetT         num_rejected_prefix,                        ///< Total number of rejections prior to this tile
-        Int2Type<true>  is_keep_rejects)                            ///< Marker type indicating whether to keep rejected items in the second partition
+        Int2Type<true>  /*is_keep_rejects*/)                            ///< Marker type indicating whether to keep rejected items in the second partition
     {
         __syncthreads();
 

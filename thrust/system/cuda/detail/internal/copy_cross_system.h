@@ -51,18 +51,18 @@ namespace __copy {
             class D,
             class T,
             class Size>
-  void __host__
-  trivial_device_copy(thrust::cpp::execution_policy<H>&   host_s,
+  THRUST_HOST_FUNCTION void
+  trivial_device_copy(thrust::cpp::execution_policy<H>&      ,
                       thrust::cuda_cub::execution_policy<D>& device_s,
-                      T*                                  dst,
-                      T const*                            src,
-                      Size                                count)
+                      T*                                     dst,
+                      T const*                               src,
+                      Size                                   count)
   {
     cudaError status;
-    status = cuda_cub::trivial_copy_to_device(device_s,
-                                           dst,
-                                           src,
-                                           count);
+    status = cuda_cub::trivial_copy_to_device(dst,
+                                              src,
+                                              count,
+                                              cuda_cub::stream(device_s));
     cuda_cub::throw_on_error(status, "__copy::trivial_device_copy H->D: failed");
   }
 
@@ -70,12 +70,12 @@ namespace __copy {
             class H,
             class T,
             class Size>
-  void __host__
+  THRUST_HOST_FUNCTION void
   trivial_device_copy(thrust::cuda_cub::execution_policy<D>& device_s,
-                      thrust::cpp::execution_policy<H>&   host_s,
-                      T*                                  dst,
-                      T const*                            src,
-                      Size                                count)
+                      thrust::cpp::execution_policy<H>&      ,
+                      T*                                     dst,
+                      T const*                               src,
+                      Size                                   count)
   {
     cudaError status;
     status = cuda_cub::trivial_copy_from_device(dst,
@@ -117,11 +117,11 @@ namespace __copy {
             class Size,
             class OutputIt>
   OutputIt __host__
-  cross_system_copy_n(thrust::cpp::execution_policy<H>&   host_s,
+  cross_system_copy_n(thrust::cpp::execution_policy<H>&      host_s,
                       thrust::cuda_cub::execution_policy<D>& device_s,
-                      InputIt                             first,
-                      Size                                num_items,
-                      OutputIt                            result,
+                      InputIt                                first,
+                      Size                                   num_items,
+                      OutputIt                               result,
                       thrust::detail::false_type)    // non-trivial copy
   {
 
@@ -148,13 +148,14 @@ namespace __copy {
     cudaError status;
     InputTy*  d_in_ptr = thrust::raw_pointer_cast(
         thrust::get_temporary_buffer<InputTy>(
-            device_s, sizeof(InputTy) * num_items).first);
+            device_s, sizeof(InputTy) * num_items)
+            .first);
 
     // trivial copy data from host to device
-    status = cuda_cub::trivial_copy_to_device(device_s,
-                                           d_in_ptr,
-                                           temp,
-                                           num_items);
+    status = cuda_cub::trivial_copy_to_device(d_in_ptr,
+                                              temp,
+                                              num_items,
+                                              cuda_cub::stream(device_s));
     cuda_cub::throw_on_error(status, "__copy:: H->D: failed");
 
 
@@ -202,10 +203,10 @@ namespace __copy {
         thrust::get_temporary_buffer<InputTy>(host_s,num_items).first);
 
     // trivial copy from device to host
-    status = cuda_cub::trivial_copy_from_device(device_s,
-                                                temp,
+    status = cuda_cub::trivial_copy_from_device(temp,
                                                 d_in_ptr,
-                                                num_items);
+                                                num_items,
+                                                cuda_cub::stream(device_s));
     cuda_cub::throw_on_error(status, "__copy:: D->H: failed");
 
 

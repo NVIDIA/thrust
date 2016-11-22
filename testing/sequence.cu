@@ -5,7 +5,7 @@
 
 
 template<typename ForwardIterator>
-void sequence(my_system &system, ForwardIterator first, ForwardIterator)
+void sequence(my_system &system, ForwardIterator, ForwardIterator)
 {
     system.validate_dispatch();
 }

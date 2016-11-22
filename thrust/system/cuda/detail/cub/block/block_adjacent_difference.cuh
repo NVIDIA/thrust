@@ -96,7 +96,8 @@ private:
     struct ApplyOp<FlagOp, false>
     {
         // Apply flag operator
-        static __device__ __forceinline__ T FlagT(FlagOp flag_op, const T &a, const T &b, int idx)
+        static __device__ __forceinline__ T
+        FlagT(FlagOp flag_op, const T &a, const T &b, int /*idx*/)
         {
             return flag_op(b, a);
         }
@@ -161,11 +162,11 @@ private:
             typename        FlagT,
             typename        FlagOp>
         static __device__ __forceinline__ void FlagHeads(
-            int                     linear_tid,
-            FlagT                   (&flags)[ITEMS_PER_THREAD],         ///< [out] Calling thread's discontinuity head_flags
-            T                       (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
-            T                       (&preds)[ITEMS_PER_THREAD],         ///< [out] Calling thread's predecessor items
-            FlagOp                  flag_op)                            ///< [in] Binary boolean flag predicate
+            int                     /*linear_tid*/,
+            FlagT                   (&/*flags*/)[ITEMS_PER_THREAD],         ///< [out] Calling thread's discontinuity head_flags
+            T                       (&/*input*/)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
+            T                       (&/*preds*/)[ITEMS_PER_THREAD],         ///< [out] Calling thread's predecessor items
+            FlagOp                  /*flag_op*/)                            ///< [in] Binary boolean flag predicate
         {}
 
         // Tail flags
@@ -174,10 +175,10 @@ private:
             typename        FlagT,
             typename        FlagOp>
         static __device__ __forceinline__ void FlagTails(
-            int                     linear_tid,
-            FlagT                   (&flags)[ITEMS_PER_THREAD],         ///< [out] Calling thread's discontinuity head_flags
-            T                       (&input)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
-            FlagOp                  flag_op)                            ///< [in] Binary boolean flag predicate
+            int                     /*linear_tid*/,
+            FlagT                   (&/*flags*/)[ITEMS_PER_THREAD],         ///< [out] Calling thread's discontinuity head_flags
+            T                       (&/*input*/)[ITEMS_PER_THREAD],         ///< [in] Calling thread's input items
+            FlagOp                  /*flag_op*/)                            ///< [in] Binary boolean flag predicate
         {}
     };
 

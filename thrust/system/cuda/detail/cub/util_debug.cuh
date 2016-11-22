@@ -120,7 +120,10 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
         #define _CubLog(format, ...) printf("[block (%d,%d,%d), thread (%d,%d,%d)]: " format, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, __VA_ARGS__);
     #endif
 #else
+  // XXX clang hack around variadic printf... Compilies w/o supplying c++-03
+  //     but shows warning, ergo #pragma below
 #pragma clang diagnostic ignored "-Wc++11-extensions"
+#pragma clang diagnostic ignored "-Wunnamed-type-template-args"
     template <class... Args>
     inline __host__ __device__ void va_printf(char const* format, Args const&... args)
     {

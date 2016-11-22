@@ -230,8 +230,8 @@ struct AgentScan
     template <typename _Identity>
     void __device__ __forceinline__
     ScanTile(T (&items)[ITEMS_PER_THREAD],
-             Sum       scan_op,
-             _Identity identity,
+             Sum       /*scan_op*/,
+             _Identity /*identity*/,
              T&        block_aggregate)
     {
       BlockScanT(temp_storage.scan)
@@ -247,7 +247,7 @@ struct AgentScan
     void __device__ __forceinline__
     ScanTile(T (&items)[ITEMS_PER_THREAD],
              _ScanOp  scan_op,
-             NullType identity,
+             NullType /*identity*/,
              T&       block_aggregate)
     {
       BlockScanT(temp_storage.scan)
@@ -259,8 +259,8 @@ struct AgentScan
      */
     void __device__ __forceinline__
     ScanTile(T (&items)[ITEMS_PER_THREAD],
-             Sum      scan_op,
-             NullType identity,
+             Sum      /*scan_op*/,
+             NullType /*identity*/,
              T&       block_aggregate)
     {
       BlockScanT(temp_storage.scan)
@@ -309,8 +309,11 @@ struct AgentScan
      * Exclusive sum specialization (with prefix from predecessors)
      */
     template <typename _Identity, typename PrefixCallback>
-    __device__ __forceinline__
-    void ScanTile(T (&items)[ITEMS_PER_THREAD], Sum scan_op, _Identity identity, T& block_aggregate, PrefixCallback &prefix_op)
+    __device__ __forceinline__ void ScanTile(T (&items)[ITEMS_PER_THREAD],
+                                             Sum             /*scan_op*/,
+                                             _Identity       /*identity*/,
+                                             T&              block_aggregate,
+                                             PrefixCallback& prefix_op)
     {
         BlockScanT(temp_storage.scan).ExclusiveSum(items, items, block_aggregate, prefix_op);
     }
@@ -319,8 +322,11 @@ struct AgentScan
      * Inclusive scan specialization (with prefix from predecessors)
      */
     template <typename _ScanOp, typename PrefixCallback>
-    __device__ __forceinline__
-    void ScanTile(T (&items)[ITEMS_PER_THREAD], _ScanOp scan_op, NullType identity, T& block_aggregate, PrefixCallback &prefix_op)
+    __device__ __forceinline__ void ScanTile(T (&items)[ITEMS_PER_THREAD],
+                                             _ScanOp         scan_op,
+                                             NullType        /*identity*/,
+                                             T&              block_aggregate,
+                                             PrefixCallback& prefix_op)
     {
         BlockScanT(temp_storage.scan).InclusiveScan(items, items, scan_op, block_aggregate, prefix_op);
     }
@@ -329,8 +335,11 @@ struct AgentScan
      * Inclusive sum specialization (with prefix from predecessors)
      */
     template <typename PrefixCallback>
-    __device__ __forceinline__
-    void ScanTile(T (&items)[ITEMS_PER_THREAD], Sum scan_op, NullType identity, T& block_aggregate, PrefixCallback &prefix_op)
+    __device__ __forceinline__ void ScanTile(T (&items)[ITEMS_PER_THREAD],
+                                             Sum             /*scan_op*/,
+                                             NullType        /*identity*/,
+                                             T&              block_aggregate,
+                                             PrefixCallback& prefix_op)
     {
         BlockScanT(temp_storage.scan).InclusiveSum(items, items, block_aggregate, prefix_op);
     }
@@ -382,6 +391,7 @@ struct AgentScan
     void __device__ __forceinline__
     add_init_to_exclusive_scan(T (&items)[ITEMS_PER_THREAD], NullType, int)
     {
+      (void)items;
     }
 
     /**
@@ -389,7 +399,7 @@ struct AgentScan
      */
     template <bool IS_FULL_TILE>
     __device__ __forceinline__ void ConsumeTile(
-        OffsetT             num_items,          ///< Total number of input items
+        OffsetT             /*num_items*/,          ///< Total number of input items
         OffsetT             num_remaining,      ///< Total number of items remaining to be processed (including this tile)
         int                 tile_idx,           ///< Tile index
         OffsetT             tile_offset,        ///< Tile offset

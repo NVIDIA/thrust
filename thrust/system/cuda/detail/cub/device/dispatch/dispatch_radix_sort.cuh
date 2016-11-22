@@ -72,7 +72,7 @@ __launch_bounds__ (int((ALT_DIGIT_BITS) ?
 __global__ void DeviceRadixSortUpsweepKernel(
     KeyT                    *d_keys,                        ///< [in] Input keys buffer
     OffsetT                 *d_spine,                       ///< [out] Privatized (per block) digit histograms (striped, i.e., 0s counts from each block, then 1s counts from each block, etc.)
-    OffsetT                 num_items,                      ///< [in] Total number of input data items
+    OffsetT                 /*num_items*/,                      ///< [in] Total number of input data items
     int                     current_bit,                    ///< [in] Bit position of current radix digit
     int                     num_bits,                       ///< [in] Number of bits of current radix digit
     GridEvenShare<OffsetT>  even_share)                     ///< [in] Even-share descriptor for mapan equal number of tiles onto each thread block
@@ -327,7 +327,7 @@ __global__ void DeviceSegmentedRadixSortKernel(
     ValueT                  *d_values_out,                  ///< [in] Output values buffer
     int                     *d_begin_offsets,               ///< [in] %Device-accessible pointer to the sequence of beginning offsets of length \p num_segments, such that <tt>d_begin_offsets[i]</tt> is the first element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>
     int                     *d_end_offsets,                 ///< [in] %Device-accessible pointer to the sequence of ending offsets of length \p num_segments, such that <tt>d_end_offsets[i]-1</tt> is the last element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>.  If <tt>d_end_offsets[i]-1</tt> <= <tt>d_begin_offsets[i]</tt>, the <em>i</em><sup>th</sup> is considered empty.
-    int                     num_segments,                   ///< [in] The number of segments that comprise the sorting data
+    int                     /*num_segments*/,                   ///< [in] The number of segments that comprise the sorting data
     int                     current_bit,                    ///< [in] Bit position of current radix digit
     int                     pass_bits)                      ///< [in] Number of bits of current radix digit
 {
@@ -753,7 +753,7 @@ struct DispatchRadixSort :
         SingleTileKernelT       single_tile_kernel)     ///< [in] Kernel function pointer to parameterization of cub::DeviceRadixSortSingleTileKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
-
+        (void)single_tile_kernel;
         // Kernel launch not supported from this device
         return CubDebug(cudaErrorNotSupported );
 #else
@@ -973,9 +973,14 @@ struct DispatchRadixSort :
         DownsweepKernelT    alt_downsweep_kernel)   ///< [in] Alternate kernel function pointer to parameterization of cub::DeviceRadixSortDownsweepKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
+      (void)upsweep_kernel;
+      (void)alt_upsweep_kernel;
+      (void)scan_kernel;
+      (void)downsweep_kernel;
+      (void)alt_downsweep_kernel;
 
-        // Kernel launch not supported from this device
-        return CubDebug(cudaErrorNotSupported );
+      // Kernel launch not supported from this device
+      return CubDebug(cudaErrorNotSupported);
 #else
 
         cudaError error = cudaSuccess;
@@ -1323,9 +1328,11 @@ struct DispatchSegmentedRadixSort :
         SegmentedKernelT     alt_segmented_kernel)      ///< [in] Alternate kernel function pointer to parameterization of cub::DeviceSegmentedRadixSortKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
+      (void)segmented_kernel;
+      (void)alt_segmented_kernel;
 
-        // Kernel launch not supported from this device
-        return CubDebug(cudaErrorNotSupported );
+      // Kernel launch not supported from this device
+      return CubDebug(cudaErrorNotSupported);
 #else
 
         cudaError error = cudaSuccess;

@@ -40,10 +40,10 @@ template<typename DerivedPolicy,
          typename InputIterator,
          typename UnaryFunction>
 __host__ __device__
-InputIterator for_each(thrust::execution_policy<DerivedPolicy> &exec,
+InputIterator for_each(thrust::execution_policy<DerivedPolicy> &,
                        InputIterator first,
-                       InputIterator last,
-                       UnaryFunction f)
+                       InputIterator ,
+                       UnaryFunction )
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
@@ -56,10 +56,10 @@ template<typename DerivedPolicy,
          typename Size,
          typename UnaryFunction>
 __host__ __device__
-InputIterator for_each_n(thrust::execution_policy<DerivedPolicy> &exec,
+InputIterator for_each_n(thrust::execution_policy<DerivedPolicy> &,
                          InputIterator first,
-                         Size n,
-                         UnaryFunction f)
+                         Size ,
+                         UnaryFunction )
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );

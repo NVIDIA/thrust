@@ -286,10 +286,10 @@ namespace __unique {
       scatter(item_type (&items)[ITEMS_PER_THREAD],
               Size (&selection_flags)[ITEMS_PER_THREAD],
               Size (&selection_indices)[ITEMS_PER_THREAD],
-              int  num_tile_items,
+              int  /*num_tile_items*/,
               int  num_tile_selections,
               Size num_selections_prefix,
-              Size num_selections)
+              Size /*num_selections*/)
       {
         using core::sync_threadblock;
 
@@ -531,7 +531,7 @@ namespace __unique {
     THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
-                       char *        shmem)
+                       char * /*shmem*/)
     {
       tile_state.InitializeStatus(num_tiles);
       if (blockIdx.x == 0 && threadIdx.x == 0)

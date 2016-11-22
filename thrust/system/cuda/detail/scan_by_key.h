@@ -389,7 +389,7 @@ namespace __scan_by_key {
       //
       template <bool IS_LAST_TILE, class AddInitToScan>
       THRUST_DEVICE_FUNCTION void
-      consume_tile(Size          num_items,
+      consume_tile(Size          /*num_items*/,
                    Size          num_remaining,
                    int           tile_idx,
                    Size          tile_base,
@@ -588,7 +588,7 @@ namespace __scan_by_key {
 
     THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
-                       char *        shmem)
+                       char * /*shmem*/)
     {
       tile_state.InitializeStatus(num_tiles);
     }
@@ -600,8 +600,8 @@ namespace __scan_by_key {
     typedef T     type;
     template <int ITEMS_PER_THREAD, class Size>
     THRUST_DEVICE_FUNCTION void
-    operator()(T (&items)[ITEMS_PER_THREAD],
-               Size (&flags)[ITEMS_PER_THREAD])
+    operator()(T (&/*items*/)[ITEMS_PER_THREAD],
+               Size (&/*flags*/)[ITEMS_PER_THREAD])
     {
     }
   };    // struct DoNothing

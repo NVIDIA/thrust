@@ -74,7 +74,7 @@ struct my_allocator_with_custom_destroy
 
   template<typename T>
   __host__ __device__
-  void destroy(T *p)
+  void destroy(T *)
   {
 #if !__CUDA_ARCH__
     g_state = 13;

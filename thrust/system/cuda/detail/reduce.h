@@ -308,7 +308,7 @@ namespace __reduce {
       THRUST_DEVICE_FUNCTION void
       consume_tile(T &  thread_aggregate,
                    Size block_offset,
-                   int  valid_items,
+                   int  /*valid_items*/,
                    detail::true_type /* is_full_tile */,
                    detail::false_type /* can_vectorize */)
       {
@@ -333,7 +333,7 @@ namespace __reduce {
       THRUST_DEVICE_FUNCTION void
       consume_tile(T &  thread_aggregate,
                    Size block_offset,
-                   int  valid_items,
+                   int  /*valid_items*/,
                    detail::true_type /* is_full_tile */,
                    detail::true_type /* can_vectorize */)
       {
@@ -479,9 +479,9 @@ namespace __reduce {
       // Reduce a contiguous segment of input tiles
       //
       THRUST_DEVICE_FUNCTION T
-      consume_tiles(Size                              num_items,
+      consume_tiles(Size /*num_items*/,
                     cub::GridEvenShare<GridSizeType> &even_share,
-                    cub::GridQueue<GridSizeType> &    queue,
+                    cub::GridQueue<GridSizeType> & /*queue*/,
                     is_true<(bool)cub::GRID_MAPPING_EVEN_SHARE> /*is_even_share*/)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>          attempt_vec;
@@ -597,7 +597,7 @@ namespace __reduce {
       THRUST_DEVICE_FUNCTION T
       consume_tiles(
           Size                              num_items,
-          cub::GridEvenShare<GridSizeType> &even_share,
+          cub::GridEvenShare<GridSizeType> &/*even_share*/,
           cub::GridQueue<GridSizeType> &    queue,
           is_true<(bool)cub::GRID_MAPPING_DYNAMIC>)
       {
@@ -696,7 +696,7 @@ namespace __reduce {
 
     THRUST_AGENT_ENTRY(cub::GridQueue<GridSizeType> grid_queue,
                        Size                         num_items,
-                       char *                       shmem)
+                       char * /*shmem*/)
     {
       grid_queue.FillAndResetDrain(num_items);
     }

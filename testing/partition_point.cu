@@ -51,8 +51,8 @@ DECLARE_VECTOR_UNITTEST(TestPartitionPoint);
 template<typename ForwardIterator, typename Predicate>
 ForwardIterator partition_point(my_system &system, 
                                 ForwardIterator first,
-                                ForwardIterator last,
-                                Predicate pred)
+                                ForwardIterator,
+                                Predicate)
 {
   system.validate_dispatch();
   return first;
@@ -76,8 +76,8 @@ DECLARE_UNITTEST(TestPartitionPointDispatchExplicit);
 template<typename ForwardIterator, typename Predicate>
 ForwardIterator partition_point(my_tag,
                                 ForwardIterator first,
-                                ForwardIterator last,
-                                Predicate pred)
+                                ForwardIterator,
+                                Predicate)
 {
   *first = 13;
   return first;

@@ -26,7 +26,7 @@ DECLARE_VECTOR_UNITTEST(TestAllOf);
 
 
 template <class InputIterator, class Predicate>
-bool all_of(my_system &system, InputIterator first, InputIterator last, Predicate pred)
+bool all_of(my_system &system, InputIterator, InputIterator, Predicate)
 {
     system.validate_dispatch();
     return false;
@@ -45,7 +45,7 @@ DECLARE_UNITTEST(TestAllOfDispatchExplicit);
 
 
 template <class InputIterator, class Predicate>
-bool all_of(my_tag, InputIterator first, InputIterator last, Predicate pred)
+bool all_of(my_tag, InputIterator first, InputIterator, Predicate)
 {
     *first = 13;
     return false;
@@ -86,7 +86,7 @@ DECLARE_VECTOR_UNITTEST(TestAnyOf);
 
 
 template <class InputIterator, class Predicate>
-bool any_of(my_system &system, InputIterator first, InputIterator last, Predicate pred)
+bool any_of(my_system &system, InputIterator, InputIterator, Predicate)
 {
     system.validate_dispatch();
     return false;
@@ -105,7 +105,7 @@ DECLARE_UNITTEST(TestAnyOfDispatchExplicit);
 
 
 template <class InputIterator, class Predicate>
-bool any_of(my_tag, InputIterator first, InputIterator last, Predicate pred)
+bool any_of(my_tag, InputIterator first, InputIterator, Predicate)
 {
     *first = 13;
     return false;
@@ -146,7 +146,7 @@ DECLARE_VECTOR_UNITTEST(TestNoneOf);
 
 
 template <class InputIterator, class Predicate>
-bool none_of(my_system &system, InputIterator first, InputIterator last, Predicate pred)
+bool none_of(my_system &system, InputIterator, InputIterator, Predicate)
 {
     system.validate_dispatch();
     return false;
@@ -165,7 +165,7 @@ DECLARE_UNITTEST(TestNoneOfDispatchExplicit);
 
 
 template <class InputIterator, class Predicate>
-bool none_of(my_tag, InputIterator first, InputIterator last, Predicate pred)
+bool none_of(my_tag, InputIterator first, InputIterator, Predicate)
 {
     *first = 13;
     return false;

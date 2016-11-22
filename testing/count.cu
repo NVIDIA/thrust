@@ -99,7 +99,7 @@ DECLARE_UNITTEST(TestCountDispatchExplicit);
 
 
 template<typename InputIterator, typename EqualityComparable>
-int count(my_tag, InputIterator first, InputIterator, EqualityComparable x)
+int count(my_tag, InputIterator /*first*/, InputIterator, EqualityComparable x)
 {
     return x;
 }

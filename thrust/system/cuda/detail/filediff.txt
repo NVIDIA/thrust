@@ -1,0 +1,12 @@
+ thrust/system/cuda/detail/adjacent_difference.h    |   28 +-
+ thrust/system/cuda/detail/copy_if.h                |   43 +-
+ thrust/system/cuda/detail/core/util.h              |   30 +-
+ thrust/system/cuda/detail/partition.h              |   41 +-
+ thrust/system/cuda/detail/reduce_by_key.h          |   16 +-
+ thrust/system/cuda/detail/scan.h                   |   18 +-
+ thrust/system/cuda/detail/scan_by_key.h            |   26 +-
+ thrust/system/cuda/detail/set_operations.h         |   10 +-
+ thrust/system/cuda/detail/sort.h                   |    4 +-
+ thrust/system/cuda/detail/unique.h                 |   24 +-
+ thrust/system/cuda/detail/unique_by_key.h          |   38 +-
+ 83 files changed, 3362 insertions(+), 5006 deletions(-)

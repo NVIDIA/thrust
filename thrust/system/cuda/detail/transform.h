@@ -106,7 +106,7 @@ namespace __transform {
     THRUST_FUNCTION
     unary_transform_f(InputIt        input_,
                       OutputIt       output_,
-                      no_stencil_tag no_stencil_,
+                      no_stencil_tag,
                       TransformOp    op_,
                       Predicate      pred_)
         : input(input_), output(output_), op(op_), pred(pred_) {}
@@ -179,7 +179,7 @@ namespace __transform {
     binary_transform_f(InputIt1       input1_,
                        InputIt2       input2_,
                        OutputIt       output_,
-                       no_stencil_tag no_stencil_,
+                       no_stencil_tag ,
                        TransformOp    op_,
                        Predicate      pred_)
         : input1(input1_),

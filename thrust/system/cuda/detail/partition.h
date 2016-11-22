@@ -238,7 +238,7 @@ namespace __partition {
               int  num_tile_selections,
               Size num_selections_prefix,
               Size num_rejected_prefix,
-              Size num_selections)
+              Size /*num_selections*/)
       {
         int tile_num_rejections = num_tile_items - num_tile_selections;
 
@@ -592,7 +592,7 @@ namespace __partition {
     THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
-                       char *        shmem)
+                       char *        /*shmem*/)
     {
       tile_state.InitializeStatus(num_tiles);
       if (blockIdx.x == 0 && threadIdx.x == 0)

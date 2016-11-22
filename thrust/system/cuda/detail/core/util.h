@@ -354,6 +354,7 @@ namespace core {
   {
     typedef typename get_plan<Agent>::type Plan;
 #if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
+    THRUST_UNUSED_VAR(ptx_version);
     // We're on device, use default policy
     return Plan(typename Agent::ptx_plan());
 #else

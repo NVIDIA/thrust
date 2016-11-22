@@ -56,6 +56,7 @@ stream(execution_policy<Derived> &policy)
 }
 
 
+#if 0
 template <class Policy, class Type>
 CUB_RUNTIME_FUNCTION cudaError_t
 trivial_copy_from_device(Policy &    policy,
@@ -83,6 +84,7 @@ trivial_copy_from_device(Policy &    policy,
 #endif
   return status;
 }
+#endif
 
 template <class Type>
 THRUST_HOST_FUNCTION cudaError_t
@@ -103,9 +105,10 @@ trivial_copy_from_device(Type *       dst,
   return status;
 }
 
+#if 0
 template <class Policy, class Type>
 CUB_RUNTIME_FUNCTION cudaError_t
-trivial_copy_to_device(Policy &    policy,
+trivial_copy_to_device(Policy &    ,
                        Type *      dst,
                        Type const *src,
                        size_t      count)
@@ -129,6 +132,26 @@ trivial_copy_to_device(Policy &    policy,
 #endif
   return status;
 }
+#else
+template <class Type>
+THRUST_HOST_FUNCTION cudaError_t
+trivial_copy_to_device(Type *       dst,
+                       Type const * src,
+                       size_t       count,
+                       cudaStream_t stream)
+{
+  cudaError status = cudaSuccess;
+  if (count == 0) return status;
+
+  status = ::cudaMemcpyAsync(dst,
+                             src,
+                             sizeof(Type) * count,
+                             cudaMemcpyHostToDevice,
+                             stream);
+  cudaStreamSynchronize(stream);
+  return status;
+}
+#endif
 
 
 template <class Policy, class Type>
@@ -689,49 +712,49 @@ struct static_integer_iterator
   }
 
   /// Addition
-  __host__ __device__ __forceinline__ self_t operator+(difference_type n) const
+  __host__ __device__ __forceinline__ self_t operator+(difference_type ) const
   {
     return self_t();
   }
 
   /// Addition assignment
-  __host__ __device__ __forceinline__ self_t &operator+=(difference_type n)
+  __host__ __device__ __forceinline__ self_t &operator+=(difference_type )
   {
     return *this;
   }
 
   /// Subtraction
-  __host__ __device__ __forceinline__ self_t operator-(difference_type n) const
+  __host__ __device__ __forceinline__ self_t operator-(difference_type ) const
   {
     return self_t();
   }
 
   /// Subtraction assignment
-  __host__ __device__ __forceinline__ self_t &operator-=(difference_type n)
+  __host__ __device__ __forceinline__ self_t &operator-=(difference_type )
   {
     return *this;
   }
 
   /// Distance
-  __host__ __device__ __forceinline__ difference_type operator-(self_t other) const
+  __host__ __device__ __forceinline__ difference_type operator-(self_t ) const
   {
     return 0;
   }
 
   /// Array subscript
-  __host__ __device__ __forceinline__ reference operator[](difference_type n) const
+  __host__ __device__ __forceinline__ reference operator[](difference_type ) const
   {
     return VALUE;
   }
 
   /// Equal to
-  __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
+  __host__ __device__ __forceinline__ bool operator==(const self_t &) const
   {
     return true;
   }
 
   /// Not equal to
-  __host__ __device__ __forceinline__ bool operator!=(const self_t &rhs) const
+  __host__ __device__ __forceinline__ bool operator!=(const self_t &) const
   {
     return false;
   }

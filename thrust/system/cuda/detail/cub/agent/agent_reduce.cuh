@@ -168,7 +168,7 @@ struct AgentReduce
     template <typename Iterator>
     static __device__ __forceinline__ bool IsAligned(
         Iterator        d_in,
-        Int2Type<true>  can_vectorize)
+        Int2Type<true>  /*can_vectorize*/)
     {
         return (size_t(d_in) & (sizeof(VectorT) - 1)) == 0;
     }
@@ -176,8 +176,8 @@ struct AgentReduce
     // Whether or not the input is aligned with the vector type (specialized for types we cannot vectorize)
     template <typename Iterator>
     static __device__ __forceinline__ bool IsAligned(
-        Iterator        d_in,
-        Int2Type<false> can_vectorize)
+        Iterator        /*d_in*/,
+        Int2Type<false> /*can_vectorize*/)
     {
         return false;
     }
@@ -213,9 +213,9 @@ struct AgentReduce
     __device__ __forceinline__ void ConsumeTile(
         T                       &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
-        int                     valid_items,        ///< The number of valid items in the tile
-        Int2Type<true>          is_full_tile,       ///< Whether or not this is a full tile
-        Int2Type<false>         can_vectorize)      ///< Whether or not we can vectorize loads
+        int                     /*valid_items*/,        ///< The number of valid items in the tile
+        Int2Type<true>          /*is_full_tile*/,       ///< Whether or not this is a full tile
+        Int2Type<false>         /*can_vectorize*/)      ///< Whether or not we can vectorize loads
     {
         T items[ITEMS_PER_THREAD];
 
@@ -236,9 +236,9 @@ struct AgentReduce
     __device__ __forceinline__ void ConsumeTile(
         T                       &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
-        int                     valid_items,        ///< The number of valid items in the tile
-        Int2Type<true>          is_full_tile,       ///< Whether or not this is a full tile
-        Int2Type<true>          can_vectorize)      ///< Whether or not we can vectorize loads
+        int                     /*valid_items*/,        ///< The number of valid items in the tile
+        Int2Type<true>          /*is_full_tile*/,       ///< Whether or not this is a full tile
+        Int2Type<true>          /*can_vectorize*/)      ///< Whether or not we can vectorize loads
     {
         // Alias items as an array of VectorT and load it in striped fashion
         enum { WORDS =  ITEMS_PER_THREAD / VECTOR_LOAD_LENGTH };
@@ -271,8 +271,8 @@ struct AgentReduce
         T                       &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
         int                     valid_items,        ///< The number of valid items in the tile
-        Int2Type<false>         is_full_tile,       ///< Whether or not this is a full tile
-        Int2Type<CAN_VECTORIZE> can_vectorize)      ///< Whether or not we can vectorize loads
+        Int2Type<false>         /*is_full_tile*/,       ///< Whether or not this is a full tile
+        Int2Type<CAN_VECTORIZE> /*can_vectorize*/)      ///< Whether or not we can vectorize loads
     {
         // Partial tile
         int thread_offset = threadIdx.x;
@@ -358,10 +358,10 @@ struct AgentReduce
      * Reduce a contiguous segment of input tiles
      */
     __device__ __forceinline__ T ConsumeTiles(
-        OffsetT                             num_items,          ///< [in] Total number of global input items
+        OffsetT                             /*num_items*/,          ///< [in] Total number of global input items
         GridEvenShare<OffsetT>              &even_share,        ///< [in] GridEvenShare descriptor
-        GridQueue<OffsetT>                  &queue,             ///< [in,out] GridQueue descriptor
-        Int2Type<GRID_MAPPING_EVEN_SHARE>   is_even_share)      ///< [in] Marker type indicating this is an even-share mapping
+        GridQueue<OffsetT>                  &/*queue*/,             ///< [in,out] GridQueue descriptor
+        Int2Type<GRID_MAPPING_EVEN_SHARE>   /*is_even_share*/)      ///< [in] Marker type indicating this is an even-share mapping
     {
         // Initialize even-share descriptor for this thread block
         even_share.BlockInit();
@@ -448,9 +448,9 @@ struct AgentReduce
      */
     __device__ __forceinline__ T ConsumeTiles(
         OffsetT                         num_items,          ///< [in] Total number of global input items
-        GridEvenShare<OffsetT>          &even_share,        ///< [in] GridEvenShare descriptor
+        GridEvenShare<OffsetT>          &/*even_share*/,        ///< [in] GridEvenShare descriptor
         GridQueue<OffsetT>              &queue,             ///< [in,out] GridQueue descriptor
-        Int2Type<GRID_MAPPING_DYNAMIC>  is_dynamic)         ///< [in] Marker type indicating this is a dynamic mapping
+        Int2Type<GRID_MAPPING_DYNAMIC>  /*is_dynamic*/)         ///< [in] Marker type indicating this is a dynamic mapping
     {
         return (IsAligned(d_in, Int2Type<ATTEMPT_VECTORIZATION>())) ?
             ConsumeTiles(num_items, queue, Int2Type<true && ATTEMPT_VECTORIZATION>()) :

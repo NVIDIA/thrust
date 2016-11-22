@@ -41,14 +41,14 @@ __host__ __device__ inline cudaStream_t default_stream()
 
 template <class Derived>
 cudaStream_t __host__ __device__ 
-get_stream(execution_policy<Derived> &policy)
+get_stream(execution_policy<Derived> &)
 {
   return default_stream();
 }
 
 template <class Derived>
 cudaError_t THRUST_RUNTIME_FUNCTION
-synchronize_stream(execution_policy<Derived> &policy)
+synchronize_stream(execution_policy<Derived> &)
 {
   cudaDeviceSynchronize();
   return cudaGetLastError();
@@ -87,6 +87,7 @@ private:
   {
 #ifdef __CUDA_ARCH__
 #ifdef __THRUST_HAS_CUDART__
+    THRUST_UNUSED_VAR(exec);
     cudaDeviceSynchronize();
 #endif
 #else

@@ -6,7 +6,7 @@
 
 
 template<typename ForwardIterator, typename UnaryOperation>
-void tabulate(my_system &system, ForwardIterator first, ForwardIterator, UnaryOperation unary_op)
+void tabulate(my_system &system, ForwardIterator, ForwardIterator, UnaryOperation)
 {
   system.validate_dispatch();
 }
@@ -24,7 +24,7 @@ DECLARE_UNITTEST(TestTabulateDispatchExplicit);
 
 
 template<typename ForwardIterator, typename UnaryOperation>
-void tabulate(my_tag, ForwardIterator first, ForwardIterator, UnaryOperation unary_op)
+void tabulate(my_tag, ForwardIterator first, ForwardIterator, UnaryOperation)
 {
   *first = 13;
 }

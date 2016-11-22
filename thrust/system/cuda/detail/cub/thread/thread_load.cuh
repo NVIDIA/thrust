@@ -141,10 +141,10 @@ template <int MAX>
 struct IterateThreadLoad<MAX, MAX>
 {
     template <CacheLoadModifier MODIFIER, typename T>
-    static __device__ __forceinline__ void Load(T const *ptr, T *vals) {}
+    static __device__ __forceinline__ void Load(T const * /*ptr*/, T * /*vals*/) {}
 
     template <typename InputIteratorT, typename T>
-    static __device__ __forceinline__ void Dereference(InputIteratorT itr, T *vals) {}
+    static __device__ __forceinline__ void Dereference(InputIteratorT /*itr*/, T * /*vals*/) {}
 };
 
 
@@ -311,8 +311,8 @@ struct IterateThreadLoad<MAX, MAX>
 template <typename InputIteratorT>
 __device__ __forceinline__ typename std::iterator_traits<InputIteratorT>::value_type ThreadLoad(
     InputIteratorT          itr,
-    Int2Type<LOAD_DEFAULT>  modifier,
-    Int2Type<false>         is_pointer)
+    Int2Type<LOAD_DEFAULT>  /*modifier*/,
+    Int2Type<false>         /*is_pointer*/)
 {
     return *itr;
 }
@@ -324,8 +324,8 @@ __device__ __forceinline__ typename std::iterator_traits<InputIteratorT>::value_
 template <typename T>
 __device__ __forceinline__ T ThreadLoad(
     T                       *ptr,
-    Int2Type<LOAD_DEFAULT>  modifier,
-    Int2Type<true>          is_pointer)
+    Int2Type<LOAD_DEFAULT>  /*modifier*/,
+    Int2Type<true>          /*is_pointer*/)
 {
     return *ptr;
 }
@@ -337,7 +337,7 @@ __device__ __forceinline__ T ThreadLoad(
 template <typename T>
 __device__ __forceinline__ T ThreadLoadVolatilePointer(
     T                       *ptr,
-    Int2Type<true>          is_primitive)
+    Int2Type<true>          /*is_primitive*/)
 {
     T retval = *reinterpret_cast<volatile T*>(ptr);
 
@@ -355,7 +355,7 @@ __device__ __forceinline__ T ThreadLoadVolatilePointer(
 template <typename T>
 __device__ __forceinline__ T ThreadLoadVolatilePointer(
     T                       *ptr,
-    Int2Type<false>         is_primitive)
+    Int2Type<false>         /*is_primitive*/)
 {
 
 #if CUB_PTX_ARCH <= 130
@@ -396,8 +396,8 @@ __device__ __forceinline__ T ThreadLoadVolatilePointer(
 template <typename T>
 __device__ __forceinline__ T ThreadLoad(
     T                       *ptr,
-    Int2Type<LOAD_VOLATILE> modifier,
-    Int2Type<true>          is_pointer)
+    Int2Type<LOAD_VOLATILE> /*modifier*/,
+    Int2Type<true>          /*is_pointer*/)
 {
     // Apply tags for partial-specialization
     return ThreadLoadVolatilePointer(ptr, Int2Type<Traits<T>::PRIMITIVE>());
@@ -410,8 +410,8 @@ __device__ __forceinline__ T ThreadLoad(
 template <typename T, int MODIFIER>
 __device__ __forceinline__ T ThreadLoad(
     T const                 *ptr,
-    Int2Type<MODIFIER>      modifier,
-    Int2Type<true>          is_pointer)
+    Int2Type<MODIFIER>      /*modifier*/,
+    Int2Type<true>          /*is_pointer*/)
 {
     typedef typename UnitWord<T>::DeviceWord DeviceWord;
 

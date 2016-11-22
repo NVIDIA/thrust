@@ -70,7 +70,7 @@ template<typename T>
 
   template<typename U>
   __host__ __device__
-  T operator()(U &x)
+  T operator()(U &)
   {
     return c;
   } // end operator()()

@@ -32,8 +32,8 @@ DECLARE_VECTOR_UNITTEST(TestReverseSimple);
 
 template<typename BidirectionalIterator>
 void reverse(my_system &system,
-             BidirectionalIterator first,
-             BidirectionalIterator last)
+             BidirectionalIterator,
+             BidirectionalIterator)
 {
   system.validate_dispatch();
 }
@@ -53,7 +53,7 @@ DECLARE_UNITTEST(TestReverseDispatchExplicit);
 template<typename BidirectionalIterator>
 void reverse(my_tag,
              BidirectionalIterator first,
-             BidirectionalIterator last)
+             BidirectionalIterator)
 {
   *first = 13;
 }

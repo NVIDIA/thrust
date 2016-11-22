@@ -210,7 +210,7 @@ template<typename ForwardIterator,
 ForwardIterator remove_if(my_system &system,
                           ForwardIterator first,
                           ForwardIterator,
-                          Predicate pred)
+                          Predicate)
 {
     system.validate_dispatch();
     return first;
@@ -233,7 +233,7 @@ template<typename ForwardIterator,
 ForwardIterator remove_if(my_tag,
                           ForwardIterator first,
                           ForwardIterator,
-                          Predicate pred)
+                          Predicate)
 {
     *first = 13;
     return first;
@@ -292,7 +292,7 @@ ForwardIterator remove_if(my_system &system,
                           ForwardIterator first,
                           ForwardIterator,
                           InputIterator,
-                          Predicate pred)
+                          Predicate)
 {
     system.validate_dispatch();
     return first;
@@ -321,7 +321,7 @@ ForwardIterator remove_if(my_tag,
                           ForwardIterator first,
                           ForwardIterator,
                           InputIterator,
-                          Predicate pred)
+                          Predicate)
 {
     *first = 13;
     return first;

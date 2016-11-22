@@ -69,7 +69,7 @@ inline __host__ __device__
       cuda_cub::copy(rotated_systems, src, src + 1, dst);
     }
 
-    __device__ inline static void device_path(cross_system<System1,System2> &systems, Pointer1 dst, Pointer2 src)
+    __device__ inline static void device_path(cross_system<System1,System2> &, Pointer1 dst, Pointer2 src)
     {
       // XXX forward the true cuda::execution_policy inside systems here
       //     instead of materializing a tag

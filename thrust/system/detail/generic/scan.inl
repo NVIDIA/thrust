@@ -111,11 +111,11 @@ template<typename ExecutionPolicy,
          typename OutputIterator,
          typename BinaryFunction>
 __host__ __device__
-  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
-                                InputIterator first,
-                                InputIterator last,
+  OutputIterator inclusive_scan(thrust::execution_policy<ExecutionPolicy> &,
+                                InputIterator,
+                                InputIterator,
                                 OutputIterator result,
-                                BinaryFunction binary_op)
+                                BinaryFunction)
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
@@ -129,12 +129,12 @@ template<typename ExecutionPolicy,
          typename T,
          typename BinaryFunction>
 __host__ __device__
-  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
-                                InputIterator first,
-                                InputIterator last,
+  OutputIterator exclusive_scan(thrust::execution_policy<ExecutionPolicy> &,
+                                InputIterator,
+                                InputIterator,
                                 OutputIterator result,
-                                T init,
-                                BinaryFunction binary_op)
+                                T,
+                                BinaryFunction)
 {
   // unimplemented primitive
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );

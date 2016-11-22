@@ -1147,8 +1147,8 @@ template<typename ForwardIterator,
          typename Predicate>
 ForwardIterator partition(my_system &system,
                           ForwardIterator first,
-                          ForwardIterator last,
-                          Predicate pred)
+                          ForwardIterator,
+                          Predicate)
 {
     system.validate_dispatch();
     return first;
@@ -1174,9 +1174,9 @@ template<typename ForwardIterator,
          typename Predicate>
 ForwardIterator partition(my_system &system,
                           ForwardIterator first,
-                          ForwardIterator last,
-                          InputIterator stencil,
-                          Predicate pred)
+                          ForwardIterator,
+                          InputIterator,
+                          Predicate)
 {
     system.validate_dispatch();
     return first;
@@ -1202,8 +1202,8 @@ template<typename ForwardIterator,
          typename Predicate>
 ForwardIterator partition(my_tag,
                           ForwardIterator first,
-                          ForwardIterator last,
-                          Predicate pred)
+                          ForwardIterator,
+                          Predicate)
 {
     *first = 13;
     return first;
@@ -1227,9 +1227,9 @@ template<typename ForwardIterator,
          typename Predicate>
 ForwardIterator partition(my_tag,
                           ForwardIterator first,
-                          ForwardIterator last,
-                          InputIterator stencil,
-                          Predicate pred)
+                          ForwardIterator,
+                          InputIterator,
+                          Predicate)
 {
     *first = 13;
     return first;
@@ -1254,11 +1254,11 @@ template<typename InputIterator,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(my_system &system,
-                   InputIterator first,
-                   InputIterator last,
+                   InputIterator,
+                   InputIterator,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
-                   Predicate pred)
+                   Predicate)
 {
   system.validate_dispatch();
   return thrust::make_pair(out_true,out_false);
@@ -1288,12 +1288,12 @@ template<typename InputIterator1,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(my_system &system,
-                   InputIterator1 first,
-                   InputIterator1 last,
-                   InputIterator2 stencil,
+                   InputIterator1,
+                   InputIterator1,
+                   InputIterator2,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
-                   Predicate pred)
+                   Predicate)
 {
   system.validate_dispatch();
   return thrust::make_pair(out_true,out_false);
@@ -1324,10 +1324,10 @@ template<typename InputIterator,
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(my_tag,
                    InputIterator first,
-                   InputIterator last,
+                   InputIterator,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
-                   Predicate pred)
+                   Predicate)
 {
   *first = 13;
   return thrust::make_pair(out_true,out_false);
@@ -1356,11 +1356,11 @@ template<typename InputIterator1,
   thrust::pair<OutputIterator1,OutputIterator2>
     partition_copy(my_tag,
                    InputIterator1 first,
-                   InputIterator1 last,
-                   InputIterator2 stencil,
+                   InputIterator1,
+                   InputIterator2,
                    OutputIterator1 out_true,
                    OutputIterator2 out_false,
-                   Predicate pred)
+                   Predicate)
 {
   *first = 13;
   return thrust::make_pair(out_true,out_false);
@@ -1386,8 +1386,8 @@ template<typename ForwardIterator,
          typename Predicate>
 ForwardIterator stable_partition(my_system &system,
                                  ForwardIterator first,
-                                 ForwardIterator last,
-                                 Predicate pred)
+                                 ForwardIterator,
+                                 Predicate)
 {
     system.validate_dispatch();
     return first;
@@ -1413,9 +1413,9 @@ template<typename ForwardIterator,
          typename Predicate>
 ForwardIterator stable_partition(my_system &system,
                                  ForwardIterator first,
-                                 ForwardIterator last,
-                                 InputIterator stencil,
-                                 Predicate pred)
+                                 ForwardIterator,
+                                 InputIterator,
+                                 Predicate)
 {
     system.validate_dispatch();
     return first;
@@ -1441,8 +1441,8 @@ template<typename ForwardIterator,
          typename Predicate>
 ForwardIterator stable_partition(my_tag,
                                  ForwardIterator first,
-                                 ForwardIterator last,
-                                 Predicate pred)
+                                 ForwardIterator,
+                                 Predicate)
 {
     *first = 13;
     return first;
@@ -1466,9 +1466,9 @@ template<typename ForwardIterator,
          typename Predicate>
 ForwardIterator stable_partition(my_tag,
                                  ForwardIterator first,
-                                 ForwardIterator last,
-                                 InputIterator stencil,
-                                 Predicate pred)
+                                 ForwardIterator,
+                                 InputIterator,
+                                 Predicate)
 {
     *first = 13;
     return first;
@@ -1494,11 +1494,11 @@ template<typename InputIterator,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(my_system &system,
-                          InputIterator first,
-                          InputIterator last,
+                          InputIterator,
+                          InputIterator,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
-                          Predicate pred)
+                          Predicate)
 {
   system.validate_dispatch();
   return thrust::make_pair(out_true,out_false);
@@ -1528,12 +1528,12 @@ template<typename InputIterator1,
          typename Predicate>
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(my_system &system,
-                          InputIterator1 first,
-                          InputIterator1 last,
-                          InputIterator2 stencil,
+                          InputIterator1,
+                          InputIterator1,
+                          InputIterator2,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
-                          Predicate pred)
+                          Predicate)
 {
   system.validate_dispatch();
   return thrust::make_pair(out_true,out_false);
@@ -1564,10 +1564,10 @@ template<typename InputIterator,
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(my_tag,
                           InputIterator first,
-                          InputIterator last,
+                          InputIterator,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
-                          Predicate pred)
+                          Predicate)
 {
   *first = 13;
   return thrust::make_pair(out_true,out_false);
@@ -1596,11 +1596,11 @@ template<typename InputIterator1,
   thrust::pair<OutputIterator1,OutputIterator2>
     stable_partition_copy(my_tag,
                           InputIterator1 first,
-                          InputIterator1 last,
-                          InputIterator2 stencil,
+                          InputIterator1,
+                          InputIterator2,
                           OutputIterator1 out_true,
                           OutputIterator2 out_false,
-                          Predicate pred)
+                          Predicate)
 {
   *first = 13;
   return thrust::make_pair(out_true,out_false);

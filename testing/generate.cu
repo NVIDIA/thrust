@@ -40,7 +40,7 @@ DECLARE_VECTOR_UNITTEST(TestGenerateSimple);
 
 
 template<typename ForwardIterator, typename Generator>
-void generate(my_system &system, ForwardIterator first, ForwardIterator, Generator)
+void generate(my_system &system, ForwardIterator /*first*/, ForwardIterator, Generator)
 {
     system.validate_dispatch();
 }
@@ -92,7 +92,7 @@ void TestGenerate(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestGenerate);
 
 template <typename T>
-void TestGenerateToDiscardIterator(const size_t n)
+void TestGenerateToDiscardIterator(const size_t)
 {
     T value = 13;
     return_value<T> f(value);

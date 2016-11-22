@@ -501,8 +501,9 @@ namespace core {
 #endif
     
     CUB_RUNTIME_FUNCTION
-    typename core::get_plan<Agent>::type static get_plan(cudaStream_t s, void* d_ptr = 0)
+    typename core::get_plan<Agent>::type static get_plan(cudaStream_t , void* d_ptr = 0)
     {
+      THRUST_UNUSED_VAR(d_ptr);
       core::cuda_optional<int> ptx_version = core::get_ptx_version();
       return get_agent_plan<Agent>(ptx_version);
     }
@@ -915,7 +916,7 @@ namespace core {
       void (*ptr)(_0) = _kernel_agent<Agent, _0>;
       print_info(ptr);
       launcher::triple_chevron(grid, plan.block_threads, plan.shared_memory_size, stream)
-          .doit(ptr);
+          .doit(ptr, x0);
     }
     template <class _0, class _1>
     void CUB_RUNTIME_FUNCTION

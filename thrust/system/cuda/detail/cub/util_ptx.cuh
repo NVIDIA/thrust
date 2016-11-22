@@ -128,7 +128,7 @@ __device__ __forceinline__ unsigned int BFE(
     UnsignedBits            source,
     unsigned int            bit_start,
     unsigned int            num_bits,
-    Int2Type<BYTE_LEN>      byte_len)
+    Int2Type<BYTE_LEN>      /*byte_len*/)
 {
     unsigned int bits;
 #if CUB_PTX_ARCH >= 200
@@ -149,7 +149,7 @@ __device__ __forceinline__ unsigned int BFE(
     UnsignedBits            source,
     unsigned int            bit_start,
     unsigned int            num_bits,
-    Int2Type<8>             byte_len)
+    Int2Type<8>             /*byte_len*/)
 {
     const unsigned long long MASK = (1ull << num_bits) - 1;
     return (source >> bit_start) & MASK;
@@ -369,7 +369,7 @@ __device__ __forceinline__ void ShuffleUp(
     ShuffleWordT*   output,
     int             src_offset,
     int             first_lane,
-    Int2Type<STEP>  step)
+    Int2Type<STEP>  /*step*/)
 {
     unsigned int word = input[STEP];
     asm volatile("shfl.up.b32 %0, %1, %2, %3;"
@@ -385,11 +385,11 @@ __device__ __forceinline__ void ShuffleUp(
  */
 template <typename ShuffleWordT>
 __device__ __forceinline__ void ShuffleUp(
-    ShuffleWordT*   input, 
-    ShuffleWordT*   output,
-    int             src_offset,
-    int             first_lane,
-    Int2Type<-1>    step)
+    ShuffleWordT*   /* input */,
+    ShuffleWordT*   /* output */,
+    int             /* src_offset */,
+    int             /* first_lane */,
+    Int2Type<-1>    /* step */)
 {}
 
 
@@ -403,7 +403,7 @@ __device__ __forceinline__ void ShuffleDown(
     ShuffleWordT*   output,
     int             src_offset,
     int             last_lane,
-    Int2Type<STEP>  step)
+    Int2Type<STEP>  /*step*/)
 {
     unsigned int word = input[STEP];
     asm volatile("shfl.down.b32 %0, %1, %2, %3;"
@@ -419,11 +419,11 @@ __device__ __forceinline__ void ShuffleDown(
  */
 template <typename ShuffleWordT>
 __device__ __forceinline__ void ShuffleDown(
-    ShuffleWordT*   input, 
-    ShuffleWordT*   output,
-    int             src_offset,
-    int             last_lane,
-    Int2Type<-1>    step)
+    ShuffleWordT*   /*input,*/,
+    ShuffleWordT*   /*output*/,
+    int             /*src_offset*/,
+    int             /*last_lane*/,
+    Int2Type<-1>    /*step*/)
 {}
 
 
@@ -436,7 +436,7 @@ __device__ __forceinline__ void ShuffleIdx(
     ShuffleWordT*   output,
     int             src_lane,
     int             last_lane,
-    Int2Type<STEP>  step)
+    Int2Type<STEP>  /*step*/)
 {
     unsigned int word = input[STEP];
     asm volatile("shfl.idx.b32 %0, %1, %2, %3;"
@@ -452,11 +452,11 @@ __device__ __forceinline__ void ShuffleIdx(
  */
 template <typename ShuffleWordT>
 __device__ __forceinline__ void ShuffleIdx(
-    ShuffleWordT*   input, 
-    ShuffleWordT*   output,
-    int             src_lane,
-    int             last_lane,
-    Int2Type<-1>    step)
+    ShuffleWordT*   /*input*/, 
+    ShuffleWordT*   /*output*/,
+    int             /*src_lane*/,
+    int             /*last_lane*/,
+    Int2Type<-1>    /*step*/)
 {}
 
 

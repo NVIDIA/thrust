@@ -770,7 +770,7 @@ namespace __reduce_by_key {
                                   EqualityOp      equality_op_,
                                   ReductionOp     reduction_op_,
                                   Size            num_items,
-                                  int             num_tiles,
+                                  int             /*num_tiles*/,
                                   ScanTileState & tile_state)
           : storage(storage_),
             keys_load_it(core::make_load_iterator(ptx_plan(), keys_input_it_)),
@@ -850,7 +850,7 @@ namespace __reduce_by_key {
     THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
                        NumSelectedIt num_selected_out,
-                       char *        shmem)
+                       char *        /*shmem*/)
     {
       tile_state.InitializeStatus(num_tiles);
       if (blockIdx.x == 0 && threadIdx.x == 0)

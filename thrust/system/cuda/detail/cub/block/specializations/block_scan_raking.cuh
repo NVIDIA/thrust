@@ -124,7 +124,7 @@ struct BlockScanRaking
         T*                  raking_ptr,         ///< [in] Input array
         ScanOp              scan_op,            ///< [in] Binary reduction operator
         T                   raking_partial,     ///< [in] Prefix to seed reduction with
-        Int2Type<ITERATION> iteration)
+        Int2Type<ITERATION> /*iteration*/)
     {
         if ((BlockRakingLayout::UNGUARDED) || (((linear_tid * SEGMENT_LENGTH) + ITERATION) < BLOCK_THREADS))
         {
@@ -139,10 +139,10 @@ struct BlockScanRaking
     /// Templated reduction (base case)
     template <typename ScanOp>
     __device__ __forceinline__ T GuardedReduce(
-        T*                          raking_ptr,        ///< [in] Input array
-        ScanOp                      scan_op,           ///< [in] Binary reduction operator
+        T*                          /*raking_ptr*/,        ///< [in] Input array
+        ScanOp                      /*scan_op*/,           ///< [in] Binary reduction operator
         T                           raking_partial,    ///< [in] Prefix to seed reduction with
-        Int2Type<SEGMENT_LENGTH>    iteration)
+        Int2Type<SEGMENT_LENGTH>    /*iteration*/)
     {
         return raking_partial;
     }
@@ -153,7 +153,7 @@ struct BlockScanRaking
     __device__ __forceinline__ void CopySegment(
         T*                  out,            ///< [out] Out array
         T*                  in,             ///< [in] Input array
-        Int2Type<ITERATION> iteration)
+        Int2Type<ITERATION> /*iteration*/)
     {
         out[ITERATION] = in[ITERATION];
         CopySegment(out, in, Int2Type<ITERATION + 1>());
@@ -162,9 +162,9 @@ struct BlockScanRaking
  
     /// Templated copy (base case)
     __device__ __forceinline__ void CopySegment(
-        T*                  out,            ///< [out] Out array
-        T*                  in,             ///< [in] Input array
-        Int2Type<SEGMENT_LENGTH> iteration)
+        T*                  /*out*/,            ///< [out] Out array
+        T*                  /*in*/,             ///< [in] Input array
+        Int2Type<SEGMENT_LENGTH> /*iteration*/)
     {}
 
 

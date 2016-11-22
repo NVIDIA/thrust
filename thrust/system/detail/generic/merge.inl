@@ -41,13 +41,13 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename StrictWeakOrdering>
 __host__ __device__
-  OutputIterator merge(thrust::execution_policy<DerivedPolicy> &exec,
-                       InputIterator1 first1,
-                       InputIterator1 last1,
-                       InputIterator2 first2,
-                       InputIterator2 last2,
+  OutputIterator merge(thrust::execution_policy<DerivedPolicy> &,
+                       InputIterator1,
+                       InputIterator1,
+                       InputIterator2,
+                       InputIterator2,
                        OutputIterator result,
-                       StrictWeakOrdering comp)
+                       StrictWeakOrdering)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );

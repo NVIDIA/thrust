@@ -196,7 +196,7 @@ public:
 
     /// Array subscript
     template <typename Distance>
-    __host__ __device__ __forceinline__ reference operator[](Distance n) const
+    __host__ __device__ __forceinline__ reference operator[](Distance ) const
     {
         return val;
     }

@@ -145,10 +145,10 @@ template <int MAX>
 struct IterateThreadStore<MAX, MAX>
 {
     template <CacheStoreModifier MODIFIER, typename T>
-    static __device__ __forceinline__ void Store(T *ptr, T *vals) {}
+    static __device__ __forceinline__ void Store(T * /*ptr*/, T * /*vals*/) {}
 
     template <typename OutputIteratorT, typename T>
-    static __device__ __forceinline__ void Dereference(OutputIteratorT ptr, T *vals) {}
+    static __device__ __forceinline__ void Dereference(OutputIteratorT  /*ptr*/, T * /*vals*/) {}
 };
 
 
@@ -292,8 +292,8 @@ template <typename OutputIteratorT, typename T>
 __device__ __forceinline__ void ThreadStore(
     OutputIteratorT             itr,
     T                           val,
-    Int2Type<STORE_DEFAULT>     modifier,
-    Int2Type<false>             is_pointer)
+    Int2Type<STORE_DEFAULT>     /*modifier*/,
+    Int2Type<false>             /*is_pointer*/)
 {
     *itr = val;
 }
@@ -306,8 +306,8 @@ template <typename T>
 __device__ __forceinline__ void ThreadStore(
     T                           *ptr,
     T                           val,
-    Int2Type<STORE_DEFAULT>     modifier,
-    Int2Type<true>              is_pointer)
+    Int2Type<STORE_DEFAULT>     /*modifier*/,
+    Int2Type<true>              /*is_pointer*/)
 {
     *ptr = val;
 }
@@ -320,7 +320,7 @@ template <typename T>
 __device__ __forceinline__ void ThreadStoreVolatilePtr(
     T                           *ptr,
     T                           val,
-    Int2Type<true>              is_primitive)
+    Int2Type<true>              /*is_primitive*/)
 {
     *reinterpret_cast<volatile T*>(ptr) = val;
 }
@@ -333,7 +333,7 @@ template <typename T>
 __device__ __forceinline__ void ThreadStoreVolatilePtr(
     T                           *ptr,
     T                           val,
-    Int2Type<false>             is_primitive)
+    Int2Type<false>             /*is_primitive*/)
 {
 #if CUB_PTX_ARCH <= 130
 
@@ -371,8 +371,8 @@ template <typename T>
 __device__ __forceinline__ void ThreadStore(
     T                           *ptr,
     T                           val,
-    Int2Type<STORE_VOLATILE>    modifier,
-    Int2Type<true>              is_pointer)
+    Int2Type<STORE_VOLATILE>    /*modifier*/,
+    Int2Type<true>              /*is_pointer*/)
 {
     ThreadStoreVolatilePtr(ptr, val, Int2Type<Traits<T>::PRIMITIVE>());
 }
@@ -385,8 +385,8 @@ template <typename T, int MODIFIER>
 __device__ __forceinline__ void ThreadStore(
     T                           *ptr,
     T                           val,
-    Int2Type<MODIFIER>          modifier,
-    Int2Type<true>              is_pointer)
+    Int2Type<MODIFIER>          /*modifier*/,
+    Int2Type<true>              /*is_pointer*/)
 {
     // Create a temporary using shuffle-words, then store using device-words
     typedef typename UnitWord<T>::DeviceWord    DeviceWord;  

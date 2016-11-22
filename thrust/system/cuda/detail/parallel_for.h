@@ -101,7 +101,7 @@ namespace __parallel_for {
 
     THRUST_AGENT_ENTRY(F     f,
                        Size  num_items,
-                       char *shmem)
+                       char * /*shmem*/ )
     {
       Size tile_base     = blockIdx.x * ITEMS_PER_TILE;
       Size num_remaining = num_items - tile_base;

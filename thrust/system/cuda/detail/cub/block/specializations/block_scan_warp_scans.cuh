@@ -127,7 +127,7 @@ struct BlockScanWarpScans
         ScanOp          scan_op,            ///< [in] Binary scan operator
         T               &block_aggregate,   ///< [out] Threadblock-wide aggregate reduction of input items
         bool            lane_valid,         ///< [in] Whether or not the partial belonging to the current thread is valid
-        Int2Type<WARP>  addend_warp)
+        Int2Type<WARP>  /*addend_warp*/)
     {
         T inclusive = scan_op(block_aggregate, partial);
         if (warp_id == WARP)
@@ -145,11 +145,11 @@ struct BlockScanWarpScans
 
     template <typename ScanOp>
     __device__ __forceinline__ void ApplyWarpAggregates(
-        T               &partial,           ///< [out] The calling thread's partial reduction
-        ScanOp          scan_op,            ///< [in] Binary scan operator
-        T               &block_aggregate,   ///< [out] Threadblock-wide aggregate reduction of input items
-        bool            lane_valid,         ///< [in] Whether or not the partial belonging to the current thread is valid
-        Int2Type<WARPS> addend_warp)
+        T               &/*partial*/,           ///< [out] The calling thread's partial reduction
+        ScanOp          /*scan_op*/,            ///< [in] Binary scan operator
+        T               &/*block_aggregate*/,   ///< [out] Threadblock-wide aggregate reduction of input items
+        bool            /*lane_valid*/,         ///< [in] Whether or not the partial belonging to the current thread is valid
+        Int2Type<WARPS> /*addend_warp*/)
     {}
 
 

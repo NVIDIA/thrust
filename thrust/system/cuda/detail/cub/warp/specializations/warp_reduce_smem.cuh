@@ -137,7 +137,7 @@ struct WarpReduceSmem
         T                   input,                  ///< [in] Calling thread's input
         int                 folded_items_per_warp,  ///< [in] Total number of valid items folded into each logical warp
         ReductionOp         reduction_op,           ///< [in] Reduction operator
-        Int2Type<STEP>      step)
+        Int2Type<STEP>      /*step*/)
     {
         const int OFFSET = 1 << STEP;
 
@@ -164,9 +164,9 @@ struct WarpReduceSmem
         typename            ReductionOp>
     __device__ __forceinline__ T ReduceStep(
         T                   input,                  ///< [in] Calling thread's input
-        int                 folded_items_per_warp,  ///< [in] Total number of valid items folded into each logical warp
-        ReductionOp         reduction_op,           ///< [in] Reduction operator
-        Int2Type<STEPS>     step)
+        int                 /*folded_items_per_warp*/,  ///< [in] Total number of valid items folded into each logical warp
+        ReductionOp         /*reduction_op*/,           ///< [in] Reduction operator
+        Int2Type<STEPS>     /*step*/)
     {
         return input;
     }
@@ -188,7 +188,7 @@ struct WarpReduceSmem
         T               input,              ///< [in] Calling thread's input
         FlagT            flag,               ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op,       ///< [in] Reduction operator
-        Int2Type<true>  has_ballot)         ///< [in] Marker type for whether the target arch has ballot functionality
+        Int2Type<true>  /*has_ballot*/)         ///< [in] Marker type for whether the target arch has ballot functionality
     {
         // Get the start flags for each thread in the warp.
         int warp_flags = __ballot(flag);
@@ -243,7 +243,7 @@ struct WarpReduceSmem
         T               input,              ///< [in] Calling thread's input
         FlagT            flag,               ///< [in] Whether or not the current lane is a segment head/tail
         ReductionOp     reduction_op,       ///< [in] Reduction operator
-        Int2Type<false> has_ballot)         ///< [in] Marker type for whether the target arch has ballot functionality
+        Int2Type<false> /*has_ballot*/)         ///< [in] Marker type for whether the target arch has ballot functionality
     {
         enum
         {

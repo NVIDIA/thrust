@@ -248,7 +248,7 @@ __device__ __forceinline__ void LoadDirectStriped(
     int             linear_tid,
     InputIteratorT  block_itr,                  
     T               (&items)[ITEMS_PER_THREAD], 
-    Int2Type<ITEM>  item)
+    Int2Type<ITEM>  /*item*/)
 {
     items[ITEM] = block_itr[(ITEM * BLOCK_THREADS) + linear_tid];
     LoadDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items, Int2Type<ITEM + 1>());
@@ -257,11 +257,11 @@ __device__ __forceinline__ void LoadDirectStriped(
 
 template <int BLOCK_THREADS, typename T, int ITEMS_PER_THREAD, typename InputIteratorT>
 __device__ __forceinline__ void LoadDirectStriped(
-    int                         linear_tid,
-    InputIteratorT              block_itr,                  
-    T                           (&items)[ITEMS_PER_THREAD], 
-    Int2Type<ITEMS_PER_THREAD>  item)
-{}
+    int                         /*linear_tid*/,
+    InputIteratorT              /*block_itr*/,                  
+    T                           (*&items)[ITEMS_PER_THREAD], 
+    Int2Type<ITEMS_PER_THREAD>  /*item*/)
+{(void)items;}
 
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
@@ -714,7 +714,7 @@ private:
 
         /// Constructor
         __device__ __forceinline__ LoadInternal(
-            TempStorage &temp_storage,
+            TempStorage &/*temp_storage*/,
             int linear_tid)
         :
             linear_tid(linear_tid)
@@ -764,7 +764,7 @@ private:
 
         /// Constructor
         __device__ __forceinline__ LoadInternal(
-            TempStorage &temp_storage,
+            TempStorage &/*temp_storage*/,
             int linear_tid)
         :
             linear_tid(linear_tid)

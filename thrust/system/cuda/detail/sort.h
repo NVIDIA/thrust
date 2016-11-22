@@ -453,7 +453,7 @@ namespace __merge_sort {
       template <bool IS_LAST_TILE>
       THRUST_DEVICE_FUNCTION void
       consume_tile(int  tid,
-                   Size tile_idx,
+                   Size /*tile_idx*/,
                    Size tile_base,
                    int  num_remaining)
       {
@@ -660,7 +660,7 @@ namespace __merge_sort {
                        CompareOp compare_op,
                        Size      coop,
                        int       items_per_tile,
-                       char*     shmem)
+                       char*     /*shmem*/)
     {
       Size partition_idx = blockDim.x * blockIdx.x + threadIdx.x;
       if (partition_idx < num_partitions)
@@ -1381,7 +1381,7 @@ namespace __radix_sort {
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
-         cub::DoubleBuffer<Item>& items_buffer,
+         cub::DoubleBuffer<Item>& /*items_buffer*/,
          Size                     count,
          cudaStream_t             stream,
          bool                     debug_sync)
@@ -1406,7 +1406,7 @@ namespace __radix_sort {
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
-         cub::DoubleBuffer<Item>& items_buffer,
+         cub::DoubleBuffer<Item>& /*items_buffer*/,
          Size                     count,
          cudaStream_t             stream,
          bool                     debug_sync)

@@ -855,7 +855,7 @@ namespace __set_operations {
                        pair<Size, Size> *partitions,
                        CompareOp compare_op,
                        int       items_per_tile,
-                       char *    shmem)
+                       char * /*shmem*/)
     {
       Size partition_idx = blockDim.x * blockIdx.x + threadIdx.x;
       if (partition_idx < num_partitions)
@@ -889,7 +889,7 @@ namespace __set_operations {
 
     THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
-                       char *        shmem)
+                       char * /*shmem*/)
     {
       tile_state.InitializeStatus(num_tiles);
     }

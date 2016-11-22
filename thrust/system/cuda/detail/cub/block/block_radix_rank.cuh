@@ -253,21 +253,21 @@ private:
         // DecodeKeys
         template <typename UnsignedBits, int KEYS_PER_THREAD>
         static __device__ __forceinline__ void DecodeKeys(
-            BlockRadixRank  &cta,
-            UnsignedBits    (&keys)[KEYS_PER_THREAD],
-            DigitCounter    (&thread_prefixes)[KEYS_PER_THREAD],
-            DigitCounter*   (&digit_counters)[KEYS_PER_THREAD],
-            int             current_bit,                            // The least-significant bit position of the current digit to extract
-            int             num_bits)                               // The number of bits in the current digit
+            BlockRadixRank  &/*cta*/,
+            UnsignedBits    (&/*keys*/)[KEYS_PER_THREAD],
+            DigitCounter    (&/*thread_prefixes*/)[KEYS_PER_THREAD],
+            DigitCounter*   (&/*digit_counters*/)[KEYS_PER_THREAD],
+            int             /*current_bit*/,                            // The least-significant bit position of the current digit to extract
+            int             /*num_bits*/)                               // The number of bits in the current digit
         {}
 
 
         // UpdateRanks
         template <int KEYS_PER_THREAD>
         static __device__ __forceinline__ void UpdateRanks(
-            int             (&ranks)[KEYS_PER_THREAD],
-            DigitCounter    (&thread_prefixes)[KEYS_PER_THREAD],
-            DigitCounter    *(&digit_counters)[KEYS_PER_THREAD])
+            int             (&/*ranks*/)[KEYS_PER_THREAD],
+            DigitCounter    (&/*thread_prefixes*/)[KEYS_PER_THREAD],
+            DigitCounter    *(&/*digit_counters*/)[KEYS_PER_THREAD])
         {}
     };
 

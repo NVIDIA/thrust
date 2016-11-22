@@ -62,7 +62,7 @@ DECLARE_VECTOR_UNITTEST(TestIsPartitioned);
 
 
 template<typename InputIterator, typename Predicate>
-bool is_partitioned(my_system &system, InputIterator first, InputIterator, Predicate)
+bool is_partitioned(my_system &system, InputIterator /*first*/, InputIterator, Predicate)
 {
   system.validate_dispatch();
   return false;

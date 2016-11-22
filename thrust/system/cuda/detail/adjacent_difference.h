@@ -346,7 +346,7 @@ namespace __adjacent_difference {
                        OutputIt result,
                        Size     num_tiles,
                        int      items_per_tile,
-                       char *   shmem)
+                       char *   /*shmem*/)
     {
       int tile_idx  = blockIdx.x * blockDim.x + threadIdx.x;
       int tile_base = tile_idx * items_per_tile;

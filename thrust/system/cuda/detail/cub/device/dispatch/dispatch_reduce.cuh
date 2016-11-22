@@ -203,9 +203,9 @@ __launch_bounds__(int(ChainedPolicyT::ActivePolicy::SingleTilePolicy::BLOCK_THRE
 template <typename T, typename OffsetT, typename IteratorT>
 __device__ __forceinline__
 void NormalizeReductionOutput(
-    T &val,
-    OffsetT base_offset,
-    IteratorT itr)
+    T &/*val*/,
+    OffsetT /*base_offset*/,
+    IteratorT /*itr*/)
 {}
 
 
@@ -215,7 +215,7 @@ __device__ __forceinline__
 void NormalizeReductionOutput(
     KeyValuePairT &val,
     OffsetT base_offset,
-    ArgIndexInputIterator<WrappedIteratorT, OffsetT> itr)
+    ArgIndexInputIterator<WrappedIteratorT, OffsetT> /*itr*/)
 {
     val.key -= base_offset;
 }
@@ -237,7 +237,7 @@ __global__ void DeviceSegmentedReduceKernel(
     OutputIteratorT         d_out,                      ///< [out] Pointer to the output aggregate
     int                     *d_begin_offsets,           ///< [in] %Device-accessible pointer to the sequence of beginning offsets of length \p num_segments, such that <tt>d_begin_offsets[i]</tt> is the first element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>
     int                     *d_end_offsets,             ///< [in] %Device-accessible pointer to the sequence of ending offsets of length \p num_segments, such that <tt>d_end_offsets[i]-1</tt> is the last element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>.  If <tt>d_end_offsets[i]-1</tt> <= <tt>d_begin_offsets[i]</tt>, the <em>i</em><sup>th</sup> is considered empty.
-    int                     num_segments,               ///< [in] The number of segments that comprise the sorting data
+    int                     /*num_segments*/,               ///< [in] The number of segments that comprise the sorting data
     ReductionOpT            reduction_op,               ///< [in] Binary reduction functor 
     T                       init)                       ///< [in] The initial value of the reduction
 {
@@ -516,6 +516,7 @@ struct DispatchReduce :
         SingleTileKernelT       single_tile_kernel)     ///< [in] Kernel function pointer to parameterization of cub::DeviceReduceSingleTileKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
+      (void)single_tile_kernel;
 
         // Kernel launch not supported from this device
         return CubDebug(cudaErrorNotSupported );
@@ -588,6 +589,9 @@ struct DispatchReduce :
         FillAndResetDrainKernelT    prepare_drain_kernel)   ///< [in] Kernel function pointer to parameterization of cub::FillAndResetDrainKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
+        (void)               reduce_kernel;
+        (void)           single_tile_kernel;
+        (void)    prepare_drain_kernel;
 
         // Kernel launch not supported from this device
         return CubDebug(cudaErrorNotSupported );
@@ -893,7 +897,7 @@ struct DispatchReduceNoInit
         SingleTileKernelT       single_tile_kernel)     ///< [in] Kernel function pointer to parameterization of cub::DeviceReduceSingleTileKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
-
+        (void)single_tile_kernel;
         // Kernel launch not supported from this device
         return CubDebug(cudaErrorNotSupported );
 #else
@@ -963,9 +967,12 @@ struct DispatchReduceNoInit
         FillAndResetDrainKernelT    prepare_drain_kernel)   ///< [in] Kernel function pointer to parameterization of cub::FillAndResetDrainKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
+      (void)reduce_kernel;
+      (void)single_tile_kernel;
+      (void)prepare_drain_kernel;
 
-        // Kernel launch not supported from this device
-        return CubDebug(cudaErrorNotSupported );
+      // Kernel launch not supported from this device
+      return CubDebug(cudaErrorNotSupported);
 #else
 
         cudaError error = cudaSuccess;
@@ -1297,7 +1304,7 @@ struct DispatchSegmentedReduce :
         DeviceSegmentedReduceKernelT    segmented_reduce_kernel)        ///< [in] Kernel function pointer to parameterization of cub::DeviceSegmentedReduceKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
-
+        (void)segmented_reduce_kernel;
         // Kernel launch not supported from this device
         return CubDebug(cudaErrorNotSupported );
 #else

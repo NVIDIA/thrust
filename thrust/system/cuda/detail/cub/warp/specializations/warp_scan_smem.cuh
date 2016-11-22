@@ -122,7 +122,7 @@ struct WarpScanSmem
     __device__ __forceinline__ void ScanStep(
         T               &partial,
         ScanOp          scan_op,
-        Int2Type<STEP>  step)
+        Int2Type<STEP>  /*step*/)
     {
         const int OFFSET = 1 << STEP;
 
@@ -145,9 +145,9 @@ struct WarpScanSmem
         bool        HAS_IDENTITY,
         typename    ScanOp>
     __device__ __forceinline__ void ScanStep(
-        T               &partial,
-        ScanOp          scan_op,
-        Int2Type<STEPS>  step)
+        T               &/*partial*/,
+        ScanOp          /*scan_op*/,
+        Int2Type<STEPS>  /*step*/)
     {}
 
 
@@ -172,7 +172,7 @@ struct WarpScanSmem
         T               input,              ///< [in] Calling thread's input item.
         T               &output,            ///< [out] Calling thread's output item.  May be aliased with \p input.
         Sum             scan_op,            ///< [in] Binary scan operator
-        Int2Type<true>  is_primitive)       ///< [in] Marker type indicating whether T is primitive type
+        Int2Type<true>  /*is_primitive*/)       ///< [in] Marker type indicating whether T is primitive type
     {
         T identity = ZeroInitialize<T>();
         InclusiveScan(input, output, identity, scan_op);
@@ -185,7 +185,7 @@ struct WarpScanSmem
         T                       input,              ///< [in] Calling thread's input item.
         T                       &output,            ///< [out] Calling thread's output item.  May be aliased with \p input.
         ScanOp                  scan_op,            ///< [in] Binary scan operator
-        Int2Type<IS_PRIMITIVE>  is_primitive)       ///< [in] Marker type indicating whether T is primitive type
+        Int2Type<IS_PRIMITIVE>  /*is_primitive*/)       ///< [in] Marker type indicating whether T is primitive type
     {
         // Iterate scan steps
         output = input;
@@ -197,8 +197,8 @@ struct WarpScanSmem
     __device__ __forceinline__ T GetExclusive(
         T               input,
         T               inclusive,
-        Sum             scan_op,
-        Int2Type<true>  is_integer)
+        Sum             /*scan_op*/,
+        Int2Type<true>  /*is_integer*/)
     {
         return inclusive - input;
     }
@@ -207,10 +207,10 @@ struct WarpScanSmem
     /// Get exclusive from inclusive (specialized for scans other than summation of integer types)
     template <typename ScanOp, int _IS_INTEGER>
     __device__ __forceinline__ T GetExclusive(
-        T                       input,
+        T                       /*input*/,
         T                       inclusive,
-        ScanOp                  scan_op,
-        Int2Type<_IS_INTEGER>   is_integer)
+        ScanOp                  /*scan_op*/,
+        Int2Type<_IS_INTEGER>   /*is_integer*/)
     {
         ThreadStore<STORE_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id], (CellT) inclusive);
         return (T) ThreadLoad<LOAD_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id - 1]);
@@ -221,9 +221,9 @@ struct WarpScanSmem
     __device__ __forceinline__ T GetExclusive(
         T               input,
         T               inclusive,
-        Sum             scan_op,
+        Sum             /*scan_op*/,
         T               &warp_aggregate,
-        Int2Type<true>  is_integer)
+        Int2Type<true>  /*is_integer*/)
     {
         ThreadStore<STORE_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id], (CellT) inclusive);
         warp_aggregate = (T) ThreadLoad<LOAD_VOLATILE>(&temp_storage[WARP_SMEM_ELEMENTS - 1]);
@@ -235,11 +235,11 @@ struct WarpScanSmem
     /// Get exclusive from inclusive (specialized for scans other than summation of integer types)
     template <typename ScanOp, int _IS_INTEGER>
     __device__ __forceinline__ T GetExclusive(
-        T                       input,
+        T                       /*input*/,
         T                       inclusive,
-        ScanOp                  scan_op,
+        ScanOp                  /*scan_op*/,
         T                       &warp_aggregate,
-        Int2Type<_IS_INTEGER>   is_integer)
+        Int2Type<_IS_INTEGER>   /*is_integer*/)
     {
         ThreadStore<STORE_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id], (CellT) inclusive);
         warp_aggregate = (T) ThreadLoad<LOAD_VOLATILE>(&temp_storage[WARP_SMEM_ELEMENTS - 1]);

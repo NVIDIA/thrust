@@ -447,6 +447,9 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
 #endif
       return status;
     }
@@ -460,6 +463,10 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
 #endif
       return status;
     }
@@ -473,6 +480,11 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
 #endif
       return status;
     }
@@ -486,6 +498,12 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
 #endif
       return status;
     }
@@ -499,6 +517,13 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
 #endif
       return status;
     }
@@ -512,6 +537,14 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
 #endif
       return status;
     }
@@ -525,6 +558,15 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
 #endif
       return status;
     }
@@ -538,6 +580,16 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
 #endif
       return status;
     }
@@ -551,6 +603,17 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
+      THRUST_UNUSED_VAR(x8);
 #endif
       return status;
     }
@@ -564,6 +627,18 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
+      THRUST_UNUSED_VAR(x8);
+      THRUST_UNUSED_VAR(x9);
 #endif
       return status;
     }
@@ -577,6 +652,19 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
+      THRUST_UNUSED_VAR(x8);
+      THRUST_UNUSED_VAR(x9);
+      THRUST_UNUSED_VAR(xA);
 #endif
       return status;
     }
@@ -590,6 +678,20 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
+      THRUST_UNUSED_VAR(x8);
+      THRUST_UNUSED_VAR(x9);
+      THRUST_UNUSED_VAR(xA);
+      THRUST_UNUSED_VAR(xB);
 #endif
       return status;
     }
@@ -603,6 +705,21 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
+      THRUST_UNUSED_VAR(x8);
+      THRUST_UNUSED_VAR(x9);
+      THRUST_UNUSED_VAR(xA);
+      THRUST_UNUSED_VAR(xB);
+      THRUST_UNUSED_VAR(xC);
 #endif
       return status;
     }
@@ -616,6 +733,22 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
+      THRUST_UNUSED_VAR(x8);
+      THRUST_UNUSED_VAR(x9);
+      THRUST_UNUSED_VAR(xA);
+      THRUST_UNUSED_VAR(xB);
+      THRUST_UNUSED_VAR(xC);
+      THRUST_UNUSED_VAR(xD);
 #endif
       return status;
     }
@@ -629,6 +762,23 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
+      THRUST_UNUSED_VAR(x8);
+      THRUST_UNUSED_VAR(x9);
+      THRUST_UNUSED_VAR(xA);
+      THRUST_UNUSED_VAR(xB);
+      THRUST_UNUSED_VAR(xC);
+      THRUST_UNUSED_VAR(xD);
+      THRUST_UNUSED_VAR(xE);
 #endif
       return status;
     }
@@ -642,6 +792,24 @@ namespace launcher {
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE,xF);
       status = launch_device(k, param_buffer);
+#else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(x0);
+      THRUST_UNUSED_VAR(x1);
+      THRUST_UNUSED_VAR(x2);
+      THRUST_UNUSED_VAR(x3);
+      THRUST_UNUSED_VAR(x4);
+      THRUST_UNUSED_VAR(x5);
+      THRUST_UNUSED_VAR(x6);
+      THRUST_UNUSED_VAR(x7);
+      THRUST_UNUSED_VAR(x8);
+      THRUST_UNUSED_VAR(x9);
+      THRUST_UNUSED_VAR(xA);
+      THRUST_UNUSED_VAR(xB);
+      THRUST_UNUSED_VAR(xC);
+      THRUST_UNUSED_VAR(xD);
+      THRUST_UNUSED_VAR(xE);
+      THRUST_UNUSED_VAR(xF);
 #endif
       return status;
     }
@@ -659,6 +827,8 @@ namespace launcher {
                               shared_mem,
                               stream);
 #else
+      THRUST_UNUSED_VAR(k);
+      THRUST_UNUSED_VAR(buffer);
       return cudaErrorNotSupported;
 #endif
     }

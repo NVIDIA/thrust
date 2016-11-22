@@ -117,6 +117,7 @@ __global__ void EmptyKernel(void) { }
  */
 CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t PtxVersion(int &ptx_version)
 {
+  (void)ptx_version;
     struct Dummy
     {
         /// Type definition of the EmptyKernel kernel entry point
@@ -163,6 +164,8 @@ CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t PtxVersion(int &ptx_version)
  */
 CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t SmVersion(int &sm_version, int device_ordinal)
 {
+  (void)sm_version;
+  (void)device_ordinal;
 #ifndef CUB_RUNTIME_ENABLED
 
     // CUDA API calls not supported from this device
@@ -198,6 +201,7 @@ static cudaError_t SyncStream(cudaStream_t stream)
 #if (CUB_PTX_ARCH == 0)
     return cudaStreamSynchronize(stream);
 #else
+    (void)stream;
     // Device can't yet sync on a specific stream
     return cudaDeviceSynchronize();
 #endif
@@ -244,6 +248,10 @@ cudaError_t MaxSmOccupancy(
     int                 dynamic_smem_bytes = 0)
 {
 #ifndef CUB_RUNTIME_ENABLED
+  (void)max_sm_occupancy;
+  (void)kernel_ptr;
+  (void)block_threads;
+  (void)dynamic_smem_bytes;
 
     // CUDA API calls not supported from this device
     return CubDebug(cudaErrorInvalidConfiguration);
@@ -320,7 +328,7 @@ struct ChainedPolicy<PTX_VERSION, PolicyT, PolicyT>
     /// Specializes and dispatches op in accordance to the first policy in the chain of adequate PTX version
     template <typename FunctorT>
     CUB_RUNTIME_FUNCTION __forceinline__
-    static cudaError_t Invoke(int ptx_version, FunctorT &op) {
+    static cudaError_t Invoke(int /*ptx_version*/, FunctorT &op) {
         return op.template Invoke<PolicyT>();
     }
 };

@@ -269,7 +269,7 @@ struct AgentReduceByKey
     void ScanTile(
         OffsetValuePairT     (&scan_items)[ITEMS_PER_THREAD],
         OffsetValuePairT&    tile_aggregate,
-        Int2Type<true>      has_identity)
+        Int2Type<true>      /*has_identity*/)
     {
         OffsetValuePairT identity;
         identity.value = 0;
@@ -285,7 +285,7 @@ struct AgentReduceByKey
     void ScanTile(
         OffsetValuePairT     (&scan_items)[ITEMS_PER_THREAD],
         OffsetValuePairT&    tile_aggregate,
-        Int2Type<false>     has_identity)
+        Int2Type<false>     /*has_identity*/)
     {
         BlockScanT(temp_storage.scan).ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
     }
@@ -298,7 +298,7 @@ struct AgentReduceByKey
         OffsetValuePairT             (&scan_items)[ITEMS_PER_THREAD],
         OffsetValuePairT&            tile_aggregate,
         TilePrefixCallbackOpT&      prefix_op,
-        Int2Type<true>              has_identity)
+        Int2Type<true>              /*has_identity*/)
     {
         OffsetValuePairT identity;
         identity.value = 0;
@@ -314,7 +314,7 @@ struct AgentReduceByKey
         OffsetValuePairT             (&scan_items)[ITEMS_PER_THREAD],
         OffsetValuePairT&            tile_aggregate,
         TilePrefixCallbackOpT&      prefix_op,
-        Int2Type<false>             has_identity)
+        Int2Type<false>             /*has_identity*/)
     {
         BlockScanT(temp_storage.scan).ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate, prefix_op);
     }
@@ -673,7 +673,7 @@ struct AgentReduceByKey
      */
     __device__ __forceinline__ void ConsumeRange(
         int                 num_items,          ///< Total number of input items
-        int                 num_tiles,          ///< Total number of input tiles
+        int                 /*num_tiles*/,          ///< Total number of input tiles
         ScanTileStateT&     tile_state)         ///< Global tile state descriptor
     {
         // Blocks are launched in increasing order, so just assign one tile per block

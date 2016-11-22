@@ -341,7 +341,7 @@ namespace __scan {
       // Exclusive sum specialization
       //
       void THRUST_DEVICE_FUNCTION scan_tile(T (&items)[ITEMS_PER_THREAD],
-                                            plus<T> scan_op,
+                                            plus<T> /*scan_op*/,
                                             T &     block_aggregate,
                                             detail::false_type /* is_inclusive */)
       {
@@ -363,7 +363,7 @@ namespace __scan {
       // Inclusive sum specialization
       //
       void THRUST_DEVICE_FUNCTION scan_tile(T (&items)[ITEMS_PER_THREAD],
-                                            plus<T> scan_op,
+                                            plus<T> /*scan_op*/,
                                             T &     block_aggregate,
                                             detail::true_type /* is_inclusive */)
       {
@@ -391,7 +391,7 @@ namespace __scan {
       //
       template <class PrefixCallback>
       THRUST_DEVICE_FUNCTION void scan_tile(T (&items)[ITEMS_PER_THREAD],
-                                            plus<T>         scan_op,
+                                            plus<T>         /*scan_op*/,
                                             T &             block_aggregate,
                                             PrefixCallback &prefix_op,
                                             detail::false_type /* is_inclusive */)
@@ -417,7 +417,7 @@ namespace __scan {
       //
       template <class U, class PrefixCallback>
       THRUST_DEVICE_FUNCTION void scan_tile(T (&items)[ITEMS_PER_THREAD],
-                                            plus<T>         scan_op,
+                                            plus<T>         /*scan_op*/,
                                             T &             block_aggregate,
                                             PrefixCallback &prefix_op,
                                             detail::true_type /* is_inclusive */)
@@ -434,7 +434,7 @@ namespace __scan {
       //
       template <bool IS_FULL_TILE, class AddInitToExclusive>
       THRUST_DEVICE_FUNCTION void
-      consume_tile(Size               num_items,
+      consume_tile(Size               /*num_items*/,
                    Size               num_remaining,
                    int                tile_idx,
                    Size               tile_base,
@@ -577,7 +577,7 @@ namespace __scan {
 
     THRUST_AGENT_ENTRY(ScanTileState tile_state,
                        Size          num_tiles,
-                       char *        shmem)
+                       char *        /*shmem*/)
     {
       tile_state.InitializeStatus(num_tiles);
     }
@@ -590,8 +590,9 @@ namespace __scan {
     typedef T     type;
     template <int ITEMS_PER_THREAD>
     THRUST_DEVICE_FUNCTION void
-    operator()(T (&items)[ITEMS_PER_THREAD], int tile_idx)
+    operator()(T (&items)[ITEMS_PER_THREAD], int /*tile_idx*/)
     {
+      THRUST_UNUSED_VAR(items);
     }
   };    // struct DoNothing
 

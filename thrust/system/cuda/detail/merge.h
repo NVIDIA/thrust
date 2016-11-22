@@ -164,7 +164,7 @@ namespace __merge {
                        Size*     merge_partitions,
                        CompareOp compare_op,
                        int       items_per_tile,
-                       char*     shmem)
+                       char*     /*shmem*/)
     {
       Size partition_idx = blockDim.x * blockIdx.x + threadIdx.x;
       if (partition_idx < num_partitions)

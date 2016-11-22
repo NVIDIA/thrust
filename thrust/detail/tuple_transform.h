@@ -39,14 +39,14 @@ template<typename Tuple,
 {
   static __host__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
-  do_it_on_the_host(const Tuple &t, UnaryFunction f)
+  do_it_on_the_host(const Tuple &, UnaryFunction)
   {
     return thrust::null_type();
   }
 
   static __host__ __device__
   typename tuple_meta_transform<Tuple,UnaryMetaFunction>::type
-  do_it_on_the_host_or_device(const Tuple &t, UnaryFunction f)
+  do_it_on_the_host_or_device(const Tuple &, UnaryFunction)
   {
     return thrust::null_type();
   }

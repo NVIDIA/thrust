@@ -1155,7 +1155,7 @@ struct project1st
 
   /*! Function call operator. The return value is <tt>lhs</tt>.
    */
-  __host__ __device__ const T1 &operator()(const T1 &lhs, const T2 &rhs) const {return lhs;}
+  __host__ __device__ const T1 &operator()(const T1 &lhs, const T2 & /*rhs*/) const {return lhs;}
 }; // end project1st
 
 /*! \p project2nd is a function object that takes two arguments and returns 
@@ -1196,7 +1196,7 @@ struct project2nd
 
   /*! Function call operator. The return value is <tt>rhs</tt>.
    */
-  __host__ __device__ const T2 &operator()(const T1 &lhs, const T2 &rhs) const {return rhs;}
+  __host__ __device__ const T2 &operator()(const T1 &/*lhs*/, const T2 &rhs) const {return rhs;}
 }; // end project2nd
 
 /*! \}
