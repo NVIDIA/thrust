@@ -45,7 +45,7 @@ struct sequence_functor
   __host__ __device__
   T operator()(Index i) const
   {
-    return init + step * i;
+    return static_cast<T>(init + step * i);
   }
 };
 

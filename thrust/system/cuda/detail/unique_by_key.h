@@ -650,14 +650,14 @@ namespace __unique_by_key {
 
 
     int tile_size = unique_plan.items_per_tile;
-    int num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
 
     size_t vshmem_size = core::vshmem_size(unique_plan.shared_memory_size,
                                            num_tiles);
 
     cudaError_t status = cudaSuccess;
     size_t      allocation_sizes[2] = {0, vshmem_size};
-    status = ScanTileState::AllocationSize(num_tiles, allocation_sizes[0]);
+    status = ScanTileState::AllocationSize(static_cast<int>(num_tiles), allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     void *allocations[2] = {NULL, NULL};
@@ -674,10 +674,10 @@ namespace __unique_by_key {
     }
 
     ScanTileState tile_status;
-    status =  tile_status.Init(num_tiles, allocations[0], allocation_sizes[0]);
+    status =  tile_status.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
    
-    num_tiles = max<int>(1,num_tiles);
+    num_tiles = max<size_t>(1,num_tiles);
     init_agent ia(init_plan, num_tiles, stream, "unique_by_key::init_agent", debug_sync);
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());

@@ -916,7 +916,7 @@ namespace __reduce_by_key {
                                            num_tiles);
 
     size_t allocation_sizes[2] = {9, vshmem_size};
-    status = ScanTileState::AllocationSize(num_tiles, allocation_sizes[0]);
+    status = ScanTileState::AllocationSize(static_cast<int>(num_tiles), allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     void *allocations[2] = {NULL, NULL};
@@ -932,7 +932,7 @@ namespace __reduce_by_key {
     }
     
     ScanTileState tile_state;
-    status = tile_state.Init(num_tiles, allocations[0], allocation_sizes[0]);
+    status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     init_agent ia(init_plan, num_tiles, stream, "reduce_by_key::init_agent", debug_sync);

@@ -391,8 +391,8 @@ namespace __adjacent_difference {
     AgentPlan init_plan       = init_agent::get_plan();
 
 
-    int tile_size = difference_plan.items_per_tile;
-    int num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t tile_size = difference_plan.items_per_tile;
+    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
 
     size_t tmp1        = num_tiles * sizeof(input_type);
     size_t vshmem_size = core::vshmem_size(difference_plan.shared_memory_size,

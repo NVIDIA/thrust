@@ -1176,7 +1176,7 @@ namespace __merge_sort {
   template<class Size>
   THRUST_RUNTIME_FUNCTION int log2_up(Size x)
   {
-    int a = (int)(8*sizeof(Size)-1) - clz(x);
+    int a = (int)(8*sizeof(Size)-1) - (int)clz(x);
     a += !is_pow2(x);
     return a;
   }
@@ -1274,7 +1274,7 @@ namespace __merge_sort {
         .launch(ping, keys, items, keys_count, keys_buffer, items_buffer, compare_op);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
-    int num_partitions = num_tiles + 1;
+    size_t num_partitions = num_tiles + 1;
 
     partition_agent pa(partition_plan, num_partitions, stream, "partition_agent", debug_sync);
     merge_agent     ma(merge_plan, keys_count, stream, vshmem_ptr, "merge_agent", debug_sync);
@@ -1389,9 +1389,9 @@ namespace __radix_sort {
       return cub::DeviceRadixSort::SortKeys(d_temp_storage,
                                             temp_storage_bytes,
                                             keys_buffer,
-                                            count,
+                                            static_cast<int>(count),
                                             0,
-                                            sizeof(Key) * 8,
+                                            static_cast<int>(sizeof(Key) * 8),
                                             stream,
                                             debug_sync);
     }
@@ -1414,9 +1414,9 @@ namespace __radix_sort {
       return cub::DeviceRadixSort::SortKeysDescending(d_temp_storage,
                                                       temp_storage_bytes,
                                                       keys_buffer,
-                                                      count,
+                                                      static_cast<int>(count),
                                                       0,
-                                                      sizeof(Key) * 8,
+                                                      static_cast<int>(sizeof(Key) * 8),
                                                       stream,
                                                       debug_sync);
     }
@@ -1440,9 +1440,9 @@ namespace __radix_sort {
                                              temp_storage_bytes,
                                              keys_buffer,
                                              items_buffer,
-                                             count,
+                                             static_cast<int>(count),
                                              0,
-                                             sizeof(Key) * 8,
+                                             static_cast<int>(sizeof(Key) * 8),
                                              stream,
                                              debug_sync);
     }
@@ -1466,9 +1466,9 @@ namespace __radix_sort {
                                                        temp_storage_bytes,
                                                        keys_buffer,
                                                        items_buffer,
-                                                       count,
+                                                       static_cast<int>(count),
                                                        0,
-                                                       sizeof(Key) * 8,
+                                                       static_cast<int>(sizeof(Key) * 8),
                                                        stream,
                                                        debug_sync);
     }

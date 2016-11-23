@@ -776,7 +776,7 @@ namespace __reduce {
       int sm_oversubscription = 5;
       int max_blocks          = reduce_device_occupancy * sm_oversubscription;
 
-      cub::GridEvenShare<GridSizeType> even_share(num_items,
+      cub::GridEvenShare<GridSizeType> even_share(static_cast<int>(num_items),
                                                   max_blocks,
                                                   reduce_plan.items_per_tile);
 
@@ -819,12 +819,12 @@ namespace __reduce {
       else if (reduce_plan.grid_mapping == cub::GRID_MAPPING_DYNAMIC)
       {
         // Work is distributed dynamically
-        int num_tiles = (num_items + reduce_plan.items_per_tile - 1) /
+        size_t num_tiles = (num_items + reduce_plan.items_per_tile - 1) /
           reduce_plan.items_per_tile;
 
         // if not enough to fill the device with threadblocks
         // then fill the device with threadblocks
-        reduce_grid_size = min(num_tiles, reduce_device_occupancy);
+        reduce_grid_size = static_cast<int>(min(num_tiles, static_cast<size_t>(reduce_device_occupancy)));
 
         typedef AgentLauncher<DrainAgent<Size> > drain_agent;
         AgentPlan drain_plan = drain_agent::get_plan();

@@ -140,7 +140,7 @@ void TestForEachNDeviceSeq(const size_t n)
   thrust::host_vector<T> h_input = unittest::random_integers<T>(n);
   
   for(size_t i = 0; i < n; i++)
-    h_input[i] =  ((size_t) h_input[i]) % output_size;
+    h_input[i] =  static_cast<T>(((size_t) h_input[i]) % output_size);
   
   thrust::device_vector<T> d_input = h_input;
   
@@ -169,7 +169,7 @@ void TestForEachNDeviceDevice(const size_t n)
   thrust::host_vector<T> h_input = unittest::random_integers<T>(n);
   
   for(size_t i = 0; i < n; i++)
-    h_input[i] =  ((size_t) h_input[i]) % output_size;
+    h_input[i] =  static_cast<T>(((size_t) h_input[i]) % output_size);
   
   thrust::device_vector<T> d_input = h_input;
   

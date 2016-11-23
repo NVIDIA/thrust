@@ -30,16 +30,16 @@ struct TestComplexConstructors
     a = thrust::complex<T>();
     ASSERT_ALMOST_EQUAL(a,std::complex<T>(0));
     
-    a = thrust::complex<T>(thrust::complex<float>(data[0],data[1]));
+    a = thrust::complex<T>(thrust::complex<float>(static_cast<float>(data[0]),static_cast<float>(data[1])));
     ASSERT_ALMOST_EQUAL(a,b);
     
-    a = thrust::complex<T>(thrust::complex<double>(data[0],data[1]));
+    a = thrust::complex<T>(thrust::complex<double>(static_cast<double>(data[0]),static_cast<double>(data[1])));
     ASSERT_ALMOST_EQUAL(a,b);
     
-    a = thrust::complex<T>(std::complex<float>(data[0],data[1]));
+    a = thrust::complex<T>(std::complex<float>(static_cast<float>(data[0]),static_cast<float>(data[1])));
     ASSERT_ALMOST_EQUAL(a,b);
     
-    a = thrust::complex<T>(std::complex<double>(data[0],data[1]));
+    a = thrust::complex<T>(std::complex<double>(static_cast<double>(data[0]),static_cast<double>(data[1])));
     ASSERT_ALMOST_EQUAL(a,b);
   }
 };

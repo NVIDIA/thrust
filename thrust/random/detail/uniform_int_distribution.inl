@@ -75,8 +75,8 @@ template<typename IntType>
 
   typedef typename thrust::detail::largest_available_float::type float_type;
 
-  const float_type real_min(parm.first);
-  const float_type real_max(parm.second);
+  const float_type real_min(static_cast<float_type>(parm.first));
+  const float_type real_max(static_cast<float_type>(parm.second));
 
   // add one to the right end of the interval because it is half-open
   // XXX adding 1.0 to a potentially large floating point number seems like a bad idea

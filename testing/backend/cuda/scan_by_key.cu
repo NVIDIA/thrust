@@ -36,7 +36,7 @@ void TestScanByKeyDevice(ExecutionPolicy exec)
   thrust::host_vector<int> h_keys(n);
   for(size_t i = 0, k = 0; i < n; i++)
   {
-    h_keys[i] = k;
+    h_keys[i] = static_cast<int>(k);
     if(rand() % 10 == 0)
     {
       k++;

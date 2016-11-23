@@ -214,6 +214,7 @@ namespace __copy {
     OutputIt ret = result;
     for (Size idx = 0; idx != num_items; ++idx)
     {
+      // XXX generates warning using VC14 is there is type narrowing
       *ret = temp[idx];
       ++ret;
     }

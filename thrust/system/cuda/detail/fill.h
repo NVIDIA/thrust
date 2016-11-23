@@ -40,13 +40,12 @@ namespace __fill {
   template<class Iterator, class T>
   struct functor
   {
-    int count;
     Iterator it;
     T value;
 
     THRUST_FUNCTION
-    functor(int count, Iterator it, T value)
-        : count(count), it(it), value(value) {}
+    functor(Iterator it, T value)
+        : it(it), value(value) {}
 
     template<class Size>
     THRUST_DEVICE_FUNCTION void operator()(Size idx)
@@ -66,7 +65,6 @@ fill_n(execution_policy<Derived>& policy,
 {
   cuda_cub::parallel_for(policy,
                          __fill::functor<OutputIterator, T>(
-                             count,
                              first,
                              value),
                          count);

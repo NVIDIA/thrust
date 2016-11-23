@@ -1175,7 +1175,7 @@ namespace __set_operations {
     Size num_tiles = (keys_total + tile_size - 1) / tile_size;
 
     size_t tile_agent_storage;
-    status = ScanTileState::AllocationSize(num_tiles, tile_agent_storage);
+    status = ScanTileState::AllocationSize(static_cast<int>(num_tiles), tile_agent_storage);
     CUDA_CUB_RET_IF_FAIL(status);
 
     size_t vshmem_storage = core::vshmem_size(set_op_plan.shared_memory_size,
@@ -1199,7 +1199,7 @@ namespace __set_operations {
     }
 
     ScanTileState tile_state;
-    status = tile_state.Init(num_tiles, allocations[0], allocation_sizes[0]);
+    status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     pair<Size, Size> *partitions = (pair<Size, Size> *)allocations[1];

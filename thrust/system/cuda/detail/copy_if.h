@@ -634,7 +634,7 @@ namespace __copy_if {
     typename get_plan<copy_if_agent>::type copy_if_plan = copy_if_agent::get_plan(stream);
 
     int tile_size = copy_if_plan.items_per_tile;
-    int num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
 
     size_t vshmem_size = core::vshmem_size(copy_if_plan.shared_memory_size,
                                            num_tiles);
@@ -644,7 +644,7 @@ namespace __copy_if {
       return status;
     
     size_t allocation_sizes[2] = {0, vshmem_size};
-    status = ScanTileState::AllocationSize(num_tiles, allocation_sizes[0]);
+    status = ScanTileState::AllocationSize(static_cast<int>(num_tiles), allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
     
 
@@ -662,7 +662,7 @@ namespace __copy_if {
     }
 
     ScanTileState tile_status;
-    status = tile_status.Init(num_tiles, allocations[0], allocation_sizes[0]);
+    status = tile_status.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     init_agent ia(init_plan, num_tiles, stream, "copy_if::init_agent", debug_sync);

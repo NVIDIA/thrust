@@ -144,6 +144,7 @@ template<typename Derived,
 
     /*! This constructor copies from a given instance of the \p Base iterator.
      */
+    __thrust_exec_check_disable__
     __host__ __device__
     explicit iterator_adaptor(Base const& iter)
       : m_iterator(iter)

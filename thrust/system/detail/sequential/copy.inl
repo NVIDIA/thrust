@@ -90,6 +90,7 @@ __host__ __device__
 } // end copy_n()
 
 
+__thrust_exec_check_disable__
 template<typename InputIterator,
          typename Size,
          typename OutputIterator>
@@ -121,6 +122,7 @@ __host__ __device__
 } // end copy()
 
 
+__thrust_exec_check_disable__
 template<typename DerivedPolicy,
          typename InputIterator,
          typename Size,

@@ -679,13 +679,13 @@ namespace __scan_by_key {
     AgentPlan init_plan        = init_agent::get_plan();
 
     int tile_size = scan_by_key_plan.items_per_tile;
-    int num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
 
     size_t vshmem_size = core::vshmem_size(scan_by_key_plan.shared_memory_size,
                                            num_tiles);
 
     size_t allocation_sizes[2] = {0, vshmem_size};
-    status = ScanTileState::AllocationSize(num_tiles, allocation_sizes[0]);
+    status = ScanTileState::AllocationSize(static_cast<int>(num_tiles), allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     void *allocations[2] = {NULL, NULL};
@@ -701,7 +701,7 @@ namespace __scan_by_key {
     }
 
     ScanTileState tile_state;
-    status = tile_state.Init(num_tiles, allocations[0], allocation_sizes[0]);
+    status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     char *vshmem_ptr = vshmem_size > 0 ? (char*)allocations[1] : NULL;
