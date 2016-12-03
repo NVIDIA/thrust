@@ -430,7 +430,7 @@ enum BlockStoreAlgorithm
  * \ingroup BlockModule
  * \ingroup UtilIo
  *
- * \tparam OutputIteratorT      The input iterator type \iterator.
+ * \tparam T                    The type of data to be written.
  * \tparam BLOCK_DIM_X          The thread block length in threads along the X dimension
  * \tparam ITEMS_PER_THREAD     The number of consecutive items partitioned onto each thread.
  * \tparam ALGORITHM            <b>[optional]</b> cub::BlockStoreAlgorithm tuning policy enumeration.  default: cub::BLOCK_STORE_DIRECT.
@@ -467,12 +467,12 @@ enum BlockStoreAlgorithm
  * efficiently coalesced using a warp-striped access pattern.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_store.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/block/block_store.cuh>
  *
  * __global__ void ExampleKernel(int *d_data, ...)
  * {
  *     // Specialize BlockStore for a 1D block of 128 threads owning 4 integer items each
- *     typedef cub::BlockStore<int*, 128, 4, BLOCK_STORE_WARP_TRANSPOSE> BlockStore;
+ *     typedef cub::BlockStore<int, 128, 4, BLOCK_STORE_WARP_TRANSPOSE> BlockStore;
  *
  *     // Allocate shared memory for BlockStore
  *     __shared__ typename BlockStore::TempStorage temp_storage;
@@ -493,15 +493,14 @@ enum BlockStoreAlgorithm
  *
  */
 template <
-    class                   InputType,
-    typename                OutputIteratorT,
+    typename                T,
     int                     BLOCK_DIM_X,
     int                     ITEMS_PER_THREAD,
     BlockStoreAlgorithm     ALGORITHM           = BLOCK_STORE_DIRECT,
     int                     BLOCK_DIM_Y         = 1,
     int                     BLOCK_DIM_Z         = 1,
     int                     PTX_ARCH            = CUB_PTX_ARCH>
-class BlockStoreGeneric
+class BlockStore
 {
 private:
     /******************************************************************************
@@ -514,9 +513,6 @@ private:
         /// The thread block size in threads
         BLOCK_THREADS = BLOCK_DIM_X * BLOCK_DIM_Y * BLOCK_DIM_Z,
     };
-
-    // Data type of input iterator
-    typedef InputType T;
 
 
     /******************************************************************************
@@ -538,17 +534,18 @@ private:
         typedef NullType TempStorage;
 
         /// Linear thread-id
-        int linear_tid;
+        unsigned int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &/*temp_storage*/,
-            int linear_tid)
+            unsigned int linear_tid)
         :
             linear_tid(linear_tid)
         {}
 
         /// Store items into a linear segment of memory
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
@@ -557,6 +554,7 @@ private:
         }
 
         /// Store items into a linear segment of memory, guarded by range
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
@@ -577,12 +575,12 @@ private:
         typedef NullType TempStorage;
 
         /// Linear thread-id
-        int linear_tid;
+        unsigned int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &/*temp_storage*/,
-            int linear_tid)
+            unsigned int linear_tid)
         :
             linear_tid(linear_tid)
         {}
@@ -596,15 +594,16 @@ private:
         }
 
         /// Store items into a linear segment of memory, specialized for opaque input iterators (skips vectorization)
-        template <typename _OutputIteratorT>
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
-            _OutputIteratorT    block_itr,                  ///< [in] The thread block's base output iterator for storing to
+            OutputIteratorT    block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
         {
             StoreDirectBlocked(linear_tid, block_itr, items);
         }
 
         /// Store items into a linear segment of memory, guarded by range
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
@@ -634,18 +633,19 @@ private:
         _TempStorage &temp_storage;
 
         /// Linear thread-id
-        int linear_tid;
+        unsigned int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
-            int linear_tid)
+            unsigned int linear_tid)
         :
             temp_storage(temp_storage.Alias()),
             linear_tid(linear_tid)
         {}
 
         /// Store items into a linear segment of memory
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
             OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
@@ -655,6 +655,7 @@ private:
         }
 
         /// Store items into a linear segment of memory, guarded by range
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
             OutputIteratorT   block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
@@ -693,18 +694,19 @@ private:
         _TempStorage &temp_storage;
 
         /// Linear thread-id
-        int linear_tid;
+        unsigned int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
-            int linear_tid)
+            unsigned int linear_tid)
         :
             temp_storage(temp_storage.Alias()),
             linear_tid(linear_tid)
         {}
 
         /// Store items into a linear segment of memory
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
             OutputIteratorT   block_itr,                    ///< [in] The thread block's base output iterator for storing to
             T                 (&items)[ITEMS_PER_THREAD])   ///< [in] Data to store
@@ -714,6 +716,7 @@ private:
         }
 
         /// Store items into a linear segment of memory, guarded by range
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
             OutputIteratorT   block_itr,                    ///< [in] The thread block's base output iterator for storing to
             T                 (&items)[ITEMS_PER_THREAD],   ///< [in] Data to store
@@ -752,20 +755,21 @@ private:
         _TempStorage &temp_storage;
 
         /// Linear thread-id
-        int linear_tid;
+        unsigned int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
-            int linear_tid)
+            unsigned int linear_tid)
         :
             temp_storage(temp_storage.Alias()),
             linear_tid(linear_tid)
         {}
 
         /// Store items into a linear segment of memory
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
-            OutputIteratorT   block_itr,                  ///< [in] The thread block's base output iterator for storing to
+            OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
         {
             BlockExchange(temp_storage).BlockedToWarpStriped(items);
@@ -773,6 +777,7 @@ private:
         }
 
         /// Store items into a linear segment of memory, guarded by range
+        template <typename OutputIteratorT>
         __device__ __forceinline__ void Store(
             OutputIteratorT   block_itr,                  ///< [in] The thread block's base output iterator for storing to
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
@@ -815,7 +820,7 @@ private:
     _TempStorage &temp_storage;
 
     /// Linear thread-id
-    int linear_tid;
+    unsigned int linear_tid;
 
 public:
 
@@ -827,12 +832,12 @@ public:
     /******************************************************************//**
      * \name Collective constructors
      *********************************************************************/
-    //@
+    //@{
 
     /**
      * \brief Collective constructor using a private static allocation of shared memory as temporary storage.
      */
-    __device__ __forceinline__ BlockStoreGeneric()
+    __device__ __forceinline__ BlockStore()
     :
         temp_storage(PrivateStorage()),
         linear_tid(RowMajorTid(BLOCK_DIM_X, BLOCK_DIM_Y, BLOCK_DIM_Z))
@@ -842,7 +847,7 @@ public:
     /**
      * \brief Collective constructor using the specified memory allocation as temporary storage.
      */
-    __device__ __forceinline__ BlockStoreGeneric(
+    __device__ __forceinline__ BlockStore(
         TempStorage &temp_storage)             ///< [in] Reference to memory allocation having layout type TempStorage
     :
         temp_storage(temp_storage.Alias()),
@@ -850,11 +855,11 @@ public:
     {}
 
 
-    //@  end member group
+    //@}  end member group
     /******************************************************************//**
      * \name Data movement
      *********************************************************************/
-    //@
+    //@{
 
 
     /**
@@ -872,12 +877,12 @@ public:
      * efficiently coalesced using a warp-striped access pattern.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_store.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_store.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, ...)
-     * 
+     * {
      *     // Specialize BlockStore for a 1D block of 128 threads owning 4 integer items each
-     *     typedef cub::BlockStore<int*, 128, 4, BLOCK_STORE_WARP_TRANSPOSE> BlockStore;
+     *     typedef cub::BlockStore<int, 128, 4, BLOCK_STORE_WARP_TRANSPOSE> BlockStore;
      *
      *     // Allocate shared memory for BlockStore
      *     __shared__ typename BlockStore::TempStorage temp_storage;
@@ -897,6 +902,7 @@ public:
      * The output \p d_data will be <tt>0, 1, 2, 3, 4, 5, ...</tt>.
      *
      */
+    template <typename OutputIteratorT>
     __device__ __forceinline__ void Store(
         OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
         T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
@@ -919,12 +925,12 @@ public:
      * efficiently coalesced using a warp-striped access pattern.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_store.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_store.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, int valid_items, ...)
-     * 
+     * {
      *     // Specialize BlockStore for a 1D block of 128 threads owning 4 integer items each
-     *     typedef cub::BlockStore<int*, 128, 4, BLOCK_STORE_WARP_TRANSPOSE> BlockStore;
+     *     typedef cub::BlockStore<int, 128, 4, BLOCK_STORE_WARP_TRANSPOSE> BlockStore;
      *
      *     // Allocate shared memory for BlockStore
      *     __shared__ typename BlockStore::TempStorage temp_storage;
@@ -945,6 +951,7 @@ public:
      * only the first two threads being unmasked to store portions of valid data.
      *
      */
+    template <typename OutputIteratorT>
     __device__ __forceinline__ void Store(
         OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
         T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
@@ -952,54 +959,6 @@ public:
     {
         InternalStore(temp_storage, linear_tid).Store(block_itr, items, valid_items);
     }
-
-    template <bool FULL_BLOCK_STORE>
-    void __device__ __forceinline__
-    act(OutputIteratorT block_itr,
-        T (&items)[ITEMS_PER_THREAD],
-        int valid_items)
-    {
-      if (FULL_BLOCK_STORE)
-        Store(block_itr, items);
-      else
-        Store(block_itr, items, valid_items);
-    }
-};
-
-template <class OutputIt,
-          int                 BLOCK_DIM_X,
-          int                 ITEMS_PER_THREAD,
-          BlockStoreAlgorithm ALGORITHM   = BLOCK_STORE_DIRECT,
-          int                 BLOCK_DIM_Y = 1,
-          int                 BLOCK_DIM_Z = 1,
-          int                 PTX_ARCH    = CUB_PTX_ARCH>
-class BlockStore
-    : public BlockStoreGeneric<typename std::iterator_traits<OutputIt>::value_type,
-                               OutputIt,
-                               BLOCK_DIM_X,
-                               ITEMS_PER_THREAD,
-                               ALGORITHM,
-                               BLOCK_DIM_Y,
-                               BLOCK_DIM_Z,
-                               PTX_ARCH>
-{
-  typedef BlockStoreGeneric<typename std::iterator_traits<OutputIt>::value_type,
-                            OutputIt,
-                            BLOCK_DIM_X,
-                            ITEMS_PER_THREAD,
-                            ALGORITHM,
-                            BLOCK_DIM_Y,
-                            BLOCK_DIM_Z,
-                            PTX_ARCH>
-      base_t;
-
-public:
-  __device__ __forceinline__
-  BlockStore() : base_t() {}
-
-  __device__ __forceinline__
-  BlockStore(typename base_t::TempStorage &temp_storage)
-      : base_t(temp_storage) {}
 };
 
 

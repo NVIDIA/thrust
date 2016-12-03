@@ -748,7 +748,7 @@ struct AgentSpmv
         }
 
         // Return the tile's running carry-out
-        KeyValuePairT tile_carry = {tile_num_rows, 0.0};
+        KeyValuePairT tile_carry(tile_num_rows, 0.0);
         return tile_carry;
     }
 */

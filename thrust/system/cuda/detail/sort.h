@@ -460,20 +460,26 @@ namespace __merge_sort {
         using core::uninitialized_array;
         using core::sync_threadblock;
 
-        uninitialized_array<item_type, ITEMS_PER_THREAD> items_loc;
+        item_type items_loc[ITEMS_PER_THREAD];
         if (SORT_ITEMS::value)
         {
           BlockLoadItems(storage.load_items)
-              .Load(items_in + tile_base, items_loc, num_remaining);
+              .Load(items_in + tile_base,
+                    items_loc,
+                    num_remaining,
+                    *(items_in + tile_base));
 
           sync_threadblock();
         }
 
-        uninitialized_array<key_type, ITEMS_PER_THREAD> keys_loc;
+        key_type keys_loc[ITEMS_PER_THREAD];
         if (IS_LAST_TILE)
         {
           BlockLoadKeys(storage.load_keys)
-              .Load(keys_in + tile_base, keys_loc, num_remaining);
+              .Load(keys_in + tile_base,
+                    keys_loc,
+                    num_remaining,
+                    *(keys_in + tile_base));
         }
         else
         {

@@ -105,7 +105,7 @@ struct BlockScanRunningPrefixOp
 enum ScanTileStatus
 {
     SCAN_TILE_OOB,          // Out-of-bounds (e.g., padding)
-    SCAN_TILE_INVALID = 99,      // Not yet processed
+    SCAN_TILE_INVALID = 99, // Not yet processed
     SCAN_TILE_PARTIAL,      // Tile aggregate is available
     SCAN_TILE_INCLUSIVE,    // Inclusive tile prefix is available
 };
@@ -178,9 +178,9 @@ struct ScanTileState<T, true>
     /// Initializer
     __host__ __device__ __forceinline__
     cudaError_t Init(
-        int     /*num_tiles*/,                          ///< [in] Number of tiles
+        int     /*num_tiles*/,                      ///< [in] Number of tiles
         void    *d_temp_storage,                    ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
-        size_t  /*temp_storage_bytes*/)                 ///< [in] Size in bytes of \t d_temp_storage allocation
+        size_t  /*temp_storage_bytes*/)             ///< [in] Size in bytes of \t d_temp_storage allocation
     {
         d_tile_status = reinterpret_cast<TileDescriptor*>(d_temp_storage);
         return cudaSuccess;
@@ -257,16 +257,14 @@ struct ScanTileState<T, true>
         StatusWord      &status,
         T               &value)
     {
-        TxnWord         alias           = ThreadLoad<LOAD_CG>(reinterpret_cast<TxnWord*>(d_tile_status + TILE_STATUS_PADDING + tile_idx));
-        TileDescriptor  tile_descriptor = reinterpret_cast<TileDescriptor&>(alias);
-
-        while (tile_descriptor.status == SCAN_TILE_INVALID)
+        TileDescriptor  tile_descriptor;
+        do
         {
             __threadfence_block(); // prevent hoisting loads from loop
-
-            alias           = ThreadLoad<LOAD_CG>(reinterpret_cast<TxnWord*>(d_tile_status + TILE_STATUS_PADDING + tile_idx));
+            TxnWord alias = ThreadLoad<LOAD_CG>(reinterpret_cast<TxnWord*>(d_tile_status + TILE_STATUS_PADDING + tile_idx));
             tile_descriptor = reinterpret_cast<TileDescriptor&>(alias);
-        }
+
+        } while (WarpAny(tile_descriptor.status == SCAN_TILE_INVALID));
 
         status = tile_descriptor.status;
         value = tile_descriptor.value;
@@ -541,9 +539,9 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
     /// Initializer
     __host__ __device__ __forceinline__
     cudaError_t Init(
-        int     /*num_tiles*/,                          ///< [in] Number of tiles
+        int     /*num_tiles*/,                      ///< [in] Number of tiles
         void    *d_temp_storage,                    ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
-        size_t  /*temp_storage_bytes*/)                 ///< [in] Size in bytes of \t d_temp_storage allocation
+        size_t  /*temp_storage_bytes*/)             ///< [in] Size in bytes of \t d_temp_storage allocation
     {
         d_tile_status = reinterpret_cast<TileDescriptor*>(d_temp_storage);
         return cudaSuccess;
@@ -652,13 +650,14 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
  * aggregates/prefixes from predecessor tiles to become available.
  */
 template <
-    typename T,
-    typename ScanOpT,
-    typename ScanTileStateT>
+    typename    T,
+    typename    ScanOpT,
+    typename    ScanTileStateT,
+    int         PTX_ARCH = CUB_PTX_ARCH>
 struct TilePrefixCallbackOp
 {
     // Parameterized warp reduce
-    typedef WarpReduce<T> WarpReduceT;
+    typedef WarpReduce<T, CUB_PTX_WARP_THREADS, PTX_ARCH> WarpReduceT;
 
     // Temporary storage type
     struct _TempStorage
@@ -666,6 +665,7 @@ struct TilePrefixCallbackOp
         typename WarpReduceT::TempStorage   warp_reduce;
         T                                   exclusive_prefix;
         T                                   inclusive_prefix;
+        T                                   block_aggregate;
     };
 
     // Alias wrapper allowing temporary storage to be unioned
@@ -721,6 +721,8 @@ struct TilePrefixCallbackOp
     __device__ __forceinline__
     T operator()(T block_aggregate)
     {
+        temp_storage.block_aggregate = block_aggregate;
+
         // Update our status with our tile-aggregate
         if (threadIdx.x == 0)
         {
@@ -775,130 +777,11 @@ struct TilePrefixCallbackOp
         return temp_storage.inclusive_prefix;
     }
 
-};
-
-template <class T,
-          class ScanOpT,
-          class ScanTileStateT,
-          class Arch>
-struct TilePrefixCallbackOperator
-{
-    // Parameterized warp reduce
-    typedef WarpReduce<T, Arch::warpSize, Arch::ver> WarpReduceT;
-
-    // Temporary storage type
-    struct _TempStorage
-    {
-        typename WarpReduceT::TempStorage   warp_reduce;
-        T                                   exclusive_prefix;
-        T                                   inclusive_prefix;
-    };
-
-    // Alias wrapper allowing temporary storage to be unioned
-    struct TempStorage : Uninitialized<_TempStorage> {};
-
-    // Type of status word
-    typedef typename ScanTileStateT::StatusWord StatusWord;
-
-    // Fields
-    _TempStorage&               temp_storage;       ///< Reference to a warp-reduction instance
-    ScanTileStateT&             tile_status;        ///< Interface to tile status
-    ScanOpT                     scan_op;            ///< Binary scan operator
-    int                         tile_idx;           ///< The current tile index
-    T                           exclusive_prefix;   ///< Exclusive prefix for the tile
-    T                           inclusive_prefix;   ///< Inclusive prefix for the tile
-
-    // Constructor
+    // Get the block aggregate stored in temporary storage
     __device__ __forceinline__
-    TilePrefixCallbackOperator(
-        ScanTileStateT       &tile_status,
-        TempStorage         &temp_storage,
-        ScanOpT              scan_op,
-        int                 tile_idx)
-    :
-        tile_status(tile_status),
-        temp_storage(temp_storage.Alias()),
-        scan_op(scan_op),
-        tile_idx(tile_idx) {}
-
-
-    // Block until all predecessors within the warp-wide window have non-invalid status
-    __device__ __forceinline__
-    void ProcessWindow(
-        int         predecessor_idx,        ///< Preceding tile index to inspect
-        StatusWord  &predecessor_status,    ///< [out] Preceding tile status
-        T           &window_aggregate)      ///< [out] Relevant partial reduction from this window of preceding tiles
+    T GetBlockAggregate()
     {
-        T value;
-        tile_status.WaitForValid(predecessor_idx, predecessor_status, value);
-
-        // Perform a segmented reduction to get the prefix for the current window.
-        // Use the swizzled scan operator because we are now scanning *down* towards thread0.
-
-        int tail_flag = (predecessor_status == StatusWord(SCAN_TILE_INCLUSIVE));
-        window_aggregate = WarpReduceT(temp_storage.warp_reduce).TailSegmentedReduce(
-            value,
-            tail_flag,
-            SwizzleScanOp<ScanOpT>(scan_op));
-    }
-
-
-    // BlockScan prefix callback functor (called by the first warp)
-    __device__ __forceinline__
-    T operator()(T block_aggregate)
-    {
-        // Update our status with our tile-aggregate
-        if (threadIdx.x == 0)
-        {
-            tile_status.SetPartial(tile_idx, block_aggregate);
-        }
-
-        int         predecessor_idx = tile_idx - threadIdx.x - 1;
-        StatusWord  predecessor_status;
-        T           window_aggregate;
-
-        // Wait for the warp-wide window of predecessor tiles to become valid
-        ProcessWindow(predecessor_idx, predecessor_status, window_aggregate);
-
-        // The exclusive tile prefix starts out as the current window aggregate
-        exclusive_prefix = window_aggregate;
-
-        // Keep sliding the window back until we come across a tile whose inclusive prefix is known
-        while (WarpAll(predecessor_status != StatusWord(SCAN_TILE_INCLUSIVE)))
-        {
-            predecessor_idx -= CUB_PTX_WARP_THREADS;
-
-            // Update exclusive tile prefix with the window prefix
-            ProcessWindow(predecessor_idx, predecessor_status, window_aggregate);
-            exclusive_prefix = scan_op(window_aggregate, exclusive_prefix);
-        }
-
-        // Compute the inclusive tile prefix and update the status for this tile
-        if (threadIdx.x == 0)
-        {
-            inclusive_prefix = scan_op(exclusive_prefix, block_aggregate);
-            tile_status.SetInclusive(tile_idx, inclusive_prefix);
-
-            temp_storage.exclusive_prefix = exclusive_prefix;
-            temp_storage.inclusive_prefix = inclusive_prefix;
-        }
-
-        // Return exclusive_prefix
-        return exclusive_prefix;
-    }
-
-    // Get the exclusive prefix stored in temporary storage
-    __device__ __forceinline__
-    T GetExclusivePrefix()
-    {
-        return temp_storage.exclusive_prefix;
-    }
-
-    // Get the inclusive prefix stored in temporary storage
-    __device__ __forceinline__
-    T GetInclusivePrefix()
-    {
-        return temp_storage.inclusive_prefix;
+        return temp_storage.block_aggregate;
     }
 
 };

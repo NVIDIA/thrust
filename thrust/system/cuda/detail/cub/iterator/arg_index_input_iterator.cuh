@@ -79,7 +79,7 @@ namespace cub {
  * dereference an array of doubles
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/iterator/arg_index_input_iterator.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/iterator/arg_index_input_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * double *d_in;         // e.g., [8.0, 6.0, 7.0, 5.0, 3.0, 0.0, 9.0]
@@ -102,28 +102,24 @@ namespace cub {
  *
  * \endcode
  *
- * \tparam InputIteratorT       The type of the wrapped input iterator
+ * \tparam InputIteratorT       The value type of the wrapped input iterator
  * \tparam OffsetT              The difference type of this iterator (Default: \p ptrdiff_t)
+ * \tparam OutputValueT         The paired value type of the <offset,value> tuple (Default: value type of input iterator)
  */
 template <
     typename    InputIteratorT,
-    typename    OffsetT = ptrdiff_t>
+    typename    OffsetT             = ptrdiff_t,
+    typename    OutputValueT        = typename std::iterator_traits<InputIteratorT>::value_type>
 class ArgIndexInputIterator
 {
-private:
-
-    // Data type of input iterator
-    typedef typename std::iterator_traits<InputIteratorT>::value_type T;
-
 public:
 
-
     // Required iterator traits
-    typedef ArgIndexInputIterator               self_type;              ///< My own type
-    typedef OffsetT                             difference_type;        ///< Type to express the result of subtracting one iterator from another
-    typedef KeyValuePair<difference_type, T>    value_type;             ///< The type of the element the iterator can point to
-    typedef value_type*                         pointer;                ///< The type of a pointer to an element the iterator can point to
-    typedef value_type                          reference;              ///< The type of a reference to an element the iterator can point to
+    typedef ArgIndexInputIterator                       self_type;              ///< My own type
+    typedef OffsetT                                     difference_type;        ///< Type to express the result of subtracting one iterator from another
+    typedef KeyValuePair<difference_type, OutputValueT> value_type;             ///< The type of the element the iterator can point to
+    typedef value_type*                                 pointer;                ///< The type of a pointer to an element the iterator can point to
+    typedef value_type                                  reference;              ///< The type of a reference to an element the iterator can point to
 
 #if (THRUST_VERSION >= 100700)
     // Use Thrust's iterator categories so we can use these iterators in Thrust 1.7 (or newer) methods

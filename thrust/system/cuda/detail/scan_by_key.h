@@ -215,10 +215,10 @@ namespace __scan_by_key {
                                       Arch::ver>
           BlockDiscontinuityKeys;
 
-      typedef cub::TilePrefixCallbackOperator<size_value_pair_t,
-                                              ReduceBySegmentOp,
-                                              ScanTileState,
-                                              Arch>
+      typedef cub::TilePrefixCallbackOp<size_value_pair_t,
+                                        ReduceBySegmentOp,
+                                        ScanTileState,
+                                        Arch::ver>
           TilePrefixCallback;
       typedef cub::BlockScan<size_value_pair_t,
                              PtxPlan::BLOCK_THREADS,
@@ -321,11 +321,8 @@ namespace __scan_by_key {
                 detail::false_type /* is_incclusive */)
       {
         BlockScan(storage.scan)
-            .ExclusiveScan(scan_items,
-                           scan_items,
-                           scan_op,
-                           tile_aggregate,
-                           prefix_op);
+            .ExclusiveScan(scan_items, scan_items, scan_op, prefix_op);
+        tile_aggregate = prefix_op.GetBlockAggregate();
       }
       
       // Inclusive scan specialization (with prefix from predecessors)
@@ -337,11 +334,8 @@ namespace __scan_by_key {
                 detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan)
-            .InclusiveScan(scan_items,
-                           scan_items,
-                           scan_op,
-                           tile_aggregate,
-                           prefix_op);
+            .InclusiveScan(scan_items, scan_items, scan_op, prefix_op);
+        tile_aggregate = prefix_op.GetBlockAggregate();
       }
       
       //---------------------------------------------------------------------
@@ -405,8 +399,13 @@ namespace __scan_by_key {
 
         if (IS_LAST_TILE)
         {
+          // Fill last element with the first element
+          // because collectives are not suffix guarded
           BlockLoadKeys(storage.load_keys)
-            .Load(keys_load_it + tile_base, keys, num_remaining);
+              .Load(keys_load_it + tile_base,
+                    keys,
+                    num_remaining,
+                    *(keys_load_it + tile_base));
         }
         else
         {
@@ -418,8 +417,13 @@ namespace __scan_by_key {
         
         if (IS_LAST_TILE)
         {
+          // Fill last element with the first element
+          // because collectives are not suffix guarded
           BlockLoadValues(storage.load_values)
-            .Load(values_load_it + tile_base, values, num_remaining);
+              .Load(values_load_it + tile_base,
+                    values,
+                    num_remaining,
+                    *(values_load_it + tile_base));
         }
         else
         {

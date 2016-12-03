@@ -115,7 +115,7 @@ struct BlockReduceRaking
 
     // Thread fields
     _TempStorage &temp_storage;
-    int linear_tid;
+    unsigned int linear_tid;
 
 
     /// Constructor
@@ -146,10 +146,10 @@ struct BlockReduceRaking
 
     template <bool IS_FULL_TILE, typename ReductionOp>
     __device__ __forceinline__ T RakingReduction(
-        ReductionOp                 /*reduction_op*/,       ///< [in] Binary scan operator
+        ReductionOp                 /*reduction_op*/,   ///< [in] Binary scan operator
         T                           * /*raking_segment*/,
         T                           partial,            ///< [in] <b>[<em>lane</em><sub>0</sub> only]</b> Warp-wide aggregate reduction of input items
-        int                         /*num_valid*/,          ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
+        int                         /*num_valid*/,      ///< [in] Number of valid elements (may be less than BLOCK_THREADS)
         Int2Type<SEGMENT_LENGTH>    /*iteration*/)
     {
         return partial;

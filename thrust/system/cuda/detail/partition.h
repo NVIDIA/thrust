@@ -35,7 +35,6 @@
 #include <thrust/system/cuda/detail/find.h>
 #include <thrust/system/cuda/detail/uninitialized_copy.h>
 #include <thrust/system/cuda/detail/cub/device/device_partition.cuh>
-#include <thrust/system/cuda/detail/cub/cg/sync_threadblock.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/partition.h>
@@ -162,10 +161,10 @@ namespace __partition {
       typedef typename core::BlockLoad<PtxPlan, ItemsLoadIt>::type   BlockLoadItems;
       typedef typename core::BlockLoad<PtxPlan, StencilLoadIt>::type BlockLoadStencil;
 
-      typedef cub::TilePrefixCallbackOperator<Size,
-                                              cub::Sum,
-                                              ScanTileState,
-                                              Arch>
+      typedef cub::TilePrefixCallbackOp<Size,
+                                        cub::Sum,
+                                        ScanTileState,
+                                        Arch::ver>
           TilePrefixCallback;
       typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
@@ -256,7 +255,7 @@ namespace __partition {
           temp_storage.raw_exchange[local_scatter_offset] = items[ITEM];
         }
 
-        cub::sync_threadblock();
+        core::sync_threadblock();
 
         // Gather items from shared memory and scatter to global
 #pragma unroll
@@ -382,10 +381,16 @@ namespace __partition {
         Size      selection_flags[ITEMS_PER_THREAD];
         Size      selection_idx[ITEMS_PER_THREAD];
 
-        BlockLoadItems(temp_storage.load_items)
-            .template act<!IS_LAST_TILE>(items_glob + tile_base,
-                                         items_loc,
-                                         num_tile_items);
+        if (IS_LAST_TILE)
+        {
+          BlockLoadItems(temp_storage.load_items)
+              .Load(items_glob + tile_base, items_loc, num_tile_items);
+        }
+        else
+        {
+          BlockLoadItems(temp_storage.load_items)
+              .Load(items_glob + tile_base, items_loc);
+        }
 
         core::sync_threadblock();
 
@@ -393,10 +398,16 @@ namespace __partition {
         {
           stencil_type stencil_loc[ITEMS_PER_THREAD];
 
-          BlockLoadStencil(temp_storage.load_stencil)
-              .template act<!IS_LAST_TILE>(stencil_glob + tile_base,
-                                           stencil_loc,
-                                           num_tile_items);
+          if (IS_LAST_TILE)
+          {
+            BlockLoadStencil(temp_storage.load_stencil)
+                .Load(stencil_glob + tile_base, stencil_loc, num_tile_items);
+          }
+          else
+          {
+            BlockLoadStencil(temp_storage.load_stencil)
+                .Load(stencil_glob + tile_base, stencil_loc);
+          }
 
           compute_selection_flags<IS_LAST_TILE, STENCIL>(num_tile_items,
                                                          stencil_loc,
@@ -446,10 +457,10 @@ namespace __partition {
           BlockScan(temp_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
-                            num_tile_selections,
                             prefix_cb);
 
           num_selections        = prefix_cb.GetInclusivePrefix();
+          num_tile_selections   = prefix_cb.GetBlockAggregate();
           num_selections_prefix = prefix_cb.GetExclusivePrefix();
           num_rejected_prefix   = tile_base - num_selections_prefix;
 

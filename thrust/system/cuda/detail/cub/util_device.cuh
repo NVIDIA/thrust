@@ -117,7 +117,6 @@ __global__ void EmptyKernel(void) { }
  */
 CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t PtxVersion(int &ptx_version)
 {
-  (void)ptx_version;
     struct Dummy
     {
         /// Type definition of the EmptyKernel kernel entry point
@@ -133,6 +132,7 @@ CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t PtxVersion(int &ptx_version)
 
 
 #ifndef CUB_RUNTIME_ENABLED
+    (void)ptx_version;
 
     // CUDA API calls not supported from this device
     return cudaErrorInvalidConfiguration;
@@ -164,9 +164,9 @@ CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t PtxVersion(int &ptx_version)
  */
 CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t SmVersion(int &sm_version, int device_ordinal)
 {
-  (void)sm_version;
-  (void)device_ordinal;
 #ifndef CUB_RUNTIME_ENABLED
+    (void)sm_version;
+    (void)device_ordinal;
 
     // CUDA API calls not supported from this device
     return cudaErrorInvalidConfiguration;
@@ -215,7 +215,7 @@ static cudaError_t SyncStream(cudaStream_t stream)
  * The code snippet below illustrates the use of the MaxSmOccupancy function.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/util_device.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/util_device.cuh>
  *
  * template <typename T>
  * __global__ void ExampleKernel()
@@ -248,10 +248,10 @@ cudaError_t MaxSmOccupancy(
     int                 dynamic_smem_bytes = 0)
 {
 #ifndef CUB_RUNTIME_ENABLED
-  (void)max_sm_occupancy;
-  (void)kernel_ptr;
-  (void)block_threads;
-  (void)dynamic_smem_bytes;
+    (void)dynamic_smem_bytes;
+    (void)block_threads;
+    (void)kernel_ptr;
+    (void)max_sm_occupancy;
 
     // CUDA API calls not supported from this device
     return CubDebug(cudaErrorInvalidConfiguration);

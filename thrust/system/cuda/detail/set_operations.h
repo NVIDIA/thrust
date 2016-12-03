@@ -351,10 +351,10 @@ namespace __set_operations {
       typedef typename core::BlockLoad<PtxPlan, ValuesLoadIt1>::type BlockLoadValues1;
       typedef typename core::BlockLoad<PtxPlan, ValuesLoadIt2>::type BlockLoadValues2;
 
-      typedef cub::TilePrefixCallbackOperator<Size,
-                                              cub::Sum,
-                                              ScanTileState,
-                                              Arch>
+      typedef cub::TilePrefixCallbackOp<Size,
+                                        cub::Sum,
+                                        ScanTileState,
+                                        Arch::ver>
           TilePrefixCallback;
 
       typedef cub::BlockScan<Size,
@@ -386,14 +386,17 @@ namespace __set_operations {
             typename BlockLoadValues1::TempStorage load_values1;
             typename BlockLoadValues2::TempStorage load_values2;
 
+            // Allocate extra shmem than truely neccessary
+            // This will permit to avoid range checks in
+            // serial set operations, e.g. serial_set_difference
             core::uninitialized_array<
                 key_type,
-                PtxPlan::ITEMS_PER_TILE + 2>
+                PtxPlan::ITEMS_PER_TILE + PtxPlan::BLOCK_THREADS>
                 keys_shared;
 
             core::uninitialized_array<
                 value_type,
-                PtxPlan::ITEMS_PER_TILE + 2>
+                PtxPlan::ITEMS_PER_TILE + PtxPlan::BLOCK_THREADS>
                 values_shared;
           };
         };
@@ -686,8 +689,8 @@ namespace __set_operations {
           BlockScan(storage.scan)
               .ExclusiveSum(thread_output_count,
                             thread_output_prefix,
-                            tile_output_count,
                             prefix_cb);
+          tile_output_count  = prefix_cb.GetBlockAggregate();
           tile_output_prefix = prefix_cb.GetExclusivePrefix();
         }
 

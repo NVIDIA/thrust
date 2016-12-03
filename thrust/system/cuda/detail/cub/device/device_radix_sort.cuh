@@ -109,7 +109,7 @@ struct DeviceRadixSort
      * with associated vector of \p int values.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for sorting data
      * int  num_items;          // e.g., 7
@@ -208,7 +208,7 @@ struct DeviceRadixSort
      * with associated vector of \p int values.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for sorting data
      * int  num_items;          // e.g., 7
@@ -290,7 +290,7 @@ struct DeviceRadixSort
      * with associated vector of \p int values.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for sorting data
      * int  num_items;          // e.g., 7
@@ -384,7 +384,7 @@ struct DeviceRadixSort
      * with associated vector of \p int values.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for sorting data
      * int  num_items;          // e.g., 7
@@ -476,7 +476,7 @@ struct DeviceRadixSort
      * The code snippet below illustrates the sorting of a device vector of \p int keys.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for sorting data
      * int  num_items;          // e.g., 7
@@ -562,7 +562,7 @@ struct DeviceRadixSort
      * The code snippet below illustrates the sorting of a device vector of \p int keys.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for sorting data
      * int  num_items;          // e.g., 7
@@ -637,7 +637,7 @@ struct DeviceRadixSort
      * The code snippet below illustrates the sorting of a device vector of \p int keys.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for sorting data
      * int  num_items;          // e.g., 7
@@ -721,7 +721,7 @@ struct DeviceRadixSort
      * The code snippet below illustrates the sorting of a device vector of \p int keys.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for sorting data
      * int  num_items;          // e.g., 7
@@ -764,7 +764,7 @@ struct DeviceRadixSort
         // Signed integer type for global offsets
         typedef int OffsetT;
 
-        // Null value type 
+        // Null value type
         DoubleBuffer<NullType> d_values;
 
         return DispatchRadixSort<true, KeyT, NullType, OffsetT>::Dispatch(

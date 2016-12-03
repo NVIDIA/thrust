@@ -81,7 +81,7 @@ struct DeviceHistogram
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_histogram.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input samples and
      * // output histogram
@@ -175,7 +175,7 @@ struct DeviceHistogram
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_histogram.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input samples and
      * // output histogram
@@ -274,7 +274,7 @@ struct DeviceHistogram
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_histogram.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input samples
      * // and output histograms
@@ -377,7 +377,7 @@ struct DeviceHistogram
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_histogram.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input samples
      * // and output histograms
@@ -447,7 +447,8 @@ struct DeviceHistogram
         typedef typename std::iterator_traits<SampleIteratorT>::value_type SampleT;
         Int2Type<sizeof(SampleT) == 1> is_byte_sample;
 
-        if ((sizeof(OffsetT) > sizeof(int)) && (row_stride_bytes * num_rows < std::numeric_limits<int>::max()))
+        if ((sizeof(OffsetT) > sizeof(int)) &&
+            ((unsigned long long) (num_rows * row_stride_bytes) < (unsigned long long) std::numeric_limits<int>::max()))
         {
             // Down-convert OffsetT data type
 
@@ -485,7 +486,7 @@ struct DeviceHistogram
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_histogram.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input samples and
      * // output histogram
@@ -575,7 +576,7 @@ struct DeviceHistogram
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_histogram.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input samples and
      * // output histogram
@@ -670,7 +671,7 @@ struct DeviceHistogram
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_histogram.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input samples
      * // and output histograms
@@ -771,7 +772,7 @@ struct DeviceHistogram
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_histogram.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input samples
      * // and output histograms
@@ -838,7 +839,8 @@ struct DeviceHistogram
         typedef typename std::iterator_traits<SampleIteratorT>::value_type SampleT;
         Int2Type<sizeof(SampleT) == 1> is_byte_sample;
 
-        if ((sizeof(OffsetT) > sizeof(int)) && (row_stride_bytes * num_rows < std::numeric_limits<int>::max()))
+        if ((sizeof(OffsetT) > sizeof(int)) &&
+            ((unsigned long long) (num_rows * row_stride_bytes) < (unsigned long long) std::numeric_limits<int>::max()))
         {
             // Down-convert OffsetT data type
             return DipatchHistogram<NUM_CHANNELS, NUM_ACTIVE_CHANNELS, SampleIteratorT, CounterT, LevelT, int>::DispatchRange(

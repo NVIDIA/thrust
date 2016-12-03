@@ -80,7 +80,7 @@ namespace cub {
  * 128 threads (one per each of the 32-thread warps).
  * \par
  * \code
- * #include <detail/cub/cub.cuh>
+ * #include <cub/cub.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -108,7 +108,7 @@ namespace cub {
  * 128 threads.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>
+ * #include <cub/cub.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -224,7 +224,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>
+     * #include <cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -266,7 +266,7 @@ public:
      * block of 32 threads (one warp).
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>
+     * #include <cub/cub.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, int valid_items)
      * {
@@ -311,7 +311,7 @@ public:
      * reduction within a block of 32 threads (one warp).
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>
+     * #include <cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -359,7 +359,7 @@ public:
      * reduction within a block of 32 threads (one warp).
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>
+     * #include <cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -415,7 +415,7 @@ public:
      * 128 threads (one per each of the 32-thread warps).
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>
+     * #include <cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -463,7 +463,7 @@ public:
      * block of 32 threads (one warp).
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>
+     * #include <cub/cub.cuh>
      *
      * __global__ void ExampleKernel(int *d_data, int valid_items)
      * {
@@ -512,7 +512,7 @@ public:
      * reduction within a block of 32 threads (one warp).
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>
+     * #include <cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -563,7 +563,7 @@ public:
      * reduction within a block of 32 threads (one warp).
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>
+     * #include <cub/cub.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {

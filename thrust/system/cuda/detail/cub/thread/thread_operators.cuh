@@ -96,14 +96,7 @@ struct InequalityWrapper
 
     /// Boolean inequality operator, returns <tt>(a != b)</tt>
     template <typename T>
-    __host__ __device__ __forceinline__ bool operator()(const T &a, const T &b) const
-    {
-        return !op(a, b);
-    }
-    
-    /// Boolean inequality operator, returns <tt>(a != b)</tt>
-    template <typename T>
-    __host__ __device__ __forceinline__ bool operator()(const T &a, const T &b) 
+    __host__ __device__ __forceinline__ bool operator()(const T &a, const T &b)
     {
         return !op(a, b);
     }

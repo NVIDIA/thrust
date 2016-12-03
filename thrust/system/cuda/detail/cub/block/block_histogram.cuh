@@ -118,7 +118,7 @@ enum BlockHistogramAlgorithm
  * are partitioned across 128 threads where each thread owns 4 samples.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_histogram.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/block/block_histogram.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -197,7 +197,7 @@ private:
     _TempStorage &temp_storage;
 
     /// Linear thread-id
-    int linear_tid;
+    unsigned int linear_tid;
 
 
     /******************************************************************************
@@ -260,7 +260,7 @@ public:
      * where each thread owns 4 samples.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -318,7 +318,7 @@ public:
      * are partitioned across 128 threads where each thread owns 4 samples.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -372,7 +372,7 @@ public:
      * where each thread owns 4 samples.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_histogram.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_histogram.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {

@@ -172,7 +172,7 @@ typename IteratorTexRef<T>::template TexId<UNIQUE_ID>::TexRef IteratorTexRef<T>:
  * dereference a device array of doubles through texture cache.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/iterator/tex_ref_input_iterator.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/iterator/tex_ref_input_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * int num_items;   // e.g., 7

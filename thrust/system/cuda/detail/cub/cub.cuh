@@ -33,8 +33,6 @@
 
 #pragma once
 
-// CG 
-#include "cg/sync_threadblock.cuh"
 
 // Block
 #include "block/block_histogram.cuh"

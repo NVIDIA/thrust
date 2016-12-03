@@ -191,7 +191,7 @@ enum BlockReduceAlgorithm
  * where each thread owns 4 consecutive items.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_reduce.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/block/block_reduce.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -268,7 +268,7 @@ private:
     _TempStorage &temp_storage;
 
     /// Linear thread-id
-    int linear_tid;
+    unsigned int linear_tid;
 
 
 public:
@@ -323,7 +323,7 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_reduce.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_reduce.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -367,7 +367,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_reduce.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_reduce.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -415,7 +415,7 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_reduce.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_reduce.cuh>
      *
      * __global__ void ExampleKernel(int num_valid, ...)
      * {
@@ -474,7 +474,7 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_reduce.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_reduce.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -514,7 +514,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_reduce.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_reduce.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -558,7 +558,7 @@ public:
      * are partitioned across 128 threads.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_reduce.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_reduce.cuh>
      *
      * __global__ void ExampleKernel(int num_valid, ...)
      * {

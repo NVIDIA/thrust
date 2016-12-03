@@ -73,8 +73,8 @@ template <
     typename    T,
     typename    ReductionOp>
 __device__ __forceinline__ T ThreadReduce(
-    T*                  /*input*/,                  ///< [in] Input array
-    ReductionOp         /*reduction_op*/,           ///< [in] Binary reduction operator
+    T*                  /*input*/,              ///< [in] Input array
+    ReductionOp         /*reduction_op*/,       ///< [in] Binary reduction operator
     T                   prefix,                 ///< [in] Prefix to seed reduction with
     Int2Type<0>         /*length*/)
 {
@@ -98,7 +98,7 @@ __device__ __forceinline__ T ThreadReduce(
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
 {
-    return cub::ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
+    return ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
 }
 
 
@@ -118,7 +118,7 @@ __device__ __forceinline__ T ThreadReduce(
     ReductionOp reduction_op)           ///< [in] Binary reduction operator
 {
     T prefix = input[0];
-    return cub::ThreadReduce<LENGTH - 1>(input + 1, reduction_op, prefix);
+    return ThreadReduce<LENGTH - 1>(input + 1, reduction_op, prefix);
 }
 
 
@@ -138,7 +138,7 @@ __device__ __forceinline__ T ThreadReduce(
     ReductionOp reduction_op,           ///< [in] Binary reduction operator
     T           prefix)                 ///< [in] Prefix to seed reduction with
 {
-    return cub::ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
+    return ThreadReduce(input, reduction_op, prefix, Int2Type<LENGTH>());
 }
 
 
@@ -157,7 +157,7 @@ __device__ __forceinline__ T ThreadReduce(
     T           (&input)[LENGTH],       ///< [in] Input array
     ReductionOp reduction_op)           ///< [in] Binary reduction operator
 {
-    return cub::ThreadReduce<LENGTH>((T*) input, reduction_op);
+    return ThreadReduce<LENGTH>((T*) input, reduction_op);
 }
 
 

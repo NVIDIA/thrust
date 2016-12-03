@@ -72,7 +72,7 @@ __launch_bounds__ (int((ALT_DIGIT_BITS) ?
 __global__ void DeviceRadixSortUpsweepKernel(
     KeyT                    *d_keys,                        ///< [in] Input keys buffer
     OffsetT                 *d_spine,                       ///< [out] Privatized (per block) digit histograms (striped, i.e., 0s counts from each block, then 1s counts from each block, etc.)
-    OffsetT                 /*num_items*/,                      ///< [in] Total number of input data items
+    OffsetT                 /*num_items*/,                  ///< [in] Total number of input data items
     int                     current_bit,                    ///< [in] Bit position of current radix digit
     int                     num_bits,                       ///< [in] Number of bits of current radix digit
     GridEvenShare<OffsetT>  even_share)                     ///< [in] Even-share descriptor for mapan equal number of tiles onto each thread block
@@ -134,8 +134,6 @@ __global__ void RadixSortScanBinsKernel(
     // Shared memory storage
     __shared__ typename AgentScanT::TempStorage temp_storage;
 
-    if (blockIdx.x > 0) return;
-
     // Block scan instance
     AgentScanT block_scan(temp_storage, d_spine, d_spine, cub::Sum(), OffsetT(0)) ;
 
@@ -144,7 +142,7 @@ __global__ void RadixSortScanBinsKernel(
     BlockScanRunningPrefixOp<OffsetT, Sum> prefix_op(0, Sum());
     while (block_offset + AgentScanT::TILE_ITEMS <= num_counts)
     {
-        block_scan.template ConsumeTile<true, false>(block_offset, prefix_op);
+        block_scan.template ConsumeTile<false, false>(block_offset, prefix_op);
         block_offset += AgentScanT::TILE_ITEMS;
     }
 }
@@ -238,14 +236,14 @@ __global__ void DeviceRadixSortSingleTileKernel(
 
     // BlockLoad type (keys)
     typedef BlockLoad<
-        KeyT*,
+        KeyT,
         BLOCK_THREADS,
         ITEMS_PER_THREAD,
         ChainedPolicyT::ActivePolicy::SingleTilePolicy::LOAD_ALGORITHM> BlockLoadKeys;
 
     // BlockLoad type (values)
     typedef BlockLoad<
-        ValueT*,
+        ValueT,
         BLOCK_THREADS,
         ITEMS_PER_THREAD,
         ChainedPolicyT::ActivePolicy::SingleTilePolicy::LOAD_ALGORITHM> BlockLoadValues;
@@ -327,7 +325,7 @@ __global__ void DeviceSegmentedRadixSortKernel(
     ValueT                  *d_values_out,                  ///< [in] Output values buffer
     int                     *d_begin_offsets,               ///< [in] %Device-accessible pointer to the sequence of beginning offsets of length \p num_segments, such that <tt>d_begin_offsets[i]</tt> is the first element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>
     int                     *d_end_offsets,                 ///< [in] %Device-accessible pointer to the sequence of ending offsets of length \p num_segments, such that <tt>d_end_offsets[i]-1</tt> is the last element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>.  If <tt>d_end_offsets[i]-1</tt> <= <tt>d_begin_offsets[i]</tt>, the <em>i</em><sup>th</sup> is considered empty.
-    int                     /*num_segments*/,                   ///< [in] The number of segments that comprise the sorting data
+    int                     /*num_segments*/,               ///< [in] The number of segments that comprise the sorting data
     int                     current_bit,                    ///< [in] Bit position of current radix digit
     int                     pass_bits)                      ///< [in] Number of bits of current radix digit
 {
@@ -564,7 +562,7 @@ struct DeviceRadixSortPolicy
         typedef typename If<KEYS_ONLY, AltUpsweepPolicyKeys, AltUpsweepPolicyPairs>::Type   AltUpsweepPolicy;
 
         // Scan policy
-        typedef AgentScanPolicy <1024, 4, BLOCK_LOAD_VECTORIZE, LOAD_DEFAULT, BLOCK_STORE_VECTORIZE, BLOCK_SCAN_RAKING_MEMOIZE> ScanPolicy;
+        typedef AgentScanPolicy <1024, 4, BLOCK_LOAD_VECTORIZE, LOAD_DEFAULT, BLOCK_STORE_VECTORIZE, BLOCK_SCAN_WARP_SCANS> ScanPolicy;
 
         // Keys-only downsweep policies
         typedef AgentRadixSortDownsweepPolicy <128, CUB_MAX(1, 14 / SCALE_FACTOR_4B), BLOCK_LOAD_WARP_TRANSPOSE, LOAD_DEFAULT, false, BLOCK_SCAN_WARP_SCANS, RADIX_SORT_SCATTER_TWO_PHASE, PRIMARY_RADIX_BITS>   DownsweepPolicyKeys;
@@ -630,8 +628,91 @@ struct DeviceRadixSortPolicy
         typedef AltDownsweepPolicy  AltSegmentedPolicy;
     };
 
-    /// SM52
-    struct Policy520 : ChainedPolicy<520, Policy520, Policy350>
+
+    /// SM50
+    struct Policy500 : ChainedPolicy<500, Policy500, Policy350>
+    {
+        enum {
+            PRIMARY_RADIX_BITS      = 5,
+            ALT_RADIX_BITS          = PRIMARY_RADIX_BITS - 1,
+        };
+
+        // Upsweep policies
+        typedef AgentRadixSortUpsweepPolicy <256,   CUB_MAX(1, 16 / SCALE_FACTOR_4B), LOAD_DEFAULT, PRIMARY_RADIX_BITS>     UpsweepPolicy;
+        typedef AgentRadixSortUpsweepPolicy <256,   CUB_MAX(1, 16 / SCALE_FACTOR_4B), LOAD_DEFAULT, ALT_RADIX_BITS>         AltUpsweepPolicy;
+
+        // ScanPolicy
+        typedef AgentScanPolicy <512, 23, BLOCK_LOAD_WARP_TRANSPOSE, LOAD_DEFAULT, BLOCK_STORE_WARP_TRANSPOSE, BLOCK_SCAN_RAKING_MEMOIZE> ScanPolicy;
+
+        // Downsweep policies
+        typedef AgentRadixSortDownsweepPolicy <256, CUB_MAX(1, 16 / SCALE_FACTOR_4B),  BLOCK_LOAD_DIRECT, LOAD_LDG, true, BLOCK_SCAN_RAKING_MEMOIZE, RADIX_SORT_SCATTER_TWO_PHASE, PRIMARY_RADIX_BITS>   DownsweepPolicy;
+        typedef AgentRadixSortDownsweepPolicy <256, CUB_MAX(1, 16 / SCALE_FACTOR_4B),  BLOCK_LOAD_DIRECT, LOAD_LDG, true, BLOCK_SCAN_RAKING_MEMOIZE, RADIX_SORT_SCATTER_TWO_PHASE, ALT_RADIX_BITS>       AltDownsweepPolicy;
+
+        // Single-tile policy
+        typedef AgentRadixSortDownsweepPolicy <256, CUB_MAX(1, 19 / SCALE_FACTOR_4B),  BLOCK_LOAD_DIRECT, LOAD_LDG, true, BLOCK_SCAN_WARP_SCANS, RADIX_SORT_SCATTER_TWO_PHASE, PRIMARY_RADIX_BITS> SingleTilePolicy;
+
+        // Segmented policies
+        typedef DownsweepPolicy     SegmentedPolicy;
+        typedef AltDownsweepPolicy  AltSegmentedPolicy;
+    };
+
+
+    /// SM60 (GP100)
+    struct Policy600 : ChainedPolicy<600, Policy600, Policy500>
+    {
+        enum {
+            PRIMARY_RADIX_BITS      = 6,
+            ALT_RADIX_BITS          = PRIMARY_RADIX_BITS - 1,
+        };
+
+        // Upsweep policies
+        typedef AgentRadixSortUpsweepPolicy <192,   CUB_MAX(1, 39 / SCALE_FACTOR_4B), LOAD_DEFAULT, PRIMARY_RADIX_BITS>     UpsweepPolicy;
+        typedef AgentRadixSortUpsweepPolicy <384,   CUB_MAX(1, 11 / SCALE_FACTOR_4B), LOAD_DEFAULT, ALT_RADIX_BITS>         AltUpsweepPolicy;
+
+        // ScanPolicy
+        typedef AgentScanPolicy <512, 23, BLOCK_LOAD_WARP_TRANSPOSE, LOAD_DEFAULT, BLOCK_STORE_WARP_TRANSPOSE, BLOCK_SCAN_RAKING_MEMOIZE> ScanPolicy;
+
+        // Downsweep policies
+        typedef AgentRadixSortDownsweepPolicy <192, CUB_MAX(1, 39 / SCALE_FACTOR_4B),  BLOCK_LOAD_TRANSPOSE, LOAD_DEFAULT, true, BLOCK_SCAN_WARP_SCANS, RADIX_SORT_SCATTER_TWO_PHASE, PRIMARY_RADIX_BITS>   DownsweepPolicy;
+        typedef AgentRadixSortDownsweepPolicy <384, CUB_MAX(1, 11 / SCALE_FACTOR_4B),  BLOCK_LOAD_TRANSPOSE, LOAD_DEFAULT, true, BLOCK_SCAN_WARP_SCANS, RADIX_SORT_SCATTER_TWO_PHASE, ALT_RADIX_BITS>       AltDownsweepPolicy;
+
+        // Single-tile policy
+        typedef AgentRadixSortDownsweepPolicy <256, CUB_MAX(1, 19 / SCALE_FACTOR_4B),  BLOCK_LOAD_DIRECT, LOAD_LDG, true, BLOCK_SCAN_WARP_SCANS, RADIX_SORT_SCATTER_TWO_PHASE, PRIMARY_RADIX_BITS> SingleTilePolicy;
+
+        // Segmented policies (use 5 and 4 bits, b/c of warpscan)
+        typedef AltDownsweepPolicy     SegmentedPolicy;
+        typedef AgentRadixSortDownsweepPolicy <256, CUB_MAX(1, 16 / SCALE_FACTOR_4B),  BLOCK_LOAD_DIRECT, LOAD_LDG, true, BLOCK_SCAN_RAKING_MEMOIZE, RADIX_SORT_SCATTER_TWO_PHASE, ALT_RADIX_BITS - 1>       AltSegmentedPolicy;
+    };
+
+    /// SM61 (GP104)
+    struct Policy610 : ChainedPolicy<610, Policy610, Policy600>
+    {
+        enum {
+            PRIMARY_RADIX_BITS      = 5,
+            ALT_RADIX_BITS          = PRIMARY_RADIX_BITS - 1,
+        };
+
+        // Upsweep policies
+        typedef AgentRadixSortUpsweepPolicy <128,   CUB_MAX(1, 16 / SCALE_FACTOR_4B), LOAD_LDG, PRIMARY_RADIX_BITS>     UpsweepPolicy;
+        typedef AgentRadixSortUpsweepPolicy <128,   CUB_MAX(1, 16 / SCALE_FACTOR_4B), LOAD_LDG, ALT_RADIX_BITS>         AltUpsweepPolicy;
+
+        // ScanPolicy
+        typedef AgentScanPolicy <512, 23, BLOCK_LOAD_WARP_TRANSPOSE, LOAD_DEFAULT, BLOCK_STORE_WARP_TRANSPOSE, BLOCK_SCAN_WARP_SCANS> ScanPolicy;
+
+        // Downsweep policies
+        typedef AgentRadixSortDownsweepPolicy <640, CUB_MAX(1, 8 / SCALE_FACTOR_4B),  BLOCK_LOAD_DIRECT, LOAD_LDG, true, BLOCK_SCAN_RAKING, RADIX_SORT_SCATTER_TWO_PHASE, PRIMARY_RADIX_BITS>   DownsweepPolicy;
+        typedef AgentRadixSortDownsweepPolicy <768, CUB_MAX(1, 8 / SCALE_FACTOR_4B),  BLOCK_LOAD_DIRECT, LOAD_LDG, true, BLOCK_SCAN_RAKING, RADIX_SORT_SCATTER_TWO_PHASE, ALT_RADIX_BITS>       AltDownsweepPolicy;
+
+        // Single-tile policy
+        typedef AgentRadixSortDownsweepPolicy <256, CUB_MAX(1, 19 / SCALE_FACTOR_4B),  BLOCK_LOAD_DIRECT, LOAD_LDG, true, BLOCK_SCAN_WARP_SCANS, RADIX_SORT_SCATTER_TWO_PHASE, PRIMARY_RADIX_BITS> SingleTilePolicy;
+
+        // Segmented policies
+        typedef DownsweepPolicy     SegmentedPolicy;
+        typedef AltDownsweepPolicy  AltSegmentedPolicy;
+    };
+
+    /// SM62 (Tegra, less RF)
+    struct Policy620 : ChainedPolicy<620, Policy620, Policy610>
     {
         enum {
             PRIMARY_RADIX_BITS      = 5,
@@ -658,8 +739,7 @@ struct DeviceRadixSortPolicy
     };
 
     /// MaxPolicy
-    typedef Policy520 MaxPolicy;
-
+    typedef Policy620 MaxPolicy;
 };
 
 
@@ -973,14 +1053,14 @@ struct DispatchRadixSort :
         DownsweepKernelT    alt_downsweep_kernel)   ///< [in] Alternate kernel function pointer to parameterization of cub::DeviceRadixSortDownsweepKernel
     {
 #ifndef CUB_RUNTIME_ENABLED
-      (void)upsweep_kernel;
-      (void)alt_upsweep_kernel;
-      (void)scan_kernel;
-      (void)downsweep_kernel;
-      (void)alt_downsweep_kernel;
+        (void)upsweep_kernel;
+        (void)alt_upsweep_kernel;
+        (void)scan_kernel;
+        (void)downsweep_kernel;
+        (void)alt_downsweep_kernel;
 
-      // Kernel launch not supported from this device
-      return CubDebug(cudaErrorNotSupported);
+        // Kernel launch not supported from this device
+        return CubDebug(cudaErrorNotSupported );
 #else
 
         cudaError error = cudaSuccess;
@@ -1331,8 +1411,8 @@ struct DispatchSegmentedRadixSort :
       (void)segmented_kernel;
       (void)alt_segmented_kernel;
 
-      // Kernel launch not supported from this device
-      return CubDebug(cudaErrorNotSupported);
+        // Kernel launch not supported from this device
+        return CubDebug(cudaErrorNotSupported );
 #else
 
         cudaError error = cudaSuccess;

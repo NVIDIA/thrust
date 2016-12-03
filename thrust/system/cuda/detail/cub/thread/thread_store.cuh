@@ -79,7 +79,7 @@ enum CacheStoreModifier
  *
  * \par Example
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/thread/thread_store.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/thread/thread_store.cuh>
  *
  * // 32-bit store using cache-global modifier:
  * int *d_out;
@@ -148,7 +148,7 @@ struct IterateThreadStore<MAX, MAX>
     static __device__ __forceinline__ void Store(T * /*ptr*/, T * /*vals*/) {}
 
     template <typename OutputIteratorT, typename T>
-    static __device__ __forceinline__ void Dereference(OutputIteratorT  /*ptr*/, T * /*vals*/) {}
+    static __device__ __forceinline__ void Dereference(OutputIteratorT /*ptr*/, T * /*vals*/) {}
 };
 
 

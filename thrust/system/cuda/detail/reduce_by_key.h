@@ -233,10 +233,10 @@ namespace __reduce_by_key {
                                       Arch::ver>
           BlockDiscontinuityKeys;
 
-      typedef cub::TilePrefixCallbackOperator<size_value_pair_t,
-                                              ReduceBySegmentOp,
-                                              ScanTileState,
-                                              Arch>
+      typedef cub::TilePrefixCallbackOp<size_value_pair_t,
+                                        ReduceBySegmentOp,
+                                        ScanTileState,
+                                        Arch::ver>
           TilePrefixCallback;
       typedef cub::BlockScan<size_value_pair_t,
                              PtxPlan::BLOCK_THREADS,
@@ -341,16 +341,12 @@ namespace __reduce_by_key {
                 TilePrefixCallback &prefix_op,
                 detail::true_type /*  has_identity */)
       {
-        size_value_pair_t identity;
-        identity.value = 0;
-        identity.key = 0;
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items,
                            scan_items,
-                           identity,
                            scan_op,
-                           tile_aggregate,
                            prefix_op);
+        tile_aggregate = prefix_op.GetBlockAggregate();
       }
 
       // Scan without identity (subsequent tile).
@@ -365,8 +361,8 @@ namespace __reduce_by_key {
             .ExclusiveScan(scan_items,
                            scan_items,
                            scan_op,
-                           tile_aggregate,
                            prefix_op);
+        tile_aggregate = prefix_op.GetBlockAggregate();
       }
 
       //---------------------------------------------------------------------
@@ -559,8 +555,13 @@ namespace __reduce_by_key {
         // Load keys (last tile repeats final element)
         if (IS_LAST_TILE)
         {
+          // Fill last elements with the first element
+          // because collectives are not suffix guarded
           BlockLoadKeys(storage.load_keys)
-              .Load(keys_load_it + tile_offset, keys, num_remaining);
+              .Load(keys_load_it + tile_offset,
+                    keys,
+                    num_remaining,
+                    *(keys_load_it + tile_offset));
         }
         else
         {
@@ -574,7 +575,10 @@ namespace __reduce_by_key {
         if (IS_LAST_TILE)
         {
           BlockLoadValues(storage.load_values)
-              .Load(values_load_it + tile_offset, values, num_remaining);
+              .Load(values_load_it + tile_offset,
+                    values,
+                    num_remaining,
+                    *(values_load_it + tile_offset));
         }
         else
         {
@@ -665,7 +669,10 @@ namespace __reduce_by_key {
         if (IS_LAST_TILE)
         {
           BlockLoadKeys(storage.load_keys)
-              .Load(keys_load_it + tile_offset, keys, num_remaining);
+              .Load(keys_load_it + tile_offset,
+                    keys,
+                    num_remaining,
+                    *(keys_load_it + tile_offset));
         }
         else
         {
@@ -683,7 +690,10 @@ namespace __reduce_by_key {
         if (IS_LAST_TILE)
         {
           BlockLoadValues(storage.load_values)
-              .Load(values_load_it + tile_offset, values, num_remaining);
+              .Load(values_load_it + tile_offset,
+                    values,
+                    num_remaining,
+                    *(values_load_it + tile_offset));
         }
         else
         {

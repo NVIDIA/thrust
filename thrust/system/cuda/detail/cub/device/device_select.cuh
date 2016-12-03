@@ -93,7 +93,7 @@ struct DeviceSelect
      * The code snippet below illustrates the compaction of items selected from an \p int device vector.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>       // or equivalently <detail/cub/device/device_select.cuh>
+     * #include <cub/cub.cuh>       // or equivalently <cub/device/device_select.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input, flags, and output
      * int  num_items;              // e.g., 8
@@ -185,7 +185,7 @@ struct DeviceSelect
      * The code snippet below illustrates the compaction of items selected from an \p int device vector.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_select.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_select.cuh>
      *
      * // Functor type for selecting values less than some criteria
      * struct LessThan
@@ -251,24 +251,18 @@ struct DeviceSelect
         typedef NullType*               FlagIterator;   // FlagT iterator type (not used)
         typedef NullType                EqualityOp;     // Equality operator (not used)
 
-        return DispatchSelectIf<InputIteratorT,
-                                FlagIterator,
-                                OutputIteratorT,
-                                NumSelectedIteratorT,
-                                SelectOp,
-                                EqualityOp,
-                                OffsetT,
-                                false>::Dispatch(d_temp_storage,
-                                                 temp_storage_bytes,
-                                                 d_in,
-                                                 NULL,
-                                                 d_out,
-                                                 d_num_selected_out,
-                                                 select_op,
-                                                 EqualityOp(),
-                                                 num_items,
-                                                 stream,
-                                                 debug_synchronous);
+        return DispatchSelectIf<InputIteratorT, FlagIterator, OutputIteratorT, NumSelectedIteratorT, SelectOp, EqualityOp, OffsetT, false>::Dispatch(
+            d_temp_storage,
+            temp_storage_bytes,
+            d_in,
+            NULL,
+            d_out,
+            d_num_selected_out,
+            select_op,
+            EqualityOp(),
+            num_items,
+            stream,
+            debug_synchronous);
     }
 
 
@@ -298,7 +292,7 @@ struct DeviceSelect
      * The code snippet below illustrates the compaction of items selected from an \p int device vector.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>       // or equivalently <detail/cub/device/device_select.cuh>
+     * #include <cub/cub.cuh>       // or equivalently <cub/device/device_select.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input and output
      * int  num_items;              // e.g., 8
@@ -327,18 +321,20 @@ struct DeviceSelect
      * \tparam OutputIteratorT      <b>[inferred]</b> Random-access output iterator type for writing selected items \iterator
      * \tparam NumSelectedIteratorT  <b>[inferred]</b> Output iterator type for recording the number of items selected \iterator
      */
-    template <typename InputIteratorT,
-              typename OutputIteratorT,
-              typename NumSelectedIteratorT>
-    CUB_RUNTIME_FUNCTION __forceinline__ static cudaError_t Unique(
-        void*                d_temp_storage,               ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
-        size_t&              temp_storage_bytes,           ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
-        InputIteratorT       d_in,                         ///< [in] Pointer to the input sequence of data items
-        OutputIteratorT      d_out,                        ///< [out] Pointer to the output sequence of selected data items
-        NumSelectedIteratorT d_num_selected_out,           ///< [out] Pointer to the output total number of items selected (i.e., length of \p d_out)
-        int                  num_items,                    ///< [in] Total number of input items (i.e., length of \p d_in)
-        cudaStream_t         stream            = 0,        ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
-        bool                 debug_synchronous = false)    ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
+    template <
+        typename                    InputIteratorT,
+        typename                    OutputIteratorT,
+        typename                    NumSelectedIteratorT>
+    CUB_RUNTIME_FUNCTION __forceinline__
+    static cudaError_t Unique(
+        void*               d_temp_storage,                ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
+        size_t                      &temp_storage_bytes,            ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
+        InputIteratorT              d_in,                           ///< [in] Pointer to the input sequence of data items
+        OutputIteratorT             d_out,                          ///< [out] Pointer to the output sequence of selected data items
+        NumSelectedIteratorT         d_num_selected_out,             ///< [out] Pointer to the output total number of items selected (i.e., length of \p d_out)
+        int                         num_items,                      ///< [in] Total number of input items (i.e., length of \p d_in)
+        cudaStream_t                stream             = 0,         ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
+        bool                        debug_synchronous  = false)     ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
     {
         typedef int                     OffsetT;         // Signed integer type for global offsets
         typedef NullType*               FlagIterator;   // FlagT iterator type (not used)
@@ -357,47 +353,6 @@ struct DeviceSelect
             num_items,
             stream,
             debug_synchronous);
-    }
-
-    template <typename InputIteratorT,
-              typename OutputIteratorT,
-              typename NumSelectedIteratorT,
-              class Size,
-              class BinaryPred>
-    CUB_RUNTIME_FUNCTION __forceinline__ static cudaError_t Unique(
-        void*                d_temp_storage,        ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
-        size_t&              temp_storage_bytes,    ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
-        InputIteratorT       d_in,                  ///< [in] Pointer to the input sequence of data items
-        OutputIteratorT      d_out,                 ///< [out] Pointer to the output sequence of selected data items
-        BinaryPred           binary_pred,
-        NumSelectedIteratorT d_num_selected_out,           ///< [out] Pointer to the output total number of items selected (i.e., length of \p d_out)
-        Size                 num_items,                    ///< [in] Total number of input items (i.e., length of \p d_in)
-        cudaStream_t         stream            = 0,        ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
-        bool                 debug_synchronous = false)    ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
-    {
-      typedef Size      OffsetT;         // Signed integer type for global offsets
-      typedef NullType* FlagIterator;    // FlagT iterator type (not used)
-      typedef NullType  SelectOp;        // Selection op (not used)
-
-      return DispatchSelectIf<InputIteratorT,
-                              FlagIterator,
-                              OutputIteratorT,
-                              NumSelectedIteratorT,
-                              SelectOp,
-                              BinaryPred,
-                              OffsetT,
-                              false>::
-          Dispatch(d_temp_storage,
-                   temp_storage_bytes,
-                   d_in,
-                   NULL,
-                   d_out,
-                   d_num_selected_out,
-                   SelectOp(),
-                   binary_pred,
-                   num_items,
-                   stream,
-                   debug_synchronous);
     }
 
 };

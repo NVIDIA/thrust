@@ -270,7 +270,7 @@ namespace __scan {
       typedef typename core::BlockLoad<PtxPlan, LoadIt, T>::type    BlockLoad;
       typedef typename core::BlockStore<PtxPlan, OutputIt, T>::type BlockStore;
 
-      typedef cub::TilePrefixCallbackOperator<T, ScanOp, ScanTileState, Arch>
+      typedef cub::TilePrefixCallbackOp<T, ScanOp, ScanTileState, Arch::ver>
           TilePrefixCallback;
       typedef cub::BlockScan<T,
                              PtxPlan::BLOCK_THREADS,
@@ -383,8 +383,8 @@ namespace __scan {
                                             PrefixCallback &prefix_op,
                                             detail::false_type /* is_inclusive */)
       {
-        BlockScan(storage.scan)
-            .ExclusiveScan(items, items, scan_op, block_aggregate, prefix_op);
+        BlockScan(storage.scan).ExclusiveScan(items, items, scan_op, prefix_op);
+        block_aggregate = prefix_op.GetBlockAggregate();
       }
   
       // Exclusive sum specialization (with prefix from predecessors)
@@ -396,8 +396,8 @@ namespace __scan {
                                             PrefixCallback &prefix_op,
                                             detail::false_type /* is_inclusive */)
       {
-        BlockScan(storage.scan)
-            .ExclusiveSum(items, items, block_aggregate, prefix_op);
+        BlockScan(storage.scan).ExclusiveSum(items, items, prefix_op);
+        block_aggregate = prefix_op.GetBlockAggregate();
       }
 
       // Inclusive scan specialization (with prefix from predecessors)
@@ -409,8 +409,8 @@ namespace __scan {
                                             PrefixCallback &prefix_op,
                                             detail::true_type /* is_inclusive */)
       {
-        BlockScan(storage.scan)
-            .InclusiveScan(items, items, scan_op, block_aggregate, prefix_op);
+        BlockScan(storage.scan).InclusiveScan(items, items, scan_op, prefix_op);
+        block_aggregate = prefix_op.GetBlockAggregate();
       }
 
       // Inclusive sum specialization (with prefix from predecessors)
@@ -422,8 +422,8 @@ namespace __scan {
                                             PrefixCallback &prefix_op,
                                             detail::true_type /* is_inclusive */)
       {
-        BlockScan(storage.scan)
-          .InclusiveSum(items, items, block_aggregate, prefix_op);
+        BlockScan(storage.scan).InclusiveSum(items, items, prefix_op);
+        block_aggregate = prefix_op.GetBlockAggregate();
       }
 
       //---------------------------------------------------------------------
@@ -451,7 +451,13 @@ namespace __scan {
         }
         else
         {
-          BlockLoad(storage.load).Load(load_it + tile_base, items, num_remaining);
+          // Fill last element with the first element
+          // because collectives are not suffix guarded
+          BlockLoad(storage.load)
+              .Load(load_it + tile_base,
+                    items,
+                    num_remaining,
+                    *(load_it + tile_base));
         }
 
         if (SYNC_AFTER_LOAD)

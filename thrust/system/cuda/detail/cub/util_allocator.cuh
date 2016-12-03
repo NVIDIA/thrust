@@ -218,7 +218,7 @@ struct CachingDeviceAllocator
     /**
      * Round up to the nearest power-of
      */
-    static void NearestPowerOf(
+    void NearestPowerOf(
         unsigned int    &power,
         size_t          &rounded_bytes,
         unsigned int    base,
@@ -226,6 +226,14 @@ struct CachingDeviceAllocator
     {
         power = 0;
         rounded_bytes = 1;
+
+        if (value * base < value)
+        {
+            // Overflow
+            power = sizeof(size_t) * 8;
+            rounded_bytes = size_t(0) - 1;
+            return;
+        }
 
         while (rounded_bytes < value)
         {
@@ -407,12 +415,13 @@ struct CachingDeviceAllocator
                     live_blocks.insert(search_key);
 
                     // Remove from free blocks
-                    cached_blocks.erase(block_itr);
                     cached_bytes[device].free -= search_key.bytes;
                     cached_bytes[device].live += search_key.bytes;
 
                     if (debug) _CubLog("\tDevice %d reused cached block at %p (%lld bytes) for stream %lld (previously associated with stream %lld).\n",
                         device, search_key.d_ptr, (long long) search_key.bytes, (long long) search_key.associated_stream, (long long)  block_itr->associated_stream);
+
+                    cached_blocks.erase(block_itr);
 
                     break;
                 }
@@ -437,9 +446,11 @@ struct CachingDeviceAllocator
             if (CubDebug(error = cudaMalloc(&search_key.d_ptr, search_key.bytes)) == cudaErrorMemoryAllocation)
             {
                 // The allocation attempt failed: free all cached blocks on device and retry
-                error = cudaSuccess;    // Reset error
                 if (debug) _CubLog("\tDevice %d failed to allocate %lld bytes for stream %lld, retrying after freeing cached allocations",
                       device, (long long) search_key.bytes, (long long) search_key.associated_stream);
+
+                error = cudaSuccess;    // Reset the error we will return
+                cudaGetLastError();     // Reset CUDART's error
 
                 // Lock
                 mutex.Lock();
@@ -460,10 +471,11 @@ struct CachingDeviceAllocator
 
                     // Reduce balance and erase entry
                     cached_bytes[device].free -= block_itr->bytes;
-                    cached_blocks.erase(block_itr);
 
                     if (debug) _CubLog("\tDevice %d freed %lld bytes.\n\t\t  %lld available blocks cached (%lld bytes), %lld live blocks (%lld bytes) outstanding.\n",
                         device, (long long) block_itr->bytes, (long long) cached_blocks.size(), (long long) cached_bytes[device].free, (long long) live_blocks.size(), (long long) cached_bytes[device].live);
+
+                    cached_blocks.erase(block_itr);
 
                     block_itr++;
                 }
@@ -657,10 +669,11 @@ struct CachingDeviceAllocator
 
             // Reduce balance and erase entry
             cached_bytes[current_device].free -= begin->bytes;
-            cached_blocks.erase(begin);
 
             if (debug) _CubLog("\tDevice %d freed %lld bytes.\n\t\t  %lld available blocks cached (%lld bytes), %lld live blocks (%lld bytes) outstanding.\n",
-                              current_device, (long long) begin->bytes, (long long) cached_blocks.size(), (long long) cached_bytes[current_device].free, (long long) live_blocks.size(), (long long) cached_bytes[current_device].live);
+                current_device, (long long) begin->bytes, (long long) cached_blocks.size(), (long long) cached_bytes[current_device].free, (long long) live_blocks.size(), (long long) cached_bytes[current_device].live);
+
+            cached_blocks.erase(begin);
         }
 
         mutex.Unlock();

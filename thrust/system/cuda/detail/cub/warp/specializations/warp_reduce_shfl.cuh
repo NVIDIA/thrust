@@ -119,7 +119,7 @@ struct WarpReduceShfl
 
     /// Constructor
     __device__ __forceinline__ WarpReduceShfl(
-        TempStorage & /*temp_storage*/)
+        TempStorage &/*temp_storage*/)
     :
         lane_id(LaneId())
     {}
@@ -320,7 +320,7 @@ struct WarpReduceShfl
         _T temp = ShuffleDown(output, offset);
 
         // Perform reduction op if valid
-        if (offset <= last_lane - lane_id)
+        if (offset + lane_id <= last_lane)
             output = reduction_op(input, temp);
 
         return output;

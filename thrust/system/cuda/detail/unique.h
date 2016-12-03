@@ -211,10 +211,10 @@ namespace __unique {
                                       Arch::ver>
           BlockDiscontinuityItems;
 
-      typedef cub::TilePrefixCallbackOperator<Size,
-                                              cub::Sum,
-                                              ScanTileState,
-                                              Arch>
+      typedef cub::TilePrefixCallbackOp<Size,
+                                        cub::Sum,
+                                        ScanTileState,
+                                        Arch::ver>
           TilePrefixCallback;
       typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
@@ -333,10 +333,19 @@ namespace __unique {
         Size      selection_flags[ITEMS_PER_THREAD];
         Size      selection_idx[ITEMS_PER_THREAD];
 
-        BlockLoadItems(temp_storage.load_items)
-            .template act<!IS_LAST_TILE>(items_in + tile_base,
-                                         items_loc,
-                                         num_tile_items);
+        if (IS_LAST_TILE)
+        {
+          BlockLoadItems(temp_storage.load_items)
+              .Load(items_in + tile_base,
+                    items_loc,
+                    num_tile_items,
+                    *(items_in + tile_base));
+        }
+        else
+        {
+          BlockLoadItems(temp_storage.load_items)
+              .Load(items_in + tile_base, items_loc);
+        }
 
 
         sync_threadblock();
@@ -398,10 +407,10 @@ namespace __unique {
           BlockScan(temp_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
-                            num_tile_selections,
                             prefix_cb);
 
           num_selections        = prefix_cb.GetInclusivePrefix();
+          num_tile_selections   = prefix_cb.GetBlockAggregate();
           num_selections_prefix = prefix_cb.GetExclusivePrefix();
 
           if (IS_LAST_TILE)

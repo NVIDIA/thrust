@@ -67,15 +67,11 @@ namespace cub {
  */
 __host__ __device__ __forceinline__ cudaError_t Debug(
     cudaError_t     error,
-#ifdef CUB_STDERR
     const char*     filename,
-    int             line
-#else
-    const char*     ,
-    int             
-#endif
-    )
+    int             line)
 {
+    (void)filename;
+    (void)line;
 #ifdef CUB_STDERR
     if (error)
     {
@@ -110,8 +106,6 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
 /**
  * \brief Log macro for printf statements.
  */
-
-
 #if !defined(_CubLog)
 #if !(defined(__clang__) && defined(__CUDA__))
     #if (CUB_PTX_ARCH == 0)
@@ -120,8 +114,9 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
         #define _CubLog(format, ...) printf("[block (%d,%d,%d), thread (%d,%d,%d)]: " format, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, __VA_ARGS__);
     #endif
 #else
-  // XXX clang hack around variadic printf... Compilies w/o supplying c++-03
-  //     but shows warning, ergo #pragma below
+// XXX shameless hack for clang around variadic printf... 
+//     Compilies w/o supplying -std=c++11 but shows warning, 
+//     so we sielence them :)
 #pragma clang diagnostic ignored "-Wc++11-extensions"
 #pragma clang diagnostic ignored "-Wunnamed-type-template-args"
     template <class... Args>

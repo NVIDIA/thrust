@@ -83,7 +83,7 @@ struct DeviceSpmv
      *
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_spmv.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_spmv.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input matrix A, input vector x,
      * // and output vector y

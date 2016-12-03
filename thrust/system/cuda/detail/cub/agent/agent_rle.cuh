@@ -105,16 +105,18 @@ struct AgentRle
     // Types and constants
     //---------------------------------------------------------------------
 
-    // Data type of input iterator
+    /// The input value type
     typedef typename std::iterator_traits<InputIteratorT>::value_type T;
 
-    // Signed integer type for run lengths
-    typedef typename std::iterator_traits<LengthsOutputIteratorT>::value_type LengthT;
+    /// The lengths output value type
+    typedef typename If<(Equals<typename std::iterator_traits<LengthsOutputIteratorT>::value_type, void>::VALUE),   // LengthT =  (if output iterator's value type is void) ?
+        OffsetT,                                                                                                    // ... then the OffsetT type,
+        typename std::iterator_traits<LengthsOutputIteratorT>::value_type>::Type LengthT;                           // ... else the output iterator's value type
 
-    // Tuple type for scanning (pairs run-length and run-index)
+    /// Tuple type for scanning (pairs run-length and run-index)
     typedef KeyValuePair<OffsetT, LengthT> LengthOffsetPair;
 
-    // Tile status descriptor interface type
+    /// Tile status descriptor interface type
     typedef ReduceByKeyScanTileState<LengthT, OffsetT> ScanTileStateT;
 
     // Constants
@@ -174,7 +176,7 @@ struct AgentRle
 
     // Parameterized BlockLoad type for data
     typedef BlockLoad<
-            WrappedInputIteratorT,
+            T,
             AgentRlePolicyT::BLOCK_THREADS,
             AgentRlePolicyT::ITEMS_PER_THREAD,
             AgentRlePolicyT::LOAD_ALGORITHM>
@@ -267,7 +269,7 @@ struct AgentRle
         InputIteratorT              d_in,               ///< [in] Pointer to input sequence of data items
         OffsetsOutputIteratorT      d_offsets_out,      ///< [out] Pointer to output sequence of run offsets
         LengthsOutputIteratorT      d_lengths_out,      ///< [out] Pointer to output sequence of run lengths
-        EqualityOpT                  equality_op,        ///< [in] T equality operator
+        EqualityOpT                 equality_op,        ///< [in] T equality operator
         OffsetT                     num_items)          ///< [in] Total number of input items
     :
         temp_storage(temp_storage.Alias()),
@@ -367,7 +369,7 @@ struct AgentRle
         LengthOffsetPair    (&lengths_and_num_runs)[ITEMS_PER_THREAD])
     {
         // Perform warpscans
-        int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
+        unsigned int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
         int lane_id = LaneId();
 
         LengthOffsetPair identity;
@@ -421,7 +423,7 @@ struct AgentRle
         LengthOffsetPair    (&lengths_and_offsets)[ITEMS_PER_THREAD],
         Int2Type<true>      is_warp_time_slice)
     {
-        int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
+        unsigned int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
         int lane_id = LaneId();
 
         // Locally compact items within the warp (first warp)
@@ -478,7 +480,7 @@ struct AgentRle
         LengthOffsetPair    (&lengths_and_offsets)[ITEMS_PER_THREAD],
         Int2Type<false>     is_warp_time_slice)
     {
-        int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
+        unsigned int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
         int lane_id = LaneId();
 
         // Unzip
@@ -622,7 +624,7 @@ struct AgentRle
             // Load items
             T items[ITEMS_PER_THREAD];
             if (LAST_TILE)
-                BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items, num_remaining, ZeroInitialize<T>());
+                BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items, num_remaining, T());
             else
                 BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items);
 
@@ -702,7 +704,7 @@ struct AgentRle
             // Load items
             T items[ITEMS_PER_THREAD];
             if (LAST_TILE)
-                BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items, num_remaining, ZeroInitialize<T>());
+                BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items, num_remaining, T());
             else
                 BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items);
 
@@ -733,7 +735,7 @@ struct AgentRle
 
             // First warp computes tile prefix in lane 0
             TilePrefixCallbackOpT prefix_op(tile_status, temp_storage.prefix, Sum(), tile_idx);
-            int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
+            unsigned int warp_id = ((WARPS == 1) ? 0 : threadIdx.x / WARP_THREADS);
             if (warp_id == 0)
             {
                 prefix_op(tile_aggregate);

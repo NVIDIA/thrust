@@ -86,7 +86,7 @@ struct DevicePartition
      * The code snippet below illustrates the compaction of items selected from an \p int device vector.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>       // or equivalently <detail/cub/device/device_partition.cuh>
+     * #include <cub/cub.cuh>       // or equivalently <cub/device/device_partition.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input, flags, and output
      * int  num_items;              // e.g., 8
@@ -180,7 +180,7 @@ struct DevicePartition
      * The code snippet below illustrates the compaction of items selected from an \p int device vector.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_partition.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_partition.cuh>
      *
      * // Functor type for selecting values less than some criteria
      * struct LessThan

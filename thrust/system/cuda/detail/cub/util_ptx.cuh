@@ -219,7 +219,7 @@ __device__ __forceinline__ unsigned int IADD3(unsigned int x, unsigned int y, un
  * The code snippet below illustrates byte-permute.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>
+ * #include <cub/cub.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -279,6 +279,14 @@ __device__ __forceinline__ float FFMA_RZ(float a, float b, float c)
 __device__ __forceinline__ void ThreadExit() {
     asm volatile("exit;");
 }    
+
+
+/**
+ * \brief  Abort execution and generate an interrupt to the host CPU
+ */
+__device__ __forceinline__ void ThreadTrap() {
+    asm volatile("trap;");
+}
 
 
 /**
@@ -385,11 +393,11 @@ __device__ __forceinline__ void ShuffleUp(
  */
 template <typename ShuffleWordT>
 __device__ __forceinline__ void ShuffleUp(
-    ShuffleWordT*   /* input */,
-    ShuffleWordT*   /* output */,
-    int             /* src_offset */,
-    int             /* first_lane */,
-    Int2Type<-1>    /* step */)
+    ShuffleWordT*   /*input*/, 
+    ShuffleWordT*   /*output*/,
+    int             /*src_offset*/,
+    int             /*first_lane*/,
+    Int2Type<-1>    /*step*/)
 {}
 
 
@@ -419,7 +427,7 @@ __device__ __forceinline__ void ShuffleDown(
  */
 template <typename ShuffleWordT>
 __device__ __forceinline__ void ShuffleDown(
-    ShuffleWordT*   /*input,*/,
+    ShuffleWordT*   /*input*/, 
     ShuffleWordT*   /*output*/,
     int             /*src_offset*/,
     int             /*last_lane*/,
@@ -478,7 +486,7 @@ __device__ __forceinline__ void ShuffleIdx(
  * predecessor of its predecessor.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/util_ptx.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/util_ptx.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -539,7 +547,7 @@ __device__ __forceinline__ T ShuffleUp(
  * successor of its successor.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/util_ptx.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/util_ptx.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -643,7 +651,7 @@ __device__ __forceinline__ T ShuffleIndex(
  *
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/util_ptx.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/util_ptx.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {

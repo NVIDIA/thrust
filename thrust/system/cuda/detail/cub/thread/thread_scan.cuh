@@ -78,8 +78,8 @@ template <
 __device__ __forceinline__ T ThreadScanExclusive(
     T                   inclusive,
     T                   /*exclusive*/,
-    T                   * /*input*/,                 ///< [in] Input array
-    T                   * /*output*/,                ///< [out] Output array (may be aliased to \p input)
+    T                   * /*input*/,                ///< [in] Input array
+    T                   * /*output*/,               ///< [out] Output array (may be aliased to \p input)
     ScanOp              /*scan_op*/,                ///< [in] Binary scan operator
     Int2Type<0>         /*length*/)
 {
@@ -169,8 +169,8 @@ template <
     typename    ScanOp>
 __device__ __forceinline__ T ThreadScanInclusive(
     T                   inclusive,
-    T                   * /*input*/,                 ///< [in] Input array
-    T                   * /*output*/,                ///< [out] Output array (may be aliased to \p input)
+    T                   * /*input*/,                ///< [in] Input array
+    T                   * /*output*/,               ///< [out] Output array (may be aliased to \p input)
     ScanOp              /*scan_op*/,                ///< [in] Binary scan operator
     Int2Type<0>         /*length*/)
 {

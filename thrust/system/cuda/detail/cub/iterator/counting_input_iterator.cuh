@@ -74,7 +74,7 @@ namespace cub {
  * dereference a sequence of incrementing integers.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/iterator/counting_input_iterator.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/iterator/counting_input_iterator.cuh>
  *
  * cub::CountingInputIterator<int> itr(5);
  *
@@ -152,7 +152,7 @@ public:
     template <typename Distance>
     __host__ __device__ __forceinline__ self_type operator+(Distance n) const
     {
-        self_type retval(val + n);
+        self_type retval(val + (ValueType) n);
         return retval;
     }
 
@@ -160,7 +160,7 @@ public:
     template <typename Distance>
     __host__ __device__ __forceinline__ self_type& operator+=(Distance n)
     {
-        val += n;
+        val += (ValueType) n;
         return *this;
     }
 
@@ -168,7 +168,7 @@ public:
     template <typename Distance>
     __host__ __device__ __forceinline__ self_type operator-(Distance n) const
     {
-        self_type retval(val - n);
+        self_type retval(val - (ValueType) n);
         return retval;
     }
 
@@ -183,14 +183,14 @@ public:
     /// Distance
     __host__ __device__ __forceinline__ difference_type operator-(self_type other) const
     {
-        return val - other.val;
+        return (difference_type) (val - other.val);
     }
 
     /// Array subscript
     template <typename Distance>
     __host__ __device__ __forceinline__ reference operator[](Distance n) const
     {
-        return val + n;
+        return val + (ValueType) n;
     }
 
     /// Structure dereference

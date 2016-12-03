@@ -74,7 +74,7 @@ namespace cub {
  * \par
  * - <b>Example 1:</b> Simple radix rank of 32-bit integer keys
  *      \code
- *      #include <detail/cub/cub.cuh>
+ *      #include <cub/cub.cuh>
  *
  *      template <int BLOCK_THREADS>
  *      __global__ void ExampleKernel(...)
@@ -169,7 +169,7 @@ private:
     _TempStorage &temp_storage;
 
     /// Linear thread-id
-    int linear_tid;
+    unsigned int linear_tid;
 
     /// Copy of raking segment, promoted to registers
     PackedCounter cached_segment[RAKING_SEGMENT];
@@ -257,8 +257,8 @@ private:
             UnsignedBits    (&/*keys*/)[KEYS_PER_THREAD],
             DigitCounter    (&/*thread_prefixes*/)[KEYS_PER_THREAD],
             DigitCounter*   (&/*digit_counters*/)[KEYS_PER_THREAD],
-            int             /*current_bit*/,                            // The least-significant bit position of the current digit to extract
-            int             /*num_bits*/)                               // The number of bits in the current digit
+            int             /*current_bit*/,                        // The least-significant bit position of the current digit to extract
+            int             /*num_bits*/)                           // The number of bits in the current digit
         {}
 
 
@@ -466,14 +466,14 @@ public:
         // Get the inclusive and exclusive digit totals corresponding to the calling thread.
         if ((BLOCK_THREADS == RADIX_DIGITS) || (linear_tid < RADIX_DIGITS))
         {
-            int bin_idx = (DESCENDING) ?
+            unsigned int bin_idx = (DESCENDING) ?
                 RADIX_DIGITS - linear_tid - 1 :
                 linear_tid;
 
             // Obtain ex/inclusive digit counts.  (Unfortunately these all reside in the
             // first counter column, resulting in unavoidable bank conflicts.)
-            int counter_lane = (bin_idx & (COUNTER_LANES - 1));
-            int sub_counter = bin_idx >> (LOG_COUNTER_LANES);
+            unsigned int counter_lane = (bin_idx & (COUNTER_LANES - 1));
+            unsigned int sub_counter = bin_idx >> (LOG_COUNTER_LANES);
             inclusive_digit_prefix = temp_storage.digit_counters[counter_lane + 1][0][sub_counter];
         }
     }

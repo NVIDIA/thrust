@@ -81,7 +81,7 @@ namespace cub {
  * (i.e., load values through texture cache).
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/iterator/cache_modified_input_iterator.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/iterator/cache_modified_input_iterator.cuh>
  *
  * // Declare, allocate, and initialize a device array
  * double *d_in;            // e.g., [8.0, 6.0, 7.0, 5.0, 3.0, 0.0, 9.0]

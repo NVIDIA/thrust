@@ -26,6 +26,11 @@
  *
  ******************************************************************************/
 
+/**
+ * \file
+ * The cub::BlockDiscontinuity class provides [<em>collective</em>](index.html#sec0) methods for flagging discontinuities within an ordered set of items partitioned across a CUDA thread block.
+ */
+
 #pragma once
 
 #include "../util_type.cuh"
@@ -96,8 +101,7 @@ private:
     struct ApplyOp<FlagOp, false>
     {
         // Apply flag operator
-        static __device__ __forceinline__ T
-        FlagT(FlagOp flag_op, const T &a, const T &b, int /*idx*/)
+        static __device__ __forceinline__ T FlagT(FlagOp flag_op, const T &a, const T &b, int /*idx*/)
         {
             return flag_op(b, a);
         }
@@ -191,11 +195,12 @@ private:
     _TempStorage &temp_storage;
 
     /// Linear thread-id
-    int linear_tid;
+    unsigned int linear_tid;
 
 
 public:
 
+    /// \smemstorage{BlockDiscontinuity}
     struct TempStorage : Uninitialized<_TempStorage> {};
 
 

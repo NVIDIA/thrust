@@ -38,6 +38,7 @@
 #include <iterator>
 #include <limits>
 
+#include "../iterator/arg_index_input_iterator.cuh"
 #include "dispatch/dispatch_reduce.cuh"
 #include "dispatch/dispatch_reduce_by_key.cuh"
 #include "../util_namespace.cuh"
@@ -93,7 +94,7 @@ struct DeviceReduce
      * The code snippet below illustrates a user-defined min-reduction of a device vector of \p int data elements.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // CustomMin functor
      * struct CustomMin
@@ -150,48 +151,19 @@ struct DeviceReduce
         cudaStream_t                stream              = 0,            ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous   = false)        ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
     {
-        typedef int OffsetT;  // Signed integer type for global offsets
+        // Signed integer type for global offsets
+        typedef int OffsetT;
 
-        return DispatchReduce<InputIteratorT,
-                              OutputIteratorT,
-                              OffsetT,
-                              ReductionOpT>::Dispatch(d_temp_storage,
-                                                      temp_storage_bytes,
-                                                      d_in,
-                                                      d_out,
-                                                      num_items,
-                                                      reduction_op,
-                                                      init,
-                                                      stream,
-                                                      debug_synchronous);
-    }
-
-    template <typename InputIteratorT,
-              typename OutputIteratorT,
-              typename ReductionOpT>
-    static cudaError_t CUB_RUNTIME_FUNCTION Reduce(
-        void *          d_temp_storage,               ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
-        size_t &        temp_storage_bytes,           ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
-        InputIteratorT  d_in,                         ///< [in] Pointer to the input sequence of data items
-        OutputIteratorT d_out,                        ///< [out] Pointer to the output aggregate
-        int             num_items,                    ///< [in] Total number of input items (i.e., length of \p d_in)
-        ReductionOpT    reduction_op,                 ///< [in] Binary reduction functor
-        cudaStream_t    stream            = 0,        ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
-        bool            debug_synchronous = false)    ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
-    {
-      typedef int OffsetT;    // Signed integer type for global offsets
-
-      return DispatchReduceNoInit<InputIteratorT,
-                                  OutputIteratorT,
-                                  OffsetT,
-                                  ReductionOpT>::Dispatch(d_temp_storage,
-                                                          temp_storage_bytes,
-                                                          d_in,
-                                                          d_out,
-                                                          num_items,
-                                                          reduction_op,
-                                                          stream,
-                                                          debug_synchronous);
+        return DispatchReduce<InputIteratorT, OutputIteratorT, OffsetT, ReductionOpT>::Dispatch(
+            d_temp_storage,
+            temp_storage_bytes,
+            d_in,
+            d_out,
+            num_items,
+            reduction_op,
+            init,
+            stream,
+            debug_synchronous);
     }
 
 
@@ -214,7 +186,7 @@ struct DeviceReduce
      * The code snippet below illustrates the sum-reduction of a device vector of \p int data elements.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input and output
      * int  num_items;      // e.g., 7
@@ -253,8 +225,13 @@ struct DeviceReduce
         cudaStream_t                stream              = 0,            ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous   = false)        ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
     {
-        typedef int OffsetT;                                                    // Signed integer type for global offsets
-        typedef typename std::iterator_traits<InputIteratorT>::value_type T;    // Data element type
+        // Signed integer type for global offsets
+        typedef int OffsetT;
+
+        // The output value type
+        typedef typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
+            typename std::iterator_traits<InputIteratorT>::value_type,                                          // ... then the input iterator's value type,
+            typename std::iterator_traits<OutputIteratorT>::value_type>::Type OutputT;                          // ... else the output iterator's value type
 
         return DispatchReduce<InputIteratorT, OutputIteratorT, OffsetT, cub::Sum>::Dispatch(
             d_temp_storage,
@@ -263,7 +240,7 @@ struct DeviceReduce
             d_out,
             num_items,
             cub::Sum(),
-            T(),            // zero-initialize
+            OutputT(),            // zero-initialize
             stream,
             debug_synchronous);
     }
@@ -281,7 +258,7 @@ struct DeviceReduce
      * The code snippet below illustrates the min-reduction of a device vector of \p int data elements.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input and output
      * int  num_items;      // e.g., 7
@@ -320,8 +297,11 @@ struct DeviceReduce
         cudaStream_t                stream              = 0,            ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous   = false)        ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
     {
-        typedef int OffsetT;                                                    // Signed integer type for global offsets
-        typedef typename std::iterator_traits<InputIteratorT>::value_type T;    // Data element type
+        // Signed integer type for global offsets
+        typedef int OffsetT;
+
+        // The input value type
+        typedef typename std::iterator_traits<InputIteratorT>::value_type InputT;
 
         return DispatchReduce<InputIteratorT, OutputIteratorT, OffsetT, cub::Min>::Dispatch(
             d_temp_storage,
@@ -330,7 +310,7 @@ struct DeviceReduce
             d_out,
             num_items,
             cub::Min(),
-            Traits<T>::Max(),    // replace with std::numeric_limits<T>::max() when C++11 support is more prevalent
+            Traits<InputT>::Max(), // replace with std::numeric_limits<T>::max() when C++11 support is more prevalent
             stream,
             debug_synchronous);
     }
@@ -350,7 +330,7 @@ struct DeviceReduce
      * The code snippet below illustrates the argmin-reduction of a device vector of \p int data elements.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input and output
      * int                      num_items;      // e.g., 7
@@ -389,21 +369,35 @@ struct DeviceReduce
         cudaStream_t                stream              = 0,            ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous   = false)        ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
     {
-        typedef int OffsetT;                                                        // Signed integer type for global offsets
-        typedef typename std::iterator_traits<InputIteratorT>::value_type T;        // Data element type
-        typedef ArgIndexInputIterator<InputIteratorT, int> ArgIndexInputIteratorT;  // Wrapped input iterator type
+        // Signed integer type for global offsets
+        typedef int OffsetT;
 
-        ArgIndexInputIteratorT      d_argmin_in(d_in);
-        KeyValuePair<OffsetT, T>    init = {1, Traits<T>::Max()};   // replace with std::numeric_limits<T>::max() when C++11 support is more prevalent
+        // The input type
+        typedef typename std::iterator_traits<InputIteratorT>::value_type InputValueT;
+
+        // The output tuple type
+        typedef typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
+            KeyValuePair<OffsetT, InputValueT>,                                                                 // ... then the key value pair OffsetT + InputValueT
+            typename std::iterator_traits<OutputIteratorT>::value_type>::Type OutputTupleT;                     // ... else the output iterator's value type
+
+        // The output value type
+        typedef typename OutputTupleT::Value OutputValueT;
+
+        // Wrapped input iterator to produce index-value <OffsetT, InputT> tuples
+        typedef ArgIndexInputIterator<InputIteratorT, OffsetT, OutputValueT> ArgIndexInputIteratorT;
+        ArgIndexInputIteratorT d_indexed_in(d_in);
+
+        // Initial value
+        OutputTupleT initial_value(1, Traits<InputValueT>::Max());   // replace with std::numeric_limits<T>::max() when C++11 support is more prevalent
 
         return DispatchReduce<ArgIndexInputIteratorT, OutputIteratorT, OffsetT, cub::ArgMin>::Dispatch(
             d_temp_storage,
             temp_storage_bytes,
-            d_argmin_in,
+            d_indexed_in,
             d_out,
             num_items,
             cub::ArgMin(),
-            init,
+            initial_value,
             stream,
             debug_synchronous);
     }
@@ -421,7 +415,7 @@ struct DeviceReduce
      * The code snippet below illustrates the max-reduction of a device vector of \p int data elements.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_radix_sort.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input and output
      * int  num_items;      // e.g., 7
@@ -460,8 +454,11 @@ struct DeviceReduce
         cudaStream_t                stream              = 0,            ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous   = false)        ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
     {
-        typedef int OffsetT;                                                    // Signed integer type for global offsets
-        typedef typename std::iterator_traits<InputIteratorT>::value_type T;    // Data element type
+        // Signed integer type for global offsets
+        typedef int OffsetT;
+
+        // The input value type
+        typedef typename std::iterator_traits<InputIteratorT>::value_type InputT;
 
         return DispatchReduce<InputIteratorT, OutputIteratorT, OffsetT, cub::Max>::Dispatch(
             d_temp_storage,
@@ -470,7 +467,7 @@ struct DeviceReduce
             d_out,
             num_items,
             cub::Max(),
-            Traits<T>::Lowest(),    // replace with std::numeric_limits<T>::lowest() when C++11 support is more prevalent
+            Traits<InputT>::Lowest(),    // replace with std::numeric_limits<T>::lowest() when C++11 support is more prevalent
             stream,
             debug_synchronous);
     }
@@ -490,7 +487,7 @@ struct DeviceReduce
      * The code snippet below illustrates the argmax-reduction of a device vector of \p int data elements.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_reduce.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_reduce.cuh>
      *
      * // Declare, allocate, and initialize device-accessible pointers for input and output
      * int                      num_items;      // e.g., 7
@@ -529,21 +526,35 @@ struct DeviceReduce
         cudaStream_t                stream              = 0,            ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous   = false)        ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
     {
-        typedef int OffsetT;                                                            // Signed integer type for global offsets
-        typedef typename std::iterator_traits<InputIteratorT>::value_type T;            // Data element type
-        typedef ArgIndexInputIterator<InputIteratorT, int> ArgIndexInputIteratorT;      // Wrapped input iterator
+        // Signed integer type for global offsets
+        typedef int OffsetT;
 
-        ArgIndexInputIteratorT      d_argmax_in(d_in);
-        KeyValuePair<OffsetT, T>    init = {1, Traits<T>::Lowest()};                    // replace with std::numeric_limits<T>::lowest() when C++11 support is more prevalent
+        // The input type
+        typedef typename std::iterator_traits<InputIteratorT>::value_type InputValueT;
+
+        // The output tuple type
+        typedef typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
+            KeyValuePair<OffsetT, InputValueT>,                                                                 // ... then the key value pair OffsetT + InputValueT
+            typename std::iterator_traits<OutputIteratorT>::value_type>::Type OutputTupleT;                     // ... else the output iterator's value type
+
+        // The output value type
+        typedef typename OutputTupleT::Value OutputValueT;
+
+        // Wrapped input iterator to produce index-value <OffsetT, InputT> tuples
+        typedef ArgIndexInputIterator<InputIteratorT, OffsetT, OutputValueT> ArgIndexInputIteratorT;
+        ArgIndexInputIteratorT d_indexed_in(d_in);
+
+        // Initial value
+        OutputTupleT initial_value(1, Traits<InputValueT>::Lowest());     // replace with std::numeric_limits<T>::lowest() when C++11 support is more prevalent
 
         return DispatchReduce<ArgIndexInputIteratorT, OutputIteratorT, OffsetT, cub::ArgMax>::Dispatch(
             d_temp_storage,
             temp_storage_bytes,
-            d_argmax_in,
+            d_indexed_in,
             d_out,
             num_items,
             cub::ArgMax(),
-            init,
+            initial_value,
             stream,
             debug_synchronous);
     }
@@ -584,7 +595,7 @@ struct DeviceReduce
      * by runs of associated \p int keys.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/device/device_reduce.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/device/device_reduce.cuh>
      *
      * // CustomMin functor
      * struct CustomMin
@@ -630,7 +641,6 @@ struct DeviceReduce
      * \tparam NumRunsOutputIteratorT   <b>[inferred]</b> Output iterator type for recording the number of runs encountered \iterator
      * \tparam ReductionOpT              <b>[inferred]</b> Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
      */
-#if 0
     template <
         typename                    KeysInputIteratorT,
         typename                    UniqueOutputIteratorT,
@@ -652,77 +662,33 @@ struct DeviceReduce
         cudaStream_t                stream             = 0,         ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous  = false)     ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
     {
-        typedef int                 OffsetT;        // Signed integer type for global offsets
-        typedef Equality            EqualityOp;     // Default == operator
+        // Signed integer type for global offsets
+        typedef int OffsetT;
 
-        return DispatchReduceByKey<KeysInputIteratorT,
-                                   UniqueOutputIteratorT,
-                                   ValuesInputIteratorT,
-                                   AggregatesOutputIteratorT,
-                                   NumRunsOutputIteratorT,
-                                   EqualityOp,
-                                   ReductionOpT,
-                                   OffsetT>::
-            Dispatch(d_temp_storage,
-                     temp_storage_bytes,
-                     d_keys_in,
-                     d_unique_out,
-                     d_values_in,
-                     d_aggregates_out,
-                     d_num_runs_out,
-                     EqualityOp(),
-                     reduction_op,
-                     num_items,
-                     stream,
-                     debug_synchronous);
+        // FlagT iterator type (not used)
+        typedef NullType* FlagIterator;
+
+        // Selection op (not used)
+        typedef NullType SelectOp;
+
+        // Default == operator
+        typedef Equality EqualityOp;
+
+        return DispatchReduceByKey<KeysInputIteratorT, UniqueOutputIteratorT, ValuesInputIteratorT, AggregatesOutputIteratorT, NumRunsOutputIteratorT, EqualityOp, ReductionOpT, OffsetT>::Dispatch(
+            d_temp_storage,
+            temp_storage_bytes,
+            d_keys_in,
+            d_unique_out,
+            d_values_in,
+            d_aggregates_out,
+            d_num_runs_out,
+            EqualityOp(),
+            reduction_op,
+            num_items,
+            stream,
+            debug_synchronous);
     }
-#endif
 
-    template <class KeysInputIteratorT,
-              class UniqueOutputIteratorT,
-              class ValuesInputIteratorT,
-              class AggregatesOutputIteratorT,
-              class NumRunsOutputIteratorT,
-              class ReductionOpT,
-              class BinaryPred>
-    static cudaError_t CUB_RUNTIME_FUNCTION __forceinline__
-    ReduceByKey(
-        void *                    d_temp_storage,               ///< [in] %Device-accessible allocation of temporary storage.  When NULL, the required allocation size is written to \p temp_storage_bytes and no work is done.
-        size_t &                  temp_storage_bytes,           ///< [in,out] Reference to size in bytes of \p d_temp_storage allocation
-        KeysInputIteratorT        d_keys_in,                    ///< [in] Pointer to the input sequence of keys
-        UniqueOutputIteratorT     d_unique_out,                 ///< [out] Pointer to the output sequence of unique keys (one key per run)
-        ValuesInputIteratorT      d_values_in,                  ///< [in] Pointer to the input sequence of corresponding values
-        AggregatesOutputIteratorT d_aggregates_out,             ///< [out] Pointer to the output sequence of value aggregates (one aggregate per run)
-        NumRunsOutputIteratorT    d_num_runs_out,               ///< [out] Pointer to total number of runs encountered (i.e., the length of d_unique_out)
-        BinaryPred                binary_pred,
-        ReductionOpT              reduction_op,                 ///< [in] Binary reduction functor
-        int                       num_items,                    ///< [in] Total number of associated key+value pairs (i.e., the length of \p d_in_keys and \p d_in_values)
-        cudaStream_t              stream            = 0,        ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
-        bool                      debug_synchronous = false)    ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  May cause significant slowdown.  Default is \p false.
-    {
-      typedef int       OffsetT;         // Signed integer type for global offsets
-
-      return DispatchReduceByKey<KeysInputIteratorT,
-                                 UniqueOutputIteratorT,
-                                 ValuesInputIteratorT,
-                                 AggregatesOutputIteratorT,
-                                 NumRunsOutputIteratorT,
-                                 BinaryPred,
-                                 ReductionOpT,
-                                 OffsetT>::
-          Dispatch(d_temp_storage,
-                   temp_storage_bytes,
-                   d_keys_in,
-                   d_unique_out,
-                   d_values_in,
-                   d_aggregates_out,
-                   d_num_runs_out,
-                   binary_pred,
-                   reduction_op,
-                   num_items,
-                   stream,
-                   debug_synchronous);
-    }
 };
 
 /**

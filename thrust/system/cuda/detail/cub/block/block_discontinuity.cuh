@@ -70,7 +70,7 @@ namespace cub {
  * where each thread owns 4 consecutive items.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -157,8 +157,7 @@ private:
     struct ApplyOp<FlagOp, false>
     {
         // Apply flag operator
-        static __device__ __forceinline__ bool
-        FlagT(FlagOp flag_op, const T &a, const T &b, int /*idx*/)
+        static __device__ __forceinline__ bool FlagT(FlagOp flag_op, const T &a, const T &b, int /*idx*/)
         {
             return flag_op(a, b);
         }
@@ -252,7 +251,7 @@ private:
     _TempStorage &temp_storage;
 
     /// Linear thread-id
-    int linear_tid;
+    unsigned int linear_tid;
 
 
 public:
@@ -376,7 +375,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -440,7 +439,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -518,7 +517,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -597,7 +596,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -696,7 +695,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -808,7 +807,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -926,7 +925,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -1045,7 +1044,7 @@ public:
      * where each thread owns 4 consecutive items.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_discontinuity.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_discontinuity.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {

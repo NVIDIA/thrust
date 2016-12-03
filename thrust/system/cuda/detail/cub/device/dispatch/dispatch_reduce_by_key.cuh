@@ -43,7 +43,6 @@
 #include "../../grid/grid_queue.cuh"
 #include "../../util_device.cuh"
 #include "../../util_namespace.cuh"
-#include <thrust/system/cuda/detail/core/triple_chevron_launch.h>
 
 /// Optional outer namespace(s)
 THRUST_CUB_NS_PREFIX
@@ -71,16 +70,16 @@ template <
     typename            OffsetT>                                ///< Signed integer type for global offsets
 __launch_bounds__ (int(AgentReduceByKeyPolicyT::BLOCK_THREADS))
 __global__ void DeviceReduceByKeyKernel(
-    KeysInputIteratorT          d_keys_in,                      ///< [in] Pointer to the input sequence of keys
-    UniqueOutputIteratorT       d_unique_out,                   ///< [out] Pointer to the output sequence of unique keys (one key per run)
-    ValuesInputIteratorT        d_values_in,                    ///< [in] Pointer to the input sequence of corresponding values
-    AggregatesOutputIteratorT   d_aggregates_out,               ///< [out] Pointer to the output sequence of value aggregates (one aggregate per run)
-    NumRunsOutputIteratorT      d_num_runs_out,                 ///< [out] Pointer to total number of runs encountered (i.e., the length of d_unique_out)
-    ScanTileStateT              tile_state,                    ///< [in] Tile status interface
-    EqualityOpT                 equality_op,                    ///< [in] KeyT equality operator
-    ReductionOpT                reduction_op,                   ///< [in] ValueT reduction operator
-    OffsetT                     num_items,                      ///< [in] Total number of items to select from
-    int                         num_tiles)                      ///< [in] Total number of tiles for the entire problem
+    KeysInputIteratorT          d_keys_in,                      ///< Pointer to the input sequence of keys
+    UniqueOutputIteratorT       d_unique_out,                   ///< Pointer to the output sequence of unique keys (one key per run)
+    ValuesInputIteratorT        d_values_in,                    ///< Pointer to the input sequence of corresponding values
+    AggregatesOutputIteratorT   d_aggregates_out,               ///< Pointer to the output sequence of value aggregates (one aggregate per run)
+    NumRunsOutputIteratorT      d_num_runs_out,                 ///< Pointer to total number of runs encountered (i.e., the length of d_unique_out)
+    ScanTileStateT              tile_state,                     ///< Tile status interface
+    int                         start_tile,                     ///< The starting tile for the current grid
+    EqualityOpT                 equality_op,                    ///< KeyT equality operator
+    ReductionOpT                reduction_op,                   ///< ValueT reduction operator
+    OffsetT                     num_items)                      ///< Total number of items to select from
 {
     // Thread block type for reducing tiles of value segments
     typedef AgentReduceByKey<
@@ -101,8 +100,8 @@ __global__ void DeviceReduceByKeyKernel(
     // Process tiles
     AgentReduceByKeyT(temp_storage, d_keys_in, d_unique_out, d_values_in, d_aggregates_out, d_num_runs_out, equality_op, reduction_op).ConsumeRange(
         num_items,
-        num_tiles,
-        tile_state);
+        tile_state,
+        start_tile);
 }
 
 
@@ -130,21 +129,31 @@ struct DispatchReduceByKey
     // Types and constants
     //-------------------------------------------------------------------------
 
-    // Data type of key input iterator
-    typedef typename std::iterator_traits<KeysInputIteratorT>::value_type KeyT;
+    // The input keys type
+    typedef typename std::iterator_traits<KeysInputIteratorT>::value_type KeyInputT;
 
-    // Data type of value input iterator
-    typedef typename std::iterator_traits<ValuesInputIteratorT>::value_type ValueT;
+    // The output keys type
+    typedef typename If<(Equals<typename std::iterator_traits<UniqueOutputIteratorT>::value_type, void>::VALUE),    // KeyOutputT =  (if output iterator's value type is void) ?
+        typename std::iterator_traits<KeysInputIteratorT>::value_type,                                              // ... then the input iterator's value type,
+        typename std::iterator_traits<UniqueOutputIteratorT>::value_type>::Type KeyOutputT;                         // ... else the output iterator's value type
+
+    // The input values type
+    typedef typename std::iterator_traits<ValuesInputIteratorT>::value_type ValueInputT;
+
+    // The output values type
+    typedef typename If<(Equals<typename std::iterator_traits<AggregatesOutputIteratorT>::value_type, void>::VALUE),    // ValueOutputT =  (if output iterator's value type is void) ?
+        typename std::iterator_traits<ValuesInputIteratorT>::value_type,                                                // ... then the input iterator's value type,
+        typename std::iterator_traits<AggregatesOutputIteratorT>::value_type>::Type ValueOutputT;                       // ... else the output iterator's value type
 
     enum
     {
         INIT_KERNEL_THREADS     = 128,
-        MAX_INPUT_BYTES         = CUB_MAX(sizeof(KeyT), sizeof(ValueT)),
-        COMBINED_INPUT_BYTES    = sizeof(KeyT) + sizeof(ValueT),
+        MAX_INPUT_BYTES         = CUB_MAX(sizeof(KeyOutputT), sizeof(ValueOutputT)),
+        COMBINED_INPUT_BYTES    = sizeof(KeyOutputT) + sizeof(ValueOutputT),
     };
 
     // Tile status descriptor interface type
-    typedef ReduceByKeyScanTileState<ValueT, OffsetT> ScanTileStateT;
+    typedef ReduceByKeyScanTileState<ValueOutputT, OffsetT> ScanTileStateT;
 
 
     //-------------------------------------------------------------------------
@@ -277,6 +286,7 @@ struct DispatchReduceByKey
     {
     #if (CUB_PTX_ARCH > 0)
         (void)ptx_version;
+
         // We're on the device, so initialize the kernel dispatch configurations with the current PTX policy
         reduce_by_key_config.template Init<PtxReduceByKeyPolicy>();
 
@@ -353,9 +363,9 @@ struct DispatchReduceByKey
         OffsetT                     num_items,                  ///< [in] Total number of items to select from
         cudaStream_t                stream,                     ///< [in] CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous,          ///< [in] Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
-        int                         /*ptx_version*/,                ///< [in] PTX version of dispatch kernels
-        ScanInitKernelT          scan_init_kernel,           ///< [in] Kernel function pointer to parameterization of cub::DeviceScanInitKernel
-        ReduceByKeyKernelT       reduce_by_key_kernel,       ///< [in] Kernel function pointer to parameterization of cub::DeviceReduceByKeyKernel
+        int                         /*ptx_version*/,            ///< [in] PTX version of dispatch kernels
+        ScanInitKernelT            	init_kernel,                ///< [in] Kernel function pointer to parameterization of cub::DeviceScanInitKernel
+        ReduceByKeyKernelT         	reduce_by_key_kernel,       ///< [in] Kernel function pointer to parameterization of cub::DeviceReduceByKeyKernel
         KernelConfig                reduce_by_key_config)       ///< [in] Dispatch parameters that match the policy that \p reduce_by_key_kernel was compiled for
     {
 
@@ -372,12 +382,12 @@ struct DispatchReduceByKey
       (void)num_items;
       (void)stream;
       (void)debug_synchronous;
-      (void)scan_init_kernel;
+      (void)init_kernel;
       (void)reduce_by_key_kernel;
       (void)reduce_by_key_config;
 
-      // Kernel launch not supported from this device
-      return CubDebug(cudaErrorNotSupported);
+        // Kernel launch not supported from this device
+        return CubDebug(cudaErrorNotSupported);
 
 #else
 
@@ -393,8 +403,8 @@ struct DispatchReduceByKey
             if (CubDebug(error = cudaDeviceGetAttribute (&sm_count, cudaDevAttrMultiProcessorCount, device_ordinal))) break;
 
             // Number of input tiles
-            int             tile_size = reduce_by_key_config.block_threads * reduce_by_key_config.items_per_thread;
-            unsigned int    num_tiles = (num_items + tile_size - 1) / tile_size;
+            int tile_size = reduce_by_key_config.block_threads * reduce_by_key_config.items_per_thread;
+            int num_tiles = (num_items + tile_size - 1) / tile_size;
 
             // Specify temporary storage allocation requirements
             size_t  allocation_sizes[1];
@@ -413,12 +423,12 @@ struct DispatchReduceByKey
             ScanTileStateT tile_state;
             if (CubDebug(error = tile_state.Init(num_tiles, allocations[0], allocation_sizes[0]))) break;
 
-            // Log scan_init_kernel configuration
+            // Log init_kernel configuration
             int init_grid_size = CUB_MAX(1, (num_tiles + INIT_KERNEL_THREADS - 1) / INIT_KERNEL_THREADS);
-            if (debug_synchronous) _CubLog("Invoking scan_init_kernel<<<%d, %d, 0, %lld>>>()\n", init_grid_size, INIT_KERNEL_THREADS, (long long) stream);
+            if (debug_synchronous) _CubLog("Invoking init_kernel<<<%d, %d, 0, %lld>>>()\n", init_grid_size, INIT_KERNEL_THREADS, (long long) stream);
 
-            // Invoke scan_init_kernel to initialize tile descriptors
-            scan_init_kernel<<<init_grid_size, INIT_KERNEL_THREADS, 0, stream>>>(
+            // Invoke init_kernel to initialize tile descriptors
+            init_kernel<<<init_grid_size, INIT_KERNEL_THREADS, 0, stream>>>(
                 tile_state,
                 num_tiles,
                 d_num_runs_out);
@@ -444,53 +454,33 @@ struct DispatchReduceByKey
             int max_dim_x;
             if (CubDebug(error = cudaDeviceGetAttribute(&max_dim_x, cudaDevAttrMaxGridDimX, device_ordinal))) break;;
 
-            // Get grid dimensions
-            dim3 scan_grid_size(
-                CUB_MIN((int)num_tiles, (int)max_dim_x),
-                (num_tiles + max_dim_x - 1) / max_dim_x,
-                1);
+            // Run grids in epochs (in case number of tiles exceeds max x-dimension
+            int scan_grid_size = CUB_MIN(num_tiles, max_dim_x);
+            for (int start_tile = 0; start_tile < num_tiles; start_tile += scan_grid_size)
+            {
+                // Log reduce_by_key_kernel configuration
+                if (debug_synchronous) _CubLog("Invoking %d reduce_by_key_kernel<<<%d, %d, 0, %lld>>>(), %d items per thread, %d SM occupancy\n",
+                    start_tile, scan_grid_size, reduce_by_key_config.block_threads, (long long) stream, reduce_by_key_config.items_per_thread, reduce_by_key_sm_occupancy);
 
-            // Log reduce_by_key_kernel configuration
-            if (debug_synchronous) _CubLog("Invoking reduce_by_key_kernel<<<{%d,%d,%d}, %d, 0, %lld>>>(), %d items per thread, %d SM occupancy\n",
-                scan_grid_size.x, scan_grid_size.y, scan_grid_size.z, reduce_by_key_config.block_threads, (long long) stream, reduce_by_key_config.items_per_thread, reduce_by_key_sm_occupancy);
+                // Invoke reduce_by_key_kernel
+                reduce_by_key_kernel<<<scan_grid_size, reduce_by_key_config.block_threads, 0, stream>>>(
+                    d_keys_in,
+                    d_unique_out,
+                    d_values_in,
+                    d_aggregates_out,
+                    d_num_runs_out,
+                    tile_state,
+                    start_tile,
+                    equality_op,
+                    reduction_op,
+                    num_items);
 
-            // Invoke reduce_by_key_kernel
-#if 0
-            reduce_by_key_kernel<<<scan_grid_size, reduce_by_key_config.block_threads, 0, stream>>>(
-                d_keys_in,
-                d_unique_out,
-                d_values_in,
-                d_aggregates_out,
-                d_num_runs_out,
-                tile_state,
-                equality_op,
-                reduction_op,
-                num_items,
-                num_tiles);
-#else
-      thrust::cuda_cub::launcher::triple_chevron(scan_grid_size,
-                                              reduce_by_key_config.block_threads,
-                                              0,
-                                              stream)
-          .doit(reduce_by_key_kernel,
-                d_keys_in,
-                d_unique_out,
-                d_values_in,
-                d_aggregates_out,
-                d_num_runs_out,
-                tile_state,
-                equality_op,
-                reduction_op,
-                num_items,
-                num_tiles);
-#endif
+                // Check for failure to launch
+                if (CubDebug(error = cudaPeekAtLastError())) break;
 
-            // Check for failure to launch
-            if (CubDebug(error = cudaPeekAtLastError())) break;
-
-            // Sync the stream if specified to flush runtime errors
-            if (debug_synchronous && (CubDebug(error = SyncStream(stream)))) break;
-
+                // Sync the stream if specified to flush runtime errors
+                if (debug_synchronous && (CubDebug(error = SyncStream(stream)))) break;
+            }
         }
         while (0);
 

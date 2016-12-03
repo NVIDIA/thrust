@@ -32,7 +32,6 @@
 
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/cub/device/device_select.cuh>
-#include <thrust/system/cuda/detail/cub/cg/sync_threadblock.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
@@ -220,10 +219,10 @@ namespace __unique_by_key {
                                       Arch::ver>
           BlockDiscontinuityKeys;
 
-      typedef cub::TilePrefixCallbackOperator<Size,
-                                              cub::Sum,
-                                              ScanTileState,
-                                              Arch>
+      typedef cub::TilePrefixCallbackOp<Size,
+                                        cub::Sum,
+                                        ScanTileState,
+                                        Arch::ver>
           TilePrefixCallback;
       typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
@@ -364,19 +363,40 @@ namespace __unique_by_key {
         Size     selection_flags[ITEMS_PER_THREAD];
         Size     selection_idx[ITEMS_PER_THREAD];
 
-        BlockLoadKeys(temp_storage.load_keys)
-            .template act<!IS_LAST_TILE>(keys_in + tile_base,
-                                         keys,
-                                         num_tile_items);
+        if (IS_LAST_TILE)
+        {
+          // Fill last elements with the first element
+          // because collectives are not suffix guarded
+          BlockLoadKeys(temp_storage.load_keys)
+              .Load(keys_in + tile_base,
+                    keys,
+                    num_tile_items,
+                    *(keys_in + tile_base));
+        }
+        else
+        {
+          BlockLoadKeys(temp_storage.load_keys).Load(keys_in + tile_base, keys);
+        }
 
 
         sync_threadblock();
 
         value_type values[ITEMS_PER_THREAD];
-        BlockLoadValues(temp_storage.load_values)
-            .template act<!IS_LAST_TILE>(values_in + tile_base,
-                                         values,
-                                         num_tile_items);
+        if (IS_LAST_TILE)
+        {
+          // Fill last elements with the first element
+          // because collectives are not suffix guarded
+          BlockLoadValues(temp_storage.load_values)
+              .Load(values_in + tile_base,
+                    values,
+                    num_tile_items,
+                    *(values_in + tile_base));
+        }
+        else
+        {
+          BlockLoadValues(temp_storage.load_values)
+              .Load(values_in + tile_base, values);
+        }
 
         sync_threadblock();
 
@@ -436,10 +456,10 @@ namespace __unique_by_key {
           BlockScan(temp_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
-                            num_tile_selections,
                             prefix_cb);
 
           num_selections        = prefix_cb.GetInclusivePrefix();
+          num_tile_selections   = prefix_cb.GetBlockAggregate();
           num_selections_prefix = prefix_cb.GetExclusivePrefix();
 
           if (IS_LAST_TILE)

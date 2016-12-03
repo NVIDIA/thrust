@@ -95,9 +95,10 @@ struct AgentReducePolicy
  */
 template <
     typename AgentReducePolicy,        ///< Parameterized AgentReducePolicy tuning policy type
-    typename InputIteratorT,                ///< Random-access iterator type for input
-    typename OffsetT,                       ///< Signed integer type for global offsets
-    typename ReductionOp>                   ///< Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
+    typename InputIteratorT,           ///< Random-access iterator type for input
+    typename OutputIteratorT,          ///< Random-access iterator type for output
+    typename OffsetT,                  ///< Signed integer type for global offsets
+    typename ReductionOp>              ///< Binary reduction operator type having member <tt>T operator()(const T &a, const T &b)</tt>
 struct AgentReduce
 {
 
@@ -105,16 +106,21 @@ struct AgentReduce
     // Types and constants
     //---------------------------------------------------------------------
 
-    /// The value type of the input iterator
-    typedef typename std::iterator_traits<InputIteratorT>::value_type T;
+    /// The input value type
+    typedef typename std::iterator_traits<InputIteratorT>::value_type InputT;
 
-    /// Vector type of T for data movement
-    typedef typename CubVector<T, AgentReducePolicy::VECTOR_LOAD_LENGTH>::Type VectorT;
+    /// The output value type
+    typedef typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
+        typename std::iterator_traits<InputIteratorT>::value_type,                                          // ... then the input iterator's value type,
+        typename std::iterator_traits<OutputIteratorT>::value_type>::Type OutputT;                          // ... else the output iterator's value type
+
+    /// Vector type of InputT for data movement
+    typedef typename CubVector<InputT, AgentReducePolicy::VECTOR_LOAD_LENGTH>::Type VectorT;
 
     /// Input iterator wrapper type (for applying cache modifier)
     typedef typename If<IsPointer<InputIteratorT>::VALUE,
-            CacheModifiedInputIterator<AgentReducePolicy::LOAD_MODIFIER, T, OffsetT>,  // Wrap the native input pointer with CacheModifiedInputIterator
-            InputIteratorT>::Type                                                            // Directly use the supplied input iterator type
+            CacheModifiedInputIterator<AgentReducePolicy::LOAD_MODIFIER, InputT, OffsetT>,      // Wrap the native input pointer with CacheModifiedInputIterator
+            InputIteratorT>::Type                                                               // Directly use the supplied input iterator type
         WrappedInputIteratorT;
 
     /// Constants
@@ -128,7 +134,7 @@ struct AgentReduce
         // Can vectorize according to the policy if the input iterator is a native pointer to a primitive type
         ATTEMPT_VECTORIZATION   = (VECTOR_LOAD_LENGTH > 1) &&
                                     (ITEMS_PER_THREAD % VECTOR_LOAD_LENGTH == 0) &&
-                                    (IsPointer<InputIteratorT>::VALUE) && Traits<T>::PRIMITIVE,
+                                    (IsPointer<InputIteratorT>::VALUE) && Traits<InputT>::PRIMITIVE,
 
     };
 
@@ -136,7 +142,7 @@ struct AgentReduce
     static const BlockReduceAlgorithm BLOCK_ALGORITHM = AgentReducePolicy::BLOCK_ALGORITHM;
 
     /// Parameterized BlockReduce primitive
-    typedef BlockReduce<T, BLOCK_THREADS, AgentReducePolicy::BLOCK_ALGORITHM> BlockReduceT;
+    typedef BlockReduce<OutputT, BLOCK_THREADS, AgentReducePolicy::BLOCK_ALGORITHM> BlockReduceT;
 
     /// Shared memory type required by this thread block
     struct _TempStorage
@@ -211,13 +217,13 @@ struct AgentReduce
      */
     template <int IS_FIRST_TILE>
     __device__ __forceinline__ void ConsumeTile(
-        T                       &thread_aggregate,
+        OutputT                 &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
-        int                     /*valid_items*/,        ///< The number of valid items in the tile
-        Int2Type<true>          /*is_full_tile*/,       ///< Whether or not this is a full tile
-        Int2Type<false>         /*can_vectorize*/)      ///< Whether or not we can vectorize loads
+        int                     /*valid_items*/,    ///< The number of valid items in the tile
+        Int2Type<true>          /*is_full_tile*/,   ///< Whether or not this is a full tile
+        Int2Type<false>         /*can_vectorize*/)  ///< Whether or not we can vectorize loads
     {
-        T items[ITEMS_PER_THREAD];
+        OutputT items[ITEMS_PER_THREAD];
 
         // Load items in striped fashion
         LoadDirectStriped<BLOCK_THREADS>(threadIdx.x, d_wrapped_in + block_offset, items);
@@ -234,27 +240,32 @@ struct AgentReduce
      */
     template <int IS_FIRST_TILE>
     __device__ __forceinline__ void ConsumeTile(
-        T                       &thread_aggregate,
+        OutputT                 &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
-        int                     /*valid_items*/,        ///< The number of valid items in the tile
-        Int2Type<true>          /*is_full_tile*/,       ///< Whether or not this is a full tile
-        Int2Type<true>          /*can_vectorize*/)      ///< Whether or not we can vectorize loads
+        int                     /*valid_items*/,    ///< The number of valid items in the tile
+        Int2Type<true>          /*is_full_tile*/,   ///< Whether or not this is a full tile
+        Int2Type<true>          /*can_vectorize*/)  ///< Whether or not we can vectorize loads
     {
         // Alias items as an array of VectorT and load it in striped fashion
         enum { WORDS =  ITEMS_PER_THREAD / VECTOR_LOAD_LENGTH };
 
-        T items[ITEMS_PER_THREAD];
-
-        VectorT *vec_items = reinterpret_cast<VectorT*>(items);
-
-        // Vector Input iterator wrapper type (for applying cache modifier)
-        T *d_in_unqualified = const_cast<T*>(d_in) + block_offset + (threadIdx.x * VECTOR_LOAD_LENGTH);
+        // Fabricate a vectorized input iterator
+        InputT *d_in_unqualified = const_cast<InputT*>(d_in) + block_offset + (threadIdx.x * VECTOR_LOAD_LENGTH);
         CacheModifiedInputIterator<AgentReducePolicy::LOAD_MODIFIER, VectorT, OffsetT> d_vec_in(
             reinterpret_cast<VectorT*>(d_in_unqualified));
 
+        // Load items as vector items
+        InputT input_items[ITEMS_PER_THREAD];
+        VectorT *vec_items = reinterpret_cast<VectorT*>(input_items);
         #pragma unroll
         for (int i = 0; i < WORDS; ++i)
             vec_items[i] = d_vec_in[BLOCK_THREADS * i];
+
+        // Convert from input type to output type
+        OutputT items[ITEMS_PER_THREAD];
+        #pragma unroll
+        for (int i = 0; i < ITEMS_PER_THREAD; ++i)
+            items[i] = input_items[i];
 
         // Reduce items within each thread stripe
         thread_aggregate = (IS_FIRST_TILE) ?
@@ -268,11 +279,11 @@ struct AgentReduce
      */
     template <int IS_FIRST_TILE, int CAN_VECTORIZE>
     __device__ __forceinline__ void ConsumeTile(
-        T                       &thread_aggregate,
+        OutputT                 &thread_aggregate,
         OffsetT                 block_offset,       ///< The offset the tile to consume
         int                     valid_items,        ///< The number of valid items in the tile
-        Int2Type<false>         /*is_full_tile*/,       ///< Whether or not this is a full tile
-        Int2Type<CAN_VECTORIZE> /*can_vectorize*/)      ///< Whether or not we can vectorize loads
+        Int2Type<false>         /*is_full_tile*/,   ///< Whether or not this is a full tile
+        Int2Type<CAN_VECTORIZE> /*can_vectorize*/)  ///< Whether or not we can vectorize loads
     {
         // Partial tile
         int thread_offset = threadIdx.x;
@@ -287,10 +298,9 @@ struct AgentReduce
         // Continue reading items (block-striped)
         while (thread_offset < valid_items)
         {
-            thread_aggregate = reduction_op(
-                thread_aggregate,
-                thrust::raw_reference_cast(d_wrapped_in[block_offset + thread_offset]));
-            thread_offset += BLOCK_THREADS;
+            OutputT item        = d_wrapped_in[block_offset + thread_offset];
+            thread_aggregate    = reduction_op(thread_aggregate, item);
+            thread_offset       += BLOCK_THREADS;
         }
     }
 
@@ -303,12 +313,12 @@ struct AgentReduce
      * \brief Reduce a contiguous segment of input tiles
      */
     template <int CAN_VECTORIZE>
-    __device__ __forceinline__ T ConsumeRange(
+    __device__ __forceinline__ OutputT ConsumeRange(
         OffsetT block_offset,                       ///< [in] Threadblock begin offset (inclusive)
         OffsetT block_end,                          ///< [in] Threadblock end offset (exclusive)
         Int2Type<CAN_VECTORIZE> can_vectorize)      ///< Whether or not we can vectorize loads
     {
-        T thread_aggregate;
+        OutputT thread_aggregate;
 
         if (block_offset + TILE_ITEMS > block_end)
         {
@@ -344,7 +354,7 @@ struct AgentReduce
     /**
      * \brief Reduce a contiguous segment of input tiles
      */
-    __device__ __forceinline__ T ConsumeRange(
+    __device__ __forceinline__ OutputT ConsumeRange(
         OffsetT block_offset,                       ///< [in] Threadblock begin offset (inclusive)
         OffsetT block_end)                          ///< [in] Threadblock end offset (exclusive)
     {
@@ -357,11 +367,11 @@ struct AgentReduce
     /**
      * Reduce a contiguous segment of input tiles
      */
-    __device__ __forceinline__ T ConsumeTiles(
-        OffsetT                             /*num_items*/,          ///< [in] Total number of global input items
+    __device__ __forceinline__ OutputT ConsumeTiles(
+        OffsetT                             /*num_items*/,      ///< [in] Total number of global input items
         GridEvenShare<OffsetT>              &even_share,        ///< [in] GridEvenShare descriptor
-        GridQueue<OffsetT>                  &/*queue*/,             ///< [in,out] GridQueue descriptor
-        Int2Type<GRID_MAPPING_EVEN_SHARE>   /*is_even_share*/)      ///< [in] Marker type indicating this is an even-share mapping
+        GridQueue<OffsetT>                  &/*queue*/,         ///< [in,out] GridQueue descriptor
+        Int2Type<GRID_MAPPING_EVEN_SHARE>   /*is_even_share*/)  ///< [in] Marker type indicating this is an even-share mapping
     {
         // Initialize even-share descriptor for this thread block
         even_share.BlockInit();
@@ -381,13 +391,13 @@ struct AgentReduce
      * Dequeue and reduce tiles of items as part of a inter-block reduction
      */
     template <int CAN_VECTORIZE>
-    __device__ __forceinline__ T ConsumeTiles(
+    __device__ __forceinline__ OutputT ConsumeTiles(
         int                     num_items,          ///< Total number of input items
         GridQueue<OffsetT>      queue,              ///< Queue descriptor for assigning tiles of work to thread blocks
         Int2Type<CAN_VECTORIZE> can_vectorize)      ///< Whether or not we can vectorize loads
     {
         // We give each thread block at least one tile of input.
-        T thread_aggregate;
+        OutputT thread_aggregate;
         OffsetT block_offset = blockIdx.x * TILE_ITEMS;
         OffsetT even_share_base = gridDim.x * TILE_ITEMS;
 
@@ -446,11 +456,11 @@ struct AgentReduce
     /**
      * Dequeue and reduce tiles of items as part of a inter-block reduction
      */
-    __device__ __forceinline__ T ConsumeTiles(
+    __device__ __forceinline__ OutputT ConsumeTiles(
         OffsetT                         num_items,          ///< [in] Total number of global input items
-        GridEvenShare<OffsetT>          &/*even_share*/,        ///< [in] GridEvenShare descriptor
+        GridEvenShare<OffsetT>          &/*even_share*/,    ///< [in] GridEvenShare descriptor
         GridQueue<OffsetT>              &queue,             ///< [in,out] GridQueue descriptor
-        Int2Type<GRID_MAPPING_DYNAMIC>  /*is_dynamic*/)         ///< [in] Marker type indicating this is a dynamic mapping
+        Int2Type<GRID_MAPPING_DYNAMIC>  /*is_dynamic*/)     ///< [in] Marker type indicating this is a dynamic mapping
     {
         return (IsAligned(d_in, Int2Type<ATTEMPT_VECTORIZATION>())) ?
             ConsumeTiles(num_items, queue, Int2Type<true && ATTEMPT_VECTORIZATION>()) :

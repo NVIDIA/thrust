@@ -33,7 +33,6 @@
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/cub/device/device_select.cuh>
 #include <thrust/system/cuda/detail/cub/block/block_adjacent_difference.cuh>
-#include <thrust/system/cuda/detail/cub/cg/sync_threadblock.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/memory_buffer.h>
@@ -229,10 +228,23 @@ namespace __adjacent_difference {
         input_type  input_prev[ITEMS_PER_THREAD];
         output_type output[ITEMS_PER_THREAD];
 
-        BlockLoad(temp_storage.load)
-            .template act<!IS_LAST_TILE>(load_it + tile_base, input, num_remaining);
+        if (IS_LAST_TILE)
+        {
+          // Fill last elements with the first element
+          // because collectives are not suffix guarded
+          BlockLoad(temp_storage.load)
+              .Load(load_it + tile_base,
+                    input,
+                    num_remaining,
+                    *(load_it + tile_base));
+        }
+        else
+        {
+          BlockLoad(temp_storage.load).Load(load_it + tile_base, input);
+        }
 
-        cub::sync_threadblock();
+
+        core::sync_threadblock();
 
         if (IS_FIRST_TILE)
         {
@@ -248,10 +260,17 @@ namespace __adjacent_difference {
               .FlagHeads(output, input, input_prev, binary_op, tile_prev_input);
         }
 
-        cub::sync_threadblock();
+        core::sync_threadblock();
 
-        BlockStore(temp_storage.store)
-            .template act<!IS_LAST_TILE>(output_it + tile_base, output, num_remaining);
+        if (IS_LAST_TILE)
+        {
+          BlockStore(temp_storage.store)
+              .Store(output_it + tile_base, output, num_remaining);
+        }
+        else
+        {
+          BlockStore(temp_storage.store).Store(output_it + tile_base, output);
+        }
       }
 
 
@@ -416,7 +435,7 @@ namespace __adjacent_difference {
     char *vshmem_ptr = vshmem_size > 0 ? (char *)allocations[1] : NULL;
 
     init_agent ia(init_plan, num_tiles, stream, "adjacent_difference::init_agent", debug_sync);
-    ia.launch(first, first_tile_previous, num_items, tile_size);
+    ia.launch(first, first_tile_previous, num_tiles, tile_size);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
     difference_agent da(difference_plan, num_items, stream, vshmem_ptr, "adjacent_difference::difference_agent", debug_sync);

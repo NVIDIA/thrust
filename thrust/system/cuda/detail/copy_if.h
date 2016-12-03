@@ -188,10 +188,10 @@ namespace __copy_if {
       typedef typename core::BlockLoad<PtxPlan, ItemsLoadIt>::type   BlockLoadItems;
       typedef typename core::BlockLoad<PtxPlan, StencilLoadIt>::type BlockLoadStencil;
 
-      typedef cub::TilePrefixCallbackOperator<Size,
-                                              cub::Sum,
-                                              ScanTileState,
-                                              Arch>
+      typedef cub::TilePrefixCallbackOp<Size,
+                                        cub::Sum,
+                                        ScanTileState,
+                                        Arch::ver>
           TilePrefixCallback;
 
       typedef cub::BlockScan<Size,
@@ -383,10 +383,18 @@ namespace __copy_if {
         Size      selection_flags[ITEMS_PER_THREAD];
         Size      selection_idx[ITEMS_PER_THREAD];
 
-        BlockLoadItems(storage.load_items)
-            .template act<!IS_LAST_TILE>(items_load_it + tile_base,
-                                         items_loc,
-                                         num_tile_items);
+        if (IS_LAST_TILE) {
+          BlockLoadItems(storage.load_items)
+              .Load(items_load_it + tile_base,
+                    items_loc,
+                    num_tile_items);
+        }
+        else
+        {
+          BlockLoadItems(storage.load_items)
+              .Load(items_load_it + tile_base,
+                    items_loc);
+        }
 
         core::sync_threadblock();
 
@@ -394,10 +402,19 @@ namespace __copy_if {
         {
           stencil_type stencil_loc[ITEMS_PER_THREAD];
 
-          BlockLoadStencil(storage.load_stencil)
-              .template act<!IS_LAST_TILE>(stencil_load_it + tile_base,
-                                           stencil_loc,
-                                           num_tile_items);
+          if (IS_LAST_TILE)
+          {
+            BlockLoadStencil(storage.load_stencil)
+                .Load(stencil_load_it + tile_base,
+                      stencil_loc,
+                      num_tile_items);
+          }
+          else
+          {
+            BlockLoadStencil(storage.load_stencil)
+                .Load(stencil_load_it + tile_base,
+                      stencil_loc);
+          }
 
           compute_selection_flags<IS_LAST_TILE, STENCIL>(num_tile_items,
                                                          stencil_loc,
@@ -446,10 +463,10 @@ namespace __copy_if {
           BlockScan(storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
-                            num_tile_selections,
                             prefix_cb);
 
           num_selections        = prefix_cb.GetInclusivePrefix();
+          num_tile_selections   = prefix_cb.GetBlockAggregate();
           num_selections_prefix = prefix_cb.GetExclusivePrefix();
 
           if (IS_LAST_TILE)

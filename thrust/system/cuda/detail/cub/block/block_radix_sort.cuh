@@ -90,7 +90,7 @@ namespace cub {
  * where each thread owns 4 consecutive items.
  * \par
  * \code
- * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+ * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
  *
  * __global__ void ExampleKernel(...)
  * {
@@ -202,7 +202,7 @@ private:
     _TempStorage &temp_storage;
 
     /// Linear thread-id
-    int linear_tid;
+    unsigned int linear_tid;
 
     /******************************************************************************
      * Utility methods
@@ -400,7 +400,7 @@ public:
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
-    /// \smemstorage{BlockScan}
+    /// \smemstorage{BlockRadixSort}
     struct TempStorage : Uninitialized<_TempStorage> {};
 
 
@@ -449,7 +449,7 @@ public:
      * where each thread owns 4 consecutive keys.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -502,7 +502,7 @@ public:
      * where each thread owns 4 consecutive pairs.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -550,7 +550,7 @@ public:
      * where each thread owns 4 consecutive keys.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -603,7 +603,7 @@ public:
      * where each thread owns 4 consecutive pairs.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -659,7 +659,7 @@ public:
      * where each thread owns 4 consecutive keys.  The final partitioning is striped.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -713,7 +713,7 @@ public:
      * where each thread owns 4 consecutive pairs.  The final partitioning is striped.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -762,7 +762,7 @@ public:
      * where each thread owns 4 consecutive keys.  The final partitioning is striped.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {
@@ -816,7 +816,7 @@ public:
      * where each thread owns 4 consecutive pairs.  The final partitioning is striped.
      * \par
      * \code
-     * #include <detail/cub/cub.cuh>   // or equivalently <detail/cub/block/block_radix_sort.cuh>
+     * #include <cub/cub.cuh>   // or equivalently <cub/block/block_radix_sort.cuh>
      *
      * __global__ void ExampleKernel(...)
      * {

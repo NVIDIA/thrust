@@ -430,7 +430,7 @@ struct AgentSpmv
         OffsetT tile_nonzero_idx        = temp_storage.tile_nonzero_idx;
         OffsetT tile_nonzero_idx_end    = temp_storage.tile_nonzero_idx_end;
 
-        KeyValuePairT       tile_prefix = {0, 0.0};
+        KeyValuePairT tile_prefix(0, 0.0);
         ReduceBySegmentOpT  scan_op;
         PrefixOpT           prefix_op(tile_prefix, scan_op);
 

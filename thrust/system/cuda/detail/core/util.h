@@ -666,14 +666,13 @@ namespace core {
             class T    = typename iterator_traits<It>::value_type>
   struct BlockLoad
   {
-    typedef cub::BlockLoadGeneric<T,
-                                  It,
-                                  PtxPlan::BLOCK_THREADS,
-                                  PtxPlan::ITEMS_PER_THREAD,
-                                  PtxPlan::LOAD_ALGORITHM,
-                                  1,
-                                  1,
-                                  get_arch<PtxPlan>::type::ver >
+    typedef cub::BlockLoad<T,
+                           PtxPlan::BLOCK_THREADS,
+                           PtxPlan::ITEMS_PER_THREAD,
+                           PtxPlan::LOAD_ALGORITHM,
+                           1,
+                           1,
+                           get_arch<PtxPlan>::type::ver>
 
 
         type;
@@ -687,14 +686,13 @@ namespace core {
             class T = typename iterator_traits<It>::value_type>
   struct BlockStore
   {
-    typedef cub::BlockStoreGeneric<T,
-                                   It,
-                                   PtxPlan::BLOCK_THREADS,
-                                   PtxPlan::ITEMS_PER_THREAD,
-                                   PtxPlan::STORE_ALGORITHM,
-                                   1,
-                                   1,
-                                   get_arch<PtxPlan>::type::ver>
+    typedef cub::BlockStore<T,
+                            PtxPlan::BLOCK_THREADS,
+                            PtxPlan::ITEMS_PER_THREAD,
+                            PtxPlan::STORE_ALGORITHM,
+                            1,
+                            1,
+                            get_arch<PtxPlan>::type::ver>
         type;
   };
   // cuda_otional

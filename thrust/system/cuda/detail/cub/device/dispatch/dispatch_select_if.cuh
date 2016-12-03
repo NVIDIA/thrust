@@ -43,7 +43,6 @@
 #include "../../grid/grid_queue.cuh"
 #include "../../util_device.cuh"
 #include "../../util_namespace.cuh"
-#include <thrust/system/cuda/detail/core/triple_chevron_launch.h>
 
 /// Optional outer namespace(s)
 THRUST_CUB_NS_PREFIX
@@ -131,10 +130,12 @@ struct DispatchSelectIf
      * Types and constants
      ******************************************************************************/
 
-    // Data type of input iterator
-    typedef typename std::iterator_traits<InputIteratorT>::value_type T;
+    // The output value type
+    typedef typename If<(Equals<typename std::iterator_traits<SelectedOutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
+        typename std::iterator_traits<InputIteratorT>::value_type,                                                  // ... then the input iterator's value type,
+        typename std::iterator_traits<SelectedOutputIteratorT>::value_type>::Type OutputT;                          // ... else the output iterator's value type
 
-    // Data type of flag iterator
+    // The flag value type
     typedef typename std::iterator_traits<FlagsInputIteratorT>::value_type FlagT;
 
     enum
@@ -155,7 +156,7 @@ struct DispatchSelectIf
     {
         enum {
             NOMINAL_4B_ITEMS_PER_THREAD = 10,
-            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T)))),
+            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(OutputT)))),
         };
 
         typedef AgentSelectIfPolicy<
@@ -172,7 +173,7 @@ struct DispatchSelectIf
     {
         enum {
             NOMINAL_4B_ITEMS_PER_THREAD = 7,
-            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(3, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T)))),
+            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(3, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(OutputT)))),
         };
 
         typedef AgentSelectIfPolicy<
@@ -189,7 +190,7 @@ struct DispatchSelectIf
     {
         enum {
             NOMINAL_4B_ITEMS_PER_THREAD = (KEEP_REJECTS) ? 7 : 15,
-            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T)))),
+            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(OutputT)))),
         };
 
         typedef AgentSelectIfPolicy<
@@ -206,7 +207,7 @@ struct DispatchSelectIf
     {
         enum {
             NOMINAL_4B_ITEMS_PER_THREAD = 9,
-            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T)))),
+            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(OutputT)))),
         };
 
         typedef AgentSelectIfPolicy<
@@ -223,7 +224,7 @@ struct DispatchSelectIf
     {
         enum {
             NOMINAL_4B_ITEMS_PER_THREAD = 9,
-            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T)))),
+            ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(OutputT)))),
         };
 
         typedef AgentSelectIfPolicy<
@@ -352,30 +353,30 @@ struct DispatchSelectIf
         OffsetT                     num_items,                      ///< [in] Total number of input items (i.e., length of \p d_in)
         cudaStream_t                stream,                         ///< [in] CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous,              ///< [in] Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
-        int                         /*ptx_version*/,                    ///< [in] PTX version of dispatch kernels
+        int                         /*ptx_version*/,                ///< [in] PTX version of dispatch kernels
         ScanInitKernelPtrT          scan_init_kernel,               ///< [in] Kernel function pointer to parameterization of cub::DeviceScanInitKernel
         SelectIfKernelPtrT          select_if_kernel,               ///< [in] Kernel function pointer to parameterization of cub::DeviceSelectSweepKernel
         KernelConfig                select_if_config)               ///< [in] Dispatch parameters that match the policy that \p select_if_kernel was compiled for
     {
 
 #ifndef CUB_RUNTIME_ENABLED
-      (void)d_temp_storage;
-      (void)temp_storage_bytes;
-      (void)d_in;
-      (void)d_flags;
-      (void)d_selected_out;
-      (void)d_num_selected_out;
-      (void)select_op;
-      (void)equality_op;
-      (void)num_items;
-      (void)stream;
-      (void)debug_synchronous;
-      (void)scan_init_kernel;
-      (void)select_if_kernel;
-      (void)select_if_config;
+        (void)d_temp_storage;
+        (void)temp_storage_bytes;
+        (void)d_in;
+        (void)d_flags;
+        (void)d_selected_out;
+        (void)d_num_selected_out;
+        (void)select_op;
+        (void)equality_op;
+        (void)num_items;
+        (void)stream;
+        (void)debug_synchronous;
+        (void)scan_init_kernel;
+        (void)select_if_kernel;
+        (void)select_if_config;
 
-      // Kernel launch not supported from this device
-      return CubDebug(cudaErrorNotSupported);
+        // Kernel launch not supported from this device
+        return CubDebug(cudaErrorNotSupported);
 
 #else
 
@@ -453,7 +454,6 @@ struct DispatchSelectIf
                 scan_grid_size.x, scan_grid_size.y, scan_grid_size.z, select_if_config.block_threads, (long long) stream, select_if_config.items_per_thread, range_select_sm_occupancy);
 
             // Invoke select_if_kernel
-#if 0
             select_if_kernel<<<scan_grid_size, select_if_config.block_threads, 0, stream>>>(
                 d_in,
                 d_flags,
@@ -464,22 +464,6 @@ struct DispatchSelectIf
                 equality_op,
                 num_items,
                 num_tiles);
-#else
-      thrust::cuda_cub::launcher::triple_chevron(scan_grid_size,
-                                              select_if_config.block_threads,
-                                              0,
-                                              stream)
-          .doit(select_if_kernel,
-                d_in,
-                d_flags,
-                d_selected_out,
-                d_num_selected_out,
-                tile_status,
-                select_op,
-                equality_op,
-                num_items,
-                num_tiles);
-#endif
 
             // Check for failure to launch
             if (CubDebug(error = cudaPeekAtLastError())) break;
