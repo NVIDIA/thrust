@@ -28,12 +28,14 @@ namespace thrust
 {
 
 template<typename T>
+  __host__ __device__
   device_ptr<T> device_pointer_cast(T *ptr)
 {
   return device_ptr<T>(ptr);
 } // end device_pointer_cast()
 
 template<typename T>
+  __host__ __device__
   device_ptr<T> device_pointer_cast(const device_ptr<T> &ptr)
 {
   return ptr;
