@@ -74,7 +74,7 @@ set(
   OMP                  "-fopenmp"
   TBB                  " "
   CUDA                 " "
-  CUDA_BULK          " "
+  CUDA_BULK            " "
   WORKAROUNDS          " "
   C++03                " "
   C++11                "-std=c++11"
@@ -102,26 +102,27 @@ set(
   OMP                  "/openmp"
   TBB                  " "
   CUDA                 " "
-  CUDA_BULK          " "
+  CUDA_BULK            " "
   WORKAROUNDS          "/DNOMINMAX /wd4503"
   C++03                " "
   C++11                "-std=c++11"
   )
 set(
-  MSVC_LINKER
-  DEBUG "/debug"
-  RELEASE  " "
-  WORKAROUND "/nologo"
-  CPP " "
-  OMP "/openmp"
-  TBB " "
-  CUDA " "
-  CUDA_BULK " "
+  MSVC_LINKER_FLAGS
+  DEBUG                "/debug"
+  RELEASE              " "
+  WORKAROUND           "/nologo"
+  CPP                  " "
+  OMP                  "/openmp"
+  TBB                  " "
+  CUDA                 " "
+  CUDA_BULK            " "
+  WORKAROUNDS          " "
   )
 
 set(NV_LINKER_FLAGS ${GNU_LINKER_FLAGS})
 
-# print_flags(MSVC_COMPILER_FLAGS)
+print_flags(MSVC_COMPILER_FLAGS)
 
 
 function(add_option OPTION_NAME DESCRIPTION TYPE)
@@ -155,7 +156,7 @@ add_option(THRUST_MODE "Release versus debug mode" STRING RELEASE DEBUG)
 if (WIN32)
   set(WINNT True)
   set(NOT_WINNT False)
-  add_option(MSVC_VERSION "MS Visual C++ version" STRING NONE 8.0 9.0 10.0 11.0 12.0 13.0)
+  add_option(MSVC_VERSION "MS Visual C++ version" STRING NONE 8.0 9.0 10.0 11.0 12.0 13.0 1900)
 else()
   set(WINNT False)
   set(NOT_WINNT True)
@@ -190,7 +191,7 @@ macro(get_compiler_id COMPILER_ID_)
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel")
     set(${COMPILER_ID_} "Intel")
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
-    set(${COMPILER_ID_} "MSCV")
+    set(${COMPILER_ID_} "MSVC")
   elseif ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "PGI")
     set(${COMPILER_ID_} "PGI")
   endif()

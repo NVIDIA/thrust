@@ -109,7 +109,7 @@ template<typename RealType>
     normal_distribution<RealType>
       ::min THRUST_PREVENT_MACRO_SUBSTITUTION (void) const
 {
-  return -this->max();
+  return -this->max THRUST_PREVENT_MACRO_SUBSTITUTION ();
 } // end normal_distribution::min()
 
 
