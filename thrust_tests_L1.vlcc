@@ -29,7 +29,7 @@
                  { "${THRUST_TESTS_BIN_DIR}/thrust_tests_L1.vlct" : "cuda/_tests/thrust_tests_L1/.", "kind" : "TESTSUITE" }
                 ],
   # Dependencies for this component.
-  "depends"   : [ "driver_headers", "driver", "compiler", "cuda", "thrust", "pgi16_7" ],
+  "depends"   : [ "driver_headers", "driver", "compiler", "cuda", "thrust", "pgi16_10" ],
   # The agent for this component, relative to this file location. The
   # agent is invoked to perform component actions.
   "agent"     : {
