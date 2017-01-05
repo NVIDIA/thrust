@@ -531,7 +531,7 @@ struct DeviceRadixSortDispatch
 
         template <typename ScanPolicy, typename ScanKernelPtr>
         CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t InitScanPolicy(
-            int sm_version, int sm_count, ScanKernelPtr scan_kernel)
+            int, int, ScanKernelPtr)
         {
             block_threads               = ScanPolicy::BLOCK_THREADS;
             items_per_thread            = ScanPolicy::ITEMS_PER_THREAD;
