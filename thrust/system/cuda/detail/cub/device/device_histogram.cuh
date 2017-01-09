@@ -860,10 +860,6 @@ struct DeviceHistogram
     //@}  end member group
 };
 
-/**
- * \example example_device_histogram.cu
- */
-
 }               // CUB namespace
 THRUST_CUB_NS_POSTFIX  // Optional outer namespace(s)
 

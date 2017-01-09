@@ -37,3 +37,10 @@
 //#define THRUST_CUB_NS_PREFIX namespace thrust{ namespace detail {
 //#define THRUST_CUB_NS_POSTFIX } }
 
+#ifndef THRUST_CUB_NS_PREFIX
+#define THRUST_CUB_NS_PREFIX
+#endif
+
+#ifndef THRUST_CUB_NS_POSTFIX
+#define THRUST_CUB_NS_POSTFIX
+#endif

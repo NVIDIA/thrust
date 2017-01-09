@@ -76,11 +76,13 @@ __device__ __forceinline__ void StoreDirectBlocked(
     OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
     T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
 {
+    OutputIteratorT thread_itr = block_itr + (linear_tid * ITEMS_PER_THREAD);
+
     // Store directly in thread-blocked order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        block_itr[(linear_tid * ITEMS_PER_THREAD) + ITEM] = items[ITEM];
+        thread_itr[ITEM] = items[ITEM];
     }
 }
 
@@ -104,13 +106,15 @@ __device__ __forceinline__ void StoreDirectBlocked(
     T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
     int                 valid_items)                ///< [in] Number of valid items to write
 {
+    OutputIteratorT thread_itr = block_itr + (linear_tid * ITEMS_PER_THREAD);
+
     // Store directly in thread-blocked order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
         if (ITEM + (linear_tid * ITEMS_PER_THREAD) < valid_items)
         {
-            block_itr[(linear_tid * ITEMS_PER_THREAD) + ITEM] = items[ITEM];
+            thread_itr[ITEM] = items[ITEM];
         }
     }
 }
@@ -204,11 +208,13 @@ __device__ __forceinline__ void StoreDirectStriped(
     OutputIteratorT     block_itr,                  ///< [in] The thread block's base output iterator for storing to
     T                   (&items)[ITEMS_PER_THREAD]) ///< [in] Data to store
 {
+    OutputIteratorT thread_itr = block_itr + linear_tid;
+
     // Store directly in striped order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        block_itr[(ITEM * BLOCK_THREADS) + linear_tid] = items[ITEM];
+        thread_itr[(ITEM * BLOCK_THREADS)] = items[ITEM];
     }
 }
 
@@ -234,13 +240,15 @@ __device__ __forceinline__ void StoreDirectStriped(
     T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
     int                 valid_items)                ///< [in] Number of valid items to write
 {
+    OutputIteratorT thread_itr = block_itr + linear_tid;
+
     // Store directly in striped order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
         if ((ITEM * BLOCK_THREADS) + linear_tid < valid_items)
         {
-            block_itr[(ITEM * BLOCK_THREADS) + linear_tid] = items[ITEM];
+            thread_itr[(ITEM * BLOCK_THREADS)] = items[ITEM];
         }
     }
 }
@@ -279,11 +287,13 @@ __device__ __forceinline__ void StoreDirectWarpStriped(
     int wid         = linear_tid >> CUB_PTX_LOG_WARP_THREADS;
     int warp_offset = wid * CUB_PTX_WARP_THREADS * ITEMS_PER_THREAD;
 
+    OutputIteratorT thread_itr = block_itr + warp_offset + tid;
+
     // Store directly in warp-striped order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        block_itr[warp_offset + tid + (ITEM * CUB_PTX_WARP_THREADS)] = items[ITEM];
+        thread_itr[(ITEM * CUB_PTX_WARP_THREADS)] = items[ITEM];
     }
 }
 
@@ -314,13 +324,15 @@ __device__ __forceinline__ void StoreDirectWarpStriped(
     int wid         = linear_tid >> CUB_PTX_LOG_WARP_THREADS;
     int warp_offset = wid * CUB_PTX_WARP_THREADS * ITEMS_PER_THREAD;
 
+    OutputIteratorT thread_itr = block_itr + warp_offset + tid;
+
     // Store directly in warp-striped order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
         if (warp_offset + tid + (ITEM * CUB_PTX_WARP_THREADS) < valid_items)
         {
-            block_itr[warp_offset + tid + (ITEM * CUB_PTX_WARP_THREADS)] = items[ITEM];
+            thread_itr[(ITEM * CUB_PTX_WARP_THREADS)] = items[ITEM];
         }
     }
 }
@@ -534,12 +546,12 @@ private:
         typedef NullType TempStorage;
 
         /// Linear thread-id
-        unsigned int linear_tid;
+        int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &/*temp_storage*/,
-            unsigned int linear_tid)
+            int linear_tid)
         :
             linear_tid(linear_tid)
         {}
@@ -575,12 +587,12 @@ private:
         typedef NullType TempStorage;
 
         /// Linear thread-id
-        unsigned int linear_tid;
+        int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &/*temp_storage*/,
-            unsigned int linear_tid)
+            int linear_tid)
         :
             linear_tid(linear_tid)
         {}
@@ -624,7 +636,11 @@ private:
         typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
 
         /// Shared memory storage layout type
-        typedef typename BlockExchange::TempStorage _TempStorage;
+        struct _TempStorage : BlockExchange::TempStorage
+        {
+            /// Temporary storage for partially-full block guard
+            volatile int valid_items;
+        };
 
         /// Alias wrapper allowing storage to be unioned
         struct TempStorage : Uninitialized<_TempStorage> {};
@@ -633,12 +649,12 @@ private:
         _TempStorage &temp_storage;
 
         /// Linear thread-id
-        unsigned int linear_tid;
+        int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
-            unsigned int linear_tid)
+            int linear_tid)
         :
             temp_storage(temp_storage.Alias()),
             linear_tid(linear_tid)
@@ -662,7 +678,8 @@ private:
             int                 valid_items)                ///< [in] Number of valid items to write
         {
             BlockExchange(temp_storage).BlockedToStriped(items);
-            StoreDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items, valid_items);
+            temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
+            StoreDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items, temp_storage.valid_items);
         }
     };
 
@@ -685,7 +702,11 @@ private:
         typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
 
         /// Shared memory storage layout type
-        typedef typename BlockExchange::TempStorage _TempStorage;
+        struct _TempStorage : BlockExchange::TempStorage
+        {
+            /// Temporary storage for partially-full block guard
+            volatile int valid_items;
+        };
 
         /// Alias wrapper allowing storage to be unioned
         struct TempStorage : Uninitialized<_TempStorage> {};
@@ -694,12 +715,12 @@ private:
         _TempStorage &temp_storage;
 
         /// Linear thread-id
-        unsigned int linear_tid;
+        int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
-            unsigned int linear_tid)
+            int linear_tid)
         :
             temp_storage(temp_storage.Alias()),
             linear_tid(linear_tid)
@@ -723,7 +744,8 @@ private:
             int               valid_items)                  ///< [in] Number of valid items to write
         {
             BlockExchange(temp_storage).BlockedToWarpStriped(items);
-            StoreDirectWarpStriped(linear_tid, block_itr, items, valid_items);
+            temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
+            StoreDirectWarpStriped(linear_tid, block_itr, items, temp_storage.valid_items);
         }
     };
 
@@ -746,7 +768,11 @@ private:
         typedef BlockExchange<T, BLOCK_DIM_X, ITEMS_PER_THREAD, true, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
 
         /// Shared memory storage layout type
-        typedef typename BlockExchange::TempStorage _TempStorage;
+        struct _TempStorage : BlockExchange::TempStorage
+        {
+            /// Temporary storage for partially-full block guard
+            volatile int valid_items;
+        };
 
         /// Alias wrapper allowing storage to be unioned
         struct TempStorage : Uninitialized<_TempStorage> {};
@@ -755,12 +781,12 @@ private:
         _TempStorage &temp_storage;
 
         /// Linear thread-id
-        unsigned int linear_tid;
+        int linear_tid;
 
         /// Constructor
         __device__ __forceinline__ StoreInternal(
             TempStorage &temp_storage,
-            unsigned int linear_tid)
+            int linear_tid)
         :
             temp_storage(temp_storage.Alias()),
             linear_tid(linear_tid)
@@ -783,8 +809,9 @@ private:
             T                   (&items)[ITEMS_PER_THREAD], ///< [in] Data to store
             int                 valid_items)                ///< [in] Number of valid items to write
         {
+            temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
             BlockExchange(temp_storage).BlockedToWarpStriped(items);
-            StoreDirectWarpStriped(linear_tid, block_itr, items, valid_items);
+            StoreDirectWarpStriped(linear_tid, block_itr, items, temp_storage.valid_items);
         }
     };
 
@@ -820,7 +847,7 @@ private:
     _TempStorage &temp_storage;
 
     /// Linear thread-id
-    unsigned int linear_tid;
+    int linear_tid;
 
 public:
 

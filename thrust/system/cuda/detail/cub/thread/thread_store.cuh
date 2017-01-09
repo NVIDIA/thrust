@@ -264,7 +264,7 @@ struct IterateThreadStore<MAX, MAX>
  * Define ThreadStore specializations for the various Cache load modifiers
  */
 #if CUB_PTX_ARCH >= 200
-    _CUB_STORE_ALL(STORE_WB, ca)
+    _CUB_STORE_ALL(STORE_WB, wb)
     _CUB_STORE_ALL(STORE_CG, cg)
     _CUB_STORE_ALL(STORE_CS, cs)
     _CUB_STORE_ALL(STORE_WT, wt)

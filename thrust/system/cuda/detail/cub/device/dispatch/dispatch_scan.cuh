@@ -170,6 +170,18 @@ struct DispatchScan
     // Tuning policies
     //---------------------------------------------------------------------
 
+    /// SM600
+    struct Policy600
+    {
+        typedef AgentScanPolicy<
+            CUB_NOMINAL_CONFIG(128, 15, OutputT),      ///< Threads per block, items per thread
+                BLOCK_LOAD_TRANSPOSE,
+                LOAD_DEFAULT,
+                BLOCK_STORE_TRANSPOSE,
+                BLOCK_SCAN_WARP_SCANS>
+            ScanPolicyT;
+    };
+
 
     /// SM520
     struct Policy520
@@ -252,7 +264,10 @@ struct DispatchScan
     // Tuning policies of current PTX compiler pass
     //---------------------------------------------------------------------
 
-#if (CUB_PTX_ARCH >= 520)
+#if (CUB_PTX_ARCH >= 600)
+    typedef Policy600 PtxPolicy;
+
+#elif (CUB_PTX_ARCH >= 520)
     typedef Policy520 PtxPolicy;
 
 #elif (CUB_PTX_ARCH >= 350)
@@ -298,7 +313,11 @@ struct DispatchScan
     #else
 
         // We're on the host, so lookup and initialize the kernel dispatch configurations with the policies that match the device's PTX version
-        if (ptx_version >= 520)
+        if (ptx_version >= 600)
+        {
+            scan_kernel_config.template Init<typename Policy600::ScanPolicyT>();
+        }
+        else if (ptx_version >= 520)
         {
             scan_kernel_config.template Init<typename Policy520::ScanPolicyT>();
         }

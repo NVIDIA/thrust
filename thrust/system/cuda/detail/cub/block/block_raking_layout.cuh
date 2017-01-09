@@ -107,7 +107,10 @@ struct BlockRakingLayout
     /**
      * \brief Shared memory storage type
      */
-    typedef T _TempStorage[BlockRakingLayout::GRID_ELEMENTS];
+    struct __align__(16) _TempStorage
+    {
+        T buff[BlockRakingLayout::GRID_ELEMENTS];
+    };
 
     /// Alias wrapper allowing storage to be unioned
     struct TempStorage : Uninitialized<_TempStorage> {};
@@ -130,7 +133,7 @@ struct BlockRakingLayout
         }
 
         // Incorporating a block of padding partials every shared memory segment
-        return temp_storage.Alias() + offset;
+        return temp_storage.Alias().buff + offset;
     }
 
 
@@ -141,7 +144,7 @@ struct BlockRakingLayout
         TempStorage &temp_storage,
         unsigned int linear_tid)
     {
-        return temp_storage.Alias() + (linear_tid * (SEGMENT_LENGTH + SEGMENT_PADDING));
+        return temp_storage.Alias().buff + (linear_tid * (SEGMENT_LENGTH + SEGMENT_PADDING));
     }
 };
 
