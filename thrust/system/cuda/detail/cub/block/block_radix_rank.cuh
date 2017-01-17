@@ -377,12 +377,12 @@ public:
             *digit_counters[ITEM] = thread_prefixes[ITEM] + 1;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Scan shared memory counters
         ScanCounters();
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Extract the local ranks of each key
         for (int ITEM = 0; ITEM < KEYS_PER_THREAD; ++ITEM)

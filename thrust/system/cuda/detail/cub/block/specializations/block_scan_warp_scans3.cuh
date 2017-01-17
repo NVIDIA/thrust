@@ -171,7 +171,7 @@ struct BlockScanWarpScans
         if (lane_id == OUTER_WARP_THREADS - 1)
             temp_storage.warp_aggregates[warp_id] = inclusive_output;
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (linear_tid < INNER_WARP_THREADS)
         {
@@ -185,7 +185,7 @@ struct BlockScanWarpScans
             temp_storage.warp_aggregates[linear_tid]    = outer_warp_exclusive;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (warp_id != 0)
         {
@@ -220,7 +220,7 @@ struct BlockScanWarpScans
             temp_storage.warp_aggregates[warp_id] = inclusive_output;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (linear_tid < INNER_WARP_THREADS)
         {
@@ -234,7 +234,7 @@ struct BlockScanWarpScans
             temp_storage.warp_aggregates[linear_tid]    = outer_warp_exclusive;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Retrieve block aggregate
         block_aggregate = temp_storage.block_aggregate;
@@ -265,7 +265,7 @@ struct BlockScanWarpScans
         if (lane_id == OUTER_WARP_THREADS - 1)
             temp_storage.warp_aggregates[warp_id] = inclusive_output;
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (linear_tid < INNER_WARP_THREADS)
         {
@@ -287,7 +287,7 @@ struct BlockScanWarpScans
             temp_storage.warp_aggregates[linear_tid] = downsweep_prefix;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Apply warp prefix to our lane's partial (or assign it if partial is invalid)
         T outer_warp_exclusive = temp_storage.warp_aggregates[warp_id];
@@ -329,7 +329,7 @@ struct BlockScanWarpScans
         if (lane_id == OUTER_WARP_THREADS - 1)
             temp_storage.warp_aggregates[warp_id] = inclusive_output;
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (linear_tid < INNER_WARP_THREADS)
         {
@@ -343,7 +343,7 @@ struct BlockScanWarpScans
             temp_storage.warp_aggregates[linear_tid]    = outer_warp_exclusive;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (warp_id != 0)
         {
@@ -375,7 +375,7 @@ struct BlockScanWarpScans
         if (lane_id == OUTER_WARP_THREADS - 1)
             temp_storage.warp_aggregates[warp_id] = inclusive_output;
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (linear_tid < INNER_WARP_THREADS)
         {
@@ -396,7 +396,7 @@ struct BlockScanWarpScans
             temp_storage.warp_aggregates[linear_tid]    = downsweep_prefix;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Apply warp prefix to our lane's partial
         T outer_warp_exclusive = temp_storage.warp_aggregates[warp_id];

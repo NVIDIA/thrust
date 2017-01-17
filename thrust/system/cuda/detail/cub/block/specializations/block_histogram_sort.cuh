@@ -168,7 +168,7 @@ struct BlockHistogramSort
         // Sort bytes in blocked arrangement
         BlockRadixSortT(temp_storage.sort).Sort(items);
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Initialize the shared memory's run_begin and run_end for each bin
         int histo_offset = 0;
@@ -186,7 +186,7 @@ struct BlockHistogramSort
             temp_storage.run_end[histo_offset + linear_tid] = TILE_SIZE;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         int flags[ITEMS_PER_THREAD];    // unused
 
@@ -197,7 +197,7 @@ struct BlockHistogramSort
         // Update begin for first item
         if (linear_tid == 0) temp_storage.run_begin[items[0]] = 0;
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Composite into histogram
         histo_offset = 0;

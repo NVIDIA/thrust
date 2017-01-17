@@ -302,7 +302,7 @@ struct AgentSpmv
             s_tile_row_end_offsets[item] = wd_row_end_offsets[tile_start_coord.x + item];
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Search for the thread's starting coordinate within the merge tile
         CountingInputIterator<OffsetT>  tile_nonzero_indices(tile_start_coord.y);
@@ -316,7 +316,7 @@ struct AgentSpmv
             tile_num_nonzeros,
             thread_start_coord);
 
-        __syncthreads();            // Perf-sync
+        CTA_SYNC();            // Perf-sync
 
         // Compute the thread's merge path segment
         CoordinateT     thread_current_coord = thread_start_coord;
@@ -357,7 +357,7 @@ struct AgentSpmv
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Block-wide reduce-value-by-segment
         KeyValuePairT       tile_carry;
@@ -442,7 +442,7 @@ struct AgentSpmv
             mat_values[ITEM]                = (nonzero_indices[ITEM] < tile_num_nonzeros) ? *a : 0.0;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
@@ -451,7 +451,7 @@ struct AgentSpmv
             mat_values[ITEM] *= *x;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
@@ -461,7 +461,7 @@ struct AgentSpmv
             *s = mat_values[ITEM];
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
 */
 
@@ -530,7 +530,7 @@ struct AgentSpmv
             s_tile_row_end_offsets[item] = wd_row_end_offsets[tile_start_coord.x + item];
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Search for the thread's starting coordinate within the merge tile
         CountingInputIterator<OffsetT>  tile_nonzero_indices(tile_start_coord.y);
@@ -544,7 +544,7 @@ struct AgentSpmv
             tile_num_nonzeros,
             thread_start_coord);
 
-        __syncthreads();            // Perf-sync
+        CTA_SYNC();            // Perf-sync
 
         // Compute the thread's merge path segment
         CoordinateT     thread_current_coord = thread_start_coord;
@@ -577,7 +577,7 @@ struct AgentSpmv
             scan_segment[ITEM].key = thread_current_coord.x;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Block-wide reduce-value-by-segment
         KeyValuePairT       tile_carry;
@@ -598,7 +598,7 @@ struct AgentSpmv
         if (tile_num_rows > 0)
         {
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Scan downsweep and scatter
             ValueT* s_partials = &temp_storage.merge_items[0].nonzero;
@@ -625,7 +625,7 @@ struct AgentSpmv
                 }
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             #pragma unroll 1
             for (int item = threadIdx.x; item < tile_num_rows; item += BLOCK_THREADS)
@@ -669,7 +669,7 @@ struct AgentSpmv
             s_tile_row_end_offsets[item] = wd_row_end_offsets[tile_start_coord.x + item];
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Search for warp start/end coords
         if (lane_idx == 0)
@@ -686,7 +686,7 @@ struct AgentSpmv
             temp_storage.warp_coords[WARPS] = last;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         CoordinateT     warp_coord          = temp_storage.warp_coords[warp_idx];
         CoordinateT     warp_end_coord      = temp_storage.warp_coords[warp_idx + 1];
@@ -796,12 +796,12 @@ struct AgentSpmv
         // Exchange striped->blocked
         BlockExchangeT(temp_storage.exchange).StripedToBlocked(nonzeros);
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Compute an inclusive prefix sum
         BlockPrefixSumT(temp_storage.prefix_sum).InclusiveSum(nonzeros, nonzeros);
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (threadIdx.x == 0)
             s_tile_nonzeros[0] = 0.0;
@@ -814,7 +814,7 @@ struct AgentSpmv
             s_tile_nonzeros[item_idx] = nonzeros[ITEM];
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Gather the row end-offsets for the merge tile into shared memory
         #pragma unroll 1
@@ -890,7 +890,7 @@ struct AgentSpmv
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         CoordinateT tile_start_coord     = temp_storage.tile_coords[0];
         CoordinateT tile_end_coord       = temp_storage.tile_coords[1];

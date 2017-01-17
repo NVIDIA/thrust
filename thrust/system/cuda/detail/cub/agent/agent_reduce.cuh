@@ -418,7 +418,7 @@ struct AgentReduce
             if (threadIdx.x == 0)
                 temp_storage.dequeue_offset = queue.Drain(TILE_ITEMS) + even_share_base;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab tile offset and check if we're done with full tiles
             block_offset = temp_storage.dequeue_offset;
@@ -428,13 +428,13 @@ struct AgentReduce
             {
                 ConsumeTile<false>(thread_aggregate, block_offset, TILE_ITEMS, Int2Type<true>(), can_vectorize);
 
-                __syncthreads();
+                CTA_SYNC();
 
                 // Dequeue a tile of items
                 if (threadIdx.x == 0)
                     temp_storage.dequeue_offset = queue.Drain(TILE_ITEMS) + even_share_base;
 
-                __syncthreads();
+                CTA_SYNC();
 
                 // Grab tile offset and check if we're done with full tiles
                 block_offset = temp_storage.dequeue_offset;

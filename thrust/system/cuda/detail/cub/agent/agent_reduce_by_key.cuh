@@ -328,7 +328,7 @@ struct AgentReduceByKey
         OffsetT         num_tile_segments,
         OffsetT         num_tile_segments_prefix)
     {
-        __syncthreads();
+        CTA_SYNC();
 
         // Compact and scatter pairs
         #pragma unroll
@@ -340,7 +340,7 @@ struct AgentReduceByKey
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         for (int item = threadIdx.x; item < num_tile_segments; item += BLOCK_THREADS)
         {
@@ -418,7 +418,7 @@ struct AgentReduceByKey
                 d_keys_in[tile_offset - 1];     // Subsequent tiles get last key from previous tile
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Load values
         if (IS_LAST_TILE)
@@ -426,7 +426,7 @@ struct AgentReduceByKey
         else
             BlockLoadValuesT(temp_storage.load_values).Load(d_values_in + tile_offset, values);
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Initialize head-flags and shuffle up the previous keys
         if (IS_LAST_TILE)

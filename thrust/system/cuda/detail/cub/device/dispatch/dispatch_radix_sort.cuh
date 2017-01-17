@@ -271,14 +271,14 @@ __global__ void DeviceRadixSortSingleTileKernel(
     // Load keys
     BlockLoadKeys(temp_storage.load_keys).Load(d_keys_in, keys, num_items, default_key);
 
-    __syncthreads();
+    CTA_SYNC();
 
     // Load values
     if (!KEYS_ONLY)
     {
         BlockLoadValues(temp_storage.load_values).Load(d_values_in, values, num_items);
 
-        __syncthreads();
+        CTA_SYNC();
     }
 
     // Sort tile
@@ -393,7 +393,7 @@ __global__ void DeviceSegmentedRadixSortKernel(
         segment_end,
         bin_count);
 
-    __syncthreads();
+    CTA_SYNC();
 
     if (IS_DESCENDING)
     {
@@ -401,7 +401,7 @@ __global__ void DeviceSegmentedRadixSortKernel(
         if (threadIdx.x < RADIX_DIGITS)
             temp_storage.reverse_counts_in[threadIdx.x] = bin_count;
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (threadIdx.x < RADIX_DIGITS)
             bin_count = temp_storage.reverse_counts_in[RADIX_DIGITS - threadIdx.x - 1];
@@ -418,13 +418,13 @@ __global__ void DeviceSegmentedRadixSortKernel(
         if (threadIdx.x < RADIX_DIGITS)
             temp_storage.reverse_counts_out[threadIdx.x] = bin_offset;
 
-        __syncthreads();
+        CTA_SYNC();
 
         if (threadIdx.x < RADIX_DIGITS)
             bin_offset = temp_storage.reverse_counts_out[RADIX_DIGITS - threadIdx.x - 1];
     }
 
-    __syncthreads();
+    CTA_SYNC();
 
     // Downsweep
     BlockDownsweepT(temp_storage.downsweep, num_items, bin_offset, d_keys_in, d_keys_out, d_values_in, d_values_out, current_bit, pass_bits).ProcessRegion(

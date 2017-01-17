@@ -141,7 +141,7 @@ struct BlockReduceRakingCommutativeOnly
             if (linear_tid >= RAKING_THREADS)
                 *BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid - RAKING_THREADS) = partial;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism to one warp
             if (linear_tid < RAKING_THREADS)
@@ -178,7 +178,7 @@ struct BlockReduceRakingCommutativeOnly
             if (linear_tid >= RAKING_THREADS)
                 *BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid - RAKING_THREADS) = partial;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism to one warp
             if (linear_tid < RAKING_THREADS)

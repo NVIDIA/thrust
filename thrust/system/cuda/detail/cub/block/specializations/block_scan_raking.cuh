@@ -263,7 +263,7 @@ struct BlockScanRaking
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
             *placement_ptr = input;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism down to just raking threads
             if (linear_tid < RAKING_THREADS)
@@ -279,7 +279,7 @@ struct BlockScanRaking
                 ExclusiveDownsweep(scan_op, exclusive_partial, (linear_tid != 0));
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab thread prefix from shared memory
             exclusive_output = *placement_ptr;
@@ -305,7 +305,7 @@ struct BlockScanRaking
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
             *placement_ptr = input;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism down to just raking threads
             if (linear_tid < RAKING_THREADS)
@@ -321,7 +321,7 @@ struct BlockScanRaking
                 ExclusiveDownsweep(scan_op, exclusive_partial);
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab exclusive partial from shared memory
             output = *placement_ptr;
@@ -348,7 +348,7 @@ struct BlockScanRaking
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
             *placement_ptr = input;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism down to just raking threads
             if (linear_tid < RAKING_THREADS)
@@ -369,7 +369,7 @@ struct BlockScanRaking
                     temp_storage.block_aggregate = inclusive_partial;
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab thread prefix from shared memory
             output = *placement_ptr;
@@ -400,7 +400,7 @@ struct BlockScanRaking
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
             *placement_ptr = input;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism down to just raking threads
             if (linear_tid < RAKING_THREADS)
@@ -416,10 +416,11 @@ struct BlockScanRaking
                 ExclusiveDownsweep(scan_op, exclusive_partial);
 
                 // Broadcast aggregate to other threads
-                temp_storage.block_aggregate = block_aggregate;
+                if (linear_tid == 0)
+                  temp_storage.block_aggregate = block_aggregate;
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab exclusive partial from shared memory
             output = *placement_ptr;
@@ -461,7 +462,7 @@ struct BlockScanRaking
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
             *placement_ptr = input;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism down to just raking threads
             if (linear_tid < RAKING_THREADS)
@@ -488,7 +489,7 @@ struct BlockScanRaking
                 ExclusiveDownsweep(scan_op, downsweep_prefix);
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab thread prefix from shared memory
             output = *placement_ptr;
@@ -518,7 +519,7 @@ struct BlockScanRaking
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
             *placement_ptr = input;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism down to just raking threads
             if (linear_tid < RAKING_THREADS)
@@ -534,7 +535,7 @@ struct BlockScanRaking
                 InclusiveDownsweep(scan_op, exclusive_partial, (linear_tid != 0));
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab thread prefix from shared memory
             output = *placement_ptr;
@@ -561,7 +562,7 @@ struct BlockScanRaking
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
             *placement_ptr = input;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism down to just raking threads
             if (linear_tid < RAKING_THREADS)
@@ -582,7 +583,7 @@ struct BlockScanRaking
                     temp_storage.block_aggregate = inclusive_partial;
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab thread prefix from shared memory
             output = *placement_ptr;
@@ -623,7 +624,7 @@ struct BlockScanRaking
             T *placement_ptr = BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid);
             *placement_ptr = input;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism down to just raking threads
             if (linear_tid < RAKING_THREADS)
@@ -650,7 +651,7 @@ struct BlockScanRaking
                 InclusiveDownsweep(scan_op, downsweep_prefix);
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Grab thread prefix from shared memory
             output = *placement_ptr;

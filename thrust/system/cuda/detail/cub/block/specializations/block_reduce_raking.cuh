@@ -179,7 +179,7 @@ struct BlockReduceRaking
             // Place partial into shared memory grid.
             *BlockRakingLayout::PlacementPtr(temp_storage.raking_grid, linear_tid) = partial;
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reduce parallelism to one warp
             if (linear_tid < RAKING_THREADS)

@@ -305,7 +305,7 @@ struct AgentSpmv
             temp_storage.nonzeros[local_nonzero_idx] = nonzero;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         //
         // Swap in NANs at local row start offsets
@@ -319,7 +319,7 @@ struct AgentSpmv
             temp_storage.nonzeros[local_row_nonzero_idx] = NAN_TOKEN;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         //
         // Segmented scan
@@ -357,7 +357,7 @@ struct AgentSpmv
                 temp_storage.nonzeros[local_nonzero_idx] = scan_items_out[ITEM].value;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         //
         // Update row totals
@@ -420,7 +420,7 @@ struct AgentSpmv
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         //
         // Process strips of nonzeros
@@ -440,7 +440,7 @@ struct AgentSpmv
             ConsumeStrip<ITEMS_PER_THREAD>(prefix_op, scan_op, row_total, row_start,
                 tile_nonzero_idx, tile_nonzero_idx_end, row_nonzero_idx, row_nonzero_idx_end);
 
-            __syncthreads();
+            CTA_SYNC();
         }
 
         //

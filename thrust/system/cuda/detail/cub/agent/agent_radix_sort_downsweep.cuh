@@ -290,7 +290,7 @@ struct AgentRadixSortDownsweep
             smem[ranks[ITEM]] = twiddled_keys[ITEM];
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
@@ -346,7 +346,7 @@ struct AgentRadixSortDownsweep
         OffsetT                                 valid_items,
         Int2Type<RADIX_SORT_SCATTER_TWO_PHASE>  /*scatter_algorithm*/)
     {
-        __syncthreads();
+        CTA_SYNC();
 
         ValueT *smem = reinterpret_cast<ValueT*>(&temp_storage.exchange_values);
 
@@ -356,7 +356,7 @@ struct AgentRadixSortDownsweep
             smem[ranks[ITEM]] = values[ITEM];
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
@@ -443,7 +443,7 @@ struct AgentRadixSortDownsweep
         OffsetT         valid_items,
         Int2Type<false> /*is_keys_only*/)
     {
-        __syncthreads();
+        CTA_SYNC();
 
         ValueT values[ITEMS_PER_THREAD];
 
@@ -504,7 +504,7 @@ struct AgentRadixSortDownsweep
             default_key,
             Int2Type<FULL_TILE>());
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Twiddle key bits if necessary
         #pragma unroll
@@ -522,7 +522,7 @@ struct AgentRadixSortDownsweep
             num_bits,
             exclusive_digit_prefix);
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Share exclusive digit prefix
         if (threadIdx.x < RADIX_DIGITS)
@@ -531,7 +531,7 @@ struct AgentRadixSortDownsweep
             temp_storage.exclusive_digit_prefix[threadIdx.x] = exclusive_digit_prefix;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Get inclusive digit prefix
         int inclusive_digit_prefix;
@@ -553,7 +553,7 @@ struct AgentRadixSortDownsweep
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Update global scatter base offsets for each digit
         if (threadIdx.x < RADIX_DIGITS)
@@ -565,7 +565,7 @@ struct AgentRadixSortDownsweep
             bin_offset += inclusive_digit_prefix;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Scatter keys
         ScatterKeys<FULL_TILE>(twiddled_keys, relative_bin_offsets, ranks, valid_items, Int2Type<SCATTER_ALGORITHM>());
@@ -596,7 +596,7 @@ struct AgentRadixSortDownsweep
             T items[ITEMS_PER_THREAD];
 
             LoadDirectStriped<BLOCK_THREADS>(threadIdx.x, d_in + block_offset, items);
-            __syncthreads();
+            CTA_SYNC();
             StoreDirectStriped<BLOCK_THREADS>(threadIdx.x, d_out + block_offset, items);
 
             block_offset += TILE_ITEMS;
@@ -610,7 +610,7 @@ struct AgentRadixSortDownsweep
             T items[ITEMS_PER_THREAD];
 
             LoadDirectStriped<BLOCK_THREADS>(threadIdx.x, d_in + block_offset, items, valid_items);
-            __syncthreads();
+            CTA_SYNC();
             StoreDirectStriped<BLOCK_THREADS>(threadIdx.x, d_out + block_offset, items, valid_items);
         }
     }
@@ -662,7 +662,7 @@ struct AgentRadixSortDownsweep
             short_circuit = ((bin_offset == 0) || (bin_offset == num_items));
         }
 
-        short_circuit = __syncthreads_and(short_circuit);
+        short_circuit = CTA_SYNC_AND(short_circuit);
     }
 
 
@@ -704,7 +704,7 @@ struct AgentRadixSortDownsweep
             bin_offset = d_spine[(gridDim.x * bin_idx) + blockIdx.x];
         }
 
-        short_circuit = __syncthreads_and(short_circuit);
+        short_circuit = CTA_SYNC_AND(short_circuit);
     }
 
 
@@ -731,7 +731,7 @@ struct AgentRadixSortDownsweep
                 ProcessTile<true>(block_offset);
                 block_offset += TILE_ITEMS;
 
-                __syncthreads();
+                CTA_SYNC();
             }
 
             // Clean up last partial tile with guarded-I/O

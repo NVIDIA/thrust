@@ -283,7 +283,7 @@ struct AgentSegmentFixup
         else
             BlockLoadPairs(temp_storage.load_pairs).Load(d_pairs_in + tile_offset, pairs);
 
-        __syncthreads();
+        CTA_SYNC();
 
         KeyValuePairT tile_aggregate;
         if (tile_idx == 0)

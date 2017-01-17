@@ -740,7 +740,7 @@ namespace core {
 
   inline void __device__ sync_threadblock()
   {
-    __syncthreads();
+    cub::CTA_SYNC();
   }
 
 #define CUDA_CUB_RET_IF_FAIL(e) \

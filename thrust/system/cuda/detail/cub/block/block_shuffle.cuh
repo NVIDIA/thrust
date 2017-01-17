@@ -175,7 +175,7 @@ public:
     {
         temp_storage[linear_tid].prev = input;
 
-        __syncthreads();
+        CTA_SYNC();
 
         if ((linear_tid + distance >= 0) && (linear_tid + distance < BLOCK_THREADS))
             output = temp_storage[linear_tid + distance].prev;
@@ -195,7 +195,7 @@ public:
     {
         temp_storage[linear_tid].prev = input;
 
-        __syncthreads();
+        CTA_SYNC();
 
         unsigned int offset = threadIdx.x + distance;
         if (offset >= BLOCK_THREADS)
@@ -220,7 +220,7 @@ public:
     {
         temp_storage[linear_tid].prev = input[ITEMS_PER_THREAD - 1];
 
-        __syncthreads();
+        CTA_SYNC();
 
         #pragma unroll
         for (int ITEM = ITEMS_PER_THREAD - 1; ITEM > 0; --ITEM)
@@ -266,7 +266,7 @@ public:
     {
         temp_storage[linear_tid].prev = input[ITEMS_PER_THREAD - 1];
 
-        __syncthreads();
+        CTA_SYNC();
 
         #pragma unroll
         for (int ITEM = ITEMS_PER_THREAD - 1; ITEM > 0; --ITEM)

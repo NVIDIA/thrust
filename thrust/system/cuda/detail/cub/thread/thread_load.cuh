@@ -340,11 +340,6 @@ __device__ __forceinline__ T ThreadLoadVolatilePointer(
     Int2Type<true>          /*is_primitive*/)
 {
     T retval = *reinterpret_cast<volatile T*>(ptr);
-
-#if (CUB_PTX_ARCH <= 130)
-    if (sizeof(T) == 1) __threadfence_block();
-#endif
-
     return retval;
 }
 
@@ -357,15 +352,6 @@ __device__ __forceinline__ T ThreadLoadVolatilePointer(
     T                       *ptr,
     Int2Type<false>         /*is_primitive*/)
 {
-
-#if CUB_PTX_ARCH <= 130
-
-    T retval = *ptr;
-    __threadfence_block();
-    return retval;
-
-#else
-
     typedef typename UnitWord<T>::VolatileWord VolatileWord;   // Word type for memcopying
 
     const int VOLATILE_MULTIPLE = sizeof(T) / sizeof(VolatileWord);
@@ -385,8 +371,6 @@ __device__ __forceinline__ T ThreadLoadVolatilePointer(
         reinterpret_cast<volatile VolatileWord*>(ptr),
         words);
     return retval;
-
-#endif  // CUB_PTX_ARCH <= 130
 }
 
 

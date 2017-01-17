@@ -389,7 +389,7 @@ struct AgentRle
         if (lane_id == WARP_THREADS - 1)
             temp_storage.warp_aggregates.Alias()[warp_id] = thread_inclusive;
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Accumulate total selected and the warp-wide prefix
         warp_exclusive_in_tile          = identity;
@@ -436,7 +436,7 @@ struct AgentRle
         #pragma unroll
         for (int SLICE = 1; SLICE < WARPS; ++SLICE)
         {
-            __syncthreads();
+            CTA_SYNC();
 
             if (warp_id == SLICE)
             {
@@ -496,10 +496,7 @@ struct AgentRle
 
         WarpExchangeOffsets(temp_storage.exchange_offsets[warp_id]).ScatterToStriped(run_offsets, thread_num_runs_exclusive_in_warp);
 
-        if (sizeof(LengthT) == sizeof(OffsetT))
-            __threadfence_block();
-        else
-            __syncthreads();
+        WARP_SYNC();
 
         WarpExchangeLengths(temp_storage.exchange_lengths[warp_id]).ScatterToStriped(run_lengths, thread_num_runs_exclusive_in_warp);
 
@@ -629,7 +626,7 @@ struct AgentRle
                 BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items);
 
             if (SYNC_AFTER_LOAD)
-                __syncthreads();
+                CTA_SYNC();
 
             // Set flags
             LengthOffsetPair    lengths_and_num_runs[ITEMS_PER_THREAD];
@@ -709,7 +706,7 @@ struct AgentRle
                 BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items);
 
             if (SYNC_AFTER_LOAD)
-                __syncthreads();
+                CTA_SYNC();
 
             // Set flags
             LengthOffsetPair    lengths_and_num_runs[ITEMS_PER_THREAD];
@@ -743,7 +740,7 @@ struct AgentRle
                     temp_storage.tile_exclusive = prefix_op.exclusive_prefix;
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             LengthOffsetPair tile_exclusive_in_global = temp_storage.tile_exclusive;
 

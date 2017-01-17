@@ -299,7 +299,7 @@ struct AgentScan
         else
             BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items);
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Perform tile scan
         if (tile_idx == 0)
@@ -317,7 +317,7 @@ struct AgentScan
             ScanTile(items, scan_op, prefix_op, Int2Type<IS_INCLUSIVE>());
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Store items
         if (IS_LAST_TILE)
@@ -376,7 +376,7 @@ struct AgentScan
         else
             BlockLoadT(temp_storage.load).Load(d_in + tile_offset, items);
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Block scan
         if (IS_FIRST_TILE)
@@ -390,7 +390,7 @@ struct AgentScan
             ScanTile(items, scan_op, prefix_op, Int2Type<IS_INCLUSIVE>());
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Store items
         if (IS_LAST_TILE)

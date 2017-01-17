@@ -260,7 +260,7 @@ struct ScanTileState<T, true>
         TileDescriptor  tile_descriptor;
         do
         {
-            __threadfence_block(); // prevent hoisting loads from loop
+            WARP_SYNC(); // prevent hoisting loads from loop
             TxnWord alias = ThreadLoad<LOAD_CG>(reinterpret_cast<TxnWord*>(d_tile_status + TILE_STATUS_PADDING + tile_idx));
             tile_descriptor = reinterpret_cast<TileDescriptor&>(alias);
 
@@ -625,7 +625,7 @@ struct ReduceByKeyScanTileState<ValueT, KeyT, true>
 
         while (tile_descriptor.status == SCAN_TILE_INVALID)
         {
-            __threadfence_block();  // prevent hoisting loads from loop
+            WARP_SYNC();  // prevent hoisting loads from loop
 
             alias           = ThreadLoad<LOAD_CG>(reinterpret_cast<TxnWord*>(d_tile_status + TILE_STATUS_PADDING + tile_idx));
             tile_descriptor = reinterpret_cast<TileDescriptor&>(alias);
@@ -721,11 +721,11 @@ struct TilePrefixCallbackOp
     __device__ __forceinline__
     T operator()(T block_aggregate)
     {
-        temp_storage.block_aggregate = block_aggregate;
 
         // Update our status with our tile-aggregate
         if (threadIdx.x == 0)
         {
+            temp_storage.block_aggregate = block_aggregate;
             tile_status.SetPartial(tile_idx, block_aggregate);
         }
 

@@ -80,7 +80,7 @@ public:
         // Threadfence and syncthreads to make sure global writes are visible before
         // thread-0 reports in with its sync counter
         __threadfence();
-        __syncthreads();
+        CTA_SYNC();
 
         if (blockIdx.x == 0)
         {
@@ -90,7 +90,7 @@ public:
                 d_vol_sync[blockIdx.x] = 1;
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Wait for everyone else to report in
             for (int peer_block = threadIdx.x; peer_block < gridDim.x; peer_block += blockDim.x)
@@ -101,7 +101,7 @@ public:
                 }
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Let everyone know it's safe to proceed
             for (int peer_block = threadIdx.x; peer_block < gridDim.x; peer_block += blockDim.x)
@@ -123,7 +123,7 @@ public:
                 }
             }
 
-            __syncthreads();
+            CTA_SYNC();
         }
     }
 };

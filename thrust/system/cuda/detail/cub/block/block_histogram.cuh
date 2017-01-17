@@ -351,7 +351,7 @@ public:
         // Initialize histogram bin counts to zeros
         InitHistogram(histogram);
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Composite the histogram
         InternalBlockHistogram(temp_storage).Composite(items, histogram);

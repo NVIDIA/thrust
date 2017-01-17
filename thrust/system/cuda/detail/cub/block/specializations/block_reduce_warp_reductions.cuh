@@ -151,7 +151,7 @@ struct BlockReduceWarpReductions
             temp_storage.warp_aggregates[warp_id] = warp_aggregate;
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Update total aggregate in warp 0, lane 0
         if (linear_tid == 0)

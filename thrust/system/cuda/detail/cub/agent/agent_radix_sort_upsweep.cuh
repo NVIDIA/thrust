@@ -317,7 +317,7 @@ struct AgentRadixSortUpsweep
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Rake-reduce bin_count reductions
         if (threadIdx.x < RADIX_DIGITS)
@@ -340,7 +340,7 @@ struct AgentRadixSortUpsweep
         LoadDirectStriped<BLOCK_THREADS>(threadIdx.x, d_keys_in + block_offset, keys);
 
         // Prevent hoisting
-        __syncthreads();
+        CTA_SYNC();
 
         // Bucket tile of keys
         Iterate<0, KEYS_PER_THREAD>::BucketKeys(*this, keys);
@@ -407,12 +407,12 @@ struct AgentRadixSortUpsweep
                 block_offset += TILE_ITEMS;
             }
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Aggregate back into local_count registers to prevent overflow
             UnpackDigitCounts();
 
-            __syncthreads();
+            CTA_SYNC();
 
             // Reset composite counters in lanes
             ResetDigitCounters();
@@ -430,12 +430,12 @@ struct AgentRadixSortUpsweep
             block_offset,
             block_end);
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Aggregate back into local_count registers
         UnpackDigitCounts();
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Final raking reduction of counts by bin
         ReduceUnpackedCounts(bin_count);

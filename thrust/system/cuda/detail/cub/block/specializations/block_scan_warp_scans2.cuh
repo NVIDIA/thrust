@@ -158,7 +158,7 @@ struct BlockScanWarpScans
         if (lane_id == WARP_THREADS - 1)
             temp_storage.warp_aggregates[warp_id] = warp_aggregate;
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Accumulate block aggregates and save the one that is our warp's prefix
         T warp_prefix;
@@ -252,7 +252,7 @@ struct BlockScanWarpScans
         if (lane_id == WARP_THREADS - 1)
             temp_storage.warp_aggregates[warp_id] = inclusive_output;
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Get the warp scan partial
         T warp_inclusive, warp_prefix;
@@ -300,7 +300,7 @@ struct BlockScanWarpScans
         if (lane_id == WARP_THREADS - 1)
             temp_storage.warp_aggregates[warp_id] = inclusive_output;
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Get the warp scan partial
         T warp_inclusive, warp_prefix;
@@ -348,7 +348,7 @@ struct BlockScanWarpScans
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Incorporate threadblock prefix into outputs
         T block_prefix = temp_storage.block_prefix;
@@ -420,7 +420,7 @@ struct BlockScanWarpScans
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Incorporate threadblock prefix into outputs
         T block_prefix = temp_storage.block_prefix;

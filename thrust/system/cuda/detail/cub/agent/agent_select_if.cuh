@@ -292,7 +292,7 @@ struct AgentSelectIf
         OffsetT                     (&selection_flags)[ITEMS_PER_THREAD],
         Int2Type<USE_SELECT_FLAGS>  /*select_method*/)
     {
-        __syncthreads();
+        CTA_SYNC();
 
         FlagT flags[ITEMS_PER_THREAD];
 
@@ -328,7 +328,7 @@ struct AgentSelectIf
     {
         if (IS_FIRST_TILE)
         {
-            __syncthreads();
+            CTA_SYNC();
 
             // Set head selection_flags.  First tile sets the first flag for the first item
             BlockDiscontinuityT(temp_storage.discontinuity).FlagHeads(selection_flags, items, inequality_op);
@@ -339,7 +339,7 @@ struct AgentSelectIf
             if (threadIdx.x == 0)
                 tile_predecessor = d_in[tile_offset - 1];
 
-            __syncthreads();
+            CTA_SYNC();
 
             BlockDiscontinuityT(temp_storage.discontinuity).FlagHeads(selection_flags, items, inequality_op, tile_predecessor);
         }
@@ -398,7 +398,7 @@ struct AgentSelectIf
         OffsetT         /*num_rejected_prefix*/,                    ///< Total number of rejections prior to this tile
         Int2Type<false> /*is_keep_rejects*/)                        ///< Marker type indicating whether to keep rejected items in the second partition
     {
-        __syncthreads();
+        CTA_SYNC();
 
         // Compact and scatter items
         #pragma unroll
@@ -411,7 +411,7 @@ struct AgentSelectIf
             }
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         for (int item = threadIdx.x; item < num_tile_selections; item += BLOCK_THREADS)
         {
@@ -434,7 +434,7 @@ struct AgentSelectIf
         OffsetT         num_rejected_prefix,                        ///< Total number of rejections prior to this tile
         Int2Type<true>  /*is_keep_rejects*/)                        ///< Marker type indicating whether to keep rejected items in the second partition
     {
-        __syncthreads();
+        CTA_SYNC();
 
         int tile_num_rejections = num_tile_items - num_tile_selections;
 
@@ -452,7 +452,7 @@ struct AgentSelectIf
             temp_storage.raw_exchange.Alias()[local_scatter_offset] = items[ITEM];
         }
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Gather items from shared memory and scatter to global
         #pragma unroll
@@ -544,7 +544,7 @@ struct AgentSelectIf
             selection_flags,
             Int2Type<SELECT_METHOD>());
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Exclusive scan of selection_flags
         OffsetT num_tile_selections;
@@ -604,7 +604,7 @@ struct AgentSelectIf
             selection_flags,
             Int2Type<SELECT_METHOD>());
 
-        __syncthreads();
+        CTA_SYNC();
 
         // Exclusive scan of values and selection_flags
         TilePrefixCallbackOpT prefix_op(tile_state, temp_storage.prefix, cub::Sum(), tile_idx);
