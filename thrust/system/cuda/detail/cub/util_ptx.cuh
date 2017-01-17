@@ -254,7 +254,11 @@ __device__ __forceinline__ void BAR(int count)
  */
 __device__  __forceinline__ void CTA_SYNC()
 {
+#ifdef CUB_USE_COOPERATIVE_GROUPS
     __bar_sync_all(0);
+#else
+    __syncthreads();
+#endif
 }
 
 
@@ -279,7 +283,11 @@ __device__  __forceinline__ unsigned int WARP_MASK()
  */
 __device__  __forceinline__ void WARP_SYNC()
 {
+#ifdef CUB_USE_COOPERATIVE_GROUPS
   __bar_warp_sync(WARP_MASK());
+#else
+  __threadfence_block();
+#endif
 }
 
 /**
@@ -288,9 +296,14 @@ __device__  __forceinline__ void WARP_SYNC()
 __device__ __forceinline__ 
 unsigned int SHFL_UP_SYNC(unsigned int word, int src_offset, int first_lane)
 {
+#ifdef CUB_USE_COOPERATIVE_GROUPS
     unsigned mask = WARP_MASK();
     asm volatile("shfl.sync.up.b32 %0, %1, %2, %3, %4;"
         : "=r"(word) : "r"(word), "r"(src_offset), "r"(first_lane), "r"(mask));
+#else
+    asm volatile("shfl.up.b32 %0, %1, %2, %3;"
+        : "=r"(word) : "r"(word), "r"(src_offset), "r"(first_lane));
+#endif
     return word;
 }
 
@@ -300,9 +313,14 @@ unsigned int SHFL_UP_SYNC(unsigned int word, int src_offset, int first_lane)
 __device__ __forceinline__ 
 unsigned int SHFL_DOWN_SYNC(unsigned int word, int src_offset, int last_lane)
 {
+#ifdef CUB_USE_COOPERATIVE_GROUPS
     unsigned mask = WARP_MASK();
     asm volatile("shfl.sync.down.b32 %0, %1, %2, %3, %4;"
         : "=r"(word) : "r"(word), "r"(src_offset), "r"(last_lane), "r"(mask));
+#else
+    asm volatile("shfl.down.b32 %0, %1, %2, %3;"
+        : "=r"(word) : "r"(word), "r"(src_offset), "r"(last_lane));
+#endif
     return word;
 }
 
@@ -312,9 +330,14 @@ unsigned int SHFL_DOWN_SYNC(unsigned int word, int src_offset, int last_lane)
 __device__ __forceinline__ 
 unsigned int SHFL_IDX_SYNC(unsigned int word, int src_lane, int last_lane)
 {
+#ifdef CUB_USE_COOPERATIVE_GROUPS
     unsigned mask = WARP_MASK();
     asm volatile("shfl.sync.idx.b32 %0, %1, %2, %3, %4;"
         : "=r"(word) : "r"(word), "r"(src_lane), "r"(last_lane), "r"(mask));
+#else
+    asm volatile("shfl.idx.b32 %0, %1, %2, %3;"
+        : "=r"(word) : "r"(word), "r"(src_lane), "r"(last_lane));
+#endif
     return word;
 }
 

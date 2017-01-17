@@ -43,6 +43,9 @@ namespace cub {
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
 
+#if (__CUDACC_VER__ >= 80500)
+#define CUB_USE_COOPERATIVE_GROUPS
+#endif
 
 /// CUB_PTX_ARCH reflects the PTX version targeted by the active compiler pass (or zero during the host pass).
 #ifndef CUB_PTX_ARCH
