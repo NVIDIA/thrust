@@ -285,7 +285,7 @@ template<unsigned int work_per_thread,
          typename Compare>
 __host__ __device__
 void stable_sort_each_copy(execution_policy<DerivedPolicy> &exec,
-                           Context context,
+                           Context,
                            unsigned int block_size,
                            RandomAccessIterator1 first, RandomAccessIterator1 last,
                            Pointer virtual_smem,

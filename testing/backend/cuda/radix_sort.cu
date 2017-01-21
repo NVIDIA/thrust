@@ -60,7 +60,7 @@ void InitializeSimpleStableKeyRadixSortTest(Vector& unsorted_keys, Vector& sorte
 template <class Vector>
 struct TestRadixSortKeySimple
 {
-  void operator()(const size_t dummy)
+  void operator()(const size_t)
   {
     typedef typename Vector::value_type T;
 

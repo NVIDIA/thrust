@@ -87,7 +87,7 @@ template<typename Alloc, typename T>
     typename disable_if<
       has_member_construct1<Alloc,T>::value
     >::type
-      construct(Alloc &a, T *p)
+      construct(Alloc &, T *p)
 {
   ::new(static_cast<void*>(p)) T();
 }

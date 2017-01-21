@@ -173,7 +173,7 @@ template<typename T>
      *        the objects stored at \p p.
      */
     __host__
-    inline void deallocate(pointer p, size_type cnt)
+    inline void deallocate(pointer p, size_type)
     {
       cudaError_t error = cudaFreeHost(p);
       

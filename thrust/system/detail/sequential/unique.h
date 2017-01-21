@@ -42,7 +42,7 @@ template<typename DerivedPolicy,
          typename OutputIterator,
          typename BinaryPredicate>
 __host__ __device__
-  OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &exec,
+  OutputIterator unique_copy(sequential::execution_policy<DerivedPolicy> &,
                              InputIterator first,
                              InputIterator last,
                              OutputIterator output,

@@ -5,7 +5,7 @@
 template <class Vector>
 struct TestVectorRangeInsertSimple
 {
-    void operator()(size_t dummy)
+    void operator()(size_t)
     {
         Vector v1(5);
         thrust::sequence(v1.begin(), v1.end());
@@ -171,7 +171,7 @@ VariableUnitTest<TestVectorRangeInsert, IntegralTypes> TestVectorRangeInsertInst
 template <class Vector>
 struct TestVectorFillInsertSimple
 {
-    void operator()(size_t dummy)
+    void operator()(size_t)
     {
         // test when insertion range fits inside capacity
         // and the size of the insertion is greater than the number

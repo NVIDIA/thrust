@@ -6,7 +6,7 @@
 static const size_t NUM_REGISTERS = 64;
 
 template <size_t N> __host__ __device__ void f   (int * x) { int temp = *x; f<N - 1>(x + 1); *x = temp;};
-template <>         __host__ __device__ void f<0>(int * x) { }
+template <>         __host__ __device__ void f<0>(int *)   { }
 template <size_t N>
 struct CopyFunctorWithManyRegisters
 {

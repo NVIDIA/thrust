@@ -58,7 +58,7 @@ void InitializeSimpleKeyValueRadixSortTest(Vector& unsorted_keys, Vector& unsort
 template <class Vector>
 struct TestRadixSortKeyValueSimple
 {
-  void operator()(const size_t dummy)
+  void operator()(const size_t)
   {
     typedef typename Vector::value_type T;
 

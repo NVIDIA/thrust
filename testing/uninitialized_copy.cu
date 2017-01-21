@@ -145,7 +145,7 @@ struct CopyConstructTest
   {}
 
   __host__ __device__
-  CopyConstructTest(const CopyConstructTest &exemplar)
+  CopyConstructTest(const CopyConstructTest &)
   {
 #if __CUDA_ARCH__
     copy_constructed_on_device = true;
@@ -171,7 +171,7 @@ struct CopyConstructTest
 
 struct TestUninitializedCopyNonPODDevice
 {
-  void operator()(const size_t dummy)
+  void operator()(const size_t)
   {
     typedef CopyConstructTest T;
 
@@ -197,7 +197,7 @@ DECLARE_UNITTEST(TestUninitializedCopyNonPODDevice);
 
 struct TestUninitializedCopyNNonPODDevice
 {
-  void operator()(const size_t dummy)
+  void operator()(const size_t)
   {
     typedef CopyConstructTest T;
 
@@ -223,7 +223,7 @@ DECLARE_UNITTEST(TestUninitializedCopyNNonPODDevice);
 
 struct TestUninitializedCopyNonPODHost
 {
-  void operator()(const size_t dummy)
+  void operator()(const size_t)
   {
     typedef CopyConstructTest T;
 
@@ -249,7 +249,7 @@ DECLARE_UNITTEST(TestUninitializedCopyNonPODHost);
 
 struct TestUninitializedCopyNNonPODHost
 {
-  void operator()(const size_t dummy)
+  void operator()(const size_t)
   {
     typedef CopyConstructTest T;
 

@@ -92,7 +92,7 @@ __host__ __device__
     Pointer
   >::type
     uninitialized_copy_with_allocator(Allocator &a,
-                                      const thrust::execution_policy<FromSystem> &from_system,
+                                      const thrust::execution_policy<FromSystem> &,
                                       const thrust::execution_policy<ToSystem> &to_system,
                                       InputIterator first,
                                       InputIterator last,
@@ -134,7 +134,7 @@ __host__ __device__
     Pointer
   >::type
     uninitialized_copy_with_allocator_n(Allocator &a,
-                                        const thrust::execution_policy<FromSystem> &from_system,
+                                        const thrust::execution_policy<FromSystem> &,
                                         const thrust::execution_policy<ToSystem> &to_system,
                                         InputIterator first,
                                         Size n,

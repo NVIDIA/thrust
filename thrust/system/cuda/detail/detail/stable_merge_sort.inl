@@ -243,7 +243,7 @@ template<unsigned int work_per_thread,
          typename Compare>
 __host__ __device__
 void merge_adjacent_partitions(thrust::system::cuda::execution_policy<DerivedPolicy> &exec,
-                               Context context,
+                               Context,
                                unsigned int block_size,
                                Size num_blocks_per_merge,
                                Iterator1 first,
