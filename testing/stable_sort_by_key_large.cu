@@ -93,9 +93,8 @@ void _TestStableSortByKeyWithLargeValues(void)
 void TestStableSortByKeyWithLargeValues(void)
 {
     _TestStableSortByKeyWithLargeValues<int,    4>();
-    // XXX this fail to compile
-//    _TestStableSortByKeyWithLargeValues<int,    8>();
-//    _TestStableSortByKeyWithLargeValues<int,   16>();
+    _TestStableSortByKeyWithLargeValues<int,    8>();
+    _TestStableSortByKeyWithLargeValues<int,   16>();
     
 // XXX these take too long to compile
 //    _TestStableSortByKeyWithLargeValues<int,   32>();
@@ -138,9 +137,8 @@ void _TestStableSortByKeyWithLargeKeysAndValues(void)
 void TestStableSortByKeyWithLargeKeysAndValues(void)
 {
     _TestStableSortByKeyWithLargeKeysAndValues<int,    4>();
-    // XXX this fail to compile
-//    _TestStableSortByKeyWithLargeKeysAndValues<int,    8>();
-//    _TestStableSortByKeyWithLargeKeysAndValues<int,   16>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,    8>();
+    _TestStableSortByKeyWithLargeKeysAndValues<int,   16>();
 
 // XXX these take too long to compile
 //    _TestStableSortByKeyWithLargeKeysAndValues<int,   32>();
