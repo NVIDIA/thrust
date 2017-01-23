@@ -812,13 +812,13 @@ struct DispatchRadixSort :
         temp_storage_bytes(temp_storage_bytes),
         d_keys(d_keys),
         d_values(d_values),
+        num_items(num_items),
         begin_bit(begin_bit),
         end_bit(end_bit),
         stream(stream),
         debug_synchronous(debug_synchronous),
-        is_overwrite_okay(is_overwrite_okay),
         ptx_version(ptx_version),
-        num_items(num_items)
+        is_overwrite_okay(is_overwrite_okay)
     {}
 
 

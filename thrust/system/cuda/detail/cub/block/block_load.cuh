@@ -808,7 +808,11 @@ private:
         typedef BlockExchange<InputT, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
 
         /// Shared memory storage layout type
-        struct _TempStorage : BlockExchange::TempStorage {};
+        struct _TempStorage : BlockExchange::TempStorage
+        {
+            /// Temporary storage for partially-full block guard
+            volatile int valid_items;
+        };
 
         /// Alias wrapper allowing storage to be unioned
         struct TempStorage : Uninitialized<_TempStorage> {};
@@ -845,7 +849,10 @@ private:
             InputT          (&items)[ITEMS_PER_THREAD],     ///< [out] Data to load
             int             valid_items)                    ///< [in] Number of valid items to load
         {
-            LoadDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items, valid_items);
+            if (linear_tid == 0)
+                temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
+            CTA_SYNC();
+            LoadDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items, temp_storage.valid_items);
             BlockExchange(temp_storage).StripedToBlocked(items, items);
         }
 
@@ -857,7 +864,10 @@ private:
             int             valid_items,                    ///< [in] Number of valid items to load
             DefaultT        oob_default)                    ///< [in] Default value to assign out-of-bound items
         {
-            LoadDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items, valid_items, oob_default);
+            if (linear_tid == 0)
+                temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
+            CTA_SYNC();
+            LoadDirectStriped<BLOCK_THREADS>(linear_tid, block_itr, items, temp_storage.valid_items, oob_default);
             BlockExchange(temp_storage).StripedToBlocked(items, items);
         }
 
@@ -882,7 +892,11 @@ private:
         typedef BlockExchange<InputT, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
 
         /// Shared memory storage layout type
-        struct _TempStorage : BlockExchange::TempStorage {};
+        struct _TempStorage : BlockExchange::TempStorage
+        {
+            /// Temporary storage for partially-full block guard
+            volatile int valid_items;
+        };
 
         /// Alias wrapper allowing storage to be unioned
         struct TempStorage : Uninitialized<_TempStorage> {};
@@ -919,7 +933,10 @@ private:
             InputT          (&items)[ITEMS_PER_THREAD],     ///< [out] Data to load
             int             valid_items)                    ///< [in] Number of valid items to load
         {
-            LoadDirectWarpStriped(linear_tid, block_itr, items, valid_items);
+            if (linear_tid == 0)
+                temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
+            CTA_SYNC();
+            LoadDirectWarpStriped(linear_tid, block_itr, items, temp_storage.valid_items);
             BlockExchange(temp_storage).WarpStripedToBlocked(items, items);
         }
 
@@ -932,7 +949,10 @@ private:
             int             valid_items,                    ///< [in] Number of valid items to load
             DefaultT        oob_default)                    ///< [in] Default value to assign out-of-bound items
         {
-            LoadDirectWarpStriped(linear_tid, block_itr, items, valid_items, oob_default);
+            if (linear_tid == 0)
+                temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
+            CTA_SYNC();
+            LoadDirectWarpStriped(linear_tid, block_itr, items, temp_storage.valid_items, oob_default);
             BlockExchange(temp_storage).WarpStripedToBlocked(items, items);
         }
     };
@@ -956,7 +976,11 @@ private:
         typedef BlockExchange<InputT, BLOCK_DIM_X, ITEMS_PER_THREAD, true, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchange;
 
         /// Shared memory storage layout type
-        struct _TempStorage : BlockExchange::TempStorage {};
+        struct _TempStorage : BlockExchange::TempStorage
+        {
+            /// Temporary storage for partially-full block guard
+            volatile int valid_items;
+        };
 
         /// Alias wrapper allowing storage to be unioned
         struct TempStorage : Uninitialized<_TempStorage> {};
@@ -993,7 +1017,10 @@ private:
             InputT          (&items)[ITEMS_PER_THREAD],     ///< [out] Data to load
             int             valid_items)                    ///< [in] Number of valid items to load
         {
-            LoadDirectWarpStriped(linear_tid, block_itr, items, valid_items);
+            if (linear_tid == 0)
+                temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
+            CTA_SYNC();
+            LoadDirectWarpStriped(linear_tid, block_itr, items, temp_storage.valid_items);
             BlockExchange(temp_storage).WarpStripedToBlocked(items, items);
         }
 
@@ -1006,7 +1033,10 @@ private:
             int             valid_items,                    ///< [in] Number of valid items to load
             DefaultT        oob_default)                    ///< [in] Default value to assign out-of-bound items
         {
-            LoadDirectWarpStriped(linear_tid, block_itr, items, valid_items, oob_default);
+            if (linear_tid == 0)
+                temp_storage.valid_items = valid_items;     // Move through volatile smem as a workaround to prevent RF spilling on subsequent loads
+            CTA_SYNC();
+            LoadDirectWarpStriped(linear_tid, block_itr, items, temp_storage.valid_items, oob_default);
             BlockExchange(temp_storage).WarpStripedToBlocked(items, items);
         }
     };

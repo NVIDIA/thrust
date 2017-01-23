@@ -1081,10 +1081,10 @@ namespace __merge_sort {
             keys_in_pong(keys_in_pong_),
             items_in_pong(items_in_pong_),
             keys_count(keys_count_),
-            keys_out_ping(keys_out_ping_),
-            items_out_ping(items_out_ping_),
             keys_out_pong(keys_out_pong_),
             items_out_pong(items_out_pong_),
+            keys_out_ping(keys_out_ping_),
+            items_out_ping(items_out_ping_),
             compare_op(compare_op_),
             merge_partitions(merge_partitions_),
             coop(coop_)
@@ -1611,26 +1611,6 @@ namespace __smart_sort {
              ItemsIt                   items_first,
              CompareOp                 compare_op)
   {
-    // for number of key/values below the threshold do use merge sort instead
-    // XXX need a good empiricaly formula for the threshold computation
-    // based on sizeof(key_type) and gpu arch 
-    typedef typename iterator_traits<KeysIt>::value_type key_type;
-#if 0 // see nvbugs/1825873
-    typedef typename iterator_traits<KeysIt>::difference_type diff_type;
-    diff_type n_threshold = 252984*sizeof(key_type)/sizeof(int);
-
-    if (keys_last - keys_first <= n_threshold)
-    {
-      __merge_sort::merge_sort<SORT_ITEMS, STABLE>(policy,
-                                                   keys_first,
-                                                   keys_last,
-                                                   items_first,
-                                                   compare_op);
-      return;
-    };
-#endif
-
-
     // ensure sequences have trivial iterators
     thrust::detail::trivial_sequence<KeysIt, Policy>
         keys(policy, keys_first, keys_last);

@@ -26,7 +26,7 @@ def RecursiveGlob(env, pattern, directory = Dir('.'), exclude = '\B'):
 
 # map features to the list of compiler switches implementing them
 gnu_compiler_flags = {
-  'warn_all'           : ['-Wextra'],
+  'warn_all'           : ['-Wextra', '-Wall'],
   'warnings_as_errors' : ['-Werror'],
   'release'            : ['-O2'],
   'debug'              : ['-g'],
@@ -42,7 +42,7 @@ gnu_compiler_flags = {
 }
 
 clang_compiler_flags = {
-  'warn_all'           : ['-Wextra'],
+  'warn_all'           : ['-Wextra', '-Wall'],
   'warnings_as_errors' : ['-Werror'],
   'release'            : ['-O2'],
   'debug'              : ['-g'],

@@ -247,7 +247,7 @@ namespace __extrema {
 
 
       // Get grid size for device_reduce_sweep_kernel
-      int reduce_grid_size;
+      int reduce_grid_size = 0;
       if (reduce_plan.grid_mapping == cub::GRID_MAPPING_EVEN_SHARE)
       {
         // Work is distributed evenly

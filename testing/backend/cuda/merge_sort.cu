@@ -193,6 +193,7 @@ void TestMergeSortAscendingKeyValue(const size_t n)
     ASSERT_EQUAL(h_keys,   d_keys);
     ASSERT_EQUAL(h_values, d_values);
 #else
+    (void)n;
     KNOWN_FAILURE;
 #endif
 }
@@ -247,6 +248,7 @@ void TestMergeSortKeyValue(size_t n)
 
   ASSERT_EQUAL_QUIET(h_data, d_data);
 #else
+    (void) n;
     KNOWN_FAILURE;
 #endif
 }

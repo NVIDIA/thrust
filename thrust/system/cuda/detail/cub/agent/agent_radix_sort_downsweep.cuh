@@ -304,7 +304,8 @@ struct AgentRadixSortDownsweep
             // Un-twiddle
             key = Traits<KeyT>::TwiddleOut(key);
 
-            if (FULL_TILE || (threadIdx.x + (ITEM * BLOCK_THREADS) < valid_items))
+            if (FULL_TILE || 
+                (static_cast<OffsetT>(threadIdx.x + (ITEM * BLOCK_THREADS)) < valid_items))
             {
                 d_keys_out[relative_bin_offsets[ITEM] + threadIdx.x + (ITEM * BLOCK_THREADS)] = key;
             }
@@ -363,7 +364,8 @@ struct AgentRadixSortDownsweep
         {
             ValueT value = smem[threadIdx.x + (ITEM * BLOCK_THREADS)];
 
-            if (FULL_TILE || (threadIdx.x + (ITEM * BLOCK_THREADS) < valid_items))
+            if (FULL_TILE || 
+                (static_cast<OffsetT>(threadIdx.x + (ITEM * BLOCK_THREADS)) < valid_items))
             {
                 d_values_out[relative_bin_offsets[ITEM] + threadIdx.x + (ITEM * BLOCK_THREADS)] = value;
             }
@@ -649,8 +651,8 @@ struct AgentRadixSortDownsweep
         temp_storage(temp_storage.Alias()),
         bin_offset(bin_offset),
         d_keys_in(reinterpret_cast<const UnsignedBits*>(d_keys_in)),
-        d_keys_out(reinterpret_cast<UnsignedBits*>(d_keys_out)),
         d_values_in(d_values_in),
+        d_keys_out(reinterpret_cast<UnsignedBits*>(d_keys_out)),
         d_values_out(d_values_out),
         current_bit(current_bit),
         num_bits(num_bits),
@@ -682,8 +684,8 @@ struct AgentRadixSortDownsweep
     :
         temp_storage(temp_storage.Alias()),
         d_keys_in(reinterpret_cast<const UnsignedBits*>(d_keys_in)),
-        d_keys_out(reinterpret_cast<UnsignedBits*>(d_keys_out)),
         d_values_in(d_values_in),
+        d_keys_out(reinterpret_cast<UnsignedBits*>(d_keys_out)),
         d_values_out(d_values_out),
         current_bit(current_bit),
         num_bits(num_bits),

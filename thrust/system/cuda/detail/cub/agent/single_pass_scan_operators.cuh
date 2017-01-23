@@ -690,8 +690,8 @@ struct TilePrefixCallbackOp
         ScanOpT              scan_op,
         int                 tile_idx)
     :
-        tile_status(tile_status),
         temp_storage(temp_storage.Alias()),
+        tile_status(tile_status),
         scan_op(scan_op),
         tile_idx(tile_idx) {}
 

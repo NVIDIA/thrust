@@ -417,7 +417,7 @@ struct BlockScanRaking
 
                 // Broadcast aggregate to other threads
                 if (linear_tid == 0)
-                  temp_storage.block_aggregate = block_aggregate;
+                    temp_storage.block_aggregate = block_aggregate;
             }
 
             CTA_SYNC();

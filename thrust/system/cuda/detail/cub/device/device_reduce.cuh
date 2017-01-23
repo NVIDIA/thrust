@@ -666,10 +666,8 @@ struct DeviceReduce
         typedef int OffsetT;
 
         // FlagT iterator type (not used)
-        typedef NullType* FlagIterator;
 
         // Selection op (not used)
-        typedef NullType SelectOp;
 
         // Default == operator
         typedef Equality EqualityOp;

@@ -216,12 +216,6 @@ namespace __transform {
     if (num_items == 0)
       return result;
 
-    typedef typename detail::eval_if<
-        detail::has_result_type<TransformOp>::value,
-        detail::result_type<TransformOp>,
-        iterator_value<OutputIt> >::type result_type;
-
-
     typedef unary_transform_f<InputIt,
                               OutputIt,
                               StencilIt,
@@ -259,11 +253,6 @@ namespace __transform {
   {
     if (num_items == 0)
       return result;
-
-    typedef typename detail::eval_if<
-        detail::has_result_type<TransformOp>::value,
-        detail::result_type<TransformOp>,
-        iterator_value<OutputIt> >::type result_type;
 
     typedef binary_transform_f<InputIt1,
                                InputIt2,
