@@ -97,18 +97,6 @@ namespace __reduce_by_key {
   struct Tuning;
   
   template <class Key, class Value>
-  struct Tuning<sm20, Key, Value>
-  {
-    typedef PtxPolicy<32,
-                      1,
-                      cub::BLOCK_LOAD_DIRECT,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_SCAN_WARP_SCANS>
-        type;
-  };    // Tuning sm20
-
-
-  template <class Key, class Value>
   struct Tuning<sm30, Key, Value>
   {
     enum

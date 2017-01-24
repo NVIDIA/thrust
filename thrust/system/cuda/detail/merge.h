@@ -208,25 +208,6 @@ namespace __merge {
   };
   
   template<class TSize>
-  struct Tuning<sm20,TSize>
-  {
-    const static int INPUT_SIZE = TSize::value;
-    enum
-    {
-      NOMINAL_4B_ITEMS_PER_THREAD = 7,
-      ITEMS_PER_THREAD            = items_per_thread<NOMINAL_4B_ITEMS_PER_THREAD,
-                                          INPUT_SIZE>::value
-    };
-
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_STORE_WARP_TRANSPOSE>
-        type;
-  };    // Tuning sm20
-  
-  template<class TSize>
   struct Tuning<sm30,TSize>
   {
     const static int INPUT_SIZE = TSize::value;

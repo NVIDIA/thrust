@@ -223,23 +223,6 @@ namespace __merge_sort {
         type;
   };
   
-  template<class T>  
-  struct Tuning<sm20,T>
-  {
-    enum
-    {
-      NOMINAL_4B_ITEMS_PER_THREAD = 7,
-      ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(1, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T)))),
-    };
-
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
-                      cub::LOAD_LDG,
-                      cub::BLOCK_STORE_TRANSPOSE>
-        type;
-  };
-  
   template <class KeysIt,
             class ItemsIt,
             class Size,

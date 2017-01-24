@@ -154,30 +154,6 @@ namespace __scan {
   struct Tuning;
   
   template<class T, class U>
-  struct Tuning<sm20,T,U>
-  {
-    typedef sm20 Arch;
-    enum
-    {
-      NOMINAL_4B_BLOCK_THREADS    = 32,
-      NOMINAL_4B_ITEMS_PER_THREAD = 1,
-    };
-
-    typedef PtxPolicy<THRUST_BLOCK_THREADS<Arch,
-                                           NOMINAL_4B_BLOCK_THREADS,
-                                           T>::value,
-                      THRUST_ITEMS_PER_THREAD<Arch,
-                                              NOMINAL_4B_ITEMS_PER_THREAD,
-                                              NOMINAL_4B_BLOCK_THREADS,
-                                              T>::value,
-                      cub::BLOCK_LOAD_DIRECT,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_STORE_DIRECT,
-                      cub::BLOCK_SCAN_WARP_SCANS>
-        type;
-  };    // struct Tuning for sm20
-
-  template<class T, class U>
   struct Tuning<sm30,T,U>
   {
     typedef sm30 Arch;

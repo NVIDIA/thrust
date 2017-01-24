@@ -96,28 +96,6 @@ namespace __reduce {
   struct Tuning;
   
   template <class T>
-  struct Tuning<sm20, T>
-  {
-    enum
-    {
-      // Relative size of T type to a 4-byte word
-      SCALE_FACTOR_4B = (sizeof(T) + 3) / 4,
-      // Relative size of T type to a 1-byte word
-      SCALE_FACTOR_1B = sizeof(T),
-    };
-
-    typedef PtxPolicy<192,                                 
-                      CUB_MAX(1, 24 / SCALE_FACTOR_4B),   
-                      4,                                 
-                      cub::BLOCK_REDUCE_RAKING,    
-                      cub::LOAD_DEFAULT,                   
-                      (sizeof(T) == 1) ?                  ///< How to map tiles of input onto thread blocks
-                        cub::GRID_MAPPING_EVEN_SHARE :
-                        cub::GRID_MAPPING_DYNAMIC>
-        type;
-  }; // Tuning sm20
-
-  template <class T>
   struct Tuning<sm30, T>
   {
     enum

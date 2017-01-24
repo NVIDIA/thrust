@@ -204,25 +204,6 @@ namespace __binary_search {
   
   template <class Arch, class T>
   struct Tuning;
-  
-  template<class T>  
-  struct Tuning<sm20,T>
-  {
-    enum
-    {
-      NOMINAL_4B_ITEMS_PER_THREAD = 7,
-      ITEMS_PER_THREAD            = CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD, CUB_MAX(3, (NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T)))),
-    };
-
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
-                      1,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_STORE_TRANSPOSE>
-        type;
-  };
-  
 
   template<class T>  
   struct Tuning<sm30,T>

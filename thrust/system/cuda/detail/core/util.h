@@ -48,13 +48,10 @@ namespace core {
 #  define THRUST_TUNING_ARCH sm52
 #elif (CUB_PTX_ARCH >= 350)
 #  define THRUST_TUNING_ARCH sm35
-#elif (CUB_PTX_ARCH >= 300)
-#  define THRUST_TUNING_ARCH sm30
 #else
-#  define THRUST_TUNING_ARCH sm20
+#  define THRUST_TUNING_ARCH sm30
 #endif
 
-  struct sm20  { enum { ver = 200, warpSize = 32 }; };
   struct sm30  { enum { ver = 300, warpSize = 32 }; };
   struct sm35  { enum { ver = 350, warpSize = 32 }; };
   struct sm52  { enum { ver = 520, warpSize = 32 }; };
@@ -64,13 +61,12 @@ namespace core {
   // supported SM versions
   // ---------------------
   template<size_t I=(size_t)-1> 
-  struct sm_arch { enum {count = 5}; };
+  struct sm_arch { enum {count = 4}; };
 
-  template<> struct sm_arch<4> : sm60 { typedef sm60 type; typedef sm_arch<3> next;};
-  template<> struct sm_arch<3> : sm52 { typedef sm52 type; typedef sm_arch<2> next;};
-  template<> struct sm_arch<2> : sm35 { typedef sm35 type; typedef sm_arch<1> next;};
-  template<> struct sm_arch<1> : sm30 { typedef sm30 type; typedef sm_arch<0> next;};
-  template<> struct sm_arch<0> : sm20 { typedef sm20 type; };
+  template<> struct sm_arch<3> : sm60 { typedef sm60 type; typedef sm_arch<2> next;};
+  template<> struct sm_arch<2> : sm52 { typedef sm52 type; typedef sm_arch<1> next;};
+  template<> struct sm_arch<1> : sm35 { typedef sm35 type; typedef sm_arch<0> next;};
+  template<> struct sm_arch<0> : sm30 { typedef sm30 type; };
 
 
   // metafunction to find next viable PtxPlan specialization
@@ -265,13 +261,11 @@ namespace core {
           v2= temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<1>::type> >::value,
           v3 =temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<2>::type> >::value,
           v4 = temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<3>::type> >::value,
-          v5 = temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<4>::type> >::value,
       value =
           temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<0>::type> >::value <= MAX_SHMEM &&
           temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<1>::type> >::value <= MAX_SHMEM &&
           temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<2>::type> >::value <= MAX_SHMEM &&
-          temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<3>::type> >::value <= MAX_SHMEM &&
-          temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<4>::type> >::value <= MAX_SHMEM
+          temp_storage_size<specialize_plan<Agent::template PtxPlan, typename sm_arch<3>::type> >::value <= MAX_SHMEM
     };
     typedef typename detail::conditional<value,
                                          detail::true_type,
@@ -371,13 +365,9 @@ namespace core {
     {
       return Plan(specialize_plan<Agent::template PtxPlan, sm35>());
     }
-    else if (ptx_version >= 300)
-    {
-      return Plan(specialize_plan<Agent::template PtxPlan, sm30>());
-    } 
     else
     {
-      return Plan(specialize_plan<Agent::template PtxPlan, sm20>());
+      return Plan(specialize_plan<Agent::template PtxPlan, sm30>());
     }
 #endif
   }    // function get_agent_config
@@ -857,7 +847,6 @@ using core::sm60;
 using core::sm52;
 using core::sm35;
 using core::sm30;
-using core::sm20;
 } // namespace cuda_ 
 
 END_NS_THRUST

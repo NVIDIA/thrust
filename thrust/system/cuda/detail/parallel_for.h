@@ -60,7 +60,7 @@ namespace __parallel_for {
   struct Tuning;
 
   template <class F>
-  struct Tuning<sm20, F>
+  struct Tuning<sm30, F>
   {
     typedef PtxPolicy<256, 2> type;
   };

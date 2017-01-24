@@ -173,17 +173,6 @@ namespace __unique {
         type;
   };    // Tuning for sm30
   
-  template<class T>
-  struct Tuning<sm20,T>
-  {
-    typedef PtxPolicy<32,
-                      1,
-                      cub::BLOCK_LOAD_DIRECT,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_SCAN_WARP_SCANS>
-        type;
-  };    // Tuning for sm20
-
   template <class ItemsIt,
             class ItemsOutputIt,
             class BinaryPred,

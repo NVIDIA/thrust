@@ -101,24 +101,6 @@ namespace __adjacent_difference {
   struct Tuning;
   
   template <class T>
-  struct Tuning<sm20, T>
-  {
-    enum
-    {
-      INPUT_SIZE                  = sizeof(T),
-      NOMINAL_4B_ITEMS_PER_THREAD = 7,
-      ITEMS_PER_THREAD            = items_per_thread<INPUT_SIZE,
-                                          NOMINAL_4B_ITEMS_PER_THREAD>::value
-    };
-    typedef PtxPolicy<128,
-                      ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_STORE_WARP_TRANSPOSE>
-        type;
-  }; // sm20
-
-  template <class T>
   struct Tuning<sm30, T>
   {
     enum

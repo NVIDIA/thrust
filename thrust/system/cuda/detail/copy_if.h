@@ -149,19 +149,6 @@ namespace __copy_if {
         type;
   };    // Tuning<300>
   
-  template<class T>
-  struct Tuning<sm20, T>
-  {
-    typedef PtxPolicy<32,
-                      1,
-                      1,
-                      cub::BLOCK_LOAD_DIRECT,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_SCAN_WARP_SCANS>
-        type;
-  };    // sm20
-
-
   struct no_stencil_tag_    {};
   typedef no_stencil_tag_* no_stencil_tag;
   template <class ItemsIt,

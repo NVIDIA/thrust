@@ -109,18 +109,6 @@ namespace __partition {
         type;
   };    // Tuning<300>
   
-  template<class T>
-  struct Tuning<sm20, T>
-  {
-    typedef PtxPolicy<32,
-                      1,
-                      1,
-                      cub::BLOCK_LOAD_DIRECT,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_SCAN_WARP_SCANS>
-        type;
-  };    // sm20
-
   template<int T>
   struct __tag{};
 

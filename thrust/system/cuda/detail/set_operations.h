@@ -223,17 +223,6 @@ namespace __set_operations {
   namespace mpl = thrust::detail::mpl::math;
   
   template<class T, class U>
-  struct Tuning<sm20,T,U>
-  {
-    typedef PtxPolicy<32,
-                      1,
-                      cub::BLOCK_LOAD_DIRECT,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_SCAN_WARP_SCANS>
-        type;
-  }; // tuning sm20
-
-  template<class T, class U>
   struct Tuning<sm30,T,U>
   {
     enum
