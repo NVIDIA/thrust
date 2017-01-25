@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/reduce_by_key.h>
-#include <thrust/system/cuda_bulk/detail/reduce_by_key.h>
+#include <thrust/system/cuda/detail/reduce_by_key.h>
 #include <thrust/system/omp/detail/reduce_by_key.h>
 #include <thrust/system/tbb/detail/reduce_by_key.h>
 #endif

@@ -4,7 +4,7 @@
 #include <vector>
 #include <list>
 #include <limits>
-
+#include <utility>
 
 template <class Vector>
 void TestVectorZeroSize(void)
@@ -734,4 +734,57 @@ void TestVectorReversed(void)
   ASSERT_EQUAL(1, *(v.rend() - 2));
 }
 DECLARE_VECTOR_UNITTEST(TestVectorReversed);
+
+#if __cplusplus >= 201103L
+  template <class Vector>
+  void TestVectorMove(void)
+  {
+    //test move construction
+    Vector v1(3);
+    v1[0] = 0; v1[1] = 1; v1[2] = 2;
+
+    const auto ptr1 = v1.data();
+    const auto size1 = v1.size();
+
+    Vector v2(std::move(v1));
+    const auto ptr2 = v2.data();
+    const auto size2 = v2.size();
+
+    // ensure v1 was left empty
+    ASSERT_EQUAL(true, v1.empty());
+
+    // ensure v2 received the data from before
+    ASSERT_EQUAL(v2[0], 0);
+    ASSERT_EQUAL(v2[1], 1);
+    ASSERT_EQUAL(v2[2], 2);
+    ASSERT_EQUAL(size1, size2);
+
+    // ensure v2 received the pointer from before
+    ASSERT_EQUAL(ptr1, ptr2);
+
+    //test move assignment
+    Vector v3(3);
+    v3[0] = 3; v3[1] = 4; v3[2] = 5;
+
+    const auto ptr3 = v3.data();
+    const auto size3 = v3.size();
+
+    v2 = std::move(v3);
+    const auto ptr4 = v2.data();
+    const auto size4 = v2.size();
+
+    // ensure v3 was left empty
+    ASSERT_EQUAL(true, v3.empty());
+
+    // ensure v2 received the data from before
+    ASSERT_EQUAL(v2[0], 3);
+    ASSERT_EQUAL(v2[1], 4);
+    ASSERT_EQUAL(v2[2], 5);
+    ASSERT_EQUAL(size3, size4);
+
+    // ensure v2 received the pointer from before
+    ASSERT_EQUAL(ptr3, ptr4);
+  }
+  DECLARE_VECTOR_UNITTEST(TestVectorMove);
+#endif
 

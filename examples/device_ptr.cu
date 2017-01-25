@@ -6,6 +6,7 @@
 #include <thrust/reduce.h>
 
 #include <cassert>
+#include <iostream>
 
 int main(void)
 {
@@ -35,11 +36,7 @@ int main(void)
   thrust::device_ptr<int> wrapped_ptr = thrust::device_pointer_cast(raw_ptr);
 
   // back to where we started
-  if (!(wrapped_ptr == d_ptr))
-  {
-    std::cout << "FATAL: (wrapped_ptr == d_ptr) is FALSE" << std::endl;
-    return -1;
-  }
+  assert(wrapped_ptr == d_ptr);
 
   // deallocate device memory
   thrust::device_free(d_ptr);

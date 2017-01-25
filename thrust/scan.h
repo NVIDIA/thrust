@@ -476,7 +476,7 @@ template<typename InputIterator,
  *  corresponding input operand in the partial sum.  More precisely,
  *  \p init is assigned to <tt>\*result</tt> and the value
  *  <tt>binary_op(init, \*first)</tt> is assigned to <tt>\*(result + 1)</tt>,
- *  and so on. This version of the function requires both and associative 
+ *  and so on. This version of the function requires both an associative 
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.
  *
@@ -544,7 +544,7 @@ __host__ __device__
  *  corresponding input operand in the partial sum.  More precisely,
  *  \p init is assigned to <tt>\*result</tt> and the value
  *  <tt>binary_op(init, \*first)</tt> is assigned to <tt>\*(result + 1)</tt>,
- *  and so on. This version of the function requires both and associative 
+ *  and so on. This version of the function requires both an associative 
  *  operator and an initial value \p init.  When the input and output
  *  sequences are the same, the scan is performed in-place.
  *    

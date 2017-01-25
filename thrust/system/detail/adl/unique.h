@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/unique.h>
-#include <thrust/system/cuda_bulk/detail/unique.h>
+#include <thrust/system/cuda/detail/unique.h>
 #include <thrust/system/omp/detail/unique.h>
 #include <thrust/system/tbb/detail/unique.h>
 #endif

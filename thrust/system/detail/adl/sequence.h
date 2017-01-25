@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/sequence.h>
-#include <thrust/system/cuda_bulk/detail/sequence.h>
+#include <thrust/system/cuda/detail/sequence.h>
 #include <thrust/system/omp/detail/sequence.h>
 #include <thrust/system/tbb/detail/sequence.h>
 #endif

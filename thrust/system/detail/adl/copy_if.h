@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/copy_if.h>
-#include <thrust/system/cuda_bulk/detail/copy_if.h>
+#include <thrust/system/cuda/detail/copy_if.h>
 #include <thrust/system/omp/detail/copy_if.h>
 #include <thrust/system/tbb/detail/copy_if.h>
 #endif

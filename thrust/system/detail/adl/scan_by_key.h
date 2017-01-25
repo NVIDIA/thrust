@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/scan_by_key.h>
-#include <thrust/system/cuda_bulk/detail/scan_by_key.h>
+#include <thrust/system/cuda/detail/scan_by_key.h>
 #include <thrust/system/omp/detail/scan_by_key.h>
 #include <thrust/system/tbb/detail/scan_by_key.h>
 #endif

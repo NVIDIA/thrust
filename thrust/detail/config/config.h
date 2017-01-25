@@ -22,9 +22,6 @@
 
 // XXX the order of these #includes matters
 
-template<class T>
-class TD;
-
 #include <thrust/detail/config/simple_defines.h>
 #include <thrust/detail/config/compiler.h>
 // host_system.h & device_system.h must be #included as early as possible

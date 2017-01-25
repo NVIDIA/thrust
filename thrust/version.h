@@ -71,7 +71,7 @@
  *  \brief The preprocessor macro \p THRUST_PATCH_NUMBER encodes the
  *         patch number of the Thrust library.
  */
-#define THRUST_PATCH_NUMBER 2
+#define THRUST_PATCH_NUMBER 3
 
 
 // Declare these namespaces here for the purpose of Doxygenating them

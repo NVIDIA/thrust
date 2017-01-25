@@ -1,6 +1,7 @@
 #include <thrust/device_vector.h>
 #include <thrust/functional.h>
 #include <thrust/transform.h>
+#include <iostream>
 
 // This example demonstrates the use of placeholders to implement
 // the SAXPY operation (i.e. Y[i] = a * X[i] + Y[i]).

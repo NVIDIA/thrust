@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/scatter.h>
-#include <thrust/system/cuda_bulk/detail/scatter.h>
+#include <thrust/system/cuda/detail/scatter.h>
 #include <thrust/system/omp/detail/scatter.h>
 #include <thrust/system/tbb/detail/scatter.h>
 #endif

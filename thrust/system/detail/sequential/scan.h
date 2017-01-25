@@ -85,7 +85,6 @@ __host__ __device__
   {
     ValueType sum = *first;
 
-    // the first item is just a copy of the first input value
     *result = *first;
 
     for(++first, ++result; first != last; ++first, ++result)

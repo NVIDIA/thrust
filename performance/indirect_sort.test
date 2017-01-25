@@ -1,8 +1,6 @@
 PREAMBLE = \
     """
     #include <thrust/sort.h>
-    #include <thrust/gather.h>
-    #include <thrust/sequence.h>
 
     template <typename RandomAccessIterator, typename StrictWeakOrdering> 
     struct indirect_comp

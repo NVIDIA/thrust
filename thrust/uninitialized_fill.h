@@ -38,7 +38,7 @@ namespace thrust
  *  an object and then creates an object at that location by calling a
  *  constructor. Occasionally, however, it is useful to separate those two
  *  operations. If each iterator in the range <tt>[first, last)</tt> points
- *  to unitialized memory, then \p unitialized_fill creates copies of \c x
+ *  to uninitialized memory, then \p uninitialized_fill creates copies of \c x
  *  in that range. That is, for each iterator \c i in the range <tt>[first, last)</tt>,
  *  \p uninitialized_fill creates a copy of \c x in the location pointed to \c i by
  *  calling \p ForwardIterator's \c value_type's copy constructor.
@@ -99,7 +99,7 @@ __host__ __device__
  *  an object and then creates an object at that location by calling a
  *  constructor. Occasionally, however, it is useful to separate those two
  *  operations. If each iterator in the range <tt>[first, last)</tt> points
- *  to unitialized memory, then \p unitialized_fill creates copies of \c x
+ *  to uninitialized memory, then \p uninitialized_fill creates copies of \c x
  *  in that range. That is, for each iterator \c i in the range <tt>[first, last)</tt>,
  *  \p uninitialized_fill creates a copy of \c x in the location pointed to \c i by
  *  calling \p ForwardIterator's \c value_type's copy constructor.
@@ -153,7 +153,7 @@ template<typename ForwardIterator, typename T>
  *  an object and then creates an object at that location by calling a
  *  constructor. Occasionally, however, it is useful to separate those two
  *  operations. If each iterator in the range <tt>[first, first+n)</tt> points
- *  to unitialized memory, then \p unitialized_fill creates copies of \c x
+ *  to uninitialized memory, then \p uninitialized_fill creates copies of \c x
  *  in that range. That is, for each iterator \c i in the range <tt>[first, first+n)</tt>,
  *  \p uninitialized_fill creates a copy of \c x in the location pointed to \c i by
  *  calling \p ForwardIterator's \c value_type's copy constructor.
@@ -215,7 +215,7 @@ __host__ __device__
  *  an object and then creates an object at that location by calling a
  *  constructor. Occasionally, however, it is useful to separate those two
  *  operations. If each iterator in the range <tt>[first, first+n)</tt> points
- *  to unitialized memory, then \p unitialized_fill creates copies of \c x
+ *  to uninitialized memory, then \p uninitialized_fill creates copies of \c x
  *  in that range. That is, for each iterator \c i in the range <tt>[first, first+n)</tt>,
  *  \p uninitialized_fill creates a copy of \c x in the location pointed to \c i by
  *  calling \p ForwardIterator's \c value_type's copy constructor.

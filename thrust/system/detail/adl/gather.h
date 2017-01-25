@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/gather.h>
-#include <thrust/system/cuda_bulk/detail/gather.h>
+#include <thrust/system/cuda/detail/gather.h>
 #include <thrust/system/omp/detail/gather.h>
 #include <thrust/system/tbb/detail/gather.h>
 #endif

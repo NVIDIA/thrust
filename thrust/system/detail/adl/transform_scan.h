@@ -29,7 +29,7 @@
 // including inside an #if 0.
 #if 0
 #include <thrust/system/cpp/detail/transform_scan.h>
-#include <thrust/system/cuda_bulk/detail/transform_scan.h>
+#include <thrust/system/cuda/detail/transform_scan.h>
 #include <thrust/system/omp/detail/transform_scan.h>
 #include <thrust/system/tbb/detail/transform_scan.h>
 #endif
