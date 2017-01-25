@@ -511,7 +511,7 @@ namespace core {
     THRUST_RUNTIME_FUNCTION
     typename core::get_plan<Agent>::type static get_plan()
     {
-      return get_agent_plan<Agent>(sm_arch<0>::type::ver);
+      return get_agent_plan<Agent>(lowest_supported_sm_arch::ver);
     }
 
     CUB_RUNTIME_FUNCTION void sync() const
