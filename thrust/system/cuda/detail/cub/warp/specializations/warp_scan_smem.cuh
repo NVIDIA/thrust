@@ -199,9 +199,7 @@ struct WarpScanSmem
         }
         WARP_SYNC();
 
-        T value = (T)ThreadLoad<LOAD_VOLATILE>(temp_storage);
-        WARP_SYNC();
-        return value;
+        return (T)ThreadLoad<LOAD_VOLATILE>(temp_storage);
     }
 
 
@@ -283,7 +281,6 @@ struct WarpScanSmem
         ThreadStore<STORE_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id], (CellT) inclusive);
         WARP_SYNC();
         exclusive = (T) ThreadLoad<LOAD_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id - 1]);
-        WARP_SYNC();
         if (lane_id == 0)
             exclusive = initial_value;
     }
@@ -317,7 +314,6 @@ struct WarpScanSmem
         WARP_SYNC();
         exclusive = (T) ThreadLoad<LOAD_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id - 1]);
         warp_aggregate = (T) ThreadLoad<LOAD_VOLATILE>(&temp_storage[WARP_SMEM_ELEMENTS - 1]);
-        WARP_SYNC();
     }
 
     /// Update inclusive, exclusive, and warp aggregate using input and inclusive (specialized for summation of integer types)
@@ -333,7 +329,6 @@ struct WarpScanSmem
         ThreadStore<STORE_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id], (CellT) inclusive);
         WARP_SYNC();
         warp_aggregate = (T) ThreadLoad<LOAD_VOLATILE>(&temp_storage[WARP_SMEM_ELEMENTS - 1]);
-        WARP_SYNC();
         exclusive = inclusive - input;
     }
 
@@ -361,7 +356,6 @@ struct WarpScanSmem
         ThreadStore<STORE_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id - 1], (CellT) inclusive);
         WARP_SYNC();
         exclusive = (T) ThreadLoad<LOAD_VOLATILE>(&temp_storage[HALF_WARP_THREADS + lane_id - 2]);
-        WARP_SYNC();
 
         if (lane_id == 0)
             exclusive = initial_value;
