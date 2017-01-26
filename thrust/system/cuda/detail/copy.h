@@ -27,8 +27,6 @@
 #pragma once
 
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
-
 #include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/cross_system.h>
@@ -51,6 +49,7 @@ copy_n(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
 
 namespace cuda_cub {
 
+// D->D copy requires NVCC compiler
 template <class System,
           class InputIterator,
           class OutputIterator>
@@ -59,7 +58,6 @@ copy(execution_policy<System> &system,
      InputIterator             first,
      InputIterator             last,
      OutputIterator            result);
-
 
 template <class System1,
           class System2,
@@ -104,6 +102,10 @@ END_NS_THRUST
 BEGIN_NS_THRUST
 namespace cuda_cub {
 
+
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+// D->D copy requires NVCC compiler
+
 __thrust_exec_check_disable__
 template <class System,
           class InputIterator,
@@ -132,21 +134,6 @@ copy(execution_policy<System> &system,
   return ret;
 }    // end copy()
 
-
-template <class System1,
-          class System2,
-          class InputIterator,
-          class OutputIterator>
-OutputIterator __host__
-copy(cross_system<System1, System2> systems,
-     InputIterator  first,
-     InputIterator  last,
-     OutputIterator result)
-{
-  return __copy::cross_system_copy(systems,first,last,result);
-} // end copy()
-
-
 __thrust_exec_check_disable__
 template <class System,
           class InputIterator,
@@ -172,7 +159,20 @@ copy_n(execution_policy<System> &system,
 
   return ret;
 } // end copy_n()
+#endif
 
+template <class System1,
+          class System2,
+          class InputIterator,
+          class OutputIterator>
+OutputIterator __host__
+copy(cross_system<System1, System2> systems,
+     InputIterator  first,
+     InputIterator  last,
+     OutputIterator result)
+{
+  return __copy::cross_system_copy(systems,first,last,result);
+} // end copy()
 
 template <class System1,
           class System2,
@@ -191,7 +191,6 @@ copy_n(cross_system<System1, System2> systems,
 
 }    // namespace cuda_cub
 END_NS_THRUST
-#endif
 
 #include <thrust/memory.h>
 #include <thrust/detail/temporary_array.h>

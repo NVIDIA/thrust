@@ -30,7 +30,6 @@
 // this file must not be included on its own, ever,
 // but must be part of include in thrust/system/cuda/detail/copy.h
 
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 
 #include <thrust/detail/dispatch/is_trivial_copy.h>
@@ -169,7 +168,10 @@ namespace __copy {
     return ret;
   }
 
-  // non-trivial copy D->H
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+  // non-trivial copy D->H, only supported with NVCC compiler
+  // because copy ctor must have  __device__ annotations ,which is nvcc-only
+  // feature
   template <class D,
             class H,
             class InputIt,
@@ -226,6 +228,7 @@ namespace __copy {
 
     return ret;
   }
+#endif
 
   template <class System1,
             class System2,
@@ -268,4 +271,3 @@ namespace __copy {
 
 } // namespace cuda_cub
 END_NS_THRUST
-#endif
