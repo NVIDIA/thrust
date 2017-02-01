@@ -291,6 +291,18 @@ __device__  __forceinline__ void WARP_SYNC()
 }
 
 /**
+ * Warp ballot
+ */
+__device__  __forceinline__ int WARP_BALLOT(int predicate)
+{
+#ifdef CUB_USE_COOPERATIVE_GROUPS
+  return __ballot_sync(WARP_MASK(), predicate);
+#else
+  return __ballot(predicate);
+#endif
+}
+
+/**
  * Warp synchronous shfl_up
  */
 __device__ __forceinline__ 

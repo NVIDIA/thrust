@@ -518,7 +518,7 @@ struct WarpScanShfl
 
         KeyT pred_key = ShuffleUp(inclusive_output.key, 1);
 
-        unsigned int ballot = __ballot((pred_key != inclusive_output.key));
+        unsigned int ballot = WARP_BALLOT((pred_key != inclusive_output.key));
 
         // Mask away all lanes greater than ours
         ballot = ballot & LaneMaskLe();

@@ -515,7 +515,7 @@ struct WarpReduceShfl
         ReductionOp     reduction_op)       ///< [in] Binary reduction operator
     {
         // Get the start flags for each thread in the warp.
-        int warp_flags = __ballot(flag);
+        int warp_flags = WARP_BALLOT(flag);
 
         if (HEAD_SEGMENTED)
             warp_flags >>= 1;

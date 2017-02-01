@@ -193,7 +193,7 @@ struct WarpReduceSmem
         Int2Type<true>  /*has_ballot*/)         ///< [in] Marker type for whether the target arch has ballot functionality
     {
         // Get the start flags for each thread in the warp.
-        int warp_flags = __ballot(flag);
+        int warp_flags = WARP_BALLOT(flag);
 
         if (!HEAD_SEGMENTED)
             warp_flags <<= 1;
