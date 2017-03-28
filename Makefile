@@ -316,9 +316,18 @@ docs.clean:
 	$(MAKE) -f internal/doc/pdf.mk ROOTDIR=$(ROOTDIR) clean
 
 ifeq ($(OS), win32)
-MAKE_DVS_PACKAGE = $(ZIP) -r built/CUDA-thrust-package.zip bin thrust/internal/test $(DVS_COMMON_TEST_PACKAGE_FILES)
-else
-MAKE_DVS_PACKAGE = tar -cvj -f built/CUDA-thrust-package.tar.bz2 bin thrust/internal/test $(DVS_COMMON_TEST_PACKAGE_FILES)
+CREATE_DVS_PACKAGE = $(ZIP) -r built/CUDA-thrust-package.zip bin thrust/internal/test $(DVS_COMMON_TEST_PACKAGE_FILES)
+APPEND_HEADERS_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.h
+APPEND_INL_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.inl
+APPEND_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.cuh
+MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_HEADERS_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE)
+else 
+CREATE_DVS_PACKAGE = tar -cv -f built/CUDA-thrust-package.tar bin thrust/internal/test $(DVS_COMMON_TEST_PACKAGE_FILES)
+APPEND_HEADERS_DVS_PACKAGE = find thrust -name "*.h" | xargs tar rvf built/CUDA-thrust-package.tar
+APPEND_INL_DVS_PACKAGE = find thrust -name "*.inl" | xargs tar rvf built/CUDA-thrust-package.tar
+APPEND_CUH_DVS_PACKAGE = find thrust -name "*.cuh" | xargs tar rvf built/CUDA-thrust-package.tar
+COMPRESS_DVS_PACKAGE = bzip2 built/CUDA-thrust-package.tar
+MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_HEADERS_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE) && $(COMPRESS_DVS_PACKAGE)
 endif
 
 DVS_OPTIONS :=
@@ -335,7 +344,7 @@ THRUST_DVS_BUILD = release
 dvs:
 	$(MAKE) $(DVS_OPTIONS) -s -C ../cuda $(THRUST_DVS_BUILD)
 	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1
-	cd .. && $(MAKE_DVS_PACKAGE)
+	cd .. && $(MAKE_DVS_PACKAGE) 
 
 dvs_release:
 	$(MAKE) dvs THRUST_DVS_BUILD=release
