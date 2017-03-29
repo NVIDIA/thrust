@@ -20,7 +20,7 @@ thrust_tests_vlct_template = """
   # Linux, etc.)
   "dllpath"   : [ "${VULCAN_INSTALL_DIR}/cuda/${INSTALL_TARGET_DIR}/${SHAREDLIB_DIR}",
                   "${VULCAN_INSTALL_DIR}/cuda/_internal/driver",
-                  "${VULCAN_INSTALL_DIR}/PGI/16.10/linux86-64/16.10/lib"
+                  "${VULCAN_INSTALL_DIR}/PGI/17.1/linux86-64/17.1/lib"
                 ],
   # Default working directory for test runs (optional). The directory can be a an absolute
   # or relative path. A relative path is relative to this file's location. Variables can
