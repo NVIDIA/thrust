@@ -254,11 +254,8 @@ __device__ __forceinline__ void BAR(int count)
  */
 __device__  __forceinline__ void CTA_SYNC()
 {
-#ifdef CUB_USE_COOPERATIVE_GROUPS
-    __bar_sync_all(0);
-#else
+    // __syncthreads() has per-thread semantics (enforced starting with sm_70+)
     __syncthreads();
-#endif
 }
 
 
@@ -284,7 +281,7 @@ __device__  __forceinline__ unsigned int WARP_MASK()
 __device__  __forceinline__ void WARP_SYNC()
 {
 #ifdef CUB_USE_COOPERATIVE_GROUPS
-  __bar_warp_sync(WARP_MASK());
+  __syncwarp();
 #else
   __threadfence_block();
 #endif
