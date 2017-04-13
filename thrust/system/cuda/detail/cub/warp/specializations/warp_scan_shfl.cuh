@@ -412,11 +412,7 @@ struct WarpScanShfl
         int             offset,             ///< [in] Up-offset to pull from
         Int2Type<true>  /*is_small_unsigned*/)  ///< [in] Marker type indicating whether T is a small integer
     {
-        unsigned int temp = reinterpret_cast<unsigned int &>(input);
-
-        temp = InclusiveScanStep(temp, scan_op, first_lane, offset);
-
-        return reinterpret_cast<_T&>(temp);
+        return InclusiveScanStep(input, scan_op, first_lane, offset);
     }
 
 

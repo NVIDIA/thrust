@@ -412,10 +412,7 @@ struct WarpReduceShfl
         int             offset,             ///< [in] Up-offset to pull from
         Int2Type<true>  /*is_small_unsigned*/)  ///< [in] Marker type indicating whether T is a small unsigned integer
     {
-        // Recast as uint32 to take advantage of any specializations
-        unsigned int temp = reinterpret_cast<unsigned int &>(input);
-        temp = ReduceStep(temp, reduction_op, last_lane, offset);
-        return reinterpret_cast<_T&>(temp);
+        return ReduceStep(input, reduction_op, last_lane, offset);
     }
 
 
