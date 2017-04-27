@@ -16,6 +16,7 @@
                   "internal/build/...",
                   "internal/test/...",
                   "examples/...",
+                  "thrust/system/cuda/...",
                   "generate_mk.py",
                   "generate_eris_vlct.py",
                   "Makefile",
