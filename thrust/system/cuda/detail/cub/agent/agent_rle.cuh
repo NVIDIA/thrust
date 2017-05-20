@@ -496,7 +496,7 @@ struct AgentRle
 
         WarpExchangeOffsets(temp_storage.exchange_offsets[warp_id]).ScatterToStriped(run_offsets, thread_num_runs_exclusive_in_warp);
 
-        WARP_SYNC();
+        WARP_SYNC(0xffffffff);
 
         WarpExchangeLengths(temp_storage.exchange_lengths[warp_id]).ScatterToStriped(run_lengths, thread_num_runs_exclusive_in_warp);
 

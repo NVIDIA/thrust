@@ -107,33 +107,33 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
  * \brief Log macro for printf statements.
  */
 #if !defined(_CubLog)
-#if !(defined(__clang__) && defined(__CUDA__))
-    #if (CUB_PTX_ARCH == 0)
-        #define _CubLog(format, ...) printf(format,__VA_ARGS__);
-    #elif (CUB_PTX_ARCH >= 200)
-        #define _CubLog(format, ...) printf("[block (%d,%d,%d), thread (%d,%d,%d)]: " format, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, __VA_ARGS__);
-    #endif
-#else
-// XXX shameless hack for clang around variadic printf... 
-//     Compilies w/o supplying -std=c++11 but shows warning, 
-//     so we sielence them :)
-#pragma clang diagnostic ignored "-Wc++11-extensions"
-#pragma clang diagnostic ignored "-Wunnamed-type-template-args"
-    template <class... Args>
-    inline __host__ __device__ void va_printf(char const* format, Args const&... args)
-    {
-#ifdef __CUDA_ARCH__
-      printf(format, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, args...);
-#else
-      printf(format, args...);
-#endif
-    }
-    #ifndef __CUDA_ARCH__
-        #define _CubLog(format, ...) thrust::cuda_cub::cub::va_printf(format,__VA_ARGS__);
+    #if !(defined(__clang__) && defined(__CUDA__))
+        #if (CUB_PTX_ARCH == 0)
+            #define _CubLog(format, ...) printf(format,__VA_ARGS__);
+        #elif (CUB_PTX_ARCH >= 200)
+            #define _CubLog(format, ...) printf("[block (%d,%d,%d), thread (%d,%d,%d)]: " format, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, __VA_ARGS__);
+        #endif
     #else
-        #define _CubLog(format, ...) thrust::cuda_cub::cub::va_printf("[block (%d,%d,%d), thread (%d,%d,%d)]: " format, __VA_ARGS__);
+        // XXX shameless hack for clang around variadic printf...
+        //     Compilies w/o supplying -std=c++11 but shows warning,
+        //     so we sielence them :)
+        #pragma clang diagnostic ignored "-Wc++11-extensions"
+        #pragma clang diagnostic ignored "-Wunnamed-type-template-args"
+            template <class... Args>
+            inline __host__ __device__ void va_printf(char const* format, Args const&... args)
+            {
+        #ifdef __CUDA_ARCH__
+              printf(format, blockIdx.z, blockIdx.y, blockIdx.x, threadIdx.z, threadIdx.y, threadIdx.x, args...);
+        #else
+              printf(format, args...);
+        #endif
+            }
+        #ifndef __CUDA_ARCH__
+            #define _CubLog(format, ...) va_printf(format,__VA_ARGS__);
+        #else
+            #define _CubLog(format, ...) va_printf("[block (%d,%d,%d), thread (%d,%d,%d)]: " format, __VA_ARGS__);
+        #endif
     #endif
-#endif
 #endif
 
 

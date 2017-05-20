@@ -299,7 +299,7 @@ private:
             temp_storage.buff[item_offset] = input_items[ITEM];
         }
 
-        WARP_SYNC();
+        WARP_SYNC(0xffffffff);
 
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
@@ -329,7 +329,7 @@ private:
                 temp_storage.buff[item_offset] = input_items[ITEM];
             }
 
-            WARP_SYNC();
+            WARP_SYNC(0xffffffff);
 
             #pragma unroll
             for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
@@ -355,7 +355,7 @@ private:
                     temp_storage.buff[item_offset] = input_items[ITEM];
                 }
 
-                WARP_SYNC();
+                WARP_SYNC(0xffffffff);
 
                 #pragma unroll
                 for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
@@ -477,7 +477,7 @@ private:
             temp_storage.buff[item_offset] = input_items[ITEM];
         }
 
-        WARP_SYNC();
+        WARP_SYNC(0xffffffff);
 
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
@@ -513,7 +513,7 @@ private:
                     temp_storage.buff[item_offset] = input_items[ITEM];
                 }
 
-                WARP_SYNC();
+                WARP_SYNC(0xffffffff);
 
                 #pragma unroll
                 for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
@@ -1221,7 +1221,7 @@ public:
             temp_storage.buff[ranks[ITEM]] = items[ITEM];
         }
 
-        WARP_SYNC();
+        WARP_SYNC(0xffffffff);
 
         #pragma unroll
         for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)

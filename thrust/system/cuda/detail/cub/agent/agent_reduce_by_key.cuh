@@ -454,11 +454,13 @@ struct AgentReduceByKey
         // Perform exclusive tile scan
         OffsetValuePairT    block_aggregate;        // Inclusive block-wide scan aggregate
         OffsetT             num_segments_prefix;    // Number of segments prior to this tile
+        ValueOutputT        total_aggregate;        // The tile prefix folded with block_aggregate
         if (tile_idx == 0)
         {
             // Scan first tile
             BlockScanT(temp_storage.scan).ExclusiveScan(scan_items, scan_items, scan_op, block_aggregate);
-            num_segments_prefix = 0;
+            num_segments_prefix     = 0;
+            total_aggregate         = block_aggregate.value;
 
             // Update tile status if there are successor tiles
             if ((!IS_LAST_TILE) && (threadIdx.x == 0))
@@ -470,8 +472,11 @@ struct AgentReduceByKey
             TilePrefixCallbackOpT prefix_op(tile_state, temp_storage.prefix, scan_op, tile_idx);
             BlockScanT(temp_storage.scan).ExclusiveScan(scan_items, scan_items, scan_op, prefix_op);
 
-            num_segments_prefix     = prefix_op.GetExclusivePrefix().key;
             block_aggregate         = prefix_op.GetBlockAggregate();
+            num_segments_prefix     = prefix_op.GetExclusivePrefix().key;
+            total_aggregate         = reduction_op(
+                                        prefix_op.GetExclusivePrefix().value,
+                                        block_aggregate.value);
         }
 
         // Rezip scatter items and segment indices
@@ -497,11 +502,11 @@ struct AgentReduceByKey
         {
             OffsetT num_segments = num_segments_prefix + num_tile_segments;
 
-            // If the last tile is a whole tile, the block-wide aggregate contains the value for the last segment
+            // If the last tile is a whole tile, output the final_value
             if (num_remaining == TILE_ITEMS)
             {
                 d_unique_out[num_segments]      = keys[ITEMS_PER_THREAD - 1];
-                d_aggregates_out[num_segments]  = block_aggregate.value;
+                d_aggregates_out[num_segments]  = total_aggregate;
                 num_segments++;
             }
 

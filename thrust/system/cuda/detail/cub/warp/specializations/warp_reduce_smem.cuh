@@ -64,7 +64,7 @@ struct WarpReduceSmem
         IS_ARCH_WARP = (LOGICAL_WARP_THREADS == CUB_WARP_THREADS(PTX_ARCH)),
 
         /// Whether the logical warp size is a power-of-two
-        IS_POW_OF_TWO = ((LOGICAL_WARP_THREADS & (LOGICAL_WARP_THREADS - 1)) == 0),
+        IS_POW_OF_TWO = PowerOfTwo<LOGICAL_WARP_THREADS>::VALUE,
 
         /// The number of warp scan steps
         STEPS = Log2<LOGICAL_WARP_THREADS>::VALUE,
@@ -101,6 +101,7 @@ struct WarpReduceSmem
 
     _TempStorage    &temp_storage;
     unsigned int    lane_id;
+    unsigned int    member_mask;
 
 
     /******************************************************************************
@@ -114,7 +115,10 @@ struct WarpReduceSmem
         temp_storage(temp_storage.Alias()),
         lane_id(IS_ARCH_WARP ?
             LaneId() :
-            LaneId() % LOGICAL_WARP_THREADS)
+            LaneId() % LOGICAL_WARP_THREADS),
+        member_mask(!IS_POW_OF_TWO ?
+            (0xffffffff >> (32 - LOGICAL_WARP_THREADS)) :                                       // non-power-of-two subwarps cannot be tiled
+            (0xffffffff >> (32 - LOGICAL_WARP_THREADS)) << (LaneId() / LOGICAL_WARP_THREADS))
     {}
 
     /******************************************************************************
@@ -143,7 +147,8 @@ struct WarpReduceSmem
 
         // Share input through buffer
         ThreadStore<STORE_VOLATILE>(&temp_storage.reduce[lane_id], input);
-        WARP_SYNC();
+
+        WARP_SYNC(member_mask);
 
         // Update input if peer_addend is in range
         if ((ALL_LANES_VALID && IS_POW_OF_TWO) || ((lane_id + OFFSET) * FOLDED_ITEMS_PER_LANE < folded_items_per_warp))
@@ -151,7 +156,8 @@ struct WarpReduceSmem
             T peer_addend = ThreadLoad<LOAD_VOLATILE>(&temp_storage.reduce[lane_id + OFFSET]);
             input = reduction_op(input, peer_addend);
         }
-        WARP_SYNC();
+
+        WARP_SYNC(member_mask);
 
         return ReduceStep<ALL_LANES_VALID, FOLDED_ITEMS_PER_LANE>(input, folded_items_per_warp, reduction_op, Int2Type<STEP + 1>());
     }
@@ -193,7 +199,7 @@ struct WarpReduceSmem
         Int2Type<true>  /*has_ballot*/)         ///< [in] Marker type for whether the target arch has ballot functionality
     {
         // Get the start flags for each thread in the warp.
-        int warp_flags = WARP_BALLOT(flag);
+        int warp_flags = WARP_BALLOT(flag, member_mask);
 
         if (!HEAD_SEGMENTED)
             warp_flags <<= 1;
@@ -221,7 +227,8 @@ struct WarpReduceSmem
 
             // Share input into buffer
             ThreadStore<STORE_VOLATILE>(&temp_storage.reduce[lane_id], input);
-            WARP_SYNC();
+
+            WARP_SYNC(member_mask);
 
             // Update input if peer_addend is in range
             if (OFFSET + lane_id < next_flag)
@@ -229,7 +236,8 @@ struct WarpReduceSmem
                 T peer_addend = ThreadLoad<LOAD_VOLATILE>(&temp_storage.reduce[lane_id + OFFSET]);
                 input = reduction_op(input, peer_addend);
             }
-            WARP_SYNC();
+
+            WARP_SYNC(member_mask);
         }
 
         return input;
@@ -267,11 +275,13 @@ struct WarpReduceSmem
 
             // Share input through buffer
             ThreadStore<STORE_VOLATILE>(&temp_storage.reduce[lane_id], input);
-            WARP_SYNC();
+
+            WARP_SYNC(member_mask);
 
             // Get peer from buffer
             T peer_addend = ThreadLoad<LOAD_VOLATILE>(&temp_storage.reduce[lane_id + OFFSET]);
-            WARP_SYNC();
+
+            WARP_SYNC(member_mask);
 
             // Share flag through buffer
             flag_storage[lane_id] = flag_status;

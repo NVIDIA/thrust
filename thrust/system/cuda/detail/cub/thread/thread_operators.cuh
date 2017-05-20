@@ -222,7 +222,7 @@ public:
     /// Switch the scan arguments
     template <typename T>
     __host__ __device__ __forceinline__
-    T operator()(T const &a, T const &b)
+    T operator()(const T &a, const T &b)
     {
       T _a(a);
       T _b(b);
