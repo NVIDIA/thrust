@@ -66,7 +66,7 @@ struct WarpScanShfl
         STEPS = Log2<LOGICAL_WARP_THREADS>::VALUE,
 
         /// The 5-bit SHFL mask for logically splitting warps into sub-segments starts 8-bits up
-        SHFL_C = ((-1 << STEPS) & 31) << 8,
+        SHFL_C = ((0xFFFFFFFFU << STEPS) & 31) << 8,
     };
 
     template <typename S>
