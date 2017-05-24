@@ -28,7 +28,7 @@ thrust_tests_vlct_template = """
   "cwd"       : "${VULCAN_TESTSUITE_DIR}",
   # Timeout for entire testsuite, in seconds (optional). If not timeout is specified the
   # default timeout value of 900 seconds will be used.
-  "timeout" : "3600",
+  "timeout" : "%(TIMEOUT)s",
   # Default timeout for individual tests, in seconds (optional).
   "testtimeout" : "270",
   # The tests in the testsuite (required).
@@ -107,12 +107,17 @@ def build_vlct(name,binpath,use_post=True):
 binpath=sys.argv[1]
 level=sys.argv[2]
 
+if level == "L2":
+    timeout = "7200"
+else:
+    timeout = "3600"
+
 THRUST_EXAMPLES = build_vlct("thrust.example.*",binpath);
 THRUST_TESTS    = build_vlct("thrust.test.*",   binpath,use_post=False);
 
 THRUST_EXEC = THRUST_EXAMPLES + THRUST_TESTS;
 
-thrust_tests_vlct = thrust_tests_vlct_template % {"THRUST_EXEC":THRUST_EXEC,"LEVEL":level}
+thrust_tests_vlct = thrust_tests_vlct_template % {"THRUST_EXEC":THRUST_EXEC,"LEVEL":level,"TIMEOUT":timeout}
 
 #print thrust_tests_vlct
 
