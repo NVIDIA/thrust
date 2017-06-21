@@ -43,7 +43,7 @@ namespace cub {
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
 
-#if (__CUDACC_VER__ >= 80500)
+#if (__CUDACC_VER_MAJOR__ >= 9)
 #define CUB_USE_COOPERATIVE_GROUPS
 #endif
 
