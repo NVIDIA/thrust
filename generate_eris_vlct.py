@@ -108,7 +108,9 @@ binpath=sys.argv[1]
 level=sys.argv[2]
 
 if level == "L2":
-    timeout = "7200"
+    timeout = "12000"
+elif level == "L1":
+    timeout = "10200"
 else:
     timeout = "3600"
 
