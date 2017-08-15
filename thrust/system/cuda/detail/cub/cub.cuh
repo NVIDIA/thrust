@@ -86,7 +86,7 @@
 #include "iterator/transform_input_iterator.cuh"
 
 // Util
-#include "util_allocator.cuh"
+//#include "util_allocator.cuh"
 #include "util_arch.cuh"
 #include "util_debug.cuh"
 #include "util_device.cuh"
