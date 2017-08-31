@@ -16,8 +16,16 @@
   # The tests in the testsuite (required).
   "tests" : [
       {
+        "exe" : "${PYTHON} ${VULCAN_INSTALL_DIR}/opencl/_tests/GPUConfMgr/GPUConfMgr.py -caseName=set -clock=P0MAX -VULCAN_INSTALL=${VULCAN_INSTALL_DIR}",
+        "attributes" : [ ]
+      },
+      {
         "exe": "${PYTHON} eris_perf.py",
         "attributes": [ "result=multi" ]
+      },
+      {
+        "exe" : "${PYTHON} ${VULCAN_INSTALL_DIR}/opencl/_tests/GPUConfMgr/GPUConfMgr.py -caseName=reset -clock=P0MAX -VULCAN_INSTALL=${VULCAN_INSTALL_DIR}",
+        "attributes" : [ ]
       }
  ]
 }
