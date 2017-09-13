@@ -29,7 +29,11 @@ ARCH_NEG_FILTER += 20 21
 
 
 ifdef ERIS_TEST_LEVELS
+ifdef VULCAN
 BINPATH=${VULCAN_BUILD_DIR}/bin/${VULCAN_ARCH}_${VULCAN_OS}${VULCAN_ABI}_${VULCAN_BUILD}
+else
+BINPATH=$(ROOTDIR)/bin/$(TARGET_DIR)
+endif
 
 ifneq ($(MAKECMDGOALS),clean)
   res:=$(shell $(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS))

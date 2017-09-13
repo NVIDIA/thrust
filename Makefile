@@ -341,6 +341,9 @@ endif
 
 THRUST_DVS_BUILD = release
 
+pack:
+	cd .. && $(MAKE_DVS_PACKAGE)
+
 dvs:
 	$(MAKE) $(DVS_OPTIONS) -s -C ../cuda $(THRUST_DVS_BUILD)
 	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1
@@ -357,8 +360,6 @@ dvs_debug:
 
 dvs_nightly_debug:
 	$(MAKE) dvs_debug THRUST_DVS_NIGHTLY=1
-
-
 
 include $(THRUST_MKDIR)/dependencies.mk
 
