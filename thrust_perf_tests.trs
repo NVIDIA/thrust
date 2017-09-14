@@ -1,0 +1,37 @@
+{
+  # Descriptive name for the testsuite (required).
+  "name"        : "Thrust performance testsuite",
+  "version" : "2",
+  "extrapath" : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}" ],
+  # Testsuite owner's email (required).
+  "owner"       : "egaburov@nvidia.com",
+  # Define paths containing shared libraries required by the tests. Use envvar VULCAN_SHAREDLIB_DIR to refer 
+  # to the platform specific portion of the path (e.g. bin/ for windows, lib64/ for 64-bit
+  # Linux, etc.)
+  "librarypath"     : [  ],
+  # Default working directory for test runs (optional).
+  #"cwd"         : "{TR_TESTSUITE_DIR}",
+  # Timeout for entire testsuite, in seconds (optional).
+  "timeout"     : "600",
+  # Default timeout for individual tests, in seconds (optional).
+  "testtimeout" : "600",
+  # The tests in the testsuite (required).
+  "tests" : [
+      {
+        "exe" : "{PYTHON} {TR_INSTALL_DIR}/opencl/_tests/GPUConfMgr/GPUConfMgr.py -caseName=set -clock=P0MAX -VULCAN_INSTALL={TR_INSTALL_DIR}",
+        "attributes" : [ ]
+      },
+      {
+        "exe": "{PYTHON} eris_perf.py",
+        "attributes": [ "result=multi" ]
+      },
+      {
+        "exe" : "{PYTHON} {TR_INSTALL_DIR}/opencl/_tests/GPUConfMgr/GPUConfMgr.py -caseName=reset -clock=P0MAX -VULCAN_INSTALL={TR_INSTALL_DIR}",
+        "attributes" : [ ]
+      }
+ ]
+}
+
+# File /home/rjray/Perforce/general/gpgpu/thrust/thrust_perf_tests.trs
+# Converted from /home/rjray/Perforce/general/gpgpu/thrust/thrust_perf_tests.vlct
+# Converted by tr_configtool.pl/0.4, on Thu Sep 14 15:59:45 2017
