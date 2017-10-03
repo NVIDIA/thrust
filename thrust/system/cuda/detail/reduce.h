@@ -38,6 +38,7 @@
 #include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/functional.h>
+#include <thrust/device_vector.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
@@ -111,7 +112,7 @@ namespace __reduce {
                       2,                                 
                       cub::BLOCK_REDUCE_WARP_REDUCTIONS,    
                       cub::LOAD_DEFAULT,                   
-                      cub::GRID_MAPPING_EVEN_SHARE>       
+                      cub::GRID_MAPPING_RAKE>       
         type;
   }; // Tuning sm30
   
@@ -298,11 +299,10 @@ namespace __reduce {
                                               items);
 
         // Reduce items within each thread stripe
-        thread_aggregate = (IS_FIRST_TILE)
-                               ? cub::ThreadReduce(items, reduction_op)
-                               : cub::ThreadReduce(items,
-                                                   reduction_op,
-                                                   thread_aggregate);
+        thread_aggregate =
+            (IS_FIRST_TILE) ? cub::internal::ThreadReduce(items, reduction_op)
+                            : cub::internal::ThreadReduce(items, reduction_op,
+                                                          thread_aggregate);
       }
 
       // Consume a full tile of input (vectorized)
@@ -339,11 +339,10 @@ namespace __reduce {
 
 
         // Reduce items within each thread stripe
-        thread_aggregate = (IS_FIRST_TILE)
-                               ? cub::ThreadReduce(items, reduction_op)
-                               : cub::ThreadReduce(items,
-                                                   reduction_op,
-                                                   thread_aggregate);
+        thread_aggregate =
+            (IS_FIRST_TILE) ? cub::internal::ThreadReduce(items, reduction_op)
+                            : cub::internal::ThreadReduce(items, reduction_op,
+                                                          thread_aggregate);
       }
 
 
@@ -460,14 +459,15 @@ namespace __reduce {
       consume_tiles(Size /*num_items*/,
                     cub::GridEvenShare<GridSizeType> &even_share,
                     cub::GridQueue<GridSizeType> & /*queue*/,
-                    is_true<(bool)cub::GRID_MAPPING_EVEN_SHARE> /*is_even_share*/)
+                    detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_RAKE> /*is_rake*/)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>          attempt_vec;
         typedef is_true<true && ATTEMPT_VECTORIZATION>  path_a;
         typedef is_true<false && ATTEMPT_VECTORIZATION> path_b;
 
         // Initialize even-share descriptor for this thread block
-        even_share.BlockInit();
+        even_share
+            .template BlockInit<ITEMS_PER_TILE, cub::GRID_MAPPING_RAKE>();
 
         return is_aligned(input_it, attempt_vec())
                    ? consume_range_impl(even_share.block_offset,
@@ -577,7 +577,7 @@ namespace __reduce {
           Size                              num_items,
           cub::GridEvenShare<GridSizeType> &/*even_share*/,
           cub::GridQueue<GridSizeType> &    queue,
-          is_true<(bool)cub::GRID_MAPPING_DYNAMIC>)
+          detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_DYNAMIC>)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>         attempt_vec;
         typedef is_true<true && ATTEMPT_VECTORIZATION> path_a;
@@ -650,7 +650,7 @@ namespace __reduce {
     {
       TempStorage& storage = *reinterpret_cast<TempStorage*>(shmem);
 
-      typedef is_true<(bool)ptx_plan::GRID_MAPPING> grid_mapping;
+      typedef detail::integral_constant<cub::GridMappingStrategy, ptx_plan::GRID_MAPPING> grid_mapping;
 
       T block_aggregate =
           impl(storage, input_it, reduction_op)
@@ -754,9 +754,9 @@ namespace __reduce {
       int sm_oversubscription = 5;
       int max_blocks          = reduce_device_occupancy * sm_oversubscription;
 
-      cub::GridEvenShare<GridSizeType> even_share(static_cast<int>(num_items),
-                                                  max_blocks,
-                                                  reduce_plan.items_per_tile);
+      cub::GridEvenShare<GridSizeType> even_share;
+      even_share.DispatchInit(static_cast<int>(num_items), max_blocks,
+                              reduce_plan.items_per_tile);
 
       // we will launch at most "max_blocks" blocks in a grid
       // so preallocate virtual shared memory storage for this if required
@@ -789,7 +789,7 @@ namespace __reduce {
 
       // Get grid size for device_reduce_sweep_kernel
       int reduce_grid_size = 0;
-      if (reduce_plan.grid_mapping == cub::GRID_MAPPING_EVEN_SHARE)
+      if (reduce_plan.grid_mapping == cub::GRID_MAPPING_RAKE)
       {
         // Work is distributed evenly
         reduce_grid_size = even_share.grid_size;
@@ -933,19 +933,45 @@ reduce_n(execution_policy<Derived> &policy,
          T                          init,
          BinaryOp                   binary_op)
 {
-  T ret = init;
+  cudaStream_t stream = cuda_cub::stream(policy);
+
   if (__THRUST_HAS_CUDART__)
   {
-    ret = __reduce::reduce(policy, first, num_items, init, binary_op);
+    device_ptr<T> ret = thrust::device_malloc<T>(1);
+
+    // Determine temporary device storage requirements
+    void *d_temp_storage = NULL;
+    size_t temp_storage_bytes = 0;
+    cuda_cub::throw_on_error(
+      cub::DeviceReduce::Reduce(d_temp_storage, temp_storage_bytes,
+                                first, ret, num_items, binary_op, init, stream,
+                                THRUST_DEBUG_SYNC_FLAG),
+      "after reduction step 1");
+
+    // Allocate temporary storage
+    cuda_cub::throw_on_error(
+      cudaMalloc(&d_temp_storage, temp_storage_bytes),
+      "after reduction cudaMalloc");
+
+    // Run reduction
+    cuda_cub::throw_on_error(
+      cub::DeviceReduce::Reduce(d_temp_storage, temp_storage_bytes,
+                                first, ret, num_items, binary_op, init, stream,
+                                THRUST_DEBUG_SYNC_FLAG),
+      "after reduction step 2");
+
+    init = *ret;
+
+    // FIXME: Run dtors.
+    thrust::device_free(ret);
+
+    return init;
   }
-  else
-  {
+
 #if !__THRUST_HAS_CUDART__
-    ret = thrust::reduce(
-        cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
+  return thrust::reduce(
+    cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
 #endif
-  }
-  return ret;
 }
 
 template <class Derived, class InputIt, class T, class BinaryOp>
@@ -957,6 +983,7 @@ reduce(execution_policy<Derived> &policy,
        BinaryOp                   binary_op)
 {
   typedef typename iterator_traits<InputIt>::difference_type size_type;
+  // FIXME: Check for RA iterator.
   size_type num_items = static_cast<size_type>(thrust::distance(first, last));
   return cuda_cub::reduce_n(policy, first, num_items, init, binary_op);
 }

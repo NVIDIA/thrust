@@ -31,6 +31,15 @@ struct bbox
     : lower_left(point), upper_right(point)
   {}
 
+  // construct a box from a single point
+  __host__ __device__
+  bbox& operator=(const point2d &point)
+  {
+    lower_left = point;
+    upper_right = point;
+    return *this;
+  }
+
   // construct a box from a pair of points
   __host__ __device__
   bbox(const point2d &ll, const point2d &ur)

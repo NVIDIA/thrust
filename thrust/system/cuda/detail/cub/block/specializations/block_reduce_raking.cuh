@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -105,7 +105,7 @@ struct BlockReduceRaking
     union _TempStorage
     {
         typename WarpReduce::TempStorage            warp_storage;        ///< Storage for warp-synchronous reduction
-        typename BlockRakingLayout::TempStorage     raking_grid;         ///< Padded threadblock raking grid
+        typename BlockRakingLayout::TempStorage     raking_grid;         ///< Padded thread block raking grid
     };
 
 
@@ -157,7 +157,7 @@ struct BlockReduceRaking
 
 
 
-    /// Computes a threadblock-wide reduction using the specified reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
+    /// Computes a thread block-wide reduction using the specified reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
     template <
         bool                IS_FULL_TILE,
         typename            ReductionOp>
@@ -202,7 +202,7 @@ struct BlockReduceRaking
     }
 
 
-    /// Computes a threadblock-wide reduction using addition (+) as the reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
+    /// Computes a thread block-wide reduction using addition (+) as the reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
     template <bool IS_FULL_TILE>
     __device__ __forceinline__ T Sum(
         T                   partial,            ///< [in] Calling thread's input partial reductions

@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -92,12 +92,11 @@ struct BlockRakingLayout
             (MAX_RAKING_THREADS * SEGMENT_LENGTH) / CUB_SMEM_BANKS(PTX_ARCH) :
             1,
 
-        /// Pad each segment length with one element if degree of bank conflicts is greater than 4-way (heuristic)
-        SEGMENT_PADDING = (CONFLICT_DEGREE > CUB_PREFER_CONFLICT_OVER_PADDING(PTX_ARCH)) ? 1 : 0,
-//        SEGMENT_PADDING = (HAS_CONFLICTS) ? 1 : 0,
+        /// Pad each segment length with one element if segment length is not relatively prime to warp size and can't be optimized as a vector load
+        USE_SEGMENT_PADDING = ((SEGMENT_LENGTH & 1) == 0) && (SEGMENT_LENGTH > 2),
 
         /// Total number of elements in the raking grid
-        GRID_ELEMENTS = RAKING_THREADS * (SEGMENT_LENGTH + SEGMENT_PADDING),
+        GRID_ELEMENTS = RAKING_THREADS * (SEGMENT_LENGTH + USE_SEGMENT_PADDING),
 
         /// Whether or not we need bounds checking during raking (the number of reduction elements is not a multiple of the number of raking threads)
         UNGUARDED = (SHARED_ELEMENTS % RAKING_THREADS == 0),
@@ -127,7 +126,7 @@ struct BlockRakingLayout
         unsigned int offset = linear_tid;
 
         // Add in one padding element for every segment
-        if (SEGMENT_PADDING > 0)
+        if (USE_SEGMENT_PADDING > 0)
         {
             offset += offset / SEGMENT_LENGTH;
         }
@@ -144,7 +143,7 @@ struct BlockRakingLayout
         TempStorage &temp_storage,
         unsigned int linear_tid)
     {
-        return temp_storage.Alias().buff + (linear_tid * (SEGMENT_LENGTH + SEGMENT_PADDING));
+        return temp_storage.Alias().buff + (linear_tid * (SEGMENT_LENGTH + USE_SEGMENT_PADDING));
     }
 };
 

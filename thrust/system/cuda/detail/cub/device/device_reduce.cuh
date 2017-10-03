@@ -1,7 +1,7 @@
 
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -88,6 +88,11 @@ struct DeviceReduce
      *
      * \par
      * - Does not support binary reduction operators that are non-commutative.
+     * - Provides "run-to-run" determinism for pseudo-associative reduction
+     *   (e.g., addition of floating point types) on the same GPU device.
+     *   However, results for pseudo-associative reduction may be inconsistent
+     *   from one device to a another device of a different compute-capability
+     *   because CUB can employ different tile-sizing for different architectures.
      * - \devicestorage
      *
      * \par Snippet
@@ -173,6 +178,11 @@ struct DeviceReduce
      * \par
      * - Uses \p 0 as the initial value of the reduction.
      * - Does not support \p + operators that are non-commutative..
+     * - Provides "run-to-run" determinism for pseudo-associative reduction
+     *   (e.g., addition of floating point types) on the same GPU device.
+     *   However, results for pseudo-associative reduction may be inconsistent
+     *   from one device to a another device of a different compute-capability
+     *   because CUB can employ different tile-sizing for different architectures.
      * - \devicestorage
      *
      * \par Performance
@@ -252,6 +262,11 @@ struct DeviceReduce
      * \par
      * - Uses <tt>std::numeric_limits<T>::max()</tt> as the initial value of the reduction.
      * - Does not support \p < operators that are non-commutative.
+     * - Provides "run-to-run" determinism for pseudo-associative reduction
+     *   (e.g., addition of floating point types) on the same GPU device.
+     *   However, results for pseudo-associative reduction may be inconsistent
+     *   from one device to a another device of a different compute-capability
+     *   because CUB can employ different tile-sizing for different architectures.
      * - \devicestorage
      *
      * \par Snippet
@@ -324,6 +339,11 @@ struct DeviceReduce
      *   - The minimum is written to <tt>d_out.value</tt> and its offset in the input array is written to <tt>d_out.key</tt>.
      *   - The <tt>{1, std::numeric_limits<T>::max()}</tt> tuple is produced for zero-length inputs
      * - Does not support \p < operators that are non-commutative.
+     * - Provides "run-to-run" determinism for pseudo-associative reduction
+     *   (e.g., addition of floating point types) on the same GPU device.
+     *   However, results for pseudo-associative reduction may be inconsistent
+     *   from one device to a another device of a different compute-capability
+     *   because CUB can employ different tile-sizing for different architectures.
      * - \devicestorage
      *
      * \par Snippet
@@ -409,6 +429,11 @@ struct DeviceReduce
      * \par
      * - Uses <tt>std::numeric_limits<T>::lowest()</tt> as the initial value of the reduction.
      * - Does not support \p > operators that are non-commutative.
+     * - Provides "run-to-run" determinism for pseudo-associative reduction
+     *   (e.g., addition of floating point types) on the same GPU device.
+     *   However, results for pseudo-associative reduction may be inconsistent
+     *   from one device to a another device of a different compute-capability
+     *   because CUB can employ different tile-sizing for different architectures.
      * - \devicestorage
      *
      * \par Snippet
@@ -481,6 +506,11 @@ struct DeviceReduce
      *   - The maximum is written to <tt>d_out.value</tt> and its offset in the input array is written to <tt>d_out.key</tt>.
      *   - The <tt>{1, std::numeric_limits<T>::lowest()}</tt> tuple is produced for zero-length inputs
      * - Does not support \p > operators that are non-commutative.
+     * - Provides "run-to-run" determinism for pseudo-associative reduction
+     *   (e.g., addition of floating point types) on the same GPU device.
+     *   However, results for pseudo-associative reduction may be inconsistent
+     *   from one device to a another device of a different compute-capability
+     *   because CUB can employ different tile-sizing for different architectures.
      * - \devicestorage
      *
      * \par Snippet
@@ -574,6 +604,11 @@ struct DeviceReduce
      *
      * \par
      * - The <tt>==</tt> equality operator is used to determine whether keys are equivalent
+     * - Provides "run-to-run" determinism for pseudo-associative reduction
+     *   (e.g., addition of floating point types) on the same GPU device.
+     *   However, results for pseudo-associative reduction may be inconsistent
+     *   from one device to a another device of a different compute-capability
+     *   because CUB can employ different tile-sizing for different architectures.
      * - \devicestorage
      *
      * \par Performance

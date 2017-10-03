@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -46,6 +46,8 @@ namespace cub {
 
 /**
  * \brief WarpScanShfl provides SHFL-based variants of parallel prefix scan of items partitioned across a CUDA thread warp.
+ *
+ * LOGICAL_WARP_THREADS must be a power-of-two
  */
 template <
     typename    T,                      ///< Data type being scanned
@@ -98,12 +100,11 @@ struct WarpScanShfl
     __device__ __forceinline__ WarpScanShfl(
         TempStorage &/*temp_storage*/)
     :
-        lane_id(IS_ARCH_WARP ?
-            LaneId() :
-            LaneId() % LOGICAL_WARP_THREADS),
-        member_mask(IS_ARCH_WARP ?
-             0xffffffff :
-             (0xffffffff >> (32 - LOGICAL_WARP_THREADS)) << (LaneId() / LOGICAL_WARP_THREADS))
+        lane_id(LaneId()),
+
+        member_mask((0xffffffff >> (32 - LOGICAL_WARP_THREADS)) << ((IS_ARCH_WARP) ?
+            0 : // arch-width subwarps need not be tiled within the arch-warp
+            ((lane_id / LOGICAL_WARP_THREADS) * LOGICAL_WARP_THREADS)))
     {}
 
 
@@ -594,7 +595,12 @@ struct WarpScanShfl
     {
         inclusive = scan_op(initial_value, inclusive);
         exclusive = ShuffleUp(inclusive, 1, 0, member_mask);
-        if (lane_id == 0)
+
+        unsigned int segment_id = (IS_ARCH_WARP) ?
+            lane_id :
+            lane_id % LOGICAL_WARP_THREADS;
+
+        if (segment_id == 0)
             exclusive = initial_value;
     }
 

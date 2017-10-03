@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -28,7 +28,7 @@
 
 /**
  * \file
- * cub::BlockReduceWarpReductions provides variants of warp-reduction-based parallel reduction across a CUDA threadblock.  Supports non-commutative reduction operators.
+ * cub::BlockReduceWarpReductions provides variants of warp-reduction-based parallel reduction across a CUDA thread block.  Supports non-commutative reduction operators.
  */
 
 #pragma once
@@ -46,7 +46,7 @@ namespace cub {
 
 
 /**
- * \brief BlockReduceWarpReductions provides variants of warp-reduction-based parallel reduction across a CUDA threadblock.  Supports non-commutative reduction operators.
+ * \brief BlockReduceWarpReductions provides variants of warp-reduction-based parallel reduction across a CUDA thread block.  Supports non-commutative reduction operators.
  */
 template <
     typename    T,              ///< Data type being reduced
@@ -71,7 +71,7 @@ struct BlockReduceWarpReductions
         /// The logical warp size for warp reductions
         LOGICAL_WARP_SIZE = CUB_MIN(BLOCK_THREADS, WARP_THREADS),
 
-        /// Whether or not the logical warp size evenly divides the threadblock size
+        /// Whether or not the logical warp size evenly divides the thread block size
         EVEN_WARP_MULTIPLE = (BLOCK_THREADS % LOGICAL_WARP_SIZE == 0)
     };
 
@@ -85,7 +85,7 @@ struct BlockReduceWarpReductions
     {
         typename WarpReduce::TempStorage    warp_reduce[WARPS];                ///< Buffer for warp-synchronous scan
         T                                   warp_aggregates[WARPS];     ///< Shared totals from each warp-synchronous scan
-        T                                   block_prefix;               ///< Shared prefix for the entire threadblock
+        T                                   block_prefix;               ///< Shared prefix for the entire thread block
     };
 
     /// Alias wrapper allowing storage to be unioned
@@ -163,7 +163,7 @@ struct BlockReduceWarpReductions
     }
 
 
-    /// Computes a threadblock-wide reduction using addition (+) as the reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
+    /// Computes a thread block-wide reduction using addition (+) as the reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
     template <bool FULL_TILE>
     __device__ __forceinline__ T Sum(
         T                   input,          ///< [in] Calling thread's input partial reductions
@@ -188,7 +188,7 @@ struct BlockReduceWarpReductions
     }
 
 
-    /// Computes a threadblock-wide reduction using the specified reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
+    /// Computes a thread block-wide reduction using the specified reduction operator. The first num_valid threads each contribute one reduction partial.  The return value is only valid for thread<sub>0</sub>.
     template <
         bool                FULL_TILE,
         typename            ReductionOp>

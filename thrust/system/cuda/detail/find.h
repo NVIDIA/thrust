@@ -152,11 +152,11 @@ find_if_n(execution_policy<Derived>& policy,
       interval_end = end;
     } // end if
 
-    result_type result = cuda_cub::reduce(policy,
-                                          interval_begin,
-                                          interval_end,
-                                          result_type(false, interval_end - begin),
-                                          __find_if::functor<result_type>());
+    result_type result = reduce(policy,
+                                interval_begin,
+                                interval_end,
+                                result_type(false, interval_end - begin),
+                                __find_if::functor<result_type>());
 
     // see if we found something
     if(thrust::get<0>(result))

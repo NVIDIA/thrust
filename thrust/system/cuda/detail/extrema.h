@@ -213,9 +213,9 @@ namespace __extrema {
       int sm_oversubscription = 5;
       int max_blocks          = reduce_device_occupancy * sm_oversubscription;
 
-      cub::GridEvenShare<GridSizeType> even_share(static_cast<int>(num_items),
-                                                  max_blocks,
-                                                  reduce_plan.items_per_tile);
+      cub::GridEvenShare<GridSizeType> even_share;
+      even_share.DispatchInit(static_cast<int>(num_items), max_blocks,
+                              reduce_plan.items_per_tile);
 
       // we will launch at most "max_blocks" blocks in a grid
       // so preallocate virtual shared memory storage for this if required
@@ -248,7 +248,7 @@ namespace __extrema {
 
       // Get grid size for device_reduce_sweep_kernel
       int reduce_grid_size = 0;
-      if (reduce_plan.grid_mapping == cub::GRID_MAPPING_EVEN_SHARE)
+      if (reduce_plan.grid_mapping == cub::GRID_MAPPING_RAKE)
       {
         // Work is distributed evenly
         reduce_grid_size = even_share.grid_size;

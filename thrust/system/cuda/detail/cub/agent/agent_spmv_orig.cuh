@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -221,7 +221,7 @@ struct AgentSpmv
     {
         CoordinateT tile_coords[2];
 
-        union
+        union Aliasable
         {
             // Smem needed for tile of merge items
             MergeItem merge_items[ITEMS_PER_THREAD + TILE_ITEMS + 1];
@@ -237,7 +237,8 @@ struct AgentSpmv
 
             // Smem needed for tile prefix sum
             typename BlockPrefixSumT::TempStorage prefix_sum;
-        };
+
+        } aliasable;
     };
 
     /// Temporary storage type (unionable)
@@ -294,7 +295,7 @@ struct AgentSpmv
     {
         int         tile_num_rows           = tile_end_coord.x - tile_start_coord.x;
         int         tile_num_nonzeros       = tile_end_coord.y - tile_start_coord.y;
-        OffsetT*    s_tile_row_end_offsets  = &temp_storage.merge_items[0].row_end_offset;
+        OffsetT*    s_tile_row_end_offsets  = &temp_storage.aliasable.merge_items[0].row_end_offset;
 
         // Gather the row end-offsets for the merge tile into shared memory
         for (int item = threadIdx.x; item <= tile_num_rows; item += BLOCK_THREADS)
@@ -367,7 +368,7 @@ struct AgentSpmv
         scan_item.value = running_total;
         scan_item.key   = thread_current_coord.x;
 
-        BlockScanT(temp_storage.scan).ExclusiveScan(scan_item, scan_item, scan_op, tile_carry);
+        BlockScanT(temp_storage.aliasable.scan).ExclusiveScan(scan_item, scan_item, scan_op, tile_carry);
 
         if (tile_num_rows > 0)
         {
@@ -496,8 +497,8 @@ struct AgentSpmv
 
 #else
 
-        OffsetT*    s_tile_row_end_offsets  = &temp_storage.merge_items[0].row_end_offset;
-        ValueT*     s_tile_nonzeros         = &temp_storage.merge_items[tile_num_rows + ITEMS_PER_THREAD].nonzero;
+        OffsetT*    s_tile_row_end_offsets  = &temp_storage.aliasable.merge_items[0].row_end_offset;
+        ValueT*     s_tile_nonzeros         = &temp_storage.aliasable.merge_items[tile_num_rows + ITEMS_PER_THREAD].nonzero;
 
         // Gather the nonzeros for the merge tile into shared memory
         if (tile_num_nonzeros > 0)
@@ -587,7 +588,7 @@ struct AgentSpmv
         scan_item.value = running_total;
         scan_item.key = thread_current_coord.x;
 
-        BlockScanT(temp_storage.scan).ExclusiveScan(scan_item, scan_item, scan_op, tile_carry);
+        BlockScanT(temp_storage.aliasable.scan).ExclusiveScan(scan_item, scan_item, scan_op, tile_carry);
 
         if (threadIdx.x == 0)
         {
@@ -601,7 +602,7 @@ struct AgentSpmv
             CTA_SYNC();
 
             // Scan downsweep and scatter
-            ValueT* s_partials = &temp_storage.merge_items[0].nonzero;
+            ValueT* s_partials = &temp_storage.aliasable.merge_items[0].nonzero;
 
             if (scan_item.key != scan_segment[0].key)
             {

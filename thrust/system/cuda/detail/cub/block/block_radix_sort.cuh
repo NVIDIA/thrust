@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -182,15 +182,12 @@ private:
     typedef BlockExchange<ValueT, BLOCK_DIM_X, ITEMS_PER_THREAD, false, BLOCK_DIM_Y, BLOCK_DIM_Z, PTX_ARCH> BlockExchangeValues;
 
     /// Shared memory storage layout type
-    struct _TempStorage
+    union _TempStorage
     {
-        union
-        {
-            typename AscendingBlockRadixRank::TempStorage  asending_ranking_storage;
-            typename DescendingBlockRadixRank::TempStorage descending_ranking_storage;
-            typename BlockExchangeKeys::TempStorage        exchange_keys;
-            typename BlockExchangeValues::TempStorage      exchange_values;
-        };
+        typename AscendingBlockRadixRank::TempStorage  asending_ranking_storage;
+        typename DescendingBlockRadixRank::TempStorage descending_ranking_storage;
+        typename BlockExchangeKeys::TempStorage        exchange_keys;
+        typename BlockExchangeValues::TempStorage      exchange_values;
     };
 
 

@@ -1,7 +1,7 @@
 
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -364,8 +364,8 @@ struct DispatchReduceByKey
         cudaStream_t                stream,                     ///< [in] CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool                        debug_synchronous,          ///< [in] Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
         int                         /*ptx_version*/,            ///< [in] PTX version of dispatch kernels
-        ScanInitKernelT            	init_kernel,                ///< [in] Kernel function pointer to parameterization of cub::DeviceScanInitKernel
-        ReduceByKeyKernelT         	reduce_by_key_kernel,       ///< [in] Kernel function pointer to parameterization of cub::DeviceReduceByKeyKernel
+        ScanInitKernelT                init_kernel,                ///< [in] Kernel function pointer to parameterization of cub::DeviceScanInitKernel
+        ReduceByKeyKernelT             reduce_by_key_kernel,       ///< [in] Kernel function pointer to parameterization of cub::DeviceReduceByKeyKernel
         KernelConfig                reduce_by_key_config)       ///< [in] Dispatch parameters that match the policy that \p reduce_by_key_kernel was compiled for
     {
 

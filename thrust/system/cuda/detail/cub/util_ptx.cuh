@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
  * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -91,7 +91,7 @@ __device__ __forceinline__ unsigned int SHR_ADD(
 {
     unsigned int ret;
 #if CUB_PTX_ARCH >= 200
-    asm volatile("vshr.u32.u32.u32.clamp.add %0, %1, %2, %3;" :
+    asm ("vshr.u32.u32.u32.clamp.add %0, %1, %2, %3;" :
         "=r"(ret) : "r"(x), "r"(shift), "r"(addend));
 #else
     ret = (x >> shift) + addend;
@@ -110,7 +110,7 @@ __device__ __forceinline__ unsigned int SHL_ADD(
 {
     unsigned int ret;
 #if CUB_PTX_ARCH >= 200
-    asm volatile("vshl.u32.u32.u32.clamp.add %0, %1, %2, %3;" :
+    asm ("vshl.u32.u32.u32.clamp.add %0, %1, %2, %3;" :
         "=r"(ret) : "r"(x), "r"(shift), "r"(addend));
 #else
     ret = (x << shift) + addend;
@@ -132,7 +132,7 @@ __device__ __forceinline__ unsigned int BFE(
 {
     unsigned int bits;
 #if CUB_PTX_ARCH >= 200
-    asm volatile("bfe.u32 %0, %1, %2, %3;" : "=r"(bits) : "r"((unsigned int) source), "r"(bit_start), "r"(num_bits));
+    asm ("bfe.u32 %0, %1, %2, %3;" : "=r"(bits) : "r"((unsigned int) source), "r"(bit_start), "r"(num_bits));
 #else
     const unsigned int MASK = (1 << num_bits) - 1;
     bits = (source >> bit_start) & MASK;
@@ -181,7 +181,7 @@ __device__ __forceinline__ void BFI(
     unsigned int num_bits)
 {
 #if CUB_PTX_ARCH >= 200
-    asm volatile("bfi.b32 %0, %1, %2, %3, %4;" :
+    asm ("bfi.b32 %0, %1, %2, %3, %4;" :
         "=r"(ret) : "r"(y), "r"(x), "r"(bit_start), "r"(num_bits));
 #else
     x <<= bit_start;
@@ -198,7 +198,7 @@ __device__ __forceinline__ void BFI(
 __device__ __forceinline__ unsigned int IADD3(unsigned int x, unsigned int y, unsigned int z)
 {
 #if CUB_PTX_ARCH >= 200
-    asm volatile("vadd.u32.u32.u32.add %0, %1, %2, %3;" : "=r"(x) : "r"(x), "r"(y), "r"(z));
+    asm ("vadd.u32.u32.u32.add %0, %1, %2, %3;" : "=r"(x) : "r"(x), "r"(y), "r"(z));
 #else
     x = x + y + z;
 #endif
@@ -235,7 +235,7 @@ __device__ __forceinline__ unsigned int IADD3(unsigned int x, unsigned int y, un
 __device__ __forceinline__ int PRMT(unsigned int a, unsigned int b, unsigned int index)
 {
     int ret;
-    asm volatile("prmt.b32 %0, %1, %2, %3;" : "=r"(ret) : "r"(a), "r"(b), "r"(index));
+    asm ("prmt.b32 %0, %1, %2, %3;" : "=r"(ret) : "r"(a), "r"(b), "r"(index));
     return ret;
 }
 
@@ -254,11 +254,7 @@ __device__ __forceinline__ void BAR(int count)
  */
 __device__  __forceinline__ void CTA_SYNC()
 {
-#ifdef CUB_USE_COOPERATIVE_GROUPS
-    __barrier_sync(0);
-#else
     __syncthreads();
-#endif
 }
 
 
@@ -374,7 +370,7 @@ unsigned int SHFL_IDX_SYNC(unsigned int word, int src_lane, int last_lane, unsig
 __device__ __forceinline__ float FMUL_RZ(float a, float b)
 {
     float d;
-    asm volatile("mul.rz.f32 %0, %1, %2;" : "=f"(d) : "f"(a), "f"(b));
+    asm ("mul.rz.f32 %0, %1, %2;" : "=f"(d) : "f"(a), "f"(b));
     return d;
 }
 
@@ -385,7 +381,7 @@ __device__ __forceinline__ float FMUL_RZ(float a, float b)
 __device__ __forceinline__ float FFMA_RZ(float a, float b, float c)
 {
     float d;
-    asm volatile("fma.rz.f32 %0, %1, %2, %3;" : "=f"(d) : "f"(a), "f"(b), "f"(c));
+    asm ("fma.rz.f32 %0, %1, %2, %3;" : "=f"(d) : "f"(a), "f"(b), "f"(c));
     return d;
 }
 
@@ -408,7 +404,7 @@ __device__ __forceinline__ void ThreadTrap() {
 
 
 /**
- * \brief Returns the row-major linear thread identifier for a multidimensional threadblock
+ * \brief Returns the row-major linear thread identifier for a multidimensional thread block
  */
 __device__ __forceinline__ int RowMajorTid(int block_dim_x, int block_dim_y, int block_dim_z)
 {
@@ -424,7 +420,7 @@ __device__ __forceinline__ int RowMajorTid(int block_dim_x, int block_dim_y, int
 __device__ __forceinline__ unsigned int LaneId()
 {
     unsigned int ret;
-    asm volatile("mov.u32 %0, %%laneid;" : "=r"(ret) );
+    asm ("mov.u32 %0, %%laneid;" : "=r"(ret) );
     return ret;
 }
 
@@ -435,7 +431,7 @@ __device__ __forceinline__ unsigned int LaneId()
 __device__ __forceinline__ unsigned int WarpId()
 {
     unsigned int ret;
-    asm volatile("mov.u32 %0, %%warpid;" : "=r"(ret) );
+    asm ("mov.u32 %0, %%warpid;" : "=r"(ret) );
     return ret;
 }
 
@@ -445,7 +441,7 @@ __device__ __forceinline__ unsigned int WarpId()
 __device__ __forceinline__ unsigned int LaneMaskLt()
 {
     unsigned int ret;
-    asm volatile("mov.u32 %0, %%lanemask_lt;" : "=r"(ret) );
+    asm ("mov.u32 %0, %%lanemask_lt;" : "=r"(ret) );
     return ret;
 }
 
@@ -455,7 +451,7 @@ __device__ __forceinline__ unsigned int LaneMaskLt()
 __device__ __forceinline__ unsigned int LaneMaskLe()
 {
     unsigned int ret;
-    asm volatile("mov.u32 %0, %%lanemask_le;" : "=r"(ret) );
+    asm ("mov.u32 %0, %%lanemask_le;" : "=r"(ret) );
     return ret;
 }
 
@@ -465,7 +461,7 @@ __device__ __forceinline__ unsigned int LaneMaskLe()
 __device__ __forceinline__ unsigned int LaneMaskGt()
 {
     unsigned int ret;
-    asm volatile("mov.u32 %0, %%lanemask_gt;" : "=r"(ret) );
+    asm ("mov.u32 %0, %%lanemask_gt;" : "=r"(ret) );
     return ret;
 }
 
@@ -475,11 +471,12 @@ __device__ __forceinline__ unsigned int LaneMaskGt()
 __device__ __forceinline__ unsigned int LaneMaskGe()
 {
     unsigned int ret;
-    asm volatile("mov.u32 %0, %%lanemask_ge;" : "=r"(ret) );
+    asm ("mov.u32 %0, %%lanemask_ge;" : "=r"(ret) );
     return ret;
 }
 
 /** @} */       // end group UtilPtx
+
 
 
 
@@ -666,6 +663,65 @@ __device__ __forceinline__ T ShuffleIndex(
 
     return output;
 }
+
+
+
+/**
+ * Compute a 32b mask of threads having the same least-significant
+ * LABEL_BITS of \p label as the calling thread.
+ */
+template <int LABEL_BITS>
+inline __device__ unsigned int MatchAny(unsigned int label)
+{
+    unsigned int retval;
+
+    // Extract masks of common threads for each bit
+    #pragma unroll
+    for (int BIT = 0; BIT < LABEL_BITS; ++BIT)
+    {
+        unsigned int mask;
+        unsigned int current_bit = 1 << BIT;
+        asm ("{\n"
+            "    .reg .pred p;\n"
+            "    and.b32 %0, %1, %2;"
+            "    setp.eq.u32 p, %0, %2;\n"
+#ifdef CUB_USE_COOPERATIVE_GROUPS
+            "    vote.ballot.sync.b32 %0, p, 0xffffffff;\n"
+#else
+            "    vote.ballot.b32 %0, p;\n"
+#endif
+            "    @!p not.b32 %0, %0;\n"
+            "}\n" : "=r"(mask) : "r"(label), "r"(current_bit));
+
+        // Remove peers who differ
+        retval = (BIT == 0) ? mask : retval & mask;
+    }
+
+    return retval;
+
+//  // VOLTA match
+//    unsigned int retval;
+//    asm ("{\n"
+//         "    match.any.sync.b32 %0, %1, 0xffffffff;\n"
+//         "}\n" : "=r"(retval) : "r"(label));
+//    return retval;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
