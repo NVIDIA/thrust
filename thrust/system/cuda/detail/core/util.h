@@ -433,7 +433,7 @@ namespace core {
   /////////////////////////
   /////////////////////////
 
-  inline static cudaError_t CUB_RUNTIME_FUNCTION
+  inline cudaError_t CUB_RUNTIME_FUNCTION
   get_occ_device_properties(cudaOccDeviceProp &occ_prop, int dev_id)
   {
     cudaError_t status = cudaSuccess;
