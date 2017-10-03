@@ -409,7 +409,10 @@ namespace __merge {
           for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ++ITEM)
           {
             int idx = BLOCK_THREADS * ITEM + threadIdx.x;
-            output[ITEM] = (idx < count1) ? input1[idx] : input2[idx - count1];
+            if (idx < count1)
+              output[ITEM] = input1[idx];
+            else
+              output[ITEM] = input2[idx - count1];
           }
         }
         else
@@ -420,7 +423,10 @@ namespace __merge {
             int idx = BLOCK_THREADS * ITEM + threadIdx.x;
             if (idx < count1 + count2)
             {
-              output[ITEM] = (idx < count1) ? input1[idx] : input2[idx - count1];
+              if (idx < count1)
+                output[ITEM] = input1[idx];
+              else
+                output[ITEM] = input2[idx - count1];
             }
           }
         }
