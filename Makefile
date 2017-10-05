@@ -64,7 +64,7 @@ THRUST_MKDIR := $(TMP_PREFIX)/$(TMP_DIR)/$(TMP_ARCH)/thrust/mk
 THRUST_DIR   := $(ROOTDIR)/thrust
 # TODO: Refactor //sw/gpgpu/build and devise a solution in a form of
 #       include mk file that defines BUILT_ROOTDIR
-res:=$(shell $(PYTHON) generate_mk.py $(THRUST_MKDIR) $(THRUST_DIR))
+res:=$(shell $(PYTHON) ./generate_mk.py $(THRUST_MKDIR) $(THRUST_DIR))
 
 ## Generate makefiles
 #
