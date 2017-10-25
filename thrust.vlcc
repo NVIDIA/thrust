@@ -3,7 +3,7 @@
   # Descriptive name for the component
   "name"      : "Thrust Library",
   # Component owner (email address)
-  "owner"     : "egaburov@nvidia.com",
+  "owner"     : "blelbach@nvidia.com",
   "module"    : "CUDA - Thrust",
   # Files included in this component specified with one or more paths.
   # Paths are relative to this file location. Path syntax uses wildcards and p4-like '...'.
