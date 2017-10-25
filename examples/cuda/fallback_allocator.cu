@@ -73,7 +73,7 @@ class fallback_allocator
     }
 
     // deallocate's job to is inspect where the pointer lives and free it appropriately
-    void deallocate(char *ptr, size_t n)
+    void deallocate(char *ptr, size_t)
     {
       void *raw_ptr = thrust::raw_pointer_cast(ptr);
 
