@@ -78,7 +78,7 @@ class cached_allocator
       return result;
     }
 
-    void deallocate(char *ptr, size_t n)
+    void deallocate(char *ptr, size_t)
     {
       // erase the allocated block from the allocated blocks map
       allocated_blocks_type::iterator iter = allocated_blocks.find(ptr);
