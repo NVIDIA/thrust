@@ -10,6 +10,8 @@
 #include <iomanip>
 #include <cstdlib>
 
+#include <stdint.h>
+
 #include "random.h"
 #include "timer.h"
 
@@ -28,8 +30,8 @@ size_t N = 32 << 20;
 template <typename T>
 struct stl_reduce_test
 {
-  typedef typename std::vector<T> Vector;  Vector v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  typedef typename std::vector<T> Vector; Vector v;
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { if (std::accumulate(v.begin(), v.end(), T(0)) == 0) std::cout << "xyz"; } // prevent optimizer from removing body
   std::string name(void)  { return std::string("std::accumulate");  }
 };
@@ -37,17 +39,17 @@ struct stl_reduce_test
 template <typename T>
 struct stl_transform_test
 {
-  typedef typename std::vector<T> Vector;  Vector v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  typedef typename std::vector<T> Vector; Vector v;
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { std::transform(v.begin(), v.end(), v.begin(), thrust::negate<int>()); }
   std::string name(void)  { return std::string("std::transform");  }
 };
 
 template <typename T>
-struct stl_scan_test
+struct stl_inclusive_scan_test
 {
-  typedef typename std::vector<T> Vector;  Vector v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  typedef typename std::vector<T> Vector; Vector v;
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { std::partial_sum(v.begin(), v.end(), v.begin()); }
   std::string name(void)  { return std::string("std::partial_sum");  }
 };
@@ -55,8 +57,8 @@ struct stl_scan_test
 template <typename T>
 struct stl_sort_test
 {
-  typedef typename std::vector<T> Vector;  Vector v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  typedef typename std::vector<T> Vector; Vector v;
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { std::sort(v.begin(), v.end()); }
   std::string name(void)  { return std::string("std::sort");  }
 };
@@ -66,8 +68,8 @@ struct stl_sort_test
 template <typename T>
 struct tbb_reduce_test
 {
-  typedef typename std::vector<T> Vector;  Vector v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  typedef typename std::vector<T> Vector; Vector v;
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { tbb_reduce(v); }
   std::string name(void)  { return std::string("tbb::parallel_reduce");  }
 };
@@ -82,10 +84,10 @@ struct tbb_transform_test
 };
 
 template <typename T>
-struct tbb_scan_test
+struct tbb_inclusive_scan_test
 {
-  typedef typename std::vector<T> Vector;  Vector v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  typedef typename std::vector<T> Vector; Vector v;
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { tbb_scan(v); }
   std::string name(void)  { return std::string("tbb::parallel_scan");  }
 };
@@ -93,8 +95,8 @@ struct tbb_scan_test
 template <typename T>
 struct tbb_sort_test
 {
-  typedef typename std::vector<T> Vector;  Vector v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  typedef typename std::vector<T> Vector; Vector v;
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { tbb_sort(v); }
   std::string name(void)  { return std::string("tbb::parallel_sort");  }
 };
@@ -105,7 +107,7 @@ template <typename T>
 struct thrust_reduce_test
 {
   thrust::device_vector<T> v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { thrust::reduce(v.begin(), v.end()); }
   std::string name(void)  { return std::string("thrust::reduce");  }
 };
@@ -114,16 +116,16 @@ template <typename T>
 struct thrust_transform_test
 {
   thrust::device_vector<T> v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { thrust::transform(v.begin(), v.end(), v.begin(), thrust::negate<int>()); }
   std::string name(void)  { return std::string("thrust::transform");  }
 };
 
 template <typename T>
-struct thrust_scan_test
+struct thrust_inclusive_scan_test
 {
   thrust::device_vector<T> v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { thrust::inclusive_scan(v.begin(), v.end(), v.begin()); }
   std::string name(void)  { return std::string("thrust::inclusive_scan");  }
 };
@@ -132,7 +134,7 @@ template <typename T>
 struct thrust_sort_test
 {
   thrust::device_vector<T> v;
-  void        setup(void) { v.resize(N);  randomize(v); }
+  void        setup(void) { v.resize(N); randomize(v); }
   void        run(void)   { thrust::sort(v.begin(), v.end()); }
   std::string name(void)  { return std::string("thrust::sort");  }
 };
@@ -142,12 +144,18 @@ struct thrust_sort_test
 //////////////////////
 
 template <typename Test>
-float rate(Test test)
+double rate(Test test)
 {
   timer t;
 
+  // Warmup.
+  test.setup();
+  test.run();
+
+  // Reset for benchmark run.
   test.setup();
 
+  // Benchmark.
   t.start();
   test.run();
   t.stop();
@@ -157,22 +165,65 @@ float rate(Test test)
 
 
 template <typename T>
-void benchmark_core_primitives(std::string data_type)
+void benchmark_core_primitives(std::string data_type, size_t input_size)
 {
-  printf("Core Primitive Performance for %s (elements per second)\n", data_type.c_str());
+  //printf("Core Primitive Performance for %lu-bit %s (items per second)\n", 8*sizeof(T), data_type.c_str());
+
+  //char const* const header_fmt = "%-15s, %-12s, %-12s, %-12s, %-12s, %-12s, %-12s\n";
+  //char const* const entry_fmt  = "%-15s, %-12s, %-12lu, %-12lu, %-12e, %-12e, %-12e\n";
+  char const* const header_fmt = "%s,%s,%s,%s,%s,%s,%s\n";
+  char const* const entry_fmt  = "%s,%s,%lu,%lu,%e,%e,%e\n";
 
 #ifdef NO_TBB
-  printf("%15s, %12s, %12s, %12s\n", "Algorithm", "STL", "TBB (n/a)", "Thrust");
-  printf("%15s, %12.0f, %12.0f, %12.0f\n", "reduce",    rate(stl_reduce_test<T>()),    0.0,  rate(thrust_reduce_test<T>()));
-  printf("%15s, %12.0f, %12.0f, %12.0f\n", "transform", rate(stl_transform_test<T>()), 0.0,  rate(thrust_transform_test<T>()));
-  printf("%15s, %12.0f, %12.0f, %12.0f\n", "scan",      rate(stl_scan_test<T>()),      0.0,  rate(thrust_scan_test<T>()));
-  printf("%15s, %12.0f, %12.0f, %12.0f\n", "sort",      rate(stl_sort_test<T>()),      0.0,  rate(thrust_sort_test<T>()));
+  //printf(header_fmt, "Algorithm", "Type", "Type Size", "Input Size", "STL", "TBB (n/a)", "Thrust");
+  //printf(header_fmt, "", "", "[bits]", "[items]", "[items/sec]", "[items/sec]", "[items/sec]");
+  {
+    double stl    = rate(stl_reduce_test<T>());
+    double thrust = rate(thrust_reduce_test<T>());
+    printf(entry_fmt, "reduce",         data_type.c_str(), 8*sizeof(T), input_size, stl, 0.0, thrust);
+  }
+  {
+    double stl    = rate(stl_transform_test<T>());
+    double thrust = rate(thrust_transform_test<T>());
+    printf(entry_fmt, "transform",      data_type.c_str(), 8*sizeof(T), input_size, stl, 0.0, thrust);
+  }
+  {
+    double stl    = rate(stl_inclusive_scan_test<T>());
+    double thrust = rate(thrust_inclusive_scan_test<T>());
+    printf(entry_fmt, "inclusive_scan", data_type.c_str(), 8*sizeof(T), input_size, stl, 0.0, thrust);
+  }
+  {
+    double stl    = rate(stl_sort_test<T>());
+    double thrust = rate(thrust_sort_test<T>());
+    printf(entry_fmt, "sort",           data_type.c_str(), 8*sizeof(T), input_size, stl, 0.0, thrust);
+  }
 #else
-  printf("%15s, %12s, %12s, %12s\n", "Algorithm", "STL", "TBB", "Thrust");
-  printf("%15s, %12.0f, %12.0f, %12.0f\n", "reduce",    rate(stl_reduce_test<T>()),    rate(tbb_reduce_test<T>()),    rate(thrust_reduce_test<T>()));
-  printf("%15s, %12.0f, %12.0f, %12.0f\n", "transform", rate(stl_transform_test<T>()), rate(tbb_transform_test<T>()), rate(thrust_transform_test<T>()));
-  printf("%15s, %12.0f, %12.0f, %12.0f\n", "scan",      rate(stl_scan_test<T>()),      rate(tbb_scan_test<T>()),      rate(thrust_scan_test<T>()));
-  printf("%15s, %12.0f, %12.0f, %12.0f\n", "sort",      rate(stl_sort_test<T>()),      rate(tbb_sort_test<T>()),      rate(thrust_sort_test<T>()));
+  //printf(header_fmt, "Algorithm", "Type", "Type Size", "Input Size", "STL", "TBB", "Thrust");
+  //printf(header_fmt, "", "", "[bits]", "[items]", "[items/sec]", "[items/sec]", "[items/sec]");
+  {
+    double stl    = rate(stl_reduce_test<T>());
+    double tbb    = rate(tbb_reduce_test<T>());
+    double thrust = rate(thrust_reduce_test<T>());
+    printf(entry_fmt, "reduce",         data_type.c_str(), 8*sizeof(T), input_size, stl, tbb, thrust);
+  }
+  {
+    double stl    = rate(stl_transform_test<T>());
+    double tbb    = rate(tbb_transform_test<T>());
+    double thrust = rate(thrust_transform_test<T>());
+    printf(entry_fmt, "transform",      data_type.c_str(), 8*sizeof(T), input_size, stl, tbb, thrust);
+  }
+  {
+    double stl    = rate(stl_inclusive_scan_test<T>());
+    double tbb    = rate(tbb_inclusive_scan_test<T>());
+    double thrust = rate(thrust_inclusive_scan_test<T>());
+    printf(entry_fmt, "inclusive_scan", data_type.c_str(), 8*sizeof(T), input_size, stl, tbb, thrust);
+  }
+  {
+    double stl    = rate(stl_sort_test<T>());
+    double tbb    = rate(tbb_sort_test<T>());
+    double thrust = rate(thrust_sort_test<T>());
+    printf(entry_fmt, "sort",           data_type.c_str(), 8*sizeof(T), input_size, stl, tbb, thrust);
+  }
 #endif
 
 }
@@ -187,30 +238,14 @@ int main(void)
 #endif
 
   std::cout << "Benchmarking with input size " << N << std::endl;
-  benchmark_core_primitives<int>("32-bit integer");
-  benchmark_core_primitives<long long>("64-bit integer");
-  benchmark_core_primitives<float>("32-bit float");
-  benchmark_core_primitives<double>("64-bit float");
-
-  printf("Sorting Performance (keys per second)\n");
-
-#ifdef NO_TBB
-  printf("%6s, %12s, %12s, %12s\n", "Type", "STL", "TBB (n/a)", "Thrust");
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "char",   rate(stl_sort_test<char>()),      0.0,  rate(thrust_sort_test<char>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "short",  rate(stl_sort_test<short>()),     0.0,  rate(thrust_sort_test<short>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "int",    rate(stl_sort_test<int>()),       0.0,  rate(thrust_sort_test<int>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "long",   rate(stl_sort_test<long long>()), 0.0,  rate(thrust_sort_test<long long>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "float",  rate(stl_sort_test<float>()),     0.0,  rate(thrust_sort_test<float>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "double", rate(stl_sort_test<double>()),    0.0,  rate(thrust_sort_test<double>()));
-#else
-  printf("%6s, %12s, %12s, %12s\n", "Type", "STL", "TBB", "Thrust");
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "char",   rate(stl_sort_test<char>()),      rate(tbb_sort_test<char>()),      rate(thrust_sort_test<char>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "short",  rate(stl_sort_test<short>()),     rate(tbb_sort_test<short>()),     rate(thrust_sort_test<short>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "int",    rate(stl_sort_test<int>()),       rate(tbb_sort_test<int>()),       rate(thrust_sort_test<int>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "long",   rate(stl_sort_test<long long>()), rate(tbb_sort_test<long long>()), rate(thrust_sort_test<long long>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "float",  rate(stl_sort_test<float>()),     rate(tbb_sort_test<float>()),     rate(thrust_sort_test<float>()));
-  printf("%6s, %12.0f, %12.0f, %12.0f\n", "double", rate(stl_sort_test<double>()),    rate(tbb_sort_test<double>()),    rate(thrust_sort_test<double>()));
-#endif
+  benchmark_core_primitives<char>   ("char",    N);
+  benchmark_core_primitives<int>    ("int",     N);
+  benchmark_core_primitives<int8_t> ("integer", N);
+  benchmark_core_primitives<int16_t>("integer", N);
+  benchmark_core_primitives<int32_t>("integer", N);
+  benchmark_core_primitives<int64_t>("integer", N);
+  benchmark_core_primitives<float>  ("float",   N);
+  benchmark_core_primitives<double> ("float",   N);
 
   return 0;
 }
