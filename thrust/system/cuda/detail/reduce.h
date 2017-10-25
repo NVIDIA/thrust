@@ -30,6 +30,8 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/detail/raw_reference_cast.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
@@ -937,33 +939,35 @@ reduce_n(execution_policy<Derived> &policy,
 
   if (__THRUST_HAS_CUDART__)
   {
-    device_ptr<T> ret = thrust::device_malloc<T>(1);
+    detail::temporary_array<T, Derived> ret(policy, 1);
 
-    // Determine temporary device storage requirements
-    void *d_temp_storage = NULL;
-    size_t temp_storage_bytes = 0;
+    // Determine temporary device storage requirements.
+
+    size_t tmp_size = 0;
     cuda_cub::throw_on_error(
-      cub::DeviceReduce::Reduce(d_temp_storage, temp_storage_bytes,
-                                first, ret, num_items, binary_op, init, stream,
-                                THRUST_DEBUG_SYNC_FLAG),
+      cub::DeviceReduce::Reduce(NULL, tmp_size,
+                                first, ret.begin(), num_items, binary_op, init,
+                                stream, THRUST_DEBUG_SYNC_FLAG),
       "after reduction step 1");
 
-    // Allocate temporary storage
-    cuda_cub::throw_on_error(
-      cudaMalloc(&d_temp_storage, temp_storage_bytes),
-      "after reduction cudaMalloc");
+    // Allocate temporary storage.
 
-    // Run reduction
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, tmp_size);
+
+    // Run reduction.
+
+    // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
+    // `reference`, which has an `operator&` that returns a `pointer`, which
+    // has a `.get` method that returns a raw pointer, which we can (finally)
+    // `static_cast` to `void*`.
+    void* tmp_ptr = static_cast<void*>((&*tmp.begin()).get());
     cuda_cub::throw_on_error(
-      cub::DeviceReduce::Reduce(d_temp_storage, temp_storage_bytes,
-                                first, ret, num_items, binary_op, init, stream,
-                                THRUST_DEBUG_SYNC_FLAG),
+      cub::DeviceReduce::Reduce(tmp_ptr, tmp_size,
+                                first, ret.begin(), num_items, binary_op, init,
+                                stream, THRUST_DEBUG_SYNC_FLAG),
       "after reduction step 2");
 
-    init = *ret;
-
-    // FIXME: Run dtors.
-    thrust::device_free(ret);
+    init = ret[0];
 
     return init;
   }
