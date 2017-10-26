@@ -107,12 +107,6 @@ int main(void)
   fallback_allocator alloc;
 
   // this example requires both unified addressing and memory mapping
-  if(properties.integrated)
-  {
-    std::cout << "Device #" << device 
-              << " [" << properties.name << "] is discrete, not integrated" << std::endl;
-    return 0;
-  }
   if(!properties.unifiedAddressing || !properties.canMapHostMemory)
   {
     std::cout << "Device #" << device 
