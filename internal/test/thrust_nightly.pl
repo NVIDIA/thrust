@@ -302,15 +302,8 @@ sub clear_libpath {
         $ENV{'DYLD_LIBRARY_PATH'} = "";
         printf ("DYLD_LIBRARY_PATH = %s\n",$ENV{'DYLD_LIBRARY_PATH'}); 
     } elsif ($os eq "Linux") {
-        # When running under `nvidia-docker`, clearing `LD_LIBRARY_PATH` breaks
-        # the build. Currently, there's no good way to determine if we're
-        # running under `nvidia-docker`. The best idea I could come up with was
-        # to match against the `LD_LIBRARY_PATH` that `nvidia-docker` sets.
-        # https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=2003238
-        if ($ENV{'LD_LIBRARY_PATH'} ne "/usr/local/nvidia/lib:/usr/local/nvidia/lib64") {
-            $ENV{'LD_LIBRARY_PATH'} = "";
-            printf ("LD_LIBRARY_PATH = %s\n",$ENV{'LD_LIBRARY_PATH'});
-        }
+        $ENV{'LD_LIBRARY_PATH'} = "";
+        printf ("LD_LIBRARY_PATH = %s\n",$ENV{'LD_LIBRARY_PATH'});
     } elsif ($os eq "win32") {
         if ($cygwin) {
             $ENV{'PATH'} = "/usr/local/bin:/usr/bin:/bin:/cygdrive/c/WINDOWS/system32";
