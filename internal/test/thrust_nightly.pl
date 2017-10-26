@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 use strict;
 use warnings;
@@ -303,7 +303,7 @@ sub clear_libpath {
         printf ("DYLD_LIBRARY_PATH = %s\n",$ENV{'DYLD_LIBRARY_PATH'}); 
     } elsif ($os eq "Linux") {
         $ENV{'LD_LIBRARY_PATH'} = "";
-        printf ("LD_LIBRARY_PATH = %s\n",$ENV{'LD_LIBRARY_PATH'});
+        printf ("LD_LIBRARY_PATH = %s\n",$ENV{'LD_LIBRARY_PATH'}); 
     } elsif ($os eq "win32") {
         if ($cygwin) {
             $ENV{'PATH'} = "/usr/local/bin:/usr/bin:/bin:/cygdrive/c/WINDOWS/system32";
@@ -468,22 +468,25 @@ sub run_examples {
         if ($remote) {
             remote_push("${binpath}/${test_exe}", "${remote_path}/${test}");
             if ($remote_android) {
-                $cmd = "${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1";
+                $cmd = "${remote_path}/${test_exe} > ${remote_path}/${test}.output 2> ${remote_path}/${test}.${outputlog}";
             } else {
-                $cmd = "\"${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1\"";
+                $cmd = "\"${remote_path}/${test_exe} > ${remote_path}/${test}.output 2> ${remote_path}/${test}.${outputlog}\"";
             }
         } else {
-            $cmd = "${binpath}/${test_exe} --verbose > ${test}.output 2>&1";
+            $cmd = "${binpath}/${test_exe} > internal/test/${test}.output 2>> internal/test/examples.$outputlog";
         }
-        print "&&&& RUNNING $test: $cmd\n";
+        open(FILE, ">>internal/test/examples.$outputlog");
+        print FILE "CMD: $cmd\n";
+        close(FILE);
+        print "&&&& RUNNING $test\n";
         $ret = run_cmd $cmd;
         if ($remote) {
-            remote_pull("${remote_path}/${test}.output", "${test}.output");
+            remote_pull("${remote_path}/${test}.output", "internal/test/${test}.output");
+            remote_pull("${remote_path}/${test}.${outputlog}", "internal/test/${test}.${outputlog}");
+            system("cat internal/test/${test}.${outputlog} >> internal/test/examples.${outputlog}");
         }
-        my @output = get_file("${test}.output", 0);
-        print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
+        my @output = get_file("internal/test/${test}.output", 0);
         print @output;
-        print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
         if ($ret != 0) {
             print "&&&& FAILED $test\n";
             $failed = $failed + 1;
@@ -494,7 +497,7 @@ sub run_examples {
         } else {
             if (-f "internal/test/${test}.gold") {
                 # check output against gold file
-                my @stripped_output = get_file("${test}.output", 1);
+                my @stripped_output = get_file("internal/test/${test}.output", 1);
                 my @gold_output = get_file("internal/test/${test}.gold", 1);
                 if (compare_arrays(\@gold_output, \@stripped_output)) {
                     print "&&&& PASSED $test\n";
@@ -518,6 +521,49 @@ sub run_examples {
     }
 }
 
+# deprecated sub; marked for deletion
+sub xrun_unit_tests {
+    my $outputlog = "stderr.output";
+    my $test_cmd;
+    my $test;
+    my $tester;
+    my $cmd;
+    my $copied_tester = 0;
+
+    foreach $test_cmd (@unittestlist)
+    {
+        ($tester, $test) = split(/ /, $test_cmd);
+        $test =~ s/\"//g;
+
+        if ($remote && -f "${binpath}/${tester}" && ($copied_tester == 0)) {
+            remote_push("${binpath}/${tester}", "${remote_path}/${tester}");
+            $copied_tester = 1;
+        }
+
+        print_time;
+        next if isFiltered("$tester \"$test\"");
+        my $ret;
+
+        print "&&&& RUNNING $tester \"$test\"\n";
+        if ($remote) {
+                if ($remote_android) {
+                    $cmd = "${remote_path}/${tester} \\\"${test}\\\"";
+                } else {
+                    $cmd = "${remote_path}/${tester} \"\\\"${test}\\\"\"";
+                }
+        } else {
+            $cmd = "${binpath}/${tester} \"${test}\"";
+        }
+        $ret = run_cmd $cmd;
+        if ($ret != 0) {
+            print "&&&& FAILED $tester \"$test\"\n";
+            $failed = $failed + 1;
+        } else {
+            print "&&&& PASSED $tester \"$test\"\n";
+            $passed = $passed + 1;
+        }
+    }
+}
 sub run_unit_tests {
     my $outputlog = "stderr.output";
     my $test;
@@ -553,22 +599,25 @@ sub run_unit_tests {
         if ($remote) {
             remote_push("${binpath}/${test_exe}", "${remote_path}/${test}");
             if ($remote_android) {
-                $cmd = "${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1";
+                $cmd = "${remote_path}/${test_exe} --verbose --device=0 > ${remote_path}/${test}.output 2> ${remote_path}/${test}.${outputlog}";
             } else {
-                $cmd = "\"${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1\"";
+                $cmd = "\"${remote_path}/${test_exe} --verbose --device=0 > ${remote_path}/${test}.output 2> ${remote_path}/${test}.${outputlog}\"";
             }
         } else {
-            $cmd = "${binpath}/${test_exe} --verbose > ${test}.output 2>&1";
+            $cmd = "${binpath}/${test_exe} --verbose --device=0 > internal/test/${test}.output 2>> internal/test/testing.$outputlog";
         }
-        print "&&&& RUNNING $test: $cmd\n";
+        open(FILE, ">>internal/test/testing.$outputlog");
+        print FILE "CMD: $cmd\n";
+        close(FILE);
+        print "&&&& RUNNING $test\n";
         $ret = run_cmd $cmd;
         if ($remote) {
-            remote_pull("${remote_path}/${test}.output", "${test}.output");
+            remote_pull("${remote_path}/${test}.output", "internal/test/${test}.output");
+            remote_pull("${remote_path}/${test}.${outputlog}", "internal/test/${test}.${outputlog}");
+            system("cat internal/test/${test}.${outputlog} >> internal/test/${outputlog}");
         }
-        my @output = get_file("${test}.output", 0);
-        print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
-        print @output;
-        print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
+        my @output = get_file("internal/test/${test}.output", 0);
+
         my $fail = 0;
         my $known_fail = 0;
         my $pass = 0;
