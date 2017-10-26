@@ -3,7 +3,7 @@
   # Descriptive name for the component
   "name"      : "Thrust L2 Tests",
   # Component owner (email address)
-  "owner"     : "blelbach@nvidia.com",
+  "owner"     : "egaburov@nvidia.com",
   "module"    : "CUDA - Thrust",
   # Build timeout (in seconds).
   "buildtimeout" : "28800",

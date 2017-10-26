@@ -4,7 +4,7 @@
   "name"      : "Thrust performance tests",
   "type"      : "performance",
   # Component owner (email address)
-  "owner"     : "blelbach@nvidia.com",
+  "owner"     : "egaburov@nvidia.com",
   "module"    : "CUDA - Thrust",
   # Build timeout (in seconds).
   "buildtimeout" : "600",
