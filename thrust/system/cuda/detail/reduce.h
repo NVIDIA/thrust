@@ -967,9 +967,14 @@ reduce_n(execution_policy<Derived> &policy,
                                 stream, THRUST_DEBUG_SYNC_FLAG),
       "after reduction step 2");
 
-    init = ret[0];
+    cuda_cub::throw_on_error(cuda_cub::synchronize(policy),
+      "reduce failed to synchronize");
 
-    return init;
+    // `ret.begin()` yields a `normal_iterator`, which dereferences to a
+    // `reference`, which has an `operator&` that returns a `pointer`, which
+    // has a `.get` method that returns a raw pointer, which we can (finally)
+    // `static_cast` to `void*`.
+    return cuda_cub::get_value(policy, (&*ret.begin()).get());
   }
 
 #if !__THRUST_HAS_CUDART__
