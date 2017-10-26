@@ -88,10 +88,10 @@ sub Usage()
 
 $retVal = GetOptions(\%CmdLineOption,
                      'help'     => sub { Usage() and exit 0 },
-                     "forcearch=s" => \$arch,
-                     "forceabi=s" => \$abi,
-                     "forceos=s" => \$os,
-                     "build=s" => \$build,
+		     "forcearch=s" => \$arch,
+		     "forceabi=s" => \$abi,
+		     "forceos=s" => \$os,
+		     "build=s" => \$build,
                      "timeout-min=i" => \$timeout_min,
                      "filter-list-file=s" => \$filter_list_file,
                      "test-list-file=s" => \$test_list_file,
@@ -99,10 +99,10 @@ $retVal = GetOptions(\%CmdLineOption,
                      "testname=s" => \$testname,
                      "dvs" => \$dvs,
                      "openmp" => \$openmp,
-                     "remote_server=s" => \$remote_server,
-                     "remote_android" => \$remote_android,
-                     "remote_path=s" => \$remote_path,
-                    );
+		     "remote_server=s" => \$remote_server,
+		     "remote_android" => \$remote_android,
+		     "remote_path=s" => \$remote_path,
+		    );
 
 # Generate gold output files (set to 1 manually)
 my $generate_gold = 0;
@@ -117,13 +117,10 @@ if ($arch eq "ARMv7") {
       else {
           $abi = "_${abi}";
       }
-}
-elsif ($arch eq "aarch64") { 
-    $abi = "_${abi}"; 
-} 
-else {
-    $abi = "";                #Ignore abi for architectures other than arm
-}
+  }
+  else {
+      $abi = "";              #Ignore abi for architectures other than arm
+  }
 
 if ($remote_server || $remote_android) {
     $remote = 1;
@@ -291,7 +288,7 @@ sub xgetUnitTestList {
     foreach my $line (<$fin>) {
         $line =~ s/\s+$//;
         # Put $line in quotes to avoid <> problems
-        push (@utl, "thrust_test \"$line\"");
+	push (@utl, "thrust_test \"$line\"");
     }
     close $fin;
     return @utl;
@@ -408,13 +405,13 @@ sub get_file {
 }
 
 sub compare_arrays {
-    my ($first, $second) = @_;
-    no warnings;  # silence spurious -w undef complaints
-    return 0 unless @$first == @$second;
-    for (my $i = 0; $i < @$first; $i++) {
-        return 0 if $first->[$i] ne $second->[$i];
-    }
-    return 1;
+	my ($first, $second) = @_;
+	no warnings;  # silence spurious -w undef complaints
+	return 0 unless @$first == @$second;
+	for (my $i = 0; $i < @$first; $i++) {
+	    return 0 if $first->[$i] ne $second->[$i];
+	}
+	return 1;
 }  
 
 my $passed = 0;
@@ -535,33 +532,33 @@ sub xrun_unit_tests {
         ($tester, $test) = split(/ /, $test_cmd);
         $test =~ s/\"//g;
 
-        if ($remote && -f "${binpath}/${tester}" && ($copied_tester == 0)) {
-            remote_push("${binpath}/${tester}", "${remote_path}/${tester}");
-            $copied_tester = 1;
-        }
+	if ($remote && -f "${binpath}/${tester}" && ($copied_tester == 0)) {
+	    remote_push("${binpath}/${tester}", "${remote_path}/${tester}");
+	    $copied_tester = 1;
+	}
 
         print_time;
         next if isFiltered("$tester \"$test\"");
         my $ret;
 
-        print "&&&& RUNNING $tester \"$test\"\n";
-        if ($remote) {
-                if ($remote_android) {
-                    $cmd = "${remote_path}/${tester} \\\"${test}\\\"";
-                } else {
-                    $cmd = "${remote_path}/${tester} \"\\\"${test}\\\"\"";
-                }
-        } else {
-            $cmd = "${binpath}/${tester} \"${test}\"";
-        }
-        $ret = run_cmd $cmd;
-        if ($ret != 0) {
-            print "&&&& FAILED $tester \"$test\"\n";
-            $failed = $failed + 1;
-        } else {
-            print "&&&& PASSED $tester \"$test\"\n";
-            $passed = $passed + 1;
-        }
+	print "&&&& RUNNING $tester \"$test\"\n";
+	if ($remote) {
+            if ($remote_android) {
+                $cmd = "${remote_path}/${tester} \\\"${test}\\\"";
+            } else {
+                $cmd = "${remote_path}/${tester} \"\\\"${test}\\\"\"";
+            }
+	} else {
+	    $cmd = "${binpath}/${tester} \"${test}\"";
+	}
+	$ret = run_cmd $cmd;
+	if ($ret != 0) {
+	    print "&&&& FAILED $tester \"$test\"\n";
+	    $failed = $failed + 1;
+	} else {
+	    print "&&&& PASSED $tester \"$test\"\n";
+	    $passed = $passed + 1;
+	}
     }
 }
 sub run_unit_tests {
