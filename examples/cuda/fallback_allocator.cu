@@ -73,7 +73,7 @@ class fallback_allocator
     }
 
     // deallocate's job to is inspect where the pointer lives and free it appropriately
-    void deallocate(char *ptr, size_t)
+    void deallocate(char *ptr, size_t n)
     {
       void *raw_ptr = thrust::raw_pointer_cast(ptr);
 
@@ -129,9 +129,8 @@ int main(void)
   try
   {
     size_t one_million = 1 << 20;
-    size_t one_billion = 1 << 30;
 
-    for(size_t n = one_million; n < one_billion; n *= 2)
+    for(size_t n = one_million; n < properties.totalGlobalMem/sizeof(int); n *= 2)
     {
       // TODO ideally we'd use the fallback_allocator in the vector too
       //thrust::cuda::vector<int, fallback_allocator> d_vec(n);
