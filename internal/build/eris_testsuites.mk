@@ -34,12 +34,19 @@ BINPATH=${VULCAN_BUILD_DIR}/bin/${VULCAN_ARCH}_${VULCAN_OS}${VULCAN_ABI}_${VULCA
 else
 BINPATH=$(ROOTDIR)/bin/$(TARGET_DIR)
 endif
+endif  # ERIS_TEST_LEVELS
 
-ifneq ($(MAKECMDGOALS),clean)
-  res:=$(shell $(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS))
+ifeq ($(OS),Linux)
+DEL_CMD=rm -f $(BINPATH)/*.vlct
+else
+DEL_CMD=del $(BINPATH)\*.vlct
 endif
 
-endif  # ERIS_TEST_LEVELS
+all:
+	$(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS)
+
+clean:
+	$(DEL_CMD)
 
 ifdef VULCAN_TOOLKIT_BASE
 include $(VULCAN_TOOLKIT_BASE)/build/common.mk
