@@ -46,6 +46,7 @@ all:
 	$(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS)
 
 clean:
+	echo $(DEL_CMD)
 	$(DEL_CMD)
 
 ifdef VULCAN_TOOLKIT_BASE
