@@ -8,7 +8,7 @@ import sys
 from operator import xor
 
 # add strings to replace here
-replace_map = {'#"cwd"       : "{TR_TESTSUITE_DIR}",': '"cwd"       : "../../thrust/internal/test",'}
+replace_map = {}
 
 # searches and replaces in place, returns description and status
 def search_and_replace(filename, search=None, replace=None):
