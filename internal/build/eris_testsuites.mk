@@ -39,7 +39,7 @@ endif  # ERIS_TEST_LEVELS
 ifeq ($(OS),Linux)
 DEL_CMD=rm -f $(BINPATH)/*.vlct
 else
-DEL_CMD=del $(BINPATH)\*.vlct
+DEL_CMD=del "$(BINPATH)\*.vlct"
 endif
 
 all:
