@@ -8,7 +8,7 @@ import sys
 from operator import xor
 
 # add strings to replace here
-replace_map = {}
+replace_map = {'STDOUT thrust': 'STDOUT ..\\..\\thrust\\internal\\test\\thrust'}
 
 # searches and replaces in place, returns description and status
 def search_and_replace(filename, search=None, replace=None):
