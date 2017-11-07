@@ -39,14 +39,13 @@ endif  # ERIS_TEST_LEVELS
 ifeq ($(OS),Linux)
 DEL_CMD=rm -f $(BINPATH)/*.vlct
 else
-DEL_CMD=del "$(BINPATH)\*.vlct"
+DEL_CMD=if exist "$(BINPATH)\*.vlct" del "$(BINPATH)\*.vlct"
 endif
 
 all:
 	$(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS)
 
 clean:
-	echo $(DEL_CMD)
 	$(DEL_CMD)
 
 ifdef VULCAN_TOOLKIT_BASE
