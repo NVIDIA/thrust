@@ -44,7 +44,7 @@ def search_and_replace(filename, os=None):
 # validates params and calls search and replace
 def main():
     # validate the number of arguments
-    if len(sys.argv) == 2:
+    if len(sys.argv) == 3:
         text, status = search_and_replace(sys.argv[1], sys.argv[2])
     else:
         text, status = "Command Format: python sar_utility <filename> <os>", 1
