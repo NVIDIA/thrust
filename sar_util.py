@@ -5,15 +5,16 @@
 ###########################################
 
 import sys
-from operator import xor
 
 # add strings to replace here
-replace_map = {'STDOUT thrust': 'STDOUT ..\\..\\thrust\\internal\\test\\thrust'}
+replace_map = {'Linux': {'STDOUT thrust': 'STDOUT ../../thrust/internal/test/thrust'},
+               'Windows': {'STDOUT thrust': 'STDOUT ..\\..\\thrust\\internal\\test\\thrust'}}
+
 
 # searches and replaces in place, returns description and status
-def search_and_replace(filename, search=None, replace=None):
-    if xor(bool(search), bool(replace)):
-        return "[search] [replace] should both be present", 1
+def search_and_replace(filename, os=None):
+    if os not in replace_map:
+        return "invalid os", 1
 
     # read all the data in the file to a string
     try:
@@ -24,11 +25,9 @@ def search_and_replace(filename, search=None, replace=None):
 
     # search and replace
     try:
-        if search and replace:
-            data = data.replace(search, replace)
-        else:
-            for k in replace_map:
-                data = data.replace(k, replace_map[k])
+        current_map = replace_map[os]
+        for k in current_map:
+            data = data.replace(k, current_map[k])
     except Exception as e:
         return "Error: {0}".format(e), 1
 
@@ -41,18 +40,18 @@ def search_and_replace(filename, search=None, replace=None):
 
     return "Replace successful", 0
 
+
 # validates params and calls search and replace
 def main():
     # validate the number of arguments
-    if len(sys.argv) == 4:
-        text, status = search_and_replace(sys.argv[1], sys.argv[2], sys.argv[3])
-    elif len(sys.argv) == 2:
-        text, status = search_and_replace(sys.argv[1])
+    if len(sys.argv) == 2:
+        text, status = search_and_replace(sys.argv[1], sys.argv[2])
     else:
-        text, status = "Command Format: python sar_utility <filename> [search] [replace]", 1
+        text, status = "Command Format: python sar_utility <filename> <os>", 1
 
     print text
     sys.exit(status)
+
 
 if __name__ == "__main__":
     main()
