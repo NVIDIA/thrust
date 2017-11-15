@@ -8,6 +8,7 @@ use Cwd 'abs_path';
 use Config; # For sig_names
 use File::Temp;
 use POSIX; # For strftime
+use Time::HiRes qw(gettimeofday);
 
 my %CmdLineOption;
 my $retVal;
@@ -253,6 +254,7 @@ sub run_cmd {
     my @executable;
     my $syst_cmd;
 
+    my $start = gettimeofday();
     eval {
         local $SIG{ALRM} = sub { die("Test timed out (received SIGALRM).\n") };
         alarm (60 * $timeout_min);
@@ -271,10 +273,12 @@ sub run_cmd {
 
         alarm 0;
     };
+    my $elapsed = gettimeofday() - $start; 
+
     if ($@) {
         print("\n#### ERROR : Test timeout reached, killing $executable[0].\n"); 
         system("killall ".$executable[0]);
-        return 1;
+        return (1, $elapsed);
     }
     
     if ($ret != 0) {
@@ -294,7 +298,7 @@ sub run_cmd {
             print("\n#### ERROR : Test generated a core dump.\n");
         }                    
     }
-    return $ret;
+    return ($ret, $elapsed);
 }
 
 sub current_time
@@ -345,7 +349,6 @@ sub run_examples {
         next unless (-e "${binpath}/${test_exe}");
         print("CURRENT TIME: " . current_time() . "\n");
 
-        my $ret;
         my $cmd;
 
         if ($remote) {
@@ -358,8 +361,8 @@ sub run_examples {
         } else {
             $cmd = "${binpath}/${test_exe} --verbose > ${test}.output 2>&1";
         }
-        print "&&&& RUNNING $cmd\n";
-        $ret = run_cmd $cmd;
+        print "&&&& RUNNING $test\n";
+        my ($ret, $elapsed) = run_cmd $cmd;
         if ($remote) {
             remote_pull("${remote_path}/${test}.output", "${test}.output");
         }
@@ -369,46 +372,46 @@ sub run_examples {
         print "########################################\n";
         if ($ret != 0) {
             print "#### ERROR : $test returned non-zero. Test crash?\n";
-            print "&&&& FAILED $cmd\n";
+            printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
             $errors = $errors + 1;
         } else {
-            print "&&&& PASSED $cmd\n";
+            printf("&&&& PASSED $test %.2f [s]\n", $elapsed);
             $passes = $passes + 1;
 
             # Check output with LLVM FileCheck.
 
             my $filecheck = "${binpath}/nvvm/tools/FileCheck --input-file ${test}.output internal/test/${test}.filecheck > ${test}.filecheck.output 2>&1";
 
-            print "&&&& RUNNING $filecheck\n";
+            print "&&&& RUNNING FileCheck $test\n";
 
             if (-f "internal/test/${test}.filecheck") {
                 # If the filecheck file is empty, don't use filecheck, just
                 # check if the output file is also empty. 
                 if (-z "internal/test/${test}.filecheck") {
                     if (-z "${test}.output") {
-                        print "&&&& PASSED $filecheck\n";
+                        print "&&&& PASSED FileCheck $test\n";
                         $passes = $passes + 1;
                     } else {
                         print "#### Output received but not expected.\n";
-                        print "&&&& FAILED $filecheck\n";
+                        print "&&&& FAILED FileCheck $test\n";
                         $failures = $failures + 1;
                     }
                 } else {
                     if (system($filecheck) == 0) {
-                        print "&&&& PASSED $filecheck\n";
+                        print "&&&& PASSED FileCheck $test\n";
                         $passes = $passes + 1;
                     } else {
                         my @filecheckoutput = get_file("${test}.filecheck.output");
                         print "########################################\n";
                         print @filecheckoutput;
                         print "########################################\n";
-                        print "&&&& FAILED $filecheck\n";
+                        print "&&&& FAILED FileCheck $test\n";
                         $failures = $failures + 1;
                     }
                 }
             } else {
                 print "#### ERROR : $test has no FileCheck comparison.\n";
-                print "&&&& FAILED $filecheck\n";
+                print "&&&& FAILED FileCheck $test\n";
                 $errors = $errors + 1;
             }
         }
@@ -443,7 +446,6 @@ sub run_unit_tests {
         next unless (-e "${binpath}/${test_exe}");
         print("CURRENT TIME: " . current_time() . "\n");
 
-        my $ret;
         my $cmd;
 
         if ($remote) {
@@ -456,8 +458,8 @@ sub run_unit_tests {
         } else {
             $cmd = "${binpath}/${test_exe} --verbose > ${test}.output 2>&1";
         }
-        print "&&&& RUNNING $cmd\n";
-        $ret = run_cmd $cmd;
+        print "&&&& RUNNING $test\n";
+        my ($ret, $elapsed) = run_cmd $cmd;
         if ($remote) {
             remote_pull("${remote_path}/${test}.output", "${test}.output");
         }
@@ -474,10 +476,10 @@ sub run_unit_tests {
         {
             if (($fail, $known_fail, $error, $pass) = $line =~ /Totals: ([0-9]+) failures, ([0-9]+) known failures, ([0-9]+) errors, and ([0-9]+) passes[.]/igs) {
                 if ($fail != 0 or $error != 0) {
-                    print "&&&& FAILED $cmd\n";
+                    printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
                 }
                 else {
-                    print "&&&& PASSED $cmd\n";
+                    printf("&&&& PASSED $test %.2f [s]\n", $elapsed);
                 }
                 $found_totals = 1;
                 $failures = $failures + $fail; 
@@ -491,23 +493,23 @@ sub run_unit_tests {
             if ($found_totals == 0) {
                 $errors = $errors + 1;
                 print "#### ERROR : $test returned zero and no summary line was found. Invalid test?\n";
-                print "&&&& FAILED $cmd\n";
+                printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
             }
             else {
                 if ($fail != 0 or $error != 0) {
                     $errors = $errors + 1;
                     print "#### ERROR : $test returned zero, but had failures or errors. Test driver error?\n";
-                    print "&&&& FAILED $cmd\n";
+                    printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
                 } elsif ($known_fail == 0 and $pass == 0) {
                     $errors = $errors + 1;
                     print "#### ERROR : $test returned zero and had no failures, known failures, errors or passes. Invalid test?\n";
-                    print "&&&& FAILED $cmd\n";
+                    printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
                 }
             }
         } elsif ($fail == 0 and $error == 0) {
             $errors = $errors + 1;
             print "#### ERROR : $test returned non-zero but had no failures or errors. Test crash?\n";
-            print "&&&& FAILED $cmd\n";
+            printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
         }
         print "\n";
     }
