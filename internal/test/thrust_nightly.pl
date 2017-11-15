@@ -5,21 +5,20 @@ use warnings;
 use Getopt::Long;
 use Cwd;
 use Cwd 'abs_path';
+use Config; # For sig_names
 use File::Temp;
+use POSIX; # For strftime
 
 my %CmdLineOption;
 my $retVal;
 my $arch = "";
 my $build = "debug";
 my $filter_list_file = undef;
-my $test_list_file = undef;
-my $unit_test_list_file = "internal/test/unittest.lst";
 my $testname = undef;
 my $valgrind_enable = 0;
 my $cudamemcheck_enable = 0;
 my $tool_checker = "";
 my $timeout_min = 15;
-my $dvs = 0;
 my $os = "";
 my $cygwin = "";
 my $openmp = 0;
@@ -30,13 +29,11 @@ my $remote_server = "";
 my $remote_android = "";
 my $remote_path = "/data/thrust_testing";
 
-my @unittestlist;
-my @skip_gold_verify_list = (
-    "thrust.example.discrete_voronoi",
-    "thrust.example.sorting_aos_vs_soa",
-    "thrust.example.cuda.simple_cuda_streams",
-    "thrust.example.cuda.fallback_allocator",
-);
+# https://stackoverflow.com/questions/29862178/name-of-signal-number-2
+my @sig_names;
+@sig_names[ split ' ', $Config{sig_num} ] = split ' ', $Config{sig_name};
+my %sig_nums;
+@sig_nums{ split ' ', $Config{sig_name} } = split ' ', $Config{sig_num};
 
 if (`uname` =~ m/CYGWIN/) {
     $cygwin = 1;
@@ -67,23 +64,19 @@ if ($os eq "win32") {
 
 sub Usage()
 {
-    print STDERR "Usage:     thrust_nightly.pl <options>\n";
-    print STDERR "Options:\n";
-    print STDERR "  -help                         : Print help message\n";
-    print STDERR "  -forcearch <arch>             : i686|x86_64|ARMv7|aarch64 (default: $arch)\n";
-    print STDERR "  -forceabi <abi>               : Specify abi to be used for arm (gnueabi|gnueabihf)\n";
-    print STDERR "  -forceos <os>                 : win32|Linux|Darwin (default: $os)\n";
-    print STDERR "  -build <release|debug>        : (default: debug)\n";
-    print STDERR "  -timeout_min <min>            : timeout in minutes for each individual test\n";
-    print STDERR "  -filter-list-file <file>      : path to filter file which contains one invocation per line\n";
-    print STDERR "  -test-list-file <file>        : path to file which contains one example program or unit test per line\n";
-    print STDERR "  -unit-test-list-file <file>   : path to file which contains one unit test per line\n";
-    print STDERR "  -testname <test>              : single example or unit test to run\n";
-    print STDERR "  -dvs                          : summary for dvs\n";
-    print STDERR "  -openmp                       : test OpenMP implementation\n";
-    print STDERR "  -remote_server <server>       : test on remote target (uses ssh)\n";
-    print STDERR "  -remote_android               : test on remote android target (uses adb)\n";
-    print STDERR "  -remote_path                  : path on remote target to copy test files (default: $remote_path)\n";
+    print STDOUT "Usage:     thrust_nightly.pl <options>\n";
+    print STDOUT "Options:\n";
+    print STDOUT "  -help                         : Print help message\n";
+    print STDOUT "  -forcearch <arch>             : i686|x86_64|ARMv7|aarch64 (default: $arch)\n";
+    print STDOUT "  -forceabi <abi>               : Specify abi to be used for arm (gnueabi|gnueabihf)\n";
+    print STDOUT "  -forceos <os>                 : win32|Linux|Darwin (default: $os)\n";
+    print STDOUT "  -build <release|debug>        : (default: debug)\n";
+    print STDOUT "  -timeout_min <min>            : timeout in minutes for each individual test\n";
+    print STDOUT "  -filter-list-file <file>      : path to filter file which contains one invocation per line\n";
+    print STDOUT "  -openmp                       : test OpenMP implementation\n";
+    print STDOUT "  -remote_server <server>       : test on remote target (uses ssh)\n";
+    print STDOUT "  -remote_android               : test on remote android target (uses adb)\n";
+    print STDOUT "  -remote_path                  : path on remote target to copy test files (default: $remote_path)\n";
 }
 
 $retVal = GetOptions(\%CmdLineOption,
@@ -94,18 +87,11 @@ $retVal = GetOptions(\%CmdLineOption,
                      "build=s" => \$build,
                      "timeout-min=i" => \$timeout_min,
                      "filter-list-file=s" => \$filter_list_file,
-                     "test-list-file=s" => \$test_list_file,
-                     "unit-test-list-file=s" => \$unit_test_list_file,
-                     "testname=s" => \$testname,
-                     "dvs" => \$dvs,
                      "openmp" => \$openmp,
                      "remote_server=s" => \$remote_server,
                      "remote_android" => \$remote_android,
                      "remote_path=s" => \$remote_path,
                     );
-
-# Generate gold output files (set to 1 manually)
-my $generate_gold = 0;
 
 my $pwd = getcwd();
 my $binpath_root = abs_path ("${pwd}/..");
@@ -140,25 +126,7 @@ my $uname = "";
 $uname = $arch;
 chomp($uname);
 
-printf ("DEBUG binpath_root=%s;\n",$binpath_root);
-printf ("DEBUG uname=%s;\n",$uname);
-printf ("DEBUG os=%s;\n",$os);
-printf ("DEBUG substr($os,0,6)=%s;\n",substr($os,0,6));
-
-printf ("DEBUG after Cygwin detection\n");
-printf ("DEBUG uname=%s;\n",$uname);
-printf ("DEBUG os=%s;\n",$os);
-
-printf ("DEBUG binpath_root=%s;\n",$binpath_root);
 my $binpath = "${binpath_root}/bin/${uname}_${os}${abi}_${build}";
-printf ("DEBUG binpath=%s;\n",$binpath);
-
-if ($remote) {
-    if ($remote_server) {
-        printf ("DEBUG remote_server=%s;\n",$remote_server);
-    }
-    printf ("DEBUG remote_path=%s;\n",$remote_path);
-}
 
 if ($valgrind_enable) {
     $tool_checker = "valgrind";
@@ -166,8 +134,6 @@ if ($valgrind_enable) {
 elsif ($cudamemcheck_enable){
     $tool_checker = $binpath . "/cuda-memcheck";
 }
-
-my %filterList;
 
 sub remote_check {
     if ($remote_android) {
@@ -234,67 +200,24 @@ sub remote_shell {
     return $ret;
 }
 
-sub isFiltered {
+my %filter_list;
+
+sub is_filtered {
     my $cmd = shift;
 
     return 0 if not defined $filter_list_file;
 
-    if (not %filterList) {
+    if (not %filter_list) {
         my $fin;
         open $fin, "<$filter_list_file" or die qq(open failed on $fin);
         foreach my $line (<$fin>) {
             chomp $line;
-            $filterList{$line} = 1;
+            $filter_list{$line} = 1;
         }
         close $fin;
     }
 
-    return $filterList{$cmd};
-}
-
-#sub getTest {
-#    my ($t, $el, $utl) = @_;
-#
-#    $t =~ s/\s+$//;
-#    if (grep(/^$t$/, @examplelist_all)) {
-#        push (@$el, $t);
-#    } elsif ($t =~ m/\w/) {
-#        push (@$utl, $t);
-#    }
-#}
-
-sub getTestList {
-    my ($f, $el, $utl) = @_;
-    my $fin;
-
-    die qq(no test list file defined) if not defined $f;
-    open $fin, "<$f" or die qq(open failed on $f: $!);
-    foreach my $line (<$fin>) {
-        getTest($line, \@$el, \@$utl);
-    }
-    close $fin;
-}
-
-# deprecated; marked for deletion
-sub xgetUnitTestList {
-    my ($f) = @_;
-    my $fin;
-    my @utl;
-
-    my $tester = "thrust_test";
-    if ($openmp) {
-        $tester = $tester . "_OMP";
-    }
-
-    die qq(no test list file defined) if not defined $f;
-    open $fin, "<$f" or die qq(open failed on $f: $!);
-    foreach my $line (<$fin>) {
-        $line =~ s/\s+$//;
-        # Put $line in quotes to avoid <> problems
-        push (@utl, "thrust_test \"$line\"");
-    }
-    close $fin;
-    return @utl;
+    return $filter_list{$cmd};
 }
 
 sub clear_libpath {
@@ -307,9 +230,11 @@ sub clear_libpath {
         # running under `nvidia-docker`. The best idea I could come up with was
         # to match against the `LD_LIBRARY_PATH` that `nvidia-docker` sets.
         # https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=2003238
-        if ($ENV{'LD_LIBRARY_PATH'} ne "/usr/local/nvidia/lib:/usr/local/nvidia/lib64") {
-            $ENV{'LD_LIBRARY_PATH'} = "";
-            printf ("LD_LIBRARY_PATH = %s\n",$ENV{'LD_LIBRARY_PATH'});
+        if (defined($ENV{'LD_LIBRARY_PATH'})) {
+            if ($ENV{'LD_LIBRARY_PATH'} ne "/usr/local/nvidia/lib:/usr/local/nvidia/lib64") {
+                $ENV{'LD_LIBRARY_PATH'} = "";
+                printf ("LD_LIBRARY_PATH = %s\n",$ENV{'LD_LIBRARY_PATH'});
+            }
         }
     } elsif ($os eq "win32") {
         if ($cygwin) {
@@ -328,10 +253,8 @@ sub run_cmd {
     my @executable;
     my $syst_cmd;
 
-    print "Running $cmd\n";    
-
     eval {
-        local $SIG{ALRM} = sub {die "alarm\n"};
+        local $SIG{ALRM} = sub { die("Test timed out (received SIGALRM).\n") };
         alarm (60 * $timeout_min);
         if ($tool_checker ne "") {
             $syst_cmd = $tool_checker . " " . $cmd;
@@ -349,101 +272,53 @@ sub run_cmd {
         alarm 0;
     };
     if ($@) {
-        printf "\n App timeouts : killing $executable[0]\n";        
-        system ("killall ".$executable[0]);
+        print("\n#### ERROR : Test timeout reached, killing $executable[0].\n"); 
+        system("killall ".$executable[0]);
         return 1;
     }
     
     if ($ret != 0) {
-        my $signals  = $ret & 127;
+        my $signal  = $ret & 127;
         my $app_exit = $ret >> 8;
         my $dumped_core = $ret & 0x80;
         if (($app_exit != 0) && ($app_exit != 0)) {
-            printf "\n App exits with status $app_exit\n";
+            print("\n#### ERROR : Test exited with return value $app_exit.\n");
         }
-        if ($signals != 0) {
-            printf "\n App received signal $signals\n";
+        if ($signal != 0) {
+            print("\n#### ERROR : Test received signal SIG$sig_names[$signal] ($signal).\n");
+            if ($sig_nums{'INT'} eq $signal) {
+                die("Terminating testing due to SIGINT.");
+            }
         }  
         if ($dumped_core != 0) {
-            printf "\n App generated a core dump\n";
+            print("\n#### ERROR : Test generated a core dump.\n");
         }                    
     }
     return $ret;
 }
 
-# Temporarily Disabling test -- http://nvbugs/1552018
-# The custom_temporary_allocation example only works with gcc versions 4.4 or higher
-#if (($os eq "win32") || (-e "${binpath}/custom_temporary_allocation")) {
-#    push(@examplelist_all, "custom_temporary_allocation");
-#}
-
-#if (defined $testname) {
-#    getTest($testname, \@examplelist, \@unittestlist);
-#} elsif (defined $test_list_file) {
-#    getTestList($test_list_file, \@examplelist, \@unittestlist);
-#} else {
-#    @examplelist = @examplelist_all;  # run all examples if -testname or 
-#    @unittestlist = getUnitTestList($unit_test_list_file);
-#}
-
-sub print_time {
-    my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) =
-        localtime(time);
-    printf ("current time: %02d:%02d:%02d\n", $hour, $min, $sec);
+sub current_time
+{
+   return strftime("%x %X %Z", localtime());
 }
 
 sub get_file {
-    my ($filename, $strip) = @_;
-    my $failure_output_limit=1000;
-    my @stdout_output;
-    my $line;
+    my ($filename) = @_;
 
-    open(OUTFILE, $filename);
-    while(<OUTFILE>) {
-        if (@stdout_output < $failure_output_limit) {
-            $line = $_;
-            if ($strip) {
-                # remove all trailing whitespace
-                # required for cross-platform gold file comparisons
-                $line =~ s/\s+$//;
-            }
-            push @stdout_output, $line;
-        }
-    }
-    close(OUTFILE);
-    return @stdout_output;
+    open(my $handle, '<', $filename);
+    my @output = <$handle>;
+    close($handle);
+
+    return @output;
 }
 
-sub compare_arrays {
-    my ($first, $second) = @_;
-    no warnings;  # silence spurious -w undef complaints
-    return 0 unless @$first == @$second;
-    for (my $i = 0; $i < @$first; $i++) {
-        return 0 if $first->[$i] ne $second->[$i];
-    }
-    return 1;
-}  
-
-my $passed = 0;
-my $failed = 0;
-
-sub is_skip_gold_verify {
-    my $test = shift;
-    foreach my $skip (@skip_gold_verify_list)
-    {
-        if ($test eq $skip)
-        {
-            return 1;
-        }
-    }
-    return 0;
-}
+my $failures = 0;
+my $known_failures = 0;
+my $errors = 0;
+my $passes = 0;
 
 sub run_examples {
-    my $outputlog = "stderr.output";
-    my $test;
-
-    # git list of tests in binary folder
+    # Get list of tests in binary folder.
     my $dir = cwd();
     chdir $binpath;
     my @examplelist;
@@ -456,6 +331,7 @@ sub run_examples {
 
     chdir $dir;
 
+    my $test;
     foreach $test (@examplelist)
     {
         my $test_exe = $test;
@@ -464,10 +340,10 @@ sub run_examples {
             $test =~ s/\.exe//g;
         }
         # Check its not filtered via the filter file
-        next if isFiltered($test);
+        next if is_filtered($test);
         # Check the test actually exists
         next unless (-e "${binpath}/${test_exe}");
-        print_time;
+        print("CURRENT TIME: " . current_time() . "\n");
 
         my $ret;
         my $cmd;
@@ -482,54 +358,66 @@ sub run_examples {
         } else {
             $cmd = "${binpath}/${test_exe} --verbose > ${test}.output 2>&1";
         }
-        print "&&&& RUNNING $test: $cmd\n";
+        print "&&&& RUNNING $cmd\n";
         $ret = run_cmd $cmd;
         if ($remote) {
             remote_pull("${remote_path}/${test}.output", "${test}.output");
         }
-        my @output = get_file("${test}.output", 0);
-        print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
+        my @output = get_file("${test}.output");
+        print "########################################\n";
         print @output;
-        print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
+        print "########################################\n";
         if ($ret != 0) {
-            print "&&&& FAILED $test\n";
-            $failed = $failed + 1;
-        } elsif (is_skip_gold_verify($test)) {
-            print " >>>> skip gold comparison\n";
-            print "&&&& PASSED $test\n";
-            $passed = $passed + 1;
+            print "#### ERROR : $test returned non-zero. Test crash?\n";
+            print "&&&& FAILED $cmd\n";
+            $errors = $errors + 1;
         } else {
-            if (-f "internal/test/${test}.gold") {
-                # check output against gold file
-                my @stripped_output = get_file("${test}.output", 1);
-                my @gold_output = get_file("internal/test/${test}.gold", 1);
-                if (compare_arrays(\@gold_output, \@stripped_output)) {
-                    print "&&&& PASSED $test\n";
-                    $passed = $passed + 1;
+            print "&&&& PASSED $cmd\n";
+            $passes = $passes + 1;
+
+            # Check output with LLVM FileCheck.
+
+            my $filecheck = "${binpath}/nvvm/tools/FileCheck --input-file ${test}.output internal/test/${test}.filecheck > ${test}.filecheck.output 2>&1";
+
+            print "&&&& RUNNING $filecheck\n";
+
+            if (-f "internal/test/${test}.filecheck") {
+                # If the filecheck file is empty, don't use filecheck, just
+                # check if the output file is also empty. 
+                if (-z "internal/test/${test}.filecheck") {
+                    if (-z "${test}.output") {
+                        print "&&&& PASSED $filecheck\n";
+                        $passes = $passes + 1;
+                    } else {
+                        print "#### Output received but not expected.\n";
+                        print "&&&& FAILED $filecheck\n";
+                        $failures = $failures + 1;
+                    }
                 } else {
-                    print "!!!! Bad gold comparison\n";
-                    print "&&&& FAILED $test\n";
-                    $failed = $failed + 1;
+                    if (system($filecheck) == 0) {
+                        print "&&&& PASSED $filecheck\n";
+                        $passes = $passes + 1;
+                    } else {
+                        my @filecheckoutput = get_file("${test}.filecheck.output");
+                        print "########################################\n";
+                        print @filecheckoutput;
+                        print "########################################\n";
+                        print "&&&& FAILED $filecheck\n";
+                        $failures = $failures + 1;
+                    }
                 }
             } else {
-                print "^^^^ no gold comparison\n";
-                print "&&&& PASSED $test\n";
-                $passed = $passed + 1;
-            }
-            if ($generate_gold) {
-                open(FILE, ">internal/test/${test}.gold");
-                print FILE @output;
-                close(FILE);
+                print "#### ERROR : $test has no FileCheck comparison.\n";
+                print "&&&& FAILED $filecheck\n";
+                $errors = $errors + 1;
             }
         }
+        print "\n";
     }
 }
 
 sub run_unit_tests {
-    my $outputlog = "stderr.output";
-    my $test;
-
-    # git list of tests in binary folder
+    # Get list of tests in binary folder.
     my $dir = cwd();
     chdir $binpath;
     my @unittestlist;
@@ -541,6 +429,7 @@ sub run_unit_tests {
     }
     chdir $dir;
 
+    my $test;
     foreach $test (@unittestlist)
     {
         my $test_exe = $test;
@@ -549,10 +438,10 @@ sub run_unit_tests {
             $test =~ s/\.exe//g;
         }
         # Check its not filtered via the filter file
-        next if isFiltered($test);
+        next if is_filtered($test);
         # Check the test actually exists
         next unless (-e "${binpath}/${test_exe}");
-        print_time;
+        print("CURRENT TIME: " . current_time() . "\n");
 
         my $ret;
         my $cmd;
@@ -567,100 +456,109 @@ sub run_unit_tests {
         } else {
             $cmd = "${binpath}/${test_exe} --verbose > ${test}.output 2>&1";
         }
-        print "&&&& RUNNING $test: $cmd\n";
+        print "&&&& RUNNING $cmd\n";
         $ret = run_cmd $cmd;
         if ($remote) {
             remote_pull("${remote_path}/${test}.output", "${test}.output");
         }
-        my @output = get_file("${test}.output", 0);
-        print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
+        my @output = get_file("${test}.output");
+        print "########################################\n";
         print @output;
-        print "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&\n";
+        print "########################################\n";
         my $fail = 0;
         my $known_fail = 0;
+        my $error = 0;
         my $pass = 0;
+        my $found_totals = 0;
         foreach my $line (@output)
         {
-            my @split_line = split(/ /,$line);
-            my $name = @split_line[-1];
-            chomp $name;
-            if (index($line, "[PASS]") != -1)
-            {
-                $pass = 1;
-                $passed = $passed + 1;
-                print "&&&& PASSED ${test}--${name} \n";
-            }
-            elsif (index($line, "[KNOWN FAILURE]") != -1)
-            {
-                $known_fail = 1;
-                $passed = $passed + 1;
-                print "&&&& PASSED ${test}--${name} with [KNOWN FAILURE]\n";
-            }
-            elsif (index($line, "[FAILURE]") != -1)
-            {
-                $fail = 1;
-                $failed = $failed + 1;
-                print "&&&& FAILED ${test}--${name} \n";
+            if (($fail, $known_fail, $error, $pass) = $line =~ /Totals: ([0-9]+) failures, ([0-9]+) known failures, ([0-9]+) errors, and ([0-9]+) passes[.]/igs) {
+                if ($fail != 0 or $error != 0) {
+                    print "&&&& FAILED $cmd\n";
+                }
+                else {
+                    print "&&&& PASSED $cmd\n";
+                }
+                $found_totals = 1;
+                $failures = $failures + $fail; 
+                $known_failures = $known_failures + $known_fail; 
+                $errors = $errors + $error; 
+                $passes = $passes + $pass;
+                last; 
             }
         }
         if ($ret == 0) {
-            if ($fail == 1)
-            {
-                $failed = $failed + 1;
-                print "&&&& FAILED $test : \$ret = 0, while \$fail = 1 -- Undefined behaviour.\n"
-            } elsif ($pass == 0 && $known_fail == 0) {
-                $failed = $failed + 1;
-                print "&&&& FAILED $test : \$ret = 0, while both \$pass & \$fail = 0 -- Are you sure you ran correct test?\n"
+            if ($found_totals == 0) {
+                $errors = $errors + 1;
+                print "#### ERROR : $test returned zero and no summary line was found. Invalid test?\n";
+                print "&&&& FAILED $cmd\n";
             }
-        }  elsif ($fail == 0) {
-            $failed = $failed + 1;
-            print "&&&& FAILED $test : \$ret = 1, while \$fail = 0 -- Test crash?\n"
+            else {
+                if ($fail != 0 or $error != 0) {
+                    $errors = $errors + 1;
+                    print "#### ERROR : $test returned zero, but had failures or errors. Test driver error?\n";
+                    print "&&&& FAILED $cmd\n";
+                } elsif ($known_fail == 0 and $pass == 0) {
+                    $errors = $errors + 1;
+                    print "#### ERROR : $test returned zero and had no failures, known failures, errors or passes. Invalid test?\n";
+                    print "&&&& FAILED $cmd\n";
+                }
+            }
+        } elsif ($fail == 0 and $error == 0) {
+            $errors = $errors + 1;
+            print "#### ERROR : $test returned non-zero but had no failures or errors. Test crash?\n";
+            print "&&&& FAILED $cmd\n";
         }
+        print "\n";
     }
 }
 
 sub dvs_summary {
+    my $dvs_score = 0;
+    my $denominator = $failures + $known_failures + $errors + $passes;
+    if ($denominator == 0) {
+       $dvs_score = 0;
+    }
+    else {
+       $dvs_score = 100 * (($passes + $known_failures) / $denominator);
+    }
 
-  if ( $dvs ) {
-     my $dvs_score;
-     my $denominator = $passed + $failed;
-     if ($denominator == 0) {
-        $dvs_score = 0;
-     }
-     else {
-        $dvs_score = 100*($passed/($passed+$failed));
-     }
-     print "\n";
-     print "RESULT\n";
-     print "Passes         : $passed\n";
-     print "Failures       : $failed\n";
-     printf "CUDA DVS BASIC SANITY SCORE: %.1f\n",$dvs_score;
-  }
+    print("\n");
 
+    print("%*%*%*%* FA!LUR3S       : $failures\n");
+    print("%*%*%*%* KN0WN FA!LUR3S : $known_failures\n");
+    print("%*%*%*%* 3RR0RS         : $errors\n");
+    print("%*%*%*%* PASS3S         : $passes\n");
+
+    print("\n");
+
+    printf("CUDA DVS BASIC SANITY SCORE : %.1f\n", $dvs_score);
 }
 
-sub current_time()
-{
-   my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime(time);
-   $year += 1900;
-   $mon += 1;
-   return sprintf ("%04d-%02d-%02d %02d:%02d:%02d", $year, $mon, $mday, $hour, $min, $sec);
+printf ("CONFIG os=%s;\n",$os);
+printf ("CONFIG binpath=%s;\n",$binpath);
+
+if ($remote) {
+    if ($remote_server) {
+        printf ("CONFIG remote_server=%s;\n",$remote_server);
+    }
+    printf ("CONFIG remote_path=%s;\n",$remote_path);
 }
+
+print("\n");
 
 my $START_TIME = current_time();
 
-print_time();
 clear_libpath();
 run_examples();
 run_unit_tests();
 
 my $STOP_TIME = current_time();
 
-print "%*%*%*%* PASS3D $passed %*%*%*%*\n";
-print "%*%*%*%* FA!L3D $failed %*%*%*%*\n";
+print("\n");
 
-print "\n";
-print "Start time : $START_TIME\n";
-print "Stop time  : $STOP_TIME\n";
+print("START TIME : $START_TIME\n");
+print("STOP TIME  : $STOP_TIME\n");
 
 dvs_summary();
+
