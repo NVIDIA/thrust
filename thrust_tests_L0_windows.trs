@@ -1,0 +1,357 @@
+
+{
+  # Descriptive name for the testsuite (required).
+  "name"      : "Thrust L0 Test suite",
+  "version" : "2",
+  "extrapath" : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}" ],
+  # Testsuite owner's email (required).
+  "owner"     : "mrepasy@nvidia.com",
+  # Define paths containing shared libraries required by the tests. Use envvar VULCAN_SHAREDLIB_DIR to refer 
+  # to the platform specific portion of the path (e.g. bin/ for windows, lib64/ for 64-bit
+  # Linux, etc.)
+  "librarypath"   : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}",
+                  
+                  "{TR_INSTALL_DIR}/PGI/17.1/linux86-64/17.1/lib"
+                ],
+  # Default working directory for test runs (optional). The directory can be a an absolute
+  # or relative path. A relative path is relative to this file's location. Variables can
+  # be used in the path using the {var} syntax.
+  #"cwd"       : "{TR_TESTSUITE_DIR}",
+  # Timeout for entire testsuite, in seconds (optional). If not timeout is specified the
+  # default timeout value of 900 seconds will be used.
+  "timeout" : "3600",
+  # Default timeout for individual tests, in seconds (optional).
+  "testtimeout" : "900",
+  # The tests in the testsuite (required).
+  "tests" : [
+    
+    {
+      "exe" : "thrust.example.arbitrary_transformation.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.arbitrary_transformation.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.basic_vector.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.basic_vector.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.bounding_box.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.bounding_box.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.bucket_sort2d.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.bucket_sort2d.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.constant_iterator.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.constant_iterator.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.counting_iterator.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.counting_iterator.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.cuda.async_reduce.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.cuda.async_reduce.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.cuda.custom_temporary_allocation.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.cuda.custom_temporary_allocation.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.cuda.range_view.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.cuda.range_view.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.cuda.simple_cuda_streams.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.example.cuda.unwrap_pointer.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.cuda.unwrap_pointer.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.cuda.wrap_pointer.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.cuda.wrap_pointer.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.device_ptr.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.device_ptr.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.discrete_voronoi.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.example.dot_products_with_zip.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.dot_products_with_zip.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.expand.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.expand.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.fill_copy_sequence.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.fill_copy_sequence.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.histogram.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.histogram.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.lambda.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.lambda.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.lexicographical_sort.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.lexicographical_sort.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.max_abs_diff.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.max_abs_diff.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.minimal_custom_backend.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.minimal_custom_backend.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.minmax.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.minmax.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.mode.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.mode.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.monte_carlo.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.monte_carlo.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.monte_carlo_disjoint_sequences.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.monte_carlo_disjoint_sequences.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.norm.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.norm.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.padded_grid_reduction.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.padded_grid_reduction.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.permutation_iterator.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.permutation_iterator.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.raw_reference_cast.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.raw_reference_cast.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.remove_points2d.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.remove_points2d.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.repeated_range.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.repeated_range.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.run_length_decoding.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.run_length_decoding.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.run_length_encoding.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.run_length_encoding.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.saxpy.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.saxpy.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.scan_by_key.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.scan_by_key.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.set_operations.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.set_operations.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.simple_moving_average.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.simple_moving_average.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.sort.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.sort.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.sorting_aos_vs_soa.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.example.sparse_vector.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.sparse_vector.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.stream_compaction.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.stream_compaction.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.strided_range.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.strided_range.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.sum.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.sum.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.summary_statistics.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.summary_statistics.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.summed_area_table.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.summed_area_table.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.sum_rows.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.sum_rows.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.tiled_range.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.tiled_range.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.transform_iterator.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.transform_iterator.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.transform_output_iterator.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.transform_output_iterator.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.uninitialized_vector.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.uninitialized_vector.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.version.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.version.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.weld_vertices.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.weld_vertices.gold" 
+    },
+    
+    {
+      "exe" : "thrust.example.word_count.exe",
+      "attributes": []
+      ,"post": "{DIFF} STDOUT ..\\..\\thrust\\internal\\test\\thrust.example.word_count.gold" 
+    }
+    
+  ]
+}
+
+# File .\thrust_tests_L0.trs
+# Converted from thrust_tests_L0.vlct
+# Converted by tr_configtool.pl/0.4, on Tue Nov 14 12:45:56 2017

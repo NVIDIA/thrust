@@ -1,0 +1,1151 @@
+
+{
+  # Descriptive name for the testsuite (required).
+  "name"      : "Thrust L2 Test suite",
+  "version" : "2",
+  "extrapath" : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}" ],
+  # Testsuite owner's email (required).
+  "owner"     : "mrepasy@nvidia.com",
+  # Define paths containing shared libraries required by the tests. Use envvar VULCAN_SHAREDLIB_DIR to refer 
+  # to the platform specific portion of the path (e.g. bin/ for windows, lib64/ for 64-bit
+  # Linux, etc.)
+  "librarypath"   : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}",
+                  
+                  "{TR_INSTALL_DIR}/PGI/17.1/linux86-64/17.1/lib"
+                ],
+  # Default working directory for test runs (optional). The directory can be a an absolute
+  # or relative path. A relative path is relative to this file's location. Variables can
+  # be used in the path using the {var} syntax.
+  #"cwd"       : "{TR_TESTSUITE_DIR}",
+  # Timeout for entire testsuite, in seconds (optional). If not timeout is specified the
+  # default timeout value of 900 seconds will be used.
+  "timeout" : "12000",
+  # Default timeout for individual tests, in seconds (optional).
+  "testtimeout" : "900",
+  # The tests in the testsuite (required).
+  "tests" : [
+    
+    {
+      "exe" : "thrust.test.adjacent_difference.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.advance.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.allocator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.binary_search.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.binary_search_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.binary_search_vector.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.binary_search_vector_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.complex.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.complex_transform.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.constant_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.copy.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.copy_n.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.count.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.counting_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cstdint.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.adjacent_difference.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.copy.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.copy_if.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.count.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.cudart.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.equal.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.fill.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.find.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.for_each.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.gather.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.generate.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.inner_product.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.is_partitioned.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.is_sorted.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.is_sorted_until.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.logical.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.max_element.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.memory.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.merge.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.merge_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.merge_sort.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.minmax_element.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.min_element.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.mismatch.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.pair_sort.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.pair_sort_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.partition.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.partition_point.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.pinned_allocator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.reduce.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.reduce_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.remove.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.replace.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.reverse.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.scan.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.scan_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.scatter.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.sequence.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.set_difference.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.set_difference_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.set_intersection.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.set_intersection_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.set_symmetric_difference.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.set_symmetric_difference_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.set_union.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.set_union_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.sort.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.sort_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.swap_ranges.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.tabulate.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.transform.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.transform_reduce.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.transform_scan.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.uninitialized_copy.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.uninitialized_fill.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.unique.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.cuda.unique_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.dereference.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.device_delete.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.device_ptr.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.device_reference.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.discard_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.distance.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.equal.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.fill.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.find.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.for_each.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_arithmetic.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_bitwise.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_logical.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_placeholders_arithmetic.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_placeholders_bitwise.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_placeholders_compound_assignment.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_placeholders_logical.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_placeholders_miscellaneous.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.functional_placeholders_relational.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.gather.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.generate.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.inner_product.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.is_partitioned.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.is_sorted.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.is_sorted_until.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.logical.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.max_element.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.memory.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.merge.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.merge_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.merge_key_value.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.metaprogamming.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.minmax_element.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.min_and_max.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.min_element.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.mismatch.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.pair.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.pair_reduce.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.pair_scan.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.pair_scan_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.pair_sort.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.pair_sort_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.pair_transform.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.partition.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.partition_point.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.permutation_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.reduce.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.reduce_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.reduce_large.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.remove.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.replace.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.reverse.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.reverse_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.scan.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.scan_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.scatter.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.sequence.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_difference.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_difference_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_difference_by_key_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_difference_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_difference_key_value.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_intersection.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_intersection_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_intersection_by_key_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_intersection_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_intersection_key_value.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_symmetric_difference.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_symmetric_difference_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_symmetric_difference_by_key_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_symmetric_difference_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_union.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_union_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_union_by_key_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_union_descending.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.set_union_key_value.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.sort.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.sort_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.sort_by_key_variable_bits.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.sort_permutation_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.sort_variable_bits.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.stable_sort.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.stable_sort_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.stable_sort_by_key_large.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.stable_sort_large.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.swap_ranges.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.tabulate.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.transform.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.transform_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.transform_output_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.transform_reduce.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.transform_scan.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.trivial_sequence.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.tuple.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.tuple_reduce.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.tuple_scan.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.tuple_sort.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.tuple_transform.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.type_traits.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.uninitialized_copy.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.uninitialized_fill.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.unique.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.unique_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.unittest_tester.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.vector.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.vector_cpp_subset.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.vector_insert.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.vector_manipulation.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.zip_iterator.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.zip_iterator_reduce.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.zip_iterator_reduce_by_key.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.zip_iterator_scan.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.zip_iterator_sort.exe",
+      "attributes": []
+      
+    },
+    
+    {
+      "exe" : "thrust.test.zip_iterator_sort_by_key.exe",
+      "attributes": []
+      
+    }
+    
+  ]
+}
