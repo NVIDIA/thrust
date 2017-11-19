@@ -41,7 +41,7 @@ ifeq ($(OS),Linux)
         CUDACC_FLAGS += -Xcompiler "-pedantic -Wall -Wextra -Winit-self -Woverloaded-virtual -Wcast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros"
  
         ifdef USEXLC
-            # GCC and Clang do not warn about unused parameters in uninstantiated
+            # GCC does not warn about unused parameters in uninstantiated
             # template functions, but xlC does. This causes xlC to choke on the
             # OMP backend, which is mostly #ifdef'd out when you aren't using it.
             CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
