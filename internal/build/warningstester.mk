@@ -39,11 +39,19 @@ CUDACC_FLAGS += -I$(GENERATED_SOURCES)
 ifeq ($(OS),Linux)
     ifndef USEPGCXX
         CUDACC_FLAGS += -Xcompiler "-pedantic -Wall -Wextra -Winit-self -Woverloaded-virtual -Wcast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros"
-
-        GCC_VERSION = $(shell $(CC) -dumpversion | sed -e 's/\.//g')
-        ifeq ($(shell if test $(GCC_VERSION) -ge 430; then echo true; fi),true)
-            # These two were added in GCC 4.3
-            CUDACC_FLAGS += -Xcompiler "-Wlogical-op -Wno-vla"
+ 
+        ifdef USEXLC
+            # GCC and Clang do not warn about unused parameters in uninstantiated
+            # template functions, but xlC does. This causes xlC to choke on the
+            # OMP backend, which is mostly #ifdef'd out when you aren't using it.
+            CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
+        else
+            # xlC doesn't support these options.
+            GCC_VERSION = $(shell $(CC) -dumpversion | sed -e 's/\.//g')
+            ifeq ($(shell if test $(GCC_VERSION) -ge 430; then echo true; fi),true)
+                # These two were added in GCC 4.3.
+                CUDACC_FLAGS += -Xcompiler "-Wlogical-op -Wno-vla"
+            endif
         endif
     endif
 endif
