@@ -14,6 +14,7 @@ my %CmdLineOption;
 my $retVal;
 my $arch = "";
 my $build = "debug";
+my $binpath;
 my $filter_list_file = undef;
 my $testname = undef;
 my $valgrind_enable = 0;
@@ -65,13 +66,14 @@ if ($os eq "win32") {
 
 sub Usage()
 {
-    print STDOUT "Usage:     thrust_nightly.pl <options>\n";
+    print STDOUT "Usage: thrust_nightly.pl <options>\n";
     print STDOUT "Options:\n";
     print STDOUT "  -help                         : Print help message\n";
     print STDOUT "  -forcearch <arch>             : i686|x86_64|ARMv7|aarch64 (default: $arch)\n";
     print STDOUT "  -forceabi <abi>               : Specify abi to be used for arm (gnueabi|gnueabihf)\n";
     print STDOUT "  -forceos <os>                 : win32|Linux|Darwin (default: $os)\n";
     print STDOUT "  -build <release|debug>        : (default: debug)\n";
+    print STDOUT "  -binpath <path>               : Specify location of test binaries\n";
     print STDOUT "  -timeout_min <min>            : timeout in minutes for each individual test\n";
     print STDOUT "  -filter-list-file <file>      : path to filter file which contains one invocation per line\n";
     print STDOUT "  -openmp                       : test OpenMP implementation\n";
@@ -86,6 +88,7 @@ $retVal = GetOptions(\%CmdLineOption,
                      "forceabi=s" => \$abi,
                      "forceos=s" => \$os,
                      "build=s" => \$build,
+                     "binpath=s" => \$binpath,
                      "timeout-min=i" => \$timeout_min,
                      "filter-list-file=s" => \$filter_list_file,
                      "openmp" => \$openmp,
@@ -127,7 +130,9 @@ my $uname = "";
 $uname = $arch;
 chomp($uname);
 
-my $binpath = "${binpath_root}/bin/${uname}_${os}${abi}_${build}";
+if (not $binpath) {
+    $binpath = "${binpath_root}/bin/${uname}_${os}${abi}_${build}";
+}
 
 if ($valgrind_enable) {
     $tool_checker = "valgrind";
