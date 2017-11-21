@@ -293,9 +293,9 @@ ifneq ($(OPENMP),)
   PROJECTS += internal/build/unittesterOMP
 endif
 
-ifdef ERIS_TEST_LEVELS
-  PROJECTS += internal/build/eris_testsuites
-endif
+#ifdef ERIS_TEST_LEVELS
+#  PROJECTS += internal/build/eris_testsuites
+#endif
 
 ifdef VULCAN_TOOLKIT_BASE
 include $(VULCAN_TOOLKIT_BASE)/build/common.mk
