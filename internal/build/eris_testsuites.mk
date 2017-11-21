@@ -43,10 +43,18 @@ DEL_CMD=if exist "$(BINPATH)\*.vlct" del "$(BINPATH)\*.vlct"
 endif
 
 all:
-	$(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS)
+	echo "*********************************************************************"
+	echo "Email blelbach@nvidia.com and explain to him what script/system is calling this makefile, where it lives in perforce, and where the up-to-date documentation is on how to update it"
+	echo "*********************************************************************"
+	exit 17
+	#$(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS)
 
 clean:
-	$(DEL_CMD)
+	echo "*********************************************************************"
+	echo "Email blelbach@nvidia.com and explain to him what script/system is calling this makefile, where it lives in perforce, and where the up-to-date documentation is on how to update it"
+	echo "*********************************************************************"
+	exit 17
+	#$(DEL_CMD)
 
 ifdef VULCAN_TOOLKIT_BASE
 include $(VULCAN_TOOLKIT_BASE)/build/common.mk
