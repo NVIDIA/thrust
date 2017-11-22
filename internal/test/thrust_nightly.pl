@@ -2,6 +2,22 @@
 
 use strict;
 use warnings;
+
+print `perl --version`;
+
+print "Perl Modules:\n";
+
+use ExtUtils::Installed;
+
+my $inst = ExtUtils::Installed->new();
+my @modules = $inst->modules();
+my $module;
+foreach $module (@modules){
+  print $module ." - ". $inst->version($module). "\n";
+}
+
+print "\n";
+
 use Getopt::Long;
 use Cwd;
 use Cwd 'abs_path';
