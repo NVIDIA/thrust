@@ -24,7 +24,7 @@ use Cwd 'abs_path';
 use Config; # For sig_names
 use File::Temp;
 use POSIX; # For strftime
-use Time::HiRes qw(gettimeofday);
+#use Time::HiRes qw(gettimeofday);
 
 my %CmdLineOption;
 my $retVal;
@@ -275,7 +275,7 @@ sub run_cmd {
     my @executable;
     my $syst_cmd;
 
-    my $start = gettimeofday();
+#    my $start = gettimeofday();
     eval {
         local $SIG{ALRM} = sub { die("Test timed out (received SIGALRM).\n") };
         alarm (60 * $timeout_min);
@@ -294,7 +294,7 @@ sub run_cmd {
 
         alarm 0;
     };
-    my $elapsed = gettimeofday() - $start; 
+#    my $elapsed = gettimeofday() - $start; 
 
     if ($@) {
         print("\n#### ERROR : Test timeout reached, killing $executable[0].\n"); 
@@ -319,7 +319,8 @@ sub run_cmd {
             print("\n#### ERROR : Test generated a core dump.\n");
         }                    
     }
-    return ($ret, $elapsed);
+#    return ($ret, $elapsed);
+    return ($ret, 0.0);
 }
 
 sub current_time
