@@ -24,8 +24,7 @@
   "tests"       : [
     
     {
-      "exe"  : "thrust_nightly.pl",
-      "args" : "-binpath=${PWD}"
+      "exe" : "thrust_nightly.pl -binpath=${PWD}"
     }
     
   ]
