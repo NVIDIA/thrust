@@ -299,7 +299,8 @@ sub run_cmd {
     if ($@) {
         print("\n#### ERROR : Test timeout reached, killing $executable[0].\n"); 
         system("killall ".$executable[0]);
-        return (1, $elapsed);
+#        return (1, $elapsed);
+        return (1, 0.0);
     }
     
     if ($ret != 0) {
