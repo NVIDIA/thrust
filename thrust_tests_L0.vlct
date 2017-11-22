@@ -4,7 +4,6 @@
   "name"        : "Thrust L0 Test suite",
   # Testsuite owner's email (required).
   "owner"       : "blelbach@nvidia.com",
-  "module"      : "CUDA - Thrust",
 
   # Define paths containing shared libraries required by the tests. Use envvar VULCAN_SHAREDLIB_DIR to refer 
   # to the platform specific portion of the path (e.g. bin/ for windows, lib64/ for 64-bit

@@ -5,7 +5,6 @@
   "version"     : "2",
   # Component owner (email address)
   "owner"       : "blelbach@nvidia.com",
-  "module"      : "CUDA - Thrust",
 
   "extrapath"   : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}" ],
   # Define paths containing shared libraries required by the tests. Use envvar VULCAN_SHAREDLIB_DIR to refer 
