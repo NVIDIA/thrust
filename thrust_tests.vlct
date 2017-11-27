@@ -1,6 +1,6 @@
 {
   # Descriptive name for the testsuite (required).
-  "name"        : "Thrust L2 Test Suite",
+  "name"        : "Thrust Test Suite",
   # Testsuite owner's email (required).
   "owner"       : "blelbach@nvidia.com",
 

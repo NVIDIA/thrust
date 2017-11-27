@@ -1,10 +1,10 @@
-# Thrust L2 Tests component configuration. 
 { 
   # Descriptive name for the component
-  "name"      : "Thrust L2 Tests",
+  "name"      : "Thrust L2 Test Suite",
   # Component owner (email address)
   "owner"     : "blelbach@nvidia.com",
   "module"    : "CUDA - Thrust",
+
   # Build timeout (in seconds).
   "buildtimeout" : "28800",
   # Define variables usable in this component

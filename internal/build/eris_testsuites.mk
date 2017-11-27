@@ -36,25 +36,17 @@ BINPATH=$(ROOTDIR)/bin/$(TARGET_DIR)
 endif
 endif  # ERIS_TEST_LEVELS
 
-ifeq ($(OS),Linux)
-DEL_CMD=rm -f $(BINPATH)/*.vlct
-else
-DEL_CMD=if exist "$(BINPATH)\*.vlct" del "$(BINPATH)\*.vlct"
-endif
+#ifeq ($(OS),Linux)
+#DEL_CMD=rm -f $(BINPATH)/*.vlct
+#else
+#DEL_CMD=if exist "$(BINPATH)\*.vlct" del "$(BINPATH)\*.vlct"
+#endif
 
-all:
-	echo "*********************************************************************"
-	echo "Email blelbach@nvidia.com and explain to him what script/system is calling this makefile, where it lives in perforce, and where the up-to-date documentation is on how to update it"
-	echo "*********************************************************************"
-	exit 17
-	#$(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS)
+#all:
+#	$(PYTHON) $(ROOTDIR)/thrust/generate_eris_vlct.py $(BINPATH) $(ERIS_TEST_LEVELS)
 
-clean:
-	echo "*********************************************************************"
-	echo "Email blelbach@nvidia.com and explain to him what script/system is calling this makefile, where it lives in perforce, and where the up-to-date documentation is on how to update it"
-	echo "*********************************************************************"
-	exit 17
-	#$(DEL_CMD)
+#clean:
+#	$(DEL_CMD)
 
 ifdef VULCAN_TOOLKIT_BASE
 include $(VULCAN_TOOLKIT_BASE)/build/common.mk

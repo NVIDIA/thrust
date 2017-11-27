@@ -1,20 +1,19 @@
-{
-  # Descriptive name for the testsuite (required).
-  "name"        : "Thrust L2 Test Suite",
-  # Testsuite owner's email (required).
+{ 
+  # Descriptive name for the component
+  "name"        : "Thrust Test Suite",
+  "version"     : "2",
+  # Component owner (email address)
   "owner"       : "blelbach@nvidia.com",
 
-  # Define paths containing shared libraries required by the tests. Use envvar VULCAN_SHAREDLIB_DIR to refer 
+  "extrapath"   : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}" ],
+  # Define paths containing shared libraries required by the tests. Use envvar TR_SHAREDLIB_DIR to refer 
   # to the platform specific portion of the path (e.g. bin/ for windows, lib64/ for 64-bit
   # Linux, etc.)
-  "dllpath"     : [ "${VULCAN_INSTALL_DIR}/cuda/${INSTALL_TARGET_DIR}/${SHAREDLIB_DIR}",
-                    "${VULCAN_INSTALL_DIR}/cuda/_internal/driver",
-                    "${VULCAN_INSTALL_DIR}/PGI/17.1/linux86-64/17.1/lib"
-                  ],
+  "librarypath" : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}", "{TR_INSTALL_DIR}/PGI/17.1/linux86-64/17.1/lib" ],
   # Default working directory for test runs (optional). The directory can be a an absolute
   # or relative path. A relative path is relative to this file's location. Variables can
-  # be used in the path using the ${var} syntax.
-  "cwd"         : "${VULCAN_TESTSUITE_DIR}",
+  # be used in the path using the {var} syntax.
+  #"cwd"         : "{TR_TESTSUITE_DIR}",
   # Timeout for entire testsuite, in seconds (optional). If not timeout is specified the
   # default timeout value of 900 seconds will be used.
   "timeout"     : "12000",
@@ -24,7 +23,7 @@
   "tests"       : [
     
     {
-      "exe" : "thrust_nightly.pl -binpath=${VULCAN_TESTSUITE_DIR}"
+      "exe" : "thrust_nightly.pl -binpath=${TR_TESTSUITE_DIR}"
     }
     
   ]

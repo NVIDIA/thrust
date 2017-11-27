@@ -1,7 +1,6 @@
-# Thrust L1 Tests component configuration. 
 {
   # Descriptive name for the testsuite (required).
-  "name"        : "Thrust L1 Test suite",
+  "name"        : "Thrust L1 Test Suite",
   # Testsuite owner's email (required).
   "owner"       : "blelbach@nvidia.com",
 
@@ -25,7 +24,7 @@
   "tests"       : [
     
     {
-      "exe" : "thrust_nightly.pl -binpath=${PWD}"
+      "exe" : "thrust_nightly.pl -binpath=${VULCAN_TESTSUITE_DIR}"
     }
     
   ]
