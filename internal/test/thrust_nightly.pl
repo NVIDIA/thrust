@@ -558,6 +558,10 @@ sub dvs_summary {
     print("\n");
 
     printf("CUDA DVS BASIC SANITY SCORE : %.1f\n", $dvs_score);
+
+    if ($failures + $errors > 0) {
+        exit(1);
+    }
 }
 
 printf ("CONFIG os=%s;\n",$os);
