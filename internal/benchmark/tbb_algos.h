@@ -141,6 +141,6 @@ void test_tbb(void)
     tbb_sort(B);
     assert(A == B);
 
-    printf("[Test: TBB algorithms OK]\n");
+    //printf("[Test: TBB algorithms OK]\n");
 }
 
