@@ -220,7 +220,7 @@ void benchmark_core_primitives(std::string data_type, size_t trials, size_t inpu
 {
 #ifdef NO_TBB
   char const* const header_fmt = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n";
-  char const* const entry_fmt  = "%lu,%s,%s,%lu,%lu,%lu,%e,%e,%e,%e\n";
+  char const* const entry_fmt  = "%i,%s,%s,%lu,%lu,%lu,%e,%e,%e,%e\n";
 
   printf(header_fmt, "Version", "Algorithm", "Type", "Type Size", "Trials", "Input Size", "STL Average", "STL Sample Standard Deviation", "Thrust Average", "Thrust Sample Standard Deviation");
   printf(header_fmt, "", "", "", "[bits]", "[trials]", "[items]", "[items/sec]", "[items/sec]", "[items/sec]", "[items/sec]");
@@ -246,7 +246,7 @@ void benchmark_core_primitives(std::string data_type, size_t trials, size_t inpu
   }
 #else
   char const* const header_fmt = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n";
-  char const* const entry_fmt  = "%lu,%s,%s,%lu,%lu,%lu,%e,%e,%e,%e,%e,%e\n";
+  char const* const entry_fmt  = "%i,%s,%s,%lu,%lu,%lu,%e,%e,%e,%e,%e,%e\n";
 
   printf(header_fmt, "Version", "Algorithm", "Type", "Type Size", "Trials", "Input Size", "STL Average", "STL Sample Standard Deviation", "Thrust Average", "Thrust Sample Standard Deviation", "TBB Average", "TBB Sample Standard Deviation");
   printf(header_fmt, "", "", "", "[bits]", "[trials]", "[items]", "[items/sec]", "[items/sec]", "[items/sec]", "[items/sec]", "[items/sec]", "[items/sec]");

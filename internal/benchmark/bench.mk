@@ -14,6 +14,8 @@ I_AM_SLOPPY = 1
 CUDACC_FLAGS += -DNO_TBB
 CUDACC_FLAGS += $(GENSASS_SM10PLUS)
 
+LDFLAGS += -lm
+
 ifeq ($(OS),Linux)
 ifeq ($(ABITYPE), androideabi)
     override ALL_SASS_ARCHITECTURES := 32
