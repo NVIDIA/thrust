@@ -20,9 +20,11 @@
   # VULCAN_INSTALL_DIR. Optional 'kind' property can be used to tag
   # artifact kinds.
   "artifacts" : [
-                  { "${THRUST_TESTS_BIN_DIR}/*"       : "cuda/_tests/thrust_tests_L1/." },
-                  { "internal/test/thrust_nightly.pl" : "cuda/_tests/thrust_tests_L1/." },
-                  { "thrust_tests_L1.vlct"            : "cuda/_tests/thrust_tests_L1/.", "kind" : "TESTSUITE" }
+                  { "${THRUST_TESTS_BIN_DIR}/*"                    : "cuda/_tests/thrust_tests_L1/." },
+                  { "${THRUST_TESTS_BIN_DIR}/nvvm/tools/FileCheck" : "cuda/_tests/thrust_tests_L1/nvvm/tools/." },
+                  { "internal/test/thrust_nightly.pl"              : "cuda/_tests/thrust_tests_L1/." },
+                  { "internal/test/*.filecheck"                    : "cuda/_tests/thrust_tests_L1/." },
+                  { "thrust_tests_L1.vlct"                         : "cuda/_tests/thrust_tests_L1/.", "kind" : "TESTSUITE" }
                 ],
   # Dependencies for this component.
   "depends"   : [ "driver_headers", "driver", "compiler", "cuda", "thrust", "pgi17_1" ],

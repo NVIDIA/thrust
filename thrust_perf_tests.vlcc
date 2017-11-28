@@ -6,6 +6,7 @@
   # Component owner (email address)
   "owner"     : "blelbach@nvidia.com",
   "module"    : "CUDA - Thrust",
+
   # Build timeout (in seconds).
   "buildtimeout" : "600",
   # Define variables usable in this component
@@ -13,12 +14,7 @@
   # Files included in this component specified with one or more paths. 
   # Paths are relative to this file location. Path syntax uses wildcards and p4-like '...'.
   "files"     : [
-                  "internal/benchmark/...",
-                  "internal/scripts/eris_perf.py",
-                  "Makefile",
-                  "generate_mk.py",
-                  "thrust_perf_tests.vlcc",
-                  "thrust_perf_tests.vlct",
+                  "...",
                   { "include" : "CUDA_TOOLKIT_BUILD_FILES" }
                 ],
   # Output produced by this component and the installation location
@@ -26,9 +22,9 @@
   # VULCAN_INSTALL_DIR. Optional 'kind' property can be used to tag
   # artifact kinds.
   "artifacts" : [
-                  { "${THRUST_TESTS_BIN_DIR}/bench": "cuda/_tests/thrust_perf_tests/.", "kind": "EXE" },
-                  { "internal/scripts/eris_perf.py": "cuda/_tests/thrust_perf_tests/." },
-                  { "thrust_perf_tests.vlct": "cuda/_tests/thrust_perf_tests/.", "kind": "TESTSUITE" }
+                  { "${THRUST_TESTS_BIN_DIR}/bench" : "cuda/_tests/thrust_perf_tests/.", "kind": "EXE" },
+                  { "internal/scripts/eris_perf.py" : "cuda/_tests/thrust_perf_tests/." },
+                  { "thrust_perf_tests.vlct"        : "cuda/_tests/thrust_perf_tests/.", "kind": "TESTSUITE" }
                 ],
   # Dependencies for this component.
   "depends"   : [ "driver_headers", "driver", "compiler", "cuda", "thrust", "GPUConfMgr" ],

@@ -30,7 +30,8 @@ my %CmdLineOption;
 my $retVal;
 my $arch = "";
 my $build = "debug";
-my $binpath;
+my $bin_path;
+my $filecheckpath = "internal/test";
 my $filter_list_file = undef;
 my $testname = undef;
 my $valgrind_enable = 0;
@@ -89,13 +90,14 @@ sub Usage()
     print STDOUT "  -forceabi <abi>               : Specify abi to be used for arm (gnueabi|gnueabihf)\n";
     print STDOUT "  -forceos <os>                 : win32|Linux|Darwin (default: $os)\n";
     print STDOUT "  -build <release|debug>        : (default: debug)\n";
-    print STDOUT "  -binpath <path>               : Specify location of test binaries\n";
-    print STDOUT "  -timeout_min <min>            : timeout in minutes for each individual test\n";
+    print STDOUT "  -bin-path <path>              : Specify location of test binaries\n";
+    print STDOUT "  -filecheck-path <path>        : Specify location of filecheck data (default: $filecheckpath)\n";
+    print STDOUT "  -timeout-min <min>            : timeout in minutes for each individual test\n";
     print STDOUT "  -filter-list-file <file>      : path to filter file which contains one invocation per line\n";
     print STDOUT "  -openmp                       : test OpenMP implementation\n";
-    print STDOUT "  -remote_server <server>       : test on remote target (uses ssh)\n";
-    print STDOUT "  -remote_android               : test on remote android target (uses adb)\n";
-    print STDOUT "  -remote_path                  : path on remote target to copy test files (default: $remote_path)\n";
+    print STDOUT "  -remote-server <server>       : test on remote target (uses ssh)\n";
+    print STDOUT "  -remote-android               : test on remote android target (uses adb)\n";
+    print STDOUT "  -remote-path                  : path on remote target to copy test files (default: $remote_path)\n";
 }
 
 $retVal = GetOptions(\%CmdLineOption,
@@ -104,17 +106,18 @@ $retVal = GetOptions(\%CmdLineOption,
                      "forceabi=s" => \$abi,
                      "forceos=s" => \$os,
                      "build=s" => \$build,
-                     "binpath=s" => \$binpath,
+                     "bin-path=s" => \$bin_path,
+                     "filecheck-path=s" => \$filecheck_path,
                      "timeout-min=i" => \$timeout_min,
                      "filter-list-file=s" => \$filter_list_file,
                      "openmp" => \$openmp,
-                     "remote_server=s" => \$remote_server,
-                     "remote_android" => \$remote_android,
-                     "remote_path=s" => \$remote_path,
+                     "remote-server=s" => \$remote_server,
+                     "remote-android" => \$remote_android,
+                     "remote-path=s" => \$remote_path,
                     );
 
 my $pwd = getcwd();
-my $binpath_root = abs_path ("${pwd}/..");
+my $bin_path_root = abs_path ("${pwd}/..");
 
 if ($arch eq "ARMv7") {
       if ($abi eq "") {
@@ -146,15 +149,15 @@ my $uname = "";
 $uname = $arch;
 chomp($uname);
 
-if (not $binpath) {
-    $binpath = "${binpath_root}/bin/${uname}_${os}${abi}_${build}";
+if (not $bin_path) {
+    $bin_path = "${bin_path_root}/bin/${uname}_${os}${abi}_${build}";
 }
 
 if ($valgrind_enable) {
     $tool_checker = "valgrind";
 }
 elsif ($cudamemcheck_enable){
-    $tool_checker = $binpath . "/cuda-memcheck";
+    $tool_checker = $bin_path . "/cuda-memcheck";
 }
 
 sub remote_check {
@@ -347,7 +350,7 @@ my $passes = 0;
 sub run_examples {
     # Get list of tests in binary folder.
     my $dir = cwd();
-    chdir $binpath;
+    chdir $bin_path;
     my @examplelist;
     if ($os eq "win32")
     {
@@ -369,20 +372,20 @@ sub run_examples {
         # Check its not filtered via the filter file
         next if is_filtered($test);
         # Check the test actually exists
-        next unless (-e "${binpath}/${test_exe}");
+        next unless (-e "${bin_path}/${test_exe}");
         print("CURRENT TIME: " . current_time() . "\n");
 
         my $cmd;
 
         if ($remote) {
-            remote_push("${binpath}/${test_exe}", "${remote_path}/${test}");
+            remote_push("${bin_path}/${test_exe}", "${remote_path}/${test}");
             if ($remote_android) {
                 $cmd = "${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1";
             } else {
                 $cmd = "\"${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1\"";
             }
         } else {
-            $cmd = "${binpath}/${test_exe} --verbose > ${test}.output 2>&1";
+            $cmd = "${bin_path}/${test_exe} --verbose > ${test}.output 2>&1";
         }
         print "&&&& RUNNING $test\n";
         my ($ret, $elapsed) = run_cmd $cmd;
@@ -403,14 +406,14 @@ sub run_examples {
 
             # Check output with LLVM FileCheck.
 
-            my $filecheck = "${binpath}/nvvm/tools/FileCheck --input-file ${test}.output internal/test/${test}.filecheck > ${test}.filecheck.output 2>&1";
+            my $filecheck = "${bin_path}/nvvm/tools/FileCheck --input-file ${test}.output ${filecheck_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
 
             print "&&&& RUNNING FileCheck $test\n";
 
-            if (-f "internal/test/${test}.filecheck") {
+            if (-f "${filecheck_path}/${test}.filecheck") {
                 # If the filecheck file is empty, don't use filecheck, just
                 # check if the output file is also empty. 
-                if (-z "internal/test/${test}.filecheck") {
+                if (-z "${filecheck_path}/${test}.filecheck") {
                     if (-z "${test}.output") {
                         print "&&&& PASSED FileCheck $test\n";
                         $passes = $passes + 1;
@@ -445,7 +448,7 @@ sub run_examples {
 sub run_unit_tests {
     # Get list of tests in binary folder.
     my $dir = cwd();
-    chdir $binpath;
+    chdir $bin_path;
     my @unittestlist;
     if ($os eq "win32")
     {
@@ -466,20 +469,20 @@ sub run_unit_tests {
         # Check its not filtered via the filter file
         next if is_filtered($test);
         # Check the test actually exists
-        next unless (-e "${binpath}/${test_exe}");
+        next unless (-e "${bin_path}/${test_exe}");
         print("CURRENT TIME: " . current_time() . "\n");
 
         my $cmd;
 
         if ($remote) {
-            remote_push("${binpath}/${test_exe}", "${remote_path}/${test}");
+            remote_push("${bin_path}/${test_exe}", "${remote_path}/${test}");
             if ($remote_android) {
                 $cmd = "${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1";
             } else {
                 $cmd = "\"${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1\"";
             }
         } else {
-            $cmd = "${binpath}/${test_exe} --verbose > ${test}.output 2>&1";
+            $cmd = "${bin_path}/${test_exe} --verbose > ${test}.output 2>&1";
         }
         print "&&&& RUNNING $test\n";
         my ($ret, $elapsed) = run_cmd $cmd;
@@ -565,7 +568,7 @@ sub dvs_summary {
 }
 
 printf ("CONFIG os=%s;\n",$os);
-printf ("CONFIG binpath=%s;\n",$binpath);
+printf ("CONFIG bin_path=%s;\n",$bin_path);
 
 if ($remote) {
     if ($remote_server) {
