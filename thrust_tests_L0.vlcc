@@ -22,7 +22,7 @@
   "artifacts" : [
                   { "${THRUST_TESTS_BIN_DIR}/*"                    : "cuda/_tests/thrust_tests_L0/." },
                   { "internal/test/thrust_nightly.pl"              : "cuda/_tests/thrust_tests_L0/." },
-                  { "internal/test/*.filecheck"                    : "cuda/_tests/thrust_tests_L0/." },
+                  { "internal/test/*.filecheck"                    : "cuda/_tests/thrust_tests_L0/filecheck_data/." },
                   { "thrust_tests_L0.vlct"                         : "cuda/_tests/thrust_tests_L0/.", "kind" : "TESTSUITE" }
                 ],
   # Dependencies for this component.
