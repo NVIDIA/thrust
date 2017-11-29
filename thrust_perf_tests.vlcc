@@ -1,7 +1,7 @@
 # Thrust performance tests component configuration. 
 { 
   # Descriptive name for the component
-  "name"      : "Thrust performance tests",
+  "name"      : "Thrust Performance Test Suite",
   "type"      : "performance",
   # Component owner (email address)
   "owner"     : "blelbach@nvidia.com",

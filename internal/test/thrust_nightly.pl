@@ -31,7 +31,8 @@ my $retVal;
 my $arch = "";
 my $build = "debug";
 my $bin_path;
-my $filecheckpath = "internal/test";
+my $filecheck_path;
+my $filecheck_data_path = "internal/test";
 my $filter_list_file = undef;
 my $testname = undef;
 my $valgrind_enable = 0;
@@ -91,7 +92,8 @@ sub Usage()
     print STDOUT "  -forceos <os>                 : win32|Linux|Darwin (default: $os)\n";
     print STDOUT "  -build <release|debug>        : (default: debug)\n";
     print STDOUT "  -bin-path <path>              : Specify location of test binaries\n";
-    print STDOUT "  -filecheck-path <path>        : Specify location of filecheck data (default: $filecheckpath)\n";
+    print STDOUT "  -filecheck-path <path>        : Specify location of filecheck binary\n";
+    print STDOUT "  -filecheck-data-path <path>   : Specify location of filecheck data (default: $filecheck_data_path)\n";
     print STDOUT "  -timeout-min <min>            : timeout in minutes for each individual test\n";
     print STDOUT "  -filter-list-file <file>      : path to filter file which contains one invocation per line\n";
     print STDOUT "  -openmp                       : test OpenMP implementation\n";
@@ -108,6 +110,7 @@ $retVal = GetOptions(\%CmdLineOption,
                      "build=s" => \$build,
                      "bin-path=s" => \$bin_path,
                      "filecheck-path=s" => \$filecheck_path,
+                     "filecheck-data-path=s" => \$filecheck_data_path,
                      "timeout-min=i" => \$timeout_min,
                      "filter-list-file=s" => \$filter_list_file,
                      "openmp" => \$openmp,
@@ -151,6 +154,10 @@ chomp($uname);
 
 if (not $bin_path) {
     $bin_path = "${bin_path_root}/bin/${uname}_${os}${abi}_${build}";
+}
+
+if (not $filecheck_path) {
+    $filecheck_path = "${bin_path}/nvvm/tools";
 }
 
 if ($valgrind_enable) {
@@ -406,14 +413,14 @@ sub run_examples {
 
             # Check output with LLVM FileCheck.
 
-            my $filecheck = "${bin_path}/nvvm/tools/FileCheck --input-file ${test}.output ${filecheck_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
+            my $filecheck = "${filecheck_path}/FileCheck --input-file ${test}.output ${filecheck_data_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
 
             print "&&&& RUNNING FileCheck $test\n";
 
-            if (-f "${filecheck_path}/${test}.filecheck") {
+            if (-f "${filecheck_data_path}/${test}.filecheck") {
                 # If the filecheck file is empty, don't use filecheck, just
                 # check if the output file is also empty. 
-                if (-z "${filecheck_path}/${test}.filecheck") {
+                if (-z "${filecheck_data_path}/${test}.filecheck") {
                     if (-z "${test}.output") {
                         print "&&&& PASSED FileCheck $test\n";
                         $passes = $passes + 1;

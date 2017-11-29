@@ -1,6 +1,6 @@
 {
   # Descriptive name for the testsuite (required).
-  "name"        : "Thrust performance testsuite",
+  "name"        : "Thrust Performance Testsuite",
   "version"     : "2",
   "extrapath"   : [ "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}" ],
   # Testsuite owner's email (required).

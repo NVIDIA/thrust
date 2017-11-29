@@ -1,7 +1,7 @@
 # Thrust performance tests component configuration. 
 {
   # Descriptive name for the testsuite (required).
-  "name"        : "Thrust performance testsuite",
+  "name"        : "Thrust Performance Testsuite",
   # Testsuite owner's email (required).
   "owner"       : "blelbach@nvidia.com",
 

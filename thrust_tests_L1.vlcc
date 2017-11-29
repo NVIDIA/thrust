@@ -21,7 +21,6 @@
   # artifact kinds.
   "artifacts" : [
                   { "${THRUST_TESTS_BIN_DIR}/*"                    : "cuda/_tests/thrust_tests_L1/." },
-                  { "${THRUST_TESTS_BIN_DIR}/nvvm/tools/FileCheck" : "cuda/_tests/thrust_tests_L1/nvvm/tools/." },
                   { "internal/test/thrust_nightly.pl"              : "cuda/_tests/thrust_tests_L1/." },
                   { "internal/test/*.filecheck"                    : "cuda/_tests/thrust_tests_L1/." },
                   { "thrust_tests_L1.vlct"                         : "cuda/_tests/thrust_tests_L1/.", "kind" : "TESTSUITE" }
