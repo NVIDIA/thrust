@@ -26,11 +26,11 @@
 
 #if defined(__CUDACC__)
 #  ifndef __bulk_hd_warning_disable__
-#    if __CUDAVER__ >= 75000
+#    if __CUDACC_VER__ >= 75000
 #      define __bulk_hd_warning_disable__ #pragma nv_exec_check_disable
 #    else
 #      define __bulk_hd_warning_disable__ #pragma hd_warning_disable
-#    endif /* __CUDAVER__ */
+#    endif /* __CUDACC_VER__ */
 #  endif // __bulk_hd_warning_disable__
 #else
 #  define __bulk_hd_warning_disable__

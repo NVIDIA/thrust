@@ -1,0 +1,22 @@
+[step 0] initial array
+       1        1        1        1 
+       1        1        1        1 
+       1        1        1        1 
+[step 1] scan horizontally
+       1        2        3        4 
+       1        2        3        4 
+       1        2        3        4 
+[step 2] transpose array
+       1        1        1 
+       2        2        2 
+       3        3        3 
+       4        4        4 
+[step 3] scan transpose horizontally
+       1        2        3 
+       2        4        6 
+       3        6        9 
+       4        8       12 
+[step 4] transpose the transpose
+       1        2        3        4 
+       2        4        6        8 
+       3        6        9       12 

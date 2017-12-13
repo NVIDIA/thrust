@@ -1,0 +1,10 @@
+******Summary Statistics Example*****
+The data: 4 7 13 16 
+Count              : 4
+Minimum            : 4
+Maximum            : 16
+Mean               : 10
+Variance           : 30
+Standard Deviation : 4.74342
+Skewness           : 0
+Kurtosis           : 1.36

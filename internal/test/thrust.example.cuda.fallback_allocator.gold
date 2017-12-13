@@ -1,0 +1,31 @@
+Testing fallback_allocator on device #0 [GeForce GT 740] with 2147287040 bytes of device memory
+attempting to sort 1048576 values
+  allocated 4194304 bytes of device memory
+  allocated 4214016 bytes of device memory
+attempting to sort 2097152 values
+  allocated 8388608 bytes of device memory
+  allocated 8408320 bytes of device memory
+attempting to sort 4194304 values
+  allocated 16777216 bytes of device memory
+  allocated 16796928 bytes of device memory
+attempting to sort 8388608 values
+  allocated 33554432 bytes of device memory
+  allocated 33574144 bytes of device memory
+attempting to sort 16777216 values
+  allocated 67108864 bytes of device memory
+  allocated 67128576 bytes of device memory
+attempting to sort 33554432 values
+  allocated 134217728 bytes of device memory
+  allocated 134237440 bytes of device memory
+attempting to sort 67108864 values
+  allocated 268435456 bytes of device memory
+  allocated 268455168 bytes of device memory
+attempting to sort 134217728 values
+  allocated 536870912 bytes of device memory
+  allocated 536890624 bytes of device memory
+attempting to sort 268435456 values
+  allocated 1073741824 bytes of device memory
+  allocated 1073761536 bytes of pinned host memory (fallback successful)
+attempting to sort 536870912 values
+  allocated 2147483648 bytes of pinned host memory (fallback successful)
+  allocated 2147503360 bytes of pinned host memory (fallback successful)

@@ -21,6 +21,29 @@ void TestMinMaxElementSimple(void)
     ASSERT_EQUAL(  thrust::minmax_element(data.begin(), data.end()).second - data.begin(), 1);
 }
 DECLARE_VECTOR_UNITTEST(TestMinMaxElementSimple);
+  
+template <class Vector>
+void TestMinMaxElementWithTransform(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector data(6);
+    data[0] = 3;
+    data[1] = 5;
+    data[2] = 1;
+    data[3] = 2;
+    data[4] = 5;
+    data[5] = 1;
+
+    ASSERT_EQUAL( *thrust::minmax_element(
+          thrust::make_transform_iterator(data.begin(), thrust::negate<T>()),
+          thrust::make_transform_iterator(data.end(),   thrust::negate<T>())).first, -5);
+    ASSERT_EQUAL( *thrust::minmax_element(
+          thrust::make_transform_iterator(data.begin(), thrust::negate<T>()),
+          thrust::make_transform_iterator(data.end(),   thrust::negate<T>())).second, -1);
+}
+DECLARE_VECTOR_UNITTEST(TestMinMaxElementWithTransform);
+
 
 template<typename T>
 void TestMinMaxElement(const size_t n)

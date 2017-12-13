@@ -23,6 +23,30 @@ void TestMinElementSimple(void)
 }
 DECLARE_VECTOR_UNITTEST(TestMinElementSimple);
 
+template <class Vector>
+void TestMinElementWithTransform(void)
+{
+    typedef typename Vector::value_type T;
+
+    Vector data(6);
+    data[0] = 3;
+    data[1] = 5;
+    data[2] = 1;
+    data[3] = 2;
+    data[4] = 5;
+    data[5] = 1;
+
+    ASSERT_EQUAL( *thrust::min_element(
+          thrust::make_transform_iterator(data.begin(), thrust::negate<T>()),
+          thrust::make_transform_iterator(data.end(),   thrust::negate<T>())), -5);
+    ASSERT_EQUAL( *thrust::min_element(
+          thrust::make_transform_iterator(data.begin(), thrust::negate<T>()),
+          thrust::make_transform_iterator(data.end(),   thrust::negate<T>()),
+          thrust::greater<T>()), -1);
+    
+}
+DECLARE_VECTOR_UNITTEST(TestMinElementWithTransform);
+
 template<typename T>
 void TestMinElement(const size_t n)
 {

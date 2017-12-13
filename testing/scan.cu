@@ -497,7 +497,7 @@ void TestScanWithLargeTypes(void)
   _TestScanWithLargeTypes<int,  1>();
 
   // XXX these are too big for sm_1x
-#if THRUST_DEVICE_SYSTEM != THRUST_DEVICE_SYSTEM_CUDA
+#if THRUST_DEVICE_SYSTEM != THRUST_DEVICE_SYSTEM_CUDA && !defined(__QNX__)
   _TestScanWithLargeTypes<int,  8>();
   _TestScanWithLargeTypes<int, 64>();
 #else

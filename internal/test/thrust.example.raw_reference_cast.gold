@@ -1,0 +1,6 @@
+Before A->B Copy
+A: 0 1 2 3 4 
+B: 0 0 0 0 0 
+After A->B Copy
+A: 0 1 2 3 4 
+B: 0 1 2 3 4 

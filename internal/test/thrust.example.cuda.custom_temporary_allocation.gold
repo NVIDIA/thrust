@@ -1,0 +1,6 @@
+cached_allocator::allocator(): no free block found; calling cuda::malloc
+cached_allocator::allocator(): found a hit
+cached_allocator::allocator(): found a hit
+cached_allocator::allocator(): found a hit
+cached_allocator::allocator(): found a hit
+cached_allocator::free_all(): cleaning up after ourselves...
