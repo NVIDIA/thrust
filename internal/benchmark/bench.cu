@@ -1,304 +1,915 @@
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
+#include <thrust/pair.h>
 #include <thrust/sort.h>
 #include <thrust/reduce.h>
 #include <thrust/scan.h>
 
-#include <utility>
 #include <algorithm>
 #include <numeric>
 
-#include <iostream>
-#include <iomanip>
-#include <cstdlib>
+#include <cstdio>     // For printf.
+#include <climits>    // For CHAR_BIT.
 
-#include <stdint.h>
-#include <math.h>
-
+#include <stdint.h>   // For intN_t.
+#include <math.h>     // For sqrt and fabs.
 #include "random.h"
 #include "timer.h"
 
-#ifndef NO_TBB
-#include "tbb_algos.h"
+#if defined(HAVE_TBB)
+  #include "tbb_algos.h"
 #endif
 
-//////////////////////
-// Test Definitions //
-//////////////////////
+// We don't use THRUST_PP_STRINGIZE and THRUST_PP_CAT because they are new, and
+// we want this benchmark to be backwards-compatible to older versions of Thrust.
+#define PP_STRINGIZE_(expr) #expr
+#define PP_STRINGIZE(expr)  PP_STRINGIZE_(expr)
 
-template <typename Derived>
-struct test_base
-{
-  Derived& derived()
-  {
-    return static_cast<Derived&>(*this);
-  }
+#define PP_CAT(a, b) a ## b
 
-  void setup(size_t n)
-  {
-    derived().v.resize(n);
-    randomize(derived().v);
-  }
-};
-
-template <typename T>
-struct stl_reduce_test : test_base<stl_reduce_test<T> >
-{
-  std::vector<T> v;
-
-  void run()
-  {
-    if(std::accumulate(v.begin(), v.end(), T(0)) == 0)
-      // Prevent optimizer from removing body.
-      std::cout << "xyz";
-  }
-};
-
-template <typename T>
-struct stl_transform_test : test_base<stl_transform_test<T> >
-{
-  std::vector<T> v;
-
-  void run() { std::transform(v.begin(), v.end(), v.begin(), thrust::negate<int>()); }
-};
-
-template <typename T>
-struct stl_inclusive_scan_test : test_base<stl_inclusive_scan_test<T> >
-{
-  std::vector<T> v;
-
-  void run() { std::partial_sum(v.begin(), v.end(), v.begin()); }
-};
-
-template <typename T>
-struct stl_sort_test : test_base<stl_sort_test<T> >
-{
-  std::vector<T> v;
-
-  void run() { std::sort(v.begin(), v.end()); }
-};
-
-#ifndef NO_TBB
-template <typename T>
-struct tbb_reduce_test : test_base<tbb_reduce_test<T> >
-{
-  std::vector<T> v;
-
-  void run() { tbb_reduce(v); }
-};
-
-template <typename T>
-struct tbb_transform_test : test_base<tbb_transform_test<T> >
-{
-  std::vector<T> v;
-
-  void run() { tbb_transform(v); }
-};
-
-template <typename T>
-struct tbb_inclusive_scan_test : test_base<tbb_inclusive_scan_test<T> >
-{
-  std::vector<T> v;
-
-  void run() { tbb_scan(v); }
-};
-
-template <typename T>
-struct tbb_sort_test : test_base<tbb_sort_test<T> >
-{
-  std::vector<T> v;
-
-  void run() { tbb_sort(v); }
-};
-#endif
-
-template <typename T>
-struct thrust_reduce_test : test_base<thrust_reduce_test<T> >
-{
-  thrust::device_vector<T> v;
-
-  void run() { thrust::reduce(v.begin(), v.end()); }
-};
-
-template <typename T>
-struct thrust_transform_test : test_base<thrust_transform_test<T> >
-{
-  thrust::device_vector<T> v;
-
-  void run() { thrust::transform(v.begin(), v.end(), v.begin(), thrust::negate<int>()); }
-};
-
-template <typename T>
-struct thrust_inclusive_scan_test : test_base<thrust_inclusive_scan_test<T> >
-{
-  thrust::device_vector<T> v;
-
-  void run() { thrust::inclusive_scan(v.begin(), v.end(), v.begin()); }
-};
-
-template <typename T>
-struct thrust_sort_test : test_base<thrust_sort_test<T> >
-{
-  thrust::device_vector<T> v;
-
-  void run() { thrust::sort(v.begin(), v.end()); }
-};
-
-//////////////////////
-// Benchmark Driver //
-//////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
 struct squared_difference
 {
 private:
   T const average;
-public:
-  __host__ __device__
-  squared_difference(T average_) : average(average_) {}
 
+public:
   __host__ __device__
   squared_difference(squared_difference const& rhs) : average(rhs.average) {}
 
   __host__ __device__
-  double operator() (double x)
+  squared_difference(T average_) : average(average_) {}
+
+  __host__ __device__
+  T operator()(T x) const
   {
     return (x - average) * (x - average);
   }
 };
 
-template <typename Test>
-std::pair<double, double> rate(Test test, size_t trials, size_t input_size)
+template <typename T>
+struct value_and_count
 {
-  // Warmup.
-  test.setup(input_size);
-  test.run();
+  T           value;
+  std::size_t count;
 
-  std::vector<double> times;
-  times.reserve(trials);
+  __host__ __device__
+  value_and_count(value_and_count const& other)
+    : value(other.value), count(other.count) {}
 
-  for(size_t t = 0; t < trials; ++t)
+  __host__ __device__
+  value_and_count(T const& value_)
+    : value(value_), count(1) {}
+
+  __host__ __device__
+  value_and_count(T const& value_, std::size_t count_)
+    : value(value_), count(count_) {}
+
+  __host__ __device__
+  value_and_count& operator=(value_and_count const& other)
   {
-    // Reset for next run. 
-    test.setup(input_size);
+    value = other.value;
+    count = other.count;
+    return *this;
+  }
+  
+  __host__ __device__
+  value_and_count& operator=(T const& value_)
+  {
+    value = value_;
+    count = 1;
+    return *this;
+  }
+};
 
-    // Benchmark.
-    timer e;
+template <typename T, typename ReduceOp>
+struct counting_op
+{
+private:
+  ReduceOp reduce;
 
-    e.start();
-    test.run();
-    e.stop();
+public:
+  __host__ __device__
+  counting_op() : reduce() {}
 
-    times.push_back(e.seconds_elapsed());
+  __host__ __device__
+  counting_op(counting_op const& other) : reduce(other.reduce) {}
+
+  __host__ __device__
+  counting_op(ReduceOp const& reduce_) : reduce(reduce_) {}
+
+  __host__ __device__
+  value_and_count<T> operator()(
+      value_and_count<T> const& x
+    , T const&                  y
+    ) const
+  {
+    return value_and_count<T>(reduce(x.value, y), x.count + 1);
   }
 
-  //for(size_t t = 0; t < trials; ++t)
-  //  printf("%e\n", times[t]);
+  __host__ __device__
+  value_and_count<T> operator()(
+      value_and_count<T> const& x
+    , value_and_count<T> const& y
+    ) const
+  {
+    return value_and_count<T>(reduce(x.value, y.value), x.count + y.count);
+  }
+};
 
-  // Arithmetic mean.
-  double time_average =
-    std::accumulate(times.begin(), times.end(), double(0.0)) / trials;
+template <typename InputIt, typename T>
+T arithmetic_mean(InputIt first, InputIt last, T init)
+{
+  value_and_count<T> init_vc(init, 0);
 
-  //printf("MEAN: %e\n", time_average);
+  counting_op<T, thrust::plus<T> > reduce_vc;
 
-  // Sample standard deviation.
-  double time_stdev = 
-    sqrt(  1.0 / double(trials - 1)
-         * thrust::transform_reduce(times.begin(), times.end(),
-                                    squared_difference<double>(time_average),
-                                    double(0.0),
-                                    thrust::plus<double>())
+  value_and_count<T> vc
+    = thrust::reduce(first, last, init_vc, reduce_vc);
+
+  return vc.value / vc.count;
+}
+
+template <typename InputIt>
+typename thrust::iterator_traits<InputIt>::value_type
+arithmetic_mean(InputIt first, InputIt last)
+{
+  typedef typename thrust::iterator_traits<InputIt>::value_type T;
+  return arithmetic_mean(first, last, T());
+}
+
+template <typename InputIt, typename T>
+T sample_standard_deviation(InputIt first, InputIt last, T average)
+{
+  value_and_count<T> init_vc(T(), 0);
+
+  counting_op<T, thrust::plus<T> > reduce_vc;
+
+  squared_difference<T> transform(average);
+
+  value_and_count<T> vc
+    = thrust::transform_reduce(first, last, transform, init_vc, reduce_vc);
+
+  return sqrt(vc.value / T(vc.count - 1));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+// Formulas for propagation of uncertainty are from:
+//
+//   https://en.wikipedia.org/wiki/Propagation_of_uncertainty#Example_formulas
+//
+// Even though it's wikipedia, I trust it as I helped write that table.
+
+// Given f = AB or A/B, the uncertainty in f is approximately:
+//
+//   f_unc = abs(f) * sqrt((A_unc / A) ^ 2 + (B_unc / B) ^ 2)
+// 
+template <typename T>
+__host__ __device__
+T uncertainty_multiplicative(
+    T const& f
+  , T const& A, T const& A_unc
+  , T const& B, T const& B_unc
+    )
+{
+  return fabs(f) * sqrt((A_unc / A) * (A_unc / A) + (B_unc / B) * (B_unc / B));
+}
+
+// Given f = aA + bB (where a and b are constants), the uncertainty in f is
+// approximately:
+//
+//   f_unc = sqrt(a ^ 2 * A_unc ^ 2 + b ^ 2 * B_unc ^ 2)
+//
+template <typename T>
+__host__ __device__
+T uncertainty_additive(
+    T const& a, T const& A_unc
+  , T const& b, T const& B_unc
+    )
+{
+  return sqrt((a * a * A_unc * A_unc) + (b * b * B_unc * B_unc));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+void print_experiment_header()
+{ // {{{
+  char const* const header_fmt =  "%s" // Thrust Version.
+                                 ",%s" // Algorithm.
+                                 ",%s" // Element Type.
+                                 ",%s" // Element Size.
+                                 ",%s" // Elements per Trial.
+                                 ",%s" // Total Input Size.
+                                 ",%s" // STL Trials.
+                                 ",%s" // STL Average Walltime.
+                                 ",%s" // STL Walltime Uncertainty.
+                                 ",%s" // STL Average Throughput.
+                                 ",%s" // STL Throughput Uncertainty.
+                                 ",%s" // Thrust Trials.
+                                 ",%s" // Thrust Average Walltime.
+                                 ",%s" // Thrust Walltime Uncertainty.
+                                 ",%s" // Thrust Average Throughput.
+                                 ",%s" // Thrust Throughput Uncertainty.
+                                 #if defined(HAVE_TBB)
+                                 ",%s" // TBB Trials.
+                                 ",%s" // TBB Average Walltime.
+                                 ",%s" // TBB Walltime Uncertainty.
+                                 ",%s" // TBB Average Throughput.
+                                 ",%s" // TBB Throughput Uncertainty.
+                                 #endif
+                                 "\n";
+
+  printf(
+      header_fmt
+    , "Thrust Version"
+    , "Algorithm"
+    , "Element Type"
+    , "Element Size"
+    , "Elements per Trial"
+    , "Total Input Size"
+    , "STL Trials"
+    , "STL Average Walltime"
+    , "STL Walltime Uncertainty"
+    , "STL Average Throughput"
+    , "STL Throughput Uncertainty"
+    , "Thrust Trials"
+    , "Thrust Average Walltime"
+    , "Thrust Walltime Uncertainty"
+    , "Thrust Average Throughput"
+    , "Thrust Throughput Uncertainty"
+    #if defined(HAVE_TBB)
+    , "TBB Trials"
+    , "TBB Average Walltime"
+    , "TBB Walltime Uncertainty"
+    , "TBB Average Throughput"
+    , "TBB Throughput Uncertainty"
+    #endif
+  );
+
+  printf(
+      header_fmt
+    , ""                  // Thrust Version.
+    , ""                  // Algorithm.
+    , ""                  // Element Type.
+    , "[bits/element]"    // Element Size.
+    , "[elements]"        // Elements per Trial.
+    , "[MiBs]"            // Total Input Size.
+    , "[trials]"          // STL Trials.
+    , "[secs]"            // STL Average Walltime.
+    , "[secs]"            // STL Walltime Uncertainty.
+    , "[elements/sec]"    // STL Average Throughput.
+    , "[elements/sec]"    // STL Throughput Uncertainty.
+    , "[trials]"          // Thrust Trials.
+    , "[secs]"            // Thrust Average Walltime.
+    , "[secs]"            // Thrust Walltime Uncertainty.
+    , "[elements/sec]"    // Thrust Average Throughput.
+    , "[elements/sec]"    // Thrust Throughput Uncertainty.
+    #if defined(HAVE_TBB)
+    , "[trials]"          // TBB Trials.
+    , "[secs]"            // TBB Average Walltime.
+    , "[secs]"            // TBB Walltime Uncertainty.
+    , "[elements/sec]"    // TBB Average Throughput.
+    , "[elements/sec]"    // TBB Throughput Uncertainty.
+    #endif
+  );
+} // }}}
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct experiment_results
+{
+  double const average_time; // Arithmetic mean of trial times in seconds.
+  double const stdev_time;   // Sample standard deviation of trial times.
+
+  experiment_results(double average_time_, double stdev_time_)
+    : average_time(average_time_), stdev_time(stdev_time_) {}
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <
+    template <typename> class Test
+  , typename                  ElementMetaType // Has an embedded typedef `type,
+                                              // and a static method `name` that
+                                              // returns a char const*. 
+  , std::size_t               Elements
+  , std::size_t               BaselineTrials
+  , std::size_t               RegularTrials
+>
+struct experiment_driver
+{
+  typedef typename ElementMetaType::type element_type;
+
+  static char const* const test_name;
+  static char const* const element_type_name; // Element type name as a string.
+  static std::size_t const element_size;      // Size of each element in bits.
+  static std::size_t const elements;          // # of elements per trial. 
+  static double const input_size;             // `elements` * `element_size` in GB. 
+  static std::size_t const baseline_trials;   // # of baseline trials per experiment.
+  static std::size_t const regular_trials;    // # of regular trials per experiment.
+
+  static void run_and_print_experiment()
+  { // {{{
+    char const* const entry_fmt  =  "%i"   // Thrust Version.
+                                   ",%s"   // Algorithm.
+                                   ",%s"   // Element Type.
+                                   ",%lu"  // Element Size.
+                                   ",%lu"  // Elements per Trial.
+                                   ",%.2f" // Total Input Size.
+                                   ",%lu"  // STL Trials.
+                                   ",%e"   // STL Average Walltime.
+                                   ",%e"   // STL Walltime Uncertainty.
+                                   ",%e"   // STL Average Throughput.
+                                   ",%e"   // STL Throughput Uncertainty.
+                                   ",%lu"  // Thrust Trials.
+                                   ",%e"   // Thrust Average Walltime.
+                                   ",%e"   // Thrust Walltime Uncertainty.
+                                   ",%e"   // Thrust Average Throughput.
+                                   ",%e"   // Thrust Throughput Uncertainty.
+                                   #if defined(HAVE_TBB)
+                                   ",%lu"  // TBB Trials.
+                                   ",%e"   // TBB Average Walltime.
+                                   ",%e"   // TBB Walltime Uncertainty.
+                                   ",%e"   // TBB Average Throughput.
+                                   ",%e"   // TBB Throughput Uncertainty.
+                                   #endif
+                                   "\n";
+
+    experiment_results stl    = std_experiment();
+    experiment_results thrust = thrust_experiment();
+    #if defined(HAVE_TBB)
+    experiment_results tbb    = tbb_experiment();
+    #endif    
+
+    double stl_average_throughput    = elements / stl.average_time;
+    double thrust_average_throughput = elements / thrust.average_time;
+    #if defined(HAVE_TBB)
+    double tbb_average_throughput    = elements / tbb.average_time;
+    #endif
+
+    double stl_throughput_uncertainty    = uncertainty_multiplicative(
+        stl_average_throughput
+      , double(elements), 0.0
+      , stl.average_time, stl.stdev_time
     );
+    double thrust_throughput_uncertainty = uncertainty_multiplicative(
+        thrust_average_throughput
+      , double(elements), 0.0
+      , thrust.average_time, thrust.stdev_time
+    );
+    #if defined(HAVE_TBB)
+    double tbb_throughput_uncertainty    = uncertainty_multiplicative(
+        tbb_average_throughput
+      , double(elements), 0.0
+      , tbb.average_time, tbb.stdev_time
+    );
+    #endif
 
-  //printf("STDEV: %e\n", time_stdev);
+    printf(
+        entry_fmt
+      , THRUST_VERSION                // Thrust Version.
+      , test_name                     // Algorithm.
+      , element_type_name             // Element Type.
+      , element_size                  // Element Size.
+      , elements                      // Elements per Trial.
+      , input_size                    // Total Input Size.
+      , baseline_trials               // STL Trials.
+      , stl.average_time              // STL Average Walltime.
+      , stl.stdev_time                // STL Walltime Uncertainty.
+      , stl_average_throughput        // STL Average Throughput.
+      , stl_throughput_uncertainty    // STL Throughput Uncertainty.
+      , regular_trials                // Thrust Trials.
+      , thrust.average_time           // Thrust Average Walltime.
+      , thrust.stdev_time             // Thrust Walltime Uncertainty.
+      , thrust_average_throughput     // Thrust Average Throughput.
+      , thrust_throughput_uncertainty // Thrust Throughput Uncertainty.
+      #if defined(HAVE_TBB)
+      , regular_trials                // TBB Trials.
+      , tbb.average_time              // TBB Average Walltime.
+      , tbb.stdev_time                // TBB Walltime Uncertainty.
+      , tbb_average_throughput        // TBB Average Throughput.
+      , tbb_throughput_uncertainty    // TBB Throughput Uncertainty.
+      #endif
+    );
+  } // }}}
 
-  return std::pair<double, double>(time_average, time_stdev); 
+private:
+  static experiment_results std_experiment()
+  { 
+    return experiment<typename Test<element_type>::std_trial>();
+  }
+
+  static experiment_results thrust_experiment()
+  { 
+    return experiment<typename Test<element_type>::thrust_trial>();
+  }
+
+  #if defined(HAVE_TBB)
+  static experiment_results tbb_experiment()
+  { 
+    return experiment<typename Test<element_type>::tbb_trial>();
+  }
+  #endif
+
+  template <typename Trial>
+  static experiment_results experiment()
+  { // {{{
+    Trial trial;
+
+    // Allocate storage and generate random input for the warmup trial.
+    trial.setup(elements);
+
+    // Warmup trial.
+    trial();
+
+    std::size_t const trials
+      = trial.is_baseline() ? baseline_trials : regular_trials;
+
+    std::vector<double> times;
+    times.reserve(trials);
+
+    for (std::size_t t = 0; t < trials; ++t)
+    {
+      // Generate random input for next trial. 
+      trial.setup(elements);
+
+      // Benchmark.
+      timer e;
+
+      e.start();
+      trial();
+      e.stop();
+
+      times.push_back(e.seconds_elapsed());
+    }
+
+    double average_time
+      = arithmetic_mean(times.begin(), times.end());
+
+    double stdev_time
+      = sample_standard_deviation(times.begin(), times.end(), average_time);
+
+    return experiment_results(average_time, stdev_time); 
+  } // }}}
+};
+
+template <
+    template <typename> class Test
+  , typename                  ElementMetaType
+  , std::size_t               Elements
+  , std::size_t               BaselineTrials
+  , std::size_t               RegularTrials
+>
+char const* const
+experiment_driver<
+  Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
+>::test_name
+  = Test<typename ElementMetaType::type>::test_name();
+
+template <
+    template <typename> class Test
+  , typename                  ElementMetaType
+  , std::size_t               Elements
+  , std::size_t               BaselineTrials
+  , std::size_t               RegularTrials
+>
+char const* const
+experiment_driver<
+  Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
+>::element_type_name
+  = ElementMetaType::name();
+
+template <
+    template <typename> class Test
+  , typename                  ElementMetaType
+  , std::size_t               Elements
+  , std::size_t               BaselineTrials
+  , std::size_t               RegularTrials
+>
+std::size_t const
+experiment_driver<
+  Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
+>::element_size
+  = CHAR_BIT * sizeof(typename ElementMetaType::type);
+
+template <
+    template <typename> class Test
+  , typename                  ElementMetaType
+  , std::size_t               Elements
+  , std::size_t               BaselineTrials
+  , std::size_t               RegularTrials
+>
+std::size_t const
+experiment_driver<
+  Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
+>::elements
+  = Elements;
+
+template <
+    template <typename> class Test
+  , typename                  ElementMetaType
+  , std::size_t               Elements
+  , std::size_t               BaselineTrials
+  , std::size_t               RegularTrials
+>
+double const
+experiment_driver<
+  Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
+>::input_size
+  = double( Elements /* [elements] */
+          * sizeof(typename ElementMetaType::type) /* [bytes/element] */
+          )
+  / double(1024 * 1024 /* [bytes/MiB] */);
+
+template <
+    template <typename> class Test
+  , typename                  ElementMetaType
+  , std::size_t               Elements
+  , std::size_t               BaselineTrials
+  , std::size_t               RegularTrials
+>
+std::size_t const
+experiment_driver<
+  Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
+>::baseline_trials
+  = BaselineTrials;
+
+template <
+    template <typename> class Test
+  , typename                  ElementMetaType
+  , std::size_t               Elements
+  , std::size_t               BaselineTrials
+  , std::size_t               RegularTrials
+>
+std::size_t const
+experiment_driver<
+  Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
+>::regular_trials
+  = RegularTrials;
+
+///////////////////////////////////////////////////////////////////////////////
+
+// Never create variables, pointers or references of any of the `*_trial_base`
+// classes. They are purely mixin base classes and do not have vtables and
+// virtual destructors. Using them for polymorphism instead of composition will
+// probably cause slicing.
+
+struct baseline_trial {};
+struct regular_trial {};
+
+template <typename TrialKind = regular_trial>
+struct trial_base;
+
+template <>
+struct trial_base<baseline_trial>
+{
+  static bool is_baseline() { return true; }
+};
+
+template <>
+struct trial_base<regular_trial>
+{
+  static bool is_baseline() { return true; }
+};
+
+template <typename Container, typename TrialKind = regular_trial>
+struct inplace_trial_base : trial_base<TrialKind>
+{ 
+  Container input;
+
+  void setup(std::size_t elements)
+  {
+    input.resize(elements);
+
+    randomize(input);
+  } 
+};
+
+template <typename Container, typename TrialKind = regular_trial>
+struct copy_trial_base : trial_base<TrialKind>
+{ 
+  Container input;
+  Container output;
+
+  void setup(std::size_t elements)
+  {
+    input.resize(elements);
+    output.resize(elements);
+
+    randomize(input);
+  } 
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+struct reduce_tester
+{
+  static char const* test_name() { return "reduce"; }
+
+  struct std_trial : inplace_trial_base<std::vector<T>, baseline_trial>
+  {
+    void operator()()
+    {
+      if (std::accumulate(this->input.begin(), this->input.end(), T(0)) == 0)
+        // Prevent optimizer from removing body.
+        std::cout << "xyz";
+    }
+  };
+
+  struct thrust_trial : inplace_trial_base<thrust::device_vector<T> >
+  {
+    void operator()()
+    {
+      thrust::reduce(this->input.begin(), this->input.end());
+    }
+  };
+ 
+  #if defined(HAVE_TBB)
+  struct tbb_trial : inplace_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      tbb_reduce(this->input);
+    }
+  };
+  #endif
 };
 
 template <typename T>
-void benchmark_core_primitives(std::string data_type, size_t trials, size_t input_size)
+struct sort_tester
 {
-#ifdef NO_TBB
-  char const* const header_fmt = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n";
-  char const* const entry_fmt  = "%i,%s,%s,%lu,%lu,%lu,%e,%e,%e,%e\n";
+  static char const* test_name() { return "sort"; }
 
-  printf(header_fmt, "Version", "Algorithm", "Type", "Type Size", "Trials", "Input Size", "STL Average", "STL Sample Standard Deviation", "Thrust Average", "Thrust Sample Standard Deviation");
-  printf(header_fmt, "", "", "", "[bits]", "[trials]", "[items]", "[items/sec]", "[items/sec]", "[items/sec]", "[items/sec]");
+  struct std_trial : inplace_trial_base<std::vector<T>, baseline_trial>
   {
-    std::pair<double, double> stl    = rate(stl_reduce_test<T>(), trials, input_size);
-    std::pair<double, double> thrust = rate(thrust_reduce_test<T>(), trials, input_size);
-    printf(entry_fmt, THRUST_VERSION, "reduce",         data_type.c_str(), 8*sizeof(T), trials, input_size, stl.first, stl.second, thrust.first, thrust.second);
-  }
-  {
-    std::pair<double, double> stl    = rate(stl_transform_test<T>(), trials, input_size);
-    std::pair<double, double> thrust = rate(thrust_transform_test<T>(), trials, input_size);
-    printf(entry_fmt, THRUST_VERSION, "transform",      data_type.c_str(), 8*sizeof(T), trials, input_size, stl.first, stl.second, thrust.first, thrust.second);
-  }
-  {
-    std::pair<double, double> stl    = rate(stl_inclusive_scan_test<T>(), trials, input_size);
-    std::pair<double, double> thrust = rate(thrust_inclusive_scan_test<T>(), trials, input_size);
-    printf(entry_fmt, THRUST_VERSION, "inclusive_scan", data_type.c_str(), 8*sizeof(T), trials, input_size, stl.first, stl.second, thrust.first, thrust.second);
-  }
-  {
-    std::pair<double, double> stl    = rate(stl_sort_test<T>(), trials, input_size);
-    std::pair<double, double> thrust = rate(thrust_sort_test<T>(), trials, input_size);
-    printf(entry_fmt, THRUST_VERSION, "sort",           data_type.c_str(), 8*sizeof(T), trials, input_size, stl.first, stl.second, thrust.first, thrust.second);
-  }
-#else
-  char const* const header_fmt = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s\n";
-  char const* const entry_fmt  = "%i,%s,%s,%lu,%lu,%lu,%e,%e,%e,%e,%e,%e\n";
+    void operator()()
+    {
+      std::sort(this->input.begin(), this->input.end());
+    }
+  };
 
-  printf(header_fmt, "Version", "Algorithm", "Type", "Type Size", "Trials", "Input Size", "STL Average", "STL Sample Standard Deviation", "Thrust Average", "Thrust Sample Standard Deviation", "TBB Average", "TBB Sample Standard Deviation");
-  printf(header_fmt, "", "", "", "[bits]", "[trials]", "[items]", "[items/sec]", "[items/sec]", "[items/sec]", "[items/sec]", "[items/sec]", "[items/sec]");
+  struct thrust_trial : inplace_trial_base<thrust::device_vector<T> >
   {
-    std::pair<double, double> stl    = rate(stl_reduce_test<T>(), trials, input_size);
-    std::pair<double, double> thrust = rate(thrust_reduce_test<T>(), trials, input_size);
-    std::pair<double, double> tbb    = rate(tbb_reduce_test<T>(), trials, input_size);
-    printf(entry_fmt, THRUST_VERSION, "reduce",         data_type.c_str(), 8*sizeof(T), trials, input_size, stl.first, stl.second, thrust.first, thrust.second, tbb.first, tbb.second);
-  }
-  {
-    std::pair<double, double> stl    = rate(stl_transform_test<T>(), trials, input_size);
-    std::pair<double, double> thrust = rate(thrust_transform_test<T>(), trials, input_size);
-    std::pair<double, double> tbb    = rate(tbb_transform_test<T>(), trials, input_size);
-    printf(entry_fmt, THRUST_VERSION, "transform",      data_type.c_str(), 8*sizeof(T), trials, input_size, stl.first, stl.second, thrust.first, thrust.second, tbb.first, tbb.second);
-  }
-  {
-    std::pair<double, double> stl    = rate(stl_inclusive_scan_test<T>(), trials, input_size);
-    std::pair<double, double> thrust = rate(thrust_inclusive_scan_test<T>(), trials, input_size);
-    std::pair<double, double> tbb    = rate(tbb_inclusive_scan_test<T>(), trials, input_size);
-    printf(entry_fmt, THRUST_VERSION, "inclusive_scan", data_type.c_str(), 8*sizeof(T), trials, input_size, stl.first, stl.second, thrust.first, thrust.second, tbb.first, tbb.second);
-  }
-  {
-    std::pair<double, double> stl    = rate(stl_sort_test<T>(), trials, input_size);
-    std::pair<double, double> thrust = rate(thrust_sort_test<T>(), trials, input_size);
-    std::pair<double, double> tbb    = rate(tbb_sort_test<T>(), trials, input_size);
-    printf(entry_fmt, THRUST_VERSION, "sort",           data_type.c_str(), 8*sizeof(T), trials, input_size, stl.first, stl.second, thrust.first, thrust.second, tbb.first, tbb.second);
-  }
-#endif
+    void operator()()
+    {
+      thrust::sort(this->input.begin(), this->input.end());
+    }
+  };
 
+  #if defined(HAVE_TBB)
+  struct tbb_trial : inplace_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      tbb_sort(this->input);
+    }
+  }
+  #endif
+};
+
+
+template <typename T>
+struct transform_inplace_tester
+{
+  static char const* test_name() { return "transform inplace"; }
+
+  struct std_trial : inplace_trial_base<std::vector<T>, baseline_trial>
+  {
+    void operator()()
+    {
+      std::transform(
+          this->input.begin(), this->input.end(), this->input.begin()
+        , thrust::negate<int>()
+      );
+    }
+  };
+
+  struct thrust_trial : inplace_trial_base<thrust::device_vector<T> >
+  {
+    void operator()()
+    {
+      thrust::transform(
+          this->input.begin(), this->input.end(), this->input.begin()
+        , thrust::negate<int>()
+      );
+    }
+  };
+
+  #if defined(HAVE_TBB)
+  struct tbb_trial : inplace_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      tbb_transform(this->input);
+    }
+  };
+  #endif
+};
+
+template <typename T>
+struct inclusive_scan_inplace_tester 
+{
+  static char const* test_name() { return "inclusive_scan inplace"; }
+
+  struct std_trial : inplace_trial_base<std::vector<T>, baseline_trial>
+  {
+    void operator()()
+    {
+      std::partial_sum(
+          this->input.begin(), this->input.end(), this->input.begin()
+      );
+    }
+  };
+
+  struct thrust_trial : inplace_trial_base<thrust::device_vector<T> >
+  {
+    void operator()()
+    {
+      thrust::inclusive_scan(
+          this->input.begin(), this->input.end(), this->input.begin()
+      );
+    }
+  };
+
+  #if defined(HAVE_TBB)
+  struct tbb_trial : inplace_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      tbb_scan(this->input);
+    }
+  };
+  #endif
+};
+
+template <typename T>
+struct copy_tester
+{
+  static char const* test_name() { return "copy"; }
+
+  struct std_trial : copy_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      std::copy(this->input.begin(), this->input.end(), this->output.begin());
+    }
+  };
+
+  struct thrust_trial : copy_trial_base<thrust::device_vector<T> >
+  {
+    void operator()()
+    {
+      thrust::copy(this->input.begin(), this->input.end(), this->input.begin());
+    }
+  };
+
+  #if defined(HAVE_TBB)
+  struct tbb_trial : copy_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      tbb_copy(this->input, this->output);
+    }
+  };
+  #endif
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <
+    typename ElementMetaType
+  , std::size_t Elements
+  , std::size_t BaselineTrials
+  , std::size_t RegularTrials
+>
+void run_and_print_core_primitives_experiments_for_type()
+{
+  experiment_driver<
+      reduce_tester
+    , ElementMetaType
+    , Elements / sizeof(typename ElementMetaType::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_and_print_experiment();
+
+  experiment_driver<
+    transform_inplace_tester
+    , ElementMetaType
+    , Elements / sizeof(typename ElementMetaType::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_and_print_experiment();
+
+  experiment_driver<
+      inclusive_scan_inplace_tester
+    , ElementMetaType
+    , Elements / sizeof(typename ElementMetaType::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_and_print_experiment();
+
+  experiment_driver<
+      sort_tester
+    , ElementMetaType
+    , (Elements >> 5) // Sorting is more sensitive to element count than
+                      // memory footprint.
+    , BaselineTrials
+    , RegularTrials
+  >::run_and_print_experiment();
+
+  experiment_driver<
+      copy_tester
+    , ElementMetaType
+    , Elements / sizeof(typename ElementMetaType::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_and_print_experiment();
 }
+
+///////////////////////////////////////////////////////////////////////////////
+
+#define DEFINE_ELEMENT_META_TYPE(T)                       \
+  struct PP_CAT(T, _meta)                                 \
+  {                                                       \
+    typedef T type;                                       \
+                                                          \
+    static char const* name() { return PP_STRINGIZE(T); } \
+  };                                                      \
+  /**/
+
+DEFINE_ELEMENT_META_TYPE(char);
+DEFINE_ELEMENT_META_TYPE(int);
+DEFINE_ELEMENT_META_TYPE(int8_t);
+DEFINE_ELEMENT_META_TYPE(int16_t);
+DEFINE_ELEMENT_META_TYPE(int32_t);
+DEFINE_ELEMENT_META_TYPE(int64_t);
+DEFINE_ELEMENT_META_TYPE(float);
+DEFINE_ELEMENT_META_TYPE(double);
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <
+    std::size_t Elements
+  , std::size_t BaselineTrials
+  , std::size_t RegularTrials
+>
+void run_and_print_core_primitives_experiments()
+{
+  run_and_print_core_primitives_experiments_for_type<
+    char_meta,    Elements, BaselineTrials, RegularTrials
+  >();
+  run_and_print_core_primitives_experiments_for_type<
+    int_meta,     Elements, BaselineTrials, RegularTrials
+  >();
+  run_and_print_core_primitives_experiments_for_type<
+    int8_t_meta,  Elements, BaselineTrials, RegularTrials
+  >();
+  run_and_print_core_primitives_experiments_for_type<
+    int16_t_meta, Elements, BaselineTrials, RegularTrials
+  >();
+  run_and_print_core_primitives_experiments_for_type<
+    int32_t_meta, Elements, BaselineTrials, RegularTrials
+  >();
+  run_and_print_core_primitives_experiments_for_type<
+    int64_t_meta, Elements, BaselineTrials, RegularTrials
+  >();
+  run_and_print_core_primitives_experiments_for_type<
+    float_meta,   Elements, BaselineTrials, RegularTrials
+  >();
+  run_and_print_core_primitives_experiments_for_type<
+    double_meta,  Elements, BaselineTrials, RegularTrials
+  >();
+}
+
+///////////////////////////////////////////////////////////////////////////////
 
 int main()
 {
-#ifndef NO_TBB
+  #if defined(HAVE_TBB)
   tbb::task_scheduler_init init;
 
   test_tbb();
-#endif
+  #endif
 
-  size_t trials = 8;
-  
-  size_t input_size = 32 << 20;
+  print_experiment_header();
 
-  benchmark_core_primitives<char>   ("char",    trials, input_size);
-  benchmark_core_primitives<int>    ("int",     trials, input_size);
-  benchmark_core_primitives<int8_t> ("integer", trials, input_size);
-  benchmark_core_primitives<int16_t>("integer", trials, input_size);
-  benchmark_core_primitives<int32_t>("integer", trials, input_size);
-  benchmark_core_primitives<int64_t>("integer", trials, input_size);
-  benchmark_core_primitives<float>  ("float",   trials, input_size);
-  benchmark_core_primitives<double> ("float",   trials, input_size);
+                                          /* Elements |       Trials       */
+                                          /*          | Baseline | Regular */
+  run_and_print_core_primitives_experiments< 1 << 21  , 4        , 16      >();
+  run_and_print_core_primitives_experiments< 1 << 22  , 4        , 16      >();
+  run_and_print_core_primitives_experiments< 1 << 23  , 4        , 16      >();
+  run_and_print_core_primitives_experiments< 1 << 24  , 3        , 8       >();
+  run_and_print_core_primitives_experiments< 1 << 25  , 3        , 8       >();
+  run_and_print_core_primitives_experiments< 1 << 26  , 3        , 8       >();
+  run_and_print_core_primitives_experiments< 1 << 27  , 3        , 8       >();
+  run_and_print_core_primitives_experiments< 1 << 28  , 3        , 8       >();
+  run_and_print_core_primitives_experiments< 1 << 29  , 3        , 8       >();
 
   return 0;
 }
 
+// TODO: Add different input sizes and half precision
