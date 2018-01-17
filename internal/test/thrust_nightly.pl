@@ -513,13 +513,42 @@ sub run_unit_tests {
                 }
                 else {
                     printf("&&&& PASSED $test %.2f [s]\n", $elapsed);
+
+                    # Check output with LLVM FileCheck if the test has a FileCheck input.
+
+                    my $filecheck = "${filecheck_path}/FileCheck --input-file ${test}.output ${filecheck_data_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
+
+                    print "&&&& RUNNING FileCheck $test\n";
+
+                    if (-f "${filecheck_data_path}/${test}.filecheck") {
+                        # If the filecheck file is empty, don't use filecheck.
+                        if (! -z "${filecheck_data_path}/${test}.filecheck") {
+                            if (system($filecheck) == 0) {
+                                print "&&&& PASSED FileCheck $test\n";
+                                $passes = $passes + 1;
+                            } else {
+                                my @filecheckoutput = get_file("${test}.filecheck.output");
+                                print "########################################\n";
+                                print @filecheckoutput;
+                                print "########################################\n";
+                                print "&&&& FAILED FileCheck $test\n";
+                                $failures = $failures + 1;
+                            }
+                        }
+                    } 
                 }
                 $found_totals = 1;
                 $failures = $failures + $fail; 
-                $known_failures = $known_failures + $known_fail; 
+                $known_failures = $known_failures + $known_fail;
                 $errors = $errors + $error; 
                 $passes = $passes + $pass;
                 last; 
+            }
+            else {
+              $fail = 0;
+              $known_fail = 0;
+              $error = 0;
+              $pass = 0;
             }
         }
         if ($ret == 0) {
