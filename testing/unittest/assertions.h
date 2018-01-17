@@ -13,6 +13,8 @@
 #define ASSERT_EQUAL(X,Y)        unittest::assert_equal((X),(Y), __FILE__,  __LINE__)
 #define ASSERT_LEQUAL(X,Y)       unittest::assert_lequal((X),(Y), __FILE__,  __LINE__)
 #define ASSERT_GEQUAL(X,Y)       unittest::assert_gequal((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_LESS(X,Y)         unittest::assert_less((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_GREATER(X,Y)      unittest::assert_greater((X),(Y), __FILE__,  __LINE__)
 #define ASSERT_ALMOST_EQUAL(X,Y) unittest::assert_almost_equal((X),(Y), __FILE__, __LINE__)
 #define KNOWN_FAILURE            { unittest::UnitTestKnownFailure f; f << "[" << __FILE__ ":" << __LINE__ << "]"; throw f;}
                     
@@ -81,13 +83,39 @@ void assert_equal_quiet(const T1& a, const T2& b,
 }
 
 template <typename T1, typename T2>
+void assert_less(const T1& a, const T2& b, 
+                 const std::string& filename = "unknown", int lineno = -1)
+{
+    if(!(a < b)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << a << " is greater " << b;
+        f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+template <typename T1, typename T2>
+void assert_greater(const T1& a, const T2& b, 
+                    const std::string& filename = "unknown", int lineno = -1)
+{
+    if(!(a > b)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << a << " is less than " << b;
+        f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+template <typename T1, typename T2>
 void assert_lequal(const T1& a, const T2& b, 
                    const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a <= b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is greater than " << b;
+        f << a << " is greater than or equal to " << b;
         f << " [type='" << type_name<T1>() << "']";
         throw f;
     }
@@ -97,10 +125,10 @@ template <typename T1, typename T2>
 void assert_gequal(const T1& a, const T2& b, 
                    const std::string& filename = "unknown", int lineno = -1)
 {
-    if(!(a >= T1(b))){
+    if(!(a >= b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is less than " << b;
+        f << a << " is less than or equal to " << b;
         f << " [type='" << type_name<T1>() << "']";
         throw f;
     }

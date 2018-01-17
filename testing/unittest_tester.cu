@@ -22,6 +22,18 @@ void TestAssertGEqual(void)
 }
 DECLARE_UNITTEST(TestAssertGEqual);
 
+void TestAssertLess(void)
+{
+    ASSERT_LESS(0, 1);
+}
+DECLARE_UNITTEST(TestAssertLess);
+
+void TestAssertGreater(void)
+{
+    ASSERT_GREATER(1, 0);
+}
+DECLARE_UNITTEST(TestAssertGreater);
+
 void TestTypeName(void)
 {
     ASSERT_EQUAL(unittest::type_name<char>(),          "char");
