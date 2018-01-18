@@ -743,9 +743,15 @@ DECLARE_VARIABLE_UNITTEST(TestTransformIfBinaryToDiscardIterator);
 template <class T>
   void TestTransformUnaryCountingIterator(size_t n)
 {
-    // GCC 4.4.x has a known failure with auto-vectorization (due to -O3 or -ftree-vectorize) of this test
-    // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43251
 #if (__GNUC__ * 10000 + __GNUC_MINOR__ * 100) == 40400
+    // G++ 4.4.x has a known failure with auto-vectorization (due to -O3 or
+    // -ftree-vectorize) of this test.
+    // See https://gcc.gnu.org/bugzilla/show_bug.cgi?id=43251
+    KNOWN_FAILURE;
+#elif defined(__INTEL_COMPILER) 
+    // ICPC has a known failure with auto-vectorization (due to -O2 or
+    // higher) of this test.
+    // See nvbug 200326708.
     KNOWN_FAILURE;
 #else
     // be careful not to generate a range larger than we can represent
