@@ -29,7 +29,7 @@ use POSIX; # For strftime
 my %CmdLineOption;
 my $retVal;
 my $arch = "";
-my $build = "debug";
+my $build = "release";
 my $bin_path;
 my $filecheck_path;
 my $filecheck_data_path = "internal/test";
