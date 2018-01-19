@@ -105,6 +105,24 @@ template <typename T>
 
 template <typename T> 
   __host__ __device__
+  inline bool operator==(const complex<T>& lhs, const std::complex<T>& rhs){
+  if(lhs.real() == rhs.real() && lhs.imag() == rhs.imag()){
+    return true;
+  }
+  return false;
+}
+
+template <typename T> 
+  __host__ __device__
+  inline bool operator==(const std::complex<T>& lhs, const complex<T>& rhs){
+  if(lhs.real() == rhs.real() && lhs.imag() == rhs.imag()){
+    return true;
+  }
+  return false;
+}
+
+template <typename T> 
+  __host__ __device__
   inline bool operator==(const T & lhs, const complex<T>& rhs){
   if(lhs == rhs.real() && rhs.imag() == 0){
     return true;
