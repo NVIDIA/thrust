@@ -683,7 +683,7 @@ struct transform_inplace_tester
     {
       std::transform(
           this->input.begin(), this->input.end(), this->input.begin()
-        , thrust::negate<int>()
+        , thrust::negate<T>()
       );
     }
   };
@@ -694,7 +694,7 @@ struct transform_inplace_tester
     {
       thrust::transform(
           this->input.begin(), this->input.end(), this->input.begin()
-        , thrust::negate<int>()
+        , thrust::negate<T>()
       );
     }
   };
