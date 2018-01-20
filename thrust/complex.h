@@ -576,14 +576,14 @@ template <typename T> __host__ __device__ inline bool operator==(const complex<T
  *  \param lhs The first \p complex.
  *  \param rhs The second \p complex.
  */
-template <typename T> __host__ __device__ inline bool operator==(const complex<T>& lhs, const std::complex<T>& rhs);
+template <typename T> __host__ inline bool operator==(const complex<T>& lhs, const std::complex<T>& rhs);
 
 /*! Returns true if two \p complex numbers are equal and false otherwise.
  *
  *  \param lhs The first \p complex.
  *  \param rhs The second \p complex.
  */
-template <typename T> __host__ __device__ inline bool operator==(const std::complex<T>& lhs, const complex<T>& rhs);
+template <typename T> __host__ inline bool operator==(const std::complex<T>& lhs, const complex<T>& rhs);
 
 /*! Returns true if the imaginary part of the  \p complex number is zero and the real part is equal to the scalar. Returns false otherwise.
  *
