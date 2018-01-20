@@ -7,6 +7,8 @@ struct TestVectorRangeInsertSimple
 {
     void operator()(size_t)
     {
+        typedef typename Vector::value_type T;
+
         Vector v1(5);
         thrust::sequence(v1.begin(), v1.end());
 
@@ -27,19 +29,19 @@ struct TestVectorRangeInsertSimple
         v2.insert(v2.begin() + 1,
                   v1.begin(), v1.end());
 
-        ASSERT_EQUAL(0, v2[0]);
+        ASSERT_EQUAL(T(0), v2[0]);
 
-        ASSERT_EQUAL(0, v2[1]);
-        ASSERT_EQUAL(1, v2[2]);
-        ASSERT_EQUAL(2, v2[3]);
-        ASSERT_EQUAL(3, v2[4]);
-        ASSERT_EQUAL(4, v2[5]);
+        ASSERT_EQUAL(T(0), v2[1]);
+        ASSERT_EQUAL(T(1), v2[2]);
+        ASSERT_EQUAL(T(2), v2[3]);
+        ASSERT_EQUAL(T(3), v2[4]);
+        ASSERT_EQUAL(T(4), v2[5]);
 
-        ASSERT_EQUAL(1, v2[6]);
-        ASSERT_EQUAL(2, v2[7]);
+        ASSERT_EQUAL(T(1), v2[6]);
+        ASSERT_EQUAL(T(2), v2[7]);
         
-        ASSERT_EQUAL(8,  v2.size());
-        ASSERT_EQUAL(10, v2.capacity());
+        ASSERT_EQUAL(8lu,  v2.size());
+        ASSERT_EQUAL(10lu, v2.capacity());
 
         // test when insertion range fits inside capacity
         // and the size of the insertion is equal to the number
@@ -58,20 +60,20 @@ struct TestVectorRangeInsertSimple
         v3.insert(v3.begin(),
                   v1.begin(), v1.end());
 
-        ASSERT_EQUAL(0, v3[0]);
-        ASSERT_EQUAL(1, v3[1]);
-        ASSERT_EQUAL(2, v3[2]);
-        ASSERT_EQUAL(3, v3[3]);
-        ASSERT_EQUAL(4, v3[4]);
+        ASSERT_EQUAL(T(0), v3[0]);
+        ASSERT_EQUAL(T(1), v3[1]);
+        ASSERT_EQUAL(T(2), v3[2]);
+        ASSERT_EQUAL(T(3), v3[3]);
+        ASSERT_EQUAL(T(4), v3[4]);
 
-        ASSERT_EQUAL(0, v3[5]);
-        ASSERT_EQUAL(1, v3[6]);
-        ASSERT_EQUAL(2, v3[7]);
-        ASSERT_EQUAL(3, v3[8]);
-        ASSERT_EQUAL(4, v3[9]);
+        ASSERT_EQUAL(T(0), v3[5]);
+        ASSERT_EQUAL(T(1), v3[6]);
+        ASSERT_EQUAL(T(2), v3[7]);
+        ASSERT_EQUAL(T(3), v3[8]);
+        ASSERT_EQUAL(T(4), v3[9]);
 
-        ASSERT_EQUAL(10, v3.size());
-        ASSERT_EQUAL(10, v3.capacity());
+        ASSERT_EQUAL(10lu, v3.size());
+        ASSERT_EQUAL(10lu, v3.capacity());
 
         // test when insertion range fits inside capacity
         // and the size of the insertion is less than the
@@ -90,19 +92,19 @@ struct TestVectorRangeInsertSimple
         v4.insert(v4.begin() + 1,
                   v1.begin(), v1.begin() + 3);
 
-        ASSERT_EQUAL(0, v4[0]);
+        ASSERT_EQUAL(T(0), v4[0]);
 
-        ASSERT_EQUAL(0, v4[1]);
-        ASSERT_EQUAL(1, v4[2]);
-        ASSERT_EQUAL(2, v4[3]);
+        ASSERT_EQUAL(T(0), v4[1]);
+        ASSERT_EQUAL(T(1), v4[2]);
+        ASSERT_EQUAL(T(2), v4[3]);
 
-        ASSERT_EQUAL(1, v4[4]);
-        ASSERT_EQUAL(2, v4[5]);
-        ASSERT_EQUAL(3, v4[6]);
-        ASSERT_EQUAL(4, v4[7]);
+        ASSERT_EQUAL(T(1), v4[4]);
+        ASSERT_EQUAL(T(2), v4[5]);
+        ASSERT_EQUAL(T(3), v4[6]);
+        ASSERT_EQUAL(T(4), v4[7]);
 
-        ASSERT_EQUAL(8, v4.size());
-        ASSERT_EQUAL(10, v4.capacity());
+        ASSERT_EQUAL(8lu, v4.size());
+        ASSERT_EQUAL(10lu, v4.capacity());
 
         // test when insertion range does not fit inside capacity
         Vector v5(5);
@@ -115,20 +117,20 @@ struct TestVectorRangeInsertSimple
         v5.insert(v5.begin() + 1,
                   v1.begin(), v1.end());
 
-        ASSERT_EQUAL(0, v5[0]);
+        ASSERT_EQUAL(T(0), v5[0]);
 
-        ASSERT_EQUAL(0, v5[1]);
-        ASSERT_EQUAL(1, v5[2]);
-        ASSERT_EQUAL(2, v5[3]);
-        ASSERT_EQUAL(3, v5[4]);
-        ASSERT_EQUAL(4, v5[5]);
+        ASSERT_EQUAL(T(0), v5[1]);
+        ASSERT_EQUAL(T(1), v5[2]);
+        ASSERT_EQUAL(T(2), v5[3]);
+        ASSERT_EQUAL(T(3), v5[4]);
+        ASSERT_EQUAL(T(4), v5[5]);
 
-        ASSERT_EQUAL(1, v5[6]);
-        ASSERT_EQUAL(2, v5[7]);
-        ASSERT_EQUAL(3, v5[8]);
-        ASSERT_EQUAL(4, v5[9]);
+        ASSERT_EQUAL(T(1), v5[6]);
+        ASSERT_EQUAL(T(2), v5[7]);
+        ASSERT_EQUAL(T(3), v5[8]);
+        ASSERT_EQUAL(T(4), v5[9]);
 
-        ASSERT_EQUAL(10, v5.size());
+        ASSERT_EQUAL(10lu, v5.size());
     }
 }; // end TestVectorRangeInsertSimple
 VectorUnitTest<TestVectorRangeInsertSimple, NumericTypes, thrust::device_vector, thrust::device_malloc_allocator> TestVectorRangeInsertSimpleDeviceInstance;
@@ -173,6 +175,8 @@ struct TestVectorFillInsertSimple
 {
     void operator()(size_t)
     {
+        typedef typename Vector::value_type T;
+
         // test when insertion range fits inside capacity
         // and the size of the insertion is greater than the number
         // of displaced elements
@@ -189,19 +193,19 @@ struct TestVectorFillInsertSimple
 
         v1.insert(v1.begin() + 1, insertion_size, 13);
 
-        ASSERT_EQUAL(0, v1[0]);
+        ASSERT_EQUAL(T(0), v1[0]);
 
-        ASSERT_EQUAL(13, v1[1]);
-        ASSERT_EQUAL(13, v1[2]);
-        ASSERT_EQUAL(13, v1[3]);
-        ASSERT_EQUAL(13, v1[4]);
-        ASSERT_EQUAL(13, v1[5]);
+        ASSERT_EQUAL(T(13), v1[1]);
+        ASSERT_EQUAL(T(13), v1[2]);
+        ASSERT_EQUAL(T(13), v1[3]);
+        ASSERT_EQUAL(T(13), v1[4]);
+        ASSERT_EQUAL(T(13), v1[5]);
 
-        ASSERT_EQUAL(1, v1[6]);
-        ASSERT_EQUAL(2, v1[7]);
+        ASSERT_EQUAL(T(1), v1[6]);
+        ASSERT_EQUAL(T(2), v1[7]);
         
-        ASSERT_EQUAL(8,  v1.size());
-        ASSERT_EQUAL(10, v1.capacity());
+        ASSERT_EQUAL(8lu,  v1.size());
+        ASSERT_EQUAL(10lu, v1.capacity());
 
         // test when insertion range fits inside capacity
         // and the size of the insertion is equal to the number
@@ -219,20 +223,20 @@ struct TestVectorFillInsertSimple
 
         v2.insert(v2.begin(), insertion_size, 13);
 
-        ASSERT_EQUAL(13, v2[0]);
-        ASSERT_EQUAL(13, v2[1]);
-        ASSERT_EQUAL(13, v2[2]);
-        ASSERT_EQUAL(13, v2[3]);
-        ASSERT_EQUAL(13, v2[4]);
+        ASSERT_EQUAL(T(13), v2[0]);
+        ASSERT_EQUAL(T(13), v2[1]);
+        ASSERT_EQUAL(T(13), v2[2]);
+        ASSERT_EQUAL(T(13), v2[3]);
+        ASSERT_EQUAL(T(13), v2[4]);
 
-        ASSERT_EQUAL(0, v2[5]);
-        ASSERT_EQUAL(1, v2[6]);
-        ASSERT_EQUAL(2, v2[7]);
-        ASSERT_EQUAL(3, v2[8]);
-        ASSERT_EQUAL(4, v2[9]);
+        ASSERT_EQUAL(T(0), v2[5]);
+        ASSERT_EQUAL(T(1), v2[6]);
+        ASSERT_EQUAL(T(2), v2[7]);
+        ASSERT_EQUAL(T(3), v2[8]);
+        ASSERT_EQUAL(T(4), v2[9]);
 
-        ASSERT_EQUAL(10, v2.size());
-        ASSERT_EQUAL(10, v2.capacity());
+        ASSERT_EQUAL(10lu, v2.size());
+        ASSERT_EQUAL(10lu, v2.capacity());
 
         // test when insertion range fits inside capacity
         // and the size of the insertion is less than the
@@ -250,19 +254,19 @@ struct TestVectorFillInsertSimple
 
         v3.insert(v3.begin() + 1, insertion_size, 13);
 
-        ASSERT_EQUAL(0, v3[0]);
+        ASSERT_EQUAL(T(0), v3[0]);
 
-        ASSERT_EQUAL(13, v3[1]);
-        ASSERT_EQUAL(13, v3[2]);
-        ASSERT_EQUAL(13, v3[3]);
+        ASSERT_EQUAL(T(13), v3[1]);
+        ASSERT_EQUAL(T(13), v3[2]);
+        ASSERT_EQUAL(T(13), v3[3]);
 
-        ASSERT_EQUAL(1, v3[4]);
-        ASSERT_EQUAL(2, v3[5]);
-        ASSERT_EQUAL(3, v3[6]);
-        ASSERT_EQUAL(4, v3[7]);
+        ASSERT_EQUAL(T(1), v3[4]);
+        ASSERT_EQUAL(T(2), v3[5]);
+        ASSERT_EQUAL(T(3), v3[6]);
+        ASSERT_EQUAL(T(4), v3[7]);
 
-        ASSERT_EQUAL(8, v3.size());
-        ASSERT_EQUAL(10, v3.capacity());
+        ASSERT_EQUAL(8lu, v3.size());
+        ASSERT_EQUAL(10lu, v3.capacity());
 
         // test when insertion range does not fit inside capacity
         Vector v4(5);
@@ -275,20 +279,20 @@ struct TestVectorFillInsertSimple
 
         v4.insert(v4.begin() + 1, insertion_size, 13);
 
-        ASSERT_EQUAL(0, v4[0]);
+        ASSERT_EQUAL(T(0), v4[0]);
 
-        ASSERT_EQUAL(13, v4[1]);
-        ASSERT_EQUAL(13, v4[2]);
-        ASSERT_EQUAL(13, v4[3]);
-        ASSERT_EQUAL(13, v4[4]);
-        ASSERT_EQUAL(13, v4[5]);
+        ASSERT_EQUAL(T(13), v4[1]);
+        ASSERT_EQUAL(T(13), v4[2]);
+        ASSERT_EQUAL(T(13), v4[3]);
+        ASSERT_EQUAL(T(13), v4[4]);
+        ASSERT_EQUAL(T(13), v4[5]);
 
-        ASSERT_EQUAL(1, v4[6]);
-        ASSERT_EQUAL(2, v4[7]);
-        ASSERT_EQUAL(3, v4[8]);
-        ASSERT_EQUAL(4, v4[9]);
+        ASSERT_EQUAL(T(1), v4[6]);
+        ASSERT_EQUAL(T(2), v4[7]);
+        ASSERT_EQUAL(T(3), v4[8]);
+        ASSERT_EQUAL(T(4), v4[9]);
 
-        ASSERT_EQUAL(10, v4.size());
+        ASSERT_EQUAL(10lu, v4.size());
     }
 }; // end TestVectorFillInsertSimple
 VectorUnitTest<TestVectorFillInsertSimple, NumericTypes, thrust::device_vector, thrust::device_malloc_allocator> TestVectorFillInsertSimpleDeviceInstance;

@@ -53,13 +53,10 @@ template<typename T>
 ////
 // check scalar values
 template <typename T1, typename T2>
-void assert_equal(const T1& a, const T2& b, 
+void assert_equal(T1 a, T2 b,
                   const std::string& filename = "unknown", int lineno = -1)
 {
-    // convert a & b to a's value_type to avoid warning upon comparison
-    typedef typename value_type<T1>::type T;
-
-    if(!(T(a) == T(b))){
+    if(!(a == b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
         f << "values are not equal: " << a << " " << b;
@@ -70,7 +67,7 @@ void assert_equal(const T1& a, const T2& b,
 
 // sometimes it's not possible to << a type
 template <typename T1, typename T2>
-void assert_equal_quiet(const T1& a, const T2& b, 
+void assert_equal_quiet(const T1& a, const T2& b,
                         const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a == b)){
@@ -83,7 +80,7 @@ void assert_equal_quiet(const T1& a, const T2& b,
 }
 
 template <typename T1, typename T2>
-void assert_less(const T1& a, const T2& b, 
+void assert_less(T1 a, T2 b,
                  const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a < b)){
@@ -96,7 +93,7 @@ void assert_less(const T1& a, const T2& b,
 }
 
 template <typename T1, typename T2>
-void assert_greater(const T1& a, const T2& b, 
+void assert_greater(T1 a, T2 b,
                     const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a > b)){
@@ -109,7 +106,7 @@ void assert_greater(const T1& a, const T2& b,
 }
 
 template <typename T1, typename T2>
-void assert_lequal(const T1& a, const T2& b, 
+void assert_lequal(T1 a, T2 b,
                    const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a <= b)){
@@ -122,7 +119,7 @@ void assert_lequal(const T1& a, const T2& b,
 }
 
 template <typename T1, typename T2>
-void assert_gequal(const T1& a, const T2& b, 
+void assert_gequal(T1 a, T2 b,
                    const std::string& filename = "unknown", int lineno = -1)
 {
     if(!(a >= b)){
@@ -152,7 +149,7 @@ bool almost_equal(const double& a, const double& b, const double& a_tol, const d
 }
 
 template <typename T1, typename T2>
-void assert_almost_equal(const T1& a, const T2& b, 
+void assert_almost_equal(T1 a, T2 b,
                          const std::string& filename = "unknown", int lineno = -1,
                          double a_tol = DEFAULT_ABSOLUTE_TOL, double r_tol = DEFAULT_RELATIVE_TOL)
 
@@ -168,7 +165,7 @@ void assert_almost_equal(const T1& a, const T2& b,
 
 
 template <typename T1, typename T2>
-  void assert_almost_equal(const thrust::complex<T1>& a, const thrust::complex<T2>& b, 
+void assert_almost_equal(thrust::complex<T1> a, thrust::complex<T2> b,
                          const std::string& filename = "unknown", int lineno = -1,
                          double a_tol = DEFAULT_ABSOLUTE_TOL, double r_tol = DEFAULT_RELATIVE_TOL)
 
@@ -184,7 +181,7 @@ template <typename T1, typename T2>
 
 
 template <typename T1, typename T2>
-  void assert_almost_equal(const thrust::complex<T1>& a, const std::complex<T2>& b, 
+  void assert_almost_equal(const thrust::complex<T1>& a, const std::complex<T2>& b,
                          const std::string& filename = "unknown", int lineno = -1,
                          double a_tol = DEFAULT_ABSOLUTE_TOL, double r_tol = DEFAULT_RELATIVE_TOL)
 
@@ -217,8 +214,8 @@ class almost_equal_to<thrust::complex<T> >
         double a_tol, r_tol;
         almost_equal_to(double _a_tol = DEFAULT_ABSOLUTE_TOL, double _r_tol = DEFAULT_RELATIVE_TOL) : a_tol(_a_tol), r_tol(_r_tol) {}
         bool operator()(const thrust::complex<T>& a, const thrust::complex<T>& b) const {
-	  return almost_equal((double) a.real(), (double) b.real(), a_tol, r_tol) && 
-	    almost_equal((double) a.imag(), (double) b.imag(), a_tol, r_tol);
+            return almost_equal((double) a.real(), (double) b.real(), a_tol, r_tol) 
+                && almost_equal((double) a.imag(), (double) b.imag(), a_tol, r_tol);
         }
 };
 
@@ -322,7 +319,7 @@ void assert_equal(const thrust::host_vector<T,Alloc>& A, const thrust::host_vect
 }
 
 template <typename T, typename Alloc>
-void assert_almost_equal(const thrust::host_vector<T,Alloc>& A, const thrust::host_vector<T,Alloc>& B, 
+void assert_almost_equal(const thrust::host_vector<T,Alloc>& A, const thrust::host_vector<T,Alloc>& B,
                          const std::string& filename = "unknown", int lineno = -1,
                          const double a_tol = DEFAULT_ABSOLUTE_TOL, const double r_tol = DEFAULT_RELATIVE_TOL)
 {

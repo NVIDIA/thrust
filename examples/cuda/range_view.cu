@@ -209,7 +209,7 @@ struct f1 : public thrust::unary_function<float,float>
   }
 };
 
-int main(int argc, char* argv[])
+int main()
 {
   using std::cout;
   using std::endl;

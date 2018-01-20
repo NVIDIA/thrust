@@ -349,8 +349,8 @@ struct TestPartitionCopy
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::device_vector<T> d_data = h_data;
         
-        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
-        size_t n_false = n - n_true;
+        std::ptrdiff_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        std::ptrdiff_t n_false = n - n_true;
 
         // setup output ranges
         thrust::host_vector<T>   h_true_results (n_true,  0);
@@ -393,8 +393,8 @@ struct TestPartitionCopyStencil
         thrust::device_vector<T> d_data = h_data;
         thrust::device_vector<T> d_stencil = h_stencil;
         
-        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
-        size_t n_false = n - n_true;
+        std::ptrdiff_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        std::ptrdiff_t n_false = n - n_true;
 
         // setup output ranges
         thrust::host_vector<T>   h_true_results (n_true,  0);
@@ -437,8 +437,8 @@ struct TestStablePartitionCopyStencil
         thrust::device_vector<T> d_data = h_data;
         thrust::device_vector<T> d_stencil = h_stencil;
         
-        size_t n_true  = thrust::count_if(h_stencil.begin(), h_stencil.end(), is_even<T>());
-        size_t n_false = n - n_true;
+        std::ptrdiff_t n_true  = thrust::count_if(h_stencil.begin(), h_stencil.end(), is_even<T>());
+        std::ptrdiff_t n_false = n - n_true;
 
         // setup output ranges
         thrust::host_vector<T>   h_true_results (n_true,  0);
@@ -479,8 +479,8 @@ struct TestPartitionCopyToDiscardIterator
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::device_vector<T> d_data = h_data;
         
-        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
-        size_t n_false = n - n_true;
+        std::ptrdiff_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        std::ptrdiff_t n_false = n - n_true;
 
         // mask both ranges
         thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =
@@ -584,8 +584,8 @@ struct TestPartitionCopyStencilToDiscardIterator
         thrust::device_vector<T> d_data = h_data;
         thrust::device_vector<T> d_stencil = h_stencil;
         
-        size_t n_true  = thrust::count_if(h_stencil.begin(), h_stencil.end(), is_even<T>());
-        size_t n_false = n - n_true;
+        std::ptrdiff_t n_true  = thrust::count_if(h_stencil.begin(), h_stencil.end(), is_even<T>());
+        std::ptrdiff_t n_false = n - n_true;
 
         // mask both ranges
         thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =
@@ -733,8 +733,8 @@ struct TestStablePartitionCopy
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::device_vector<T> d_data = h_data;
         
-        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
-        size_t n_false = n - n_true;
+        std::ptrdiff_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        std::ptrdiff_t n_false = n - n_true;
 
         // setup output ranges
         thrust::host_vector<T>   h_true_results (n_true,  0);
@@ -771,8 +771,8 @@ struct TestStablePartitionCopyToDiscardIterator
         thrust::host_vector<T>   h_data = unittest::random_integers<T>(n);
         thrust::device_vector<T> d_data = h_data;
         
-        size_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
-        size_t n_false = n - n_true;
+        std::ptrdiff_t n_true  = thrust::count_if(h_data.begin(), h_data.end(), is_even<T>());
+        std::ptrdiff_t n_false = n - n_true;
 
         // mask both ranges
         thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =
@@ -876,8 +876,8 @@ struct TestStablePartitionCopyStencilToDiscardIterator
         thrust::device_vector<T> d_data = h_data;
         thrust::device_vector<T> d_stencil = h_stencil;
         
-        size_t n_true  = thrust::count_if(h_stencil.begin(), h_stencil.end(), is_even<T>());
-        size_t n_false = n - n_true;
+        std::ptrdiff_t n_true  = thrust::count_if(h_stencil.begin(), h_stencil.end(), is_even<T>());
+        std::ptrdiff_t n_false = n - n_true;
 
         // mask both ranges
         thrust::pair<thrust::discard_iterator<>, thrust::discard_iterator<> > h_result1 =

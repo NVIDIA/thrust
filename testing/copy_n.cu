@@ -162,25 +162,25 @@ void TestCopyNListTo(void)
 
     typename Vector::iterator v_result = thrust::copy_n(l.begin(), l.size(), v.begin());
 
-    ASSERT_EQUAL(v[0], 0);
-    ASSERT_EQUAL(v[1], 1);
-    ASSERT_EQUAL(v[2], 2);
-    ASSERT_EQUAL(v[3], 3);
-    ASSERT_EQUAL(v[4], 4);
+    ASSERT_EQUAL(v[0], T(0));
+    ASSERT_EQUAL(v[1], T(1));
+    ASSERT_EQUAL(v[2], T(2));
+    ASSERT_EQUAL(v[3], T(3));
+    ASSERT_EQUAL(v[4], T(4));
     ASSERT_EQUAL_QUIET(v_result, v.end());
 
     l.clear();
 
     thrust::copy_n(v.begin(), v.size(), std::back_insert_iterator< std::list<T> >(l));
 
-    ASSERT_EQUAL(l.size(), 5);
+    ASSERT_EQUAL(l.size(), 5lu);
 
     typename std::list<T>::const_iterator iter = l.begin();
-    ASSERT_EQUAL(*iter, 0);  iter++;
-    ASSERT_EQUAL(*iter, 1);  iter++;
-    ASSERT_EQUAL(*iter, 2);  iter++;
-    ASSERT_EQUAL(*iter, 3);  iter++;
-    ASSERT_EQUAL(*iter, 4);  iter++;
+    ASSERT_EQUAL(*iter, T(0));  iter++;
+    ASSERT_EQUAL(*iter, T(1));  iter++;
+    ASSERT_EQUAL(*iter, T(2));  iter++;
+    ASSERT_EQUAL(*iter, T(3));  iter++;
+    ASSERT_EQUAL(*iter, T(4));  iter++;
 }
 DECLARE_VECTOR_UNITTEST(TestCopyNListTo);
 
@@ -196,10 +196,10 @@ void TestCopyNCountingIterator(void)
 
     thrust::copy_n(iter, 4, vec.begin());
 
-    ASSERT_EQUAL(vec[0], 1);
-    ASSERT_EQUAL(vec[1], 2);
-    ASSERT_EQUAL(vec[2], 3);
-    ASSERT_EQUAL(vec[3], 4);
+    ASSERT_EQUAL(vec[0], T(1));
+    ASSERT_EQUAL(vec[1], T(2));
+    ASSERT_EQUAL(vec[2], T(3));
+    ASSERT_EQUAL(vec[3], T(4));
 }
 DECLARE_VECTOR_UNITTEST(TestCopyNCountingIterator);
 
@@ -227,19 +227,19 @@ void TestCopyNConstantIteratorToZipIterator(void)
 {
     typedef typename Vector::value_type T;
 
-    Vector v1(3,T(0));
-    Vector v2(3,T(0));
+    Vector v1(3, T(0));
+    Vector v2(3, T(0));
 
     thrust::copy_n(thrust::make_constant_iterator(thrust::tuple<T,T>(4,7)),
                    v1.size(),
                    thrust::make_zip_iterator(thrust::make_tuple(v1.begin(),v2.begin())));
 
-    ASSERT_EQUAL(v1[0], 4);
-    ASSERT_EQUAL(v1[1], 4);
-    ASSERT_EQUAL(v1[2], 4);
-    ASSERT_EQUAL(v2[0], 7);
-    ASSERT_EQUAL(v2[1], 7);
-    ASSERT_EQUAL(v2[2], 7);
+    ASSERT_EQUAL(v1[0], T(4));
+    ASSERT_EQUAL(v1[1], T(4));
+    ASSERT_EQUAL(v1[2], T(4));
+    ASSERT_EQUAL(v2[0], T(7));
+    ASSERT_EQUAL(v2[1], T(7));
+    ASSERT_EQUAL(v2[2], T(7));
 };
 DECLARE_VECTOR_UNITTEST(TestCopyNConstantIteratorToZipIterator);
 

@@ -5,14 +5,14 @@
 
 void TestStandardIntegerTypes(void)
 {
-  ASSERT_EQUAL(sizeof(thrust::detail::int8_t),   1);
-  ASSERT_EQUAL(sizeof(thrust::detail::int16_t),  2);
-  ASSERT_EQUAL(sizeof(thrust::detail::int32_t),  4);
-  ASSERT_EQUAL(sizeof(thrust::detail::int64_t),  8);
-  ASSERT_EQUAL(sizeof(thrust::detail::uint8_t),  1);
-  ASSERT_EQUAL(sizeof(thrust::detail::uint16_t), 2);
-  ASSERT_EQUAL(sizeof(thrust::detail::uint32_t), 4);
-  ASSERT_EQUAL(sizeof(thrust::detail::uint64_t), 8);
+  ASSERT_EQUAL(sizeof(thrust::detail::int8_t),   1lu);
+  ASSERT_EQUAL(sizeof(thrust::detail::int16_t),  2lu);
+  ASSERT_EQUAL(sizeof(thrust::detail::int32_t),  4lu);
+  ASSERT_EQUAL(sizeof(thrust::detail::int64_t),  8lu);
+  ASSERT_EQUAL(sizeof(thrust::detail::uint8_t),  1lu);
+  ASSERT_EQUAL(sizeof(thrust::detail::uint16_t), 2lu);
+  ASSERT_EQUAL(sizeof(thrust::detail::uint32_t), 4lu);
+  ASSERT_EQUAL(sizeof(thrust::detail::uint64_t), 8lu);
 
   ASSERT_EQUAL(sizeof(thrust::detail::intptr_t),  sizeof(void *));
   ASSERT_EQUAL(sizeof(thrust::detail::uintptr_t), sizeof(void *));

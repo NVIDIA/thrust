@@ -30,7 +30,7 @@ void TestTransformUnaryDevice(ExecutionPolicy exec)
   transform_kernel<<<1,1>>>(exec, input.begin(), input.end(), output.begin(), thrust::negate<T>(), iter_vec.begin());
   iter = iter_vec[0];
   
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(output, result);
 }
 
@@ -81,7 +81,7 @@ void TestTransformIfUnaryNoStencilDevice(ExecutionPolicy exec)
                                iter_vec.begin());
   iter = iter_vec[0];
   
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(output, result);
 }
 
@@ -136,7 +136,7 @@ void TestTransformIfUnaryDevice(ExecutionPolicy exec)
 
   iter = iter_vec[0];
   
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(output, result);
 }
 
@@ -182,7 +182,7 @@ void TestTransformBinaryDevice(ExecutionPolicy exec)
   transform_kernel<<<1,1>>>(exec, input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>(), iter_vec.begin());
   iter = iter_vec[0];
   
-  ASSERT_EQUAL(iter - output.begin(), input1.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());
   ASSERT_EQUAL(output, result);
 }
 
@@ -241,7 +241,7 @@ void TestTransformIfBinaryDevice(ExecutionPolicy exec)
                                iter_vec.begin());
   iter = iter_vec[0];
   
-  ASSERT_EQUAL(iter - output.begin(), input1.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());
   ASSERT_EQUAL(output, result);
 }
 
@@ -276,7 +276,7 @@ void TestTransformUnaryCudaStreams()
   iter = thrust::transform(thrust::cuda::par.on(s), input.begin(), input.end(), output.begin(), thrust::negate<T>());
   cudaStreamSynchronize(s);
   
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(output, result);
 
   cudaStreamDestroy(s);
@@ -305,7 +305,7 @@ void TestTransformBinaryCudaStreams()
   iter = thrust::transform(thrust::cuda::par.on(s), input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
   cudaStreamSynchronize(s);
   
-  ASSERT_EQUAL(iter - output.begin(), input1.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());
   ASSERT_EQUAL(output, result);
 
   cudaStreamDestroy(s);

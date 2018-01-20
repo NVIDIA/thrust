@@ -104,7 +104,7 @@ DECLARE_UNITTEST(TestSelectSystemSameTypes);
 
 void TestGetTemporaryBuffer()
 {
-  const size_t n = 9001;
+  const std::ptrdiff_t n = 9001;
 
   thrust::device_system_tag dev_tag;
   typedef thrust::pointer<int, thrust::device_system_tag> pointer;
@@ -126,7 +126,7 @@ DECLARE_UNITTEST(TestGetTemporaryBuffer);
 
 void TestMalloc()
 {
-  const size_t n = 9001;
+  const std::ptrdiff_t n = 9001;
 
   thrust::device_system_tag dev_tag;
   typedef thrust::pointer<int, thrust::device_system_tag> pointer;
@@ -203,7 +203,7 @@ void TestGetTemporaryBufferDispatchExplicit()
   // gcc 4.3 does not do adl correctly for malloc
   KNOWN_FAILURE;
 #else
-  const size_t n = 9001;
+  const std::ptrdiff_t n = 9001;
 
   my_memory_system sys(0);
   typedef thrust::pointer<int, thrust::device_system_tag> pointer;

@@ -13,10 +13,10 @@ void TestVectorManipulation(size_t n)
 
     // basic initialization
     Vector test0(n);
-    Vector test1(n, (T) 3);
+    Vector test1(n, T(3));
     ASSERT_EQUAL(test0.size(), n);
     ASSERT_EQUAL(test1.size(), n);
-    ASSERT_EQUAL((test1 == std::vector<T>(n, (T) 3)), true);
+    ASSERT_EQUAL((test1 == std::vector<T>(n, T(3))), true);
 
 #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
     // XXX MSVC 2005's STL unintentionally uses adl to dispatch advance which
@@ -41,9 +41,9 @@ void TestVectorManipulation(size_t n)
     ASSERT_EQUAL(vec1.size(), n);
     ASSERT_EQUAL(vec1, src); 
     
-    vec1.resize(n + 20, (T) 11);
+    vec1.resize(n + 20, T(11));
     Vector tail(vec1.begin() + n, vec1.end());
-    ASSERT_EQUAL( (tail == std::vector<T>(20, (T) 11)), true);
+    ASSERT_EQUAL((tail == std::vector<T>(20, T(11))), true);
 
     // shrinking a vector should not invalidate iterators
     Iterator first = vec1.begin();
@@ -51,36 +51,36 @@ void TestVectorManipulation(size_t n)
     ASSERT_EQUAL_QUIET(first, vec1.begin());
 
     vec1.resize(0);
-    ASSERT_EQUAL(vec1.size(), 0);
+    ASSERT_EQUAL(vec1.size(), 0lu);
     ASSERT_EQUAL(vec1.empty(), true);
     vec1.resize(10);
-    ASSERT_EQUAL(vec1.size(), 10);
+    ASSERT_EQUAL(vec1.size(), 10lu);
     vec1.clear();
-    ASSERT_EQUAL(vec1.size(), 0);
+    ASSERT_EQUAL(vec1.size(), 0lu);
     vec1.resize(5);
-    ASSERT_EQUAL(vec1.size(), 5);
+    ASSERT_EQUAL(vec1.size(), 5lu);
 
     // push_back
     Vector vec2;
     for(size_t i = 0; i < 10; ++i)
     {
         ASSERT_EQUAL(vec2.size(), i);
-        vec2.push_back( (T) i );
+        vec2.push_back(T(i));
         ASSERT_EQUAL(vec2.size(), i + 1);
         for(size_t j = 0; j <= i; j++)
-            ASSERT_EQUAL(vec2[j],     j);
-        ASSERT_EQUAL(vec2.back(), i);
+            ASSERT_EQUAL(vec2[j], T(j));
+        ASSERT_EQUAL(vec2.back(), T(i));
     }
 
     // pop_back
     for(size_t i = 10; i > 0; --i)
     {
         ASSERT_EQUAL(vec2.size(), i);
-        ASSERT_EQUAL(vec2.back(), i-1);
+        ASSERT_EQUAL(vec2.back(), T(i - 1));
         vec2.pop_back();
-        ASSERT_EQUAL(vec2.size(), i-1);
+        ASSERT_EQUAL(vec2.size(), i - 1);
         for(size_t j = 0; j < i; j++)
-            ASSERT_EQUAL(vec2[j], j);
+            ASSERT_EQUAL(vec2[j], T(j));
     }
 
     //TODO test swap, erase(pos), erase(begin, end)

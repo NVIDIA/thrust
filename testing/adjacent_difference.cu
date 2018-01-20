@@ -54,23 +54,23 @@ void TestAdjacentDifference(const size_t n)
     h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin());
     d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_output.begin());
 
-    ASSERT_EQUAL(h_result - h_output.begin(), n);
-    ASSERT_EQUAL(d_result - d_output.begin(), n);
+    ASSERT_EQUAL(std::size_t(h_result - h_output.begin()), n);
+    ASSERT_EQUAL(std::size_t(d_result - d_output.begin()), n);
     ASSERT_EQUAL(h_output, d_output);
     
     h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin(), thrust::plus<T>());
     d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_output.begin(), thrust::plus<T>());
 
-    ASSERT_EQUAL(h_result - h_output.begin(), n);
-    ASSERT_EQUAL(d_result - d_output.begin(), n);
+    ASSERT_EQUAL(std::size_t(h_result - h_output.begin()), n);
+    ASSERT_EQUAL(std::size_t(d_result - d_output.begin()), n);
     ASSERT_EQUAL(h_output, d_output);
     
     // in-place operation
     h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_input.begin(), thrust::plus<T>());
     d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_input.begin(), thrust::plus<T>());
 
-    ASSERT_EQUAL(h_result - h_input.begin(), n);
-    ASSERT_EQUAL(d_result - d_input.begin(), n);
+    ASSERT_EQUAL(std::size_t(h_result - h_input.begin()), n);
+    ASSERT_EQUAL(std::size_t(d_result - d_input.begin()), n);
     ASSERT_EQUAL(h_input, h_output); //computed previously
     ASSERT_EQUAL(d_input, d_output); //computed previously
 }
@@ -95,8 +95,8 @@ void TestAdjacentDifferenceInPlaceWithRelatedIteratorTypes(const size_t n)
     h_result = thrust::adjacent_difference(h_input.cbegin(), h_input.cend(), h_input.begin(), thrust::plus<T>());
     d_result = thrust::adjacent_difference(d_input.cbegin(), d_input.cend(), d_input.begin(), thrust::plus<T>());
 
-    ASSERT_EQUAL(h_result - h_input.begin(), n);
-    ASSERT_EQUAL(d_result - d_input.begin(), n);
+    ASSERT_EQUAL(std::size_t(h_result - h_input.begin()), n);
+    ASSERT_EQUAL(std::size_t(d_result - d_input.begin()), n);
     ASSERT_EQUAL(h_output, h_input); // reference computed previously
     ASSERT_EQUAL(d_output, d_input); // reference computed previously
 }

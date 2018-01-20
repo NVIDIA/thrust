@@ -23,7 +23,7 @@ void TestTransformUnarySimple(void)
 
     iter = thrust::transform(input.begin(), input.end(), output.begin(), thrust::negate<T>());
     
-    ASSERT_EQUAL(iter - output.begin(), input.size());
+    ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformUnarySimple);
@@ -97,7 +97,7 @@ void TestTransformIfUnaryNoStencilSimple(void)
                                 thrust::negate<T>(),
                                 thrust::identity<T>());
     
-    ASSERT_EQUAL(iter - output.begin(), input.size());
+    ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformIfUnaryNoStencilSimple);
@@ -188,7 +188,7 @@ void TestTransformIfUnarySimple(void)
                                 thrust::negate<T>(),
                                 thrust::identity<T>());
     
-    ASSERT_EQUAL(iter - output.begin(), input.size());
+    ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformIfUnarySimple);
@@ -275,7 +275,7 @@ void TestTransformBinarySimple(void)
 
     iter = thrust::transform(input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
     
-    ASSERT_EQUAL(iter - output.begin(), input1.size());
+    ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformBinarySimple);
@@ -363,7 +363,7 @@ void TestTransformIfBinarySimple(void)
                                 thrust::minus<T>(),
                                 thrust::not1(identity));
     
-    ASSERT_EQUAL(iter - output.begin(), input1.size());
+    ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());
     ASSERT_EQUAL(output, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformIfBinarySimple);

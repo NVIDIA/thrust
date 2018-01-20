@@ -111,7 +111,7 @@ void TestScanCudaStreams()
   cudaStreamSynchronize(s);
 
   result[0] = 1; result[1] = 4; result[2] = 2; result[3] = 6; result[4] = 1;
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(input,  input_copy);
   ASSERT_EQUAL(output, result);
   
@@ -120,7 +120,7 @@ void TestScanCudaStreams()
   cudaStreamSynchronize(s);
 
   result[0] = 0; result[1] = 1; result[2] = 4; result[3] = 2; result[4] = 6;
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(input,  input_copy);
   ASSERT_EQUAL(output, result);
   
@@ -129,7 +129,7 @@ void TestScanCudaStreams()
   cudaStreamSynchronize(s);
 
   result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(input,  input_copy);
   ASSERT_EQUAL(output, result);
   
@@ -138,7 +138,7 @@ void TestScanCudaStreams()
   cudaStreamSynchronize(s);
 
   result[0] = 1; result[1] = 4; result[2] = 2; result[3] = 6; result[4] = 1;
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(input,  input_copy);
   ASSERT_EQUAL(output, result);
 
@@ -147,7 +147,7 @@ void TestScanCudaStreams()
   cudaStreamSynchronize(s);
 
   result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
-  ASSERT_EQUAL(iter - output.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(input,  input_copy);
   ASSERT_EQUAL(output, result);
 
@@ -157,7 +157,7 @@ void TestScanCudaStreams()
   cudaStreamSynchronize(s);
 
   result[0] = 1; result[1] = 4; result[2] = 2; result[3] = 6; result[4] = 1;
-  ASSERT_EQUAL(iter - input.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - input.begin()), input.size());
   ASSERT_EQUAL(input, result);
 
   // inplace exclusive scan with init
@@ -166,7 +166,7 @@ void TestScanCudaStreams()
   cudaStreamSynchronize(s);
 
   result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
-  ASSERT_EQUAL(iter - input.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - input.begin()), input.size());
   ASSERT_EQUAL(input, result);
 
   // inplace exclusive scan with implicit init=0
@@ -175,7 +175,7 @@ void TestScanCudaStreams()
   cudaStreamSynchronize(s);
 
   result[0] = 0; result[1] = 1; result[2] = 4; result[3] = 2; result[4] = 6;
-  ASSERT_EQUAL(iter - input.begin(), input.size());
+  ASSERT_EQUAL(std::size_t(iter - input.begin()), input.size());
   ASSERT_EQUAL(input, result);
 
   cudaStreamDestroy(s);

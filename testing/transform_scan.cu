@@ -156,21 +156,21 @@ void TestTransformScanSimple(void)
     // inclusive scan
     iter = thrust::transform_inclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), thrust::plus<T>());
     result[0] = -1; result[1] = -4; result[2] = -2; result[3] = -6; result[4] = -1;
-    ASSERT_EQUAL(iter - output.begin(), input.size());
+    ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(input,  input_copy);
     ASSERT_EQUAL(output, result);
     
     // exclusive scan with 0 init
     iter = thrust::transform_exclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), 0, thrust::plus<T>());
     result[0] = 0; result[1] = -1; result[2] = -4; result[3] = -2; result[4] = -6;
-    ASSERT_EQUAL(iter - output.begin(), input.size());
+    ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(input,  input_copy);
     ASSERT_EQUAL(output, result);
     
     // exclusive scan with nonzero init
     iter = thrust::transform_exclusive_scan(input.begin(), input.end(), output.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
     result[0] = 3; result[1] = 2; result[2] = -1; result[3] = 1; result[4] = -3;
-    ASSERT_EQUAL(iter - output.begin(), input.size());
+    ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(input,  input_copy);
     ASSERT_EQUAL(output, result);
     
@@ -178,14 +178,14 @@ void TestTransformScanSimple(void)
     input = input_copy;
     iter = thrust::transform_inclusive_scan(input.begin(), input.end(), input.begin(), thrust::negate<T>(), thrust::plus<T>());
     result[0] = -1; result[1] = -4; result[2] = -2; result[3] = -6; result[4] = -1;
-    ASSERT_EQUAL(iter - input.begin(), input.size());
+    ASSERT_EQUAL(std::size_t(iter - input.begin()), input.size());
     ASSERT_EQUAL(input, result);
 
     // inplace exclusive scan with init
     input = input_copy;
     iter = thrust::transform_exclusive_scan(input.begin(), input.end(), input.begin(), thrust::negate<T>(), 3, thrust::plus<T>());
     result[0] = 3; result[1] = 2; result[2] = -1; result[3] = 1; result[4] = -3;
-    ASSERT_EQUAL(iter - input.begin(), input.size());
+    ASSERT_EQUAL(std::size_t(iter - input.begin()), input.size());
     ASSERT_EQUAL(input, result);
 }
 DECLARE_VECTOR_UNITTEST(TestTransformScanSimple);

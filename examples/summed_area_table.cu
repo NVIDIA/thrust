@@ -62,7 +62,7 @@ void transpose(size_t m, size_t n, thrust::device_vector<T>& src, thrust::device
 
 // scan the rows of an M-by-N array
 template <typename T>
-void scan_horizontally(size_t m, size_t n, thrust::device_vector<T>& d_data)
+void scan_horizontally(size_t n, thrust::device_vector<T>& d_data)
 {
   thrust::counting_iterator<size_t> indices(0);
 
@@ -99,7 +99,7 @@ int main(void)
   print(m, n, data);
 
   std::cout << "[step 1] scan horizontally" << std::endl;
-  scan_horizontally(m, n, data);
+  scan_horizontally(n, data);
   print(m, n, data);
 
   std::cout << "[step 2] transpose array" << std::endl;
@@ -108,7 +108,7 @@ int main(void)
   print(n, m, temp);
 
   std::cout << "[step 3] scan transpose horizontally" << std::endl;
-  scan_horizontally(n, m, temp);
+  scan_horizontally(m, temp);
   print(n, m, temp);
 
   std::cout << "[step 4] transpose the transpose" << std::endl;

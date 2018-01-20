@@ -51,7 +51,7 @@ __global__ void return_temporary_buffer_kernel(Pointer ptr)
 
 void TestGetTemporaryBufferDeviceSeq()
 {
-  const size_t n = 9001;
+  const std::ptrdiff_t n = 9001;
 
   typedef thrust::pointer<int, thrust::detail::seq_t> pointer;
   typedef thrust::pair<pointer, std::ptrdiff_t> ptr_and_sz_type;
@@ -94,7 +94,7 @@ __global__ void free_kernel(Pointer ptr)
 
 void TestMallocDeviceSeq()
 {
-  const size_t n = 9001;
+  const std::ptrdiff_t n = 9001;
 
   typedef thrust::pointer<int, thrust::detail::seq_t> pointer;
   thrust::device_vector<pointer> d_result(1);
