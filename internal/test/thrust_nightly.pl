@@ -404,7 +404,7 @@ sub run_examples {
         print @output;
         print "########################################\n";
         if ($ret != 0) {
-            print "#### ERROR : $test returned non-zero. Test crash?\n";
+            print "#### ERROR : $test returned $ret. Test crash?\n";
             printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
             $errors = $errors + 1;
         } else {
@@ -570,7 +570,7 @@ sub run_unit_tests {
             }
         } elsif ($fail == 0 and $error == 0) {
             $errors = $errors + 1;
-            print "#### ERROR : $test returned non-zero but had no failures or errors. Test crash?\n";
+            print "#### ERROR : $test returned $ret but had no failures or errors. Test crash?\n";
             printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
         }
         print "\n";
