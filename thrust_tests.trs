@@ -13,7 +13,7 @@
   # Default working directory for test runs (optional). The directory can be a an absolute
   # or relative path. A relative path is relative to this file's location. Variables can
   # be used in the path using the {var} syntax.
-  #"cwd"         : "{TR_TESTSUITE_DIR}",
+  "cwd"         : "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}",
   # Timeout for entire testsuite, in seconds (optional). If not timeout is specified the
   # default timeout value of 900 seconds will be used.
   "timeout"     : "12000",
@@ -23,7 +23,7 @@
   "tests"       : [
     
     {
-      "exe" : "thrust_nightly.pl -bin-path=${TR_TESTSUITE_DIR} -filecheck-data-path=${TR_TESTSUITE_DIR}/filecheck_data -filecheck-path=${TR_INSTALL_DIR}/cuda/_internal/compiler/nvvm/tools"
+      "exe" : "{TR_TESTSUITE_DIR}/internal/test/thrust_nightly.pl -bin-path={TR_INSTALL_DIR}/bin/{TR_ARCH_PATH} -filecheck-data-path={TR_TESTSUITE_DIR}/internal/test -filecheck-path={TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}/nvvm/tools"
     }
     
   ]
