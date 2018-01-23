@@ -36,24 +36,63 @@ endif
 GENERATED_SOURCES = $(BUILT_CWD)
 CUDACC_FLAGS += -I$(GENERATED_SOURCES)
 
-ifeq ($(OS),Linux)
-    ifndef USEPGCXX
-        CUDACC_FLAGS += -Xcompiler "-pedantic -Wall -Wextra -Winit-self -Woverloaded-virtual -Wcast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros"
- 
-        ifdef USEXLC
-            # GCC does not warn about unused parameters in uninstantiated
-            # template functions, but xlC does. This causes xlC to choke on the
-            # OMP backend, which is mostly #ifdef'd out when you aren't using it.
-            CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
-        else
-            # xlC doesn't support these options.
-            GCC_VERSION = $(shell $(CC) -dumpversion | sed -e 's/\.//g')
-            ifeq ($(shell if test $(GCC_VERSION) -ge 430; then echo true; fi),true)
-                # These two were added in GCC 4.3.
-                CUDACC_FLAGS += -Xcompiler "-Wlogical-op -Wno-vla"
-            endif
+ifeq ($(OS),$(filter $(OS),Linux Darwin))
+  ifndef USEPGCXX
+    CUDACC_FLAGS += -Xcompiler "-pedantic -Wall -Wextra -Werror"
+
+    ifdef USEXLC
+      # GCC does not warn about unused parameters in uninstantiated
+      # template functions, but xlC does. This causes xlC to choke on the
+      # OMP backend, which is mostly #ifdef'd out when you aren't using it.
+      CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
+    else
+      # XXX Enable -Wcast-align.
+      CUDACC_FLAGS += -Xcompiler "-Winit-self -Woverloaded-virtual -Wno-cast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros"
+
+      ifdef USE_CLANGLLVM
+        IS_CLANG = 1
+      endif
+
+      ifeq ($(OS),Darwin)
+        IS_CLANG = 1
+      endif
+
+      ifdef IS_CLANG 
+        # -Wunneeded-internal-declaration misfires in the unit test framework
+        # on older versions of Clang.
+        CUDACC_FLAGS += -Xcompiler "-Wno-unneeded-internal-declaration"
+
+        # GCC does not warn about unused parameters in uninstantiated
+        # template functions, but Clang does. This causes Clang to choke on the
+        # OMP backend, which is mostly #ifdef'd out when you aren't using it.
+        CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
+      else # GCC
+        GCC_VERSION = $(shell $(CC) -dumpversion | sed -e 's/\.//g')
+        ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
+					# In GCC 4.1.2 and older, numeric conversion warnings are not
+					# suppressable, so shut off -Wno-error. 
+          CUDACC_FLAGS += -Xcompiler "-Wno-error"
         endif
+        ifeq ($(shell if test $(GCC_VERSION) -ge 430; then echo true; fi),true)
+          CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
+        endif
+      endif
     endif
+  endif
+else ifeq ($(OS),win32)
+  # XXX Enable /Wall
+  CUDACC_FLAGS += -Xcompiler "/WX"
+
+  # Disabled loss-of-data conversion warnings.
+  # XXX Re-enable.
+  CUDACC_FLAGS += -Xcompiler "/wd4244 /wd4267"
+
+  # Suppress numeric conversion-to-bool warnings.
+  # XXX Re-enable.
+  CUDACC_FLAGS += -Xcompiler "/wd4800"
+
+  # Disable warning about applying unary - to unsigned type.
+  CUDACC_FLAGS += -Xcompiler "/wd4146"
 endif
 
 ifdef VULCAN_TOOLKIT_BASE

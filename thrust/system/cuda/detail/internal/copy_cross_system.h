@@ -102,8 +102,8 @@ namespace __copy {
 
     trivial_device_copy(derived_cast(sys1),
                         derived_cast(sys2),
-                        (InputTy*)thrust::raw_pointer_cast(&*result),
-                        (InputTy*)thrust::raw_pointer_cast(&*begin),
+                        reinterpret_cast<InputTy*>(thrust::raw_pointer_cast(&*result)),
+                        reinterpret_cast<InputTy const*>(thrust::raw_pointer_cast(&*begin)),
                         n);
 
     return result + n;

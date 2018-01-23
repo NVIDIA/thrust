@@ -201,7 +201,7 @@ template<typename T>
      *  \return This method always returns \c true.
      */
     __host__ __device__
-    inline bool operator==(pinned_allocator const& x) { return true; }
+    inline bool operator==(pinned_allocator const&) { return true; }
 
     /*! This method tests this \p pinned_allocator for inequality
      *  to another.

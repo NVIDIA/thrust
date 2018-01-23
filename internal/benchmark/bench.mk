@@ -1,27 +1,18 @@
-USE_NEW_PROJECT_MK := 1
-EXECUTABLE        := bench
-PROJ_DIR          := internal/benchmark
+EXECUTABLE := bench
+BUILD_SRC  := $(ROOTDIR)/thrust/internal/benchmark/bench.cu
 
-include $(ROOTDIR)/build/config/DetectOS.mk
-
-CU_FILES += bench.cu
-
-# Thrust includes
-INCLUDES += ../../
-
-I_AM_SLOPPY = 1
-
-CUDACC_FLAGS += -DNO_TBB
-CUDACC_FLAGS += $(GENSASS_SM10PLUS)
+BUILD_SRC_FLAGS += -DNO_TBB
+BUILD_SRC_FLAGS += $(GENSASS_SM10PLUS)
 
 LDFLAGS += -lm
 
 ifeq ($(OS),Linux)
-ifeq ($(ABITYPE), androideabi)
+  ifeq ($(ABITYPE), androideabi)
     override ALL_SASS_ARCHITECTURES := 32
-    CUDACC_FLAGS += $(GENSASS_SM32)
+    BUILD_SRC_FLAGS += $(GENSASS_SM32)
+  endif
 endif
-endif
+
 ARCH_NEG_FILTER += 20 21
 
-include $(ROOTDIR)/build/common.mk
+include $(ROOTDIR)/thrust/internal/build/common_build.mk

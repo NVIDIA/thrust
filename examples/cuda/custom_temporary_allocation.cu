@@ -66,7 +66,7 @@ class cached_allocator
           // allocate memory and convert cuda::pointer to raw pointer
           result = thrust::cuda::malloc<char>(num_bytes).get();
         }
-        catch(std::runtime_error &e)
+        catch(std::runtime_error&)
         {
           throw;
         }

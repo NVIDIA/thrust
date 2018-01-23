@@ -137,7 +137,7 @@ template<typename T>
      *        allocated with \p allocate.
      */
     __host__
-    inline void deallocate(pointer p, size_type cnt)
+    inline void deallocate(pointer p, size_type)
     {
       // use "::operator delete" rather than keyword delete
       device_delete(p);

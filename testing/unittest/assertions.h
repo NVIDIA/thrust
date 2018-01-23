@@ -29,10 +29,10 @@
 namespace unittest
 {
 
-static size_t MAX_OUTPUT_LINES = 10;
+size_t const MAX_OUTPUT_LINES = 10;
 
-static double DEFAULT_RELATIVE_TOL = 1e-4;
-static double DEFAULT_ABSOLUTE_TOL = 1e-4;
+double const DEFAULT_RELATIVE_TOL = 1e-4;
+double const DEFAULT_ABSOLUTE_TOL = 1e-4;
 
 template<typename T>
   struct value_type

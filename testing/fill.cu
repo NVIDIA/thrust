@@ -69,14 +69,14 @@ void TestFillMixedTypes(void)
 {
     Vector v(4);
 
-    thrust::fill(v.begin(), v.end(), (long) 10);
+    thrust::fill(v.begin(), v.end(), bool(true));
     
-    ASSERT_EQUAL(v[0], 10);
-    ASSERT_EQUAL(v[1], 10);
-    ASSERT_EQUAL(v[2], 10);
-    ASSERT_EQUAL(v[3], 10);
+    ASSERT_EQUAL(v[0], 1);
+    ASSERT_EQUAL(v[1], 1);
+    ASSERT_EQUAL(v[2], 1);
+    ASSERT_EQUAL(v[3], 1);
     
-    thrust::fill(v.begin(), v.end(), (float) 20);
+    thrust::fill(v.begin(), v.end(), char(20));
     
     ASSERT_EQUAL(v[0], 20);
     ASSERT_EQUAL(v[1], 20);
@@ -191,15 +191,15 @@ void TestFillNMixedTypes(void)
 {
     Vector v(4);
 
-    typename Vector::iterator iter = thrust::fill_n(v.begin(), v.size(), (long) 10);
+    typename Vector::iterator iter = thrust::fill_n(v.begin(), v.size(), bool(true));
     
-    ASSERT_EQUAL(v[0], 10);
-    ASSERT_EQUAL(v[1], 10);
-    ASSERT_EQUAL(v[2], 10);
-    ASSERT_EQUAL(v[3], 10);
+    ASSERT_EQUAL(v[0], 1);
+    ASSERT_EQUAL(v[1], 1);
+    ASSERT_EQUAL(v[2], 1);
+    ASSERT_EQUAL(v[3], 1);
     ASSERT_EQUAL_QUIET(v.end(), iter);
     
-    iter = thrust::fill_n(v.begin(), v.size(), (float) 20);
+    iter = thrust::fill_n(v.begin(), v.size(), char(20));
     
     ASSERT_EQUAL(v[0], 20);
     ASSERT_EQUAL(v[1], 20);

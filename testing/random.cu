@@ -769,7 +769,9 @@ template<typename Distribution, typename Validator>
     // test Distribution with smaller range than engine
 
     // test host
+    __THRUST_DISABLE_MSVC_WARNING_BEGIN(4305) // Truncation warning.
     typename Distribution::result_type engine_range = Engine::max - Engine::min;
+    __THRUST_DISABLE_MSVC_WARNING_END(4305)
     thrust::generate(h.begin(), h.end(), Validator(Distribution(engine_range/3, (2 * engine_range)/3)));
 
     ASSERT_EQUAL(true, h[0]);
