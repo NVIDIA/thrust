@@ -23,7 +23,8 @@
   "tests"       : [
     
     {
-      "exe" : "thrust_nightly.pl -bin-path=${TR_TESTSUITE_DIR} -filecheck-data-path=${TR_TESTSUITE_DIR}/filecheck_data -filecheck-path=${TR_INSTALL_DIR}/cuda/_internal/compiler/nvvm/tools"
+      "exe" : "${PERL} thrust_nightly.pl -bin-path=${TR_TESTSUITE_DIR} -filecheck-data-path=${TR_TESTSUITE_DIR}/filecheck_data -filecheck-path=${TR_INSTALL_DIR}/cuda/_internal/compiler/nvvm/tools",
+	  "attributes" : [ "result=multi" ]
     }
     
   ]
