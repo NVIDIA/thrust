@@ -46,13 +46,15 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         # on older versions of Clang.
         CUDACC_FLAGS += -Xcompiler "-Wno-unneeded-internal-declaration"
       else # GCC
-        GCC_VERSION = $(shell $(CC) -dumpversion | sed -e 's/\.//g')
+        GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\.//g')
         ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
-					# In GCC 4.1.2 and older, numeric conversion warnings are not
-					# suppressable, so shut off -Wno-error. 
+          # In GCC 4.1.2 and older, numeric conversion warnings are not
+          # suppressable, so shut off -Wno-error. 
           CUDACC_FLAGS += -Xcompiler "-Wno-error"
         endif
-        ifeq ($(shell if test $(GCC_VERSION) -ge 430; then echo true; fi),true)
+        ifeq ($(shell if test $(GCC_VERSION) -ge 450; then echo true; fi),true)
+          # This isn't available until GCC 4.3, and misfires on TMP code until
+          # GCC 4.5. 
           CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
         endif
       endif
