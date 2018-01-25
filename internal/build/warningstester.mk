@@ -45,7 +45,7 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
       # template functions, but xlC does. This causes xlC to choke on the
       # OMP backend, which is mostly #ifdef'd out when you aren't using it.
       CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
-    else
+    else # GCC, ICC or Clang AKA the sane ones.
       # XXX Enable -Wcast-align.
       CUDACC_FLAGS += -Xcompiler "-Winit-self -Woverloaded-virtual -Wno-cast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros"
 
@@ -70,12 +70,12 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\.//g')
         ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
           # In GCC 4.1.2 and older, numeric conversion warnings are not
-          # suppressable, so shut off -Wno-error. 
+          # suppressable, so shut off -Wno-error.
           CUDACC_FLAGS += -Xcompiler "-Wno-error"
         endif
         ifeq ($(shell if test $(GCC_VERSION) -ge 450; then echo true; fi),true)
           # This isn't available until GCC 4.3, and misfires on TMP code until
-          # GCC 4.5. 
+          # GCC 4.5.
           CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
         endif
       endif

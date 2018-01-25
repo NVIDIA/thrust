@@ -24,7 +24,7 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
       # template functions, but xlC does. This causes xlC to choke on the
       # OMP backend, which is mostly #ifdef'd out when you aren't using it.
       CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
-    else # GCC, ICC or Clang.
+    else # GCC, ICC or Clang AKA the sane ones.
       # XXX Enable -Wcast-align and -Wcast-qual.
       CUDACC_FLAGS += -Xcompiler "-Winit-self -Woverloaded-virtual -Wno-cast-align -Wno-long-long -Wno-variadic-macros"
 
@@ -46,16 +46,18 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         # on older versions of Clang.
         CUDACC_FLAGS += -Xcompiler "-Wno-unneeded-internal-declaration"
       else # GCC
-        GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\.//g')
-        ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
-          # In GCC 4.1.2 and older, numeric conversion warnings are not
-          # suppressable, so shut off -Wno-error. 
-          CUDACC_FLAGS += -Xcompiler "-Wno-error"
-        endif
-        ifeq ($(shell if test $(GCC_VERSION) -ge 450; then echo true; fi),true)
-          # This isn't available until GCC 4.3, and misfires on TMP code until
-          # GCC 4.5. 
-          CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
+        ifdef CCBIN
+          GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\.//g')
+          ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
+            # In GCC 4.1.2 and older, numeric conversion warnings are not
+            # suppressable, so shut off -Wno-error.
+            CUDACC_FLAGS += -Xcompiler "-Wno-error"
+          endif
+          ifeq ($(shell if test $(GCC_VERSION) -ge 450; then echo true; fi),true)
+            # This isn't available until GCC 4.3, and misfires on TMP code until
+            # GCC 4.5.
+            CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
+          endif
         endif
       endif
     endif
@@ -146,8 +148,8 @@ else
   INCLUDES_ABSPATH += $(ROOTDIR)/thrust
 endif
 
-ifdef ERIS_TEST_LEVELS
-  LIBDIRS_ABSPATH  += ${VULCAN_BUILD_DIR}/bin/${VULCAN_ARCH}_${VULCAN_OS}${VULCAN_ABI}_${VULCAN_BUILD}
+ifdef VULCAN
+  LIBDIRS_ABSPATH  += $(VULCAN_BUILD_DIR)/bin/$(VULCAN_ARCH)_$(VULCAN_OS)$(VULCAN_ABI)_$(VULCAN_BUILD)
 endif
 
 ifdef VULCAN_TOOLKIT_BASE

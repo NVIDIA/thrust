@@ -31,6 +31,6 @@
   # agent is invoked to perform component actions.
   "agent"     : {
                   "CUDA_MAKE" : "Makefile", "build_target" : "all", "clean_target" : "clean",
-                  "args" : [ "TEST_EXAMPLES=1", "TEST_OTHER=1",  "ERIS_TEST_LEVELS=L1"]
+                  "args" : [ "TEST_ALL=1" ]
                 }
 }

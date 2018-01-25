@@ -8,16 +8,25 @@
 #include <algorithm>
 #include <numeric>
 
+#include <map>
+#include <string>
+#include <exception>
+
+#include <cstdlib>    // For atoi.
 #include <cstdio>     // For printf.
 #include <climits>    // For CHAR_BIT.
+#include <cmath>      // For sqrt and fabs.
 
 #include <stdint.h>   // For intN_t.
-#include <math.h>     // For sqrt and fabs.
 #include "random.h"
 #include "timer.h"
 
 #if defined(HAVE_TBB)
   #include "tbb_algos.h"
+#endif
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+  #include <cuda_runtime.h> // For cudaSetDevice.
 #endif
 
 // We don't use THRUST_PP_STRINGIZE and THRUST_PP_CAT because they are new, and
@@ -152,7 +161,7 @@ T sample_standard_deviation(InputIt first, InputIt last, T average)
   value_and_count<T> vc
     = thrust::transform_reduce(first, last, transform, init_vc, reduce_vc);
 
-  return sqrt(vc.value / T(vc.count - 1));
+  return std::sqrt(vc.value / T(vc.count - 1));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -175,7 +184,8 @@ T uncertainty_multiplicative(
   , T const& B, T const& B_unc
     )
 {
-  return fabs(f) * sqrt((A_unc / A) * (A_unc / A) + (B_unc / B) * (B_unc / B));
+  return std::fabs(f)
+       * std::sqrt((A_unc / A) * (A_unc / A) + (B_unc / B) * (B_unc / B));
 }
 
 // Given f = aA + bB (where a and b are constants), the uncertainty in f is
@@ -190,7 +200,7 @@ T uncertainty_additive(
   , T const& b, T const& B_unc
     )
 {
-  return sqrt((a * a * A_unc * A_unc) + (b * b * B_unc * B_unc));
+  return std::sqrt((a * a * A_unc * A_unc) + (b * b * B_unc * B_unc));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -222,7 +232,7 @@ void print_experiment_header()
                                  #endif
                                  "\n";
 
-  printf(
+  std::printf(
       header_fmt
     , "Thrust Version"
     , "Algorithm"
@@ -249,7 +259,7 @@ void print_experiment_header()
     #endif
   );
 
-  printf(
+  std::printf(
       header_fmt
     , ""                // Thrust Version.
     , ""                // Algorithm.
@@ -887,12 +897,174 @@ void run_and_print_core_primitives_experiments()
 
 ///////////////////////////////////////////////////////////////////////////////
 
-int main()
+struct command_line_option_error 
 {
+  virtual ~command_line_option_error() {}
+  virtual const char* what() const = 0;
+};
+
+struct only_one_option_allowed : command_line_option_error
+{
+  // Construct a new `only_one_option_allowed` exception. `key` is the
+  // option name and `[first, last)` is a sequence of
+  // `std::pair<std::string const, std::string>`s (the values).
+  template <typename InputIt>
+  only_one_option_allowed(std::string const& key, InputIt first, InputIt last)
+    : message()
+  {
+    message  = "Only one `--";
+    message += key;
+    message += "` option is allowed, but multiple were received: ";
+ 
+    for (; first != last; ++first)
+    {
+      message += "`";
+      message += (*first).second;
+      message += "` ";
+    }
+
+    // Remove the trailing space added by the last iteration of the above loop.
+    message.erase(message.size() - 1, 1);
+
+    message += ".";
+  }
+
+  virtual ~only_one_option_allowed() {}
+
+  virtual const char* what() const
+  {
+    return message.c_str();
+  }
+
+private:
+  std::string message;
+};
+
+struct required_option_missing : command_line_option_error
+{
+  // Construct a new `requirement_option_missing` exception. `key` is the
+  // option name.
+  required_option_missing(std::string const& key)
+    : message()
+  {
+    message  = "`--";
+    message += key;
+    message += "` option is required.";
+  }
+
+  virtual ~required_option_missing() {}
+
+  virtual const char* what() const
+  {
+    return message.c_str();
+  }
+
+private:
+  std::string message;
+};
+
+struct command_line_processor
+{
+  typedef std::vector<std::string> positional_options_type;
+
+  typedef std::multimap<std::string, std::string> keyword_options_type;
+
+  typedef std::pair<
+    keyword_options_type::const_iterator
+  , keyword_options_type::const_iterator
+  > keyword_option_values;
+
+  command_line_processor(int argc, char** argv)
+    : pos_args(), kw_args()
+  { // {{{
+    for (int i = 1; i < argc; ++i)
+    {
+      std::string arg(argv[i]);
+
+      // Look for --key or --key=value options.
+      if (arg.substr(0, 2) == "--")
+      {
+        std::string::size_type n = arg.find('=', 2);
+
+        keyword_options_type::value_type key_value;
+
+        if (n == std::string::npos) // --key
+          kw_args.insert(keyword_options_type::value_type(
+            arg.substr(2), ""
+          ));
+        else                        // --key=value
+          kw_args.insert(keyword_options_type::value_type(
+            arg.substr(2, n - 2), arg.substr(n + 1)
+          ));
+
+        kw_args.insert(key_value);
+      }
+      else // Assume it's positional.
+        pos_args.push_back(arg);
+    }
+  } // }}}
+
+  // Return the value for option `key`.
+  //
+  // Throws:
+  // * `only_one_option_allowed` if there is more than one value for `key`.
+  // * `required_option_missing` if there is no value for `key`.
+  std::string operator()(std::string const& key) const
+  {
+    keyword_option_values v = kw_args.equal_range(key);
+
+    keyword_options_type::difference_type d = std::distance(v.first, v.second);
+
+    if      (1 < d)  // Too many options.
+      throw only_one_option_allowed(key, v.first, v.second);
+    else if (0 == d) // No option.
+      throw required_option_missing(key);
+
+    return (*v.first).second;
+  }
+
+  // Return the value for option `key`, or `dflt` if `key` has no value.
+  //
+  // Throws: `only_one_option_allowed` if there is more than one value for `key`.
+  std::string operator()(std::string const& key, std::string const& dflt) const
+  {
+    keyword_option_values v = kw_args.equal_range(key);
+
+    keyword_options_type::difference_type d = std::distance(v.first, v.second);
+
+    if (1 < d)  // Too many options.
+      throw only_one_option_allowed(key, v.first, v.second);
+
+    if (0 == d) // No option.
+      return dflt;
+    else        // 1 option.
+      return (*v.first).second;
+  }
+
+private:
+  positional_options_type pos_args;
+  keyword_options_type    kw_args;
+};
+
+///////////////////////////////////////////////////////////////////////////////
+
+int main(int argc, char** argv)
+{
+  command_line_processor clp(argc, argv);
+
   #if defined(HAVE_TBB)
   tbb::task_scheduler_init init;
 
   test_tbb();
+  #endif
+
+  #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+    // Set the CUDA device to use for the benchmark - `0` by default.
+
+    int device = std::atoi(clp("device", "0").c_str());
+    // `std::atoi` returns 0 if the conversion fails.
+
+    cudaSetDevice(device);    
   #endif
 
   print_experiment_header();
