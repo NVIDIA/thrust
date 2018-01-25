@@ -23,6 +23,7 @@
   # artifact kinds.
   "artifacts" : [
                   { "${THRUST_TESTS_BIN_DIR}/bench" : "cuda/_tests/thrust_perf_tests/.", "kind": "EXE" },
+                  { "internal/benchmark/combine_benchmark_results.py" : "cuda/_tests/thrust_perf_tests/." },
                   { "internal/scripts/eris_perf.py" : "cuda/_tests/thrust_perf_tests/." },
                   { "thrust_perf_tests.vlct"        : "cuda/_tests/thrust_perf_tests/.", "kind": "TESTSUITE" }
                 ],

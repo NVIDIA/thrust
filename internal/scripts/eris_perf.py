@@ -6,72 +6,115 @@
 
 import argparse
 import os
+import sys
+import csv
 import subprocess
-from collections import defaultdict
 
-TEST_NAME = 'bench'
+TEST_NAME = "bench"
+OUTPUT_FILE_NAME = lambda i: TEST_NAME + "_" + str(i) + ".csv"
+COMBINED_OUTPUT_FILE_NAME = TEST_NAME + "_combined.csv"
+POSTPROCESS_NAME = "combine_benchmark_results.py"
 
+parser = argparse.ArgumentParser(description='ERIS wrapper script for Thrust benchmarks')
+parser.add_argument(
+  '-n', '--numloops', default=5, type=int,
+  metavar='N', help='Run the benchmark N times.'
+)
+args = parser.parse_args()
 
-def collect_perf_data(text, scores):
-    test_prefix = ''
-    for line in text.splitlines():
-        if 'Performance' in line:
-            test_prefix = line.split('(')[0].replace(' ', '').replace('-', '')
-        elif 'Benchmarking with input size' not in line and 'Thrust' not in line:
-            # An example test log snippet
-            # Core Primitive Performance for 32-bit integer (elements per second)
-            #       Algorithm,          STL,    TBB (n/a),       Thrust
-            #          reduce,   4546060288,            0,  27218771968
+print '&&&& RUNNING {0}'.format(TEST_NAME)
+assert args.numloops > 0
+test_cmd = os.path.join(os.path.dirname(os.path.realpath(__file__)), TEST_NAME)
 
-            # We concatenate the generic target name and the algorithm
-            # name as the perf subtest name. The fourth column is the
-            # score of Thrust implementation.
-            test_name = test_prefix + '_' + line.split(',')[0].strip()
-            score = int(line.split(',')[3].strip())
-            scores[test_name] += score
+for i in xrange(args.numloops):
+    with open(OUTPUT_FILE_NAME(i), "w") as output_file:
+      print '#### RUN {0} -> {1}'.format(i, OUTPUT_FILE_NAME(i))
 
+      p = None
 
-def dump_perf_results(scores, numloops):
-    print 'Performance result in compact view:'
-    for (test_name, score) in sorted(scores.items()):
-        print '&&&& PERF {0} {1} {2}'.format(test_name,
-                                             float(score) / numloops,
-                                             'elementsPerSecond')
+      try:
+          p = subprocess.Popen(test_cmd, stdout=output_file, stderr=output_file)
+          p.communicate()
+      except OSError as ex:
+          with open(OUTPUT_FILE_NAME(i)) as error_file:
+            for line in error_file:
+              print line,
+          print '#### ERROR : Caught OSError `{0}`.'.format(ex)
+          print '&&&& FAILED {0}'.format(TEST_NAME)
+          sys.exit(-1)
 
+    with open(OUTPUT_FILE_NAME(i)) as input_file:
+      for line in input_file:
+        print line,
 
-def main():
-    parser = argparse.ArgumentParser(description='Wrapper test script for Thrust benchmark app')
-    parser.add_argument(
-            '-n', '--numloops', default=5, type=int,
-            metavar='N', help='Run the benchmark for N times')
-    args = parser.parse_args()
+    if p.returncode != 0:
+        print '#### ERROR : Process exited with code {0}.'.format(p.returncode)
+        print '&&&& FAILED {0} {1}'.format(TEST_NAME, POSTPROCESS_NAME)
+        sys.exit(p.returncode)
 
-    print '&&&& RUNNING {0}'.format(TEST_NAME)
-    assert args.numloops > 0
-    test_cmd = os.path.join(os.path.dirname(os.path.realpath(__file__)), TEST_NAME)
-    scores = defaultdict(float)
-    for i in xrange(args.numloops):
-        print 'Test loop {0}'.format(i+1)
-        p = subprocess.Popen(test_cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        try:
-            out, err = p.communicate()
-        except OSError as ex:
-            print 'Failed to run Thrust benchmark: {0}'.format(ex)
-            print '&&&& FAILED {0}'.format(TEST_NAME)
-            return -1
+print '&&&& PASSED {0}'.format(TEST_NAME)
 
-        print out
+post_cmd = [os.path.join(os.path.dirname(os.path.realpath(__file__)), POSTPROCESS_NAME)]
 
-        try:
-            collect_perf_data(out, scores)
-        except Exception as ex:
-            print 'Failed to parse the performance results from the test output: {0}'.format(ex)
-            print '&&&& FAILED {0}'.format(TEST_NAME)
-            return -1
+post_cmd += ["--dependent-variable=STL Average Walltime,STL Walltime Uncertainty,STL Trials"]
+post_cmd += ["--dependent-variable=STL Average Throughput,STL Throughput Uncertainty,STL Trials"]
+post_cmd += ["--dependent-variable=Thrust Average Walltime,Thrust Walltime Uncertainty,Thrust Trials"]
+post_cmd += ["--dependent-variable=Thrust Average Throughput,Thrust Throughput Uncertainty,Thrust Trials"]
 
-    dump_perf_results(scores, args.numloops)
-    print '&&&& PASSED {0}'.format(TEST_NAME)
+post_cmd += [OUTPUT_FILE_NAME(i) for i in range(args.numloops)] 
 
+printable_cmd = ' '.join(map(lambda e: '"' + str(e) + '"', post_cmd))
+print '&&&& RUNNING {0}'.format(printable_cmd)
 
-if __name__ == '__main__':
-    main()
+with open(COMBINED_OUTPUT_FILE_NAME, "w") as output_file:
+    p = None
+
+    try:
+        p = subprocess.Popen(post_cmd, stdout=output_file, stderr=output_file)
+        p.communicate()
+    except OSError as ex:
+        with open(COMBINED_OUTPUT_FILE_NAME) as error_file:
+          for line in error_file:
+            print line,
+        print '#### ERROR : Caught OSError `{0}`.'.format(ex)
+        print '&&&& FAILED {0}'.format(printable_cmd)
+        sys.exit(-1)
+
+    with open(COMBINED_OUTPUT_FILE_NAME) as input_file:
+      for line in input_file:
+        print line,
+
+    if p.returncode != 0:
+        print '#### ERROR : Process exited with code {0}.'.format(p.returncode)
+        print '&&&& FAILED {0}'.format(printable_cmd)
+        sys.exit(p.returncode)
+
+    with open(COMBINED_OUTPUT_FILE_NAME) as input_file:
+      reader = csv.DictReader(input_file)
+
+      variable_units = reader.next() # Get units header row
+
+      distinguishing_variables = reader.fieldnames
+
+      measured_variables = [
+        ("STL Average Walltime",      "-"),
+        ("STL Average Throughput",    "+"),
+        ("Thrust Average Walltime",   "-"),
+        ("Thrust Average Throughput", "+")
+      ]
+
+      for record in reader:
+        for variable, directionality in measured_variables:
+          print "&&&& PERF {0}_{1}_{2}bit_{3}mib_{4} {5} {6}{7}".format(
+            record["Algorithm"],
+            record["Element Type"],
+            record["Element Size"],
+            record["Total Input Size"],
+            variable.replace(" ", "_").lower(),
+            record[variable],
+            directionality,
+            variable_units[variable]
+          )
+                  
+print '&&&& PASSED {0}'.format(printable_cmd)
+

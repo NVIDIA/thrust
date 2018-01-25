@@ -251,28 +251,28 @@ void print_experiment_header()
 
   printf(
       header_fmt
-    , ""                  // Thrust Version.
-    , ""                  // Algorithm.
-    , ""                  // Element Type.
-    , "[bits/element]"    // Element Size.
-    , "[elements]"        // Elements per Trial.
-    , "[MiBs]"            // Total Input Size.
-    , "[trials]"          // STL Trials.
-    , "[secs]"            // STL Average Walltime.
-    , "[secs]"            // STL Walltime Uncertainty.
-    , "[elements/sec]"    // STL Average Throughput.
-    , "[elements/sec]"    // STL Throughput Uncertainty.
-    , "[trials]"          // Thrust Trials.
-    , "[secs]"            // Thrust Average Walltime.
-    , "[secs]"            // Thrust Walltime Uncertainty.
-    , "[elements/sec]"    // Thrust Average Throughput.
-    , "[elements/sec]"    // Thrust Throughput Uncertainty.
+    , ""                // Thrust Version.
+    , ""                // Algorithm.
+    , ""                // Element Type.
+    , "bits/element"    // Element Size.
+    , "elements"        // Elements per Trial.
+    , "MiBs"            // Total Input Size.
+    , "trials"          // STL Trials.
+    , "secs"            // STL Average Walltime.
+    , "secs"            // STL Walltime Uncertainty.
+    , "elements/sec"    // STL Average Throughput.
+    , "elements/sec"    // STL Throughput Uncertainty.
+    , "trials"          // Thrust Trials.
+    , "secs"            // Thrust Average Walltime.
+    , "secs"            // Thrust Walltime Uncertainty.
+    , "elements/sec"    // Thrust Average Throughput.
+    , "elements/sec"    // Thrust Throughput Uncertainty.
     #if defined(HAVE_TBB)
-    , "[trials]"          // TBB Trials.
-    , "[secs]"            // TBB Average Walltime.
-    , "[secs]"            // TBB Walltime Uncertainty.
-    , "[elements/sec]"    // TBB Average Throughput.
-    , "[elements/sec]"    // TBB Throughput Uncertainty.
+    , "trials"          // TBB Trials.
+    , "secs"            // TBB Average Walltime.
+    , "secs"            // TBB Walltime Uncertainty.
+    , "elements/sec"    // TBB Average Throughput.
+    , "elements/sec"    // TBB Throughput Uncertainty.
     #endif
   );
 } // }}}
@@ -675,7 +675,7 @@ struct sort_tester
 template <typename T>
 struct transform_inplace_tester
 {
-  static char const* test_name() { return "transform inplace"; }
+  static char const* test_name() { return "transform_inplace"; }
 
   struct std_trial : inplace_trial_base<std::vector<T>, baseline_trial>
   {
@@ -713,7 +713,7 @@ struct transform_inplace_tester
 template <typename T>
 struct inclusive_scan_inplace_tester 
 {
-  static char const* test_name() { return "inclusive_scan inplace"; }
+  static char const* test_name() { return "inclusive_scan_inplace"; }
 
   struct std_trial : inplace_trial_base<std::vector<T>, baseline_trial>
   {
@@ -815,7 +815,7 @@ void run_and_print_core_primitives_experiments_for_type()
   experiment_driver<
       sort_tester
     , ElementMetaType
-    , (Elements >> 5) // Sorting is more sensitive to element count than
+    , (Elements >> 6) // Sorting is more sensitive to element count than
                       // memory footprint.
     , BaselineTrials
     , RegularTrials

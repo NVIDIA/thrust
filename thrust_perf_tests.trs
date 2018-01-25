@@ -12,9 +12,9 @@
   # Default working directory for test runs (optional).
   #"cwd"        : "{TR_TESTSUITE_DIR}",
   # Timeout for entire testsuite, in seconds (optional).
-  "timeout"     : "600",
+  "timeout"     : "3600",
   # Default timeout for individual tests, in seconds (optional).
-  "testtimeout" : "600",
+  "testtimeout" : "3600",
   # The tests in the testsuite (required).
   "tests" : [
       {
