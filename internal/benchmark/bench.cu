@@ -346,21 +346,21 @@ struct experiment_driver
     char const* const entry_fmt  =  "%i"   // Thrust Version.
                                    ",%s"   // Algorithm.
                                    ",%s"   // Element Type.
-                                   ",%lu"  // Element Size.
-                                   ",%lu"  // Elements per Trial.
+                                   ",%llu" // Element Size.
+                                   ",%llu" // Elements per Trial.
                                    ",%.2f" // Total Input Size.
-                                   ",%lu"  // STL Trials.
+                                   ",%llu" // STL Trials.
                                    ",%g"   // STL Average Walltime.
                                    ",%g"   // STL Walltime Uncertainty.
                                    ",%g"   // STL Average Throughput.
                                    ",%g"   // STL Throughput Uncertainty.
-                                   ",%lu"  // Thrust Trials.
+                                   ",%llu" // Thrust Trials.
                                    ",%g"   // Thrust Average Walltime.
                                    ",%g"   // Thrust Walltime Uncertainty.
                                    ",%g"   // Thrust Average Throughput.
                                    ",%g"   // Thrust Throughput Uncertainty.
                                    #if defined(HAVE_TBB)
-                                   ",%lu"  // TBB Trials.
+                                   ",%llu" // TBB Trials.
                                    ",%g"   // TBB Average Walltime.
                                    ",%g"   // TBB Walltime Uncertainty.
                                    ",%g"   // TBB Average Throughput.
