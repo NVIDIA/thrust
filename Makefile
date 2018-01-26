@@ -143,7 +143,8 @@ else ifeq ($(OS),win32) # MSVC
   VERSION_FLAG :=
 endif
 
-$(info CCBIN VERSION: $(shell $(CCBIN) $(VERSION_FLAG)))
+$(info CCBIN         : $(CCBIN))
+$(info CCBIN VERSION : $(shell $(CCBIN) $(VERSION_FLAG)))
 
 $(info #################################################################################)
 

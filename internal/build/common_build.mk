@@ -2,12 +2,15 @@ I_AM_SLOPPY := 1
 USE_NEW_PROJECT_MK := 1
 
 ifeq ($(THRUST_TEST),1)
-  include $(ROOTDIR)/build/config/DetectOS.mk
+  include $(ROOTDIR)/build/getprofile.mk
+  include $(ROOTDIR)/build/config/$(PROFILE).mk
 else
   ifdef VULCAN_TOOLKIT_BASE
-    include $(VULCAN_TOOLKIT_BASE)/build/config/DetectOS.mk
+    include $(VULCAN_TOOLKIT_BASE)/build/getprofile.mk
+    include $(VULCAN_TOOLKIT_BASE)/build/config/$(PROFILE).mk
   else
-    include $(ROOTDIR)/build/config/DetectOS.mk
+    include $(ROOTDIR)/build/getprofile.mk
+    include $(ROOTDIR)/build/config/$(PROFILE).mk
   endif  # VULCAN_TOOLKIT_BASE
 endif  # THRUST_TEST
 
@@ -58,6 +61,8 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             # GCC 4.5.
             CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
           endif
+        else
+          $(error CCBIN is not defined)
         endif
       endif
     endif
