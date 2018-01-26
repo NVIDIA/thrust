@@ -12,12 +12,12 @@
 #include <string>
 #include <exception>
 
-#include <cstdlib>    // For atoi.
-#include <cstdio>     // For printf.
+#include <cstdlib>    // For `atoi`.
+#include <cstdio>     // For `printf`.
 #include <climits>    // For CHAR_BIT.
-#include <cmath>      // For sqrt and fabs.
+#include <cmath>      // For `sqrt` and `abs`.
 
-#include <stdint.h>   // For intN_t.
+#include <stdint.h>   // For `intN_t`.
 #include "random.h"
 #include "timer.h"
 
@@ -184,7 +184,7 @@ T uncertainty_multiplicative(
   , T const& B, T const& B_unc
     )
 {
-  return std::fabs(f)
+  return std::abs(f)
        * std::sqrt((A_unc / A) * (A_unc / A) + (B_unc / B) * (B_unc / B));
 }
 
@@ -201,6 +201,26 @@ T uncertainty_additive(
     )
 {
   return std::sqrt((a * a * A_unc * A_unc) + (b * b * B_unc * B_unc));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+// Return the significant digit of `x`. The result is the number of digits
+// after the decimal place to round to (negative numbers indicate rounding
+// before the decimal place)
+template <typename T>
+int find_significant_digit(T x)
+{
+  return -int(std::floor(std::log10(std::abs(x))));
+}
+
+// Round `x` to `ndigits` after the decimal place (Python-style).
+template <typename T, typename N>
+T round_to_precision(T x, N ndigits)
+{
+    double m = (x < 0.0) ? -1.0 : 1.0;
+    double pwr = std::pow(10, ndigits);
+    return (std::floor(x * m * pwr + 0.5) / pwr) * m;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -330,21 +350,21 @@ struct experiment_driver
                                    ",%lu"  // Elements per Trial.
                                    ",%.2f" // Total Input Size.
                                    ",%lu"  // STL Trials.
-                                   ",%e"   // STL Average Walltime.
-                                   ",%e"   // STL Walltime Uncertainty.
-                                   ",%e"   // STL Average Throughput.
-                                   ",%e"   // STL Throughput Uncertainty.
+                                   ",%g"   // STL Average Walltime.
+                                   ",%g"   // STL Walltime Uncertainty.
+                                   ",%g"   // STL Average Throughput.
+                                   ",%g"   // STL Throughput Uncertainty.
                                    ",%lu"  // Thrust Trials.
-                                   ",%e"   // Thrust Average Walltime.
-                                   ",%e"   // Thrust Walltime Uncertainty.
-                                   ",%e"   // Thrust Average Throughput.
-                                   ",%e"   // Thrust Throughput Uncertainty.
+                                   ",%g"   // Thrust Average Walltime.
+                                   ",%g"   // Thrust Walltime Uncertainty.
+                                   ",%g"   // Thrust Average Throughput.
+                                   ",%g"   // Thrust Throughput Uncertainty.
                                    #if defined(HAVE_TBB)
                                    ",%lu"  // TBB Trials.
-                                   ",%e"   // TBB Average Walltime.
-                                   ",%e"   // TBB Walltime Uncertainty.
-                                   ",%e"   // TBB Average Throughput.
-                                   ",%e"   // TBB Throughput Uncertainty.
+                                   ",%g"   // TBB Average Walltime.
+                                   ",%g"   // TBB Walltime Uncertainty.
+                                   ",%g"   // TBB Average Throughput.
+                                   ",%g"   // TBB Throughput Uncertainty.
                                    #endif
                                    "\n";
 
@@ -354,27 +374,110 @@ struct experiment_driver
     experiment_results tbb    = tbb_experiment();
     #endif    
 
+    double stl_average_walltime    = stl.average_time;
+    double thrust_average_walltime = thrust.average_time;
+    #if defined(HAVE_TBB)
+    double tbb_average_walltime    = tbb.average_time;
+    #endif
+
     double stl_average_throughput    = elements / stl.average_time;
     double thrust_average_throughput = elements / thrust.average_time;
     #if defined(HAVE_TBB)
     double tbb_average_throughput    = elements / tbb.average_time;
     #endif
 
+    double stl_walltime_uncertainty    = stl.stdev_time;
+    double thrust_walltime_uncertainty = thrust.stdev_time;
+    #if defined(HAVE_TBB)
+    double tbb_walltime_uncertainty    = tbb.stdev_time;
+    #endif
+
     double stl_throughput_uncertainty    = uncertainty_multiplicative(
         stl_average_throughput
       , double(elements), 0.0
-      , stl.average_time, stl.stdev_time
+      , stl_average_walltime, stl_walltime_uncertainty
     );
     double thrust_throughput_uncertainty = uncertainty_multiplicative(
         thrust_average_throughput
       , double(elements), 0.0
-      , thrust.average_time, thrust.stdev_time
+      , thrust_average_walltime, thrust_walltime_uncertainty
     );
+
     #if defined(HAVE_TBB)
     double tbb_throughput_uncertainty    = uncertainty_multiplicative(
         tbb_average_throughput
       , double(elements), 0.0
-      , tbb.average_time, tbb.stdev_time
+      , tbb_average_walltime, tbb_walltime_uncertainty
+    );
+    #endif
+
+    // Round the average walltime and walltime uncertainty to the
+    // significant figure of the walltime uncertainty.
+    int stl_walltime_precision =
+        find_significant_digit(stl.stdev_time);
+    int thrust_walltime_precision =
+        find_significant_digit(thrust.stdev_time);
+    #if defined(HAVE_TBB)
+    int tbb_walltime_precision =
+        find_significant_digit(tbb.stdev_time);
+    #endif
+
+    stl_average_walltime = round_to_precision(
+        stl_average_walltime, stl_walltime_precision
+    );
+    thrust_average_walltime = round_to_precision(
+        thrust_average_walltime, thrust_walltime_precision
+    );
+    #if defined(HAVE_TBB)
+    tbb_average_walltime = round_to_precision(
+        tbb_average_walltime, tbb_walltime_precision
+    );
+    #endif
+
+    stl_walltime_uncertainty = round_to_precision(
+        stl_walltime_uncertainty, stl_walltime_precision
+    );
+    thrust_walltime_uncertainty = round_to_precision(
+        thrust_walltime_uncertainty, thrust_walltime_precision
+    );
+    #if defined(HAVE_TBB)
+    tbb_walltime_uncertainty = round_to_precision(
+        tbb_walltime_uncertainty, tbb_walltime_precision
+    );
+    #endif
+
+    // Round the average throughput and throughput uncertainty to the
+    // significant figure of the throughput uncertainty.
+    int stl_throughput_precision =
+        find_significant_digit(stl_throughput_uncertainty);
+    int thrust_throughput_precision =
+        find_significant_digit(thrust_throughput_uncertainty);
+    #if defined(HAVE_TBB)
+    int tbb_throughput_precision =
+        find_significant_digit(tbb_throughput_uncertainty);
+    #endif
+
+    stl_average_throughput = round_to_precision(
+        stl_average_throughput, stl_throughput_precision
+    );
+    thrust_average_throughput = round_to_precision(
+        thrust_average_throughput, thrust_throughput_precision
+    );
+    #if defined(HAVE_TBB)
+    tbb_average_throughput = round_to_precision(
+        tbb_average_throughput, tbb_throughput_precision
+    );
+    #endif
+
+    stl_throughput_uncertainty = round_to_precision(
+        stl_throughput_uncertainty, stl_throughput_precision
+    );
+    thrust_throughput_uncertainty = round_to_precision(
+        thrust_throughput_uncertainty, thrust_throughput_precision
+    );
+    #if defined(HAVE_TBB)
+    tbb_throughput_uncertainty = round_to_precision(
+        tbb_throughput_uncertainty, tbb_throughput_precision
     );
     #endif
 
@@ -387,19 +490,19 @@ struct experiment_driver
       , elements                      // Elements per Trial.
       , input_size                    // Total Input Size.
       , baseline_trials               // STL Trials.
-      , stl.average_time              // STL Average Walltime.
-      , stl.stdev_time                // STL Walltime Uncertainty.
+      , stl_average_walltime          // STL Average Walltime.
+      , stl_walltime_uncertainty      // STL Walltime Uncertainty.
       , stl_average_throughput        // STL Average Throughput.
       , stl_throughput_uncertainty    // STL Throughput Uncertainty.
       , regular_trials                // Thrust Trials.
-      , thrust.average_time           // Thrust Average Walltime.
-      , thrust.stdev_time             // Thrust Walltime Uncertainty.
+      , thrust_average_walltime       // Thrust Average Walltime.
+      , thrust_walltime_uncertainty   // Thrust Walltime Uncertainty.
       , thrust_average_throughput     // Thrust Average Throughput.
       , thrust_throughput_uncertainty // Thrust Throughput Uncertainty.
       #if defined(HAVE_TBB)
       , regular_trials                // TBB Trials.
-      , tbb.average_time              // TBB Average Walltime.
-      , tbb.stdev_time                // TBB Walltime Uncertainty.
+      , tbb_average_walltime          // TBB Average Walltime.
+      , tbb_walltime_uncertainty      // TBB Walltime Uncertainty.
       , tbb_average_throughput        // TBB Average Throughput.
       , tbb_throughput_uncertainty    // TBB Throughput Uncertainty.
       #endif
