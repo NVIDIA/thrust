@@ -188,47 +188,26 @@ void test_alignment_of()
 DECLARE_UNITTEST(test_alignment_of);
 
 template <std::size_t Align>
-void test_aligned_byte_instantiation()
+void test_aligned_type_instantiation()
 {
-    typedef typename thrust::detail::aligned_byte<Align>::type type;
+    typedef typename thrust::detail::aligned_type<Align>::type type;
     ASSERT_GEQUAL(sizeof(type), 1lu);
     ASSERT_EQUAL(THRUST_ALIGNOF(type), Align);
     ASSERT_EQUAL(thrust::detail::alignment_of<type>::value, Align);
 }
 
-void test_aligned_byte()
+void test_aligned_type()
 {
-    test_aligned_byte_instantiation<1>();
-    test_aligned_byte_instantiation<2>();
-    test_aligned_byte_instantiation<4>();
-    test_aligned_byte_instantiation<8>();
-    test_aligned_byte_instantiation<16>();
-    test_aligned_byte_instantiation<32>();
-    test_aligned_byte_instantiation<64>();
-    test_aligned_byte_instantiation<128>();
+    test_aligned_type_instantiation<1>();
+    test_aligned_type_instantiation<2>();
+    test_aligned_type_instantiation<4>();
+    test_aligned_type_instantiation<8>();
+    test_aligned_type_instantiation<16>();
+    test_aligned_type_instantiation<32>();
+    test_aligned_type_instantiation<64>();
+    test_aligned_type_instantiation<128>();
 }
-DECLARE_UNITTEST(test_aligned_byte);
-
-template <std::size_t Align>
-void test_aligned_packed_byte_instantiation()
-{
-    typedef typename thrust::detail::aligned_packed_byte<Align>::type T;
-    ASSERT_EQUAL(sizeof(T), 1lu);
-    ASSERT_EQUAL(THRUST_ALIGNOF(T), Align);
-}
-
-void test_aligned_packed_byte()
-{
-    test_aligned_packed_byte_instantiation<1>();
-    test_aligned_packed_byte_instantiation<2>();
-    test_aligned_packed_byte_instantiation<4>();
-    test_aligned_packed_byte_instantiation<8>();
-    test_aligned_packed_byte_instantiation<16>();
-    test_aligned_packed_byte_instantiation<32>();
-    test_aligned_packed_byte_instantiation<64>();
-    test_aligned_packed_byte_instantiation<128>();
-}
-DECLARE_UNITTEST(test_aligned_packed_byte);
+DECLARE_UNITTEST(test_aligned_type);
 
 template <std::size_t Len, std::size_t Align>
 void test_aligned_storage_instantiation()
@@ -346,14 +325,21 @@ void test_max_align_t()
 }
 DECLARE_UNITTEST(test_max_align_t);
 
-void test_max_aligned_packed_byte()
+void test_aligned_reinterpret_cast()
 {
-    ASSERT_EQUAL(sizeof(thrust::detail::max_aligned_packed_byte), 1lu);
+    thrust::detail::aligned_type<1>* a1 = 0;
 
-    ASSERT_EQUAL(
-        THRUST_ALIGNOF(thrust::detail::max_aligned_packed_byte)
-      , THRUST_ALIGNOF(thrust::detail::max_align_t)
-    );
+    thrust::detail::aligned_type<2>* a2 = 0;
+
+    // Cast to type with stricter (larger) alignment requirement.
+    a2 = thrust::detail::aligned_reinterpret_cast<
+        thrust::detail::aligned_type<2>*
+    >(a1);
+
+    // Cast to type with less strict (smaller) alignment requirement.
+    a1 = thrust::detail::aligned_reinterpret_cast<
+        thrust::detail::aligned_type<1>*
+    >(a2);
 }
-DECLARE_UNITTEST(test_max_aligned_packed_byte);
+DECLARE_UNITTEST(test_aligned_reinterpret_cast);
 

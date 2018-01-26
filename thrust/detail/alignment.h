@@ -90,30 +90,30 @@ namespace detail
     };
 #endif
 
-/// \p aligned_byte provides the nested type `type`, which is a trivial
+/// \p aligned_type provides the nested type `type`, which is a trivial
 /// type whose alignment requirement is a divisor of `Align`.
 ///
 /// The behavior is undefined if `Align` is not a power of 2.
 template <std::size_t Align>
-struct aligned_byte;
+struct aligned_type;
 
 #if __cplusplus >= 201103L
     template <std::size_t Align>
-    struct aligned_byte
+    struct aligned_type
     {
         struct alignas(Align) type {};
     };
 #elif  (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)                    \
     || (   (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                 \
         && (THRUST_GCC_VERSION < 40300))
-    // We have to implement `aligned_byte` with specializations for MSVC
+    // We have to implement `aligned_type` with specializations for MSVC
     // and GCC 4.2.x and older because they require literals as arguments to 
     // their alignment attribute.
 
     #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
         #define THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(X)                  \
             template <>                                                       \
-            struct aligned_byte<X>                                    \
+            struct aligned_type<X>                                    \
             {                                                                 \
                 __declspec(align(X)) struct type {};                          \
             };                                                                \
@@ -121,7 +121,7 @@ struct aligned_byte;
     #else
         #define THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(X)                  \
             template <>                                                       \
-            struct aligned_byte<X>                                    \
+            struct aligned_type<X>                                    \
             {                                                                 \
                 struct type {} __attribute__((aligned(X)));                   \
             };                                                                \
@@ -140,84 +140,9 @@ struct aligned_byte;
     #undef THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION
 #else
     template <std::size_t Align>
-    struct aligned_byte
+    struct aligned_type
     {
         struct type {} __attribute__((aligned(Align)));
-    };
-#endif
-
-/// \p aligned_packed_byte provides the nested type `type`, which is a trivial
-/// type whose size is 1 byte and alignment requirement is a divisor of `Align`.
-///
-/// The first element of a C-style or dynamic array of `aligned_packed_byte`s
-/// will be aligned to the alignment requirement (assuming the alignment is
-/// supported by the implementation and any allocators used). However,
-/// subsequent elements will not be aligned.
-///
-/// It can be used when you have a pointer to storage allocated in bytes, and
-/// you wish to cast the byte pointer (e.g. `max_aligned_packed_byte*`) to a
-/// pointer type that has a greater alignment requirement without triggering
-/// compiler warnings (`-Wcast-align`). You are responsible for ensuring that
-/// the alignment requirements are actually satisified.
-///
-/// \p alignment_of will not necessarily work with \p aligned_packed_byte.
-///
-/// The behavior is undefined if `Align` is not a power of 2.
-template <std::size_t Align>
-struct aligned_packed_byte;
-
-#if    (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)                    \
-    || (   (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                 \
-        && (THRUST_GCC_VERSION < 40300))
-    // We have to implement `aligned_byte` with specializations for MSVC and GCC
-    // 4.2.x and older because they require literals as arguments to their
-    // alignment attribute.
-
-    #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
-        #define THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(X)           \
-            template <>                                                       \
-            struct aligned_packed_byte<X>                                     \
-            {                                                                 \
-              private:                                                        \
-                struct underlying_type {};                                    \
-              public:                                                         \
-                typedef __declspec(align(X)) underlying_type type;            \
-            };                                                                \
-            /**/
-    #else
-        // `underlying_type` must be a dependent type, otherwise recent versions
-        // of Clang complain because the alignment of `type` is dependent but
-        // the type itself is not.
-        #define THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(X)           \
-            template <>                                                       \
-            struct aligned_packed_byte<X>                                     \
-            {                                                                 \
-              private:                                                        \
-                struct underlying_type {};                                    \
-              public:                                                         \
-                typedef underlying_type __attribute__((aligned(X))) type;     \
-            };                                                                \
-            /**/
-    #endif
-    
-    THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(1);
-    THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(2);
-    THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(4);
-    THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(8);
-    THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(16);
-    THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(32);
-    THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(64);
-    THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION(128);
-
-    #undef THRUST_DEFINE_ALIGNED_PACKED_BYTE_SPECIALIZATION
-#else
-    template <std::size_t Align>
-    struct aligned_packed_byte
-    {
-      private:
-        struct underlying_type {};
-      public:
-        typedef underlying_type __attribute__((aligned(Align))) type;
     };
 #endif
 
@@ -242,7 +167,7 @@ struct aligned_packed_byte;
             // an array of `unsigned char` of length `Len` is greater than
             // `Align`.
 
-            typename aligned_byte<Align>::type align;
+            typename aligned_type<Align>::type align;
         };
     };
 #endif
@@ -270,18 +195,17 @@ struct aligned_packed_byte;
     };
 #endif
 
-/// \p max_aligned_packed_byte is a trivial type whose size is 1 and whose
-/// alignment requirement is \p max_alignment.
-/// 
-/// It can be used when you have a pointer to storage allocated in bytes, and
-/// you wish to cast the byte pointer (e.g. `max_aligned_packed_byte*`) to a
-/// pointer type that has a greater alignment requirement without triggering
-/// compiler warnings (`-Wcast-align`). You are responsible for ensuring that
-/// the alignment requirements are actually satisified.
-///
-/// \p alignment_of will not necessarily work with \p max_aligned_packed_byte.
-typedef aligned_packed_byte<alignment_of<max_align_t>::value>::type
-        max_aligned_packed_byte;
+/// \p aligned_reinterpret_cast `reinterpret_cast`s \p u of type \p U to `void*`
+/// and then `reinterpret_cast`s the result to \p T. The indirection through
+/// `void*` suppresses compiler warnings when the alignment requirement of \p *u
+/// is less than the alignment requirement of \p *t. The caller of
+/// \p aligned_reinterpret_cast is responsible for ensuring that the alignment
+/// requirements are actually satisified.
+template <typename T, typename U>
+T aligned_reinterpret_cast(U u)
+{
+  return reinterpret_cast<T>(reinterpret_cast<void*>(u));
+}
 
 } // end namespace detail
 } // end namespace thrust

@@ -44,6 +44,7 @@
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
+#include <thrust/detail/alignment.h>
 
 BEGIN_NS_THRUST
 
@@ -951,7 +952,8 @@ reduce_n(execution_policy<Derived> &policy,
 
     // Allocate temporary storage.
 
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, sizeof(T) + tmp_size);
+    detail::temporary_array<detail::uint8_t, Derived>
+      tmp(policy, sizeof(T) + tmp_size);
 
     // Run reduction.
 
@@ -959,7 +961,11 @@ reduce_n(execution_policy<Derived> &policy,
     // `reference`, which has an `operator&` that returns a `pointer`, which
     // has a `.get` method that returns a raw pointer, which we can (finally)
     // `static_cast` to `void*`.
-    ret_ptr = reinterpret_cast<T*>((&*tmp.begin()).get());
+    //
+    // The array was dynamically allocated, so we assume that it's suitably
+    // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
+    // make this guarantee.
+    ret_ptr = detail::aligned_reinterpret_cast<T*>((&*tmp.begin()).get());
     void* tmp_ptr = static_cast<void*>((&*(tmp.begin() + sizeof(T))).get());
     cuda_cub::throw_on_error(
       cub::DeviceReduce::Reduce(tmp_ptr, tmp_size,
@@ -976,7 +982,12 @@ reduce_n(execution_policy<Derived> &policy,
     // `reference`, which has an `operator&` that returns a `pointer`, which
     // has a `.get` method that returns a raw pointer, which we can (finally)
     // `static_cast` to `void*`.
-    return cuda_cub::get_value(policy, reinterpret_cast<T*>((&*tmp.begin()).get()));
+    //
+    // The array was dynamically allocated, so we assume that it's suitably
+    // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
+    // make this guarantee.
+    return cuda_cub::get_value(policy,
+      detail::aligned_reinterpret_cast<T*>((&*tmp.begin()).get()));
   }
 
 #if !__THRUST_HAS_CUDART__
