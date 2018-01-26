@@ -197,7 +197,7 @@ struct allocator
   __host__ __device__ inline allocator() {}
 
   __host__ __device__ inline allocator(const allocator &)
-    : thrust::detail::malloc_allocator<T, tag, pointer<T> >()
+    : thrust::detail::malloc_allocator<T, tag, thrust::cuda_cub::pointer<T> >()
   {}
 
   template <typename U>
