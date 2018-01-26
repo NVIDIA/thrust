@@ -62,7 +62,7 @@ template <typename T>
 struct value_and_count
 {
   T           value;
-  std::size_t count;
+  uint64_t count;
 
   __host__ __device__
   value_and_count(value_and_count const& other)
@@ -73,7 +73,7 @@ struct value_and_count
     : value(value_), count(1) {}
 
   __host__ __device__
-  value_and_count(T const& value_, std::size_t count_)
+  value_and_count(T const& value_, uint64_t count_)
     : value(value_), count(count_) {}
 
   __host__ __device__
@@ -305,9 +305,9 @@ template <
   , typename                  ElementMetaType // Has an embedded typedef `type,
                                               // and a static method `name` that
                                               // returns a char const*. 
-  , std::size_t               Elements
-  , std::size_t               BaselineTrials
-  , std::size_t               RegularTrials
+  , uint64_t                  Elements
+  , uint64_t                  BaselineTrials
+  , uint64_t                  RegularTrials
 >
 struct experiment_driver
 {
@@ -315,11 +315,11 @@ struct experiment_driver
 
   static char const* const test_name;
   static char const* const element_type_name; // Element type name as a string.
-  static std::size_t const element_size;      // Size of each element in bits.
-  static std::size_t const elements;          // # of elements per trial. 
+  static uint64_t const element_size;      // Size of each element in bits.
+  static uint64_t const elements;          // # of elements per trial. 
   static double const input_size;             // `elements` * `element_size` in GB. 
-  static std::size_t const baseline_trials;   // # of baseline trials per experiment.
-  static std::size_t const regular_trials;    // # of regular trials per experiment.
+  static uint64_t const baseline_trials;   // # of baseline trials per experiment.
+  static uint64_t const regular_trials;    // # of regular trials per experiment.
 
   static void run_and_print_experiment()
   { // {{{
@@ -435,13 +435,13 @@ private:
     // Warmup trial.
     trial();
 
-    std::size_t const trials
+    uint64_t const trials
       = trial.is_baseline() ? baseline_trials : regular_trials;
 
     std::vector<double> times;
     times.reserve(trials);
 
-    for (std::size_t t = 0; t < trials; ++t)
+    for (uint64_t t = 0; t < trials; ++t)
     {
       // Generate random input for next trial. 
       trial.setup(elements);
@@ -469,9 +469,9 @@ private:
 template <
     template <typename> class Test
   , typename                  ElementMetaType
-  , std::size_t               Elements
-  , std::size_t               BaselineTrials
-  , std::size_t               RegularTrials
+  , uint64_t                  Elements
+  , uint64_t                  BaselineTrials
+  , uint64_t                  RegularTrials
 >
 char const* const
 experiment_driver<
@@ -482,9 +482,9 @@ experiment_driver<
 template <
     template <typename> class Test
   , typename                  ElementMetaType
-  , std::size_t               Elements
-  , std::size_t               BaselineTrials
-  , std::size_t               RegularTrials
+  , uint64_t                  Elements
+  , uint64_t                  BaselineTrials
+  , uint64_t                  RegularTrials
 >
 char const* const
 experiment_driver<
@@ -495,11 +495,11 @@ experiment_driver<
 template <
     template <typename> class Test
   , typename                  ElementMetaType
-  , std::size_t               Elements
-  , std::size_t               BaselineTrials
-  , std::size_t               RegularTrials
+  , uint64_t                  Elements
+  , uint64_t                  BaselineTrials
+  , uint64_t                  RegularTrials
 >
-std::size_t const
+uint64_t const
 experiment_driver<
   Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
 >::element_size
@@ -508,11 +508,11 @@ experiment_driver<
 template <
     template <typename> class Test
   , typename                  ElementMetaType
-  , std::size_t               Elements
-  , std::size_t               BaselineTrials
-  , std::size_t               RegularTrials
+  , uint64_t                  Elements
+  , uint64_t                  BaselineTrials
+  , uint64_t                  RegularTrials
 >
-std::size_t const
+uint64_t const
 experiment_driver<
   Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
 >::elements
@@ -521,9 +521,9 @@ experiment_driver<
 template <
     template <typename> class Test
   , typename                  ElementMetaType
-  , std::size_t               Elements
-  , std::size_t               BaselineTrials
-  , std::size_t               RegularTrials
+  , uint64_t                  Elements
+  , uint64_t                  BaselineTrials
+  , uint64_t                  RegularTrials
 >
 double const
 experiment_driver<
@@ -537,11 +537,11 @@ experiment_driver<
 template <
     template <typename> class Test
   , typename                  ElementMetaType
-  , std::size_t               Elements
-  , std::size_t               BaselineTrials
-  , std::size_t               RegularTrials
+  , uint64_t                  Elements
+  , uint64_t                  BaselineTrials
+  , uint64_t                  RegularTrials
 >
-std::size_t const
+uint64_t const
 experiment_driver<
   Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
 >::baseline_trials
@@ -550,11 +550,11 @@ experiment_driver<
 template <
     template <typename> class Test
   , typename                  ElementMetaType
-  , std::size_t               Elements
-  , std::size_t               BaselineTrials
-  , std::size_t               RegularTrials
+  , uint64_t                  Elements
+  , uint64_t                  BaselineTrials
+  , uint64_t                  RegularTrials
 >
-std::size_t const
+uint64_t const
 experiment_driver<
   Test, ElementMetaType, Elements, BaselineTrials, RegularTrials
 >::regular_trials
@@ -590,7 +590,7 @@ struct inplace_trial_base : trial_base<TrialKind>
 { 
   Container input;
 
-  void setup(std::size_t elements)
+  void setup(uint64_t elements)
   {
     input.resize(elements);
 
@@ -604,7 +604,7 @@ struct copy_trial_base : trial_base<TrialKind>
   Container input;
   Container output;
 
-  void setup(std::size_t elements)
+  void setup(uint64_t elements)
   {
     input.resize(elements);
     output.resize(elements);
@@ -792,9 +792,9 @@ struct copy_tester
 
 template <
     typename ElementMetaType
-  , std::size_t Elements
-  , std::size_t BaselineTrials
-  , std::size_t RegularTrials
+  , uint64_t Elements
+  , uint64_t BaselineTrials
+  , uint64_t RegularTrials
 >
 void run_and_print_core_primitives_experiments_for_type()
 {
@@ -863,9 +863,9 @@ DEFINE_ELEMENT_META_TYPE(double);
 ///////////////////////////////////////////////////////////////////////////////
 
 template <
-    std::size_t Elements
-  , std::size_t BaselineTrials
-  , std::size_t RegularTrials
+    uint64_t Elements
+  , uint64_t BaselineTrials
+  , uint64_t RegularTrials
 >
 void run_and_print_core_primitives_experiments()
 {
