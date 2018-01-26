@@ -12,8 +12,9 @@
 #include <string>
 #include <exception>
 
+#include <iostream>
+
 #include <cstdlib>    // For `atoi`.
-#include <cstdio>     // For `printf`.
 #include <climits>    // For CHAR_BIT.
 #include <cmath>      // For `sqrt` and `abs`.
 
@@ -227,84 +228,55 @@ T round_to_precision(T x, N ndigits)
 
 void print_experiment_header()
 { // {{{
-  char const* const header_fmt =  "%s" // Thrust Version.
-                                 ",%s" // Algorithm.
-                                 ",%s" // Element Type.
-                                 ",%s" // Element Size.
-                                 ",%s" // Elements per Trial.
-                                 ",%s" // Total Input Size.
-                                 ",%s" // STL Trials.
-                                 ",%s" // STL Average Walltime.
-                                 ",%s" // STL Walltime Uncertainty.
-                                 ",%s" // STL Average Throughput.
-                                 ",%s" // STL Throughput Uncertainty.
-                                 ",%s" // Thrust Trials.
-                                 ",%s" // Thrust Average Walltime.
-                                 ",%s" // Thrust Walltime Uncertainty.
-                                 ",%s" // Thrust Average Throughput.
-                                 ",%s" // Thrust Throughput Uncertainty.
-                                 #if defined(HAVE_TBB)
-                                 ",%s" // TBB Trials.
-                                 ",%s" // TBB Average Walltime.
-                                 ",%s" // TBB Walltime Uncertainty.
-                                 ",%s" // TBB Average Throughput.
-                                 ",%s" // TBB Throughput Uncertainty.
-                                 #endif
-                                 "\n";
-
-  std::printf(
-      header_fmt
-    , "Thrust Version"
-    , "Algorithm"
-    , "Element Type"
-    , "Element Size"
-    , "Elements per Trial"
-    , "Total Input Size"
-    , "STL Trials"
-    , "STL Average Walltime"
-    , "STL Walltime Uncertainty"
-    , "STL Average Throughput"
-    , "STL Throughput Uncertainty"
-    , "Thrust Trials"
-    , "Thrust Average Walltime"
-    , "Thrust Walltime Uncertainty"
-    , "Thrust Average Throughput"
-    , "Thrust Throughput Uncertainty"
+  std::cout << "Thrust Version"
+    << ","  << "Algorithm"
+    << ","  << "Element Type"
+    << ","  << "Element Size"
+    << ","  << "Elements per Trial"
+    << ","  << "Total Input Size"
+    << ","  << "STL Trials"
+    << ","  << "STL Average Walltime"
+    << ","  << "STL Walltime Uncertainty"
+    << ","  << "STL Average Throughput"
+    << ","  << "STL Throughput Uncertainty"
+    << ","  << "Thrust Trials"
+    << ","  << "Thrust Average Walltime"
+    << ","  << "Thrust Walltime Uncertainty"
+    << ","  << "Thrust Average Throughput"
+    << ","  << "Thrust Throughput Uncertainty"
     #if defined(HAVE_TBB)
-    , "TBB Trials"
-    , "TBB Average Walltime"
-    , "TBB Walltime Uncertainty"
-    , "TBB Average Throughput"
-    , "TBB Throughput Uncertainty"
+    << ","  << "TBB Trials"
+    << ","  << "TBB Average Walltime"
+    << ","  << "TBB Walltime Uncertainty"
+    << ","  << "TBB Average Throughput"
+    << ","  << "TBB Throughput Uncertainty"
     #endif
-  );
+    ;
 
-  std::printf(
-      header_fmt
-    , ""                // Thrust Version.
-    , ""                // Algorithm.
-    , ""                // Element Type.
-    , "bits/element"    // Element Size.
-    , "elements"        // Elements per Trial.
-    , "MiBs"            // Total Input Size.
-    , "trials"          // STL Trials.
-    , "secs"            // STL Average Walltime.
-    , "secs"            // STL Walltime Uncertainty.
-    , "elements/sec"    // STL Average Throughput.
-    , "elements/sec"    // STL Throughput Uncertainty.
-    , "trials"          // Thrust Trials.
-    , "secs"            // Thrust Average Walltime.
-    , "secs"            // Thrust Walltime Uncertainty.
-    , "elements/sec"    // Thrust Average Throughput.
-    , "elements/sec"    // Thrust Throughput Uncertainty.
+  std::cout << ""                // Thrust Version.
+    << ","  << ""                // Algorithm.
+    << ","  << ""                // Element Type.
+    << ","  << "bits/element"    // Element Size.
+    << ","  << "elements"        // Elements per Trial.
+    << ","  << "MiBs"            // Total Input Size.
+    << ","  << "trials"          // STL Trials.
+    << ","  << "secs"            // STL Average Walltime.
+    << ","  << "secs"            // STL Walltime Uncertainty.
+    << ","  << "elements/sec"    // STL Average Throughput.
+    << ","  << "elements/sec"    // STL Throughput Uncertainty.
+    << ","  << "trials"          // Thrust Trials.
+    << ","  << "secs"            // Thrust Average Walltime.
+    << ","  << "secs"            // Thrust Walltime Uncertainty.
+    << ","  << "elements/sec"    // Thrust Average Throughput.
+    << ","  << "elements/sec"    // Thrust Throughput Uncertainty.
     #if defined(HAVE_TBB)
-    , "trials"          // TBB Trials.
-    , "secs"            // TBB Average Walltime.
-    , "secs"            // TBB Walltime Uncertainty.
-    , "elements/sec"    // TBB Average Throughput.
-    , "elements/sec"    // TBB Throughput Uncertainty.
+    << ","  << "trials"          // TBB Trials.
+    << ","  << "secs"            // TBB Average Walltime.
+    << ","  << "secs"            // TBB Walltime Uncertainty.
+    << ","  << "elements/sec"    // TBB Average Throughput.
+    << ","  << "elements/sec"    // TBB Throughput Uncertainty.
     #endif
-  );
+    ;
 } // }}}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -343,31 +315,6 @@ struct experiment_driver
 
   static void run_and_print_experiment()
   { // {{{
-    char const* const entry_fmt  =  "%i"   // Thrust Version.
-                                   ",%s"   // Algorithm.
-                                   ",%s"   // Element Type.
-                                   ",%llu" // Element Size.
-                                   ",%llu" // Elements per Trial.
-                                   ",%.2f" // Total Input Size.
-                                   ",%llu" // STL Trials.
-                                   ",%g"   // STL Average Walltime.
-                                   ",%g"   // STL Walltime Uncertainty.
-                                   ",%g"   // STL Average Throughput.
-                                   ",%g"   // STL Throughput Uncertainty.
-                                   ",%llu" // Thrust Trials.
-                                   ",%g"   // Thrust Average Walltime.
-                                   ",%g"   // Thrust Walltime Uncertainty.
-                                   ",%g"   // Thrust Average Throughput.
-                                   ",%g"   // Thrust Throughput Uncertainty.
-                                   #if defined(HAVE_TBB)
-                                   ",%llu" // TBB Trials.
-                                   ",%g"   // TBB Average Walltime.
-                                   ",%g"   // TBB Walltime Uncertainty.
-                                   ",%g"   // TBB Average Throughput.
-                                   ",%g"   // TBB Throughput Uncertainty.
-                                   #endif
-                                   "\n";
-
     experiment_results stl    = std_experiment();
     experiment_results thrust = thrust_experiment();
     #if defined(HAVE_TBB)
@@ -481,32 +428,30 @@ struct experiment_driver
     );
     #endif
 
-    printf(
-        entry_fmt
-      , THRUST_VERSION                // Thrust Version.
-      , test_name                     // Algorithm.
-      , element_type_name             // Element Type.
-      , element_size                  // Element Size.
-      , elements                      // Elements per Trial.
-      , input_size                    // Total Input Size.
-      , baseline_trials               // STL Trials.
-      , stl_average_walltime          // STL Average Walltime.
-      , stl_walltime_uncertainty      // STL Walltime Uncertainty.
-      , stl_average_throughput        // STL Average Throughput.
-      , stl_throughput_uncertainty    // STL Throughput Uncertainty.
-      , regular_trials                // Thrust Trials.
-      , thrust_average_walltime       // Thrust Average Walltime.
-      , thrust_walltime_uncertainty   // Thrust Walltime Uncertainty.
-      , thrust_average_throughput     // Thrust Average Throughput.
-      , thrust_throughput_uncertainty // Thrust Throughput Uncertainty.
+    std::cout << THRUST_VERSION                // Thrust Version.
+      << ","  << test_name                     // Algorithm.
+      << ","  << element_type_name             // Element Type.
+      << ","  << element_size                  // Element Size.
+      << ","  << elements                      // Elements per Trial.
+      << ","  << input_size                    // Total Input Size.
+      << ","  << baseline_trials               // STL Trials.
+      << ","  << stl_average_walltime          // STL Average Walltime.
+      << ","  << stl_walltime_uncertainty      // STL Walltime Uncertainty.
+      << ","  << stl_average_throughput        // STL Average Throughput.
+      << ","  << stl_throughput_uncertainty    // STL Throughput Uncertainty.
+      << ","  << regular_trials                // Thrust Trials.
+      << ","  << thrust_average_walltime       // Thrust Average Walltime.
+      << ","  << thrust_walltime_uncertainty   // Thrust Walltime Uncertainty.
+      << ","  << thrust_average_throughput     // Thrust Average Throughput.
+      << ","  << thrust_throughput_uncertainty // Thrust Throughput Uncertainty.
       #if defined(HAVE_TBB)
-      , regular_trials                // TBB Trials.
-      , tbb_average_walltime          // TBB Average Walltime.
-      , tbb_walltime_uncertainty      // TBB Walltime Uncertainty.
-      , tbb_average_throughput        // TBB Average Throughput.
-      , tbb_throughput_uncertainty    // TBB Throughput Uncertainty.
+      << ","  << regular_trials                // TBB Trials.
+      << ","  << tbb_average_walltime          // TBB Average Walltime.
+      << ","  << tbb_walltime_uncertainty      // TBB Walltime Uncertainty.
+      << ","  << tbb_average_throughput        // TBB Average Throughput.
+      << ","  << tbb_throughput_uncertainty    // TBB Throughput Uncertainty.
       #endif
-    );
+      ;
   } // }}}
 
 private:
