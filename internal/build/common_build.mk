@@ -61,7 +61,7 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             # GCC 4.5.
             CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
           endif
-          ifeq ($(shell if test $(GCC_VERSION) -ge 480; then echo true; fi),true)
+          ifeq ($(shell if test $(GCC_VERSION) -lt 470; then echo true; fi),true)
             # XXX The mechanism for checking if compiler flags are supported
             # seems to be broken for the ARMv7 DVS builder, so the main CUDA
             # Makefiles accidentally add -Wno-unused-local-typedefs to older
