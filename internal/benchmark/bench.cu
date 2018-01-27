@@ -220,7 +220,7 @@ template <typename T, typename N>
 T round_to_precision(T x, N ndigits)
 {
     double m = (x < 0.0) ? -1.0 : 1.0;
-    double pwr = std::pow(10, ndigits);
+    double pwr = std::pow(T(10.0), ndigits);
     return (std::floor(x * m * pwr + 0.5) / pwr) * m;
 }
 
