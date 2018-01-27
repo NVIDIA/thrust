@@ -182,6 +182,9 @@ dvs:
 	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1
 	cd .. && $(MAKE_DVS_PACKAGE) 
 
+# XXX Deprecated, remove.
+dvs_nightly: dvs
+
 dvs_release:
 	$(MAKE) dvs THRUST_DVS_BUILD=release
 
