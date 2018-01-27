@@ -20,56 +20,36 @@
 #include <thrust/complex.h>
 #include <thrust/detail/type_traits.h>
 
-namespace thrust{
+namespace thrust {
 
-template <typename T>
-  __host__ __device__
-  inline complex<T> pow(const complex<T>& z, const complex<T> & exponent){
-  return thrust::exp(thrust::log(z)*exponent);
+template <typename T0, typename T1>
+__host__ __device__
+complex<typename detail::promoted_numerical_type<T0, T1>::type>
+pow(const complex<T0>& x, const complex<T1>& y)
+{
+  typedef typename detail::promoted_numerical_type<T0, T1>::type T;
+  return exp(log(complex<T>(x)) * complex<T>(y));
 }
 
-/* This function should be changed as soon as FreeBSD's msun gets a cpow function */
-template <>
-  __host__ __device__
-  inline complex<double> pow(const complex<double>& z, const complex<double> & exponent){
-  return thrust::exp(thrust::log(z)*exponent);
+template <typename T0, typename T1>
+__host__ __device__
+complex<typename detail::promoted_numerical_type<T0, T1>::type>
+pow(const complex<T0>& x, const T1& y)
+{
+  typedef typename detail::promoted_numerical_type<T0, T1>::type T;
+  return exp(log(complex<T>(x)) * T(y));
 }
 
-template <typename T>
-  __host__ __device__
-  inline complex<T> pow(const complex<T>& z, const T & exponent){
-  return thrust::exp(thrust::log(z)*exponent);
+template <typename T0, typename T1>
+__host__ __device__
+complex<typename detail::promoted_numerical_type<T0, T1>::type>
+pow(const T0& x, const complex<T1>& y)
+{
+  typedef typename detail::promoted_numerical_type<T0, T1>::type T;
+  // Find `log` by ADL.
+  using std::log;
+  return exp(log(T(x)) * complex<T>(y));
 }
 
-template <typename T>
-  __host__ __device__
-  inline complex<T> pow(const T & x, const complex<T> & exponent){
-  return thrust::exp(std::log(x)*exponent);
-}
+} // end namespace thrust
 
-#if !defined _MSC_VER
-
-template <typename T, typename U>
-  __host__ __device__ 
-  inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const complex<T>& z, const complex<T>& exponent){
-  typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
-  return thrust::exp(thrust::log(complex<PromotedType>(z))*complex<PromotedType>(exponent));
-}
-
-template <typename T, typename U>
-  __host__ __device__ 
-  inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const complex<T>& z, const U& exponent){
-  typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
-  return thrust::exp(thrust::log(complex<PromotedType>(z))*PromotedType(exponent));
-}
-
-template <typename T, typename U>
-  __host__ __device__ 
-  inline complex<typename detail::promoted_numerical_type<T,U>::type > pow(const T& x, const complex<U>& exponent){
-  typedef typename detail::promoted_numerical_type<T,U>::type PromotedType;
-  return thrust::exp(std::log(PromotedType(x))*complex<PromotedType>(exponent));
-}
-
-#endif
-
-}

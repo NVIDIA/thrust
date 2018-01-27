@@ -100,6 +100,7 @@ void TestSequence(size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestSequence);
 
+
 template <typename T>
 void TestSequenceToDiscardIterator(size_t n)
 {
@@ -115,3 +116,10 @@ void TestSequenceToDiscardIterator(size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestSequenceToDiscardIterator);
 
+
+void TestSequenceComplex()
+{
+  thrust::device_vector<thrust::complex<double> > m(64);
+  thrust::sequence(m.begin(), m.end());
+}
+DECLARE_UNITTEST(TestSequenceComplex);

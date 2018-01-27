@@ -23,68 +23,280 @@ namespace thrust
 /* --- Constructors --- */
 
 template <typename T>
-inline __host__ __device__  complex<T>
-::complex(const T & re, const T& im)
+__host__ __device__
+complex<T>::complex()
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  // We do a functional-style cast here to suppress conversion warnings.
+  : data{T(), T()}
+{}
+#else
+{
+  real(T());
+  imag(T());
+} 
+#endif
+
+template <typename T>
+__host__ __device__
+complex<T>::complex(const T& re)
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  : data{re, T()}
+{}
+#else
+{
+  real(re);
+  imag(T());
+} 
+#endif
+
+template <typename T>
+template <typename R>
+__host__ __device__
+complex<T>::complex(const R& re)
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  // We do a functional-style cast here to suppress conversion warnings.
+  : data{T(re), T()}
+{}
+#else
+{
+  real(T(re));
+  imag(T());
+} 
+#endif
+
+template <typename T>
+__host__ __device__
+complex<T>::complex(const T& re, const T& im)
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  : data{re, im}
+{}
+#else
 {
   real(re);
   imag(im);
-} 
+}
+#endif 
 
 template <typename T>
-template <typename X> 
-inline __host__ __device__ complex<T>
-::complex(const complex<X> & z)
+template <typename R, typename I>
+__host__ __device__
+complex<T>::complex(const R& re, const I& im)
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  // We do a functional-style cast here to suppress conversion warnings.
+  : data{T(re), T(im)}
+{}
+#else
 {
-  // The explicit T() is there no prevent Visual Studio from complaining
-  // about potential loss of precision
+  real(T(re));
+  imag(T(im));
+}
+#endif 
+
+template <typename T>
+__host__ __device__
+complex<T>::complex(const complex<T>& z)
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  : data{z.real(), z.imag()}
+{}
+#else
+{
+  real(z.real());
+  imag(z.imag());
+}
+#endif 
+
+template <typename T>
+template <typename U> 
+__host__ __device__
+complex<T>::complex(const complex<U>& z)
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  // We do a functional-style cast here to suppress conversion warnings.
+  : data{T(z.real()), T(z.imag())}
+{}
+#else
+{
+  real(T(z.real()));
+  imag(T(z.imag()));
+}
+#endif 
+
+template <typename T>
+__host__
+complex<T>::complex(const std::complex<T>& z)
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  : data{z.real(), z.imag()}
+{}
+#else
+{
+  real(z.real());
+  imag(z.imag());
+}  
+#endif
+
+template <typename T>
+template <typename U> 
+__host__
+complex<T>::complex(const std::complex<U>& z)
+#if __cplusplus >= 201103L
+  // Initialize the storage in the member initializer list using C++ unicorn
+  // initialization. This allows `complex<T const>` to work.
+  // We do a functional-style cast here to suppress conversion warnings.
+  : data{T(z.real()), T(z.imag())}
+{}
+#else
+{
   real(T(z.real()));
   imag(T(z.imag()));
 }  
+#endif
+
+
+
+/* --- Assignment Operators --- */
 
 template <typename T>
-template <typename X> 
-inline __host__ complex<T>
-::complex(const std::complex<X> & z)
+__host__ __device__
+complex<T>& complex<T>::operator=(const T& re)
 {
-  // The explicit T() is there no prevent Visual Studio from complaining
-  // about potential loss of precision
+  real(re);
+  imag(T());
+  return *this;
+}
+
+template <typename T>
+template <typename R>
+__host__ __device__
+complex<T>& complex<T>::operator=(const R& re)
+{
+  real(re);
+  imag(T());
+  return *this;
+}
+
+template <typename T>
+complex<T>& complex<T>::operator=(const complex<T>& z)
+{
+  real(z.real());
+  imag(z.imag());
+  return *this;
+}
+
+template <typename T>
+template <typename U>
+__host__ __device__
+complex<T>& complex<T>::operator=(const complex<U>& z)
+{
   real(T(z.real()));
   imag(T(z.imag()));
-}  
+  return *this;
+}
+
+template <typename T>
+__host__
+complex<T>& complex<T>::operator=(const std::complex<T>& z)
+{
+  real(z.real());
+  imag(z.imag());
+  return *this;
+}
+
+template <typename T>
+template <typename U> 
+__host__
+complex<T>& complex<T>::operator=(const std::complex<U>& z)
+{
+  real(T(z.real()));
+  imag(T(z.imag()));
+  return *this;
+}
 
 
 
 /* --- Compound Assignment Operators --- */
 
 template <typename T>
-__host__ __device__  inline 
-complex<T>& complex<T>::operator+=(const complex<T> z)
+template <typename U> 
+__host__ __device__ 
+complex<T>& complex<T>::operator+=(const complex<U>& z)
 {
-  real(real()+z.real());
-  imag(imag()+z.imag());
+  *this = *this + z;
   return *this;
 }
 
 template <typename T>
+template <typename U> 
 __host__ __device__
-inline complex<T>& complex<T>::operator-=(const complex<T> z)
+complex<T>& complex<T>::operator-=(const complex<U>& z)
 {
-  real(real()-z.real());
-  imag(imag()-z.imag());
+  *this = *this - z;
   return *this;
 }
 
 template <typename T>
+template <typename U> 
 __host__ __device__
-inline complex<T>& complex<T>::operator*=(const complex<T> z)
+complex<T>& complex<T>::operator*=(const complex<U>& z)
 {
   *this = *this * z;
   return *this;
 }
 
 template <typename T>
+template <typename U> 
 __host__ __device__
-inline complex<T>& complex<T>::operator/=(const complex<T> z)
+complex<T>& complex<T>::operator/=(const complex<U>& z)
+{
+  *this = *this / z;
+  return *this;
+}
+
+template <typename T>
+template <typename U> 
+__host__ __device__ 
+complex<T>& complex<T>::operator+=(const U& z)
+{
+  *this = *this + z;
+  return *this;
+}
+
+template <typename T>
+template <typename U> 
+__host__ __device__
+complex<T>& complex<T>::operator-=(const U& z)
+{
+  *this = *this - z;
+  return *this;
+}
+
+template <typename T>
+template <typename U> 
+__host__ __device__
+complex<T>& complex<T>::operator*=(const U& z)
+{
+  *this = *this * z;
+  return *this;
+}
+
+template <typename T>
+template <typename U> 
+__host__ __device__
+complex<T>& complex<T>::operator/=(const U& z)
 {
   *this = *this / z;
   return *this;
@@ -94,70 +306,77 @@ inline complex<T>& complex<T>::operator/=(const complex<T> z)
 
 /* --- Equality Operators --- */
 
-template <typename T> 
-  __host__ __device__
-  inline bool operator==(const complex<T>& lhs, const complex<T>& rhs){
-  if(lhs.real() == rhs.real() && lhs.imag() == rhs.imag()){
-    return true;
-  }
-  return false;
+template <typename T0, typename T1> 
+__host__ __device__
+bool operator==(const complex<T0>& x, const complex<T1>& y)
+{
+  return x.real() == y.real() && x.imag() == y.imag();
 }
 
-template <typename T> 
-  __host__ 
-  inline bool operator==(const complex<T>& lhs, const std::complex<T>& rhs){
-  if(lhs.real() == rhs.real() && lhs.imag() == rhs.imag()){
-    return true;
-  }
-  return false;
+template <typename T0, typename T1> 
+__host__ 
+bool operator==(const complex<T0>& x, const std::complex<T1>& y)
+{
+  return x.real() == y.real() && x.imag() == y.imag();
 }
 
-template <typename T> 
-  __host__ 
-  inline bool operator==(const std::complex<T>& lhs, const complex<T>& rhs){
-  if(lhs.real() == rhs.real() && lhs.imag() == rhs.imag()){
-    return true;
-  }
-  return false;
+template <typename T0, typename T1> 
+__host__ 
+bool operator==(const std::complex<T0>& x, const complex<T1>& y)
+{
+  return x.real() == y.real() && x.imag() == y.imag();
 }
 
-template <typename T> 
-  __host__ __device__
-  inline bool operator==(const T & lhs, const complex<T>& rhs){
-  if(lhs == rhs.real() && rhs.imag() == 0){
-    return true;
-  }
-  return false;
+template <typename T0, typename T1> 
+__host__ __device__
+bool operator==(const T0& x, const complex<T1>& y)
+{
+  return x == y.real() && y.imag() == T1();
 }
 
-template <typename T> 
-  __host__ __device__
-  inline bool operator==(const complex<T> & lhs, const T& rhs){
-  if(lhs.real() == rhs && lhs.imag() == 0){
-    return true;
-  }
-  return false;
+template <typename T0, typename T1> 
+__host__ __device__
+bool operator==(const complex<T0>& x, const T1& y)
+{
+  return x.real() == y && x.imag() == T1();
 }
 
-template <typename T> 
-  __host__ __device__
-  inline bool operator!=(const complex<T>& lhs, const complex<T>& rhs){
-  return !(lhs == rhs);
+template <typename T0, typename T1> 
+__host__ __device__
+bool operator!=(const complex<T0>& x, const complex<T1>& y)
+{
+  return !(x == y);
 }
 
-template <typename T> 
-  __host__ __device__
-  inline bool operator!=(const T & lhs, const complex<T>& rhs){
-  return !(lhs == rhs);
+template <typename T0, typename T1> 
+__host__
+bool operator!=(const complex<T0>& x, const std::complex<T1>& y)
+{
+  return !(x == y);
 }
 
-template <typename T> 
-  __host__ __device__
-  inline bool operator!=(const complex<T> & lhs, const T& rhs){
-  return !(lhs == rhs);
+template <typename T0, typename T1> 
+__host__
+bool operator!=(const std::complex<T0>& x, const complex<T1>& y)
+{
+  return !(x == y);
 }
 
-} 
+template <typename T0, typename T1> 
+__host__ __device__
+bool operator!=(const T0& x, const complex<T1>& y)
+{
+  return !(x == y);
+}
+
+template <typename T0, typename T1> 
+__host__ __device__
+bool operator!=(const complex<T0>& x, const T1& y)
+{
+  return !(x == y);
+}
+
+} // end namespace thrust
 
 #include <thrust/detail/complex/arithmetic.h>
 #include <thrust/detail/complex/cproj.h>
@@ -166,7 +385,6 @@ template <typename T>
 #include <thrust/detail/complex/clog.h>
 #include <thrust/detail/complex/clogf.h>
 #include <thrust/detail/complex/cpow.h>
-#include <thrust/detail/complex/cpowf.h>
 #include <thrust/detail/complex/ccosh.h>
 #include <thrust/detail/complex/ccoshf.h>
 #include <thrust/detail/complex/csinh.h>

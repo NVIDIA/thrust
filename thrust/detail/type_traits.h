@@ -651,7 +651,7 @@ template<typename T1, typename T2>
   <typename is_floating_point<T1>::type,typename is_floating_point<T2>::type>
   ::value>::type>
   {
-  typedef larger_type<T1,T2> type;
+  typedef typename larger_type<T1,T2>::type type;
   };
 
 template<typename T1, typename T2> 
