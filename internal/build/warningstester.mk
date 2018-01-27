@@ -50,11 +50,11 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
       CUDACC_FLAGS += -Xcompiler "-Winit-self -Woverloaded-virtual -Wno-cast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros"
 
       ifdef USE_CLANGLLVM
-        IS_CLANG = 1
+        IS_CLANG := 1
       endif
 
       ifeq ($(OS),Darwin)
-        IS_CLANG = 1
+        IS_CLANG := 1
       endif
 
       ifdef IS_CLANG 
@@ -67,16 +67,30 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         # OMP backend, which is mostly #ifdef'd out when you aren't using it.
         CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
       else # GCC
-        GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\.//g')
-        ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
-          # In GCC 4.1.2 and older, numeric conversion warnings are not
-          # suppressable, so shut off -Wno-error.
-          CUDACC_FLAGS += -Xcompiler "-Wno-error"
-        endif
-        ifeq ($(shell if test $(GCC_VERSION) -ge 450; then echo true; fi),true)
-          # This isn't available until GCC 4.3, and misfires on TMP code until
-          # GCC 4.5.
-          CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
+        ifdef CCBIN
+          GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\.//g')
+          ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
+            # In GCC 4.1.2 and older, numeric conversion warnings are not
+            # suppressable, so shut off -Wno-error.
+            CUDACC_FLAGS += -Xcompiler "-Wno-error"
+          endif
+          ifeq ($(shell if test $(GCC_VERSION) -ge 450; then echo true; fi),true)
+            # This isn't available until GCC 4.3, and misfires on TMP code until
+            # GCC 4.5.
+            CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
+          endif
+          ifeq ($(shell if test $(GCC_VERSION) -ge 480; then echo true; fi),true)
+            # XXX The mechanism for checking if compiler flags are supported
+            # seems to be broken for the ARMv7 DVS builder, so the main CUDA
+            # Makefiles accidentally add -Wno-unused-local-typedefs to older
+            # GCC builds that don't support it.
+            ifeq ($(TARGET_ARCH),ARMv7)
+              C_WARNING_FLAGS_TMP := $(filter-out -Wno-unused-local-typedefs,$(C_WARNING_FLAGS))
+              C_WARNING_FLAGS := $(C_WARNING_FLAGS_TMP)
+            endif
+          endif
+        else
+          $(error CCBIN is not defined)
         endif
       endif
     endif

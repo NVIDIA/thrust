@@ -32,11 +32,11 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
       CUDACC_FLAGS += -Xcompiler "-Winit-self -Woverloaded-virtual -Wno-cast-align -Wno-long-long -Wno-variadic-macros"
 
       ifdef USE_CLANGLLVM
-        IS_CLANG = 1
+        IS_CLANG := 1
       endif
 
       ifeq ($(OS),Darwin)
-        IS_CLANG = 1
+        IS_CLANG := 1
       endif
 
       ifdef IS_CLANG 
@@ -60,6 +60,16 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             # This isn't available until GCC 4.3, and misfires on TMP code until
             # GCC 4.5.
             CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
+          endif
+          ifeq ($(shell if test $(GCC_VERSION) -ge 480; then echo true; fi),true)
+            # XXX The mechanism for checking if compiler flags are supported
+            # seems to be broken for the ARMv7 DVS builder, so the main CUDA
+            # Makefiles accidentally add -Wno-unused-local-typedefs to older
+            # GCC builds that don't support it.
+            ifeq ($(TARGET_ARCH),ARMv7)
+              C_WARNING_FLAGS_TMP := $(filter-out -Wno-unused-local-typedefs,$(C_WARNING_FLAGS))
+              C_WARNING_FLAGS := $(C_WARNING_FLAGS_TMP)
+            endif
           endif
         else
           $(error CCBIN is not defined)
@@ -92,25 +102,25 @@ ARCH_NEG_FILTER += 20 21
 # Determine which SASS to generate
 # if DVS (either per-CL or on-demand)
 ifneq ($(or $(THRUST_DVS),$(THRUST_DVS_NIGHTLY)),)
- # DVS doesn't run Thrust on fermi so filter out SM 2.0/2.1
- # DVS doesn't run Thrust on mobile so filter those out as well
- # DVS doesn't have PASCAL configs at the moment
- ARCH_NEG_FILTER += 20 21 32 37 53 60
+  # DVS doesn't run Thrust on fermi so filter out SM 2.0/2.1
+  # DVS doesn't run Thrust on mobile so filter those out as well
+  # DVS doesn't have PASCAL configs at the moment
+  ARCH_NEG_FILTER += 20 21 32 37 53 60
 else
- # If building for ARMv7 (32-bit ARM), build only mobile SASS since no dGPU+ARM32 are supported anymore
- ifeq ($(TARGET_ARCH),ARMv7)
-  ARCH_FILTER = 32 53 62
- endif
- # If its androideabi, we know its mobile, so can target specific SASS
- ifeq ($(OS),Linux)
-  ifeq ($(ABITYPE), androideabi)
-   ARCH_FILTER = 32 53 62
-   ifeq ($(THRUST_TEST),1)
-     NVCC_OPTIONS += -include "$(ROOTDIR)/cuda/tools/demangler/demangler.h"
-     LIBRARIES += demangler
-   endif
+  # If building for ARMv7 (32-bit ARM), build only mobile SASS since no dGPU+ARM32 are supported anymore
+  ifeq ($(TARGET_ARCH),ARMv7)
+    ARCH_FILTER = 32 53 62
   endif
- endif
+  # If its androideabi, we know its mobile, so can target specific SASS
+  ifeq ($(OS),Linux)
+    ifeq ($(ABITYPE), androideabi)
+     ARCH_FILTER = 32 53 62
+     ifeq ($(THRUST_TEST),1)
+       NVCC_OPTIONS += -include "$(ROOTDIR)/cuda/tools/demangler/demangler.h"
+       LIBRARIES += demangler
+     endif
+    endif
+  endif
 endif
 
 # Add -mthumb for Linux on ARM to work around bug in arm cross compiler fom p4
