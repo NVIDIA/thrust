@@ -125,28 +125,25 @@ else
 endif
 
 # Print host compiler version.
-$(info #################################################################################)
 
 VERSION_FLAG :=
 ifeq ($(OS),$(filter $(OS),Linux Darwin))
-  ifdef USEPGCXX        # PGI
-    VERSION_FLAG := -V
-  else
-    ifdef USEXLC        # XLC
-      VERSION_FLAG := -qversion
-    else                # GCC, ICC or Clang AKA the sane ones.
-      VERSION_FLAG := --version
-    endif
-  endif
+	ifdef USEPGCXX        # PGI
+		VERSION_FLAG := -V
+	else
+		ifdef USEXLC        # XLC
+			VERSION_FLAG := -qversion
+		else                # GCC, ICC or Clang AKA the sane ones.
+			VERSION_FLAG := --version
+		endif
+	endif
 else ifeq ($(OS),win32) # MSVC
-  # cl.exe run without any options will print its version info and exit.
-  VERSION_FLAG :=
+	# cl.exe run without any options will print its version info and exit.
+	VERSION_FLAG :=
 endif
 
-$(info CCBIN         : $(CCBIN))
-$(info CCBIN VERSION : $(shell $(CCBIN) $(VERSION_FLAG)))
-
-$(info #################################################################################)
+$(info #### CCBIN         : $(CCBIN))
+$(info #### CCBIN VERSION : $(shell $(CCBIN) $(VERSION_FLAG)))
 
 ifeq ($(OS), win32)
   CREATE_DVS_PACKAGE = $(ZIP) -r built/CUDA-thrust-package.zip bin thrust/internal/test thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)

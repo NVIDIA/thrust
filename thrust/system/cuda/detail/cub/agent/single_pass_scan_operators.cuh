@@ -320,7 +320,7 @@ struct ScanTileState<T, false>
         cudaError_t error = cudaSuccess;
         do
         {
-            void*   allocations[3];
+            void*   allocations[3] = { NULL, NULL, NULL };
             size_t  allocation_sizes[3];
 
             allocation_sizes[0] = (num_tiles + TILE_STATUS_PADDING) * sizeof(StatusWord);           // bytes needed for tile status descriptors

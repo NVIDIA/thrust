@@ -68,7 +68,11 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
       else # GCC
         ifdef CCBIN
-          GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\.//g')
+          # Older versions of GCC (~4.4 and older) seem to print three version
+          # numbers (major, minor and patch) with the -dumpversion flag; newer
+          # versions only print two numbers.
+          GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
+
           ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
             # In GCC 4.1.2 and older, numeric conversion warnings are not
             # suppressable, so shut off -Wno-error.
@@ -78,16 +82,6 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             # This isn't available until GCC 4.3, and misfires on TMP code until
             # GCC 4.5.
             CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
-          endif
-          ifeq ($(shell if test $(GCC_VERSION) -lt 470; then echo true; fi),true)
-            # XXX The mechanism for checking if compiler flags are supported
-            # seems to be broken for the ARMv7 DVS builder, so the main CUDA
-            # Makefiles accidentally add -Wno-unused-local-typedefs to older
-            # GCC builds that don't support it.
-            ifeq ($(TARGET_ARCH),ARMv7)
-              C_WARNING_FLAGS_TMP := $(filter-out -Wno-unused-local-typedefs,$(C_WARNING_FLAGS))
-              C_WARNING_FLAGS := $(C_WARNING_FLAGS_TMP)
-            endif
           endif
         else
           $(error CCBIN is not defined)
