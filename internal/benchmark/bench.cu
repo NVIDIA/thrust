@@ -251,7 +251,7 @@ void print_experiment_header()
     << ","  << "TBB Average Throughput"
     << ","  << "TBB Throughput Uncertainty"
     #endif
-    ;
+    << std::endl;
 
   std::cout << ""                // Thrust Version.
     << ","  << ""                // Algorithm.
@@ -276,7 +276,7 @@ void print_experiment_header()
     << ","  << "elements/sec"    // TBB Average Throughput.
     << ","  << "elements/sec"    // TBB Throughput Uncertainty.
     #endif
-    ;
+    << std::endl;
 } // }}}
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -451,7 +451,7 @@ struct experiment_driver
       << ","  << tbb_average_throughput        // TBB Average Throughput.
       << ","  << tbb_throughput_uncertainty    // TBB Throughput Uncertainty.
       #endif
-      ;
+      << std::endl;
   } // }}}
 
 private:
