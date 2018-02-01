@@ -293,7 +293,7 @@ struct AgentRadixSortDownsweep
         {
             ValueT value = exchange_values[threadIdx.x + (ITEM * BLOCK_THREADS)];
 
-            if (FULL_TILE ||
+            if (FULL_TILE || 
                 (static_cast<OffsetT>(threadIdx.x + (ITEM * BLOCK_THREADS)) < valid_items))
             {
                 d_values_out[relative_bin_offsets[ITEM] + threadIdx.x + (ITEM * BLOCK_THREADS)] = value;
@@ -411,7 +411,7 @@ struct AgentRadixSortDownsweep
     __device__ __forceinline__ void LoadValues(
         ValueT                      (&values)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
-        OffsetT                     valid_items,
+        volatile OffsetT                     valid_items,
         Int2Type<true>              is_full_tile,
         Int2Type<RADIX_RANK_MATCH>  rank_algorithm)
     {
@@ -425,7 +425,7 @@ struct AgentRadixSortDownsweep
     __device__ __forceinline__ void LoadValues(
         ValueT                      (&values)[ITEMS_PER_THREAD],
         OffsetT                     block_offset,
-        OffsetT                     valid_items,
+        volatile OffsetT                     valid_items,
         Int2Type<false>             is_full_tile,
         Int2Type<RADIX_RANK_MATCH>  rank_algorithm)
     {
@@ -444,9 +444,9 @@ struct AgentRadixSortDownsweep
         OffsetT         valid_items,
         Int2Type<false> /*is_keys_only*/)
     {
-        ValueT values[ITEMS_PER_THREAD];
-
         CTA_SYNC();
+
+        ValueT values[ITEMS_PER_THREAD];
 
         LoadValues(
             values,
@@ -746,7 +746,6 @@ struct AgentRadixSortDownsweep
         else
         {
             // Process full tiles of tile_items
-            #pragma unroll 1
             while (block_offset + TILE_ITEMS <= block_end)
             {
                 ProcessTile<true>(block_offset);

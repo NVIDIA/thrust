@@ -248,10 +248,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(128, 8, OutputT), ///< Threads per block, items per thread
-                2,                                         ///< Number of items per vectorized load
-                BLOCK_REDUCE_RAKING,                       ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                              ///< Cache load modifier
+                CUB_NOMINAL_CONFIG(128, 8, OutputT), ///< Threads per block, items per thread
+                2,                                  ///< Number of items per vectorized load
+                BLOCK_REDUCE_RAKING,                ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                       ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -267,10 +267,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX 580: 178.9 GB/s @ 48M 4B items, 158.1 GB/s @ 192M 1B items)
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(128, 8, OutputT), ///< Threads per block, items per thread
-                4,                                         ///< Number of items per vectorized load
-                BLOCK_REDUCE_RAKING,                       ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                              ///< Cache load modifier
+                CUB_NOMINAL_CONFIG(128, 8, OutputT),     ///< Threads per block, items per thread
+                4,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_RAKING,                    ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                           ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -286,10 +286,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX670: 154.0 @ 48M 4B items)
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(256, 20, OutputT), ///< Threads per block, items per thread
-                2,                                          ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                               ///< Cache load modifier
+                CUB_NOMINAL_CONFIG(256, 20, OutputT),    ///< Threads per block, items per thread
+                2,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                           ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -305,10 +305,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX Titan: 255.1 GB/s @ 48M 4B items; 228.7 GB/s @ 192M 1B items)
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(256, 20, OutputT), ///< Threads per block, items per thread
-                4,                                          ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
-                LOAD_LDG>                                   ///< Cache load modifier
+                CUB_NOMINAL_CONFIG(256, 20, OutputT),    ///< Threads per block, items per thread
+                4,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
+                LOAD_LDG>                               ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -323,10 +323,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (P100: 591 GB/s @ 64M 4B items; 583 GB/s @ 256M 1B items)
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(256, 16, OutputT), ///< Threads per block, items per thread
-                4,                                          ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
-                LOAD_LDG>                                   ///< Cache load modifier
+                CUB_NOMINAL_CONFIG(256, 16, OutputT),    ///< Threads per block, items per thread
+                4,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
+                LOAD_LDG>                               ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
