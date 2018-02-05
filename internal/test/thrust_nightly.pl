@@ -419,7 +419,7 @@ sub run_examples {
 
             if (-f "${filecheck_data_path}/${test}.filecheck") {
                 # If the filecheck file is empty, don't use filecheck, just
-                # check if the output file is also empty. 
+                # check if the output file is also empty.
                 if (-z "${filecheck_data_path}/${test}.filecheck") {
                     if (-z "${test}.output") {
                         print "&&&& PASSED FileCheck $test\n";
@@ -518,11 +518,21 @@ sub run_unit_tests {
 
                     my $filecheck = "${filecheck_path}/FileCheck --input-file ${test}.output ${filecheck_data_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
 
-                    print "&&&& RUNNING FileCheck $test\n";
-
                     if (-f "${filecheck_data_path}/${test}.filecheck") {
-                        # If the filecheck file is empty, don't use filecheck.
+                        print "&&&& RUNNING FileCheck $test\n";
+
+                        # If the filecheck file is empty, don't use filecheck,
+                        # just check if the output file is also empty.
                         if (! -z "${filecheck_data_path}/${test}.filecheck") {
+                            if (-z "${test}.output") {
+                                print "&&&& PASSED FileCheck $test\n";
+                                $passes = $passes + 1;
+                            } else {
+                                print "#### Output received but not expected.\n";
+                                print "&&&& FAILED FileCheck $test\n";
+                                $failures = $failures + 1;
+                            }
+                        } else {
                             if (system($filecheck) == 0) {
                                 print "&&&& PASSED FileCheck $test\n";
                                 $passes = $passes + 1;
