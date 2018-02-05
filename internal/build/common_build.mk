@@ -50,10 +50,17 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         CUDACC_FLAGS += -Xcompiler "-Wno-unneeded-internal-declaration"
       else # GCC
         ifdef CCBIN
+          CCBIN_ENVIRONMENT :=
+          ifeq ($(OS), QNX)
+            # QNX's GCC complains if QNX_HOST and QNX_TARGET aren't defined in the
+            # environment.
+            CCBIN_ENVIRONMENT := QNX_HOST=$(QNX_HOST) QNX_TARGET=$(QNX_TARGET)
+          endif
+
           # Older versions of GCC (~4.4 and older) seem to print three version
           # numbers (major, minor and patch) with the -dumpversion flag; newer
           # versions only print two numbers.
-          GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
+          GCC_VERSION = $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
 
           ifeq ($(shell if test $(GCC_VERSION) -lt 42; then echo true; fi),true)
             # In GCC 4.1.2 and older, numeric conversion warnings are not

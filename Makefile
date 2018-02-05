@@ -142,8 +142,15 @@ else ifeq ($(OS),win32) # MSVC
 	VERSION_FLAG :=
 endif
 
+CCBIN_ENVIRONMENT :=
+ifeq ($(OS), QNX)
+	# QNX's GCC complains if QNX_HOST and QNX_TARGET aren't defined in the
+	# environment.
+	CCBIN_ENVIRONMENT := QNX_HOST=$(QNX_HOST) QNX_TARGET=$(QNX_TARGET)
+endif
+
 $(info #### CCBIN         : $(CCBIN))
-$(info #### CCBIN VERSION : $(shell $(CCBIN) $(VERSION_FLAG)))
+$(info #### CCBIN VERSION : $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) $(VERSION_FLAG)))
 
 ifeq ($(OS), win32)
   CREATE_DVS_PACKAGE = $(ZIP) -r built/CUDA-thrust-package.zip bin thrust/internal/test thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)
