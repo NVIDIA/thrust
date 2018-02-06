@@ -43,7 +43,7 @@ my $os = "";
 my $cygwin = "";
 my $openmp = 0;
 my $config = "";
-my $abi = "";     
+my $abi = "";
 my $remote = "";
 my $remote_server = "";
 my $remote_android = "";
@@ -130,9 +130,9 @@ if ($arch eq "ARMv7") {
           $abi = "_${abi}";
       }
 }
-elsif ($arch eq "aarch64") { 
-    $abi = "_${abi}"; 
-} 
+elsif ($arch eq "aarch64") {
+    $abi = "_${abi}";
+}
 else {
     $abi = "";                #Ignore abi for architectures other than arm
 }
@@ -255,7 +255,7 @@ sub is_filtered {
 sub clear_libpath {
     if ($os eq "Darwin") {
         $ENV{'DYLD_LIBRARY_PATH'} = "";
-        printf ("DYLD_LIBRARY_PATH = %s\n",$ENV{'DYLD_LIBRARY_PATH'}); 
+        printf ("DYLD_LIBRARY_PATH = %s\n",$ENV{'DYLD_LIBRARY_PATH'});
     } elsif ($os eq "Linux") {
         # When running under `nvidia-docker`, clearing `LD_LIBRARY_PATH` breaks
         # the build. Currently, there's no good way to determine if we're
@@ -278,6 +278,40 @@ sub clear_libpath {
     }
 }
 
+sub process_return_code {
+    my ($name, $ret, $msg) = @_;
+
+    if ($ret != 0) {
+        my $signal  = $ret & 127;
+        my $app_exit = $ret >> 8;
+        my $dumped_core = $ret & 0x80;
+        if (($app_exit != 0) && ($app_exit != 0)) {
+            if ($msg ne "") {
+                print("\n#### ERROR : $name exited with return value $app_exit. $msg\n");
+            } else {
+                print("\n#### ERROR : $name exited with return value $app_exit.\n");
+            }
+        }
+        if ($signal != 0) {
+            if ($msg ne "") {
+                print("\n#### ERROR : $name received signal SIG$sig_names[$signal] ($signal). $msg\n");
+            } else {
+                print("\n#### ERROR : $name received signal SIG$sig_names[$signal] ($signal).\n");
+            }
+            if ($sig_nums{'INT'} eq $signal) {
+                die("Terminating testing due to SIGINT.");
+            }
+        }
+        if ($dumped_core != 0) {
+            if ($msg ne "") {
+                print("\n#### ERROR : $name generated a core dump. $msg\n");
+            } else {
+                print("\n#### ERROR : $name generated a core dump.\n");
+            }
+        }
+    }
+}
+
 # Wrapper for system that logs the commands so you can see what it did
 sub run_cmd {
     my ($cmd) = @_;
@@ -287,14 +321,14 @@ sub run_cmd {
 
 #    my $start = gettimeofday();
     eval {
-        local $SIG{ALRM} = sub { die("Test timed out (received SIGALRM).\n") };
+        local $SIG{ALRM} = sub { die("Command timed out (received SIGALRM).\n") };
         alarm (60 * $timeout_min);
         if ($tool_checker ne "") {
             $syst_cmd = $tool_checker . " " . $cmd;
         } else {
             $syst_cmd = $cmd;
         }
-          
+
         @executable = split(' ', $syst_cmd, 2);
         if ($remote) {
             $ret = remote_shell($syst_cmd);
@@ -304,32 +338,15 @@ sub run_cmd {
 
         alarm 0;
     };
-#    my $elapsed = gettimeofday() - $start; 
+#    my $elapsed = gettimeofday() - $start;
 
     if ($@) {
-        print("\n#### ERROR : Test timeout reached, killing $executable[0].\n"); 
+        print("\n#### ERROR : Command timeout reached, killing $executable[0].\n");
         system("killall ".$executable[0]);
 #        return (1, $elapsed);
-        return (1, 0.0);
+        return ($sig_nums{'KILL'}, 0.0);
     }
-    
-    if ($ret != 0) {
-        my $signal  = $ret & 127;
-        my $app_exit = $ret >> 8;
-        my $dumped_core = $ret & 0x80;
-        if (($app_exit != 0) && ($app_exit != 0)) {
-            print("\n#### ERROR : Test exited with return value $app_exit.\n");
-        }
-        if ($signal != 0) {
-            print("\n#### ERROR : Test received signal SIG$sig_names[$signal] ($signal).\n");
-            if ($sig_nums{'INT'} eq $signal) {
-                die("Terminating testing due to SIGINT.");
-            }
-        }  
-        if ($dumped_core != 0) {
-            print("\n#### ERROR : Test generated a core dump.\n");
-        }                    
-    }
+
 #    return ($ret, $elapsed);
     return ($ret, 0.0);
 }
@@ -404,7 +421,7 @@ sub run_examples {
         print @output;
         print "########################################\n";
         if ($ret != 0) {
-            print "#### ERROR : $test returned $ret. Test crash?\n";
+            process_return_code($test, $ret, "Example crash?");
             printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
             $errors = $errors + 1;
         } else {
@@ -508,10 +525,36 @@ sub run_unit_tests {
         foreach my $line (@output)
         {
             if (($fail, $known_fail, $error, $pass) = $line =~ /Totals: ([0-9]+) failures, ([0-9]+) known failures, ([0-9]+) errors, and ([0-9]+) passes[.]/igs) {
+                $found_totals = 1;
+                $failures = $failures + $fail;
+                $known_failures = $known_failures + $known_fail;
+                $errors = $errors + $error;
+                $passes = $passes + $pass;
+                last;
+            }
+            else {
+              $fail = 0;
+              $known_fail = 0;
+              $error = 0;
+              $pass = 0;
+            }
+        }
+        if ($ret == 0) {
+            if ($found_totals == 0) {
+                $errors = $errors + 1;
+                print "#### ERROR : $test returned zero and no summary line was found. Invalid test?\n";
+                printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
+            }
+            else {
                 if ($fail != 0 or $error != 0) {
+                    $errors = $errors + 1;
+                    print "#### ERROR : $test returned zero, but had failures or errors. Test driver error?\n";
                     printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
-                }
-                else {
+                } elsif ($known_fail == 0 and $pass == 0) {
+                    $errors = $errors + 1;
+                    print "#### ERROR : $test returned zero and had no failures, known failures, errors or passes. Invalid test?\n";
+                    printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
+                } else {
                     printf("&&&& PASSED $test %.2f [s]\n", $elapsed);
 
                     # Check output with LLVM FileCheck if the test has a FileCheck input.
@@ -545,42 +588,12 @@ sub run_unit_tests {
                                 $failures = $failures + 1;
                             }
                         }
-                    } 
-                }
-                $found_totals = 1;
-                $failures = $failures + $fail; 
-                $known_failures = $known_failures + $known_fail;
-                $errors = $errors + $error; 
-                $passes = $passes + $pass;
-                last; 
-            }
-            else {
-              $fail = 0;
-              $known_fail = 0;
-              $error = 0;
-              $pass = 0;
-            }
-        }
-        if ($ret == 0) {
-            if ($found_totals == 0) {
-                $errors = $errors + 1;
-                print "#### ERROR : $test returned zero and no summary line was found. Invalid test?\n";
-                printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
-            }
-            else {
-                if ($fail != 0 or $error != 0) {
-                    $errors = $errors + 1;
-                    print "#### ERROR : $test returned zero, but had failures or errors. Test driver error?\n";
-                    printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
-                } elsif ($known_fail == 0 and $pass == 0) {
-                    $errors = $errors + 1;
-                    print "#### ERROR : $test returned zero and had no failures, known failures, errors or passes. Invalid test?\n";
-                    printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
+                    }
                 }
             }
         } elsif ($fail == 0 and $error == 0) {
             $errors = $errors + 1;
-            print "#### ERROR : $test returned $ret but had no failures or errors. Test crash?\n";
+            process_return_code($test, $ret, "Test crash?");
             printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
         }
         print "\n";
