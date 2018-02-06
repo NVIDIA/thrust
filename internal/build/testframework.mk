@@ -11,5 +11,7 @@ CU_FILES += $(CUSRC)
 INCLUDES_ABSPATH += $(ROOTDIR)/thrust/testing
 
 THRUST_TEST := 1
+
+include $(ROOTDIR)/thrust/internal/build/common_detect.mk
 include $(ROOTDIR)/thrust/internal/build/common_build.mk
 

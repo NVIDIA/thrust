@@ -15,4 +15,5 @@ endif
 
 ARCH_NEG_FILTER += 20 21
 
+include $(ROOTDIR)/thrust/internal/build/common_detect.mk
 include $(ROOTDIR)/thrust/internal/build/common_build.mk

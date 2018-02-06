@@ -15,15 +15,11 @@ import re
 test_template = """
 TEST_SRC   := %(TEST_SRC)s
 TEST_NAME  := %(TEST_NAME)s
-TEST_EXT   := %(TEST_EXT)s
-TEST_DIR   := %(TEST_DIR)s
 include $(ROOTDIR)/thrust/internal/build/generic_test.mk
 """
 example_template = """
 EXAMPLE_SRC   := %(EXAMPLE_SRC)s
 EXAMPLE_NAME  := %(EXAMPLE_NAME)s
-EXAMPLE_EXT   := %(EXAMPLE_EXT)s
-EXAMPLE_DIR   := %(EXAMPLE_DIR)s
 include $(ROOTDIR)/thrust/internal/build/generic_example.mk
 """
 
@@ -47,11 +43,7 @@ def generate_test_mk(mk_path, test_path, group, TEST_DIR):
         fn = os.path.splitext(os.path.basename(s));
         t = "thrust."+group+"."+fn[0]
         e = fn[1]
-        mkfile = test_template % {
-                "TEST_SRC":s, 
-                "TEST_NAME":t, 
-                "TEST_EXT":e, 
-                "TEST_DIR":TEST_DIR}
+        mkfile = test_template % {"TEST_SRC" : s,  "TEST_NAME" : t}
         f = open(os.path.join(mk_path,t+".mk"), 'w')
         f.write(mkfile)
         f.close()
@@ -71,11 +63,7 @@ def generate_example_mk(mk_path, example_path, group, EXAMPLE_DIR):
         fn = os.path.splitext(os.path.basename(s));
         t = "thrust."+group+"."+fn[0]
         e = fn[1]
-        mkfile = example_template % {
-                "EXAMPLE_SRC":s, 
-                "EXAMPLE_NAME":t,
-                "EXAMPLE_EXT":e, 
-                "EXAMPLE_DIR":EXAMPLE_DIR}
+        mkfile = example_template % {"EXAMPLE_SRC" : s, "EXAMPLE_NAME" : t}
         f = open(os.path.join(mk_path,t+".mk"), 'w')
         f.write(mkfile)
         f.close()

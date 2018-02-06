@@ -1,19 +1,6 @@
 I_AM_SLOPPY := 1
 USE_NEW_PROJECT_MK := 1
 
-ifeq ($(THRUST_TEST),1)
-  include $(ROOTDIR)/build/getprofile.mk
-  include $(ROOTDIR)/build/config/$(PROFILE).mk
-else
-  ifdef VULCAN_TOOLKIT_BASE
-    include $(VULCAN_TOOLKIT_BASE)/build/getprofile.mk
-    include $(VULCAN_TOOLKIT_BASE)/build/config/$(PROFILE).mk
-  else
-    include $(ROOTDIR)/build/getprofile.mk
-    include $(ROOTDIR)/build/config/$(PROFILE).mk
-  endif  # VULCAN_TOOLKIT_BASE
-endif  # THRUST_TEST
-
 ifeq ($(OS),Linux)
   LIBRARIES += m
 endif
@@ -146,11 +133,9 @@ else ifeq ($(BUILD_SRC_SUFFIX),.cpp)
   FILES += $(BUILD_SRC)
 endif
 
-$(BUILD_SRC).CUDACC_FLAGS += $(BUILD_SRC_FLAGS)
-
 # CUDA includes
 ifdef VULCAN
-  INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/cuda/include/
+  INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/cuda/include
   INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/cuda/_internal/cudart
 else
   INCLUDES_ABSPATH += $(ROOTDIR)/cuda/inc
