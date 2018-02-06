@@ -18,7 +18,9 @@
 #include <climits>    // For CHAR_BIT.
 #include <cmath>      // For `sqrt` and `abs`.
 
+#include <fenv.h>
 #include <stdint.h>   // For `intN_t`.
+
 #include "random.h"
 #include "timer.h"
 
@@ -212,6 +214,7 @@ T uncertainty_additive(
 template <typename T>
 int find_significant_digit(T x)
 {
+  if (x == T(0)) return T(0);
   return -int(std::floor(std::log10(std::abs(x))));
 }
 
@@ -219,9 +222,9 @@ int find_significant_digit(T x)
 template <typename T, typename N>
 T round_to_precision(T x, N ndigits)
 {
-    double m = (x < 0.0) ? -1.0 : 1.0;
-    double pwr = std::pow(T(10.0), ndigits);
-    return (std::floor(x * m * pwr + 0.5) / pwr) * m;
+  double m = (x < 0.0) ? -1.0 : 1.0;
+  double pwr = std::pow(T(10.0), ndigits);
+  return (std::floor(x * m * pwr + 0.5) / pwr) * m;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1098,6 +1101,10 @@ private:
 
 int main(int argc, char** argv)
 {
+  feenableexcept(FE_DIVBYZERO);
+  feenableexcept(FE_INVALID);
+  feenableexcept(FE_OVERFLOW);
+
   command_line_processor clp(argc, argv);
 
   #if defined(HAVE_TBB)
