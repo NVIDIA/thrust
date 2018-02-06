@@ -18,7 +18,6 @@
 #include <climits>    // For CHAR_BIT.
 #include <cmath>      // For `sqrt` and `abs`.
 
-#include <fenv.h>
 #include <stdint.h>   // For `intN_t`.
 
 #include "random.h"
@@ -1101,10 +1100,6 @@ private:
 
 int main(int argc, char** argv)
 {
-  feenableexcept(FE_DIVBYZERO);
-  feenableexcept(FE_INVALID);
-  feenableexcept(FE_OVERFLOW);
-
   command_line_processor clp(argc, argv);
 
   #if defined(HAVE_TBB)
