@@ -54,6 +54,13 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             # suppressable, so shut off -Wno-error.
             CUDACC_FLAGS += -Xcompiler "-Wno-error"
           endif
+          ifeq ($(shell if test $(GCC_VERSION) -eq 44; then echo true; fi),true)
+            # In GCC 4.4, the CUDA backend's kernel launch templates cause
+            # impossible-to-decipher "'<anonymous>' is used uninitialized in
+            # this function" warnings, so disable uninitialized variable
+            # warnings.
+            CUDACC_FLAGS += -Xcompiler "-Wno-uninitialized"
+          endif
           ifeq ($(shell if test $(GCC_VERSION) -ge 45; then echo true; fi),true)
             # This isn't available until GCC 4.3, and misfires on TMP code until
             # GCC 4.5.
