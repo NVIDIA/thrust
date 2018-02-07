@@ -27,7 +27,7 @@ from math import sqrt, log10, floor
 
 from collections import deque
 
-from optparse import OptionParser as option_parser
+from argparse import ArgumentParser as arg_parser
 
 from csv import DictReader as csv_dict_reader
 from csv import DictWriter as csv_dict_writer
@@ -293,50 +293,47 @@ def combine_sample_standard_deviation(As, n = None, u = None, v = None):
 
 ###############################################################################
 
-def parse_command_line():
-  op = option_parser(
-    usage=(
-             "%prog [options] <input-csv0> <input-csv1> ...\n"
-      "\n"
-      "Aggregates the results of multiple runs of benchmark results stored in the\n"
-      "CSV format.\n"
-      "\n"
-      "Each input file should be in the CSV format. The first two rows of should\n"
-      "be a header. The 1st header row gives the name of each variable, and the 2nd\n"
-      "gives the units for that variable.\n"
+def process_program_arguments():
+  ap = argument_parser(
+    description = (
+      "Aggregates the results of multiple runs of benchmark results stored in "
+      "CSV format."
     )
   )
 
-  op.add_option(
-    "-o", "--output-file",
-    help=("The location that results are written to. If \"-\", results are "
-          "written to stdout."),
-    action="store", type="string", dest="output_file", default="-",
-    metavar="FILE"
-  )
-
-  op.add_option(
+  ap.add_argument(
     "-d", "--dependent-variable",
-    help=("Treat the specified three variables as a dependent variable. The "
-          "1st variable is the measured value, the 2nd is the uncertainty "
-          "of the measurement and the 3rd is the sample size."),
-    action="append", type="string", dest="dependent_variables",
-    metavar="VALUE,UNCERTAINTY,SAMPLES"
+    help = ("Treat the specified three variables as a dependent variable. The "
+            "1st variable is the measured value, the 2nd is the uncertainty "
+            "of the measurement and the 3rd is the sample size."),
+    action = "append", type = str, dest = "dependent_variables",
+    metavar = "VALUE,UNCERTAINTY,SAMPLES"
   )
 
-  op.add_option(
+  ap.add_argument(
     "-p", "--preserve-whitespace",
-    help=("Don't trim leading and trailing whitespace from each CSV cell."),
-    action="store_false", dest="trim_whitespace", default=True
+    help = ("Don't trim leading and trailing whitespace from each CSV cell."),
+    action = "store_false", dest = "trim_whitespace", default = True
   )
 
-  (options, args) = op.parse_args()
+  ap.add_argument(
+    "-o", "--output-file",
+    help = ("The file that results are written to. If `-`, results are "
+            "written to stdout."),
+    action = "store", type = str, dest = "output_file", default = "-",
+    metavar = "OUTPUT"
+  )
 
-  if len(args) == 0:
-    op.print_help()
-    exit(1)
+  ap.add_argument(
+    "input_files",
+    help = ("Input CSV files. The first two rows should be a header. The 1st "
+            "header row specifies the name of each variable, and the 2nd "
+            "header row specifies the units for that variable."),
+    action = "append", type = str, dest = "input_files", nargs = "+",
+    metavar = "INPUTS"
+  )
 
-  return (options, args)
+  return ap.parse_args()
 
 ###############################################################################
 
@@ -731,13 +728,13 @@ class record_aggregator(object):
 
 ###############################################################################
 
-(options, input_files) = parse_command_line()
+args = process_program_arguments()
 
 # Parse dependent variable options.
-ra = record_aggregator(options.dependent_variables)
+ra = record_aggregator(args.dependent_variables)
 
 # Read input files and open the output file.
-with io_manager(input_files, options.output_file, options.trim_whitespace) as iom:
+with io_manager(args.input_files, args.output_file, args.trim_whitespace) as iom:
   # Add all input data to the `record_aggregator`.
   for record in iom:
     ra.add(record)

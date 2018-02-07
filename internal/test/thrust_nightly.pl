@@ -1,53 +1,77 @@
-#!/usr/bin/perl
+#! /usr/bin/perl
+
+###############################################################################
+# Copyright (c) 2018 NVIDIA Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
 use strict;
 use warnings;
 
 print `perl --version`;
 
-print "Perl Modules:\n";
-
-use ExtUtils::Installed;
-
-my $inst = ExtUtils::Installed->new();
-my @modules = $inst->modules();
-my $module;
-foreach $module (@modules){
-  print $module ." - ". $inst->version($module). "\n";
-}
-
-print "\n";
-
 use Getopt::Long;
 use Cwd;
-use Cwd 'abs_path';
-use Config; # For sig_names
+use Cwd "abs_path";
+use Config; # For signal names and numbers.
 use File::Temp;
-use POSIX; # For strftime
-#use Time::HiRes qw(gettimeofday);
+use POSIX "strftime";
+
+my $have_time_hi_res = 0;
+
+if (eval { require Time::HiRes })
+{
+  printf("#### CONFIG timestamp `gettimeofday`\n");
+
+  import Time::HiRes "gettimeofday";
+
+  $have_time_hi_res = 1;
+} else {
+  printf("#### CONFIG timestamp `time`\n");
+}
+
+sub timestamp()
+{
+  if ($have_time_hi_res) {
+    return gettimeofday();
+  } else {
+    return time();
+  }
+}
 
 my %CmdLineOption;
 my $retVal;
-my $arch = "";
-my $build = "release";
+my $arch                = "";
+my $build               = "release";
 my $bin_path;
 my $filecheck_path;
 my $filecheck_data_path = "internal/test";
-my $filter_list_file = undef;
-my $testname = undef;
-my $valgrind_enable = 0;
+my $filter_list_file    = undef;
+my $testname            = undef;
+my $valgrind_enable     = 0;
 my $cudamemcheck_enable = 0;
-my $tool_checker = "";
-my $timeout_min = 15;
-my $os = "";
-my $cygwin = "";
-my $openmp = 0;
-my $config = "";
-my $abi = "";
-my $remote = "";
-my $remote_server = "";
-my $remote_android = "";
-my $remote_path = "/data/thrust_testing";
+my $tool_checker        = "";
+my $timeout_min         = 15;
+my $os                  = "";
+my $cygwin              = "";
+my $openmp              = 0;
+my $config              = "";
+my $abi                 = "";
+my $remote              = "";
+my $remote_server       = "";
+my $remote_android      = "";
+my $remote_path         = "/data/thrust_testing";
 
 # https://stackoverflow.com/questions/29862178/name-of-signal-number-2
 my @sig_names;
@@ -56,54 +80,53 @@ my %sig_nums;
 @sig_nums{ split ' ', $Config{sig_name} } = split ' ', $Config{sig_num};
 
 if (`uname` =~ m/CYGWIN/) {
-    $cygwin = 1;
-    $os = "win32";
+  $cygwin = 1;
+  $os = "win32";
 } elsif ($^O eq "MSWin32") {
-    $os = "win32";
+  $os = "win32";
 } else {
-    $os = `uname`;
-    chomp($os);
+  $os = `uname`;
+  chomp($os);
 }
 
 if ($os eq "win32") {
-    $ENV{'PROCESSOR_ARCHITECTURE'} ||= "";
-    $ENV{'PROCESSOR_ARCHITEW6432'} ||= "";
-    if ((lc($ENV{PROCESSOR_ARCHITECTURE}) ne "x86") ||
-        (lc($ENV{PROCESSOR_ARCHITECTURE}) eq "amd64") ||
-        (lc($ENV{PROCESSOR_ARCHITEW6432}) eq "amd64"))
-    {
-        $arch = "x86_64";
-    }
-    else {
-        $arch = "i686";
-    }
+  $ENV{'PROCESSOR_ARCHITECTURE'} ||= "";
+  $ENV{'PROCESSOR_ARCHITEW6432'} ||= "";
+
+  if ((lc($ENV{PROCESSOR_ARCHITECTURE}) ne "x86") ||
+      (lc($ENV{PROCESSOR_ARCHITECTURE}) eq "amd64") ||
+      (lc($ENV{PROCESSOR_ARCHITEW6432}) eq "amd64")) {
+    $arch = "x86_64";
+  } else {
+    $arch = "i686";
+  }
 } else {
-    $arch = `uname -m`;
-    chomp($arch);
+  $arch = `uname -m`;
+  chomp($arch);
 }
 
-sub Usage()
+sub usage()
 {
-    print STDOUT "Usage: thrust_nightly.pl <options>\n";
-    print STDOUT "Options:\n";
-    print STDOUT "  -help                         : Print help message\n";
-    print STDOUT "  -forcearch <arch>             : i686|x86_64|ARMv7|aarch64 (default: $arch)\n";
-    print STDOUT "  -forceabi <abi>               : Specify abi to be used for arm (gnueabi|gnueabihf)\n";
-    print STDOUT "  -forceos <os>                 : win32|Linux|Darwin (default: $os)\n";
-    print STDOUT "  -build <release|debug>        : (default: debug)\n";
-    print STDOUT "  -bin-path <path>              : Specify location of test binaries\n";
-    print STDOUT "  -filecheck-path <path>        : Specify location of filecheck binary\n";
-    print STDOUT "  -filecheck-data-path <path>   : Specify location of filecheck data (default: $filecheck_data_path)\n";
-    print STDOUT "  -timeout-min <min>            : timeout in minutes for each individual test\n";
-    print STDOUT "  -filter-list-file <file>      : path to filter file which contains one invocation per line\n";
-    print STDOUT "  -openmp                       : test OpenMP implementation\n";
-    print STDOUT "  -remote-server <server>       : test on remote target (uses ssh)\n";
-    print STDOUT "  -remote-android               : test on remote android target (uses adb)\n";
-    print STDOUT "  -remote-path                  : path on remote target to copy test files (default: $remote_path)\n";
+  printf("Usage: thrust_nightly.pl <options>\n");
+  printf("Options:\n");
+  printf("  -help                         : Print help message\n");
+  printf("  -forcearch <arch>             : i686|x86_64|ARMv7|aarch64 (default: $arch)\n");
+  printf("  -forceabi <abi>               : Specify abi to be used for arm (gnueabi|gnueabihf)\n");
+  printf("  -forceos <os>                 : win32|Linux|Darwin (default: $os)\n");
+  printf("  -build <release|debug>        : (default: debug)\n");
+  printf("  -bin-path <path>              : Specify location of test binaries\n");
+  printf("  -filecheck-path <path>        : Specify location of filecheck binary\n");
+  printf("  -filecheck-data-path <path>   : Specify location of filecheck data (default: $filecheck_data_path)\n");
+  printf("  -timeout-min <min>            : timeout in minutes for each individual test\n");
+  printf("  -filter-list-file <file>      : path to filter file which contains one invocation per line\n");
+  printf("  -openmp                       : test OpenMP implementation\n");
+  printf("  -remote-server <server>       : test on remote target (uses ssh)\n");
+  printf("  -remote-android               : test on remote android target (uses adb)\n");
+  printf("  -remote-path                  : path on remote target to copy test files (default: $remote_path)\n");
 }
 
 $retVal = GetOptions(\%CmdLineOption,
-                     'help'     => sub { Usage() and exit 0 },
+                     'help'     => sub { usage() and exit 0 },
                      "forcearch=s" => \$arch,
                      "forceabi=s" => \$abi,
                      "forceos=s" => \$os,
@@ -178,7 +201,7 @@ sub remote_check {
 sub remote_push {
     my ($s, $t) = @_;
 
-    print ("remote push $s $t\n");
+    printf("#### REMOTE_PUSH $s $t\n");
     if ($remote_android) {
         system("adb push ${s} ${t}") && die qq(Problem pushing $s to $t on android device);
     } else {
@@ -189,7 +212,7 @@ sub remote_push {
 sub remote_pull {
     my ($s, $t) = @_;
 
-    print ("remote pull $s $t\n");
+    printf("#### REMOTE_PULL $s $t\n");
     if ($remote_android) {
         system("adb pull ${s} ${t}") && die qq(Problem pulling $t from $s on android device);
     } else {
@@ -201,7 +224,7 @@ sub remote_shell {
     my $cmd = shift;
     my $ret = 0;
 
-    print ("remote shell \"$cmd\"\n");
+    printf("#### REMOTE_SHELL `$cmd`\n");
     if ($remote_android) {
         my $tmp = File::Temp->new( TEMPLATE => 'thrust_XXXXX' );
         my $adbtmp = "/data/thrust_adb_tmp_" . sprintf("%05u", rand(100000));
@@ -255,7 +278,7 @@ sub is_filtered {
 sub clear_libpath {
     if ($os eq "Darwin") {
         $ENV{'DYLD_LIBRARY_PATH'} = "";
-        printf ("DYLD_LIBRARY_PATH = %s\n",$ENV{'DYLD_LIBRARY_PATH'});
+        printf("#### CONFIG DYLD_LIBRARY_PATH `%s`\n", $ENV{'DYLD_LIBRARY_PATH'});
     } elsif ($os eq "Linux") {
         # When running under `nvidia-docker`, clearing `LD_LIBRARY_PATH` breaks
         # the build. Currently, there's no good way to determine if we're
@@ -265,7 +288,7 @@ sub clear_libpath {
         if (defined($ENV{'LD_LIBRARY_PATH'})) {
             if ($ENV{'LD_LIBRARY_PATH'} ne "/usr/local/nvidia/lib:/usr/local/nvidia/lib64") {
                 $ENV{'LD_LIBRARY_PATH'} = "";
-                printf ("LD_LIBRARY_PATH = %s\n",$ENV{'LD_LIBRARY_PATH'});
+                printf("#### CONFIG LD_LIBRARY_PATH `%s`\n", $ENV{'LD_LIBRARY_PATH'});
             }
         }
     } elsif ($os eq "win32") {
@@ -274,7 +297,7 @@ sub clear_libpath {
         } else {
             $ENV{'PATH'} = "c:/Windows/system32";
         }
-        printf ("PATH = %s\n",$ENV{'PATH'});
+        printf("#### CONFIG PATH `%s`\n", $ENV{'PATH'});
     }
 }
 
@@ -287,16 +310,16 @@ sub process_return_code {
         my $dumped_core = $ret & 0x80;
         if (($app_exit != 0) && ($app_exit != 0)) {
             if ($msg ne "") {
-                print("\n#### ERROR : $name exited with return value $app_exit. $msg\n");
+                printf("#### ERROR $name exited with return value $app_exit. $msg\n");
             } else {
-                print("\n#### ERROR : $name exited with return value $app_exit.\n");
+                printf("#### ERROR $name exited with return value $app_exit.\n");
             }
         }
         if ($signal != 0) {
             if ($msg ne "") {
-                print("\n#### ERROR : $name received signal SIG$sig_names[$signal] ($signal). $msg\n");
+                printf("#### ERROR $name received signal SIG$sig_names[$signal] ($signal). $msg\n");
             } else {
-                print("\n#### ERROR : $name received signal SIG$sig_names[$signal] ($signal).\n");
+                printf("#### ERROR $name received signal SIG$sig_names[$signal] ($signal).\n");
             }
             if ($sig_nums{'INT'} eq $signal) {
                 die("Terminating testing due to SIGINT.");
@@ -304,9 +327,9 @@ sub process_return_code {
         }
         if ($dumped_core != 0) {
             if ($msg ne "") {
-                print("\n#### ERROR : $name generated a core dump. $msg\n");
+                printf("#### ERROR $name generated a core dump. $msg\n");
             } else {
-                print("\n#### ERROR : $name generated a core dump.\n");
+                printf("#### ERROR $name generated a core dump.\n");
             }
         }
     }
@@ -319,7 +342,7 @@ sub run_cmd {
     my @executable;
     my $syst_cmd;
 
-#    my $start = gettimeofday();
+    my $start = timestamp();
     eval {
         local $SIG{ALRM} = sub { die("Command timed out (received SIGALRM).\n") };
         alarm (60 * $timeout_min);
@@ -338,17 +361,15 @@ sub run_cmd {
 
         alarm 0;
     };
-#    my $elapsed = gettimeofday() - $start;
+    my $elapsed = timestamp() - $start;
 
     if ($@) {
-        print("\n#### ERROR : Command timeout reached, killing $executable[0].\n");
+        printf("\n#### ERROR Command timeout reached, killing $executable[0].\n");
         system("killall ".$executable[0]);
-#        return (1, $elapsed);
-        return ($sig_nums{'KILL'}, 0.0);
+        return ($sig_nums{'KILL'}, $elapsed);
     }
 
-#    return ($ret, $elapsed);
-    return ($ret, 0.0);
+    return ($ret, $elapsed);
 }
 
 sub current_time
@@ -397,7 +418,6 @@ sub run_examples {
         next if is_filtered($test);
         # Check the test actually exists
         next unless (-e "${bin_path}/${test_exe}");
-        print("CURRENT TIME: " . current_time() . "\n");
 
         my $cmd;
 
@@ -411,61 +431,66 @@ sub run_examples {
         } else {
             $cmd = "${bin_path}/${test_exe} --verbose > ${test}.output 2>&1";
         }
-        print "&&&& RUNNING $test\n";
+
+        printf("&&&& RUNNING $test\n");
+        printf("#### CURRENT_TIME " . current_time() . "\n");
+
         my ($ret, $elapsed) = run_cmd $cmd;
         if ($remote) {
             remote_pull("${remote_path}/${test}.output", "${test}.output");
         }
         my @output = get_file("${test}.output");
-        print "########################################\n";
+        printf("********************************************************************************\n");
         print @output;
-        print "########################################\n";
+        printf("********************************************************************************\n");
         if ($ret != 0) {
             process_return_code($test, $ret, "Example crash?");
-            printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
+            printf("&&&& FAILED $test\n");
+            printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
             $errors = $errors + 1;
         } else {
-            printf("&&&& PASSED $test %.2f [s]\n", $elapsed);
+            printf("&&&& PASSED $test\n");
+            printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
             $passes = $passes + 1;
 
             # Check output with LLVM FileCheck.
 
             my $filecheck = "${filecheck_path}/FileCheck --input-file ${test}.output ${filecheck_data_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
 
-            print "&&&& RUNNING FileCheck $test\n";
+            printf("&&&& RUNNING FileCheck $test\n");
 
             if (-f "${filecheck_data_path}/${test}.filecheck") {
                 # If the filecheck file is empty, don't use filecheck, just
                 # check if the output file is also empty.
                 if (-z "${filecheck_data_path}/${test}.filecheck") {
                     if (-z "${test}.output") {
-                        print "&&&& PASSED FileCheck $test\n";
+                        printf("&&&& PASSED FileCheck $test\n");
                         $passes = $passes + 1;
                     } else {
-                        print "#### Output received but not expected.\n";
-                        print "&&&& FAILED FileCheck $test\n";
+                        printf("#### Output received but not expected.\n");
+                        printf("&&&& FAILED FileCheck $test\n");
                         $failures = $failures + 1;
                     }
                 } else {
                     if (system($filecheck) == 0) {
-                        print "&&&& PASSED FileCheck $test\n";
+                        printf("&&&& PASSED FileCheck $test\n");
                         $passes = $passes + 1;
                     } else {
                         my @filecheckoutput = get_file("${test}.filecheck.output");
-                        print "########################################\n";
+                        printf("********************************************************************************\n");
                         print @filecheckoutput;
-                        print "########################################\n";
-                        print "&&&& FAILED FileCheck $test\n";
+                        printf("********************************************************************************\n");
+                        printf("&&&& FAILED FileCheck $test\n");
                         $failures = $failures + 1;
                     }
                 }
             } else {
-                print "#### ERROR : $test has no FileCheck comparison.\n";
-                print "&&&& FAILED FileCheck $test\n";
+                printf("#### ERROR $test has no FileCheck comparison.\n");
+                printf("&&&& FAILED FileCheck $test\n");
                 $errors = $errors + 1;
             }
         }
-        print "\n";
+        printf("\n");
     }
 }
 
@@ -494,7 +519,6 @@ sub run_unit_tests {
         next if is_filtered($test);
         # Check the test actually exists
         next unless (-e "${bin_path}/${test_exe}");
-        print("CURRENT TIME: " . current_time() . "\n");
 
         my $cmd;
 
@@ -508,15 +532,18 @@ sub run_unit_tests {
         } else {
             $cmd = "${bin_path}/${test_exe} --verbose > ${test}.output 2>&1";
         }
-        print "&&&& RUNNING $test\n";
+
+        printf("&&&& RUNNING $test\n");
+        printf("#### CURRENT_TIME " . current_time() . "\n");
+
         my ($ret, $elapsed) = run_cmd $cmd;
         if ($remote) {
             remote_pull("${remote_path}/${test}.output", "${test}.output");
         }
         my @output = get_file("${test}.output");
-        print "########################################\n";
+        printf("********************************************************************************\n");
         print @output;
-        print "########################################\n";
+        printf("********************************************************************************\n");
         my $fail = 0;
         my $known_fail = 0;
         my $error = 0;
@@ -525,14 +552,13 @@ sub run_unit_tests {
         foreach my $line (@output)
         {
             if (($fail, $known_fail, $error, $pass) = $line =~ /Totals: ([0-9]+) failures, ([0-9]+) known failures, ([0-9]+) errors, and ([0-9]+) passes[.]/igs) {
-                $found_totals = 1;
-                $failures = $failures + $fail;
-                $known_failures = $known_failures + $known_fail;
-                $errors = $errors + $error;
-                $passes = $passes + $pass;
-                last;
-            }
-            else {
+              $found_totals = 1;
+              $failures = $failures + $fail;
+              $known_failures = $known_failures + $known_fail;
+              $errors = $errors + $error;
+              $passes = $passes + $pass;
+              last;
+            } else {
               $fail = 0;
               $known_fail = 0;
               $error = 0;
@@ -542,61 +568,66 @@ sub run_unit_tests {
         if ($ret == 0) {
             if ($found_totals == 0) {
                 $errors = $errors + 1;
-                print "#### ERROR : $test returned zero and no summary line was found. Invalid test?\n";
-                printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
+                printf("#### ERROR $test returned 0 and no summary line was found. Invalid test?\n");
+                printf("&&&& FAILED $test\n");
+                printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
             }
             else {
                 if ($fail != 0 or $error != 0) {
                     $errors = $errors + 1;
-                    print "#### ERROR : $test returned zero, but had failures or errors. Test driver error?\n";
-                    printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
+                    printf("#### ERROR $test returned 0 and had failures or errors. Test driver error?\n");
+                    printf("&&&& FAILED $test\n");
+                    printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
                 } elsif ($known_fail == 0 and $pass == 0) {
                     $errors = $errors + 1;
-                    print "#### ERROR : $test returned zero and had no failures, known failures, errors or passes. Invalid test?\n";
-                    printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
+                    printf("#### ERROR $test returned 0 and had no failures, known failures, errors or passes. Invalid test?\n");
+                    printf("&&&& FAILED $test\n");
+                    printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
                 } else {
-                    printf("&&&& PASSED $test %.2f [s]\n", $elapsed);
+                    printf("&&&& PASSED $test\n");
+                    printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
 
                     # Check output with LLVM FileCheck if the test has a FileCheck input.
 
                     my $filecheck = "${filecheck_path}/FileCheck --input-file ${test}.output ${filecheck_data_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
 
                     if (-f "${filecheck_data_path}/${test}.filecheck") {
-                        print "&&&& RUNNING FileCheck $test\n";
+                        printf("&&&& RUNNING FileCheck $test\n");
 
                         # If the filecheck file is empty, don't use filecheck,
                         # just check if the output file is also empty.
                         if (! -z "${filecheck_data_path}/${test}.filecheck") {
                             if (-z "${test}.output") {
-                                print "&&&& PASSED FileCheck $test\n";
+                                printf("&&&& PASSED FileCheck $test\n");
                                 $passes = $passes + 1;
                             } else {
-                                print "#### Output received but not expected.\n";
-                                print "&&&& FAILED FileCheck $test\n";
+                                printf("#### Output received but not expected.\n");
+                                printf("&&&& FAILED FileCheck $test\n");
                                 $failures = $failures + 1;
                             }
                         } else {
                             if (system($filecheck) == 0) {
-                                print "&&&& PASSED FileCheck $test\n";
+                                printf("&&&& PASSED FileCheck $test\n");
                                 $passes = $passes + 1;
                             } else {
                                 my @filecheckoutput = get_file("${test}.filecheck.output");
-                                print "########################################\n";
+                                printf("********************************************************************************\n");
                                 print @filecheckoutput;
-                                print "########################################\n";
-                                print "&&&& FAILED FileCheck $test\n";
+                                printf("********************************************************************************\n");
+                                printf("&&&& FAILED FileCheck $test\n");
                                 $failures = $failures + 1;
                             }
                         }
                     }
                 }
             }
-        } elsif ($fail == 0 and $error == 0) {
+        } else {
             $errors = $errors + 1;
             process_return_code($test, $ret, "Test crash?");
-            printf("&&&& FAILED $test %.2f [s]\n", $elapsed);
+            printf("&&&& FAILED $test\n");
+            printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
         }
-        print "\n";
+        printf("\n");
     }
 }
 
@@ -610,14 +641,14 @@ sub dvs_summary {
        $dvs_score = 100 * (($passes + $known_failures) / $denominator);
     }
 
-    print("\n");
+    printf("\n");
 
-    print("%*%*%*%* FA!LUR3S       : $failures\n");
-    print("%*%*%*%* KN0WN FA!LUR3S : $known_failures\n");
-    print("%*%*%*%* 3RR0RS         : $errors\n");
-    print("%*%*%*%* PASS3S         : $passes\n");
+    printf("%*%*%*%* FA!LUR3S       $failures\n");
+    printf("%*%*%*%* KN0WN FA!LUR3S $known_failures\n");
+    printf("%*%*%*%* 3RR0RS         $errors\n");
+    printf("%*%*%*%* PASS3S         $passes\n");
 
-    print("\n");
+    printf("\n");
 
     printf("CUDA DVS BASIC SANITY SCORE : %.1f\n", $dvs_score);
 
@@ -626,17 +657,21 @@ sub dvs_summary {
     }
 }
 
-printf ("CONFIG os=%s;\n",$os);
-printf ("CONFIG bin_path=%s;\n",$bin_path);
+###############################################################################
+
+printf("#### CONFIG os `%s`\n", $os);
+printf("#### CONFIG bin_path `%s`\n", $bin_path);
+  
+printf("#### CONFIG have_time_hi_res `$have_time_hi_res`\n");
 
 if ($remote) {
-    if ($remote_server) {
-        printf ("CONFIG remote_server=%s;\n",$remote_server);
-    }
-    printf ("CONFIG remote_path=%s;\n",$remote_path);
+  if ($remote_server) {
+    printf("#### CONFIG remote_server `%s`\n", $remote_server);
+  }
+  printf("#### CONFIG remote_path `%s`\n", $remote_path);
 }
 
-print("\n");
+printf("\n");
 
 my $START_TIME = current_time();
 
@@ -646,10 +681,10 @@ run_unit_tests();
 
 my $STOP_TIME = current_time();
 
-print("\n");
+printf("\n");
 
-print("START TIME : $START_TIME\n");
-print("STOP TIME  : $STOP_TIME\n");
+printf("#### START_TIME $START_TIME\n");
+printf("#### STOP_TIME $STOP_TIME\n");
 
 dvs_summary();
 

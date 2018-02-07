@@ -1,120 +1,187 @@
-#!/usr/bin/env python
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 
-"""In order to run performance tests in Eris, we create this script to
-1) Run the benchmark app multiple times and report the average score
-2) Print Eris style banner '&&&& PERF' so it can be parsed by Eris."""
+###############################################################################
+# Copyright (c) 2018 NVIDIA Corporation
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+###############################################################################
 
-import argparse
-import os
-import sys
-import csv
-import subprocess
+from sys import exit 
 
-TEST_NAME = "bench"
-OUTPUT_FILE_NAME = lambda i: TEST_NAME + "_" + str(i) + ".csv"
-COMBINED_OUTPUT_FILE_NAME = TEST_NAME + "_combined.csv"
-POSTPROCESS_NAME = "combine_benchmark_results.py"
+from os.path import join, dirname, basename, realpath
 
-parser = argparse.ArgumentParser(description='ERIS wrapper script for Thrust benchmarks')
-parser.add_argument(
-  '-n', '--numloops', default=5, type=int,
-  metavar='N', help='Run the benchmark N times.'
+from csv import DictReader as csv_dict_reader
+
+from subprocess import Popen
+
+from argparse import ArgumentParser as arg_parser
+
+###############################################################################
+
+def printable_cmd(c):
+  """Converts a `list` of `str`s representing a shell command to a printable 
+  `str`."""
+  return " ".join(map(lambda e: '"' + str(e) + '"', test_cmd))
+
+###############################################################################
+
+def print_file(p):
+  """Open the path `p` and print its contents to `stdout`."""
+  print "********************************************************************************"
+  with open(p) as f:
+    for line in f:
+      print line,
+  print "********************************************************************************"
+
+###############################################################################
+
+ap = argument_parser(
+  description = (
+    "CUDA Eris driver script: runs a benchmark suite multiple times, combines "
+    "the results, and outputs them in the CUDA Eris performance result format."
+  )
 )
+
+ap.add_argument(
+  "-b", "--benchmark", 
+  help = ("The location of the benchmark suite executable to run."),
+  type = str,
+  default = join(dirname(realpath(__file__), "bench")), 
+  metavar = "R"
+)
+
+ap.add_argument(
+  "-p", "--postprocess", 
+  help = ("The postprocessing script to run to combine the results."),
+  type = str,
+  default = join(dirname(realpath(__file__), "combine_performance_results.py"),
+  metavar = "R"
+)
+
+ap.add_argument(
+  "-r", "--runs", 
+  help = ("Run the benchmark suite `R` times.a),"
+  type = int, default = 5, 
+  metavar = "R"
+)
+
 args = parser.parse_args()
 
-print '&&&& RUNNING {0}'.format(TEST_NAME)
-assert args.numloops > 0
-test_cmd = os.path.join(os.path.dirname(os.path.realpath(__file__)), TEST_NAME)
+if args.runs <= 0:
+  print "ERROR: `--runs` must be greater than `0`."
+  ap.print_help()
+  exit(1)
 
-for i in xrange(args.numloops):
-    with open(OUTPUT_FILE_NAME(i), "w") as output_file:
-      print '#### RUN {0} -> {1}'.format(i, OUTPUT_FILE_NAME(i))
+BENCHMARK_EXE             = args.benchmark
+BENCHMARK_NAME            = basename(BENCHMARK_NAME)
+POSTPROCESS_EXE           = args.postprocess
+OUTPUT_FILE_NAME          = lambda i: BENCHMARK_NAME + "_" + str(i) + ".csv"
+COMBINED_OUTPUT_FILE_NAME = BENCHMARK_NAME + "_combined.csv"
 
-      p = None
+###############################################################################
 
-      try:
-          p = subprocess.Popen(test_cmd, stdout=output_file, stderr=output_file)
-          p.communicate()
-      except OSError as ex:
-          with open(OUTPUT_FILE_NAME(i)) as error_file:
-            for line in error_file:
-              print line,
-          print '#### ERROR : Caught OSError `{0}`.'.format(ex)
-          print '&&&& FAILED {0}'.format(TEST_NAME)
-          sys.exit(-1)
+print '&&&& RUNNING {0}'.format(BENCHMARK_NAME)
 
-    with open(OUTPUT_FILE_NAME(i)) as input_file:
-      for line in input_file:
-        print line,
+print '#### RUNS {0}'.format(args.runs)
 
-    if p.returncode != 0:
-        print '#### ERROR : Process exited with code {0}.'.format(p.returncode)
-        print '&&&& FAILED {0} {1}'.format(TEST_NAME, POSTPROCESS_NAME)
-        sys.exit(p.returncode)
+###############################################################################
 
-print '&&&& PASSED {0}'.format(TEST_NAME)
+print '#### CMD {0}'.format(printable_cmd(BENCHMARK_EXE))
 
-post_cmd = [os.path.join(os.path.dirname(os.path.realpath(__file__)), POSTPROCESS_NAME)]
+for i in xrange(args.runs):
+  with open(OUTPUT_FILE_NAME(i), "w") as output_file:
+    print '#### RUN {0} OUTPUT -> {1}'.format(i, OUTPUT_FILE_NAME(i))
 
-post_cmd += ["--dependent-variable=STL Average Walltime,STL Walltime Uncertainty,STL Trials"]
-post_cmd += ["--dependent-variable=STL Average Throughput,STL Throughput Uncertainty,STL Trials"]
-post_cmd += ["--dependent-variable=Thrust Average Walltime,Thrust Walltime Uncertainty,Thrust Trials"]
-post_cmd += ["--dependent-variable=Thrust Average Throughput,Thrust Throughput Uncertainty,Thrust Trials"]
-
-post_cmd += [OUTPUT_FILE_NAME(i) for i in range(args.numloops)] 
-
-printable_cmd = ' '.join(map(lambda e: '"' + str(e) + '"', post_cmd))
-print '&&&& RUNNING {0}'.format(printable_cmd)
-
-with open(COMBINED_OUTPUT_FILE_NAME, "w") as output_file:
     p = None
 
     try:
-        p = subprocess.Popen(post_cmd, stdout=output_file, stderr=output_file)
-        p.communicate()
+      p = Popen(BENCHMARK_EXE, stdout = output_file, stderr = output_file)
+      p.communicate()
     except OSError as ex:
-        with open(COMBINED_OUTPUT_FILE_NAME) as error_file:
-          for line in error_file:
-            print line,
-        print '#### ERROR : Caught OSError `{0}`.'.format(ex)
-        print '&&&& FAILED {0}'.format(printable_cmd)
-        sys.exit(-1)
+      print_file(OUTPUT_FILE_NAME(i))
+      print '#### ERROR Caught OSError `{0}`.'.format(ex)
+      print '&&&& FAILED {0}'.format(BENCHMARK_NAME)
+      exit(-1)
 
-    with open(COMBINED_OUTPUT_FILE_NAME) as input_file:
-      for line in input_file:
-        print line,
+  print_file(OUTPUT_FILE_NAME(i))
 
-    if p.returncode != 0:
-        print '#### ERROR : Process exited with code {0}.'.format(p.returncode)
-        print '&&&& FAILED {0}'.format(printable_cmd)
-        sys.exit(p.returncode)
+  if p.returncode != 0:
+    print '#### ERROR Process exited with code {0}.'.format(p.returncode)
+    print '&&&& FAILED {0}'.format(BENCHMARK_NAME)
+    sys.exit(p.returncode)
 
-    with open(COMBINED_OUTPUT_FILE_NAME) as input_file:
-      reader = csv.DictReader(input_file)
+###############################################################################
 
-      variable_units = reader.next() # Get units header row
+post_cmd = [POSTPROCESS_EXE]
 
-      distinguishing_variables = reader.fieldnames
+# Add dependent variable options.
+post_cmd += ["-dSTL Average Walltime,STL Walltime Uncertainty,STL Trials"]
+post_cmd += ["-dSTL Average Throughput,STL Throughput Uncertainty,STL Trials"]
+post_cmd += ["-dThrust Average Walltime,Thrust Walltime Uncertainty,Thrust Trials"]
+post_cmd += ["-dThrust Average Throughput,Thrust Throughput Uncertainty,Thrust Trials"]
 
-      measured_variables = [
-        ("STL Average Walltime",      "-"),
-        ("STL Average Throughput",    "+"),
-        ("Thrust Average Walltime",   "-"),
-        ("Thrust Average Throughput", "+")
-      ]
+post_cmd += [OUTPUT_FILE_NAME(i) for i in range(args.numloops)] 
 
-      for record in reader:
-        for variable, directionality in measured_variables:
-          print "&&&& PERF {0}_{1}_{2}bit_{3}mib_{4} {5} {6}{7}".format(
-            record["Algorithm"],
-            record["Element Type"],
-            record["Element Size"],
-            record["Total Input Size"],
-            variable.replace(" ", "_").lower(),
-            record[variable],
-            directionality,
-            variable_units[variable]
-          )
+print '#### CMD {0}'.format(printable_cmd(post_cmd))
+
+with open(COMBINED_OUTPUT_FILE_NAME, "w") as output_file:
+  p = None
+
+  try:
+    p = Popen(post_cmd, stdout = output_file, stderr = output_file)
+    p.communicate()
+  except OSError as ex:
+    print_file(COMBINED_OUTPUT_FILE_NAME)
+    print '#### ERROR Caught OSError `{0}`.'.format(ex)
+    print '&&&& FAILED {0}'.format(BENCHMARK_NAME)
+    exit(-1)
+
+  print_file(COMBINED_OUTPUT_FILE_NAME)
+
+  if p.returncode != 0:
+    print '#### ERROR Process exited with code {0}.'.format(p.returncode)
+    print '&&&& FAILED {0}'.format(BENCHMARK_NAME)
+    sys.exit(p.returncode)
+
+  with open(COMBINED_OUTPUT_FILE_NAME) as input_file:
+    reader = csv_dict_reader(input_file)
+
+    variable_units = reader.next() # Get units header row.
+
+    distinguishing_variables = reader.fieldnames
+
+    measured_variables = [
+      ("STL Average Walltime",      "-"),
+      ("STL Average Throughput",    "+"),
+      ("Thrust Average Walltime",   "-"),
+      ("Thrust Average Throughput", "+")
+    ]
+
+    for record in reader:
+      for variable, directionality in measured_variables:
+        print "&&&& PERF {0}_{1}_{2}bit_{3}mib_{4} {5} {6}{7}".format(
+          record["Algorithm"],
+          record["Element Type"],
+          record["Element Size"],
+          record["Total Input Size"],
+          variable.replace(" ", "_").lower(),
+          record[variable],
+          directionality,
+          variable_units[variable]
+        )
+
+###############################################################################
                   
-print '&&&& PASSED {0}'.format(printable_cmd)
+print '&&&& PASSED {0}'.format(BENCHMARK_NAME)
 
