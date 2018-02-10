@@ -27,7 +27,7 @@ from math import sqrt, log10, floor
 
 from collections import deque
 
-from argparse import ArgumentParser as arg_parser
+from argparse import ArgumentParser as argument_parser
 
 from csv import DictReader as csv_dict_reader
 from csv import DictWriter as csv_dict_writer
@@ -60,6 +60,7 @@ def find_significant_digit(x):
   """Return the significant digit of the number x. The result is the number of
   digits after the decimal place to round to (negative numbers indicate rounding
   before the decimal place)."""
+  if x == 0: return 0
   return -int(floor(log10(abs(x))))
 
 def round_with_int_conversion(x, ndigits = None):
@@ -329,7 +330,7 @@ def process_program_arguments():
     help = ("Input CSV files. The first two rows should be a header. The 1st "
             "header row specifies the name of each variable, and the 2nd "
             "header row specifies the units for that variable."),
-    action = "append", type = str, dest = "input_files", nargs = "+",
+    type = str, nargs = "+",
     metavar = "INPUTS"
   )
 

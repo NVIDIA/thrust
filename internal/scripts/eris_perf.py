@@ -25,14 +25,14 @@ from csv import DictReader as csv_dict_reader
 
 from subprocess import Popen
 
-from argparse import ArgumentParser as arg_parser
+from argparse import ArgumentParser as argument_parser
 
 ###############################################################################
 
 def printable_cmd(c):
   """Converts a `list` of `str`s representing a shell command to a printable 
   `str`."""
-  return " ".join(map(lambda e: '"' + str(e) + '"', test_cmd))
+  return " ".join(map(lambda e: '"' + str(e) + '"', c))
 
 ###############################################################################
 
@@ -57,7 +57,7 @@ ap.add_argument(
   "-b", "--benchmark", 
   help = ("The location of the benchmark suite executable to run."),
   type = str,
-  default = join(dirname(realpath(__file__), "bench")), 
+  default = join(dirname(realpath(__file__)), "bench"), 
   metavar = "R"
 )
 
@@ -65,18 +65,18 @@ ap.add_argument(
   "-p", "--postprocess", 
   help = ("The postprocessing script to run to combine the results."),
   type = str,
-  default = join(dirname(realpath(__file__), "combine_performance_results.py"),
+  default = join(dirname(realpath(__file__)), "combine_benchmark_results.py"),
   metavar = "R"
 )
 
 ap.add_argument(
   "-r", "--runs", 
-  help = ("Run the benchmark suite `R` times.a),"
+  help = ("Run the benchmark suite `R` times.a),"),
   type = int, default = 5, 
   metavar = "R"
 )
 
-args = parser.parse_args()
+args = ap.parse_args()
 
 if args.runs <= 0:
   print "ERROR: `--runs` must be greater than `0`."
@@ -84,7 +84,7 @@ if args.runs <= 0:
   exit(1)
 
 BENCHMARK_EXE             = args.benchmark
-BENCHMARK_NAME            = basename(BENCHMARK_NAME)
+BENCHMARK_NAME            = basename(BENCHMARK_EXE)
 POSTPROCESS_EXE           = args.postprocess
 OUTPUT_FILE_NAME          = lambda i: BENCHMARK_NAME + "_" + str(i) + ".csv"
 COMBINED_OUTPUT_FILE_NAME = BENCHMARK_NAME + "_combined.csv"
@@ -97,7 +97,7 @@ print '#### RUNS {0}'.format(args.runs)
 
 ###############################################################################
 
-print '#### CMD {0}'.format(printable_cmd(BENCHMARK_EXE))
+print '#### CMD {0}'.format(BENCHMARK_EXE)
 
 for i in xrange(args.runs):
   with open(OUTPUT_FILE_NAME(i), "w") as output_file:
@@ -119,7 +119,7 @@ for i in xrange(args.runs):
   if p.returncode != 0:
     print '#### ERROR Process exited with code {0}.'.format(p.returncode)
     print '&&&& FAILED {0}'.format(BENCHMARK_NAME)
-    sys.exit(p.returncode)
+    exit(p.returncode)
 
 ###############################################################################
 
@@ -131,7 +131,7 @@ post_cmd += ["-dSTL Average Throughput,STL Throughput Uncertainty,STL Trials"]
 post_cmd += ["-dThrust Average Walltime,Thrust Walltime Uncertainty,Thrust Trials"]
 post_cmd += ["-dThrust Average Throughput,Thrust Throughput Uncertainty,Thrust Trials"]
 
-post_cmd += [OUTPUT_FILE_NAME(i) for i in range(args.numloops)] 
+post_cmd += [OUTPUT_FILE_NAME(i) for i in range(args.runs)] 
 
 print '#### CMD {0}'.format(printable_cmd(post_cmd))
 
@@ -152,7 +152,7 @@ with open(COMBINED_OUTPUT_FILE_NAME, "w") as output_file:
   if p.returncode != 0:
     print '#### ERROR Process exited with code {0}.'.format(p.returncode)
     print '&&&& FAILED {0}'.format(BENCHMARK_NAME)
-    sys.exit(p.returncode)
+    exit(p.returncode)
 
   with open(COMBINED_OUTPUT_FILE_NAME) as input_file:
     reader = csv_dict_reader(input_file)

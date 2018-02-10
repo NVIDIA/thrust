@@ -1121,14 +1121,14 @@ int main(int argc, char** argv)
 
                                           /* Elements |       Trials       */
                                           /*          | Baseline | Regular */
-  run_and_print_core_primitives_experiments< 1 << 21  , 4        , 16      >();
-  run_and_print_core_primitives_experiments< 1 << 22  , 4        , 16      >();
-  run_and_print_core_primitives_experiments< 1 << 23  , 4        , 16      >();
+//run_and_print_core_primitives_experiments< 1 << 21  , 4        , 16      >();
+//run_and_print_core_primitives_experiments< 1 << 22  , 4        , 16      >();
+//run_and_print_core_primitives_experiments< 1 << 23  , 4        , 16      >();
   run_and_print_core_primitives_experiments< 1 << 24  , 3        , 8       >();
-  run_and_print_core_primitives_experiments< 1 << 25  , 3        , 8       >();
-  run_and_print_core_primitives_experiments< 1 << 26  , 3        , 8       >();
-  run_and_print_core_primitives_experiments< 1 << 27  , 3        , 8       >();
-  run_and_print_core_primitives_experiments< 1 << 28  , 3        , 8       >();
+//run_and_print_core_primitives_experiments< 1 << 25  , 3        , 8       >();
+//run_and_print_core_primitives_experiments< 1 << 26  , 3        , 8       >();
+//run_and_print_core_primitives_experiments< 1 << 27  , 3        , 8       >();
+//run_and_print_core_primitives_experiments< 1 << 28  , 3        , 8       >();
   run_and_print_core_primitives_experiments< 1 << 29  , 3        , 8       >();
 
   return 0;
