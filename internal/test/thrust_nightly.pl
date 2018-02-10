@@ -19,12 +19,13 @@
 use strict;
 use warnings;
 
-print `perl --version`;
+print(`perl --version`);
 
 use Getopt::Long;
 use Cwd;
 use Cwd "abs_path";
 use Config; # For signal names and numbers.
+use IPC::Open2;
 use File::Temp;
 use POSIX "strftime";
 
@@ -57,7 +58,6 @@ my $build               = "release";
 my $bin_path;
 my $filecheck_path;
 my $filecheck_data_path = "internal/test";
-my $filter_list_file    = undef;
 my $testname            = undef;
 my $valgrind_enable     = 0;
 my $cudamemcheck_enable = 0;
@@ -68,10 +68,6 @@ my $cygwin              = "";
 my $openmp              = 0;
 my $config              = "";
 my $abi                 = "";
-my $remote              = "";
-my $remote_server       = "";
-my $remote_android      = "";
-my $remote_path         = "/data/thrust_testing";
 
 # https://stackoverflow.com/questions/29862178/name-of-signal-number-2
 my @sig_names;
@@ -118,11 +114,7 @@ sub usage()
   printf("  -filecheck-path <path>        : Specify location of filecheck binary\n");
   printf("  -filecheck-data-path <path>   : Specify location of filecheck data (default: $filecheck_data_path)\n");
   printf("  -timeout-min <min>            : timeout in minutes for each individual test\n");
-  printf("  -filter-list-file <file>      : path to filter file which contains one invocation per line\n");
   printf("  -openmp                       : test OpenMP implementation\n");
-  printf("  -remote-server <server>       : test on remote target (uses ssh)\n");
-  printf("  -remote-android               : test on remote android target (uses adb)\n");
-  printf("  -remote-path                  : path on remote target to copy test files (default: $remote_path)\n");
 }
 
 $retVal = GetOptions(\%CmdLineOption,
@@ -135,11 +127,7 @@ $retVal = GetOptions(\%CmdLineOption,
                      "filecheck-path=s" => \$filecheck_path,
                      "filecheck-data-path=s" => \$filecheck_data_path,
                      "timeout-min=i" => \$timeout_min,
-                     "filter-list-file=s" => \$filter_list_file,
                      "openmp" => \$openmp,
-                     "remote-server=s" => \$remote_server,
-                     "remote-android" => \$remote_android,
-                     "remote-path=s" => \$remote_path,
                     );
 
 my $pwd = getcwd();
@@ -160,17 +148,6 @@ else {
     $abi = "";                #Ignore abi for architectures other than arm
 }
 
-if ($remote_server || $remote_android) {
-    $remote = 1;
-    die "Only one of -remote_server or -remote_android can be specified on the command-line" if $remote_server && $remote_android;
-
-    remote_check();
-    if ((${remote_path} ne "") && (${remote_path} ne "/")) {
-        remote_shell("rm -rf ${remote_path}");
-        remote_shell("mkdir -p ${remote_path}");
-    }
-}
-
 my $uname = "";
 $uname = $arch;
 chomp($uname);
@@ -188,91 +165,6 @@ if ($valgrind_enable) {
 }
 elsif ($cudamemcheck_enable){
     $tool_checker = $bin_path . "/cuda-memcheck";
-}
-
-sub remote_check {
-    if ($remote_android) {
-        system("adb version") && die qq(error initializing adb server, or adb not installed);
-    } else {
-        system("ssh -V > /dev/null 2> /dev/null") && die qq(ssh not installed properly);
-        system("ssh $remote_server pwd > /dev/null") && die qq(ssh to ${remote_server} not working);
-    }
-}
-sub remote_push {
-    my ($s, $t) = @_;
-
-    printf("#### REMOTE_PUSH $s $t\n");
-    if ($remote_android) {
-        system("adb push ${s} ${t}") && die qq(Problem pushing $s to $t on android device);
-    } else {
-        system("scp -q ${s} $remote_server:${t}") && die qq(Problem pushing $s to $t on server $remote_server);
-    }
-}
-
-sub remote_pull {
-    my ($s, $t) = @_;
-
-    printf("#### REMOTE_PULL $s $t\n");
-    if ($remote_android) {
-        system("adb pull ${s} ${t}") && die qq(Problem pulling $t from $s on android device);
-    } else {
-        system("scp -q $remote_server:${s} ${t}") && die qq(Problem pulling $t from $s on server $remote_server);
-    }
-}
-
-sub remote_shell {
-    my $cmd = shift;
-    my $ret = 0;
-
-    printf("#### REMOTE_SHELL `$cmd`\n");
-    if ($remote_android) {
-        my $tmp = File::Temp->new( TEMPLATE => 'thrust_XXXXX' );
-        my $adbtmp = "/data/thrust_adb_tmp_" . sprintf("%05u", rand(100000));
-        $ret = (
-                system("adb shell \"$cmd; echo $? > $adbtmp\"")
-                || remote_pull("$adbtmp", "$tmp")
-                || system("adb shell \"rm $adbtmp\"")
-               );
-
-        if ($ret == 0) {
-            open(RETFILE, $tmp);
-            $ret = <RETFILE>;
-            close (RETFILE);
-
-            chomp $ret;
-            if ($ret =~ /^(\d+)/) { # Make sure to interpret cases with no return code as failure
-                $ret = int($1);
-            } else {
-                $ret = 1;
-            }
-        } else {
-            die ("remote shell and/or return code failed!")
-        }
-    } else {
-        $ret = system("ssh $remote_server $cmd");
-    }
-
-    return $ret;
-}
-
-my %filter_list;
-
-sub is_filtered {
-    my $cmd = shift;
-
-    return 0 if not defined $filter_list_file;
-
-    if (not %filter_list) {
-        my $fin;
-        open $fin, "<$filter_list_file" or die qq(open failed on $fin);
-        foreach my $line (<$fin>) {
-            chomp $line;
-            $filter_list{$line} = 1;
-        }
-        close $fin;
-    }
-
-    return $filter_list{$cmd};
 }
 
 sub clear_libpath {
@@ -338,8 +230,9 @@ sub process_return_code {
 # Wrapper for system that logs the commands so you can see what it did
 sub run_cmd {
     my ($cmd) = @_;
-    my  $ret = 0;
+    my $ret = 0;
     my @executable;
+    my @output;
     my $syst_cmd;
 
     my $start = timestamp();
@@ -353,12 +246,19 @@ sub run_cmd {
         }
 
         @executable = split(' ', $syst_cmd, 2);
-        if ($remote) {
-            $ret = remote_shell($syst_cmd);
-        } else {
-            $ret = system $syst_cmd;
+
+        open(my $child, "-|", "$syst_cmd") or die("Could not execute $syst_cmd.\n");
+
+        if ($child)
+        {
+          @output = <$child>;
         }
 
+        if (close($child) == 0)
+        {
+          $ret = $?;
+        }
+ 
         alarm 0;
     };
     my $elapsed = timestamp() - $start;
@@ -366,25 +266,15 @@ sub run_cmd {
     if ($@) {
         printf("\n#### ERROR Command timeout reached, killing $executable[0].\n");
         system("killall ".$executable[0]);
-        return ($sig_nums{'KILL'}, $elapsed);
+        return ($sig_nums{'KILL'}, $elapsed, @output);
     }
 
-    return ($ret, $elapsed);
+    return ($ret, $elapsed, @output);
 }
 
 sub current_time
 {
    return strftime("%x %X %Z", localtime());
-}
-
-sub get_file {
-    my ($filename) = @_;
-
-    open(my $handle, '<', $filename);
-    my @output = <$handle>;
-    close($handle);
-
-    return @output;
 }
 
 my $failures = 0;
@@ -410,39 +300,35 @@ sub run_examples {
     foreach $test (@examplelist)
     {
         my $test_exe = $test;
+
+        # Ignore FileCheck files. 
+        if ($test =~ /[.]filecheck$/)
+        {
+          next;
+        }
+
         if ($os eq "win32")
         {
-            $test =~ s/\.exe//g;
+          $test =~ s/\.exe//g;
         }
-        # Check its not filtered via the filter file
-        next if is_filtered($test);
-        # Check the test actually exists
-        next unless (-e "${bin_path}/${test_exe}");
 
-        my $cmd;
-
-        if ($remote) {
-            remote_push("${bin_path}/${test_exe}", "${remote_path}/${test}");
-            if ($remote_android) {
-                $cmd = "${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1";
-            } else {
-                $cmd = "\"${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1\"";
-            }
-        } else {
-            $cmd = "${bin_path}/${test_exe} --verbose > ${test}.output 2>&1";
+        # Check the test actually exists.
+        if (!-e "${bin_path}/${test_exe}")
+        {
+          next;
         }
+
+        my $cmd = "${bin_path}/${test_exe} --verbose 2>&1";
 
         printf("&&&& RUNNING $test\n");
         printf("#### CURRENT_TIME " . current_time() . "\n");
 
-        my ($ret, $elapsed) = run_cmd $cmd;
-        if ($remote) {
-            remote_pull("${remote_path}/${test}.output", "${test}.output");
-        }
-        my @output = get_file("${test}.output");
+        my ($ret, $elapsed, @output) = run_cmd($cmd);
+
         printf("********************************************************************************\n");
         print @output;
         printf("********************************************************************************\n");
+
         if ($ret != 0) {
             process_return_code($test, $ret, "Example crash?");
             printf("&&&& FAILED $test\n");
@@ -455,33 +341,51 @@ sub run_examples {
 
             # Check output with LLVM FileCheck.
 
-            my $filecheck = "${filecheck_path}/FileCheck --input-file ${test}.output ${filecheck_data_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
-
             printf("&&&& RUNNING FileCheck $test\n");
 
             if (-f "${filecheck_data_path}/${test}.filecheck") {
                 # If the filecheck file is empty, don't use filecheck, just
                 # check if the output file is also empty.
                 if (-z "${filecheck_data_path}/${test}.filecheck") {
-                    if (-z "${test}.output") {
+                    if (join("", @output) eq "") {
                         printf("&&&& PASSED FileCheck $test\n");
                         $passes = $passes + 1;
                     } else {
-                        printf("#### Output received but not expected.\n");
+                        printf("#### ERROR Output received but not expected.\n");
                         printf("&&&& FAILED FileCheck $test\n");
                         $failures = $failures + 1;
                     }
                 } else {
-                    if (system($filecheck) == 0) {
-                        printf("&&&& PASSED FileCheck $test\n");
-                        $passes = $passes + 1;
+                    my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/$test.filecheck";
+
+                    my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
+
+                    print $filecheck_stdin @output;
+
+                    my $filecheck_ret = 0;
+                    if (close($filecheck_stdin) == 0)
+                    {
+                      $filecheck_ret = $?;
+                    }
+
+                    if ($filecheck_ret == 0) {
+                      printf("&&&& PASSED FileCheck $test\n");
+                      $passes = $passes + 1;
                     } else {
-                        my @filecheckoutput = get_file("${test}.filecheck.output");
-                        printf("********************************************************************************\n");
-                        print @filecheckoutput;
-                        printf("********************************************************************************\n");
-                        printf("&&&& FAILED FileCheck $test\n");
-                        $failures = $failures + 1;
+                      # Use a temporary file to send the output to
+                      # FileCheck so we can get the output this time,
+                      # because Perl and bidirectional pipes suck.
+                      my $tmp = File::Temp->new();
+                      my $tmp_filename = $tmp->filename;
+                      print $tmp @output;
+
+                      printf("********************************************************************************\n");
+                      print `$filecheck_cmd -input-file $tmp_filename`;
+                      printf("********************************************************************************\n");
+
+                      process_return_code("FileCheck $test", $filecheck_ret, "");
+                      printf("&&&& FAILED FileCheck $test\n");
+                      $failures = $failures + 1;
                     }
                 }
             } else {
@@ -511,36 +415,34 @@ sub run_unit_tests {
     foreach $test (@unittestlist)
     {
         my $test_exe = $test;
+
+        # Ignore FileCheck files. 
+        if ($test =~ /[.]filecheck$/)
+        {
+          next;
+        }
+
         if ($os eq "win32")
         {
-            $test =~ s/\.exe//g;
+          $test =~ s/\.exe//g;
         }
-        # Check its not filtered via the filter file
-        next if is_filtered($test);
+
+        # Check the test actually exists.
+        if (!-e "${bin_path}/${test_exe}")
+        {
+          next;
+        }
+
         # Check the test actually exists
         next unless (-e "${bin_path}/${test_exe}");
 
-        my $cmd;
-
-        if ($remote) {
-            remote_push("${bin_path}/${test_exe}", "${remote_path}/${test}");
-            if ($remote_android) {
-                $cmd = "${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1";
-            } else {
-                $cmd = "\"${remote_path}/${test_exe} --verbose > ${remote_path}/${test}.output 2>&1\"";
-            }
-        } else {
-            $cmd = "${bin_path}/${test_exe} --verbose > ${test}.output 2>&1";
-        }
+        my $cmd = "${bin_path}/${test_exe} --verbose 2>&1";
 
         printf("&&&& RUNNING $test\n");
         printf("#### CURRENT_TIME " . current_time() . "\n");
 
-        my ($ret, $elapsed) = run_cmd $cmd;
-        if ($remote) {
-            remote_pull("${remote_path}/${test}.output", "${test}.output");
-        }
-        my @output = get_file("${test}.output");
+        my ($ret, $elapsed, @output) = run_cmd($cmd);
+
         printf("********************************************************************************\n");
         print @output;
         printf("********************************************************************************\n");
@@ -589,15 +491,13 @@ sub run_unit_tests {
 
                     # Check output with LLVM FileCheck if the test has a FileCheck input.
 
-                    my $filecheck = "${filecheck_path}/FileCheck --input-file ${test}.output ${filecheck_data_path}/${test}.filecheck > ${test}.filecheck.output 2>&1";
-
                     if (-f "${filecheck_data_path}/${test}.filecheck") {
                         printf("&&&& RUNNING FileCheck $test\n");
 
                         # If the filecheck file is empty, don't use filecheck,
                         # just check if the output file is also empty.
                         if (! -z "${filecheck_data_path}/${test}.filecheck") {
-                            if (-z "${test}.output") {
+                            if (@output) {
                                 printf("&&&& PASSED FileCheck $test\n");
                                 $passes = $passes + 1;
                             } else {
@@ -606,16 +506,36 @@ sub run_unit_tests {
                                 $failures = $failures + 1;
                             }
                         } else {
-                            if (system($filecheck) == 0) {
-                                printf("&&&& PASSED FileCheck $test\n");
-                                $passes = $passes + 1;
+                            my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/$test.filecheck";
+
+                            my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
+
+                            print $filecheck_stdin @output;
+
+                            my $filecheck_ret = 0;
+                            if (close($filecheck_stdin) == 0)
+                            {
+                              $filecheck_ret = $?;
+                            }
+
+                            if ($filecheck_ret == 0) {
+                              printf("&&&& PASSED FileCheck $test\n");
+                              $passes = $passes + 1;
                             } else {
-                                my @filecheckoutput = get_file("${test}.filecheck.output");
-                                printf("********************************************************************************\n");
-                                print @filecheckoutput;
-                                printf("********************************************************************************\n");
-                                printf("&&&& FAILED FileCheck $test\n");
-                                $failures = $failures + 1;
+                              # Use a temporary file to send the output to
+                              # FileCheck so we can get the output this time,
+                              # because Perl and bidirectional pipes suck.
+                              my $tmp = File::Temp->new();
+                              my $tmp_filename = $tmp->filename;
+                              print $tmp @output;
+
+                              printf("********************************************************************************\n");
+                              print `$filecheck_cmd -input-file $tmp_filename`;
+                              printf("********************************************************************************\n");
+
+                              process_return_code("FileCheck $test", $filecheck_ret, "");
+                              printf("&&&& FAILED FileCheck $test\n");
+                              $failures = $failures + 1;
                             }
                         }
                     }
@@ -660,16 +580,8 @@ sub dvs_summary {
 ###############################################################################
 
 printf("#### CONFIG os `%s`\n", $os);
-printf("#### CONFIG bin_path `%s`\n", $bin_path);
   
 printf("#### CONFIG have_time_hi_res `$have_time_hi_res`\n");
-
-if ($remote) {
-  if ($remote_server) {
-    printf("#### CONFIG remote_server `%s`\n", $remote_server);
-  }
-  printf("#### CONFIG remote_path `%s`\n", $remote_path);
-}
 
 printf("\n");
 
@@ -680,8 +592,6 @@ run_examples();
 run_unit_tests();
 
 my $STOP_TIME = current_time();
-
-printf("\n");
 
 printf("#### START_TIME $START_TIME\n");
 printf("#### STOP_TIME $STOP_TIME\n");
