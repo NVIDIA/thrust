@@ -1,15 +1,16 @@
+# XXX Use the common Thrust Makefiles instead of this.
+
 EXECUTABLE := bench
 BUILD_SRC  := $(ROOTDIR)/thrust/internal/benchmark/bench.cu
 
-BUILD_SRC_FLAGS += -DNO_TBB
-BUILD_SRC_FLAGS += $(GENSASS_SM10PLUS)
+ifeq ($(OS),Linux)
+  LIBRARIES += m
+endif
 
-LDFLAGS += -lm
-
+# XXX Why is this needed?
 ifeq ($(OS),Linux)
   ifeq ($(ABITYPE), androideabi)
     override ALL_SASS_ARCHITECTURES := 32
-    BUILD_SRC_FLAGS += $(GENSASS_SM32)
   endif
 endif
 

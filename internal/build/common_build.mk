@@ -1,92 +1,10 @@
-I_AM_SLOPPY := 1
 USE_NEW_PROJECT_MK := 1
 
 ifeq ($(OS),Linux)
   LIBRARIES += m
 endif
 
-ifeq ($(OS),$(filter $(OS),Linux Darwin))
-  ifndef USEPGCXX
-    CUDACC_FLAGS += -Xcompiler "-Wall -Wextra -Werror"
-
-    ifdef USEXLC
-      # GCC does not warn about unused parameters in uninstantiated
-      # template functions, but xlC does. This causes xlC to choke on the
-      # OMP backend, which is mostly #ifdef'd out when you aren't using it.
-      CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
-    else # GCC, ICC or Clang AKA the sane ones.
-      # XXX Enable -Wcast-align and -Wcast-qual.
-      CUDACC_FLAGS += -Xcompiler "-Winit-self -Woverloaded-virtual -Wno-cast-align -Wno-long-long -Wno-variadic-macros"
-
-      ifdef USE_CLANGLLVM
-        IS_CLANG := 1
-      endif
-
-      ifeq ($(OS),Darwin)
-        IS_CLANG := 1
-      endif
-
-      ifdef IS_CLANG 
-        # GCC does not warn about unused parameters in uninstantiated
-        # template functions, but Clang does. This causes Clang to choke on the
-        # OMP backend, which is mostly #ifdef'd out when you aren't using it.
-        CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
-
-        # -Wunneeded-internal-declaration misfires in the unit test framework
-        # on older versions of Clang.
-        CUDACC_FLAGS += -Xcompiler "-Wno-unneeded-internal-declaration"
-      else # GCC
-        ifdef CCBIN
-          CCBIN_ENVIRONMENT :=
-          ifeq ($(OS), QNX)
-            # QNX's GCC complains if QNX_HOST and QNX_TARGET aren't defined in the
-            # environment.
-            CCBIN_ENVIRONMENT := QNX_HOST=$(QNX_HOST) QNX_TARGET=$(QNX_TARGET)
-          endif
-
-          # Older versions of GCC (~4.4 and older) seem to print three version
-          # numbers (major, minor and patch) with the -dumpversion flag; newer
-          # versions only print two numbers.
-          GCC_VERSION = $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
-
-          ifeq ($(shell if test $(GCC_VERSION) -lt 42; then echo true; fi),true)
-            # In GCC 4.1.2 and older, numeric conversion warnings are not
-            # suppressable, so shut off -Wno-error.
-            CUDACC_FLAGS += -Xcompiler "-Wno-error"
-          endif
-          ifeq ($(shell if test $(GCC_VERSION) -eq 44; then echo true; fi),true)
-            # In GCC 4.4, the CUDA backend's kernel launch templates cause
-            # impossible-to-decipher "'<anonymous>' is used uninitialized in
-            # this function" warnings, so disable uninitialized variable
-            # warnings.
-            CUDACC_FLAGS += -Xcompiler "-Wno-uninitialized"
-          endif
-          ifeq ($(shell if test $(GCC_VERSION) -ge 45; then echo true; fi),true)
-            # This isn't available until GCC 4.3, and misfires on TMP code until
-            # GCC 4.5.
-            CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
-          endif
-        else
-          $(error CCBIN is not defined.)
-        endif
-      endif
-    endif
-  endif
-else ifeq ($(OS),win32)
-  # XXX Enable /Wall
-  CUDACC_FLAGS += -Xcompiler "/WX"
-
-  # Disabled loss-of-data conversion warnings.
-  # XXX Re-enable.
-  CUDACC_FLAGS += -Xcompiler "/wd4244 /wd4267"
-
-  # Suppress numeric conversion-to-bool warnings.
-  # XXX Re-enable.
-  CUDACC_FLAGS += -Xcompiler "/wd4800"
-
-  # Disable warning about applying unary - to unsigned type.
-  CUDACC_FLAGS += -Xcompiler "/wd4146"
-endif
+include $(ROOTDIR)/thrust/internal/build/common_warnings.mk
 
 # Add /bigobj to Windows build flag to workaround building Thrust with debug
 ifeq ($(OS), win32)

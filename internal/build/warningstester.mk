@@ -36,74 +36,7 @@ endif
 GENERATED_SOURCES = $(BUILT_CWD)
 CUDACC_FLAGS += -I$(GENERATED_SOURCES)
 
-ifeq ($(OS),$(filter $(OS),Linux Darwin))
-  ifndef USEPGCXX
-    CUDACC_FLAGS += -Xcompiler "-pedantic -Wall -Wextra -Werror"
-
-    ifdef USEXLC
-      # GCC does not warn about unused parameters in uninstantiated
-      # template functions, but xlC does. This causes xlC to choke on the
-      # OMP backend, which is mostly #ifdef'd out when you aren't using it.
-      CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
-    else # GCC, ICC or Clang AKA the sane ones.
-      # XXX Enable -Wcast-align.
-      CUDACC_FLAGS += -Xcompiler "-Winit-self -Woverloaded-virtual -Wno-cast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros"
-
-      ifdef USE_CLANGLLVM
-        IS_CLANG := 1
-      endif
-
-      ifeq ($(OS),Darwin)
-        IS_CLANG := 1
-      endif
-
-      ifdef IS_CLANG 
-        # -Wunneeded-internal-declaration misfires in the unit test framework
-        # on older versions of Clang.
-        CUDACC_FLAGS += -Xcompiler "-Wno-unneeded-internal-declaration"
-
-        # GCC does not warn about unused parameters in uninstantiated
-        # template functions, but Clang does. This causes Clang to choke on the
-        # OMP backend, which is mostly #ifdef'd out when you aren't using it.
-        CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
-      else # GCC
-        ifdef CCBIN
-          # Older versions of GCC (~4.4 and older) seem to print three version
-          # numbers (major, minor and patch) with the -dumpversion flag; newer
-          # versions only print two numbers.
-          GCC_VERSION = $(shell $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
-
-          ifeq ($(shell if test $(GCC_VERSION) -lt 420; then echo true; fi),true)
-            # In GCC 4.1.2 and older, numeric conversion warnings are not
-            # suppressable, so shut off -Wno-error.
-            CUDACC_FLAGS += -Xcompiler "-Wno-error"
-          endif
-          ifeq ($(shell if test $(GCC_VERSION) -ge 450; then echo true; fi),true)
-            # This isn't available until GCC 4.3, and misfires on TMP code until
-            # GCC 4.5.
-            CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
-          endif
-        else
-          $(error CCBIN is not defined)
-        endif
-      endif
-    endif
-  endif
-else ifeq ($(OS),win32)
-  # XXX Enable /Wall
-  CUDACC_FLAGS += -Xcompiler "/WX"
-
-  # Disabled loss-of-data conversion warnings.
-  # XXX Re-enable.
-  CUDACC_FLAGS += -Xcompiler "/wd4244 /wd4267"
-
-  # Suppress numeric conversion-to-bool warnings.
-  # XXX Re-enable.
-  CUDACC_FLAGS += -Xcompiler "/wd4800"
-
-  # Disable warning about applying unary - to unsigned type.
-  CUDACC_FLAGS += -Xcompiler "/wd4146"
-endif
+include $(ROOTDIR)/thrust/internal/build/common_warnings.mk
 
 ifdef VULCAN_TOOLKIT_BASE
 include $(VULCAN_TOOLKIT_BASE)/build/common.mk
