@@ -1,6 +1,6 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
- * Copyright (c) 2011-2017, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -320,7 +320,7 @@ struct ScanTileState<T, false>
         cudaError_t error = cudaSuccess;
         do
         {
-            void*   allocations[3] = { NULL, NULL, NULL };
+            void*   allocations[3];
             size_t  allocation_sizes[3];
 
             allocation_sizes[0] = (num_tiles + TILE_STATUS_PADDING) * sizeof(StatusWord);           // bytes needed for tile status descriptors
