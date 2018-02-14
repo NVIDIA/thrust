@@ -63,7 +63,7 @@ namespace thrust
  *    }
  *  };
  *  
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<float> v(4);
  *
@@ -125,7 +125,9 @@ template <typename UnaryFunction, typename OutputIterator>
     __host__ __device__
     typename super_t::reference dereference() const
     {
-        return detail::transform_output_iterator_proxy<UnaryFunction, OutputIterator>(this->base_reference(), fun);
+      return detail::transform_output_iterator_proxy<
+        UnaryFunction, OutputIterator
+      >(this->base_reference(), fun);
     }
 
     UnaryFunction fun;

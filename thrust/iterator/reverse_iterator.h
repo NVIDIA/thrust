@@ -160,7 +160,7 @@ template<typename BidirectionalIterator>
     /*! Default constructor does nothing.
      */
     __host__ __device__
-    reverse_iterator(void) {}
+    reverse_iterator() {}
 
     /*! \p Constructor accepts a \c BidirectionalIterator pointing to a range
      *  for this \p reverse_iterator to reverse.
@@ -195,13 +195,13 @@ template<typename BidirectionalIterator>
   private:
     __thrust_exec_check_disable__
     __host__ __device__
-    typename super_t::reference dereference(void) const;
+    typename super_t::reference dereference() const;
 
     __host__ __device__
-    void increment(void);
+    void increment();
 
     __host__ __device__
-    void decrement(void);
+    void decrement();
 
     __host__ __device__
     void advance(typename super_t::difference_type n);

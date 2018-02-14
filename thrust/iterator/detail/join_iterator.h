@@ -100,6 +100,10 @@ class join_iterator
   private:
     friend class thrust::iterator_core_access;
 
+    // MSVC 2013 and 2015 incorrectly warning about returning a reference to
+    // a local/temporary here.
+    // See goo.gl/LELTNp
+    __THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
 
     __host__ __device__
     typename super_t::reference dereference() const
@@ -107,6 +111,8 @@ class join_iterator
       size_type i = *super_t::base();
       return (i < m_n1) ? m_iter1[i] : static_cast<typename super_t::reference>(m_iter2[i]);
     } // end dereference()
+
+    __THRUST_DISABLE_MSVC_WARNING_END(4172)
 
 
     size_type m_n1;

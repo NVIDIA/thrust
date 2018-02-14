@@ -77,7 +77,7 @@ namespace thrust
  *    }
  *  };
  *  
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<float> v(4);
  *    v[0] = 1.0f;
@@ -120,7 +120,7 @@ namespace thrust
  *    }
  *  };
  *  
- *  int main(void)
+ *  int main()
  *  {
  *    // initialize a device array
  *    thrust::device_vector<float> v(4);
@@ -161,7 +161,7 @@ namespace thrust
  *    }
  *  };
  *  
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<float> v(4);
  *    v[0] = 1.0f;
@@ -296,15 +296,23 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
       return *this;
     }
 
+    // MSVC 2013 and 2015 incorrectly warning about returning a reference to
+    // a local/temporary here.
+    // See goo.gl/LELTNp
+    __THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
+
     __thrust_exec_check_disable__
     __host__ __device__
     typename super_t::reference dereference() const
-    { 
-      // create a temporary to allow iterators with wrapped references to convert to their value type before calling m_f
-      // note that this disallows non-constant operations through m_f
+    {  
+      // Create a temporary to allow iterators with wrapped references to
+      // convert to their value type before calling m_f. Note that this
+      // disallows non-constant operations through m_f. 
       typename thrust::iterator_value<Iterator>::type x = *this->base();
       return m_f(x);
     }
+
+    __THRUST_DISABLE_MSVC_WARNING_END(4172)
 
     // tag this as mutable per Dave Abrahams in this thread:
     // http://lists.boost.org/Archives/boost/2004/05/65332.php

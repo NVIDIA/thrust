@@ -51,7 +51,7 @@ template<typename Iterator, typename Tag>
 
   public:
     __host__ __device__
-    tagged_iterator(void) {}
+    tagged_iterator() {}
 
     __host__ __device__
     explicit tagged_iterator(Iterator x)

@@ -64,7 +64,7 @@ template<typename BidirectionalIterator>
   __host__ __device__
   typename reverse_iterator<BidirectionalIterator>::super_t::reference
     reverse_iterator<BidirectionalIterator>
-      ::dereference(void) const
+      ::dereference() const
 {
   return *thrust::detail::prior(this->base());
 } // end reverse_iterator::increment()
@@ -72,7 +72,7 @@ template<typename BidirectionalIterator>
 template<typename BidirectionalIterator>
   __host__ __device__
   void reverse_iterator<BidirectionalIterator>
-    ::increment(void)
+    ::increment()
 {
   --this->base_reference();
 } // end reverse_iterator::increment()
@@ -80,7 +80,7 @@ template<typename BidirectionalIterator>
 template<typename BidirectionalIterator>
   __host__ __device__
   void reverse_iterator<BidirectionalIterator>
-    ::decrement(void)
+    ::decrement()
 {
   ++this->base_reference();
 } // end reverse_iterator::decrement()

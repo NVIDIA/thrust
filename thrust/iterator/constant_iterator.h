@@ -71,7 +71,7 @@ namespace thrust
  *  #include <thrust/functional.h>
  *  #include <thrust/device_vector.h>
  *
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<int> data(4);
  *    data[0] = 3;
@@ -117,8 +117,8 @@ template<typename Value,
      *  null constructor.
      */
     __host__ __device__
-    constant_iterator(void)
-      : super_t(), m_value(){};
+    constant_iterator()
+      : super_t(), m_value() {}
 
     /*! Copy constructor copies the value of another \p constant_iterator into this
      *  \p constant_iterator.
@@ -173,7 +173,7 @@ template<typename Value,
      *  \return A \c const reference to this \p constant_iterator's constant value.
      */
     __host__ __device__
-    Value const& value(void) const
+    Value const& value() const
     { return m_value; }
 
     /*! \cond
@@ -181,16 +181,16 @@ template<typename Value,
 
   protected:
     __host__ __device__
-    Value const& value_reference(void) const
+    Value const& value_reference() const
     { return m_value; }
 
     __host__ __device__
-    Value & value_reference(void)
+    Value & value_reference()
     { return m_value; }
   
   private: // Core iterator interface
     __host__ __device__
-    reference dereference(void) const
+    reference dereference() const
     {
       return m_value;
     }

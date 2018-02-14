@@ -90,7 +90,7 @@ namespace thrust
  *  #include <thrust/functional.h>
  *  #include <thrust/device_vector.h>
  *   
- *  int main(void)
+ *  int main()
  *  {
  *   // this example computes indices for all the nonzero values in a sequence
  *   
@@ -149,7 +149,7 @@ template<typename Incrementable,
      *  counter using its null constructor.
      */
     __host__ __device__
-    counting_iterator(void){};
+    counting_iterator() {}
 
     /*! Copy constructor copies the value of another \p counting_iterator into a
      *  new \p counting_iterator.
@@ -186,7 +186,7 @@ template<typename Incrementable,
      */
   private:
     __host__ __device__
-    reference dereference(void) const
+    reference dereference() const
     {
       return this->base_reference();
     }

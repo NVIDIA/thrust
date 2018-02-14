@@ -27,7 +27,7 @@ namespace detail
 // a type which may be assigned any other type
 struct any_assign
 {
-  inline __host__ __device__ any_assign(void)
+  inline __host__ __device__ any_assign()
   {}
 
   template<typename T>

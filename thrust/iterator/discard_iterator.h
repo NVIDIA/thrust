@@ -53,7 +53,7 @@ namespace thrust
  *  #include <thrust/reduce.h>
  *  #include <thrust/device_vector.h>
  *
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<int> keys(7), values(7);
  *
@@ -132,7 +132,7 @@ template<typename System = use_default>
   
   private: // Core iterator interface
     __host__ __device__
-    reference dereference(void) const
+    reference dereference() const
     {
       return m_element;
     }

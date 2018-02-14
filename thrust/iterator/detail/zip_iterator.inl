@@ -26,7 +26,7 @@ namespace thrust
 template<typename IteratorTuple>
 __host__ __device__
   zip_iterator<IteratorTuple>
-    ::zip_iterator(void)
+    ::zip_iterator()
 {
 } // end zip_iterator::zip_iterator()
 
@@ -57,7 +57,7 @@ template<typename IteratorTuple>
 template<typename IteratorTuple>
 __host__ __device__
 const IteratorTuple &zip_iterator<IteratorTuple>
-  ::get_iterator_tuple(void) const
+  ::get_iterator_tuple() const
 {
   return m_iterator_tuple;
 } // end zip_iterator::get_iterator_tuple()
@@ -67,11 +67,13 @@ template<typename IteratorTuple>
   typename zip_iterator<IteratorTuple>::super_t::reference
   __host__ __device__
     zip_iterator<IteratorTuple>
-      ::dereference(void) const
+      ::dereference() const
 {
   using namespace detail::tuple_impl_specific;
 
-  return thrust::detail::tuple_host_device_transform<detail::dereference_iterator::template apply>(get_iterator_tuple(), detail::dereference_iterator());
+  return thrust::detail::tuple_host_device_transform<
+    detail::dereference_iterator::template apply
+  >(get_iterator_tuple(), detail::dereference_iterator());
 } // end zip_iterator::dereference()
 
 
@@ -100,7 +102,7 @@ __host__ __device__
 template<typename IteratorTuple>
 __host__ __device__
   void zip_iterator<IteratorTuple>
-    ::increment(void)
+    ::increment()
 {
   using namespace detail::tuple_impl_specific;
   tuple_for_each(m_iterator_tuple, detail::increment_iterator());
@@ -110,7 +112,7 @@ __host__ __device__
 template<typename IteratorTuple>
 __host__ __device__
   void zip_iterator<IteratorTuple>
-    ::decrement(void)
+    ::decrement()
 {
   using namespace detail::tuple_impl_specific;
   tuple_for_each(m_iterator_tuple, detail::decrement_iterator());

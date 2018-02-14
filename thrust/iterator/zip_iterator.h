@@ -108,7 +108,7 @@ namespace thrust
  *  #include <thrust/tuple.h>
  *  #include <thrust/device_vector.h>
  *
- *  int main(void)
+ *  int main()
  *  {
  *    thrust::device_vector<int> int_in(3), int_out(3);
  *    int_in[0] = 0;
@@ -144,7 +144,7 @@ template <typename IteratorTuple>
     /*! Null constructor does nothing.
      */
     inline __host__ __device__
-    zip_iterator(void);
+    zip_iterator();
 
     /*! This constructor creates a new \p zip_iterator from a
      *  \p tuple of iterators.
