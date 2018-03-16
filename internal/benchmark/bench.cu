@@ -85,7 +85,7 @@ struct value_and_count
     count = other.count;
     return *this;
   }
-  
+
   __host__ __device__
   value_and_count& operator=(T const& value_)
   {
@@ -168,16 +168,20 @@ T sample_standard_deviation(InputIt first, InputIt last, T average)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-// Formulas for propagation of uncertainty are from:
+// Formulas for propagation of uncertainty from:
 //
 //   https://en.wikipedia.org/wiki/Propagation_of_uncertainty#Example_formulas
 //
-// Even though it's wikipedia, I trust it as I helped write that table.
+// Even though it's Wikipedia, I trust it as I helped write that table.
+//
+// XXX Replace with a proper reference.
 
-// Given f = AB or A/B, the uncertainty in f is approximately:
+// Compute the propagated uncertainty from the multiplication of two uncertain
+// values, `A +/- A_unc` and `B +/- B_unc`. Given `f = AB` or `f = A/B`, where
+// `A != 0` and `B != 0`, the uncertainty in `f` is approximately:
 //
 //   f_unc = abs(f) * sqrt((A_unc / A) ^ 2 + (B_unc / B) ^ 2)
-// 
+//
 template <typename T>
 __host__ __device__
 T uncertainty_multiplicative(
@@ -190,19 +194,20 @@ T uncertainty_multiplicative(
        * std::sqrt((A_unc / A) * (A_unc / A) + (B_unc / B) * (B_unc / B));
 }
 
-// Given f = aA + bB (where a and b are constants), the uncertainty in f is
-// approximately:
+// Compute the propagated uncertainty from addition of two uncertain values,
+// `A +/- A_unc` and `B +/- B_unc`. Given `f = cA + dB` (where `c` and `d` are
+// certain constants), the uncertainty in `f` is approximately:
 //
-//   f_unc = sqrt(a ^ 2 * A_unc ^ 2 + b ^ 2 * B_unc ^ 2)
+//   f_unc = sqrt(c ^ 2 * A_unc ^ 2 + d ^ 2 * B_unc ^ 2)
 //
 template <typename T>
 __host__ __device__
 T uncertainty_additive(
-    T const& a, T const& A_unc
-  , T const& b, T const& B_unc
+    T const& c, T const& A_unc
+  , T const& d, T const& B_unc
     )
 {
-  return std::sqrt((a * a * A_unc * A_unc) + (b * b * B_unc * B_unc));
+  return std::sqrt((c * c * A_unc * A_unc) + (d * d * B_unc * B_unc));
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -298,7 +303,7 @@ template <
     template <typename> class Test
   , typename                  ElementMetaType // Has an embedded typedef `type,
                                               // and a static method `name` that
-                                              // returns a char const*. 
+                                              // returns a char const*.
   , uint64_t                  Elements
   , uint64_t                  BaselineTrials
   , uint64_t                  RegularTrials
@@ -309,19 +314,20 @@ struct experiment_driver
 
   static char const* const test_name;
   static char const* const element_type_name; // Element type name as a string.
-  static uint64_t const element_size;      // Size of each element in bits.
-  static uint64_t const elements;          // # of elements per trial. 
-  static double const input_size;             // `elements` * `element_size` in GB. 
-  static uint64_t const baseline_trials;   // # of baseline trials per experiment.
-  static uint64_t const regular_trials;    // # of regular trials per experiment.
 
-  static void run_and_print_experiment()
+  static uint64_t const elements;             // # of elements per trial.
+  static uint64_t const element_size;         // Size of each element in bits.
+  static double   const input_size;           // `elements` * `element_size` in MiB.
+  static uint64_t const baseline_trials;      // # of baseline trials per experiment.
+  static uint64_t const regular_trials;       // # of regular trials per experiment.
+
+  static void run_experiment()
   { // {{{
     experiment_results stl    = std_experiment();
     experiment_results thrust = thrust_experiment();
     #if defined(HAVE_TBB)
     experiment_results tbb    = tbb_experiment();
-    #endif    
+    #endif
 
     double stl_average_walltime    = stl.average_time;
     double thrust_average_walltime = thrust.average_time;
@@ -362,13 +368,19 @@ struct experiment_driver
 
     // Round the average walltime and walltime uncertainty to the
     // significant figure of the walltime uncertainty.
-    int stl_walltime_precision =
-        find_significant_digit(stl.stdev_time);
-    int thrust_walltime_precision =
-        find_significant_digit(thrust.stdev_time);
+    int stl_walltime_precision = std::max(
+        find_significant_digit(stl.average_time)
+      , find_significant_digit(stl.stdev_time)
+    );
+    int thrust_walltime_precision = std::max(
+        find_significant_digit(thrust.average_time)
+      , find_significant_digit(thrust.stdev_time)
+    );
     #if defined(HAVE_TBB)
-    int tbb_walltime_precision =
-        find_significant_digit(tbb.stdev_time);
+    int tbb_walltime_precision = std::max(
+        find_significant_digit(tbb.average_time)
+      , find_significant_digit(tbb.stdev_time)
+    );
     #endif
 
     stl_average_walltime = round_to_precision(
@@ -397,13 +409,19 @@ struct experiment_driver
 
     // Round the average throughput and throughput uncertainty to the
     // significant figure of the throughput uncertainty.
-    int stl_throughput_precision =
-        find_significant_digit(stl_throughput_uncertainty);
-    int thrust_throughput_precision =
-        find_significant_digit(thrust_throughput_uncertainty);
+    int stl_throughput_precision = std::max(
+        find_significant_digit(stl_average_throughput)
+      , find_significant_digit(stl_throughput_uncertainty)
+    );
+    int thrust_throughput_precision = std::max(
+        find_significant_digit(thrust_average_throughput)
+      , find_significant_digit(thrust_throughput_uncertainty)
+    );
     #if defined(HAVE_TBB)
-    int tbb_throughput_precision =
-        find_significant_digit(tbb_throughput_uncertainty);
+    int tbb_throughput_precision = std::max(
+        find_significant_digit(tbb_average_throughput)
+      , find_significant_digit(tbb_throughput_uncertainty)
+    );
     #endif
 
     stl_average_throughput = round_to_precision(
@@ -458,18 +476,18 @@ struct experiment_driver
 
 private:
   static experiment_results std_experiment()
-  { 
+  {
     return experiment<typename Test<element_type>::std_trial>();
   }
 
   static experiment_results thrust_experiment()
-  { 
+  {
     return experiment<typename Test<element_type>::thrust_trial>();
   }
 
   #if defined(HAVE_TBB)
   static experiment_results tbb_experiment()
-  { 
+  {
     return experiment<typename Test<element_type>::tbb_trial>();
   }
   #endif
@@ -493,12 +511,12 @@ private:
 
     for (uint64_t t = 0; t < trials; ++t)
     {
-      // Generate random input for next trial. 
+      // Generate random input for next trial.
       trial.setup(elements);
 
-      // Benchmark.
       timer e;
 
+      // Benchmark.
       e.start();
       trial();
       e.stop();
@@ -512,7 +530,7 @@ private:
     double stdev_time
       = sample_standard_deviation(times.begin(), times.end(), average_time);
 
-    return experiment_results(average_time, stdev_time); 
+    return experiment_results(average_time, stdev_time);
   } // }}}
 };
 
@@ -632,12 +650,12 @@ struct trial_base<baseline_trial>
 template <>
 struct trial_base<regular_trial>
 {
-  static bool is_baseline() { return true; }
+  static bool is_baseline() { return false; }
 };
 
 template <typename Container, typename TrialKind = regular_trial>
 struct inplace_trial_base : trial_base<TrialKind>
-{ 
+{
   Container input;
 
   void setup(uint64_t elements)
@@ -645,12 +663,12 @@ struct inplace_trial_base : trial_base<TrialKind>
     input.resize(elements);
 
     randomize(input);
-  } 
+  }
 };
 
 template <typename Container, typename TrialKind = regular_trial>
 struct copy_trial_base : trial_base<TrialKind>
-{ 
+{
   Container input;
   Container output;
 
@@ -660,7 +678,7 @@ struct copy_trial_base : trial_base<TrialKind>
     output.resize(elements);
 
     randomize(input);
-  } 
+  }
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -687,7 +705,7 @@ struct reduce_tester
       thrust::reduce(this->input.begin(), this->input.end());
     }
   };
- 
+
   #if defined(HAVE_TBB)
   struct tbb_trial : inplace_trial_base<std::vector<T> >
   {
@@ -771,7 +789,7 @@ struct transform_inplace_tester
 };
 
 template <typename T>
-struct inclusive_scan_inplace_tester 
+struct inclusive_scan_inplace_tester
 {
   static char const* test_name() { return "inclusive_scan_inplace"; }
 
@@ -846,7 +864,7 @@ template <
   , uint64_t BaselineTrials
   , uint64_t RegularTrials
 >
-void run_and_print_core_primitives_experiments_for_type()
+void run_core_primitives_experiments_for_type()
 {
   experiment_driver<
       reduce_tester
@@ -854,7 +872,7 @@ void run_and_print_core_primitives_experiments_for_type()
     , Elements / sizeof(typename ElementMetaType::type)
     , BaselineTrials
     , RegularTrials
-  >::run_and_print_experiment();
+  >::run_experiment();
 
   experiment_driver<
     transform_inplace_tester
@@ -862,7 +880,7 @@ void run_and_print_core_primitives_experiments_for_type()
     , Elements / sizeof(typename ElementMetaType::type)
     , BaselineTrials
     , RegularTrials
-  >::run_and_print_experiment();
+  >::run_experiment();
 
   experiment_driver<
       inclusive_scan_inplace_tester
@@ -870,16 +888,17 @@ void run_and_print_core_primitives_experiments_for_type()
     , Elements / sizeof(typename ElementMetaType::type)
     , BaselineTrials
     , RegularTrials
-  >::run_and_print_experiment();
+  >::run_experiment();
 
   experiment_driver<
       sort_tester
     , ElementMetaType
+//    , Elements / sizeof(typename ElementMetaType::type)
     , (Elements >> 6) // Sorting is more sensitive to element count than
                       // memory footprint.
     , BaselineTrials
     , RegularTrials
-  >::run_and_print_experiment();
+  >::run_experiment();
 
   experiment_driver<
       copy_tester
@@ -887,7 +906,7 @@ void run_and_print_core_primitives_experiments_for_type()
     , Elements / sizeof(typename ElementMetaType::type)
     , BaselineTrials
     , RegularTrials
-  >::run_and_print_experiment();
+  >::run_experiment();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -917,37 +936,56 @@ template <
   , uint64_t BaselineTrials
   , uint64_t RegularTrials
 >
-void run_and_print_core_primitives_experiments()
+void run_core_primitives_experiments()
 {
-  run_and_print_core_primitives_experiments_for_type<
+  run_core_primitives_experiments_for_type<
     char_meta,    Elements, BaselineTrials, RegularTrials
   >();
-  run_and_print_core_primitives_experiments_for_type<
+  run_core_primitives_experiments_for_type<
     int_meta,     Elements, BaselineTrials, RegularTrials
   >();
-  run_and_print_core_primitives_experiments_for_type<
+  run_core_primitives_experiments_for_type<
     int8_t_meta,  Elements, BaselineTrials, RegularTrials
   >();
-  run_and_print_core_primitives_experiments_for_type<
+  run_core_primitives_experiments_for_type<
     int16_t_meta, Elements, BaselineTrials, RegularTrials
   >();
-  run_and_print_core_primitives_experiments_for_type<
+  run_core_primitives_experiments_for_type<
     int32_t_meta, Elements, BaselineTrials, RegularTrials
   >();
-  run_and_print_core_primitives_experiments_for_type<
+  run_core_primitives_experiments_for_type<
     int64_t_meta, Elements, BaselineTrials, RegularTrials
   >();
-  run_and_print_core_primitives_experiments_for_type<
+  run_core_primitives_experiments_for_type<
     float_meta,   Elements, BaselineTrials, RegularTrials
   >();
-  run_and_print_core_primitives_experiments_for_type<
+  run_core_primitives_experiments_for_type<
     double_meta,  Elements, BaselineTrials, RegularTrials
   >();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct command_line_option_error 
+// XXX Use `std::string_view` when possible.
+std::vector<std::string> split(std::string const& str, std::string const& delim)
+{
+  std::vector<std::string> tokens;
+  std::string::size_type prev = 0, pos = 0;
+  do
+  {
+    pos = str.find(delim, prev);
+    if (pos == std::string::npos) pos = str.length();
+    std::string token = str.substr(prev, pos - prev);
+    if (!token.empty()) tokens.push_back(token);
+    prev = pos + delim.length();
+  }
+  while (pos < str.length() && prev < str.length());
+  return tokens;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct command_line_option_error
 {
   virtual ~command_line_option_error() {}
   virtual const char* what() const = 0;
@@ -965,7 +1003,7 @@ struct only_one_option_allowed : command_line_option_error
     message  = "Only one `--";
     message += key;
     message += "` option is allowed, but multiple were received: ";
- 
+
     for (; first != last; ++first)
     {
       message += "`";
@@ -1091,6 +1129,12 @@ struct command_line_processor
       return (*v.first).second;
   }
 
+  // Returns `true` if the option `key` was specified at least once.
+  bool has(std::string const& key) const
+  {
+    return kw_args.count(key) > 0;
+  }
+
 private:
   positional_options_type pos_args;
   keyword_options_type    kw_args;
@@ -1114,22 +1158,28 @@ int main(int argc, char** argv)
     int device = std::atoi(clp("device", "0").c_str());
     // `std::atoi` returns 0 if the conversion fails.
 
-    cudaSetDevice(device);    
+    cudaSetDevice(device);
   #endif
 
-  print_experiment_header();
+  if (!clp.has("no-header"))
+    print_experiment_header();
 
                                           /* Elements |       Trials       */
                                           /*          | Baseline | Regular */
-//run_and_print_core_primitives_experiments< 1 << 21  , 4        , 16      >();
-//run_and_print_core_primitives_experiments< 1 << 22  , 4        , 16      >();
-//run_and_print_core_primitives_experiments< 1 << 23  , 4        , 16      >();
-  run_and_print_core_primitives_experiments< 1 << 24  , 3        , 8       >();
-//run_and_print_core_primitives_experiments< 1 << 25  , 3        , 8       >();
-//run_and_print_core_primitives_experiments< 1 << 26  , 3        , 8       >();
-//run_and_print_core_primitives_experiments< 1 << 27  , 3        , 8       >();
-//run_and_print_core_primitives_experiments< 1 << 28  , 3        , 8       >();
-  run_and_print_core_primitives_experiments< 1 << 29  , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 21LLU      , 4        , 16      >();
+//run_core_primitives_experiments< 1LLU << 22LLU      , 4        , 16      >();
+//run_core_primitives_experiments< 1LLU << 23LLU      , 4        , 16      >();
+  run_core_primitives_experiments< 1LLU << 24LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 25LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 26LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 27LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 28LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 29LLU      , 3        , 8       >();
+
+  run_core_primitives_experiments< 1LLU << 25LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 26LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 27LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 28LLU      , 3        , 8       >();
 
   return 0;
 }

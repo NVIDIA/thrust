@@ -2,6 +2,13 @@
 # -*- coding: utf-8 -*-
 
 ###############################################################################
+# Copyright (c) 2012-7 Bryce Adelstein Lelbach aka wash <brycelelbach@gmail.com>
+#
+# Distributed under the Boost Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+###############################################################################
+
+###############################################################################
 # Copyright (c) 2018 NVIDIA Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +23,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 ###############################################################################
+
+# XXX Put code shared with `compare_benchmark_results.py` in a common place.
+
+# XXX Relative uncertainty.
 
 from sys import exit, stdout
 
@@ -56,6 +67,28 @@ def strip_list(l):
 
 ###############################################################################
 
+def int_or_float(x):
+  """Convert `x` to either `int` or `float`, preferring `int`.
+
+  Raises:
+    ValueError : If `x` is not convertible to either `int` or `float`
+  """
+  try:
+    return int(x)
+  except ValueError:
+    return float(x)
+
+def try_int_or_float(x):
+  """Try to convert `x` to either `int` or `float`, preferring `int`. `x` is
+  returned unmodified if conversion fails.
+  """
+  try:
+    return int_or_float(x)
+  except ValueError:
+    return x
+
+###############################################################################
+
 def find_significant_digit(x):
   """Return the significant digit of the number x. The result is the number of
   digits after the decimal place to round to (negative numbers indicate rounding
@@ -75,7 +108,7 @@ def round_with_int_conversion(x, ndigits = None):
 
 class measured_variable(object):
   """A meta-variable representing measured data. It is composed of three raw
-  variables plus unit meta-data.
+  variables plus units meta-data.
 
   Attributes:
     quantity (`str`) :
@@ -84,18 +117,18 @@ class measured_variable(object):
       Name of the uncertainty variable of this object.
     sample_size (`str`) :
       Name of the sample size variable of this object.
-    unit (unit class or `None`) :
+    units (units class or `None`) :
       The units the value is measured in.
   """
 
-  def __init__(self, quantity, uncertainty, sample_size, unit = None):
+  def __init__(self, quantity, uncertainty, sample_size, units = None):
     self.quantity    = quantity
     self.uncertainty = uncertainty
     self.sample_size = sample_size
-    self.unit        = unit
+    self.units       = units
 
   def as_tuple(self):
-    return (self.quantity, self.uncertainty, self.sample_size, self.unit)
+    return (self.quantity, self.uncertainty, self.sample_size, self.units)
 
   def __iter__(self):
     return iter(self.as_tuple())
@@ -116,18 +149,18 @@ class measured_value(object):
       The measurement uncertainty, e.g. the sample standard deviation.
     sample_size (`int`) :
       The number of observations contributing to the value.
-    unit (unit class or `None`) :
+    units (units class or `None`) :
       The units the value is measured in.
   """
 
-  def __init__(self, quantity, uncertainty, sample_size = 1, unit = None):
+  def __init__(self, quantity, uncertainty, sample_size = 1, units = None):
     self.quantity    = quantity
     self.uncertainty = uncertainty
     self.sample_size = sample_size
-    self.unit        = unit
+    self.units       = units
 
   def as_tuple(self):
-    return (self.quantity, self.uncertainty, self.sample_size, self.unit)
+    return (self.quantity, self.uncertainty, self.sample_size, self.units)
 
   def __iter__(self):
     return iter(self.as_tuple())
@@ -305,23 +338,25 @@ def process_program_arguments():
   ap.add_argument(
     "-d", "--dependent-variable",
     help = ("Treat the specified three variables as a dependent variable. The "
-            "1st variable is the measured value, the 2nd is the uncertainty "
-            "of the measurement and the 3rd is the sample size."),
+            "1st variable is the measured quantity, the 2nd is the uncertainty "
+            "of the measurement and the 3rd is the sample size. The defaults "
+            "are the dependent variables of Thrust's benchmark suite. May be "
+            "specified multiple times."),
     action = "append", type = str, dest = "dependent_variables",
-    metavar = "VALUE,UNCERTAINTY,SAMPLES"
+    metavar = "QUANTITY,UNCERTAINTY,SAMPLES"
   )
 
   ap.add_argument(
     "-p", "--preserve-whitespace",
     help = ("Don't trim leading and trailing whitespace from each CSV cell."),
-    action = "store_false", dest = "trim_whitespace", default = True
+    action = "store_true", default = False
   )
 
   ap.add_argument(
     "-o", "--output-file",
     help = ("The file that results are written to. If `-`, results are "
             "written to stdout."),
-    action = "store", type = str, dest = "output_file", default = "-",
+    action = "store", type = str, default = "-",
     metavar = "OUTPUT"
   )
 
@@ -338,6 +373,13 @@ def process_program_arguments():
 
 ###############################################################################
 
+def filter_comments(f, s = "#"):
+  """Return an iterator to the file `f` which filters out all lines beginning
+  with `s`."""
+  return filter(lambda line: not line.startswith(s), f)
+
+###############################################################################
+
 class io_manager(object):
   """Manages I/O operations and represents the input data as an `Iterable`
   sequence of `dict`s.
@@ -345,8 +387,8 @@ class io_manager(object):
   It is `Iterable` and an `Iterator`. It can be used with `with`.
 
   Attributes:
-    trim_whitespace (`bool`) :
-      If `True`, leading and trailing whitespace is stripped from each CSV cell.
+    preserve_whitespace (`bool`) :
+      If `False`, leading and trailing whitespace is stripped from each CSV cell.
     writer (`csv_dict_writer`) :
       CSV writer object that the output is written to.
     output_file (`file` or `stdout`) :
@@ -361,22 +403,22 @@ class io_manager(object):
       Units of the variables, in order. 
   """
 
-  def __init__(self, input_files, output_file, trim_whitespace = True):
+  def __init__(self, input_files, output_file, preserve_whitespace = True):
     """Read input files and open the output file and construct a new `io_manager`
     object.
 
-    If `trim_whitespace` is `True`, leading and trailing whitespace is stripped
-    from each CSV cell.
+    If `preserve_whitespace` is `False`, leading and trailing whitespace is
+    stripped from each CSV cell.
 
     Raises
       AssertionError :
-        If `len(input_files) <= 0` or `type(trim_whitespace) != bool`.
+        If `len(input_files) <= 0` or `type(preserve_whitespace) != bool`.
     """
     assert len(input_files) > 0, "No input files provided."
 
-    assert type(trim_whitespace) == bool
+    assert type(preserve_whitespace) == bool
 
-    self.trim_whitespace = trim_whitespace
+    self.preserve_whitespace = preserve_whitespace
 
     self.readers = deque()
 
@@ -387,28 +429,34 @@ class io_manager(object):
 
     for input_file in input_files:
       input_file_object = open(input_file)
-      reader = csv_dict_reader(input_file_object)
+      reader = csv_dict_reader(filter_comments(input_file_object))
 
-      if self.trim_whitespace:
+      if not self.preserve_whitespace:
         strip_list(reader.fieldnames)
 
       if self.variable_names is None:
         self.variable_names = reader.fieldnames
       else:
         # Make sure all inputs have the same schema.
-        assert self.variable_names == reader.fieldnames
+        assert self.variable_names == reader.fieldnames,                      \
+          "Input file (`" + input_file + "`) variable schema `"             + \
+          str(reader.fieldnames) + "` does not match the variable schema `" + \
+          str(self.variable_names) + "`."
 
+      # Consume the next row, which should be the second line of the header.
       variable_units = reader.next()
 
-      if self.trim_whitespace:
+      if not self.preserve_whitespace:
         strip_dict(variable_units)
 
       if self.variable_units is None:
         self.variable_units = variable_units
       else:
-        # Make sure all inputs have the same schema and consume the next row,
-        # which should be the second line of the header.
-        assert self.variable_units == variable_units
+        # Make sure all inputs have the same units schema.
+        assert self.variable_units == variable_units,                         \
+          "Input file (`" + input_file + "`) units schema `"                + \
+          str(variable_units) + "` does not match the units schema `"       + \
+          str(self.variable_units) + "`."
 
       self.readers.append(reader)
       self.input_files.append(input_file_object)
@@ -460,7 +508,7 @@ class io_manager(object):
 
     try:
       row = self.readers[0].next()
-      if self.trim_whitespace: strip_dict(row)
+      if not self.preserve_whitespace: strip_dict(row)
       return row
     except StopIteration:
       # The current reader is empty, so pop it, pop it's input file, close the
@@ -520,7 +568,7 @@ class dependent_variable_parser(object):
 
     assert match is not None,                                          \
       "Dependent variable (-d) `" +s+ "` is invalid, the format is " + \
-      "AVG,STDEV,TRIALS."
+      "`AVG,STDEV,TRIALS`."
 
     return measured_variable(match.group(1), match.group(2), match.group(3))
 
@@ -565,7 +613,7 @@ class record_aggregator(object):
   #############################################################################
   # Insertion.
 
-  def add(self, record):
+  def append(self, record):
     """Add `record` to the dataset.
 
     Raises:
@@ -582,13 +630,13 @@ class record_aggregator(object):
     # all variables.
     sample_size_variables = []
 
+    # Separate the dependent values from the distinguishing variables and
+    # perform `str`-to-numeric conversions.
     for variable in self.dependent_variables:
-      # Separate the dependent values from the distinguishing variables and
-      # perform `str`-to-numeric conversions.
       quantity, uncertainty, sample_size, units = variable.as_tuple()
 
-      dependent_values[quantity]    = [float(record.pop(quantity))]
-      dependent_values[uncertainty] = [float(record.pop(uncertainty))]
+      dependent_values[quantity]    = [int_or_float(record.pop(quantity))]
+      dependent_values[uncertainty] = [int_or_float(record.pop(uncertainty))]
       dependent_values[sample_size] = [int(record[sample_size])]
 
       sample_size_variables.append(sample_size)
@@ -694,14 +742,25 @@ class record_aggregator(object):
   # Output Stream.
 
   def __iter__(self):
-    """Return an iterator to the output sequence.
+    """Return an iterator to the output sequence of separated distinguishing
+    variables and dependent variables (a tuple of two `dict`s).
 
     This is a requirement for the `Iterable` protocol.
     """
     return self
 
+  def records(self):
+    """Return an iterator to the output sequence of CSV rows (`dict`s of
+    variables to values).
+    """
+    return imap(unpack_tuple(lambda dist, dep: merge_dicts(dist, dep)), self)
+
   def next(self):
-    """Produce the next output record (a `dict` representing a CSV row).
+    """Produce the components of the next output record - a tuple of two
+    `dict`s. The first `dict` is a mapping of distinguishing variables to
+    distinguishing values, the second `dict` is a mapping of dependent
+    variables to combined dependent values. Combining the two dicts forms a
+    CSV row suitable for output.
 
     This is a requirement for the `Iterator` protocol.
 
@@ -712,7 +771,7 @@ class record_aggregator(object):
     assert len(self.dataset.keys()) == len(self.in_order_dataset_keys),      \
       "Number of dataset keys (`" + str(len(self.dataset.keys()))          + \
       "`) is not equal to the number of keys in the ordering list (`"      + \
-      str(len(self.in_order_dataset_keys))
+      str(len(self.in_order_dataset_keys)) + "`)."
 
     if len(self.in_order_dataset_keys) == 0:
       raise StopIteration()
@@ -725,24 +784,34 @@ class record_aggregator(object):
 
     combined_dependent_values = self.combine_dependent_values(dependent_values)
 
-    return merge_dicts(distinguishing_values, combined_dependent_values)
+    return (distinguishing_values, combined_dependent_values)
 
 ###############################################################################
 
 args = process_program_arguments()
 
-# Parse dependent variable options.
-ra = record_aggregator(args.dependent_variables)
+if args.dependent_variables is None:
+  args.dependent_variables = [
+    "STL Average Walltime,STL Walltime Uncertainty,STL Trials",
+    "STL Average Throughput,STL Throughput Uncertainty,STL Trials",
+    "Thrust Average Walltime,Thrust Walltime Uncertainty,Thrust Trials",
+    "Thrust Average Throughput,Thrust Throughput Uncertainty,Thrust Trials"
+  ]
 
 # Read input files and open the output file.
-with io_manager(args.input_files, args.output_file, args.trim_whitespace) as iom:
+with io_manager(args.input_files,
+                args.output_file,
+                args.preserve_whitespace) as iom:
+  # Parse dependent variable options.
+  ra = record_aggregator(args.dependent_variables)
+
   # Add all input data to the `record_aggregator`.
   for record in iom:
-    ra.add(record)
+    ra.append(record)
 
   iom.write_header()
 
   # Write combined results out.
-  for record in ra:
+  for record in ra.records():
     iom.write(record)
 

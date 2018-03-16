@@ -27,10 +27,10 @@ class timer
     public:
     timer()
     {
-        CUDA_SAFE_CALL(cudaEventCreate(&_start)); 
+        CUDA_SAFE_CALL(cudaEventCreate(&_start));
         CUDA_SAFE_CALL(cudaEventCreate(&_end));
     }
-    
+
     ~timer()
     {
         CUDA_SAFE_CALL(cudaEventDestroy(_start));
@@ -38,26 +38,26 @@ class timer
     }
 
     void start()
-    { 
-        CUDA_SAFE_CALL(cudaEventRecord(_start,0));
+    {
+        CUDA_SAFE_CALL(cudaEventRecord(_start, 0));
     }
-    
+
     void stop()
-    { 
+    {
         CUDA_SAFE_CALL(cudaEventRecord(_end, 0));
         CUDA_SAFE_CALL(cudaEventSynchronize(_end));
     }
 
-    float milliseconds_elapsed()
-    { 
+    double milliseconds_elapsed()
+    {
         float elapsed_time;
         CUDA_SAFE_CALL(cudaEventElapsedTime(&elapsed_time, _start, _end));
         return elapsed_time;
     }
 
-    float seconds_elapsed()
-    { 
-        return milliseconds_elapsed() / 1000.0f;
+    double seconds_elapsed()
+    {
+        return milliseconds_elapsed() / 1000.0;
     }
 };
 
