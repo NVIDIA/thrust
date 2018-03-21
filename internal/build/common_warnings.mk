@@ -15,6 +15,12 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         IS_CLANG := 1
       endif
 
+      ifeq ($(ABITYPE), androideabi)
+        ifneq ($(findstring clang, $(BASE_COMPILER)),)
+          IS_CLANG := 1
+        endif
+      endif
+
       ifeq ($(OS),Darwin)
         IS_CLANG := 1
       endif
