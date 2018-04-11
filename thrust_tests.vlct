@@ -24,7 +24,7 @@
   "tests"       : [
     
     {
-      "exe" : "${PERL} thrust_nightly.pl -bin-path=${VULCAN_TESTSUITE_DIR} -filecheck-data-path=${VULCAN_TESTSUITE_DIR}/filecheck_data -filecheck-path=${VULCAN_INSTALL_DIR}/cuda/_internal/compiler/nvvm/tools"
+      "exe" : "${PERL} thrust_nightly.pl -bin-path=${VULCAN_TESTSUITE_DIR} -filecheck-data-path=${VULCAN_TESTSUITE_DIR}/filecheck_data -filecheck-path=${VULCAN_INSTALL_DIR}/cuda/_internal/compiler/nvvm/tools",
       "attributes" : [ "result=multi" ]
     }
     
