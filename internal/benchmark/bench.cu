@@ -1170,16 +1170,11 @@ int main(int argc, char** argv)
 //run_core_primitives_experiments< 1LLU << 22LLU      , 4        , 16      >();
 //run_core_primitives_experiments< 1LLU << 23LLU      , 4        , 16      >();
   run_core_primitives_experiments< 1LLU << 24LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 25LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 26LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 27LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 28LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 29LLU      , 3        , 8       >();
-
   run_core_primitives_experiments< 1LLU << 25LLU      , 3        , 8       >();
 //run_core_primitives_experiments< 1LLU << 26LLU      , 3        , 8       >();
 //run_core_primitives_experiments< 1LLU << 27LLU      , 3        , 8       >();
 //run_core_primitives_experiments< 1LLU << 28LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 29LLU      , 3        , 8       >();
 
   return 0;
 }

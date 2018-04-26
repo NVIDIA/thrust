@@ -1534,7 +1534,7 @@ namespace __radix_sort {
 }    // __radix_sort
 
 //---------------------------------------------------------------------
-// Smart sort picks at runtime whether to dispatch radix or merge sort
+// Smart sort picks at compile-time whether to dispatch radix or merge sort
 //---------------------------------------------------------------------
 
 namespace __smart_sort {
@@ -1631,7 +1631,7 @@ namespace __smart_sort {
       cuda_cub::copy(policy, keys.begin(), keys.end(), keys_first);
     }
   }
-};    // namespace __smart_sort
+}    // namespace __smart_sort
 
 
 //-------------------------
