@@ -985,7 +985,7 @@ std::vector<std::string> split(std::string const& str, std::string const& delim)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct command_line_option_error
+struct command_line_option_error : std::exception
 {
   virtual ~command_line_option_error() {}
   virtual const char* what() const = 0;

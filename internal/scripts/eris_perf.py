@@ -63,7 +63,8 @@ ap.add_argument(
 
 ap.add_argument(
   "-p", "--postprocess", 
-  help = ("The postprocessing script to run to combine the results."),
+  help = ("The location of the postprocessing script to run to combine the "
+          "results."),
   type = str,
   default = join(dirname(realpath(__file__)), "combine_benchmark_results.py"),
   metavar = "R"
