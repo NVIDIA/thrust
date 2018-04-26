@@ -38,6 +38,14 @@
 
 #define PP_CAT(a, b) a ## b
 
+// We don't use THRUST_NOEXCEPT because it's new, and we want this benchmark to
+// be backwards-compatible to older versions of Thrust.
+#if __cplusplus >= 201103L
+  #define NOEXCEPT noexcept
+#else
+  #define NOEXCEPT throw()
+#endif
+
 ///////////////////////////////////////////////////////////////////////////////
 
 template <typename T>
@@ -987,8 +995,8 @@ std::vector<std::string> split(std::string const& str, std::string const& delim)
 
 struct command_line_option_error : std::exception
 {
-  virtual ~command_line_option_error() {}
-  virtual const char* what() const = 0;
+  virtual ~command_line_option_error() NOEXCEPT {}
+  virtual const char* what() const NOEXCEPT = 0;
 };
 
 struct only_one_option_allowed : command_line_option_error
@@ -1017,9 +1025,9 @@ struct only_one_option_allowed : command_line_option_error
     message += ".";
   }
 
-  virtual ~only_one_option_allowed() {}
+  virtual ~only_one_option_allowed() NOEXCEPT {}
 
-  virtual const char* what() const
+  virtual const char* what() const NOEXCEPT
   {
     return message.c_str();
   }
@@ -1040,9 +1048,9 @@ struct required_option_missing : command_line_option_error
     message += "` option is required.";
   }
 
-  virtual ~required_option_missing() {}
+  virtual ~required_option_missing() NOEXCEPT {}
 
-  virtual const char* what() const
+  virtual const char* what() const NOEXCEPT
   {
     return message.c_str();
   }
