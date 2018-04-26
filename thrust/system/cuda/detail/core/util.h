@@ -724,7 +724,7 @@ namespace core {
   }
 
 #define CUDA_CUB_RET_IF_FAIL(e) \
-  if (cub::Debug((e), __FILE__, __LINE__)) return e;
+  if (thrust::cuda_cub::cub::Debug((e), __FILE__, __LINE__)) return e;
 
   // uninitialized
   // -------
