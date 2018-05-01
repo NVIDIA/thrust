@@ -23,9 +23,9 @@
   "tests"       : [
     
     {
-      "exe" : "${PERL} {TR_TESTSUITE_DIR}/internal/test/thrust_nightly.pl -bin-path={TR_INSTALL_DIR}/bin/{TR_ARCH_PATH} -filecheck-data-path={TR_TESTSUITE_DIR}/internal/test -filecheck-path={TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}/nvvm/tools", 
+      "exe" : "{PERL} {TR_TESTSUITE_DIR}/internal/test/thrust_nightly.pl -bin-path={TR_INSTALL_DIR}/bin/{TR_ARCH_PATH} -filecheck-data-path={TR_TESTSUITE_DIR}/internal/test -filecheck-path={TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}/nvvm/tools", 
       "attributes": [ "result=multi" ]
     }
-    
+
   ]
 }
