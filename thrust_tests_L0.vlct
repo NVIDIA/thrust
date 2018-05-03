@@ -19,7 +19,7 @@
   # default timeout value of 900 seconds will be used.
   "timeout"     : "12000",
   # Default timeout for individual tests, in seconds (optional).
-  "testtimeout" : "1200",
+  "testtimeout" : "5400",
   # The tests in the testsuite (required).
   "tests"       : [
     
