@@ -10,7 +10,7 @@
   # Linux, etc.)
   "librarypath" : [  ],
   # Default working directory for test runs (optional).
-  #"cwd"        : "{TR_TESTSUITE_DIR}",
+  "cwd"        : "{TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}",
   # Timeout for entire testsuite, in seconds (optional).
   "timeout"     : "3600",
   # Default timeout for individual tests, in seconds (optional).
@@ -22,7 +22,7 @@
         "attributes" : [ ]
       },
       {
-        "exe": "{PYTHON} eris_perf.py",
+        "exe": "{PYTHON} {TR_TESTSUITE_DIR}/internal/scripts/eris_perf.py -b {TR_INSTALL_DIR}/bin/{TR_ARCH_PATH}/bench -p {TR_INSTALL_DIR}/thrust/internal/benchmark/combine_benchmark_results.py",
         "attributes": [ "result=multi" ]
       },
       {
