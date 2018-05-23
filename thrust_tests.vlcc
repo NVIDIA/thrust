@@ -26,11 +26,11 @@
                   { "thrust_tests.vlct"                            : "cuda/_tests/thrust_tests/.", "kind" : "TESTSUITE" }
                 ],
   # Dependencies for this component.
-  "depends"   : [ "driver_headers", "driver", "compiler", "cuda", "thrust", "pgi18_1" ],
+  "depends"   : [ "driver_headers", "driver", "compiler", "cuda", "thrust" ],
   # The agent for this component, relative to this file location. The
   # agent is invoked to perform component actions.
   "agent"     : {
                   "CUDA_MAKE" : "Makefile", "build_target" : "all", "clean_target" : "clean",
-                  "args" : [ "TEST_BENCH=1" ]
+                  "args" : [ "TEST_ALL=1" ]
                 }
 }
