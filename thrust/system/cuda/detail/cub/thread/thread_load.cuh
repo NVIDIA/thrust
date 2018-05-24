@@ -33,7 +33,7 @@
 
 #pragma once
 
-#include <cuda.h>
+//#include <cuda.h>
 
 #include <iterator>
 

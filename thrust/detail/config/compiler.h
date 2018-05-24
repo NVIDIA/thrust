@@ -20,17 +20,6 @@
 
 #pragma once
 
-#ifdef __CUDACC__
-
-#include <cuda.h>
-
-// Thrust supports CUDA >= 3.0
-#if CUDA_VERSION < 3000
-#error "CUDA v3.0 or newer is required"
-#endif // CUDA_VERSION
-
-#endif // __CUDACC__
-
 // enumerate host compilers we know about
 #define THRUST_HOST_COMPILER_UNKNOWN 0
 #define THRUST_HOST_COMPILER_MSVC    1

@@ -33,7 +33,7 @@
 
 #pragma once
 
-#include <cuda.h>
+//#include <cuda.h>
 
 #include "../util_ptx.cuh"
 #include "../util_type.cuh"
