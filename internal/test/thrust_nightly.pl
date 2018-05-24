@@ -224,6 +224,42 @@ sub process_return_code {
     }
 }
 
+my $have_filecheck = 1;
+
+sub filecheck_sanity {
+    my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/thrust.sanity.filecheck";
+
+    my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
+
+    print $filecheck_stdin "SANITY";
+
+    my $filecheck_ret = 0;
+    if (close($filecheck_stdin) == 0)
+    {
+      $filecheck_ret = $?;
+    }
+
+    if ($filecheck_ret == 0) {
+      printf("#### SANE FileCheck\n");
+    } else {
+      # Use a temporary file to send the output to
+      # FileCheck so we can get the output this time,
+      # because Perl and bidirectional pipes suck.
+      my $tmp = File::Temp->new();
+      my $tmp_filename = $tmp->filename;
+      print $tmp "SANITY";
+
+      printf("********************************************************************************\n");
+      print `$filecheck_cmd -input-file $tmp_filename`;
+      printf("********************************************************************************\n");
+
+      process_return_code("FileCheck Sanity", $filecheck_ret, "");
+      printf("#### INSANE FileCheck\n");
+
+      $have_filecheck = 0;
+    }
+}
+
 # Wrapper for system that logs the commands so you can see what it did
 sub run_cmd {
     my ($cmd) = @_;
@@ -336,59 +372,61 @@ sub run_examples {
             printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
             $passes = $passes + 1;
 
-            # Check output with LLVM FileCheck.
+            if ($have_filecheck) {
+                # Check output with LLVM FileCheck.
 
-            printf("&&&& RUNNING FileCheck $test\n");
+                printf("&&&& RUNNING FileCheck $test\n");
 
-            if (-f "${filecheck_data_path}/${test}.filecheck") {
-                # If the filecheck file is empty, don't use filecheck, just
-                # check if the output file is also empty.
-                if (-z "${filecheck_data_path}/${test}.filecheck") {
-                    if (join("", @output) eq "") {
-                        printf("&&&& PASSED FileCheck $test\n");
-                        $passes = $passes + 1;
+                if (-f "${filecheck_data_path}/${test}.filecheck") {
+                    # If the filecheck file is empty, don't use filecheck, just
+                    # check if the output file is also empty.
+                    if (-z "${filecheck_data_path}/${test}.filecheck") {
+                        if (join("", @output) eq "") {
+                            printf("&&&& PASSED FileCheck $test\n");
+                            $passes = $passes + 1;
+                        } else {
+                            printf("#### ERROR Output received but not expected.\n");
+                            printf("&&&& FAILED FileCheck $test\n");
+                            $failures = $failures + 1;
+                        }
                     } else {
-                        printf("#### ERROR Output received but not expected.\n");
-                        printf("&&&& FAILED FileCheck $test\n");
-                        $failures = $failures + 1;
+                        my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/$test.filecheck";
+
+                        my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
+
+                        print $filecheck_stdin @output;
+
+                        my $filecheck_ret = 0;
+                        if (close($filecheck_stdin) == 0)
+                        {
+                          $filecheck_ret = $?;
+                        }
+
+                        if ($filecheck_ret == 0) {
+                          printf("&&&& PASSED FileCheck $test\n");
+                          $passes = $passes + 1;
+                        } else {
+                          # Use a temporary file to send the output to
+                          # FileCheck so we can get the output this time,
+                          # because Perl and bidirectional pipes suck.
+                          my $tmp = File::Temp->new();
+                          my $tmp_filename = $tmp->filename;
+                          print $tmp @output;
+
+                          printf("********************************************************************************\n");
+                          print `$filecheck_cmd -input-file $tmp_filename`;
+                          printf("********************************************************************************\n");
+
+                          process_return_code("FileCheck $test", $filecheck_ret, "");
+                          printf("&&&& FAILED FileCheck $test\n");
+                          $failures = $failures + 1;
+                        }
                     }
                 } else {
-                    my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/$test.filecheck";
-
-                    my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
-
-                    print $filecheck_stdin @output;
-
-                    my $filecheck_ret = 0;
-                    if (close($filecheck_stdin) == 0)
-                    {
-                      $filecheck_ret = $?;
-                    }
-
-                    if ($filecheck_ret == 0) {
-                      printf("&&&& PASSED FileCheck $test\n");
-                      $passes = $passes + 1;
-                    } else {
-                      # Use a temporary file to send the output to
-                      # FileCheck so we can get the output this time,
-                      # because Perl and bidirectional pipes suck.
-                      my $tmp = File::Temp->new();
-                      my $tmp_filename = $tmp->filename;
-                      print $tmp @output;
-
-                      printf("********************************************************************************\n");
-                      print `$filecheck_cmd -input-file $tmp_filename`;
-                      printf("********************************************************************************\n");
-
-                      process_return_code("FileCheck $test", $filecheck_ret, "");
-                      printf("&&&& FAILED FileCheck $test\n");
-                      $failures = $failures + 1;
-                    }
+                    printf("#### ERROR $test has no FileCheck comparison.\n");
+                    printf("&&&& FAILED FileCheck $test\n");
+                    $errors = $errors + 1;
                 }
-            } else {
-                printf("#### ERROR $test has no FileCheck comparison.\n");
-                printf("&&&& FAILED FileCheck $test\n");
-                $errors = $errors + 1;
             }
         }
         printf("\n");
@@ -486,53 +524,55 @@ sub run_unit_tests {
                     printf("&&&& PASSED $test\n");
                     printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
 
-                    # Check output with LLVM FileCheck if the test has a FileCheck input.
+                    if ($have_filecheck) {
+                        # Check output with LLVM FileCheck if the test has a FileCheck input.
 
-                    if (-f "${filecheck_data_path}/${test}.filecheck") {
-                        printf("&&&& RUNNING FileCheck $test\n");
+                        if (-f "${filecheck_data_path}/${test}.filecheck") {
+                            printf("&&&& RUNNING FileCheck $test\n");
 
-                        # If the filecheck file is empty, don't use filecheck,
-                        # just check if the output file is also empty.
-                        if (! -z "${filecheck_data_path}/${test}.filecheck") {
-                            if (@output) {
-                                printf("&&&& PASSED FileCheck $test\n");
-                                $passes = $passes + 1;
+                            # If the filecheck file is empty, don't use filecheck,
+                            # just check if the output file is also empty.
+                            if (! -z "${filecheck_data_path}/${test}.filecheck") {
+                                if (@output) {
+                                    printf("&&&& PASSED FileCheck $test\n");
+                                    $passes = $passes + 1;
+                                } else {
+                                    printf("#### Output received but not expected.\n");
+                                    printf("&&&& FAILED FileCheck $test\n");
+                                    $failures = $failures + 1;
+                                }
                             } else {
-                                printf("#### Output received but not expected.\n");
-                                printf("&&&& FAILED FileCheck $test\n");
-                                $failures = $failures + 1;
-                            }
-                        } else {
-                            my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/$test.filecheck";
+                                my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/$test.filecheck";
 
-                            my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
+                                my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
 
-                            print $filecheck_stdin @output;
+                                print $filecheck_stdin @output;
 
-                            my $filecheck_ret = 0;
-                            if (close($filecheck_stdin) == 0)
-                            {
-                              $filecheck_ret = $?;
-                            }
+                                my $filecheck_ret = 0;
+                                if (close($filecheck_stdin) == 0)
+                                {
+                                  $filecheck_ret = $?;
+                                }
 
-                            if ($filecheck_ret == 0) {
-                              printf("&&&& PASSED FileCheck $test\n");
-                              $passes = $passes + 1;
-                            } else {
-                              # Use a temporary file to send the output to
-                              # FileCheck so we can get the output this time,
-                              # because Perl and bidirectional pipes suck.
-                              my $tmp = File::Temp->new();
-                              my $tmp_filename = $tmp->filename;
-                              print $tmp @output;
+                                if ($filecheck_ret == 0) {
+                                  printf("&&&& PASSED FileCheck $test\n");
+                                  $passes = $passes + 1;
+                                } else {
+                                  # Use a temporary file to send the output to
+                                  # FileCheck so we can get the output this time,
+                                  # because Perl and bidirectional pipes suck.
+                                  my $tmp = File::Temp->new();
+                                  my $tmp_filename = $tmp->filename;
+                                  print $tmp @output;
 
-                              printf("********************************************************************************\n");
-                              print `$filecheck_cmd -input-file $tmp_filename`;
-                              printf("********************************************************************************\n");
+                                  printf("********************************************************************************\n");
+                                  print `$filecheck_cmd -input-file $tmp_filename`;
+                                  printf("********************************************************************************\n");
 
-                              process_return_code("FileCheck $test", $filecheck_ret, "");
-                              printf("&&&& FAILED FileCheck $test\n");
-                              $failures = $failures + 1;
+                                  process_return_code("FileCheck $test", $filecheck_ret, "");
+                                  printf("&&&& FAILED FileCheck $test\n");
+                                  $failures = $failures + 1;
+                                }
                             }
                         }
                     }
@@ -582,9 +622,13 @@ printf("#### CONFIG have_time_hi_res `$have_time_hi_res`\n");
 
 printf("\n");
 
+clear_libpath();
+filecheck_sanity();
+
+printf("\n");
+
 my $START_TIME = current_time();
 
-clear_libpath();
 run_examples();
 run_unit_tests();
 
