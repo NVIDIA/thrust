@@ -141,9 +141,6 @@ if ($arch eq "ARMv7") {
           $abi = "_${abi}";
       }
 }
-elsif ($arch eq "aarch64") {
-    $abi = "_${abi}";
-}
 else {
     $abi = "";                #Ignore abi for architectures other than arm
 }
