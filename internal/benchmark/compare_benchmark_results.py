@@ -581,7 +581,7 @@ def process_program_arguments():
   ap.add_argument(
     "-t", "--change-threshold",
     help = ("Treat relative changes less than this amount (a percentage) as "
-            "statistically insignificant. The default is 5%."),
+            "statistically insignificant. The default is 5%%."),
     action = "store", type = float, default = 5,
     metavar = "PERCENTAGE"
   )
@@ -998,13 +998,13 @@ class record_aggregator(object):
       # uncertainty and insert the combined values into the results.
       sigdig = find_significant_digit(combined_sample_standard_deviation)
 
-      combined_arithmetic_mean = round_with_int_conversion(
-        combined_arithmetic_mean, sigdig
-      )
+#      combined_arithmetic_mean = round_with_int_conversion(
+#        combined_arithmetic_mean, sigdig
+#      )
 
-      combined_sample_standard_deviation = round_with_int_conversion(
-        combined_sample_standard_deviation, sigdig
-      )
+#      combined_sample_standard_deviation = round_with_int_conversion(
+#        combined_sample_standard_deviation, sigdig
+#      )
 
       combined_dependent_values[quantity]    = combined_arithmetic_mean
       combined_dependent_values[uncertainty] = combined_sample_standard_deviation
@@ -1243,12 +1243,12 @@ with io_manager(args.baseline_input_file,
           find_significant_digit(abs_change_unc),
         )
 
-        abs_change     = round_with_int_conversion(
-          abs_change,     abs_change_sigdig
-        )
-        abs_change_unc = round_with_int_conversion(
-          abs_change_unc, abs_change_sigdig
-        )
+#        abs_change     = round_with_int_conversion(
+#          abs_change,     abs_change_sigdig
+#        )
+#        abs_change_unc = round_with_int_conversion(
+#          abs_change_unc, abs_change_sigdig
+#        )
       except:
         # Any value errors should be due to NaNs returned by
         # `percent_change_uncertainty` because quantities or change in
@@ -1261,12 +1261,12 @@ with io_manager(args.baseline_input_file,
           find_significant_digit(per_change_unc)
         )
 
-        per_change     = round_with_int_conversion(
-          per_change,     per_change_sigdig
-        )
-        per_change_unc = round_with_int_conversion(
-          per_change_unc, per_change_sigdig
-        )
+#        per_change     = round_with_int_conversion(
+#          per_change,     per_change_sigdig
+#        )
+#        per_change_unc = round_with_int_conversion(
+#          per_change_unc, per_change_sigdig
+#        )
       except:
         # Any value errors should be due to NaNs returned by
         # `percent_change_uncertainty` because quantities or change in

@@ -724,13 +724,13 @@ class record_aggregator(object):
       # uncertainty and insert the combined values into the results.
       sigdig = find_significant_digit(combined_sample_standard_deviation)
 
-      combined_arithmetic_mean = round_with_int_conversion(
-        combined_arithmetic_mean, sigdig
-      )
+#      combined_arithmetic_mean = round_with_int_conversion(
+#        combined_arithmetic_mean, sigdig
+#      )
 
-      combined_sample_standard_deviation = round_with_int_conversion(
-        combined_sample_standard_deviation, sigdig
-      )
+#      combined_sample_standard_deviation = round_with_int_conversion(
+#        combined_sample_standard_deviation, sigdig
+#      )
 
       combined_dependent_values[quantity]    = combined_arithmetic_mean
       combined_dependent_values[uncertainty] = combined_sample_standard_deviation

@@ -14,6 +14,7 @@
 
 #include <iostream>
 
+#include <cassert>
 #include <cstdlib>    // For `atoi`.
 #include <climits>    // For CHAR_BIT.
 #include <cmath>      // For `sqrt` and `abs`.
@@ -28,7 +29,8 @@
 #endif
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-  #include <cuda_runtime.h> // For cudaSetDevice.
+  #include <thrust/system_error.h>      // For `thrust::system_error`
+  #include <thrust/system/cuda/error.h> // For `thrust::cuda_category`
 #endif
 
 // We don't use THRUST_PP_STRINGIZE and THRUST_PP_CAT because they are new, and
@@ -391,6 +393,7 @@ struct experiment_driver
     );
     #endif
 
+/*
     stl_average_walltime = round_to_precision(
         stl_average_walltime, stl_walltime_precision
     );
@@ -414,6 +417,7 @@ struct experiment_driver
         tbb_walltime_uncertainty, tbb_walltime_precision
     );
     #endif
+*/
 
     // Round the average throughput and throughput uncertainty to the
     // significant figure of the throughput uncertainty.
@@ -432,6 +436,7 @@ struct experiment_driver
     );
     #endif
 
+/*
     stl_average_throughput = round_to_precision(
         stl_average_throughput, stl_throughput_precision
     );
@@ -455,6 +460,7 @@ struct experiment_driver
         tbb_throughput_uncertainty, tbb_throughput_precision
     );
     #endif
+*/
 
     std::cout << THRUST_VERSION                // Thrust Version.
       << ","  << test_name                     // Algorithm.
@@ -522,7 +528,7 @@ private:
       // Generate random input for next trial.
       trial.setup(elements);
 
-      timer e;
+      steady_timer e;
 
       // Benchmark.
       e.start();
@@ -743,6 +749,11 @@ struct sort_tester
     void operator()()
     {
       thrust::sort(this->input.begin(), this->input.end());
+      #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+        cudaError_t err = cudaDeviceSynchronize();
+        if (err != cudaSuccess)
+          throw thrust::error_code(err, thrust::cuda_category());
+      #endif
     }
   };
 
@@ -782,6 +793,11 @@ struct transform_inplace_tester
           this->input.begin(), this->input.end(), this->input.begin()
         , thrust::negate<T>()
       );
+      #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+        cudaError_t err = cudaDeviceSynchronize();
+        if (err != cudaSuccess)
+          throw thrust::error_code(err, thrust::cuda_category());
+      #endif
     }
   };
 
@@ -818,6 +834,11 @@ struct inclusive_scan_inplace_tester
       thrust::inclusive_scan(
           this->input.begin(), this->input.end(), this->input.begin()
       );
+      #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+        cudaError_t err = cudaDeviceSynchronize();
+        if (err != cudaSuccess)
+          throw thrust::error_code(err, thrust::cuda_category());
+      #endif
     }
   };
 
@@ -850,6 +871,11 @@ struct copy_tester
     void operator()()
     {
       thrust::copy(this->input.begin(), this->input.end(), this->input.begin());
+      #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+        cudaError_t err = cudaDeviceSynchronize();
+        if (err != cudaSuccess)
+          throw thrust::error_code(err, thrust::cuda_category());
+      #endif
     }
   };
 
@@ -1177,12 +1203,12 @@ int main(int argc, char** argv)
 //run_core_primitives_experiments< 1LLU << 21LLU      , 4        , 16      >();
 //run_core_primitives_experiments< 1LLU << 22LLU      , 4        , 16      >();
 //run_core_primitives_experiments< 1LLU << 23LLU      , 4        , 16      >();
-  run_core_primitives_experiments< 1LLU << 24LLU      , 3        , 8       >();
-  run_core_primitives_experiments< 1LLU << 25LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 26LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 27LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 28LLU      , 3        , 8       >();
-//run_core_primitives_experiments< 1LLU << 29LLU      , 3        , 8       >();
+//run_core_primitives_experiments< 1LLU << 24LLU      , 4        , 16      >();
+//run_core_primitives_experiments< 1LLU << 25LLU      , 4        , 16      >();
+  run_core_primitives_experiments< 1LLU << 26LLU      , 4        , 16      >();
+  run_core_primitives_experiments< 1LLU << 27LLU      , 4        , 16      >();
+//run_core_primitives_experiments< 1LLU << 28LLU      , 4        , 16      >();
+//run_core_primitives_experiments< 1LLU << 29LLU      , 4        , 16      >();
 
   return 0;
 }
