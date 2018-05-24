@@ -36,7 +36,7 @@ else
   endif
 endif
 
-# Add -mthumb for Linux on ARM to work around bug in arm cross compiler fom p4
+# Add -mthumb for Linux on ARM to work around bug in arm cross compiler from p4
 ifeq ($(TARGET_ARCH),ARMv7)
   ifneq ($(HOST_ARCH),ARMv7)
     ifeq ($(THRUST_TEST),1)
@@ -45,6 +45,12 @@ ifeq ($(TARGET_ARCH),ARMv7)
   endif
 endif
 
+# Make PGI statically link against its libraries.
+ifeq ($(OS),$(filter $(OS),Linux Darwin))
+  ifdef USEPGCXX
+    NVCC_LDFLAGS += -Xcompiler "-Bstatic_pgi"
+  endif
+endif
 ifeq ($(SRC_PATH),)
   SRC_PATH:=$(dir $(BUILD_SRC))
   BUILD_SRC:=$(notdir $(BUILD_SRC))
