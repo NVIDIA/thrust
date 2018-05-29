@@ -222,7 +222,7 @@ struct plus
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
  *                     thrust::minus<float>());
- *  // V3 is now {-74, -75, -76, ..., -925}
+ *  // V3 is now {-74, -73, -72, ..., 925}
  *  \endcode
  *
  *  \see http://www.sgi.com/tech/stl/minus.html
