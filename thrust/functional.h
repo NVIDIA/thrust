@@ -252,7 +252,7 @@ struct minus
 }; // end minus
 
 /*! \p multiplies is a function object. Specifically, it is an Adaptable Binary Function.
- *  If \c f is an object of class <tt>minus<T></tt>, and \c x and \c y are objects
+ *  If \c f is an object of class <tt>multiplies<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x*y</tt>.
  *
  *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
