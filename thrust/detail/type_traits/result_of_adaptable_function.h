@@ -20,7 +20,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/function_traits.h>
 
-#if __cplusplus >= 201103L || defined(__cpp_lib_result_of_sfinae)
+#if __cplusplus >= 201103L
 // necessary for std::result_of
 #include <type_traits>
 #endif
@@ -35,7 +35,7 @@ namespace detail
 template<typename Signature>
   struct result_of
 {
-  typedef typename std::result_of<Signature>::type type;
+  using type = typename std::result_of<Signature>::type;
 };
 
 #else
