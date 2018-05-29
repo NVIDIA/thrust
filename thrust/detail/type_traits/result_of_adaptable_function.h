@@ -30,15 +30,6 @@ namespace thrust
 namespace detail
 {
 
-#if __cplusplus >= 201103L || defined(__cpp_lib_result_of_sfinae)
-
-template<typename Signature>
-  struct result_of
-{
-  typedef typename std::result_of<Signature>::type type;
-};
-
-#else
 
 template<typename Signature, typename Enable = void> struct result_of;
 
@@ -62,7 +53,16 @@ template<typename Functor, typename Arg1, typename Arg2>
   typedef typename Functor::result_type type;
 };
 
-#endif // __cplusplus >= 201103L
+#if __cplusplus >= 201103L || (defined(__cpp_variadic_templates) && defined(__cpp_lib_result_of_sfinae))
+
+template <typename Functor, typename... Args>
+struct result_of<Functor(Args...),
+                 typename thrust::detail::enable_if<
+                     !thrust::detail::has_result_type<Functor>::value>::type>
+    : std::result_of<Functor(Args...)> {};
+
+
+#endif
 
 } // end detail
 } // end thrust
