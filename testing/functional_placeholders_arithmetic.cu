@@ -7,7 +7,7 @@
 template<typename Vector> \
   struct TestFunctionalPlaceholders##name \
 { \
-  void operator()(const size_t dummy) \
+  void operator()(const size_t) \
   { \
     static const size_t num_samples = 10000; \
     const size_t zero = 0; \

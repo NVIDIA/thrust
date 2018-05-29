@@ -132,7 +132,7 @@ void process_args(int argc, char ** argv,
 }
 
 
-void usage(int argc, char** argv)
+void usage(int, char** argv)
 {
   std::string indent = "  ";
   
@@ -257,7 +257,7 @@ void UnitTestDriver::list_tests(void)
 }
 
 
-bool UnitTestDriver::post_test_sanity_check(const UnitTest &test, bool concise)
+bool UnitTestDriver::post_test_sanity_check(const UnitTest &, bool)
 {
   return true;
 }

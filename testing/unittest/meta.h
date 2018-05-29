@@ -133,7 +133,7 @@ template<typename TypeList,
   struct for_each_type<TypeList, Function, null_type, i>
 {
   template<typename U>
-    void operator()(U n)
+    void operator()(U)
   {
     // no-op
   }

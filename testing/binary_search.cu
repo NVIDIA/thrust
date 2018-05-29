@@ -37,7 +37,7 @@ DECLARE_VECTOR_UNITTEST(TestScalarLowerBoundSimple);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-ForwardIterator lower_bound(my_system &system, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+ForwardIterator lower_bound(my_system &system, ForwardIterator first, ForwardIterator, const LessThanComparable &)
 {
     system.validate_dispatch();
     return first;
@@ -59,7 +59,7 @@ DECLARE_UNITTEST(TestScalarLowerBoundDispatchExplicit);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-ForwardIterator lower_bound(my_tag, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+ForwardIterator lower_bound(my_tag, ForwardIterator first, ForwardIterator, const LessThanComparable &)
 {
     *first = 13;
     return first;
@@ -105,7 +105,7 @@ DECLARE_VECTOR_UNITTEST(TestScalarUpperBoundSimple);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-ForwardIterator upper_bound(my_system &system, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+ForwardIterator upper_bound(my_system &system, ForwardIterator first, ForwardIterator, const LessThanComparable &)
 {
     system.validate_dispatch();
     return first;
@@ -127,7 +127,7 @@ DECLARE_UNITTEST(TestScalarUpperBoundDispatchExplicit);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-ForwardIterator upper_bound(my_tag, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+ForwardIterator upper_bound(my_tag, ForwardIterator first, ForwardIterator, const LessThanComparable &)
 {
     *first = 13;
     return first;
@@ -172,7 +172,7 @@ DECLARE_VECTOR_UNITTEST(TestScalarBinarySearchSimple);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-bool binary_search(my_system &system, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+bool binary_search(my_system &system, ForwardIterator, ForwardIterator, const LessThanComparable &)
 {
     system.validate_dispatch();
     return false;
@@ -194,7 +194,7 @@ DECLARE_UNITTEST(TestScalarBinarySearchDispatchExplicit);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-bool binary_search(my_tag, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+bool binary_search(my_tag, ForwardIterator first, ForwardIterator, const LessThanComparable &)
 {
     *first = 13;
     return false;
@@ -250,7 +250,7 @@ DECLARE_VECTOR_UNITTEST(TestScalarEqualRangeSimple);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-thrust::pair<ForwardIterator,ForwardIterator> equal_range(my_system &system, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+thrust::pair<ForwardIterator,ForwardIterator> equal_range(my_system &system, ForwardIterator first, ForwardIterator, const LessThanComparable &)
 {
     system.validate_dispatch();
     return thrust::make_pair(first,first);
@@ -272,7 +272,7 @@ DECLARE_UNITTEST(TestScalarEqualRangeDispatchExplicit);
 
 
 template<typename ForwardIterator, typename LessThanComparable>
-thrust::pair<ForwardIterator,ForwardIterator> equal_range(my_tag, ForwardIterator first, ForwardIterator last, const LessThanComparable &value)
+thrust::pair<ForwardIterator,ForwardIterator> equal_range(my_tag, ForwardIterator first, ForwardIterator, const LessThanComparable &)
 {
     *first = 13;
     return thrust::make_pair(first,first);

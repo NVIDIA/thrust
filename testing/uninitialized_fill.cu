@@ -153,7 +153,7 @@ struct CopyConstructTest
   {}
 
   __host__ __device__
-  CopyConstructTest(const CopyConstructTest &exemplar)
+  CopyConstructTest(const CopyConstructTest &)
   {
 #if __CUDA_ARCH__
     copy_constructed_on_device = true;
@@ -179,7 +179,7 @@ struct CopyConstructTest
 
 struct TestUninitializedFillNonPOD
 {
-  void operator()(const size_t dummy)
+  void operator()(const size_t)
   {
     typedef CopyConstructTest T;
     thrust::device_ptr<T> v = thrust::device_malloc<T>(5);
@@ -265,7 +265,7 @@ DECLARE_VECTOR_UNITTEST(TestUninitializedFillNPOD);
 
 struct TestUninitializedFillNNonPOD
 {
-  void operator()(const size_t dummy)
+  void operator()(const size_t)
   {
     typedef CopyConstructTest T;
     thrust::device_ptr<T> v = thrust::device_malloc<T>(5);

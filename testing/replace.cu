@@ -33,7 +33,7 @@ DECLARE_VECTOR_UNITTEST(TestReplaceSimple);
 
 template<typename ForwardIterator, typename T>
 void replace(my_system &system,
-             ForwardIterator first, ForwardIterator, const T &,
+             ForwardIterator, ForwardIterator, const T &,
              const T &)
 {
     system.validate_dispatch();
@@ -256,7 +256,7 @@ DECLARE_VECTOR_UNITTEST(TestReplaceIfSimple);
 
 template<typename ForwardIterator, typename Predicate, typename T>
 void replace_if(my_system &system,
-                ForwardIterator first, ForwardIterator,
+                ForwardIterator, ForwardIterator,
                 Predicate,
                 const T &)
 {
@@ -337,7 +337,7 @@ DECLARE_VECTOR_UNITTEST(TestReplaceIfStencilSimple);
 
 template<typename ForwardIterator, typename InputIterator, typename Predicate, typename T>
 void replace_if(my_system &system,
-                ForwardIterator first, ForwardIterator,
+                ForwardIterator, ForwardIterator,
                 InputIterator,
                 Predicate,
                 const T &)

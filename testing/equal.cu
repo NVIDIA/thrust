@@ -62,7 +62,7 @@ void TestEqual(const size_t n)
 DECLARE_VARIABLE_UNITTEST(TestEqual);
 
 template<typename InputIterator1, typename InputIterator2>
-bool equal(my_system &system, InputIterator1 first, InputIterator1, InputIterator2)
+bool equal(my_system &system, InputIterator1, InputIterator1, InputIterator2)
 {
     system.validate_dispatch();
     return false;

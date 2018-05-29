@@ -474,7 +474,7 @@ DECLARE_UNITTEST(TestCopyDispatchImplicit);
 
 
 template<typename InputIterator, typename OutputIterator, typename Predicate>
-OutputIterator copy_if(my_system &system, InputIterator, InputIterator, OutputIterator result, Predicate pred)
+OutputIterator copy_if(my_system &system, InputIterator, InputIterator, OutputIterator result, Predicate)
 {
     system.validate_dispatch();
     return result;
@@ -497,7 +497,7 @@ DECLARE_UNITTEST(TestCopyIfDispatchExplicit);
 
 
 template<typename InputIterator, typename OutputIterator, typename Predicate>
-OutputIterator copy_if(my_tag, InputIterator, InputIterator, OutputIterator result, Predicate pred)
+OutputIterator copy_if(my_tag, InputIterator, InputIterator, OutputIterator result, Predicate)
 {
     *result = 13;
     return result;
@@ -518,7 +518,7 @@ DECLARE_UNITTEST(TestCopyIfDispatchImplicit);
 
 
 template<typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
-OutputIterator copy_if(my_system &system, InputIterator1, InputIterator1, InputIterator2, OutputIterator result, Predicate pred)
+OutputIterator copy_if(my_system &system, InputIterator1, InputIterator1, InputIterator2, OutputIterator result, Predicate)
 {
     system.validate_dispatch();
     return result;
@@ -542,7 +542,7 @@ DECLARE_UNITTEST(TestCopyIfStencilDispatchExplicit);
 
 
 template<typename InputIterator1, typename InputIterator2, typename OutputIterator, typename Predicate>
-OutputIterator copy_if(my_tag, InputIterator1, InputIterator1, InputIterator2, OutputIterator result, Predicate pred)
+OutputIterator copy_if(my_tag, InputIterator1, InputIterator1, InputIterator2, OutputIterator result, Predicate)
 {
     *result = 13;
     return result;

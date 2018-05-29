@@ -39,7 +39,7 @@ void scatter(my_system &system,
              InputIterator1,
              InputIterator1,
              InputIterator2,
-             RandomAccessIterator output)
+             RandomAccessIterator)
 {
     system.validate_dispatch();
 }
@@ -172,7 +172,7 @@ void scatter_if(my_system &system,
                 InputIterator1,
                 InputIterator2,
                 InputIterator3,
-                RandomAccessIterator output)
+                RandomAccessIterator)
 {
     system.validate_dispatch();
 }
