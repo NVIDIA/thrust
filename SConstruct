@@ -115,10 +115,6 @@ def cuda_installation(env):
   bin_path = cuda_path + '/bin'
   lib_path = cuda_path + '/lib'
   inc_path = cuda_path + '/include'
-
-  bin_path = cuda_path + '/bin'
-  lib_path = cuda_path + '/lib'
-  inc_path = cuda_path + '/include'
    
   # fix up the name of the lib directory on 64b platforms
   if platform.machine()[-2:] == '64':
