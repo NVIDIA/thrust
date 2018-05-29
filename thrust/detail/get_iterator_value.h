@@ -26,7 +26,7 @@ namespace detail {
 
 // get_iterator_value specialization on iterators
 // --------------------------------------------------
-// it is okay to dereference iterator in usual way
+// it is okay to dereference iterator in the usual way
 template<typename DerivedPolicy, typename Iterator>
 __host__ __device__
 typename thrust::iterator_traits<Iterator>::value_type
@@ -37,7 +37,7 @@ get_iterator_value(thrust::execution_policy<DerivedPolicy> &, Iterator it)
 
 // get_iterator_value specialization on pointer
 // ----------------------------------------------
-// we can't just dereference a pointer in usual way, because
+// we can't just dereference a pointer in the usual way, because
 // it may point to a location in the device memory. 
 // we use get_value(exec,pointer*) function
 // to perform a dereferencing consistent with the execution policy
