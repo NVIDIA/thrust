@@ -49,7 +49,7 @@ void iter_swap(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Poin
   };
 
 #ifndef __CUDA_ARCH__
-  return war_nvbugs_881631::host_path(a, b);
+  return war_nvbugs_881631::host_path(a,b);
 #else
   return war_nvbugs_881631::device_path(a,b);
 #endif // __CUDA_ARCH__
