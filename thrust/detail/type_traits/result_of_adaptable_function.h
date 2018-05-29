@@ -30,14 +30,17 @@ namespace thrust
 namespace detail
 {
 
-// In the C++11 mode, by default, result_of_adaptable function inheritfrom std::result_of
-#if __cplusplus >= 201103L || defined(__cpp_lib_result_of_sfinae)
-template <typename Signature, typename Enable = void>
-struct result_of_adaptable_function : std::result_of<Signature> {};
-#else  /* cxx11 */
-template<typename Signature, typename Enable = void> 
-struct result_of_adaptable_function;
-#endif  /* cxx11 */
+#if __cplusplus >= 201103L
+
+template<typename Signature>
+  struct result_of
+{
+  typedef typename std::result_of<Signature>::type type;
+};
+
+#else
+
+template<typename Signature, typename Enable = void> struct result_of;
 
 // specialization for unary invocations of things which have result_type
 template<typename Functor, typename Arg1>
@@ -59,6 +62,7 @@ template<typename Functor, typename Arg1, typename Arg2>
   typedef typename Functor::result_type type;
 };
 
+#endif // __cplusplus >= 201103L
 
 } // end detail
 } // end thrust
