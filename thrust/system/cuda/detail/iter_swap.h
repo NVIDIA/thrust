@@ -21,15 +21,16 @@
 #include <thrust/system/cuda/config.h>
 
 #include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/swap.h>
 
 BEGIN_NS_THRUST
 namespace cuda_cub {
 
 
-template<typename Pointer1, typename Pointer2>
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 inline __host__ __device__
-void iter_swap(tag, Pointer1 a, Pointer2 b)
+void iter_swap(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Pointer2 b)
 {
   // XXX war nvbugs/881631
   struct war_nvbugs_881631
@@ -48,7 +49,7 @@ void iter_swap(tag, Pointer1 a, Pointer2 b)
   };
 
 #ifndef __CUDA_ARCH__
-  return war_nvbugs_881631::host_path(a,b);
+  return war_nvbugs_881631::host_path(a, b);
 #else
   return war_nvbugs_881631::device_path(a,b);
 #endif // __CUDA_ARCH__

@@ -79,9 +79,9 @@ void get_value(thrust::execution_policy<DerivedPolicy> &, Pointer)
 }
 
 
-template<typename Pointer1, typename Pointer2>
+template<typename DerivedPolicy, typename Pointer1, typename Pointer2>
 __host__ __device__
-void iter_swap(tag, Pointer1, Pointer2)
+void iter_swap(thrust::execution_policy<DerivedPolicy> &, Pointer1, Pointer2)
 {
   // unimplemented
   THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<Pointer1, false>::value) );
