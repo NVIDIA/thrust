@@ -58,9 +58,7 @@ template<typename Operation> struct binary_traits;
  *  };
  *  \endcode
  *
- *  \note Because C++11 language support makes the functionality of
- *        \c unary_function obsolete, its use is optional if C++11 language
- *        features are enabled.
+ *  \note Inheriting from unary_function is optional if C+11 support is enabled.
  *
  *  \see http://www.sgi.com/tech/stl/unary_function.html
  *  \see binary_function
@@ -98,9 +96,7 @@ struct unary_function
  *  };
  *  \endcode
  *
- *  \note Because C++11 language support makes the functionality of
- *        \c binary_function obsolete, its use is optional if C++11 language
- *        features are enabled.
+ *  \note Inheriting from binary_function is optional if C+11 support is enabled.
  *
  *  \see http://www.sgi.com/tech/stl/binary_function.html
  *  \see unary_function

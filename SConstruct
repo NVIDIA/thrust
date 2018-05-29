@@ -321,13 +321,13 @@ def cc_compiler_flags(CXX, mode, platform, host_backend, device_backend, warn_al
   # workarounds
   result.extend(flags['workarounds'])
 
-  # c++ standard
+  # select C++ standard
   result.extend(flags[cpp_standard])
-
+  
   return result
 
 
-def nv_compiler_flags(mode, device_backend, arch, cdp):
+def nv_compiler_flags(mode, device_backend, arch, cdp, cpp_standard):
   """Returns a list of command line flags specific to nvcc"""
   result = []
   for machine_arch in arch:
@@ -352,6 +352,10 @@ def nv_compiler_flags(mode, device_backend, arch, cdp):
     if(release[0:5] == '10.8.'):
       result.append('-ccbin')
       result.append(master_env.subst('$CXX'))
+
+  # select C++ standard
+  if cpp_standard == 'c++11':
+    result.append("-std=c++11")
   
   return result
 
@@ -398,25 +402,6 @@ def command_line_variables():
   # add a variable to switch between C++ standards
   vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
                         allowed_values = ('c++03', 'c++11')))
-
-  # add a variable to select C++ standard
-  vars.Add(EnumVariable('std', 'C++ standard', 'c++03',
-                        allowed_values = ('c++03', 'c++11')))
-
-  vars.Add(EnumVariable('cuda_compiler', 'CUDA compiler', 'nvcc',
-                        allowed_values = ('nvcc', 'clang')))
-
-  # determine defaults
-  if 'CUDA_PATH' in os.environ:
-    default_cuda_path = os.path.abspath(os.environ['CUDA_PATH'])
-  elif os.name == 'nt':
-    default_cuda_path = 'C:/CUDA'
-  elif os.name == 'posix':
-    default_cuda_path = '/usr/local/cuda'
-  else:
-    raise ValueError, 'Error: unknown OS.  Where is nvcc installed?'
-
-  vars.Add(PathVariable('cuda_path', 'CUDA installation path', default_cuda_path))
 
   return vars
 
@@ -474,8 +459,7 @@ for (host,device) in itertools.product(host_backends, device_backends):
   
   env.Append(CCFLAGS = cc_compiler_flags(env.subst('$CXX'), env['mode'], env['PLATFORM'], host, device, env['Wall'], env['Werror'], env['std']))
   
-  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp']))
-  env.Append(CLANGFLAGS = clang_compiler_flags(env['mode'], env['arch']))
+  env.Append(NVCCFLAGS = nv_compiler_flags(env['mode'], device, env['arch'], env['cdp'], env['std']))
   
   env.Append(LIBS = libs(env, env.subst('$CXX'), host, device))
 
