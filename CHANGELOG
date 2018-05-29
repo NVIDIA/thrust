@@ -207,7 +207,7 @@ Summary
 
 Bug Fixes
     Eliminate identifiers in set_operations.cu example with leading underscore
-    Eliminate unused variable warning in CUDA reduce_by_key implemention
+    Eliminate unused variable warning in CUDA reduce_by_key implementation
     Avoid deriving function objects from std::unary_function and std::binary_function
 
 #######################################
