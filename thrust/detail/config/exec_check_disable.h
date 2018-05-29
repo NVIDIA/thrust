@@ -22,9 +22,7 @@
 
 #include <thrust/detail/config.h>
 
-#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
-
-#define __thrust_exec_check_disable__ #pragma nv_exec_check_disable
+#if defined(__CUDACC__) && !defined(__clang__)
 
 #else
 
