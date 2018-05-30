@@ -651,7 +651,7 @@ template<typename InputIterator,
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals); // in-place scan
+ *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -713,7 +713,7 @@ __host__ __device__
  *  int data[10] = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
  *  int keys[10] = {0, 0, 0, 1, 1, 2, 3, 3, 3, 3};
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals); // in-place scan
+ *  thrust::inclusive_scan_by_key(keys, keys + 10, data, data); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -784,7 +784,7 @@ template<typename InputIterator1,
  *
  *  thrust::equal_to<int> binary_pred;
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals, binary_pred); // in-place scan
+ *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_pred); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -853,7 +853,7 @@ __host__ __device__
  *
  *  thrust::equal_to<int> binary_pred;
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals, binary_pred); // in-place scan
+ *  thrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -931,7 +931,7 @@ template<typename InputIterator1,
  *  thrust::equal_to<int> binary_pred;
  *  thrust::plus<int>     binary_op;
  *
- *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, vals, vals, binary_pred, binary_op); // in-place scan
+ *  thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
@@ -1007,7 +1007,7 @@ __host__ __device__
  *  thrust::equal_to<int> binary_pred;
  *  thrust::plus<int>     binary_op;
  *
- *  thrust::inclusive_scan_by_key(keys, keys + 10, vals, vals, binary_pred, binary_op); // in-place scan
+ *  thrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred, binary_op); // in-place scan
  *
  *  // data is now {1, 2, 3, 1, 2, 1, 1, 2, 3, 4};
  *  \endcode
