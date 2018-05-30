@@ -37,7 +37,7 @@ void iter_swap(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Poin
   {
     __host__ inline static void host_path(Pointer1 a, Pointer2 b)
     {
-      cuda_cub::swap_ranges(a, a + 1, b);
+      thrust::swap_ranges(a, a + 1, b);
     }
 
     __device__ inline static void device_path(Pointer1 a, Pointer2 b)

@@ -95,7 +95,7 @@ swap_ranges(execution_policy<Derived> &policy,
 }
 
 
-}    // namespace cuda_
+}    // namespace cuda_cub
 
 END_NS_THRUST
 #endif
