@@ -620,8 +620,6 @@ printf("#### CONFIG os `%s`\n", $os);
   
 printf("#### CONFIG have_time_hi_res `$have_time_hi_res`\n");
 
-die("Sadly, it's come to this: intentionally break DVS to reset mechanism that disables tests that have been passing for 3 months\n");
-
 printf("\n");
 
 clear_libpath();
