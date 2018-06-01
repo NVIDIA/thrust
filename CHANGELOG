@@ -1,24 +1,76 @@
 #######################################
-#           Thrust v1.9.0-4           #
+#     Thrust v10.0.0 (CUDA 10.0)      #
 #######################################
 
 Summary
-    Bug fixe
-    Warnings fixes
-    Performance improvements for CUDA backend
+    Thrust v10.0.0 unifies and integrates CUDA Thrust and GitHub Thrust.
+    Additionally, a new versioning scheme has been adopted; the first two digits
+    of Thrust's version will match the version of CUDA that it was released with.
 
-Performance
-    CUDA backend has been rewritten to take advantage of CUB collectives.
-    Any code depending on CUDA backend implementation details will likely
-    be broken. This change was necessary to deliver across the board performance 
-    improvements in CUDA backend.
+Bug Fixes
+    #725, #850, #855, #859, #860 Unifiy `iter_swap` interface and fix `device_reference` swapping.
+    2004663 Add a `data` method to `detail::temporary_array` and refactor temporary memory allocation in the CUDA backend to be exception and leak safe.
+    #886, #894, #914 Various documentation typo fixes.
+    #724 Provide NVVMIR_LIBRARY_DIR environment variable to NVCC.
+    #878 Optimize min/max_element to only use `get_iterator_value` for non-numeric types.
+    #899 Make `pinned_allocator`'s comparison operators `const`.
+    2092152 Remove all includes of `<cuda.h>`.
 
-Breaking API Changes
-    None.
+Acknowledgments
+    Thanks to Andrew Corrigan for contributing fixes for swapping interfaces.
+    Thanks to Francisco Facioni for contributing optimizations for min/max_element.
+
+#######################################
+#      Thrust v1.9.2 (CUDA 9.2)       #
+#######################################
+
+Summary
+    Thrust v1.9.2 brings a variety of performance enhancements, bug fixes and test
+    improvements. CUB 1.7.5 was integrated, enhancing the performance of `sort` on
+    small data types and `reduce`. Changes were applied to `complex` to
+    optimize memory access. Thrust now compiles with compiler warnings enabled
+    and treated as errors. Additionally, the unit test suite and framework was
+    enhanced to increase coverage.
 
 New Features
-    Types
-      thrust::transform_output_iterator 
+    `<thrust/detail/alignment.h>` - utilities for memory alignment.
+
+Breaking Changes
+    The `fallback_allocator` example was removed, as it was buggy and difficult to support.
+
+Bug Fixes
+    200385527, 200385119, 200385113, 200349350, 2058778 Various compiler warning issues.
+    200355591 `reduce` performance issues.
+    2053727 ADL bug causing user-supplied `allocate` to be overlooked but `deallocate` to be called with GCC <= 4.3.
+    1777043 `complex` does not work with `sequence`
+
+#######################################
+#     Thrust v1.9.1-2 (CUDA 9.1)      #
+#######################################
+
+Summary
+    Thrust v1.9.1-2 integrates version 1.7.4 of CUB for the new CUDA backend
+    and introduces a new CUDA backend for `reduce` based on CUB.
+
+Bug Fixes
+    1965743 Remove unnecessary static qualifiers.
+    1940974 Fix regression causing a compilation error when using `merge_by_key` with `constant_iterator`s.
+    1904217 Allow callables that take non-const refs to be used with reduce and scan.
+
+#######################################
+#     Thrust v1.9.0-4 (CUDA 9.0)      #
+#######################################
+
+Summary
+    Thrust v1.9.0-4 replaces the original CUDA backend (bulk) with a new one
+    written using CUB, a high performance CUDA collectives library. This brings
+    a substantial performance improvement to the CUDA backend across the board.
+
+Breaking API Changes
+    Any code depending on CUDA backend implementation details will likely be broken.
+
+New Features
+    thrust::transform_output_iterator 
 
 New Examples
     transform_output_iterator demonstrates use of a transform_output_iterator - 
@@ -29,31 +81,28 @@ Other Enhancements
     If C++11 support is enabled, functors do not have to inherit from 
     thrust::unary_function/thrust::binary_function anymore when using them 
     with thrust::transform_iterator. 
-    The performance of thrust::unique* is improved.
-    If C++11 support is enabled, the move constructor and move assignment 
+    Additionally, the move constructor and move assignment 
     operator have been implemented for host_vector, device_vector, 
     cpp::vector, cuda::vector, omp::vector and tbb::vector.
 
 Bug Fixes
-    calculating sin(complex<double>) no longer has precision loss to float
-
-Known Issues
-    TODO
+    Calculating sin(complex<double>) no longer has precision loss to float
 
 Acknowledgments
     Thanks to Manuel Schiller for contributing a C++11 based enhancement 
     regarding the deduction of functor return types, improving the performance 
-    of thrust::unique and implementing transform_output_iterator
+    of thrust::unique and implementing transform_output_iterator.
     Thanks to Thibault Notargiacomo for the implementation of move semantics for 
     the vector_base based class.
+    Thanks to Duane Merrill for developing CUB and helping to integrate it into
+    Thrust's backend.
 
 #######################################
-#           Thrust v1.8.3-2           #
+#     Thrust v1.8.3-2 (CUDA 8.0)      #
 #######################################
 
 Summary
     Small bug fixes
-    Introduces THRUST_PATCH_NUMBER macro, defined in thrust/version.h, to track bug fixes after a new CUDA release.
 
 New Examples
     range_view demonstrates use of a view: a non-owning wrapper for an iterator range with a container-like interface
@@ -65,10 +114,8 @@ Bug Fixes
     anymore when using them with thrust::transform_iterator.
     clear() operations on vector types no longer requires the element type to have a default constructor
 
-    
-
 #######################################
-#           Thrust v1.8.2             #
+#      Thrust v1.8.2 (CUDA 7.0)       #
 #######################################
 
 Summary
@@ -84,7 +131,7 @@ Known Issues
     #628 CUDA's reduce_by_key fails on sm_50 devices
 
 #######################################
-#           Thrust v1.8.1             #
+#      Thrust v1.8.1 (CUDA 7.0)       #
 #######################################
 
 Summary
@@ -189,7 +236,7 @@ Acknowledgments
     Thanks to Filipe Maia for contributing the implementation of thrust::complex.
 
 #######################################
-#           Thrust v1.7.2             #
+#      Thrust v1.7.2 (CUDA 6.5)       #
 #######################################
 
 Summary
@@ -199,7 +246,7 @@ Bug Fixes
     Avoid use of std::min in generic find implementation
 
 #######################################
-#           Thrust v1.7.1             #
+#      Thrust v1.7.1 (CUDA 6.0)       #
 #######################################
 
 Summary
@@ -211,7 +258,7 @@ Bug Fixes
     Avoid deriving function objects from std::unary_function and std::binary_function
 
 #######################################
-#           Thrust v1.7.0             #
+#      Thrust v1.7.0 (CUDA 5.5)       #
 #######################################
 
 Summary
@@ -373,7 +420,7 @@ Known Issues
     cudafe++.exe may crash when parsing TBB headers on Windows. 
 
 #######################################
-#           Thrust v1.5.3             #
+#      Thrust v1.5.3 (CUDA 5.0)       #
 #######################################
 
 Summary
@@ -383,7 +430,7 @@ Bug Fixes
     Avoid warnings about potential race due to __shared__ non-POD variable
 
 #######################################
-#           Thrust v1.5.2             #
+#      Thrust v1.5.2 (CUDA 4.2)       #
 #######################################
 
 Summary
@@ -393,7 +440,7 @@ Bug Fixes
     Fixed warning about C-style initialization of structures
 
 #######################################
-#           Thrust v1.5.1             #
+#      Thrust v1.5.1 (CUDA 4.1)       #
 #######################################
 
 Summary
@@ -463,7 +510,7 @@ Acknowledgments
     Thanks to Jean-Francois Bastien for suggesting a fix for issue 303.
 
 #######################################
-#           Thrust v1.4.0             #
+#      Thrust v1.4.0 (CUDA 4.0)       #
 #######################################
 
 Summary
@@ -539,7 +586,7 @@ Acknowledgments
     Thanks to Nathan Whitehead for help with CUDA Toolkit integration.
 
 #######################################
-#           Thrust v1.3.0             #
+#      Thrust v1.3.0 (CUDA 3.2)       #
 #######################################
 
 Summary
@@ -642,7 +689,7 @@ Acknowledgments
     Thanks to Cliff Woolley for help with testing
 
 #######################################
-#           Thrust v1.2.1             #
+#      Thrust v1.2.1 (CUDA 3.1)       #
 #######################################
 
 Summary
