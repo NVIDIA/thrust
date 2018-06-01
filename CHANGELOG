@@ -15,6 +15,7 @@ Bug Fixes
     #878 Optimize min/max_element to only use `get_iterator_value` for non-numeric types.
     #899 Make `pinned_allocator`'s comparison operators `const`.
     2092152 Remove all includes of `<cuda.h>`.
+    #911 Fix default comparator element type for `merge_by_key`. 
 
 Acknowledgments
     Thanks to Andrew Corrigan for contributing fixes for swapping interfaces.

@@ -999,7 +999,7 @@ merge_by_key(execution_policy<Derived> &policy,
              KeysOutputIt               keys_result,
              ItemsOutputIt              items_result)
 {
-  typedef typename thrust::iterator_value<ItemsIt1>::type items_type;
+  typedef typename thrust::iterator_value<KeysIt1>::type keys_type;
   return cuda_cub::merge_by_key(policy,
                                 keys1_first,
                                 keys1_last,
@@ -1009,7 +1009,7 @@ merge_by_key(execution_policy<Derived> &policy,
                                 items2_first,
                                 keys_result,
                                 items_result,
-                                thrust::less<items_type>());
+                                thrust::less<keys_type>());
 }
 
 
