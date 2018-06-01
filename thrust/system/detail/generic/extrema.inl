@@ -167,13 +167,23 @@ ForwardIterator min_element(thrust::execution_policy<DerivedPolicy> &exec,
 
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
   typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
-
+  
+  thrust::tuple<InputType, IndexType> initial;
+  if (std::numeric_limits<InputType>::is_specialized)
+  {
+    initial = thrust::tuple<InputType, IndexType>(std::numeric_limits<InputType>::max(), -1);
+  }
+  else
+  {
+    initial = thrust::tuple<InputType, IndexType>(thrust::detail::get_iterator_value(derived_cast(exec), first), 0);
+  }
+  
   thrust::tuple<InputType, IndexType> result =
     thrust::reduce
       (exec,
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
-       thrust::tuple<InputType, IndexType>(thrust::detail::get_iterator_value(derived_cast(exec), first), 0),
+       initial,
        detail::min_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
   return first + thrust::get<1>(result);
@@ -204,13 +214,23 @@ ForwardIterator max_element(thrust::execution_policy<DerivedPolicy> &exec,
 
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
   typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
+  
+  thrust::tuple<InputType, IndexType> initial;
+  if (std::numeric_limits<InputType>::is_specialized)
+  {
+    initial = thrust::tuple<InputType, IndexType>(std::numeric_limits<InputType>::lowest(), -1);
+  }
+  else
+  {
+    initial = thrust::tuple<InputType, IndexType>(thrust::detail::get_iterator_value(derived_cast(exec), first), 0);
+  }
 
   thrust::tuple<InputType, IndexType> result =
     thrust::reduce
       (exec,
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
-       thrust::tuple<InputType, IndexType>(thrust::detail::get_iterator_value(derived_cast(exec),first), 0),
+       initial,
        detail::max_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
   return first + thrust::get<1>(result);
@@ -241,6 +261,17 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
 
   typedef typename thrust::iterator_traits<ForwardIterator>::value_type      InputType;
   typedef typename thrust::iterator_traits<ForwardIterator>::difference_type IndexType;
+  typedef thrust::tuple<InputType, IndexType> AccumulatorType;
+  
+  thrust::tuple<AccumulatorType, AccumulatorType> initial;
+  if (std::numeric_limits<InputType>::is_specialized)
+  {
+    initial = thrust::make_tuple(AccumulatorType(std::numeric_limits<InputType>::max(), -1), AccumulatorType(std::numeric_limits<InputType>::lowest(), -1));
+  }
+  else
+  {
+    initial = detail::duplicate_tuple<InputType, IndexType>()(thrust::tuple<InputType, IndexType>(thrust::detail::get_iterator_value(derived_cast(exec), first), 0));
+  }
 
   thrust::tuple< thrust::tuple<InputType,IndexType>, thrust::tuple<InputType,IndexType> > result = 
     thrust::transform_reduce
@@ -248,8 +279,7 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(thrust::execution_p
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))),
        thrust::make_zip_iterator(thrust::make_tuple(first, thrust::counting_iterator<IndexType>(0))) + (last - first),
        detail::duplicate_tuple<InputType, IndexType>(),
-       detail::duplicate_tuple<InputType, IndexType>()(
-         thrust::tuple<InputType, IndexType>(thrust::detail::get_iterator_value(derived_cast(exec),first), 0)),
+       initial,
        detail::minmax_element_reduction<InputType, IndexType, BinaryPredicate>(comp));
 
   return thrust::make_pair(first + thrust::get<1>(thrust::get<0>(result)), first + thrust::get<1>(thrust::get<1>(result)));
