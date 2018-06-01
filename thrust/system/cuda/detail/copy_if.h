@@ -30,14 +30,16 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/cub/device/device_select.cuh>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/core/util.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/detail/function.h>
 #include <thrust/distance.h>
+#include <thrust/detail/alignment.h>
 
 BEGIN_NS_THRUST
 // XXX declare generic copy_if interface
@@ -690,39 +692,37 @@ namespace __copy_if {
     return status;
   }
 
-  template <class Policy,
-            class InputIt,
-            class StencilIt,
-            class OutputIt,
-            class Predicate>
-  OutputIt THRUST_RUNTIME_FUNCTION
-  copy_if(Policy &  policy,
-          InputIt   first,
-          InputIt   last,
-          StencilIt stencil,
-          OutputIt  output,
-          Predicate predicate)
+  template <typename Derived,
+            typename InputIt,
+            typename StencilIt,
+            typename OutputIt,
+            typename Predicate>
+  THRUST_RUNTIME_FUNCTION
+  OutputIt copy_if(execution_policy<Derived>& policy,
+                   InputIt                    first,
+                   InputIt                    last,
+                   StencilIt                  stencil,
+                   OutputIt                   output,
+                   Predicate                  predicate)
   {
     typedef int size_type;
 
     size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
-    char *       d_temp_storage     = NULL;
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    size_type *  d_num_selected_out = NULL;
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
       return output;
 
     cudaError_t status;
-    status = doit_step(d_temp_storage,
+    status = doit_step(NULL,
                        temp_storage_bytes,
                        first,
                        stencil,
                        output,
                        predicate,
-                       d_num_selected_out,
+                       reinterpret_cast<size_type*>(NULL),
                        num_items,
                        stream,
                        debug_sync);
@@ -737,19 +737,22 @@ namespace __copy_if {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    void *ptr = cuda_cub::get_memory_buffer(policy, storage_size);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "copy_if failed to get memory buffer");
+    cuda_cub::throw_on_error(status, "copy_if failed on 1st alias_storage");
+
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "copy_if failed on 2nd alias_storage");
 
-    d_num_selected_out = (size_type *)allocations[0];
-    d_temp_storage = (char *)allocations[1];
+    size_type* d_num_selected_out
+      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
-    status = doit_step(d_temp_storage,
+    status = doit_step(allocations[1],
                        temp_storage_bytes,
                        first,
                        stencil,
@@ -764,12 +767,7 @@ namespace __copy_if {
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "copy_if failed to synchronize");
 
-
     size_type num_selected = get_value(policy, d_num_selected_out);
-
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "copy_if failed to return memory buffer");
 
     return output + num_selected;
   }

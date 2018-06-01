@@ -37,7 +37,6 @@
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 #include <thrust/system/cuda/detail/cub/device/device_reduce.cuh>
 #include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/functional.h>
 #include <thrust/device_vector.h>
@@ -845,35 +844,33 @@ namespace __reduce {
   }    // func doit_step
 
 
-  template <class Policy,
-            class InputIt,
-            class Size,
-            class T,
-            class BinaryOp>
-  T THRUST_RUNTIME_FUNCTION
-  reduce(Policy & policy,
-         InputIt  first,
-         Size     num_items,
-         T        init,
-         BinaryOp binary_op)
+  template <typename Derived,
+            typename InputIt,
+            typename Size,
+            typename T,
+            typename BinaryOp>
+  THRUST_RUNTIME_FUNCTION
+  T reduce(execution_policy<Derived>& policy,
+           InputIt                    first,
+           Size                       num_items,
+           T                          init,
+           BinaryOp                   binary_op)
   {
     if (num_items == 0)
       return init;
 
-    char *       d_temp_storage     = NULL;
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    T *          d_result           = NULL;
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step(d_temp_storage,
+    status = doit_step(NULL,
                        temp_storage_bytes,
                        first,
                        num_items,
                        init,
                        binary_op,
-                       d_result,
+                       reinterpret_cast<T*>(NULL),
                        stream,
                        debug_sync);
     cuda_cub::throw_on_error(status, "reduce failed on 1st step");
@@ -886,20 +883,21 @@ namespace __reduce {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "reduce failed on 1st alias_storage");
 
-    void *ptr = cuda_cub::get_memory_buffer(policy, storage_size);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "reduce failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
 
-    d_result           = (T *)allocations[0];
-    d_temp_storage     = (char *)allocations[1];
+    T* d_result = detail::aligned_reinterpret_cast<T*>(allocations[0]);
 
-    status = doit_step(d_temp_storage,
+    status = doit_step(allocations[1],
                        temp_storage_bytes,
                        first,
                        num_items,
@@ -915,10 +913,6 @@ namespace __reduce {
 
     T result = cuda_cub::get_value(policy, d_result);
 
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "reduce failed to return memory buffer");
-
     return result;
   }
 }    // namespace __reduce
@@ -928,13 +922,17 @@ namespace __reduce {
 //-------------------------
 
 __thrust_exec_check_disable__ 
-template <class Derived, class InputIt, class Size, class T, class BinaryOp>
-T __host__ __device__
-reduce_n(execution_policy<Derived> &policy,
-         InputIt                    first,
-         Size                       num_items,
-         T                          init,
-         BinaryOp                   binary_op)
+template <typename Derived,
+          typename InputIt,
+          typename Size,
+          typename T,
+          typename BinaryOp>
+__host__ __device__
+T reduce_n(execution_policy<Derived>& policy,
+           InputIt                    first,
+           Size                       num_items,
+           T                          init,
+           BinaryOp                   binary_op)
 {
   cudaStream_t stream = cuda_cub::stream(policy);
 
@@ -942,12 +940,17 @@ reduce_n(execution_policy<Derived> &policy,
   {
     // Determine temporary device storage requirements.
 
-    T* ret_ptr = NULL;
     size_t tmp_size = 0;
     cuda_cub::throw_on_error(
-      cub::DeviceReduce::Reduce(NULL, tmp_size,
-                                first, ret_ptr, num_items, binary_op, init,
-                                stream, THRUST_DEBUG_SYNC_FLAG),
+      cub::DeviceReduce::Reduce(NULL,
+                                tmp_size,
+                                first,
+                                reinterpret_cast<T*>(NULL),
+                                num_items,
+                                binary_op,  
+                                init,
+                                stream,
+                                THRUST_DEBUG_SYNC_FLAG),
       "after reduction step 1");
 
     // Allocate temporary storage.
@@ -965,12 +968,18 @@ reduce_n(execution_policy<Derived> &policy,
     // The array was dynamically allocated, so we assume that it's suitably
     // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
     // make this guarantee.
-    ret_ptr = detail::aligned_reinterpret_cast<T*>((&*tmp.begin()).get());
-    void* tmp_ptr = static_cast<void*>((&*(tmp.begin() + sizeof(T))).get());
+    T* ret_ptr = detail::aligned_reinterpret_cast<T*>(tmp.data().get());
+    void* tmp_ptr = static_cast<void*>((tmp.data() + sizeof(T)).get());
     cuda_cub::throw_on_error(
-      cub::DeviceReduce::Reduce(tmp_ptr, tmp_size,
-                                first, ret_ptr, num_items, binary_op, init,
-                                stream, THRUST_DEBUG_SYNC_FLAG),
+      cub::DeviceReduce::Reduce(tmp_ptr,
+                                tmp_size,
+                                first,
+                                ret_ptr,
+                                num_items,
+                                binary_op,
+                                init,
+                                stream,
+                                THRUST_DEBUG_SYNC_FLAG),
       "after reduction step 2");
 
     // Synchronize the stream and get the value.
@@ -987,7 +996,7 @@ reduce_n(execution_policy<Derived> &policy,
     // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
     // make this guarantee.
     return cuda_cub::get_value(policy,
-      detail::aligned_reinterpret_cast<T*>((&*tmp.begin()).get()));
+      detail::aligned_reinterpret_cast<T*>(tmp.data().get()));
   }
 
 #if !__THRUST_HAS_CUDART__

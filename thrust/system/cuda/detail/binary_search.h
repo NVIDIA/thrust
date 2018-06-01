@@ -29,6 +29,8 @@
 #if 0
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 
 #include <thrust/system/cuda/execution_policy.h>
@@ -631,21 +633,21 @@ namespace __binary_search {
     return status;
   }
 
-  template <class Policy,
-            class NeedlesIt,
-            class HaystackIt,
-            class OutputIt,
-            class CompareOp,
-            class SearchOp>
+  template <typename Derived,
+            typename NeedlesIt,
+            typename HaystackIt,
+            typename OutputIt,
+            typename CompareOp,
+            typename SearchOp>
   OutputIt THRUST_RUNTIME_FUNCTION
-  doit(Policy&    policy,
-       HaystackIt haystack_begin,
-       HaystackIt haystack_end,
-       NeedlesIt  needles_begin,
-       NeedlesIt  needles_end,
-       OutputIt   result,
-       CompareOp  compare_op,
-       SearchOp   search_op)
+  doit(execution_policy<Derived>& policy,
+       HaystackIt                 haystack_begin,
+       HaystackIt                 haystack_end,
+       NeedlesIt                  needles_begin,
+       NeedlesIt                  needles_end,
+       OutputIt                   result,
+       CompareOp                  compare_op,
+       SearchOp                   search_op)
   {
     typedef typename iterator_traits<NeedlesIt>::difference_type size_type;
 
@@ -655,14 +657,13 @@ namespace __binary_search {
     if (needles_count == 0)
       return result;
 
-    char*        d_temp_storage     = NULL;
-    size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    size_t       storage_size = 0;
+    cudaStream_t stream       = cuda_cub::stream(policy);
+    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError status;
-    status = doit_pass(d_temp_storage,
-                       temp_storage_bytes,
+    status = doit_pass(NULL,
+                       storage_size,
                        needles_begin,
                        haystack_begin,
                        needles_count,
@@ -674,13 +675,12 @@ namespace __binary_search {
                        debug_sync);
     cuda_cub::throw_on_error(status, "binary_search: failed on 1st call");
 
-    void* ptr = cuda_cub::get_memory_buffer(policy, temp_storage_bytes);
-    cuda_cub::throw_on_error(cudaGetLastError(), "binary_search: failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
-    d_temp_storage = (char*)ptr;
-
-    status = doit_pass(d_temp_storage,
-                       temp_storage_bytes,
+    status = doit_pass(ptr,
+                       storage_size,
                        needles_begin,
                        haystack_begin,
                        needles_count,
@@ -694,9 +694,6 @@ namespace __binary_search {
     
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "binary_search: failed to synchronize");
-    
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(), "binary_search: failed to return memory buffer");
 
     return result + needles_count;
   }

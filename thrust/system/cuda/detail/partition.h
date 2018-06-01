@@ -30,6 +30,8 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/reverse.h>
 #include <thrust/system/cuda/detail/find.h>
@@ -699,14 +701,15 @@ namespace __partition {
 
   }
 
-  template <class Derived,
-            class InputIt,
-            class StencilIt,
-            class SelectedOutIt,
-            class RejectedOutIt,
-            class Predicate>
-  pair<SelectedOutIt, RejectedOutIt> CUB_RUNTIME_FUNCTION
-  partition(execution_policy<Derived> &policy,
+  template <typename Derived,
+            typename InputIt,
+            typename StencilIt,
+            typename SelectedOutIt,
+            typename RejectedOutIt,
+            typename Predicate>
+  THRUST_RUNTIME_FUNCTION
+  pair<SelectedOutIt, RejectedOutIt>
+  partition(execution_policy<Derived>& policy,
             InputIt                    first,
             InputIt                    last,
             StencilIt                  stencil,
@@ -717,21 +720,19 @@ namespace __partition {
     typedef typename iterator_traits<InputIt>::difference_type size_type;
 
     size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
-    char *       d_temp_storage     = NULL;
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    size_type *  d_num_selected_out = NULL;
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step(d_temp_storage,
+    status = doit_step(NULL,
                        temp_storage_bytes,
                        first,
                        stencil,
                        selected_result,
                        rejected_result,
                        predicate,
-                       d_num_selected_out,
+                       reinterpret_cast<size_type*>(NULL),
                        num_items,
                        stream,
                        debug_sync);
@@ -746,19 +747,22 @@ namespace __partition {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    void *ptr = cuda_cub::get_memory_buffer(policy, storage_size);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "partition failed to get memory buffer");
+    cuda_cub::throw_on_error(status, "partition failed on 1st alias_storage");
+
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "partition failed on 2nd alias_storage");
 
-    d_num_selected_out = (size_type *)allocations[0];
-    d_temp_storage = (char *)allocations[1];
+    size_type* d_num_selected_out
+      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
-    status = doit_step(d_temp_storage,
+    status = doit_step(allocations[1],
                        temp_storage_bytes,
                        first,
                        stencil,
@@ -780,48 +784,42 @@ namespace __partition {
       num_selected = get_value(policy, d_num_selected_out);
     }
 
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "partition failed to return memory buffer");
-
     return thrust::make_pair(selected_result + num_selected,
                              rejected_result + num_items - num_selected);
   }
 
-  template <class Derived,
-            class Iterator,
-            class StencilIt,
-            class Predicate>
-  Iterator CUB_RUNTIME_FUNCTION
-  partition_inplace(execution_policy<Derived> &policy,
-                    Iterator                   first,
-                    Iterator                   last,
-                    StencilIt                  stencil,
-                    Predicate                  predicate)
+  template <typename Derived,
+            typename Iterator,
+            typename StencilIt,
+            typename Predicate>
+  THRUST_RUNTIME_FUNCTION
+  Iterator partition_inplace(execution_policy<Derived>& policy,
+                             Iterator                   first,
+                             Iterator                   last,
+                             StencilIt                  stencil,
+                             Predicate                  predicate)
   {
     typedef typename iterator_traits<Iterator>::difference_type size_type;
     typedef typename iterator_traits<Iterator>::value_type      value_type;
 
-    size_type   num_items = thrust::distance(first, last);
-    value_type *src_copy_ptr =
-        (value_type *)cuda_cub::get_memory_buffer(policy,
-                                                  sizeof(value_type) * num_items);
+    size_type num_items = thrust::distance(first, last);
 
-    cuda_cub::uninitialized_copy(policy, first, last, src_copy_ptr);
+    // Allocate temporary storage.
+    detail::temporary_array<value_type, Derived> tmp(policy, num_items);
+
+    cuda_cub::uninitialized_copy(policy, first, last, tmp.begin());
 
     pair<Iterator, single_output_tag> result =
         partition(policy,
-                  src_copy_ptr,
-                  src_copy_ptr + num_items,
+                  tmp.data().get(),
+                  tmp.data().get() + num_items,
                   stencil,
                   first,
                   single_output_tag(),
                   predicate);
 
-    cuda_cub::return_memory_buffer(policy, src_copy_ptr);
-
     size_type num_selected = result.first - first;
-    //
+
     return first + num_selected;
   }
 }    // namespace __partition

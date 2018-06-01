@@ -20,6 +20,19 @@
 
 #pragma once
 
+namespace thrust
+{
+namespace detail
+{
+
+// Forward declare temporary_array, as it's used by the CUDA copy backend, which
+// is included in contiguous_storage's definition.
+template<typename T, typename System>
+  class temporary_array;
+
+} // end detail
+} // end thrust
+
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/detail/tagged_iterator.h>

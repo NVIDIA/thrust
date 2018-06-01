@@ -80,6 +80,7 @@ public:
   __host__ __device__
   complex(const T& re);
 
+#if 0
   /*! Construct a complex number with an imaginary part of 0.
    *
    *  \param re The real part of the number.
@@ -89,6 +90,7 @@ public:
   template <typename R>
   __host__ __device__
   complex(const R& re);
+#endif
 
   /*! Construct a complex number from its real and imaginary parts.
    *
@@ -98,6 +100,7 @@ public:
   __host__ __device__
   complex(const T& re, const T& im);
 
+#if 0
   /*! Construct a complex number from its real and imaginary parts.
    *
    *  \param re The real part of the number.
@@ -109,6 +112,7 @@ public:
   template <typename R, typename I>
   __host__ __device__
   complex(const R& re, const I& im);
+#endif
 
   /*! This copy constructor copies from a \p complex with a type that is
    *  convertible to this \p complex's \c value_type.
@@ -160,6 +164,7 @@ public:
   __host__ __device__
   complex& operator=(const T& re);
 
+#if 0
   /*! Assign `re` to the real part of this \p complex and set the imaginary part
    *  to 0.
    *
@@ -170,6 +175,7 @@ public:
   template <typename R>
   __host__ __device__
   complex& operator=(const R& re);
+#endif
 
   /*! Assign `z.real()` and `z.imag()` to the real and imaginary parts of this
    *  \p complex respectively.

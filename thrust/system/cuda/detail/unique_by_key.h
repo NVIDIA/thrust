@@ -30,17 +30,19 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/cub/device/device_select.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/functional.h>
 #include <thrust/pair.h>
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
+#include <thrust/detail/alignment.h>
 
 BEGIN_NS_THRUST
 
@@ -709,41 +711,41 @@ namespace __unique_by_key {
     return status;
   }
 
-  template <class Policy,
-            class KeyInputIt,
-            class ValInputIt,
-            class KeyOutputIt,
-            class ValOutputIt,
-            class BinaryPred>
-  pair<KeyOutputIt, ValOutputIt> THRUST_RUNTIME_FUNCTION
-  unique_by_key(Policy &    policy,
-                KeyInputIt  keys_first,
-                KeyInputIt  keys_last,
-                ValInputIt  values_first,
-                KeyOutputIt keys_result,
-                ValOutputIt values_result,
-                BinaryPred  binary_pred)
+  template <typename Derived,
+            typename KeyInputIt,
+            typename ValInputIt,
+            typename KeyOutputIt,
+            typename ValOutputIt,
+            typename BinaryPred>
+  THRUST_RUNTIME_FUNCTION
+  pair<KeyOutputIt, ValOutputIt>
+  unique_by_key(execution_policy<Derived>& policy,
+                KeyInputIt                 keys_first,
+                KeyInputIt                 keys_last,
+                ValInputIt                 values_first,
+                KeyOutputIt                keys_result,
+                ValOutputIt                values_result,
+                BinaryPred                 binary_pred)
   {
 
-    //  typedef typename iterator_traits<KeyInputIt>::difference_type size_type;
     typedef int size_type;
 
-    size_type    num_items          = static_cast<size_type>(thrust::distance(keys_first, keys_last));
-    char *       d_temp_storage     = NULL;
+    size_type num_items 
+      = static_cast<size_type>(thrust::distance(keys_first, keys_last));
+
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    size_type *  d_num_selected_out = NULL;
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = __unique_by_key::doit_step(d_temp_storage,
+    status = __unique_by_key::doit_step(NULL,
                                         temp_storage_bytes,
                                         keys_first,
                                         values_first,
                                         keys_result,
                                         values_result,
                                         binary_pred,
-                                        d_num_selected_out,
+                                        reinterpret_cast<size_type*>(NULL),
                                         num_items,
                                         stream,
                                         debug_sync);
@@ -757,20 +759,22 @@ namespace __unique_by_key {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "unique_by_key failed on 1st alias_storage");
 
-    void *ptr = cuda_cub::get_memory_buffer(policy, storage_size);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "unique_by_key: failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "unique_by_key failed on 2nd alias_storage");
 
-    d_num_selected_out = (size_type *)allocations[0];
-    d_temp_storage     = (char *)allocations[1];
+    size_type* d_num_selected_out
+      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
-    status = __unique_by_key::doit_step(d_temp_storage,
+    status = __unique_by_key::doit_step(allocations[1],
                                         temp_storage_bytes,
                                         keys_first,
                                         values_first,
@@ -783,17 +787,15 @@ namespace __unique_by_key {
                                         debug_sync);
     cuda_cub::throw_on_error(status, "unique_by_key: failed on 2nd step");
 
-
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "unique_by_key: failed to synchronize");
 
     size_type num_selected = get_value(policy, d_num_selected_out);
 
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "unique_by_key: failed to return memory buffer");
-
-    return thrust::make_pair(keys_result + num_selected, values_result + num_selected);
+    return thrust::make_pair(
+      keys_result + num_selected,
+      values_result + num_selected
+    );
   }
 
 } // namespace __unique_by_key

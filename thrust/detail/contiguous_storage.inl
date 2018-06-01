@@ -59,7 +59,7 @@ __thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   contiguous_storage<T,Alloc>
-    ::~contiguous_storage(void)
+    ::~contiguous_storage()
 {
   deallocate();
 } // end contiguous_storage::~contiguous_storage()
@@ -68,7 +68,7 @@ template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::size_type
     contiguous_storage<T,Alloc>
-      ::size(void) const
+      ::size() const
 {
   return m_size;
 } // end contiguous_storage::size()
@@ -77,7 +77,7 @@ template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::size_type
     contiguous_storage<T,Alloc>
-      ::max_size(void) const
+      ::max_size() const
 {
   return alloc_traits::max_size(m_allocator);
 } // end contiguous_storage::max_size()
@@ -86,7 +86,7 @@ template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::iterator
     contiguous_storage<T,Alloc>
-      ::begin(void)
+      ::begin()
 {
   return m_begin;
 } // end contiguous_storage::begin()
@@ -95,7 +95,7 @@ template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::const_iterator
     contiguous_storage<T,Alloc>
-      ::begin(void) const
+      ::begin() const
 {
   return m_begin;
 } // end contiguous_storage::begin()
@@ -104,7 +104,7 @@ template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::iterator
     contiguous_storage<T,Alloc>
-      ::end(void)
+      ::end()
 {
   return m_begin + size();
 } // end contiguous_storage::end()
@@ -113,10 +113,28 @@ template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::const_iterator
     contiguous_storage<T,Alloc>
-      ::end(void) const
+      ::end() const
 {
   return m_begin + size();
 } // end contiguous_storage::end()
+
+template<typename T, typename Alloc>
+__host__ __device__
+  typename contiguous_storage<T,Alloc>::pointer
+    contiguous_storage<T,Alloc>
+      ::data()
+{
+  return &*m_begin;
+} // end contiguous_storage::data()
+
+template<typename T, typename Alloc>
+__host__ __device__
+  typename contiguous_storage<T,Alloc>::const_pointer
+    contiguous_storage<T,Alloc>
+      ::data() const
+{
+  return &*m_begin;
+} // end contiguous_storage::data()
 
 template<typename T, typename Alloc>
 __host__ __device__
@@ -140,7 +158,7 @@ template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::allocator_type
     contiguous_storage<T,Alloc>
-      ::get_allocator(void) const
+      ::get_allocator() const
 {
   return m_allocator;
 } // end contiguous_storage::get_allocator()
@@ -165,7 +183,7 @@ __host__ __device__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
-    ::deallocate(void)
+    ::deallocate()
 {
   if(size() > 0)
   {

@@ -31,9 +31,10 @@
 #include <thrust/system/cuda/config.h>
 
 #include <thrust/system/cuda/detail/cub/device/device_select.cuh>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/functional.h>
@@ -626,34 +627,32 @@ namespace __unique {
     return status;
   }
 
-  template <class Policy,
-            class ItemsInputIt,
-            class ItemsOutputIt,
-            class BinaryPred>
-  ItemsOutputIt THRUST_RUNTIME_FUNCTION
-  unique(Policy &      policy,
-         ItemsInputIt  items_first,
-         ItemsInputIt  items_last,
-         ItemsOutputIt items_result,
-         BinaryPred    binary_pred)
+  template <typename Derived,
+            typename ItemsInputIt,
+            typename ItemsOutputIt,
+            typename BinaryPred>
+  THRUST_RUNTIME_FUNCTION
+  ItemsOutputIt unique(execution_policy<Derived>& policy,
+                       ItemsInputIt               items_first,
+                       ItemsInputIt               items_last,
+                       ItemsOutputIt              items_result,
+                       BinaryPred                 binary_pred)
   {
     //  typedef typename iterator_traits<ItemsInputIt>::difference_type size_type;
     typedef int size_type;
 
     size_type    num_items          = static_cast<size_type>(thrust::distance(items_first, items_last));
-    char *       d_temp_storage     = NULL;
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    size_type *  d_num_selected_out = NULL;
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step(d_temp_storage,
+    status = doit_step(NULL,
                        temp_storage_bytes,
                        items_first,
                        items_result,
                        binary_pred,
-                       d_num_selected_out,
+                       reinterpret_cast<size_type*>(NULL),
                        num_items,
                        stream,
                        debug_sync);
@@ -667,20 +666,22 @@ namespace __unique {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "unique: failed on 1st step");
 
-    void *ptr = cuda_cub::get_memory_buffer(policy, storage_size);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "unique: failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "unique: failed on 2nd step");
 
-    d_num_selected_out = (size_type *)allocations[0];
-    d_temp_storage     = (char *)allocations[1];
+    size_type* d_num_selected_out
+      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
-    status = doit_step(d_temp_storage,
+    status = doit_step(allocations[1],
                        temp_storage_bytes,
                        items_first,
                        items_result,
@@ -691,15 +692,10 @@ namespace __unique {
                        debug_sync);
     cuda_cub::throw_on_error(status, "unique: failed on 2nd step");
 
-
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "unique: failed to synchronize");
 
     size_type num_selected = get_value(policy, d_num_selected_out);
-
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "unique: failed to return memory buffer");
 
     return items_result + num_selected;
   }

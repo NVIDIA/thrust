@@ -31,12 +31,13 @@
 #include <thrust/system/cuda/config.h>
 #include <thrust/detail/type_traits.h>
 
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/detail/raw_reference_cast.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 #include <thrust/system/cuda/detail/cub/device/device_reduce.cuh>
 #include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/pair.h>
@@ -44,6 +45,7 @@
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
+#include <thrust/detail/alignment.h>
 
 BEGIN_NS_THRUST
 
@@ -959,42 +961,42 @@ namespace __reduce_by_key {
     return status;
   }
 
-  template <class Policy,
-            class KeysInputIt,
-            class ValuesInputIt,
-            class KeysOutputIt,
-            class ValuesOutputIt,
-            class EqualityOp,
-            class ReductionOp>
-  pair<KeysOutputIt, ValuesOutputIt> THRUST_RUNTIME_FUNCTION
-  reduce_by_key(Policy &       policy,
-                KeysInputIt    keys_first,
-                KeysInputIt    keys_last,
-                ValuesInputIt  values_first,
-                KeysOutputIt   keys_output,
-                ValuesOutputIt values_output,
-                EqualityOp     equality_op,
-                ReductionOp    reduction_op)
+  template <typename Derived,
+            typename KeysInputIt,
+            typename ValuesInputIt,
+            typename KeysOutputIt,
+            typename ValuesOutputIt,
+            typename EqualityOp,
+            typename ReductionOp>
+  THRUST_RUNTIME_FUNCTION
+  pair<KeysOutputIt, ValuesOutputIt>
+  reduce_by_key(execution_policy<Derived>& policy,
+                KeysInputIt                keys_first,
+                KeysInputIt                keys_last,
+                ValuesInputIt              values_first,
+                KeysOutputIt               keys_output,
+                ValuesOutputIt             values_output,
+                EqualityOp                 equality_op,
+                ReductionOp                reduction_op)
   {
     typedef int size_type;
+
     size_type    num_items          = static_cast<size_type>(thrust::distance(keys_first, keys_last));
-    char *       d_temp_storage     = NULL;
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    size_type *  d_num_runs_out     = NULL;
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
     
     if (num_items == 0)
       return thrust::make_pair(keys_output, values_output);
 
     cudaError_t status;
-    status = doit_step(d_temp_storage,
+    status = doit_step(NULL,
                        temp_storage_bytes,
                        keys_first,
                        values_first,
                        keys_output,
                        values_output,
-                       d_num_runs_out,
+                       reinterpret_cast<size_type*>(NULL),
                        equality_op,
                        reduction_op,
                        num_items,
@@ -1010,21 +1012,22 @@ namespace __reduce_by_key {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "reduce failed on 1st alias_storage");
 
-    void *ptr = cuda_cub::get_memory_buffer(policy, storage_size);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "reduce_by_key failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
 
-    d_num_runs_out     = (size_type *)allocations[0];
-    d_temp_storage     = (char *)allocations[1];
+    size_type* d_num_runs_out
+      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
-
-    status = doit_step(d_temp_storage,
+    status = doit_step(allocations[1],
                        temp_storage_bytes,
                        keys_first,
                        values_first,
@@ -1043,11 +1046,10 @@ namespace __reduce_by_key {
 
     int num_runs_out = cuda_cub::get_value(policy, d_num_runs_out);
 
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "reduce_by_key: failed to return memory buffer");
-
-    return thrust::make_pair(keys_output + num_runs_out, values_output + num_runs_out);
+    return thrust::make_pair(
+      keys_output + num_runs_out,
+      values_output + num_runs_out
+    );
   }
 
 }    // namespace __reduce_by_key

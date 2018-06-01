@@ -30,12 +30,13 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/cub/device/device_select.cuh>
 #include <thrust/system/cuda/detail/cub/block/block_adjacent_difference.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/functional.h>
 #include <thrust/distance.h>
 #include <thrust/detail/mpl/math.h>
@@ -430,28 +431,27 @@ namespace __adjacent_difference {
     return status;
   }
 
-  template <class Policy,
-            class InputIt,
-            class OutputIt,
-            class BinaryOp>
-  static OutputIt THRUST_RUNTIME_FUNCTION
-  adjacent_difference(Policy & policy,
-                      InputIt  first,
-                      InputIt  last,
-                      OutputIt result,
-                      BinaryOp binary_op)
+  template <typename Derived,
+            typename InputIt,
+            typename OutputIt,
+            typename BinaryOp>
+  OutputIt THRUST_RUNTIME_FUNCTION
+  adjacent_difference(execution_policy<Derived>& policy,
+                      InputIt                    first,
+                      InputIt                    last,
+                      OutputIt                   result,
+                      BinaryOp                   binary_op)
   {
     typedef typename iterator_traits<InputIt>::difference_type size_type;
 
-    size_type    num_items          = thrust::distance(first, last);
-    char *       d_temp_storage     = NULL;
-    size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    size_type    num_items    = thrust::distance(first, last);
+    size_t       storage_size = 0;
+    cudaStream_t stream       = cuda_cub::stream(policy);
+    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step(d_temp_storage,
-                       temp_storage_bytes,
+    status = doit_step(NULL,
+                       storage_size,
                        first,
                        result,
                        binary_op,
@@ -460,13 +460,12 @@ namespace __adjacent_difference {
                        debug_sync);
     cuda_cub::throw_on_error(status, "adjacent_difference failed on 1st step");
 
-    void *ptr = cuda_cub::get_memory_buffer(policy, temp_storage_bytes);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "adjacent_differecne failed to get memory buffer");
-    d_temp_storage = static_cast<char *>(ptr);
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
-    status = doit_step(d_temp_storage,
-                       temp_storage_bytes,
+    status = doit_step(ptr,
+                       storage_size,
                        first,
                        result,
                        binary_op,
@@ -478,9 +477,6 @@ namespace __adjacent_difference {
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "adjacent_difference failed to synchronize");
 
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "adjacent_difference failed to return memory buffer");
     return result + num_items;
   }
 

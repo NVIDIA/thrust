@@ -27,6 +27,8 @@
 #pragma once
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
@@ -36,11 +38,11 @@
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/detail/trivial_sequence.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/extrema.h>
 #include <thrust/sort.h>
 #include <thrust/distance.h>
 #include <thrust/sequence.h>
+#include <thrust/detail/alignment.h>
 
 BEGIN_NS_THRUST
 namespace cuda_cub {
@@ -1299,32 +1301,31 @@ namespace __merge_sort {
     return status;
   }
 
-  template <class SORT_ITEMS,
-            class STABLE,
-            class Policy,
-            class KeysIt,
-            class ItemsIt,
-            class CompareOp>
-  THRUST_RUNTIME_FUNCTION void
-  merge_sort(Policy&   policy,
-             KeysIt    keys_first,
-             KeysIt    keys_last,
-             ItemsIt   items_first,
-             CompareOp compare_op)
+  template <typename SORT_ITEMS,
+            typename STABLE,
+            typename Derived,
+            typename KeysIt,
+            typename ItemsIt,
+            typename CompareOp>
+  THRUST_RUNTIME_FUNCTION 
+  void merge_sort(execution_policy<Derived>& policy,
+                  KeysIt                     keys_first,
+                  KeysIt                     keys_last,
+                  ItemsIt                    items_first,
+                  CompareOp                  compare_op)
 
   {
     typedef typename iterator_traits<KeysIt>::difference_type size_type;
 
     size_type count = static_cast<size_type>(thrust::distance(keys_first, keys_last));
 
-    void*        d_temp_storage     = NULL;
-    size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    size_t       storage_size = 0;
+    cudaStream_t stream       = cuda_cub::stream(policy);
+    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step<SORT_ITEMS, STABLE>(d_temp_storage,
-                                           temp_storage_bytes,
+    status = doit_step<SORT_ITEMS, STABLE>(NULL,
+                                           storage_size,
                                            keys_first,
                                            items_first,
                                            count,
@@ -1333,12 +1334,12 @@ namespace __merge_sort {
                                            debug_sync);
     cuda_cub::throw_on_error(status, "merge_sort: failed on 1st step");
 
-    d_temp_storage = cuda_cub::get_memory_buffer(policy, temp_storage_bytes);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "merge_sort: failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
-    status = doit_step<SORT_ITEMS, STABLE>(d_temp_storage,
-                                           temp_storage_bytes,
+    status = doit_step<SORT_ITEMS, STABLE>(ptr,
+                                           storage_size,
                                            keys_first,
                                            items_first,
                                            count,
@@ -1349,10 +1350,6 @@ namespace __merge_sort {
 
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "merge_sort: failed to synchronize");
-    
-    cuda_cub::return_memory_buffer(policy, d_temp_storage);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "merge_sort: failed to return memory buffer");
   }
 }    // namespace __merge_sort
 
@@ -1463,12 +1460,19 @@ namespace __radix_sort {
     }
   }; // struct dispatch -- sort pairs in descending order;
 
-
-  template <class SORT_ITEMS, class Policy, class Key, class Item, class Size, class CompareOp>
-  THRUST_RUNTIME_FUNCTION void
-  radix_sort(Policy& policy, Key* keys, Item* items, Size count, CompareOp)
+  template <typename SORT_ITEMS,
+            typename Derived,
+            typename Key,
+            typename Item,
+            typename Size,
+            typename CompareOp>
+  THRUST_RUNTIME_FUNCTION
+  void radix_sort(execution_policy<Derived>& policy,
+                  Key*                       keys,
+                  Item*                      items,
+                  Size                       count,
+                  CompareOp)
   {
-    void*        d_temp_storage     = NULL;
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
@@ -1481,7 +1485,7 @@ namespace __radix_sort {
 
     cudaError_t status;
 
-    status = dispatch<SORT_ITEMS, CompareOp>::doit(d_temp_storage,
+    status = dispatch<SORT_ITEMS, CompareOp>::doit(NULL,
                                                    temp_storage_bytes,
                                                    keys_buffer,
                                                    items_buffer,
@@ -1493,21 +1497,24 @@ namespace __radix_sort {
     size_t keys_temp_storage  = core::align_to(sizeof(Key) * keys_count, 128);
     size_t items_temp_storage = core::align_to(sizeof(Item) * items_count, 128);
 
-    size_t temp_storage_total = keys_temp_storage +
-                                items_temp_storage +
-                                temp_storage_bytes;
+    size_t storage_size = keys_temp_storage
+                        + items_temp_storage
+                        + temp_storage_bytes;
 
-    d_temp_storage = cuda_cub::get_memory_buffer(policy, temp_storage_total);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "radix_sort: failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
 
-    keys_buffer.d_buffers[1]  = (Key*)d_temp_storage;
-    items_buffer.d_buffers[1] = (Item*)((char*)d_temp_storage +
-                                        keys_temp_storage);
-    void* d_temp_storage1 = (char*)d_temp_storage +
-                            keys_temp_storage + items_temp_storage;
+    keys_buffer.d_buffers[1]  = detail::aligned_reinterpret_cast<Key*>(
+      tmp.data().get()  
+    );
+    items_buffer.d_buffers[1] = detail::aligned_reinterpret_cast<Item*>(
+      tmp.data().get() + keys_temp_storage
+    );
+    void *ptr = static_cast<void*>(
+      tmp.data().get() + keys_temp_storage + items_temp_storage
+    );
 
-    status = dispatch<SORT_ITEMS, CompareOp>::doit(d_temp_storage1,
+    status = dispatch<SORT_ITEMS, CompareOp>::doit(ptr,
                                                    temp_storage_bytes,
                                                    keys_buffer,
                                                    items_buffer,
@@ -1526,10 +1533,6 @@ namespace __radix_sort {
       Item* temp_ptr = reinterpret_cast<Item*>(items_buffer.d_buffers[1]);
       cuda_cub::copy_n(policy, temp_ptr, items_count, items);
     }
-
-    cuda_cub::return_memory_buffer(policy, d_temp_storage);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "radix_sort: failed to return memory buffer");
   }
 }    // __radix_sort
 

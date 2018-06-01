@@ -62,25 +62,31 @@ template<typename T, typename Alloc>
 
     __thrust_exec_check_disable__
     __host__ __device__
-    ~contiguous_storage(void);
+    ~contiguous_storage();
 
     __host__ __device__
-    size_type size(void) const;
+    size_type size() const;
 
     __host__ __device__
-    size_type max_size(void) const;
+    size_type max_size() const;
 
     __host__ __device__
-    iterator begin(void);
+    pointer data();
+
+    __host__ __device__
+    const_pointer data() const;
+
+    __host__ __device__
+    iterator begin();
     
     __host__ __device__
-    const_iterator begin(void) const;
+    const_iterator begin() const;
 
     __host__ __device__
-    iterator end(void);
+    iterator end();
 
     __host__ __device__
-    const_iterator end(void) const;
+    const_iterator end() const;
 
     __host__ __device__
     reference operator[](size_type n);
@@ -89,14 +95,14 @@ template<typename T, typename Alloc>
     const_reference operator[](size_type n) const;
 
     __host__ __device__
-    allocator_type get_allocator(void) const;
+    allocator_type get_allocator() const;
 
     // note that allocate does *not* automatically call deallocate
     __host__ __device__
     void allocate(size_type n);
 
     __host__ __device__
-    void deallocate(void);
+    void deallocate();
 
     __host__ __device__
     void swap(contiguous_storage &x);

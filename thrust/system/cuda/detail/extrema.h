@@ -30,7 +30,9 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/reduce.h>
-//
+
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/extrema.h>
 #include <thrust/pair.h>
 #include <thrust/distance.h>
@@ -302,32 +304,29 @@ namespace __extrema {
 
   // this is an init-less reduce, needed for min/max-element functionality
   // this will avoid copying the first value from device->host
-  template <class Derived,
-            class InputIt,
-            class Size,
-            class BinaryOp,
-            class T>
-  T CUB_RUNTIME_FUNCTION
-  extrema(execution_policy<Derived> &policy,
-          InputIt                    first,
-          Size                       num_items,
-          BinaryOp                   binary_op,
-          T *)
-
+  template <typename Derived,
+            typename InputIt,
+            typename Size,
+            typename BinaryOp,
+            typename T>
+  THRUST_RUNTIME_FUNCTION
+  T extrema(execution_policy<Derived>& policy,
+            InputIt                    first,
+            Size                       num_items,
+            BinaryOp                   binary_op,
+            T*)
   {
-    char *       d_temp_storage     = NULL;
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
-    T *          d_result           = NULL;
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step<T>(d_temp_storage,
+    status = doit_step<T>(NULL,
                           temp_storage_bytes,
                           first,
                           num_items,
                           binary_op,
-                          d_result,
+                          reinterpret_cast<T*>(NULL),
                           stream,
                           debug_sync);
     cuda_cub::throw_on_error(status, "extrema failed on 1st step");
@@ -340,20 +339,21 @@ namespace __extrema {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "extrema failed on 1st alias storage");
 
-    void *ptr = cuda_cub::get_memory_buffer(policy, storage_size);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "extrema failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
     
     status = core::alias_storage(ptr,
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
+    cuda_cub::throw_on_error(status, "extrema failed on 2nd alias storage");
 
-    d_result           = (T *)allocations[0];
-    d_temp_storage     = (char *)allocations[1];
+    T* d_result = detail::aligned_reinterpret_cast<T*>(allocations[0]);
 
-    status = doit_step<T>(d_temp_storage,
+    status = doit_step<T>(allocations[1],
                           temp_storage_bytes,
                           first,
                           num_items,
@@ -367,10 +367,6 @@ namespace __extrema {
     cuda_cub::throw_on_error(status, "extrema failed to synchronize");
 
     T result = cuda_cub::get_value(policy, d_result);
-
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "extrema failed to return memory buffer");
 
     return result;
   }

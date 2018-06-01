@@ -27,13 +27,14 @@ j * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
 #pragma once
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/core/util.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/merge.h>
 #include <thrust/extrema.h>
@@ -756,7 +757,6 @@ namespace __merge {
       CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
     }
 
-
     merge_agent(merge_plan, num_keys1 + num_keys2, stream, vshmem_ptr, "merge agent", debug_sync)
         .launch(keys1,
                 keys2,
@@ -773,43 +773,47 @@ namespace __merge {
     return status;
   }
 
-  template <class MERGE_ITEMS,
-            class Policy,
-            class KeysIt1,
-            class KeysIt2,
-            class ItemsIt1,
-            class ItemsIt2,
-            class KeysOutputIt,
-            class ItemsOutputIt,
-            class CompareOp>
-  pair<KeysOutputIt, ItemsOutputIt> THRUST_RUNTIME_FUNCTION
-  merge(Policy&       policy,
-        KeysIt1       keys1_first,
-        KeysIt1       keys1_last,
-        KeysIt2       keys2_first,
-        KeysIt2       keys2_last,
-        ItemsIt1      items1_first,
-        ItemsIt2      items2_first,
-        KeysOutputIt  keys_result,
-        ItemsOutputIt items_result,
-        CompareOp     compare_op)
+  template <typename MERGE_ITEMS,
+            typename Derived,
+            typename KeysIt1,
+            typename KeysIt2,
+            typename ItemsIt1,
+            typename ItemsIt2,
+            typename KeysOutputIt,
+            typename ItemsOutputIt,
+            typename CompareOp>
+  THRUST_RUNTIME_FUNCTION
+  pair<KeysOutputIt, ItemsOutputIt>
+  merge(execution_policy<Derived>& policy,
+        KeysIt1                    keys1_first,
+        KeysIt1                    keys1_last,
+        KeysIt2                    keys2_first,
+        KeysIt2                    keys2_last,
+        ItemsIt1                   items1_first,
+        ItemsIt2                   items2_first,
+        KeysOutputIt               keys_result,
+        ItemsOutputIt              items_result,
+        CompareOp                  compare_op)
   {
     typedef typename iterator_traits<KeysIt1>::difference_type size_type;
 
-    size_type num_keys1 = static_cast<size_type>(thrust::distance(keys1_first, keys1_last));
-    size_type num_keys2 = static_cast<size_type>(thrust::distance(keys2_first, keys2_last));
-    size_type count = num_keys1 + num_keys2;
+    size_type num_keys1
+      = static_cast<size_type>(thrust::distance(keys1_first, keys1_last));
+    size_type num_keys2
+      = static_cast<size_type>(thrust::distance(keys2_first, keys2_last));
+
+    size_type const count = num_keys1 + num_keys2;
+
     if (count == 0)
       return thrust::make_pair(keys_result, items_result);
 
-    char*        d_temp_storage     = NULL;
-    size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    size_t       storage_size = 0;
+    cudaStream_t stream       = cuda_cub::stream(policy);
+    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
     
     cudaError_t status;
-    status = doit_step<MERGE_ITEMS>(d_temp_storage,
-                                    temp_storage_bytes,
+    status = doit_step<MERGE_ITEMS>(NULL,
+                                    storage_size,
                                     keys1_first,
                                     keys2_first,
                                     items1_first,
@@ -823,14 +827,12 @@ namespace __merge {
                                     debug_sync);
     cuda_cub::throw_on_error(status, "merge: failed on 1st step");
 
-    void *ptr = cuda_cub::get_memory_buffer(policy, temp_storage_bytes);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "merge: failed to get memory buffer");
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
-    d_temp_storage = static_cast<char*>(ptr);
-
-    status = doit_step<MERGE_ITEMS>(d_temp_storage,
-                                    temp_storage_bytes,
+    status = doit_step<MERGE_ITEMS>(ptr,
+                                    storage_size,
                                     keys1_first,
                                     keys2_first,
                                     items1_first,
@@ -846,10 +848,6 @@ namespace __merge {
     
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "merge: failed to synchronize");
-    
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "merge: failed to return memory buffer");
 
     return thrust::make_pair(keys_result + count, items_result + count);
   }

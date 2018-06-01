@@ -27,12 +27,13 @@
 #pragma once
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 
 #include <thrust/system/cuda/execution_policy.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
@@ -714,36 +715,35 @@ namespace __scan_by_key {
     return status;
   }    // func doit_pass
 
-  template <class Inclusive,
-            class Policy,
-            class KeysInputIt,
-            class ValuesInputIt,
-            class ValuesOutputIt,
-            class EqualityOp,
-            class ScanOp,
-            class AddInitToScan>
-  ValuesOutputIt THRUST_RUNTIME_FUNCTION
-  scan_by_key(Policy &       policy,
-              KeysInputIt    keys_first,
-              KeysInputIt    keys_last,
-              ValuesInputIt  values_first,
-              ValuesOutputIt values_result,
-              EqualityOp     equality_op,
-              ScanOp         scan_op,
-              AddInitToScan  add_init_to_scan)
+  template <typename Inclusive,
+            typename Derived,
+            typename KeysInputIt,
+            typename ValuesInputIt,
+            typename ValuesOutputIt,
+            typename EqualityOp,
+            typename ScanOp,
+            typename AddInitToScan>
+  THRUST_RUNTIME_FUNCTION
+  ValuesOutputIt scan_by_key(execution_policy<Derived>& policy,
+                             KeysInputIt                keys_first,
+                             KeysInputIt                keys_last,
+                             ValuesInputIt              values_first,
+                             ValuesOutputIt             values_result,
+                             EqualityOp                 equality_op,
+                             ScanOp                     scan_op,
+                             AddInitToScan              add_init_to_scan)
   {
-    int          num_items          = static_cast<int>(thrust::distance(keys_first, keys_last));
-    char *       d_temp_storage     = NULL;
-    size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    int          num_items    = static_cast<int>(thrust::distance(keys_first, keys_last));
+    size_t       storage_size = 0;
+    cudaStream_t stream       = cuda_cub::stream(policy);
+    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
       return values_result;
     
     cudaError_t status;
-    status = doit_step<Inclusive>(d_temp_storage,
-                                  temp_storage_bytes,
+    status = doit_step<Inclusive>(NULL,
+                                  storage_size,
                                   keys_first,
                                   values_first,
                                   num_items,
@@ -755,14 +755,12 @@ namespace __scan_by_key {
                                   debug_sync);
     cuda_cub::throw_on_error(status, "scan_by_key: failed on 1st step");
     
-    void *ptr = cuda_cub::get_memory_buffer(policy, temp_storage_bytes);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "scan_by_key: failed to get memory buffer");
-    
-    d_temp_storage = static_cast<char *>(ptr);
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
-    status = doit_step<Inclusive>(d_temp_storage,
-                                  temp_storage_bytes,
+    status = doit_step<Inclusive>(ptr,
+                                  storage_size,
                                   keys_first,
                                   values_first,
                                   num_items,
@@ -776,10 +774,6 @@ namespace __scan_by_key {
     
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "scan_by_key: failed to synchronize");
-    
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "scan_by_key: failed to return memory buffer");
 
     return values_result + num_items;
   }    // func doit

@@ -53,6 +53,7 @@ complex<T>::complex(const T& re)
 } 
 #endif
 
+#if 0
 template <typename T>
 template <typename R>
 __host__ __device__
@@ -68,6 +69,7 @@ complex<T>::complex(const R& re)
   real(T(re));
   imag(T());
 } 
+#endif
 #endif
 
 template <typename T>
@@ -85,6 +87,7 @@ complex<T>::complex(const T& re, const T& im)
 }
 #endif 
 
+#if 0
 template <typename T>
 template <typename R, typename I>
 __host__ __device__
@@ -101,6 +104,7 @@ complex<T>::complex(const R& re, const I& im)
   imag(T(im));
 }
 #endif 
+#endif
 
 template <typename T>
 __host__ __device__
@@ -179,6 +183,7 @@ complex<T>& complex<T>::operator=(const T& re)
   return *this;
 }
 
+#if 0
 template <typename T>
 template <typename R>
 __host__ __device__
@@ -188,6 +193,7 @@ complex<T>& complex<T>::operator=(const R& re)
   imag(T());
   return *this;
 }
+#endif
 
 template <typename T>
 complex<T>& complex<T>::operator=(const complex<T>& z)

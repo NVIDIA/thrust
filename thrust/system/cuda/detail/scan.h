@@ -34,11 +34,12 @@
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 
 #include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/cub/device/device_scan.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
@@ -688,33 +689,32 @@ namespace __scan {
     return status;
   }    // func doit_step
 
-  template <class Inclusive,
-            class Policy,
-            class InputIt,
-            class OutputIt,
-            class Size,
-            class ScanOp,
-            class AddInitToExclusiveScan>
-  OutputIt THRUST_RUNTIME_FUNCTION
-  scan(Policy &               policy,
-       InputIt                input_it,
-       OutputIt               output_it,
-       Size                   num_items,
-       ScanOp                 scan_op,
-       AddInitToExclusiveScan add_init_to_exclusive_scan)
+  template <typename Inclusive,
+            typename Derived,
+            typename InputIt,
+            typename OutputIt,
+            typename Size,
+            typename ScanOp,
+            typename AddInitToExclusiveScan>
+  THRUST_RUNTIME_FUNCTION
+  OutputIt scan(execution_policy<Derived>& policy,
+                InputIt                    input_it,
+                OutputIt                   output_it,
+                Size                       num_items,
+                ScanOp                     scan_op,
+                AddInitToExclusiveScan     add_init_to_exclusive_scan)
   {
 
     if (num_items == 0)
       return output_it;
 
-    char *       d_temp_storage     = NULL;
-    size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
-    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    size_t       storage_size = 0;
+    cudaStream_t stream       = cuda_cub::stream(policy);
+    bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step<Inclusive>(d_temp_storage,
-                                  temp_storage_bytes,
+    status = doit_step<Inclusive>(NULL,
+                                  storage_size,
                                   input_it,
                                   num_items,
                                   add_init_to_exclusive_scan,
@@ -724,14 +724,12 @@ namespace __scan {
                                   debug_sync);
     cuda_cub::throw_on_error(status, "scan failed on 1st step");
 
-    void *ptr = cuda_cub::get_memory_buffer(policy, temp_storage_bytes);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "scan failed to get memory buffer");
-    
-    d_temp_storage = static_cast<char *>(ptr);
+    // Allocate temporary storage.
+    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
-    status = doit_step<Inclusive>(d_temp_storage,
-                                  temp_storage_bytes,
+    status = doit_step<Inclusive>(ptr,
+                                  storage_size,
                                   input_it,
                                   num_items,
                                   add_init_to_exclusive_scan,
@@ -743,10 +741,6 @@ namespace __scan {
 
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "scan failed to synchronize");
-
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "scan failed to return memory buffer");
 
     return output_it + num_items;
   }    // func scan

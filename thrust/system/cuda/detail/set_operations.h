@@ -29,9 +29,10 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/detail/util.h>
 
+#include <thrust/detail/cstdint.h>
+#include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
-#include <thrust/system/cuda/detail/memory_buffer.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/extrema.h>
@@ -39,6 +40,7 @@
 #include <thrust/set_operations.h>
 #include <thrust/detail/mpl/math.h>
 #include <thrust/distance.h>
+#include <thrust/detail/alignment.h>
 
 BEGIN_NS_THRUST
 
@@ -1231,82 +1233,44 @@ namespace __set_operations {
     return status;
  }
 
- template <class HAS_VALUES,
-           class Policy,
-           class KeysIt1,
-           class KeysIt2,
-           class ValuesIt1,
-           class ValuesIt2,
-           class KeysOutputIt,
-           class ValuesOutputIt,
-           class CompareOp,
-           class SetOp>
- pair<KeysOutputIt, ValuesOutputIt> THRUST_RUNTIME_FUNCTION
- set_operations(Policy &       policy,
-                KeysIt1        keys1_first,
-                KeysIt1        keys1_last,
-                KeysIt2        keys2_first,
-                KeysIt2        keys2_last,
-                ValuesIt1      values1_first,
-                ValuesIt2      values2_first,
-                KeysOutputIt   keys_output,
-                ValuesOutputIt values_output,
-                CompareOp      compare_op,
-                SetOp          set_op)
- {
-   typedef typename iterator_traits<KeysIt1>::difference_type size_type;
-   size_type num_keys1 = static_cast<size_type>(thrust::distance(keys1_first, keys1_last));
-   size_type num_keys2 = static_cast<size_type>(thrust::distance(keys2_first, keys2_last));
+ template <typename HAS_VALUES,
+           typename Derived,
+           typename KeysIt1,
+           typename KeysIt2,
+           typename ValuesIt1,
+           typename ValuesIt2,
+           typename KeysOutputIt,
+           typename ValuesOutputIt,
+           typename CompareOp,
+           typename SetOp>
+  THRUST_RUNTIME_FUNCTION
+  pair<KeysOutputIt, ValuesOutputIt>
+  set_operations(execution_policy<Derived>& policy,
+                 KeysIt1                    keys1_first,
+                 KeysIt1                    keys1_last,
+                 KeysIt2                    keys2_first,
+                 KeysIt2                    keys2_last,
+                 ValuesIt1                  values1_first,
+                 ValuesIt2                  values2_first,
+                 KeysOutputIt               keys_output,
+                 ValuesOutputIt             values_output,
+                 CompareOp                  compare_op,
+                 SetOp                      set_op)
+  {
+    typedef typename iterator_traits<KeysIt1>::difference_type size_type;
 
-   if (num_keys1 + num_keys2 == 0)
-     return thrust::make_pair(keys_output, values_output);
-    
-   char*        d_temp_storage     = NULL;
-   size_t       temp_storage_bytes = 0;
-   cudaStream_t stream             = cuda_cub::stream(policy);
-   size_type *  d_output_count     = NULL;
-   bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
+    size_type num_keys1 = static_cast<size_type>(thrust::distance(keys1_first, keys1_last));
+    size_type num_keys2 = static_cast<size_type>(thrust::distance(keys2_first, keys2_last));
 
-   cudaError_t status;
-   status = doit_step<HAS_VALUES>(d_temp_storage,
-                                  temp_storage_bytes,
-                                  keys1_first,
-                                  keys2_first,
-                                  values1_first,
-                                  values2_first,
-                                  num_keys1,
-                                  num_keys2,
-                                  keys_output,
-                                  values_output,
-                                  d_output_count,
-                                  compare_op,
-                                  set_op,
-                                  stream,
-                                  debug_sync);
-    cuda_cub::throw_on_error(status, "set_operations failed on 1st step");
+    if (num_keys1 + num_keys2 == 0)
+      return thrust::make_pair(keys_output, values_output);
+     
+    size_t       temp_storage_bytes = 0;
+    cudaStream_t stream             = cuda_cub::stream(policy);
+    bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
-    size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
-    void * allocations[2]      = {NULL, NULL};
-
-    size_t storage_size = 0;
-
-    status = core::alias_storage(NULL,
-                                 storage_size,
-                                 allocations,
-                                 allocation_sizes);
-    void *ptr = cuda_cub::get_memory_buffer(policy, storage_size);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "set_operations failed to get memory buffer");
-
-    status = core::alias_storage(ptr,
-                                 storage_size,
-                                 allocations,
-                                 allocation_sizes);
-
-    d_output_count = (size_type *)allocations[0];
-    d_temp_storage = (char *)allocations[1];
-
-    status = doit_step<HAS_VALUES>(d_temp_storage,
+    cudaError_t status;
+    status = doit_step<HAS_VALUES>(NULL,
                                    temp_storage_bytes,
                                    keys1_first,
                                    keys2_first,
@@ -1316,24 +1280,61 @@ namespace __set_operations {
                                    num_keys2,
                                    keys_output,
                                    values_output,
-                                   d_output_count,
+                                   reinterpret_cast<size_type*>(NULL),
                                    compare_op,
                                    set_op,
                                    stream,
                                    debug_sync);
-    cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
-    
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
+     cuda_cub::throw_on_error(status, "set_operations failed on 1st step");
 
-    size_type output_count = cuda_cub::get_value(policy, d_output_count);
+     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
+     void * allocations[2]      = {NULL, NULL};
 
-    cuda_cub::return_memory_buffer(policy, ptr);
-    cuda_cub::throw_on_error(cudaGetLastError(),
-                             "set_operations failed to return memory buffer");
-    
-    return thrust::make_pair(keys_output + output_count, values_output + output_count);
- }
+     size_t storage_size = 0;
+
+     status = core::alias_storage(NULL,
+                                  storage_size,
+                                  allocations,
+                                  allocation_sizes);
+     cuda_cub::throw_on_error(status, "set_operations failed on 1st alias_storage");
+
+     // Allocate temporary storage.
+     detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+     void *ptr = static_cast<void*>(tmp.data().get());
+
+     status = core::alias_storage(ptr,
+                                  storage_size,
+                                  allocations,
+                                  allocation_sizes);
+     cuda_cub::throw_on_error(status, "set_operations failed on 2nd alias_storage");
+
+     size_type* d_output_count
+       = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+
+     status = doit_step<HAS_VALUES>(allocations[1],
+                                    temp_storage_bytes,
+                                    keys1_first,
+                                    keys2_first,
+                                    values1_first,
+                                    values2_first,
+                                    num_keys1,
+                                    num_keys2,
+                                    keys_output,
+                                    values_output,
+                                    d_output_count,
+                                    compare_op,
+                                    set_op,
+                                    stream,
+                                    debug_sync);
+     cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
+     
+     status = cuda_cub::synchronize(policy);
+     cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
+
+     size_type output_count = cuda_cub::get_value(policy, d_output_count);
+
+     return thrust::make_pair(keys_output + output_count, values_output + output_count);
+  }
 }    // namespace __set_operations
 
 //-------------------------
