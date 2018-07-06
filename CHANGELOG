@@ -1,11 +1,9 @@
 #######################################
-#     Thrust v10.0.0 (CUDA 10.0)      #
+#      Thrust v1.9.3 (CUDA 10.0)      #
 #######################################
 
 Summary
-    Thrust v10.0.0 unifies and integrates CUDA Thrust and GitHub Thrust.
-    Additionally, a new versioning scheme has been adopted; the first two digits
-    of Thrust's version will match the version of CUDA that it was released with.
+    Thrust v1.9.3 unifies and integrates CUDA Thrust and GitHub Thrust.
 
 Bug Fixes
     #725, #850, #855, #859, #860 Unifiy `iter_swap` interface and fix `device_reference` swapping.
