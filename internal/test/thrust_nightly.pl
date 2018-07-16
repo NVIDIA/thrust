@@ -181,12 +181,12 @@ sub clear_libpath {
             }
         }
     } elsif ($os eq "win32") {
-        if ($cygwin) {
-            $ENV{'PATH'} = "/usr/local/bin:/usr/bin:/bin:/cygdrive/c/WINDOWS/system32";
-        } else {
-            $ENV{'PATH'} = "c:/Windows/system32";
-        }
-        printf("#### CONFIG PATH `%s`\n", $ENV{'PATH'});
+#        if ($cygwin) {
+#            $ENV{'PATH'} = "/usr/local/bin:/usr/bin:/bin:/cygdrive/c/WINDOWS/system32";
+#        } else {
+#            $ENV{'PATH'} = "c:/Windows/system32";
+#        }
+#        printf("#### CONFIG PATH `%s`\n", $ENV{'PATH'});
     }
 }
 
