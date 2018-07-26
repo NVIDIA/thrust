@@ -164,32 +164,6 @@ elsif ($cudamemcheck_enable){
     $tool_checker = $bin_path . "/cuda-memcheck";
 }
 
-sub clear_libpath {
-    if ($os eq "Darwin") {
-        $ENV{'DYLD_LIBRARY_PATH'} = "";
-        printf("#### CONFIG DYLD_LIBRARY_PATH `%s`\n", $ENV{'DYLD_LIBRARY_PATH'});
-    } elsif ($os eq "Linux") {
-        # When running under `nvidia-docker`, clearing `LD_LIBRARY_PATH` breaks
-        # the build. Currently, there's no good way to determine if we're
-        # running under `nvidia-docker`. The best idea I could come up with was
-        # to match against the `LD_LIBRARY_PATH` that `nvidia-docker` sets.
-        # https://nvbugswb.nvidia.com/NvBugs5/SWBug.aspx?bugid=2003238
-        if (defined($ENV{'LD_LIBRARY_PATH'})) {
-            if ($ENV{'LD_LIBRARY_PATH'} ne "/usr/local/nvidia/lib:/usr/local/nvidia/lib64") {
-                $ENV{'LD_LIBRARY_PATH'} = "";
-                printf("#### CONFIG LD_LIBRARY_PATH `%s`\n", $ENV{'LD_LIBRARY_PATH'});
-            }
-        }
-    } elsif ($os eq "win32") {
-#        if ($cygwin) {
-#            $ENV{'PATH'} = "/usr/local/bin:/usr/bin:/bin:/cygdrive/c/WINDOWS/system32";
-#        } else {
-#            $ENV{'PATH'} = "c:/Windows/system32";
-#        }
-#        printf("#### CONFIG PATH `%s`\n", $ENV{'PATH'});
-    }
-}
-
 sub process_return_code {
     my ($name, $ret, $msg) = @_;
 
@@ -617,12 +591,12 @@ sub dvs_summary {
 ###############################################################################
 
 printf("#### CONFIG os `%s`\n", $os);
-  
 printf("#### CONFIG have_time_hi_res `$have_time_hi_res`\n");
+printf("#### ENV PATH `%s`\n", $ENV{'PATH'});
+printf("#### ENV LD_LIBRARY_PATH `%s`\n", $ENV{'LD_LIBRARY_PATH'});
 
 printf("\n");
 
-clear_libpath();
 filecheck_sanity();
 
 printf("\n");
