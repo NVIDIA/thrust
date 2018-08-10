@@ -190,7 +190,7 @@ find_if_not(execution_policy<Derived>& policy,
             InputIt                    last,
             Predicate                  predicate)
 {
-  return cuda_cub::find_if(policy, first, last, detail::not1(predicate));
+  return cuda_cub::find_if(policy, first, last, thrust::detail::not1(predicate));
 }
 
 
@@ -206,7 +206,7 @@ find(execution_policy<Derived> &policy,
   return cuda_cub::find_if(policy,
                         first,
                         last,
-                        detail::equal_to_value<T>(value));
+                        thrust::detail::equal_to_value<T>(value));
 }
 
 

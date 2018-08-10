@@ -342,7 +342,8 @@ namespace __extrema {
     cuda_cub::throw_on_error(status, "extrema failed on 1st alias storage");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
     
     status = core::alias_storage(ptr,
@@ -351,7 +352,7 @@ namespace __extrema {
                                  allocation_sizes);
     cuda_cub::throw_on_error(status, "extrema failed on 2nd alias storage");
 
-    T* d_result = detail::aligned_reinterpret_cast<T*>(allocations[0]);
+    T* d_result = thrust::detail::aligned_reinterpret_cast<T*>(allocations[0]);
 
     status = doit_step<T>(allocations[1],
                           temp_storage_bytes,

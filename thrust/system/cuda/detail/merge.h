@@ -288,7 +288,7 @@ namespace __merge {
 
  
   template<size_t VALUE>
-  struct integer_constant : detail::integral_constant<size_t, VALUE> {};
+  struct integer_constant : thrust::detail::integral_constant<size_t, VALUE> {};
 
   template <class KeysIt1,
             class KeysIt2,
@@ -309,7 +309,7 @@ namespace __merge {
     typedef key1_type  key_type;
     typedef item1_type item_type;
 
-    typedef typename detail::conditional<
+    typedef typename thrust::detail::conditional<
         MERGE_ITEMS::value,
         integer_constant<sizeof(key_type) + sizeof(item_type)>,
         integer_constant<sizeof(key_type)> >::type tuning_type;
@@ -828,7 +828,8 @@ namespace __merge {
     cuda_cub::throw_on_error(status, "merge: failed on 1st step");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = doit_step<MERGE_ITEMS>(ptr,
@@ -882,16 +883,16 @@ merge(execution_policy<Derived>& policy,
     //
     keys_type* null_ = NULL;
     //
-    ret = __merge::merge<detail::false_type>(policy,
-                                             keys1_first,
-                                             keys1_last,
-                                             keys2_first,
-                                             keys2_last,
-                                             null_,
-                                             null_,
-                                             result,
-                                             null_,
-                                             compare_op)
+    ret = __merge::merge<thrust::detail::false_type>(policy,
+                                                     keys1_first,
+                                                     keys1_last,
+                                                     keys2_first,
+                                                     keys2_last,
+                                                     null_,
+                                                     null_,
+                                                     result,
+                                                     null_,
+                                                     compare_op)
               .first;
   }
   else
@@ -952,16 +953,16 @@ merge_by_key(execution_policy<Derived> &policy,
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
   if (__THRUST_HAS_CUDART__)
   {
-    return __merge::merge<detail::true_type>(policy,
-                                             keys1_first,
-                                             keys1_last,
-                                             keys2_first,
-                                             keys2_last,
-                                             items1_first,
-                                             items2_first,
-                                             keys_result,
-                                             items_result,
-                                             compare_op);
+    return __merge::merge<thrust::detail::true_type>(policy,
+                                                     keys1_first,
+                                                     keys1_last,
+                                                     keys2_first,
+                                                     keys2_last,
+                                                     items1_first,
+                                                     items2_first,
+                                                     keys_result,
+                                                     items_result,
+                                                     compare_op);
   }
   else
   {

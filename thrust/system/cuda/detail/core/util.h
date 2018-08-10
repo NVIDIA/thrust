@@ -137,7 +137,7 @@ namespace core {
   //   otherwise move on to the next sm in the sm_list
   template <template <class> class P, class SM, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
   struct specialize_plan_impl_match<P, typelist<SM, _1, _2, _3, _4, _5, _6, _7, _8, _9> >
-      : detail::conditional<
+      : thrust::detail::conditional<
             has_sm_tuning<P, SM>::value,
             P<SM>,
             specialize_plan_impl_match<P, typelist<_1, _2, _3, _4, _5, _6, _7, _8, _9> > >::type {};
@@ -148,7 +148,7 @@ namespace core {
       // if Plan has tuning type, this means it has SM-specific tuning
       // so loop through sm_list to find match, 
       // otherwise just specialize on provided SM
-      typedef detail::conditional<has_tuning_t<Plan<lowest_supported_sm_arch> >::value,
+      typedef thrust::detail::conditional<has_tuning_t<Plan<lowest_supported_sm_arch> >::value,
                                   specialize_plan_impl_loop<Plan, SM, sm_list>,
                                   Plan<SM> >
           type;
@@ -173,7 +173,7 @@ namespace core {
     struct temp_storage_size_impl;
 
     template <class Agent>
-    struct temp_storage_size_impl<Agent, detail::false_type>
+    struct temp_storage_size_impl<Agent, thrust::detail::false_type>
     {
       enum
       {
@@ -182,7 +182,7 @@ namespace core {
     };
 
     template <class Agent>
-    struct temp_storage_size_impl<Agent, detail::true_type>
+    struct temp_storage_size_impl<Agent, thrust::detail::true_type>
     {
       enum
       {
@@ -223,9 +223,9 @@ namespace core {
       {
         value = V
       };
-      typedef typename detail::conditional<value,
-                                           detail::true_type,
-                                           detail::false_type>::type type;
+      typedef typename thrust::detail::conditional<value,
+                                           thrust::detail::true_type,
+                                           thrust::detail::false_type>::type type;
     };
 
     template <class Agent, size_t MAX_SHMEM>
@@ -275,7 +275,7 @@ namespace core {
       template <class PtxPlan>
       THRUST_RUNTIME_FUNCTION
       AgentPlan(PtxPlan,
-                typename detail::disable_if_convertible<
+                typename thrust::detail::disable_if_convertible<
                     PtxPlan,
                     AgentPlan>::type* = NULL)
           : block_threads(PtxPlan::BLOCK_THREADS),
@@ -297,10 +297,10 @@ namespace core {
     };
 
     template <class Agent>
-    struct get_plan : detail::conditional<
+    struct get_plan : thrust::detail::conditional<
                           has_Plan<Agent>::value,
                           return_Plan<Agent>,
-                          detail::identity_<AgentPlan> >::type
+                          thrust::detail::identity_<AgentPlan> >::type
     {
     };
 
@@ -602,8 +602,8 @@ namespace core {
     typedef typename iterator_traits<It>::value_type      value_type;
     typedef typename iterator_traits<It>::difference_type size_type;
 
-    typedef typename detail::conditional<
-        detail::is_trivial_iterator<It>::value,
+    typedef typename thrust::detail::conditional<
+        thrust::detail::is_trivial_iterator<It>::value,
         cub::CacheModifiedInputIterator<PtxPlan::LOAD_MODIFIER,
                                         value_type,
                                         size_type>,
@@ -612,14 +612,14 @@ namespace core {
 
   template <class PtxPlan, class It>
   typename LoadIterator<PtxPlan, It>::type __device__ __forceinline__
-  make_load_iterator_impl(It it, detail::true_type /* is_trivial */)
+  make_load_iterator_impl(It it, thrust::detail::true_type /* is_trivial */)
   {
     return raw_pointer_cast(&*it);
   }
   
   template <class PtxPlan, class It>
   typename LoadIterator<PtxPlan, It>::type __device__ __forceinline__
-  make_load_iterator_impl(It it, detail::false_type /* is_trivial */)
+  make_load_iterator_impl(It it, thrust::detail::false_type /* is_trivial */)
   {
     return it;
   }
@@ -629,7 +629,7 @@ namespace core {
   make_load_iterator(PtxPlan const&, It it)
   {
     return make_load_iterator_impl<PtxPlan>(
-        it, typename detail::is_trivial_iterator<It>::type());
+        it, typename thrust::detail::is_trivial_iterator<It>::type());
   }
 
   template<class>

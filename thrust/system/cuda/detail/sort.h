@@ -1335,7 +1335,8 @@ namespace __merge_sort {
     cuda_cub::throw_on_error(status, "merge_sort: failed on 1st step");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = doit_step<SORT_ITEMS, STABLE>(ptr,
@@ -1360,7 +1361,7 @@ namespace __radix_sort {
 
   // sort keys in ascending order
   template <class K>
-  struct dispatch<detail::false_type, thrust::less<K> >
+  struct dispatch<thrust::detail::false_type, thrust::less<K> >
   {
     template <class Key, class Item, class Size>
     THRUST_RUNTIME_FUNCTION static cudaError_t
@@ -1385,7 +1386,7 @@ namespace __radix_sort {
   
   // sort keys in descending order
   template <class K>
-  struct dispatch<detail::false_type, thrust::greater<K> >
+  struct dispatch<thrust::detail::false_type, thrust::greater<K> >
   {
     template <class Key, class Item, class Size>
     THRUST_RUNTIME_FUNCTION static cudaError_t
@@ -1410,7 +1411,7 @@ namespace __radix_sort {
   
   // sort pairs in ascending order
   template <class K>
-  struct dispatch<detail::true_type, thrust::less<K> >
+  struct dispatch<thrust::detail::true_type, thrust::less<K> >
   {
     template <class Key, class Item, class Size>
     THRUST_RUNTIME_FUNCTION static cudaError_t
@@ -1436,7 +1437,7 @@ namespace __radix_sort {
   
   // sort pairs in descending order
   template <class K>
-  struct dispatch<detail::true_type, thrust::greater<K> >
+  struct dispatch<thrust::detail::true_type, thrust::greater<K> >
   {
     template <class Key, class Item, class Size>
     THRUST_RUNTIME_FUNCTION static cudaError_t
@@ -1502,12 +1503,13 @@ namespace __radix_sort {
                         + temp_storage_bytes;
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
 
-    keys_buffer.d_buffers[1]  = detail::aligned_reinterpret_cast<Key*>(
+    keys_buffer.d_buffers[1]  = thrust::detail::aligned_reinterpret_cast<Key*>(
       tmp.data().get()  
     );
-    items_buffer.d_buffers[1] = detail::aligned_reinterpret_cast<Item*>(
+    items_buffer.d_buffers[1] = thrust::detail::aligned_reinterpret_cast<Item*>(
       tmp.data().get() + keys_temp_storage
     );
     void *ptr = static_cast<void*>(
@@ -1653,7 +1655,7 @@ sort(execution_policy<Derived>& policy,
   if (__THRUST_HAS_CUDART__)
   {
     typedef typename thrust::iterator_value<ItemsIt>::type item_type;
-    __smart_sort::smart_sort<detail::false_type, detail::false_type>(
+    __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::false_type>(
         policy, first, last, (item_type*)NULL, compare_op);
   }
   else
@@ -1675,7 +1677,7 @@ stable_sort(execution_policy<Derived>& policy,
   if (__THRUST_HAS_CUDART__)
   {
     typedef typename thrust::iterator_value<ItemsIt>::type item_type;
-    __smart_sort::smart_sort<detail::false_type, detail::true_type>(
+    __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::true_type>(
         policy, first, last, (item_type*)NULL, compare_op);
   }
   else
@@ -1697,7 +1699,7 @@ sort_by_key(execution_policy<Derived>& policy,
 {
   if (__THRUST_HAS_CUDART__)
   {
-    __smart_sort::smart_sort<detail::true_type, detail::false_type>(
+    __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::false_type>(
         policy, keys_first, keys_last, values, compare_op);
   }
   else
@@ -1723,7 +1725,7 @@ stable_sort_by_key(execution_policy<Derived> &policy,
 {
   if (__THRUST_HAS_CUDART__)
   {
-    __smart_sort::smart_sort<detail::true_type, detail::true_type>(
+    __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::true_type>(
         policy, keys_first, keys_last, values, compare_op);
   }
   else

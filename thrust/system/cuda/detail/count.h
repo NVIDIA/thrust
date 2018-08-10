@@ -71,7 +71,7 @@ count(execution_policy<Derived> &policy,
   return cuda_cub::count_if(policy,
                             first,
                             last,
-                            detail::equal_to_value<Value>(value));
+                            thrust::detail::equal_to_value<Value>(value));
 }
 
 } // namespace cuda_cub

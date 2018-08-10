@@ -669,7 +669,8 @@ namespace __unique {
     cuda_cub::throw_on_error(status, "unique: failed on 1st step");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
@@ -679,7 +680,7 @@ namespace __unique {
     cuda_cub::throw_on_error(status, "unique: failed on 2nd step");
 
     size_type* d_num_selected_out
-      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,

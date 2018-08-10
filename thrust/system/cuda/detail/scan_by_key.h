@@ -279,7 +279,7 @@ namespace __scan_by_key {
       THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t &tile_aggregate,
-                detail::false_type /* is_inclusive */)
+                thrust::detail::false_type /* is_inclusive */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
@@ -290,7 +290,7 @@ namespace __scan_by_key {
       THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t &tile_aggregate,
-                detail::true_type /* is_inclusive */)
+                thrust::detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan)
             .InclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
@@ -306,7 +306,7 @@ namespace __scan_by_key {
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t & tile_aggregate,
                 TilePrefixCallback &prefix_op,
-                detail::false_type /* is_incclusive */)
+                thrust::detail::false_type /* is_incclusive */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, prefix_op);
@@ -319,7 +319,7 @@ namespace __scan_by_key {
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t & tile_aggregate,
                 TilePrefixCallback &prefix_op,
-                detail::true_type /* is_inclusive */)
+                thrust::detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan)
             .InclusiveScan(scan_items, scan_items, scan_op, prefix_op);
@@ -756,7 +756,8 @@ namespace __scan_by_key {
     cuda_cub::throw_on_error(status, "scan_by_key: failed on 1st step");
     
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = doit_step<Inclusive>(ptr,
@@ -807,7 +808,7 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
   if (__THRUST_HAS_CUDART__)
   {
     typedef typename iterator_traits<ValInputIt>::value_type T;
-    ret = __scan_by_key::scan_by_key<detail::true_type>(policy,
+    ret = __scan_by_key::scan_by_key<thrust::detail::true_type>(policy,
                                                         key_first,
                                                         key_last,
                                                         value_first,
@@ -900,7 +901,7 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
   ValOutputIt ret = value_result;
   if (__THRUST_HAS_CUDART__)
   {
-    ret = __scan_by_key::scan_by_key<detail::false_type>(
+    ret = __scan_by_key::scan_by_key<thrust::detail::false_type>(
         policy,
         key_first,
         key_last,

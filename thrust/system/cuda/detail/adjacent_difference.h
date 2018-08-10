@@ -461,7 +461,8 @@ namespace __adjacent_difference {
     cuda_cub::throw_on_error(status, "adjacent_difference failed on 1st step");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = doit_step(ptr,

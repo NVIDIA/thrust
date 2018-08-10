@@ -1285,55 +1285,56 @@ namespace __set_operations {
                                    set_op,
                                    stream,
                                    debug_sync);
-     cuda_cub::throw_on_error(status, "set_operations failed on 1st step");
+    cuda_cub::throw_on_error(status, "set_operations failed on 1st step");
 
-     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
-     void * allocations[2]      = {NULL, NULL};
+    size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
+    void * allocations[2]      = {NULL, NULL};
 
-     size_t storage_size = 0;
+    size_t storage_size = 0;
 
-     status = core::alias_storage(NULL,
-                                  storage_size,
-                                  allocations,
-                                  allocation_sizes);
-     cuda_cub::throw_on_error(status, "set_operations failed on 1st alias_storage");
+    status = core::alias_storage(NULL,
+                                 storage_size,
+                                 allocations,
+                                 allocation_sizes);
+    cuda_cub::throw_on_error(status, "set_operations failed on 1st alias_storage");
 
-     // Allocate temporary storage.
-     detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
-     void *ptr = static_cast<void*>(tmp.data().get());
+    // Allocate temporary storage.
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
+    void *ptr = static_cast<void*>(tmp.data().get());
 
-     status = core::alias_storage(ptr,
-                                  storage_size,
-                                  allocations,
-                                  allocation_sizes);
-     cuda_cub::throw_on_error(status, "set_operations failed on 2nd alias_storage");
+    status = core::alias_storage(ptr,
+                                 storage_size,
+                                 allocations,
+                                 allocation_sizes);
+    cuda_cub::throw_on_error(status, "set_operations failed on 2nd alias_storage");
 
-     size_type* d_output_count
-       = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+    size_type* d_output_count
+      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
-     status = doit_step<HAS_VALUES>(allocations[1],
-                                    temp_storage_bytes,
-                                    keys1_first,
-                                    keys2_first,
-                                    values1_first,
-                                    values2_first,
-                                    num_keys1,
-                                    num_keys2,
-                                    keys_output,
-                                    values_output,
-                                    d_output_count,
-                                    compare_op,
-                                    set_op,
-                                    stream,
-                                    debug_sync);
-     cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
-     
-     status = cuda_cub::synchronize(policy);
-     cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
+    status = doit_step<HAS_VALUES>(allocations[1],
+                                   temp_storage_bytes,
+                                   keys1_first,
+                                   keys2_first,
+                                   values1_first,
+                                   values2_first,
+                                   num_keys1,
+                                   num_keys2,
+                                   keys_output,
+                                   values_output,
+                                   d_output_count,
+                                   compare_op,
+                                   set_op,
+                                   stream,
+                                   debug_sync);
+    cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
+    
+    status = cuda_cub::synchronize(policy);
+    cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
 
-     size_type output_count = cuda_cub::get_value(policy, d_output_count);
+    size_type output_count = cuda_cub::get_value(policy, d_output_count);
 
-     return thrust::make_pair(keys_output + output_count, values_output + output_count);
+    return thrust::make_pair(keys_output + output_count, values_output + output_count);
   }
 }    // namespace __set_operations
 
@@ -1361,7 +1362,7 @@ set_difference(execution_policy<Derived> &policy,
   {
     typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
-    ret = __set_operations::set_operations<detail::false_type>(
+    ret = __set_operations::set_operations<thrust::detail::false_type>(
               policy,
               items1_first,
               items1_last,
@@ -1435,7 +1436,7 @@ set_intersection(execution_policy<Derived> &policy,
   {
     typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
-    ret = __set_operations::set_operations<detail::false_type>(
+    ret = __set_operations::set_operations<thrust::detail::false_type>(
               policy,
               items1_first,
               items1_last,
@@ -1509,7 +1510,7 @@ set_symmetric_difference(execution_policy<Derived> &policy,
   {
     typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
-    ret = __set_operations::set_operations<detail::false_type>(
+    ret = __set_operations::set_operations<thrust::detail::false_type>(
               policy,
               items1_first,
               items1_last,
@@ -1583,7 +1584,7 @@ set_union(execution_policy<Derived> &policy,
   {
     typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
-    ret = __set_operations::set_operations<detail::false_type>(
+    ret = __set_operations::set_operations<thrust::detail::false_type>(
               policy,
               items1_first,
               items1_last,
@@ -1668,7 +1669,7 @@ set_difference_by_key(execution_policy<Derived> &policy,
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
   if (__THRUST_HAS_CUDART__)
   {
-    ret = __set_operations::set_operations<detail::true_type>(
+    ret = __set_operations::set_operations<thrust::detail::true_type>(
         policy,
         keys1_first,
         keys1_last,
@@ -1755,7 +1756,7 @@ set_intersection_by_key(execution_policy<Derived> &policy,
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
   if (__THRUST_HAS_CUDART__)
   {
-    ret = __set_operations::set_operations<detail::true_type>(
+    ret = __set_operations::set_operations<thrust::detail::true_type>(
         policy,
         keys1_first,
         keys1_last,
@@ -1840,7 +1841,7 @@ set_symmetric_difference_by_key(execution_policy<Derived> &policy,
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
   if (__THRUST_HAS_CUDART__)
   {
-    ret = __set_operations::set_operations<detail::true_type>(
+    ret = __set_operations::set_operations<thrust::detail::true_type>(
         policy,
         keys1_first,
         keys1_last,
@@ -1928,7 +1929,7 @@ set_union_by_key(execution_policy<Derived> &policy,
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
   if (__THRUST_HAS_CUDART__)
   {
-    ret = __set_operations::set_operations<detail::true_type>(
+    ret = __set_operations::set_operations<thrust::detail::true_type>(
         policy,
         keys1_first,
         keys1_last,

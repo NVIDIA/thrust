@@ -310,7 +310,7 @@ namespace __scan {
       void THRUST_DEVICE_FUNCTION scan_tile(T (&items)[ITEMS_PER_THREAD],
                                             _ScanOp scan_op,
                                             T &     block_aggregate,
-                                            detail::false_type /* is_inclusive */)
+                                            thrust::detail::false_type /* is_inclusive */)
       {
         BlockScan(storage.scan).ExclusiveScan(items, items, scan_op, block_aggregate);
       }
@@ -320,7 +320,7 @@ namespace __scan {
       void THRUST_DEVICE_FUNCTION scan_tile(T (&items)[ITEMS_PER_THREAD],
                                             plus<T> /*scan_op*/,
                                             T &     block_aggregate,
-                                            detail::false_type /* is_inclusive */)
+                                            thrust::detail::false_type /* is_inclusive */)
       {
         BlockScan(storage.scan).ExclusiveSum(items, items, block_aggregate);
       }
@@ -331,7 +331,7 @@ namespace __scan {
       void THRUST_DEVICE_FUNCTION scan_tile(T (&items)[ITEMS_PER_THREAD],
                                             _ScanOp scan_op,
                                             T &     block_aggregate,
-                                            detail::true_type /* is_inclusive */)
+                                            thrust::detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan).InclusiveScan(items, items, scan_op, block_aggregate);
       }
@@ -342,7 +342,7 @@ namespace __scan {
       void THRUST_DEVICE_FUNCTION scan_tile(T (&items)[ITEMS_PER_THREAD],
                                             plus<T> /*scan_op*/,
                                             T &     block_aggregate,
-                                            detail::true_type /* is_inclusive */)
+                                            thrust::detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan).InclusiveSum(items, items, block_aggregate);
       }
@@ -358,7 +358,7 @@ namespace __scan {
                                             _ScanOp         scan_op,
                                             T &             block_aggregate,
                                             PrefixCallback &prefix_op,
-                                            detail::false_type /* is_inclusive */)
+                                            thrust::detail::false_type /* is_inclusive */)
       {
         BlockScan(storage.scan).ExclusiveScan(items, items, scan_op, prefix_op);
         block_aggregate = prefix_op.GetBlockAggregate();
@@ -371,7 +371,7 @@ namespace __scan {
                                             plus<T>         /*scan_op*/,
                                             T &             block_aggregate,
                                             PrefixCallback &prefix_op,
-                                            detail::false_type /* is_inclusive */)
+                                            thrust::detail::false_type /* is_inclusive */)
       {
         BlockScan(storage.scan).ExclusiveSum(items, items, prefix_op);
         block_aggregate = prefix_op.GetBlockAggregate();
@@ -384,7 +384,7 @@ namespace __scan {
                                             _ScanOp         scan_op,
                                             T &             block_aggregate,
                                             PrefixCallback &prefix_op,
-                                            detail::true_type /* is_inclusive */)
+                                            thrust::detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan).InclusiveScan(items, items, scan_op, prefix_op);
         block_aggregate = prefix_op.GetBlockAggregate();
@@ -397,7 +397,7 @@ namespace __scan {
                                             plus<T>         /*scan_op*/,
                                             T &             block_aggregate,
                                             PrefixCallback &prefix_op,
-                                            detail::true_type /* is_inclusive */)
+                                            thrust::detail::true_type /* is_inclusive */)
       {
         BlockScan(storage.scan).InclusiveSum(items, items, prefix_op);
         block_aggregate = prefix_op.GetBlockAggregate();
@@ -704,7 +704,6 @@ namespace __scan {
                 ScanOp                     scan_op,
                 AddInitToExclusiveScan     add_init_to_exclusive_scan)
   {
-
     if (num_items == 0)
       return output_it;
 
@@ -725,7 +724,8 @@ namespace __scan {
     cuda_cub::throw_on_error(status, "scan failed on 1st step");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = doit_step<Inclusive>(ptr,
@@ -768,12 +768,12 @@ inclusive_scan_n(execution_policy<Derived> &policy,
   if (__THRUST_HAS_CUDART__)
   {
     typedef typename iterator_traits<InputIt>::value_type T;
-    ret = __scan::scan<detail::true_type>(policy,
-                                          first,
-                                          result,
-                                          num_items,
-                                          scan_op,
-                                          __scan::DoNothing<T>());
+    ret = __scan::scan<thrust::detail::true_type>(policy,
+                                                  first,
+                                                  result,
+                                                  num_items,
+                                                  scan_op,
+                                                  __scan::DoNothing<T>());
   }
   else
   {
@@ -840,7 +840,7 @@ exclusive_scan_n(execution_policy<Derived> &policy,
   OutputIt ret = result;
   if (__THRUST_HAS_CUDART__)
   {
-    ret = __scan::scan<detail::false_type>(
+    ret = __scan::scan<thrust::detail::false_type>(
         policy,
         first,
         result,

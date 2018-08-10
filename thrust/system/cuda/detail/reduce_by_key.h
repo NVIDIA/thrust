@@ -69,8 +69,8 @@ namespace cuda_cub {
 
 namespace __reduce_by_key {
   
-  template<bool> struct is_true : detail::false_type {};
-  template<> struct is_true<true> : detail::true_type {};
+  template<bool> struct is_true : thrust::detail::false_type {};
+  template<> struct is_true<true> : thrust::detail::true_type {};
 
   namespace mpl = thrust::detail::mpl::math;
 
@@ -273,9 +273,9 @@ namespace __reduce_by_key {
 
       // Whether or not the scan operation has a zero-valued identity value
       // (true if we're performing addition on a primitive type)
-      HAS_IDENTITY_ZERO = detail::is_same<ReductionOp,
-                                          plus<value_type> >::value &&
-                          detail::is_arithmetic<value_type>::value
+      HAS_IDENTITY_ZERO = thrust::detail::is_same<ReductionOp,
+                                                  plus<value_type> >::value &&
+                          thrust::detail::is_arithmetic<value_type>::value
     };
 
     struct impl
@@ -302,7 +302,7 @@ namespace __reduce_by_key {
       THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t &tile_aggregate,
-                detail::true_type /* has_identity */)
+                thrust::detail::true_type /* has_identity */)
       {
         size_value_pair_t identity;
         identity.value = 0;
@@ -317,7 +317,7 @@ namespace __reduce_by_key {
       THRUST_DEVICE_FUNCTION void
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t &tile_aggregate,
-                detail::false_type /* has_identity */)
+                thrust::detail::false_type /* has_identity */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
@@ -329,7 +329,7 @@ namespace __reduce_by_key {
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t & tile_aggregate,
                 TilePrefixCallback &prefix_op,
-                detail::true_type /*  has_identity */)
+                thrust::detail::true_type /*  has_identity */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items,
@@ -345,7 +345,7 @@ namespace __reduce_by_key {
       scan_tile(size_value_pair_t (&scan_items)[ITEMS_PER_THREAD],
                 size_value_pair_t & tile_aggregate,
                 TilePrefixCallback &prefix_op,
-                detail::false_type /* has_identity */)
+                thrust::detail::false_type /* has_identity */)
       {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items,
@@ -1015,7 +1015,8 @@ namespace __reduce_by_key {
     cuda_cub::throw_on_error(status, "reduce failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
@@ -1025,7 +1026,7 @@ namespace __reduce_by_key {
     cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
 
     size_type* d_num_runs_out
-      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,

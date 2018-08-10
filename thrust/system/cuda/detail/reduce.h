@@ -68,9 +68,9 @@ namespace __reduce {
   typedef int GridSizeType;
 
   template<bool>
-  struct is_true : detail::false_type {};
+  struct is_true : thrust::detail::false_type {};
   template<>
-  struct is_true<true> : detail::true_type {};
+  struct is_true<true> : thrust::detail::true_type {};
 
   template <int                       _BLOCK_THREADS,
             int                       _ITEMS_PER_THREAD   = 1,
@@ -139,9 +139,9 @@ namespace __reduce {
                       cub::GRID_MAPPING_DYNAMIC>           
         ReducePolicy4B;
 
-    typedef typename detail::conditional<(sizeof(T) < 4),
-                                         ReducePolicy1B,
-                                         ReducePolicy4B>::type type;
+    typedef typename thrust::detail::conditional<(sizeof(T) < 4),
+                                                 ReducePolicy1B,
+                                                 ReducePolicy4B>::type type;
   };    // Tuning sm35
 
   template <class InputIt,
@@ -224,9 +224,9 @@ namespace __reduce {
 
       ATTEMPT_VECTORIZATION = (VECTOR_LOAD_LENGTH > 1) &&
                               (ITEMS_PER_THREAD % VECTOR_LOAD_LENGTH == 0) &&
-                              detail::is_pointer<InputIt>::value &&
-                              detail::is_arithmetic<
-                                  typename detail::remove_cv<T> >::value
+                              thrust::detail::is_pointer<InputIt>::value &&
+                              thrust::detail::is_arithmetic<
+                                  typename thrust::detail::remove_cv<T> >::value
     };
 
     struct impl
@@ -263,7 +263,7 @@ namespace __reduce {
       template <class Iterator>
       static THRUST_DEVICE_FUNCTION bool
       is_aligned(Iterator d_in,
-                 detail::true_type /* can_vectorize */)
+                 thrust::detail::true_type /* can_vectorize */)
       {
         return (size_t(d_in) & (sizeof(Vector) - 1)) == 0;
       }
@@ -274,7 +274,7 @@ namespace __reduce {
       template <class Iterator>
       static THRUST_DEVICE_FUNCTION bool
       is_aligned(Iterator,
-                 detail::false_type /* can_vectorize */)
+                 thrust::detail::false_type /* can_vectorize */)
       {
         return false;
       }
@@ -290,8 +290,8 @@ namespace __reduce {
       consume_tile(T &  thread_aggregate,
                    Size block_offset,
                    int  /*valid_items*/,
-                   detail::true_type /* is_full_tile */,
-                   detail::false_type /* can_vectorize */)
+                   thrust::detail::true_type /* is_full_tile */,
+                   thrust::detail::false_type /* can_vectorize */)
       {
         T items[ITEMS_PER_THREAD];
 
@@ -314,8 +314,8 @@ namespace __reduce {
       consume_tile(T &  thread_aggregate,
                    Size block_offset,
                    int  /*valid_items*/,
-                   detail::true_type /* is_full_tile */,
-                   detail::true_type /* can_vectorize */)
+                   thrust::detail::true_type /* is_full_tile */,
+                   thrust::detail::true_type /* can_vectorize */)
       {
         // Alias items as an array of VectorT and load it in striped fashion
         enum
@@ -355,7 +355,7 @@ namespace __reduce {
       consume_tile(T &  thread_aggregate,
                    Size block_offset,
                    int  valid_items,
-                   detail::false_type /* is_full_tile */,
+                   thrust::detail::false_type /* is_full_tile */,
                    CAN_VECTORIZE)
       {
         // Partial tile
@@ -400,7 +400,7 @@ namespace __reduce {
           consume_tile<true>(thread_aggregate,
                              block_offset,
                              valid_items,
-                             detail::false_type(),
+                             thrust::detail::false_type(),
                              can_vectorize);
           return BlockReduce(storage.reduce)
               .Reduce(thread_aggregate, reduction_op, valid_items);
@@ -410,7 +410,7 @@ namespace __reduce {
         consume_tile<true>(thread_aggregate,
                            block_offset,
                            ITEMS_PER_TILE,
-                           detail::true_type(),
+                           thrust::detail::true_type(),
                            can_vectorize);
         block_offset += ITEMS_PER_TILE;
 
@@ -420,7 +420,7 @@ namespace __reduce {
           consume_tile<false>(thread_aggregate,
                               block_offset,
                               ITEMS_PER_TILE,
-                              detail::true_type(),
+                              thrust::detail::true_type(),
                               can_vectorize);
           block_offset += ITEMS_PER_TILE;
         }
@@ -432,7 +432,7 @@ namespace __reduce {
           consume_tile<false>(thread_aggregate,
                               block_offset,
                               valid_items,
-                              detail::false_type(),
+                              thrust::detail::false_type(),
                               can_vectorize);
         }
 
@@ -461,7 +461,7 @@ namespace __reduce {
       consume_tiles(Size /*num_items*/,
                     cub::GridEvenShare<GridSizeType> &even_share,
                     cub::GridQueue<GridSizeType> & /*queue*/,
-                    detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_RAKE> /*is_rake*/)
+                    thrust::detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_RAKE> /*is_rake*/)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>          attempt_vec;
         typedef is_true<true && ATTEMPT_VECTORIZATION>  path_a;
@@ -507,7 +507,7 @@ namespace __reduce {
           consume_tile<true>(thread_aggregate,
                              block_offset,
                              valid_items,
-                             detail::false_type(),
+                             thrust::detail::false_type(),
                              can_vectorize);
           return BlockReduce(storage.reduce)
               .Reduce(thread_aggregate, reduction_op, valid_items);
@@ -517,7 +517,7 @@ namespace __reduce {
         consume_tile<true>(thread_aggregate,
                            block_offset,
                            ITEMS_PER_TILE,
-                           detail::true_type(),
+                           thrust::detail::true_type(),
                            can_vectorize);
 
         if (num_items > even_share_base)
@@ -538,7 +538,7 @@ namespace __reduce {
             consume_tile<false>(thread_aggregate,
                                 block_offset,
                                 ITEMS_PER_TILE,
-                                detail::true_type(),
+                                thrust::detail::true_type(),
                                 can_vectorize);
 
             sync_threadblock();
@@ -561,7 +561,7 @@ namespace __reduce {
             consume_tile<false>(thread_aggregate,
                                 block_offset,
                                 valid_items,
-                                detail::false_type(),
+                                thrust::detail::false_type(),
                                 can_vectorize);
           }
         }
@@ -579,7 +579,7 @@ namespace __reduce {
           Size                              num_items,
           cub::GridEvenShare<GridSizeType> &/*even_share*/,
           cub::GridQueue<GridSizeType> &    queue,
-          detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_DYNAMIC>)
+          thrust::detail::integral_constant<cub::GridMappingStrategy, cub::GRID_MAPPING_DYNAMIC>)
       {
         typedef is_true<ATTEMPT_VECTORIZATION>         attempt_vec;
         typedef is_true<true && ATTEMPT_VECTORIZATION> path_a;
@@ -652,7 +652,7 @@ namespace __reduce {
     {
       TempStorage& storage = *reinterpret_cast<TempStorage*>(shmem);
 
-      typedef detail::integral_constant<cub::GridMappingStrategy, ptx_plan::GRID_MAPPING> grid_mapping;
+      typedef thrust::detail::integral_constant<cub::GridMappingStrategy, ptx_plan::GRID_MAPPING> grid_mapping;
 
       T block_aggregate =
           impl(storage, input_it, reduction_op)
@@ -886,7 +886,8 @@ namespace __reduce {
     cuda_cub::throw_on_error(status, "reduce failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
@@ -895,7 +896,7 @@ namespace __reduce {
                                  allocation_sizes);
     cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
 
-    T* d_result = detail::aligned_reinterpret_cast<T*>(allocations[0]);
+    T* d_result = thrust::detail::aligned_reinterpret_cast<T*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,
@@ -917,6 +918,85 @@ namespace __reduce {
   }
 }    // namespace __reduce
 
+namespace detail {
+
+template <typename Derived,
+          typename InputIt,
+          typename Size,
+          typename T,
+          typename BinaryOp>
+THRUST_RUNTIME_FUNCTION
+T reduce_n_impl(execution_policy<Derived>& policy,
+                InputIt                    first,
+                Size                       num_items,
+                T                          init,
+                BinaryOp                   binary_op)
+{
+  cudaStream_t stream = cuda_cub::stream(policy);
+
+  // Determine temporary device storage requirements.
+
+  size_t tmp_size = 0;
+  cuda_cub::throw_on_error(
+    cub::DeviceReduce::Reduce(NULL,
+                              tmp_size,
+                              first,
+                              reinterpret_cast<T*>(NULL),
+                              num_items,
+                              binary_op,
+                              init,
+                              stream,
+                              THRUST_DEBUG_SYNC_FLAG),
+    "after reduction step 1");
+
+  // Allocate temporary storage.
+
+  thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+    tmp(policy, sizeof(T) + tmp_size);
+
+  // Run reduction.
+
+  // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
+  // `reference`, which has an `operator&` that returns a `pointer`, which
+  // has a `.get` method that returns a raw pointer, which we can (finally)
+  // `static_cast` to `void*`.
+  //
+  // The array was dynamically allocated, so we assume that it's suitably
+  // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
+  // make this guarantee.
+  T* ret_ptr = thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get());
+  void* tmp_ptr = static_cast<void*>((tmp.data() + sizeof(T)).get());
+  cuda_cub::throw_on_error(
+    cub::DeviceReduce::Reduce(tmp_ptr,
+                              tmp_size,
+                              first,
+                              ret_ptr,
+                              num_items,
+                              binary_op,
+                              init,
+                              stream,
+                              THRUST_DEBUG_SYNC_FLAG),
+    "after reduction step 2");
+
+  // Synchronize the stream and get the value.
+
+  cuda_cub::throw_on_error(cuda_cub::synchronize(policy),
+    "reduce failed to synchronize");
+
+  // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
+  // `reference`, which has an `operator&` that returns a `pointer`, which
+  // has a `.get` method that returns a raw pointer, which we can (finally)
+  // `static_cast` to `void*`.
+  //
+  // The array was dynamically allocated, so we assume that it's suitably
+  // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
+  // make this guarantee.
+  return thrust::cuda_cub::get_value(policy,
+    thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get()));
+}
+
+} // namespace detail
+
 //-------------------------
 // Thrust API entry points
 //-------------------------
@@ -934,84 +1014,23 @@ T reduce_n(execution_policy<Derived>& policy,
            T                          init,
            BinaryOp                   binary_op)
 {
-  cudaStream_t stream = cuda_cub::stream(policy);
-
   if (__THRUST_HAS_CUDART__)
-  {
-    // Determine temporary device storage requirements.
+    return thrust::cuda_cub::detail::reduce_n_impl(
+      policy, first, num_items, init, binary_op);
 
-    size_t tmp_size = 0;
-    cuda_cub::throw_on_error(
-      cub::DeviceReduce::Reduce(NULL,
-                                tmp_size,
-                                first,
-                                reinterpret_cast<T*>(NULL),
-                                num_items,
-                                binary_op,  
-                                init,
-                                stream,
-                                THRUST_DEBUG_SYNC_FLAG),
-      "after reduction step 1");
-
-    // Allocate temporary storage.
-
-    detail::temporary_array<detail::uint8_t, Derived>
-      tmp(policy, sizeof(T) + tmp_size);
-
-    // Run reduction.
-
-    // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
-    // `reference`, which has an `operator&` that returns a `pointer`, which
-    // has a `.get` method that returns a raw pointer, which we can (finally)
-    // `static_cast` to `void*`.
-    //
-    // The array was dynamically allocated, so we assume that it's suitably
-    // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
-    // make this guarantee.
-    T* ret_ptr = detail::aligned_reinterpret_cast<T*>(tmp.data().get());
-    void* tmp_ptr = static_cast<void*>((tmp.data() + sizeof(T)).get());
-    cuda_cub::throw_on_error(
-      cub::DeviceReduce::Reduce(tmp_ptr,
-                                tmp_size,
-                                first,
-                                ret_ptr,
-                                num_items,
-                                binary_op,
-                                init,
-                                stream,
-                                THRUST_DEBUG_SYNC_FLAG),
-      "after reduction step 2");
-
-    // Synchronize the stream and get the value.
-
-    cuda_cub::throw_on_error(cuda_cub::synchronize(policy),
-      "reduce failed to synchronize");
-
-    // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
-    // `reference`, which has an `operator&` that returns a `pointer`, which
-    // has a `.get` method that returns a raw pointer, which we can (finally)
-    // `static_cast` to `void*`.
-    //
-    // The array was dynamically allocated, so we assume that it's suitably
-    // aligned for any type of data. `malloc`/`cudaMalloc`/`new`/`std::allocator`
-    // make this guarantee.
-    return cuda_cub::get_value(policy,
-      detail::aligned_reinterpret_cast<T*>(tmp.data().get()));
-  }
-
-#if !__THRUST_HAS_CUDART__
-  return thrust::reduce(
-    cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
-#endif
+  #if !__THRUST_HAS_CUDART__
+    return thrust::reduce(
+      cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
+  #endif
 }
 
 template <class Derived, class InputIt, class T, class BinaryOp>
-T __host__ __device__
-reduce(execution_policy<Derived> &policy,
-       InputIt                    first,
-       InputIt                    last,
-       T                          init,
-       BinaryOp                   binary_op)
+__host__ __device__
+T reduce(execution_policy<Derived> &policy,
+         InputIt                    first,
+         InputIt                    last,
+         T                          init,
+         BinaryOp                   binary_op)
 {
   typedef typename iterator_traits<InputIt>::difference_type size_type;
   // FIXME: Check for RA iterator.
@@ -1022,18 +1041,19 @@ reduce(execution_policy<Derived> &policy,
 template <class Derived,
           class InputIt,
           class T>
-T __host__ __device__
-reduce(execution_policy<Derived> &policy,
-       InputIt                    first,
-       InputIt                    last,
-       T                          init)
+__host__ __device__
+T reduce(execution_policy<Derived> &policy,
+         InputIt                    first,
+         InputIt                    last,
+         T                          init)
 {
   return cuda_cub::reduce(policy, first, last, init, plus<T>());
 }
 
 template <class Derived,
           class InputIt>
-typename iterator_traits<InputIt>::value_type __host__ __device__
+__host__ __device__
+typename iterator_traits<InputIt>::value_type
 reduce(execution_policy<Derived> &policy,
        InputIt                    first,
        InputIt                    last)

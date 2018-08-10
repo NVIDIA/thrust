@@ -60,11 +60,11 @@ transform_inclusive_scan(execution_policy<Derived> &policy,
   //
   // XXX upon c++0x, TemporaryType needs to be:
   // result_of_adaptable_function<UnaryFunction>::type
-  typedef typename detail::eval_if<
-    detail::has_result_type<TransformOp>::value,
-    detail::result_type<TransformOp>,
-    detail::eval_if<
-      detail::is_output_iterator<OutputIt>::value,
+  typedef typename thrust::detail::eval_if<
+    thrust::detail::has_result_type<TransformOp>::value,
+    thrust::detail::result_type<TransformOp>,
+    thrust::detail::eval_if<
+      thrust::detail::is_output_iterator<OutputIt>::value,
       iterator_value<InputIt>,
       iterator_value<OutputIt>
     >

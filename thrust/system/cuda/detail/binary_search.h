@@ -676,7 +676,8 @@ namespace __binary_search {
     cuda_cub::throw_on_error(status, "binary_search: failed on 1st call");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = doit_pass(ptr,

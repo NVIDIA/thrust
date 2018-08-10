@@ -191,8 +191,8 @@ namespace __partition {
 
     enum
     {
-      SINGLE_OUTPUT    = detail::is_same<RejectedOutIt, single_output_tag>::value,
-      USE_STENCIL      = !detail::is_same<StencilIt, no_stencil_tag>::value,
+      SINGLE_OUTPUT    = thrust::detail::is_same<RejectedOutIt, single_output_tag>::value,
+      USE_STENCIL      = !thrust::detail::is_same<StencilIt, no_stencil_tag>::value,
       BLOCK_THREADS    = ptx_plan::BLOCK_THREADS,
       ITEMS_PER_THREAD = ptx_plan::ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = ptx_plan::ITEMS_PER_TILE
@@ -750,7 +750,8 @@ namespace __partition {
     cuda_cub::throw_on_error(status, "partition failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
@@ -760,7 +761,7 @@ namespace __partition {
     cuda_cub::throw_on_error(status, "partition failed on 2nd alias_storage");
 
     size_type* d_num_selected_out
-      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,
@@ -805,7 +806,7 @@ namespace __partition {
     size_type num_items = thrust::distance(first, last);
 
     // Allocate temporary storage.
-    detail::temporary_array<value_type, Derived> tmp(policy, num_items);
+    thrust::detail::temporary_array<value_type, Derived> tmp(policy, num_items);
 
     cuda_cub::uninitialized_copy(policy, first, last, tmp.begin());
 

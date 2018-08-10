@@ -219,7 +219,7 @@ namespace __copy_if {
 
     enum
     {
-      USE_STENCIL      = !detail::is_same<StencilIt, no_stencil_tag>::value,
+      USE_STENCIL      = !thrust::detail::is_same<StencilIt, no_stencil_tag>::value,
       BLOCK_THREADS    = ptx_plan::BLOCK_THREADS,
       ITEMS_PER_THREAD = ptx_plan::ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = ptx_plan::ITEMS_PER_TILE
@@ -740,7 +740,8 @@ namespace __copy_if {
     cuda_cub::throw_on_error(status, "copy_if failed on 1st alias_storage");
 
     // Allocate temporary storage.
-    detail::temporary_array<detail::uint8_t, Derived> tmp(policy, storage_size);
+    thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
+      tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
     status = core::alias_storage(ptr,
@@ -750,7 +751,7 @@ namespace __copy_if {
     cuda_cub::throw_on_error(status, "copy_if failed on 2nd alias_storage");
 
     size_type* d_num_selected_out
-      = detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
 
     status = doit_step(allocations[1],
                        temp_storage_bytes,

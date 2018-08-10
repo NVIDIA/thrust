@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+// TODO: This can probably be removed.
+
 #pragma once
 
 #include <thrust/system/cuda/detail/util.h>

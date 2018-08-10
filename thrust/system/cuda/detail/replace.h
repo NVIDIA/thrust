@@ -94,7 +94,7 @@ replace(execution_policy<Derived> &policy,
                       last,
                       first,
                       __replace::constant_f<T>(new_value),
-                      detail::equal_to_value<T>(old_value));
+                      thrust::detail::equal_to_value<T>(old_value));
 }
 
 template <class Derived,
@@ -201,7 +201,7 @@ replace_copy(execution_policy<Derived> &policy,
                                    first,
                                    last,
                                    result,
-                                   detail::equal_to_value<T>(old_value),
+                                   thrust::detail::equal_to_value<T>(old_value),
                                    new_value);
 }
 

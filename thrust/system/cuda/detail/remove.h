@@ -46,7 +46,8 @@ remove_if(execution_policy<Derived> &policy,
           StencilIt                  stencil,
           Predicate                  predicate)
 {
-  return cuda_cub::copy_if(policy, first, last, stencil, first, detail::not1(predicate));
+  return cuda_cub::copy_if(policy, first, last, stencil, first,
+    thrust::detail::not1(predicate));
 }
 
 template <class Derived,
@@ -58,7 +59,8 @@ remove_if(execution_policy<Derived> &policy,
           InputIt                    last,
           Predicate                  predicate)
 {
-  return cuda_cub::copy_if(policy, first, last, first, detail::not1(predicate));
+  return cuda_cub::copy_if(policy, first, last, first,
+    thrust::detail::not1(predicate));
 }
 
 
@@ -71,7 +73,7 @@ remove(execution_policy<Derived> &policy,
        InputIt                    last,
        const T &                  value)
 {
-  detail::equal_to_value<T> pred(value);
+  thrust::detail::equal_to_value<T> pred(value);
   return cuda_cub::remove_if(policy, first, last, pred);
 }
 
@@ -90,7 +92,8 @@ remove_copy_if(execution_policy<Derived> &policy,
                OutputIt                   result,
                Predicate                  predicate)
 {
-  return cuda_cub::copy_if(policy, first, last, stencil, result, detail::not1(predicate));
+  return cuda_cub::copy_if(policy, first, last, stencil, result,
+    thrust::detail::not1(predicate));
 }
 
 template <class Derived,
@@ -104,7 +107,8 @@ remove_copy_if(execution_policy<Derived> &policy,
                OutputIt                   result,
                Predicate                  predicate)
 {
-  return cuda_cub::copy_if(policy, first, last, result, detail::not1(predicate));
+  return cuda_cub::copy_if(policy, first, last, result,
+    thrust::detail::not1(predicate));
 }
 
 
@@ -119,7 +123,7 @@ remove_copy(execution_policy<Derived> &policy,
             OutputIt                   result,
             const T &                  value)
 {
-  detail::equal_to_value<T> pred(value);
+  thrust::detail::equal_to_value<T> pred(value);
   return cuda_cub::remove_copy_if(policy, first, last, result, pred);
 }
 

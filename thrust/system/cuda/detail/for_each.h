@@ -73,7 +73,7 @@ namespace cuda_cub {
              Size                       count,
              UnaryOp                    op)
   {
-    typedef detail::wrapped_function<UnaryOp, void> wrapped_t;
+    typedef thrust::detail::wrapped_function<UnaryOp, void> wrapped_t;
     wrapped_t wrapped_op(op);
 
     cuda_cub::parallel_for(policy,
