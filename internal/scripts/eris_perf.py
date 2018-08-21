@@ -163,9 +163,7 @@ with open(COMBINED_OUTPUT_FILE_NAME, "w") as output_file:
     distinguishing_variables = reader.fieldnames
 
     measured_variables = [
-      ("STL Average Walltime",      "-"),
       ("STL Average Throughput",    "+"),
-      ("Thrust Average Walltime",   "-"),
       ("Thrust Average Throughput", "+")
     ]
 
