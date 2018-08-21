@@ -52,22 +52,14 @@ sub timestamp()
 }
 
 my %CmdLineOption;
-my $retVal;
 my $arch                = "";
+my $abi                 = "";
+my $os                  = "";
 my $build               = "release";
 my $bin_path;
 my $filecheck_path;
 my $filecheck_data_path = "internal/test";
-my $testname            = undef;
-my $valgrind_enable     = 0;
-my $cudamemcheck_enable = 0;
-my $tool_checker        = "";
 my $timeout_min         = 15;
-my $os                  = "";
-my $cygwin              = "";
-my $openmp              = 0;
-my $config              = "";
-my $abi                 = "";
 
 # https://stackoverflow.com/questions/29862178/name-of-signal-number-2
 my @sig_names;
@@ -76,7 +68,6 @@ my %sig_nums;
 @sig_nums{ split ' ', $Config{sig_name} } = split ' ', $Config{sig_num};
 
 if (`uname` =~ m/CYGWIN/) {
-  $cygwin = 1;
   $os = "win32";
 } elsif ($^O eq "MSWin32") {
   $os = "win32";
@@ -114,21 +105,19 @@ sub usage()
   printf("  -filecheck-path <path>        : Specify location of filecheck binary\n");
   printf("  -filecheck-data-path <path>   : Specify location of filecheck data (default: $filecheck_data_path)\n");
   printf("  -timeout-min <min>            : timeout in minutes for each individual test\n");
-  printf("  -openmp                       : test OpenMP implementation\n");
 }
 
-$retVal = GetOptions(\%CmdLineOption,
-                     'help'     => sub { usage() and exit 0 },
-                     "forcearch=s" => \$arch,
-                     "forceabi=s" => \$abi,
-                     "forceos=s" => \$os,
-                     "build=s" => \$build,
-                     "bin-path=s" => \$bin_path,
-                     "filecheck-path=s" => \$filecheck_path,
-                     "filecheck-data-path=s" => \$filecheck_data_path,
-                     "timeout-min=i" => \$timeout_min,
-                     "openmp" => \$openmp,
-                    );
+GetOptions(\%CmdLineOption,
+           'help' => sub { usage() and exit 0 },
+           "forcearch=s" => \$arch,
+           "forceabi=s" => \$abi,
+           "forceos=s" => \$os,
+           "build=s" => \$build,
+           "bin-path=s" => \$bin_path,
+           "filecheck-path=s" => \$filecheck_path,
+           "filecheck-data-path=s" => \$filecheck_data_path,
+           "timeout-min=i" => \$timeout_min,
+          );
 
 my $pwd = getcwd();
 my $bin_path_root = abs_path ("${pwd}/..");
@@ -155,13 +144,6 @@ if (not $bin_path) {
 
 if (not $filecheck_path) {
     $filecheck_path = "${bin_path}/nvvm/tools";
-}
-
-if ($valgrind_enable) {
-    $tool_checker = "valgrind";
-}
-elsif ($cudamemcheck_enable){
-    $tool_checker = $bin_path . "/cuda-memcheck";
 }
 
 sub process_return_code {
@@ -246,11 +228,7 @@ sub run_cmd {
     eval {
         local $SIG{ALRM} = sub { die("Command timed out (received SIGALRM).\n") };
         alarm (60 * $timeout_min);
-        if ($tool_checker ne "") {
-            $syst_cmd = $tool_checker . " " . $cmd;
-        } else {
-            $syst_cmd = $cmd;
-        }
+        $syst_cmd = $cmd;
 
         @executable = split(' ', $syst_cmd, 2);
 
@@ -590,10 +568,18 @@ sub dvs_summary {
 
 ###############################################################################
 
+printf("#### CONFIG arch `%s`\n", $arch);
+printf("#### CONFIG abi `%s`\n", $abi);
 printf("#### CONFIG os `%s`\n", $os);
+printf("#### CONFIG build `%s`\n", $build);
+printf("#### CONFIG bin_path `%s`\n", $bin_path);
+printf("#### CONFIG have_filecheck `$have_filecheck`\n");
+printf("#### CONFIG filecheck_path `%s`\n", $filecheck_path);
+printf("#### CONFIG filecheck_data_path `%s`\n", $filecheck_data_path);
 printf("#### CONFIG have_time_hi_res `$have_time_hi_res`\n");
-printf("#### ENV PATH `%s`\n", $ENV{'PATH'});
-printf("#### ENV LD_LIBRARY_PATH `%s`\n", $ENV{'LD_LIBRARY_PATH'});
+printf("#### CONFIG timeout_min `%s`\n", $timeout_min);
+printf("#### ENV PATH `%s`\n", defined $ENV{'PATH'} ? $ENV{'PATH'} : '');
+printf("#### ENV LD_LIBRARY_PATH `%s`\n", defined $ENV{'LD_LIBRARY_PATH'} ? $ENV{'LD_LIBRARY_PATH'} : '');
 
 printf("\n");
 
