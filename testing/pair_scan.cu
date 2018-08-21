@@ -4,7 +4,7 @@
 #include <thrust/scan.h>
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-#include <backend/cuda/testframework.h>
+#include <unittest/cuda/testframework.h>
 #endif
 
 struct make_pair_functor

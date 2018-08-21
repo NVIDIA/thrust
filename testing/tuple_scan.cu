@@ -4,7 +4,7 @@
 #include <thrust/transform.h>
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-#include <backend/cuda/testframework.h>
+#include <unittest/cuda/testframework.h>
 #endif
 
 using namespace unittest;

@@ -5,7 +5,7 @@
 #include <iostream>
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-#include <backend/cuda/testframework.h>
+#include <unittest/cuda/testframework.h>
 #endif
 
 struct basic_arithmetic_functor

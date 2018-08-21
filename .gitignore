@@ -1,1 +1,2 @@
 thrust/system/cuda/detail/.gitignore
+.p4config

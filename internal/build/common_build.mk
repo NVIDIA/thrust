@@ -7,7 +7,7 @@ endif
 include $(ROOTDIR)/thrust/internal/build/common_warnings.mk
 
 # Add /bigobj to Windows build flag to workaround building Thrust with debug
-ifeq ($(OS), win32)
+ifeq ($(OS),win32)
   CUDACC_FLAGS += -Xcompiler "/bigobj"
 endif
 
@@ -64,20 +64,31 @@ else ifeq ($(BUILD_SRC_SUFFIX),.cpp)
   FILES += $(BUILD_SRC)
 endif
 
-# CUDA includes
-ifdef VULCAN
-  INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/cuda/include
-  INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/cuda/_internal/cudart
-else
-  INCLUDES_ABSPATH += $(ROOTDIR)/cuda/inc
-  INCLUDES_ABSPATH += $(ROOTDIR)/cuda/tools/cudart
-endif
+ifndef BUILD_AGAINST_RELEASE
+  # CUDA includes
+  ifdef VULCAN
+    INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/cuda/include
+    INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/cuda/_internal/cudart
+  else
+    INCLUDES_ABSPATH += $(ROOTDIR)/cuda/inc
+    INCLUDES_ABSPATH += $(ROOTDIR)/cuda/tools/cudart
+  endif
 
-# Thrust includes
-ifdef VULCAN
-  INCLUDES_ABSPATH += $(VULCAN_TOOLKIT_BASE)/thrust
+  # Thrust includes
+  ifdef VULCAN
+    INCLUDES_ABSPATH += $(VULCAN_TOOLKIT_BASE)/thrust
+  else
+    INCLUDES_ABSPATH += $(ROOTDIR)/thrust
+  endif
 else
-  INCLUDES_ABSPATH += $(ROOTDIR)/thrust
+  # CUDA and Thrust includes
+  INCLUDES_ABSPATH += $(GPGPU_COMPILER_EXPORT)/include
+
+  ifeq ($(TARGET_ARCH),ARMv7)
+    LIBDIRS_ABSPATH += $(GPGPU_COMPILER_EXPORT)/lib32
+  else
+    LIBDIRS_ABSPATH += $(GPGPU_COMPILER_EXPORT)/lib64
+  endif
 endif
 
 ifdef VULCAN

@@ -101,7 +101,7 @@ except:
 os.makedirs(mk_path)
 
 tests_all, dependencies_all = generate_test_mk(mk_path, "testing/", "test", REL_DIR)
-tests_cu,  dependencies_cu  = generate_test_mk(mk_path, "testing/backend/cuda/", "test.cuda", REL_DIR)
+tests_cu,  dependencies_cu  = generate_test_mk(mk_path, "testing/cuda/", "test.cuda", REL_DIR)
 tests_all.extend(tests_cu)
 dependencies_all.extend(dependencies_cu)
 
