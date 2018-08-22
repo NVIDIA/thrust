@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,8 +22,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/device_malloc_allocator.h>
 #include <thrust/detail/vector_base.h>
+#include <thrust/device_allocator.h>
+
 #include <vector>
 #include <utility>
 
@@ -47,9 +48,10 @@ template<typename T, typename Alloc> class host_vector;
  *  space of a parallel device.
  *
  *  \see http://www.sgi.com/tech/stl/Vector.html
+ *  \see device_allocator
  *  \see host_vector
  */
-template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
+template<typename T, typename Alloc = thrust::device_allocator<T> >
   class device_vector
     : public detail::vector_base<T,Alloc>
 {
@@ -70,6 +72,13 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     device_vector(void)
       :Parent() {}
 
+    /*! This constructor creates an empty \p device_vector.
+     *  \param alloc The allocator to use by this vector_base.
+     */
+    __host__
+    device_vector(const Alloc &alloc)
+      :Parent(alloc) {}
+
     /*! The destructor erases the elements.
      */
     //  Define an empty destructor to explicitly specify
@@ -85,6 +94,15 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     explicit device_vector(size_type n)
       :Parent(n) {}
 
+    /*! This constructor creates a \p device_vector with the given
+     *  size.
+     *  \param n The number of elements to initially create.
+     *  \param alloc The allocator to use by this vector_base.
+     */
+    __host__
+    explicit device_vector(size_type n, const Alloc &alloc)
+      :Parent(n,alloc) {}
+
     /*! This constructor creates a \p device_vector with copies
      *  of an exemplar element.
      *  \param n The number of elements to initially create.
@@ -94,6 +112,16 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     explicit device_vector(size_type n, const value_type &value)
       :Parent(n,value) {}
 
+    /*! This constructor creates a \p device_vector with copies
+     *  of an exemplar element.
+     *  \param n The number of elements to initially create.
+     *  \param value An element to copy.
+     *  \param alloc The allocator to use by this vector_base.
+     */
+    __host__
+    explicit device_vector(size_type n, const value_type &value, const Alloc &alloc)
+      :Parent(n,value,alloc) {}
+
     /*! Copy constructor copies from an exemplar \p device_vector.
      *  \param v The \p device_vector to copy.
      */
@@ -101,13 +129,29 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     device_vector(const device_vector &v)
       :Parent(v) {}
 
+    /*! Copy constructor copies from an exemplar \p device_vector.
+     *  \param v The \p device_vector to copy.
+     *  \param alloc The allocator to use by this vector_base.
+     */
+    __host__
+    device_vector(const device_vector &v, const Alloc &alloc)
+      :Parent(v,alloc) {}
+
   #if __cplusplus >= 201103L
     /*! Move constructor moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
-     __host__
+    __host__
     device_vector(device_vector &&v)
       :Parent(std::move(v)) {}
+
+    /*! Move constructor moves from another \p device_vector.
+     *  \param v The device_vector to move.
+     *  \param alloc The allocator to use by this vector_base.
+     */
+    __host__
+    device_vector(device_vector &&v, const Alloc &alloc)
+      :Parent(std::move(v), alloc) {}
   #endif
 
   /*! Copy assign operator copies another \p device_vector with the same type.
@@ -182,6 +226,16 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     __host__
     device_vector(InputIterator first, InputIterator last)
       :Parent(first,last) {}
+
+    /*! This constructor builds a \p device_vector from a range.
+     *  \param first The beginning of the range.
+     *  \param last The end of the range.
+     *  \param alloc The allocator to use by this vector_base.
+     */
+    template<typename InputIterator>
+    __host__
+    device_vector(InputIterator first, InputIterator last, const Alloc &alloc)
+      :Parent(first,last,alloc) {}
 
 // declare these members for the purpose of Doxygenating them
 // they actually exist in a derived-from class
@@ -443,6 +497,12 @@ template<typename T, typename Alloc = thrust::device_malloc_allocator<T> >
     allocator_type get_allocator(void) const;
 #endif // end doxygen-only members
 }; // end device_vector
+
+template<typename T, typename Alloc>
+  void swap(device_vector<T,Alloc> &a, device_vector<T,Alloc> &b)
+{
+  a.swap(b);
+} // end swap()
 
 /*! \}
  */

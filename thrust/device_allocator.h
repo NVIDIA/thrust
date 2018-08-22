@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,99 +22,120 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/device_new_allocator.h>
+#include <thrust/device_ptr.h>
+#include <thrust/memory/detail/device_system_resource.h>
+
 #include <limits>
 #include <stdexcept>
 
 namespace thrust
 {
 
-/*! \addtogroup memory_management_classes Memory Management Classes
+/*! \addtogroup memory_management Memory Management
+ *  \addtogroup memory_management_classes Memory Management Classes
+ *  \addtogroup memory_resources Memory Resources
+ *  \ingroup memory_management
  *  \{
  */
 
-template<typename T> class device_allocator;
-
-/*! \p device_allocator<void> is a device memory allocator.
- *  This class is a specialization for \c void.
- *
- *  \see device_ptr
- *  \see http://www.sgi.com/tech/stl/Allocators.html
+/*! Memory resource adaptor that turns any memory resource that returns a fancy
+ *      with the same tag as \p device_ptr, and adapts it to a resource that returns
+ *      a \p device_ptr.
  */
-template<>
-  class device_allocator<void>
+template<typename Upstream>
+class device_ptr_memory_resource THRUST_FINAL
+    : public thrust::mr::memory_resource<
+        device_ptr<void>
+    >
 {
-  public:
-    /*! Type of element allocated, \c void. */
-    typedef void                              value_type;
+    typedef typename Upstream::pointer upstream_ptr;
 
-    /*! Pointer to allocation, \c device_ptr<void>. */
-    typedef device_ptr<void>                  pointer;
-
-    /*! \c const pointer to allocation, \c device_ptr<const void>. */
-    typedef device_ptr<const void>            const_pointer;
-
-    /*! Type of allocation size, \c std::size_t. */
-    typedef std::size_t                       size_type;
-
-    /*! Type of allocation difference, \c pointer::difference_type. */
-    typedef pointer::difference_type difference_type;
-
-    /*! The \p rebind metafunction provides the type of a \p device_allocator
-     *  instantiated with another type.
-     *
-     *  \tparam U The other type to use for instantiation.
+public:
+    /*! Initialize the adaptor with the global instance of the upstream resource. Obtains
+     *      the global instance by calling \p get_global_resource.
      */
-    template<typename U>
-      struct rebind
+    __host__
+    device_ptr_memory_resource() : m_upstream(mr::get_global_resource<Upstream>())
     {
-      /*! The typedef \p other gives the type of the rebound \p device_allocator.
-       */
-      typedef device_allocator<U> other;
-    }; // end rebind
-}; // end device_allocator<void>
+    }
 
-/*! \p device_allocator is a device memory allocator.
- *  This implementation inherits from \p device_new_allocator.
- *
- *  \see device_ptr
- *  \see device_new_allocator
- *  \see http://www.sgi.com/tech/stl/Allocators.html
+    /*! Initialize the adaptor with an upstream resource.
+     *
+     *  \param upstream the upstream memory resource to adapt.
+     */
+    __host__
+    device_ptr_memory_resource(Upstream * upstream) : m_upstream(upstream)
+    {
+    }
+
+    __host__
+    THRUST_NODISCARD
+    virtual pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    {
+        return pointer(m_upstream->do_allocate(bytes, alignment).get());
+    }
+
+    __host__
+    virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) THRUST_OVERRIDE
+    {
+        m_upstream->do_deallocate(upstream_ptr(p.get()), bytes, alignment);
+    }
+
+private:
+    Upstream * m_upstream;
+};
+
+/*! \}
+ */
+
+/*! \addtogroup memory_management Memory Management
+ *  \addtogroup memory_management_classes Memory Management Classes
+ *  \ingroup memory_management
+ *  \{
  */
 template<typename T>
-  class device_allocator
-    : public device_new_allocator<T>
+class device_allocator
+    : public thrust::mr::stateless_resource_allocator<
+        T,
+        device_ptr_memory_resource<device_memory_resource>
+    >
 {
-  public:
+    typedef thrust::mr::stateless_resource_allocator<
+        T,
+        device_ptr_memory_resource<device_memory_resource>
+    > base;
+
+public:
     /*! The \p rebind metafunction provides the type of a \p device_allocator
      *  instantiated with another type.
      *
-     *  \tparam U The other type to use for instantiation.
+     *  \tparam U the other type to use for instantiation.
      */
     template<typename U>
-      struct rebind
+    struct rebind
     {
-      /*! The typedef \p other gives the type of the rebound \p device_allocator.
-       */
-      typedef device_allocator<U> other;
-    }; // end rebind
+        /*! The typedef \p other gives the type of the rebound \p device_allocator.
+         */
+        typedef device_allocator<U> other;
+    };
 
-    /*! No-argument constructor has no effect.
-     */
-    __host__ __device__
-    inline device_allocator() {}
+    /*! Default constructor has no effect. */
+    __host__
+    device_allocator() {}
 
-    /*! Copy constructor has no effect.
-     */
-    __host__ __device__
-    inline device_allocator(device_allocator const&) {}
+    /*! Copy constructor has no effect. */
+    __host__
+    device_allocator(const device_allocator& other) : base(other) {}
 
-    /*! Constructor from other \p allocator has no effect.
-     */
+    /*! Constructor from other \p device_allocator has no effect. */
     template<typename U>
-    __host__ __device__
-    inline device_allocator(device_allocator<U> const&) {}
-}; // end device_allocator
+    __host__
+    device_allocator(const device_allocator<U>& other) : base(other) {}
+
+    /*! Destructor has no effect. */
+    __host__
+    ~device_allocator() {}
+};
 
 /*! \}
  */

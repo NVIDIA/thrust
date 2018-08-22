@@ -92,7 +92,7 @@ void TestStableSortByKeySimple(void)
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
     ASSERT_EQUAL(unsorted_values, sorted_values);
 }
-DECLARE_VECTOR_UNITTEST(TestStableSortByKeySimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestStableSortByKeySimple);
 
 
 template <typename T>

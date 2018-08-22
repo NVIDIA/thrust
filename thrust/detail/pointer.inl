@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -49,6 +49,19 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
                   pointer<Element,Tag,Reference,Derived>
                  >::type *)
         : super_t(thrust::detail::pointer_traits<OtherPointer>::get(other))
+{} // end pointer::pointer
+
+
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  template<typename OtherPointer>
+    __host__ __device__
+    pointer<Element,Tag,Reference,Derived>
+      ::pointer(const OtherPointer &other,
+                typename thrust::detail::enable_if_void_pointer_is_system_convertible<
+                  OtherPointer,
+                  pointer<Element,Tag,Reference,Derived>
+                 >::type *)
+        : super_t(static_cast<Element *>(thrust::detail::pointer_traits<OtherPointer>::get(other)))
 {} // end pointer::pointer
 
 

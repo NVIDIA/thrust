@@ -33,7 +33,7 @@ template<typename Vector> \
     ASSERT_ALMOST_EQUAL(reference, result); \
   } \
 }; \
-VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::device_vector, thrust::device_malloc_allocator> TestFunctionalPlaceholders##name##DeviceInstance; \
+VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::device_vector, thrust::device_allocator> TestFunctionalPlaceholders##name##DeviceInstance; \
 VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::host_vector, std::allocator> TestFunctionalPlaceholders##name##HostInstance;
 
 BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(Plus,       +, thrust::plus,       ThirtyTwoBitTypes);

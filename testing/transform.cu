@@ -857,5 +857,5 @@ void TestTransformWithIndirection(void)
     ASSERT_EQUAL(output[5], T(1));
     ASSERT_EQUAL(output[6], T(1));
 }
-DECLARE_VECTOR_UNITTEST(TestTransformWithIndirection);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestTransformWithIndirection);
 

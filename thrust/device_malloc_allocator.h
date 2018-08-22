@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -45,8 +45,12 @@ template<typename T> device_ptr<T> device_malloc(const std::size_t n);
 /*! \p device_malloc_allocator is a device memory allocator that employs the
  *  \p device_malloc function for allocation.
  *
+ *  \p device_malloc_allocator is deprecated in favor of <tt>thrust::mr</tt>
+ *      memory resource-based allocators.
+ *
  *  \see device_malloc
  *  \see device_ptr
+ *  \see device_allocator
  *  \see http://www.sgi.com/tech/stl/Allocators.html
  */
 template<typename T>
@@ -160,13 +164,13 @@ template<typename T>
      *  \return \c true
      */
     __host__ __device__
-    inline bool operator==(device_malloc_allocator const&) { return true; }
+    inline bool operator==(device_malloc_allocator const&) const { return true; }
 
     /*! Compares against another \p device_malloc_allocator for inequality.
      *  \return \c false
      */
     __host__ __device__
-    inline bool operator!=(device_malloc_allocator const &a) {return !operator==(a); }
+    inline bool operator!=(device_malloc_allocator const &a) const {return !operator==(a); }
 }; // end device_malloc_allocator
 
 /*! \}

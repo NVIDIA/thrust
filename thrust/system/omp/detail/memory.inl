@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,32 +26,6 @@ namespace system
 {
 namespace omp
 {
-
-
-template<typename T>
-  template<typename OtherT>
-    reference<T> &
-      reference<T>
-        ::operator=(const reference<OtherT> &other)
-{
-  return super_t::operator=(other);
-} // end reference::operator=()
-
-template<typename T>
-  reference<T> &
-    reference<T>
-      ::operator=(const value_type &x)
-{
-  return super_t::operator=(x);
-} // end reference::operator=()
-
-template<typename T>
-__host__ __device__
-void swap(reference<T> a, reference<T> b)
-{
-  a.swap(b);
-} // end swap()
-
 namespace detail
 {
 

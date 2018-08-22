@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@ namespace thrust
 
 namespace detail
 {
+
+struct copy_allocator_t {};
 
 // XXX parameter T is redundant with parameter Alloc
 template<typename T, typename Alloc>
@@ -62,6 +64,14 @@ template<typename T, typename Alloc>
 
     __thrust_exec_check_disable__
     __host__ __device__
+    explicit contiguous_storage(copy_allocator_t, const contiguous_storage &other);
+
+    __thrust_exec_check_disable__
+    __host__ __device__
+    explicit contiguous_storage(copy_allocator_t, const contiguous_storage &other, size_type n);
+
+    __thrust_exec_check_disable__
+    __host__ __device__
     ~contiguous_storage();
 
     __host__ __device__
@@ -78,7 +88,7 @@ template<typename T, typename Alloc>
 
     __host__ __device__
     iterator begin();
-    
+
     __host__ __device__
     const_iterator begin() const;
 
@@ -138,16 +148,85 @@ template<typename T, typename Alloc>
     __host__ __device__
     void destroy(iterator first, iterator last);
 
+    __host__ __device__
+    void deallocate_on_allocator_mismatch(const contiguous_storage &other);
+
+    __host__ __device__
+    void destroy_on_allocator_mismatch(const contiguous_storage &other,
+        iterator first, iterator last);
+
+    __host__ __device__
+    void set_allocator(const allocator_type &alloc);
+
+    __host__ __device__
+    bool is_allocator_not_equal(const allocator_type &alloc) const;
+
+    __host__ __device__
+    bool is_allocator_not_equal(const contiguous_storage &other) const;
+
+    __host__ __device__
+    void propagate_allocator(const contiguous_storage &other);
+
+#if __cplusplus >= 201103L
+    __host__ __device__
+    void propagate_allocator(contiguous_storage &other);
+
+    // allow move assignment for a sane implementation of allocator propagation
+    // on move assignment
+    __host__ __device__
+    contiguous_storage &operator=(contiguous_storage &&other);
+#endif
+
   private:
     // XXX we could inherit from this to take advantage of empty base class optimization
     allocator_type m_allocator;
 
     iterator m_begin;
-    
+
     size_type m_size;
 
     // disallow assignment
     contiguous_storage &operator=(const contiguous_storage &x);
+
+    __host__ __device__
+    void swap_allocators(true_type, const allocator_type &);
+
+    __host__ __device__
+    void swap_allocators(false_type, allocator_type &);
+
+    __host__ __device__
+    bool is_allocator_not_equal_dispatch(true_type, const allocator_type &) const;
+
+    __host__ __device__
+    bool is_allocator_not_equal_dispatch(false_type, const allocator_type &) const;
+
+    __host__ __device__
+    void deallocate_on_allocator_mismatch_dispatch(true_type, const contiguous_storage &other);
+
+    __host__ __device__
+    void deallocate_on_allocator_mismatch_dispatch(false_type, const contiguous_storage &other);
+
+    __host__ __device__
+    void destroy_on_allocator_mismatch_dispatch(true_type, const contiguous_storage &other,
+        iterator first, iterator last);
+
+    __host__ __device__
+    void destroy_on_allocator_mismatch_dispatch(false_type, const contiguous_storage &other,
+        iterator first, iterator last);
+
+    __host__ __device__
+    void propagate_allocator_dispatch(true_type, const contiguous_storage &other);
+
+    __host__ __device__
+    void propagate_allocator_dispatch(false_type, const contiguous_storage &other);
+
+#if __cplusplus >= 201103L
+    __host__ __device__
+    void propagate_allocator_dispatch(true_type, contiguous_storage &other);
+
+    __host__ __device__
+    void propagate_allocator_dispatch(false_type, contiguous_storage &other);
+#endif
 }; // end contiguous_storage
 
 } // end detail

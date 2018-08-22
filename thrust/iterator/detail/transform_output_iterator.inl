@@ -37,6 +37,7 @@ template <typename UnaryFunction, typename OutputIterator>
     {
     }
 
+    __thrust_exec_check_disable__
     template <typename T>
     __host__ __device__
     transform_output_iterator_proxy operator=(const T& x)

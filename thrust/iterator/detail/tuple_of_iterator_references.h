@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ template<
 
     // allow assignment from tuples
     // XXX might be worthwhile to guard this with an enable_if is_assignable
+    __thrust_exec_check_disable__
     template<typename U1, typename U2>
     inline __host__ __device__
     tuple_of_iterator_references &operator=(const detail::cons<U1,U2> &other)
@@ -58,6 +59,7 @@ template<
 
     // allow assignment from pairs
     // XXX might be worthwhile to guard this with an enable_if is_assignable
+    __thrust_exec_check_disable__
     template<typename U1, typename U2>
     inline __host__ __device__
     tuple_of_iterator_references &operator=(const thrust::pair<U1,U2> &other)
@@ -69,6 +71,7 @@ template<
     // allow assignment from reference<tuple>
     // XXX perhaps we should generalize to reference<T>
     //     we could captures reference<pair> this way
+    __thrust_exec_check_disable__
     template<typename U0, typename U1, typename U2,
              typename U3, typename U4, typename U5,
              typename U6, typename U7, typename U8,

@@ -29,7 +29,7 @@ void TestScatterSimple(void)
     ASSERT_EQUAL(dst[6], 0);
     ASSERT_EQUAL(dst[7], 3);
 }
-DECLARE_VECTOR_UNITTEST(TestScatterSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestScatterSimple);
 
 
 template<typename InputIterator1,
@@ -160,7 +160,7 @@ void TestScatterIfSimple(void)
     ASSERT_EQUAL(dst[6], 0);
     ASSERT_EQUAL(dst[7], 3);
 }
-DECLARE_VECTOR_UNITTEST(TestScatterIfSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestScatterIfSimple);
 
 
 template<typename InputIterator1,
@@ -312,7 +312,7 @@ void TestScatterCountingIterator(void)
 
     ASSERT_EQUAL(output, map);
 }
-DECLARE_VECTOR_UNITTEST(TestScatterCountingIterator);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestScatterCountingIterator);
 
 
 template <typename Vector>
@@ -355,5 +355,5 @@ void TestScatterIfCountingIterator(void)
 
     ASSERT_EQUAL(output, map);
 }
-DECLARE_VECTOR_UNITTEST(TestScatterIfCountingIterator);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestScatterIfCountingIterator);
 

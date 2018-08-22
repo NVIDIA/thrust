@@ -90,7 +90,19 @@ struct my_allocator_with_custom_destroy
   {
     use_me_to_alloc.deallocate(ptr,n);
   }
-  
+
+  bool operator==(const my_allocator_with_custom_destroy &) const
+  {
+    return true;
+  }
+
+  bool operator!=(const my_allocator_with_custom_destroy &other) const
+  {
+    return !(*this == other);
+  }
+
+  typedef thrust::detail::true_type is_always_equal;
+
   // use composition rather than inheritance
   // to avoid inheriting std::allocator's member
   // function construct

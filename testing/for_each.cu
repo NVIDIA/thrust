@@ -22,7 +22,7 @@ void TestForEachSimple(void)
 
     Vector input(5);
     Vector output(7, (T) 0);
-    
+
     input[0] = 3; input[1] = 2; input[2] = 3; input[3] = 4; input[4] = 6;
 
     mark_present_for_each<T> f;
@@ -39,7 +39,7 @@ void TestForEachSimple(void)
     ASSERT_EQUAL(output[6], 1);
     ASSERT_EQUAL_QUIET(result, input.end());
 }
-DECLARE_VECTOR_UNITTEST(TestForEachSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestForEachSimple);
 
 
 template<typename InputIterator, typename Function>
@@ -88,7 +88,7 @@ void TestForEachNSimple(void)
 
     Vector input(5);
     Vector output(7, (T) 0);
-    
+
     input[0] = 3; input[1] = 2; input[2] = 3; input[3] = 4; input[4] = 6;
 
     mark_present_for_each<T> f;
@@ -105,7 +105,7 @@ void TestForEachNSimple(void)
     ASSERT_EQUAL(output[6], 1);
     ASSERT_EQUAL_QUIET(result, input.end());
 }
-DECLARE_VECTOR_UNITTEST(TestForEachNSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestForEachNSimple);
 
 
 template<typename InputIterator, typename Size, typename Function>

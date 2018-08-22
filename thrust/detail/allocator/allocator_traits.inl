@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -111,6 +111,7 @@ template<typename Alloc, typename T, typename Arg1>
   a.construct(p,arg1);
 }
 
+__thrust_exec_check_disable__
 template<typename Alloc, typename T, typename Arg1>
   inline __host__ __device__
     typename disable_if<
@@ -129,6 +130,7 @@ template<typename Alloc, typename T>
     : has_member_destroy_impl<Alloc, void(T*)>
 {};
 
+__thrust_exec_check_disable__
 template<typename Alloc, typename T>
   inline __host__ __device__
     typename enable_if<
@@ -139,6 +141,7 @@ template<typename Alloc, typename T>
   a.destroy(p);
 }
 
+__thrust_exec_check_disable__
 template<typename Alloc, typename T>
   inline __host__ __device__
     typename disable_if<

@@ -188,7 +188,7 @@ void TestReduceWithIndirection(void)
     
     ASSERT_EQUAL(result, T(1));
 }
-DECLARE_VECTOR_UNITTEST(TestReduceWithIndirection);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestReduceWithIndirection);
 
 template<typename T>
   void TestReduceCountingIterator(size_t n)

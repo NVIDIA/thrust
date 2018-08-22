@@ -157,7 +157,7 @@ void TestCopyMixedTypes(void)
     ASSERT_EQUAL(d[4], 4);
     ASSERT_EQUAL_QUIET(d_result, d.end());
 }
-DECLARE_VECTOR_UNITTEST(TestCopyMixedTypes);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestCopyMixedTypes);
 
 
 void TestCopyVectorBool(void)
@@ -262,7 +262,7 @@ void TestCopyIfSimple(void)
     ASSERT_EQUAL(4, dest[2]);
     ASSERT_EQUAL_QUIET(dest.end(), dest_end);
 }
-DECLARE_VECTOR_UNITTEST(TestCopyIfSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestCopyIfSimple);
 
 
 template <typename T>
@@ -325,7 +325,7 @@ void TestCopyIfStencilSimple(void)
     ASSERT_EQUAL(3, dest[2]);
     ASSERT_EQUAL_QUIET(dest.end(), dest_end);
 }
-DECLARE_VECTOR_UNITTEST(TestCopyIfStencilSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestCopyIfStencilSimple);
 
 
 template <typename T>
@@ -389,7 +389,7 @@ void TestCopyCountingIterator(void)
     ASSERT_EQUAL(vec[2], 3);
     ASSERT_EQUAL(vec[3], 4);
 }
-DECLARE_VECTOR_UNITTEST(TestCopyCountingIterator);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestCopyCountingIterator);
 
 template <typename Vector>
 void TestCopyZipIterator(void)

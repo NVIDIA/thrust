@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -192,6 +192,7 @@ struct plus
 
   /*! Function call operator. The return value is <tt>lhs + rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs + rhs;}
 }; // end plus
 
@@ -248,6 +249,7 @@ struct minus
 
   /*! Function call operator. The return value is <tt>lhs - rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs - rhs;}
 }; // end minus
 
@@ -304,6 +306,7 @@ struct multiplies
 
   /*! Function call operator. The return value is <tt>lhs * rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs * rhs;}
 }; // end multiplies
 
@@ -360,6 +363,7 @@ struct divides
 
   /*! Function call operator. The return value is <tt>lhs / rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs / rhs;}
 }; // end divides
 
@@ -416,6 +420,7 @@ struct modulus
 
   /*! Function call operator. The return value is <tt>lhs % rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs % rhs;}
 }; // end modulus
 
@@ -464,6 +469,7 @@ struct negate
 
   /*! Function call operator. The return value is <tt>-x</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &x) const {return -x;}
 }; // end negate
 
@@ -506,6 +512,7 @@ struct equal_to
 
   /*! Function call operator. The return value is <tt>lhs == rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs == rhs;}
 }; // end equal_to
 
@@ -540,6 +547,7 @@ struct not_equal_to
 
   /*! Function call operator. The return value is <tt>lhs != rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs != rhs;}
 }; // end not_equal_to
 
@@ -574,6 +582,7 @@ struct greater
 
   /*! Function call operator. The return value is <tt>lhs > rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs > rhs;}
 }; // end greater
 
@@ -608,6 +617,7 @@ struct less
 
   /*! Function call operator. The return value is <tt>lhs < rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs < rhs;}
 }; // end less
 
@@ -642,6 +652,7 @@ struct greater_equal
 
   /*! Function call operator. The return value is <tt>lhs >= rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs >= rhs;}
 }; // end greater_equal
 
@@ -676,6 +687,7 @@ struct less_equal
 
   /*! Function call operator. The return value is <tt>lhs <= rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs <= rhs;}
 }; // end less_equal
 
@@ -719,6 +731,7 @@ struct logical_and
 
   /*! Function call operator. The return value is <tt>lhs && rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs && rhs;}
 }; // end logical_and
 
@@ -753,6 +766,7 @@ struct logical_or
 
   /*! Function call operator. The return value is <tt>lhs || rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs || rhs;}
 }; // end logical_or
 
@@ -801,6 +815,7 @@ struct logical_not
 
   /*! Function call operator. The return value is <tt>!x</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ bool operator()(const T &x) const {return !x;}
 }; // end logical_not
 
@@ -864,6 +879,7 @@ struct bit_and
 
   /*! Function call operator. The return value is <tt>lhs & rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs & rhs;}
 }; // end bit_and
 
@@ -919,6 +935,7 @@ struct bit_or
 
   /*! Function call operator. The return value is <tt>lhs | rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs | rhs;}
 }; // end bit_or
 
@@ -974,6 +991,7 @@ struct bit_xor
 
   /*! Function call operator. The return value is <tt>lhs ^ rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs ^ rhs;}
 }; // end bit_xor
 
@@ -1020,6 +1038,7 @@ struct identity
 
   /*! Function call operator. The return value is <tt>x</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ const T &operator()(const T &x) const {return x;}
 }; // end identity
 
@@ -1067,6 +1086,7 @@ struct maximum
 
   /*! Function call operator. The return value is <tt>rhs < lhs ? lhs : rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? rhs : lhs;}
 }; // end maximum
 
@@ -1114,6 +1134,7 @@ struct minimum
 
   /*! Function call operator. The return value is <tt>lhs < rhs ? lhs : rhs</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
 }; // end minimum
 
@@ -1232,6 +1253,7 @@ struct unary_negate
 
   /*! Function call operator. The return value is <tt>!pred(x)</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__
   bool operator()(const typename Predicate::argument_type& x) { return !pred(x); }
 
@@ -1286,6 +1308,7 @@ struct binary_negate
 
   /*! Function call operator. The return value is <tt>!pred(x,y)</tt>.
    */
+  __thrust_exec_check_disable__
   __host__ __device__
   bool operator()(const typename Predicate::first_argument_type& x, const typename Predicate::second_argument_type& y)
   { 

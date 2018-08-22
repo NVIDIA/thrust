@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -360,6 +360,7 @@ template <class T0, class T1, class T2, class T3, class T4,
   inline __host__ __device__ 
   tuple(const detail::cons<U1, U2>& p) : inherited(p) {}
 
+  __thrust_exec_check_disable__
   template <class U1, class U2>
   inline __host__ __device__ 
   tuple& operator=(const detail::cons<U1, U2>& k)
@@ -374,6 +375,7 @@ template <class T0, class T1, class T2, class T3, class T4,
   /*! This assignment operator allows assigning the first two elements of this \p tuple from a \p pair.
    *  \param k A \p pair to assign from.
    */
+  __thrust_exec_check_disable__
   template <class U1, class U2>
   __host__ __device__ inline
   tuple& operator=(const thrust::pair<U1, U2>& k) {

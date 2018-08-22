@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -176,6 +176,7 @@ template<typename Generator>
 {
   typedef void result_type;
 
+  __thrust_exec_check_disable__
   __host__ __device__
   host_generate_functor(Generator g)
     : gen(g) {}
@@ -209,6 +210,7 @@ template<typename Generator>
 {
   typedef void result_type;
 
+  __thrust_exec_check_disable__
   __host__ __device__
   device_generate_functor(Generator g)
     : gen(g) {}
@@ -462,13 +464,24 @@ struct fill_functor
 {
   T exemplar;
 
+  __thrust_exec_check_disable__
   __host__ __device__
   fill_functor(const T& _exemplar) 
     : exemplar(_exemplar) {}
 
+  __thrust_exec_check_disable__
+  __host__ __device__
+  fill_functor(const fill_functor & other)
+    :exemplar(other.exemplar){}
+
+  __thrust_exec_check_disable__
+  __host__ __device__
+  ~fill_functor() {}
+
+  __thrust_exec_check_disable__
   __host__ __device__
   T operator()(void) const
-  { 
+  {
     return exemplar;
   }
 };
@@ -479,9 +492,20 @@ template<typename T>
 {
   T exemplar;
 
+  __thrust_exec_check_disable__
   __host__ __device__
-  uninitialized_fill_functor(T x):exemplar(x){}
+  uninitialized_fill_functor(const T & x):exemplar(x){}
 
+  __thrust_exec_check_disable__
+  __host__ __device__
+  uninitialized_fill_functor(const uninitialized_fill_functor & other)
+    :exemplar(other.exemplar){}
+
+  __thrust_exec_check_disable__
+  __host__ __device__
+  ~uninitialized_fill_functor() {}
+
+  __thrust_exec_check_disable__
   __host__ __device__
   void operator()(T &x)
   {

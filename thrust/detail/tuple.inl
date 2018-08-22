@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -309,6 +309,7 @@ template <class HT, class TT>
   inline __host__ __device__
   cons( const cons<HT2, TT2>& u ) : head(u.head), tail(u.tail) {}
 
+  __thrust_exec_check_disable__
   template <class HT2, class TT2>
   inline __host__ __device__
   cons& operator=( const cons<HT2, TT2>& u ) {
@@ -317,6 +318,7 @@ template <class HT, class TT>
 
   // must define assignment operator explicitly, implicit version is
   // illformed if HT is a reference (12.8. (12))
+  __thrust_exec_check_disable__
   inline __host__ __device__
   cons& operator=(const cons& u) {
     head = u.head; tail = u.tail;  return *this;
@@ -410,6 +412,7 @@ template <class HT>
   inline __host__ __device__
   cons( const cons<HT2, null_type>& u ) : head(u.head) {}
 
+  __thrust_exec_check_disable__
   template <class HT2>
   inline __host__ __device__
   cons& operator=(const cons<HT2, null_type>& u )

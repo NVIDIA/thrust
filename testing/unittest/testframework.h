@@ -11,6 +11,10 @@
 #include "meta.h"
 #include "util.h"
 
+#include <thrust/memory/detail/device_system_resource.h>
+#include <thrust/memory/detail/host_system_resource.h>
+#include <thrust/mr/allocator.h>
+
 // define some common lists of types
 typedef unittest::type_list<int,
                             unsigned int,
@@ -60,6 +64,162 @@ typedef unittest::type_list<long long,
 typedef unittest::type_list<float,
                             double> FloatingPointTypes;
 
+// a type that behaves as if it was a normal numeric type,
+// so it can be used in the same tests as "normal" numeric types
+class custom_numeric
+{
+public:
+    __host__ __device__
+    custom_numeric()
+    {
+        fill(0);
+    }
+
+    __host__ __device__
+    custom_numeric(int i)
+    {
+        fill(i);
+    }
+
+    __host__ __device__
+    custom_numeric(const custom_numeric & other)
+    {
+        fill(other.value[0]);
+    }
+
+    __host__ __device__
+    custom_numeric & operator=(int val)
+    {
+        fill(val);
+        return *this;
+    }
+
+    __host__ __device__
+    custom_numeric & operator=(const custom_numeric & other)
+    {
+        fill(other.value[0]);
+        return *this;
+    }
+
+    // cast to void * instead of bool to fool overload resolution
+    // WTB C++11 explicit conversion operators
+    __host__ __device__
+    operator void *() const
+    {
+        return reinterpret_cast<void *>(value[0]);
+    }
+
+#define DEFINE_OPERATOR(op)                                         \
+    __host__ __device__                                             \
+    custom_numeric & operator op() {                                \
+        fill(op value[0]);                                          \
+        return *this;                                               \
+    }                                                               \
+    __host__ __device__                                             \
+    custom_numeric operator op(int) const {                         \
+        custom_numeric ret(*this);                                  \
+        op ret;                                                     \
+        return ret;                                                 \
+    }
+
+    DEFINE_OPERATOR(++)
+    DEFINE_OPERATOR(--)
+
+#undef DEFINE_OPERATOR
+
+#define DEFINE_OPERATOR(op)                                         \
+    __host__ __device__                                             \
+    custom_numeric operator op () const                             \
+    {                                                               \
+        return custom_numeric(op value[0]);                         \
+    }
+
+    DEFINE_OPERATOR(+)
+    DEFINE_OPERATOR(-)
+    DEFINE_OPERATOR(~)
+
+#undef DEFINE_OPERATOR
+
+#define DEFINE_OPERATOR(op)                                         \
+    __host__ __device__                                             \
+    custom_numeric operator op (const custom_numeric & other) const \
+    {                                                               \
+        return custom_numeric(value[0] op other.value[0]);          \
+    }
+
+    DEFINE_OPERATOR(+)
+    DEFINE_OPERATOR(-)
+    DEFINE_OPERATOR(*)
+    DEFINE_OPERATOR(/)
+    DEFINE_OPERATOR(%)
+    DEFINE_OPERATOR(<<)
+    DEFINE_OPERATOR(>>)
+    DEFINE_OPERATOR(&)
+    DEFINE_OPERATOR(|)
+    DEFINE_OPERATOR(^)
+
+#undef DEFINE_OPERATOR
+
+#define CONCAT(X, Y) X ## Y
+
+#define DEFINE_OPERATOR(op)                                         \
+    __host__ __device__                                             \
+    custom_numeric & operator CONCAT(op, =) (const custom_numeric & other) \
+    {                                                               \
+        fill(value[0] op other.value[0]);                           \
+        return *this;                                               \
+    }
+
+    DEFINE_OPERATOR(+)
+    DEFINE_OPERATOR(-)
+    DEFINE_OPERATOR(*)
+    DEFINE_OPERATOR(/)
+    DEFINE_OPERATOR(%)
+    DEFINE_OPERATOR(<<)
+    DEFINE_OPERATOR(>>)
+    DEFINE_OPERATOR(&)
+    DEFINE_OPERATOR(|)
+    DEFINE_OPERATOR(^)
+
+#undef DEFINE_OPERATOR
+
+#define DEFINE_OPERATOR(op)                                         \
+    __host__ __device__                                             \
+    friend bool operator op (const custom_numeric & lhs, const custom_numeric & rhs) \
+    {                                                               \
+        return lhs.value[0] op rhs.value[0];                        \
+    }
+
+    DEFINE_OPERATOR(==)
+    DEFINE_OPERATOR(!=)
+    DEFINE_OPERATOR(<)
+    DEFINE_OPERATOR(<=)
+    DEFINE_OPERATOR(>)
+    DEFINE_OPERATOR(>=)
+    DEFINE_OPERATOR(&&)
+    DEFINE_OPERATOR(||);
+
+
+#undef DEFINE_OPERATOR
+
+    friend std::ostream & operator<<(std::ostream & os, const custom_numeric & val)
+    {
+        return os << "custom_numeric{" << val.value[0] << "}";
+    }
+
+private:
+    int value[5];
+
+    __host__ __device__
+    void fill(int val)
+    {
+        for (int i = 0; i < 5; ++i)
+        {
+            value[i] = val;
+        }
+    }
+};
+
 typedef unittest::type_list<char,
                             signed char,
                             unsigned char,
@@ -71,9 +231,22 @@ typedef unittest::type_list<char,
                             unsigned long,
                             long long,
                             unsigned long long,
-                            float> NumericTypes;
+                            float,
+                            custom_numeric> NumericTypes;
 // exclude double from NumericTypes
 
+typedef unittest::type_list<char,
+                            signed char,
+                            unsigned char,
+                            short,
+                            unsigned short,
+                            int,
+                            unsigned int,
+                            long,
+                            unsigned long,
+                            long long,
+                            unsigned long long,
+                            float> RandomizableTypes;
 
 inline void chop_prefix(std::string& str, const std::string& prefix)
 {
@@ -145,7 +318,6 @@ public:
   static UnitTestDriver &s_driver();
 };
 
-
 // Macro to create a single unittest
 #define DECLARE_UNITTEST(TEST)                                   \
 class TEST##UnitTest : public UnitTest {                         \
@@ -158,14 +330,55 @@ class TEST##UnitTest : public UnitTest {                         \
 TEST##UnitTest TEST##Instance
 
 // Macro to create host and device versions of a
-// unit test for a couple data types
-#define DECLARE_VECTOR_UNITTEST(VTEST)                                                                            \
-void VTEST##Host(void)   {  VTEST< thrust::host_vector<short> >();   VTEST< thrust::host_vector<int> >();   }    \
-void VTEST##Device(void) {  VTEST< thrust::device_vector<short> >(); VTEST< thrust::device_vector<int> >(); }    \
-DECLARE_UNITTEST(VTEST##Host);                                                                                    \
+// unit test for a bunch of data types
+#define DECLARE_VECTOR_UNITTEST(VTEST)                          \
+void VTEST##Host(void) {                                        \
+    VTEST< thrust::host_vector<char> >();                       \
+    VTEST< thrust::host_vector<short> >();                      \
+    VTEST< thrust::host_vector<int> >();                        \
+    VTEST< thrust::host_vector<float> >();                      \
+    VTEST< thrust::host_vector<custom_numeric> >();             \
+    /* NPA vectors */                                           \
+    VTEST< thrust::host_vector<int,                             \
+        thrust::mr::stateless_resource_allocator<int,           \
+            thrust::host_memory_resource> > >();                \
+}                                                               \
+void VTEST##Device(void) {                                      \
+    VTEST< thrust::device_vector<char> >();                     \
+    VTEST< thrust::device_vector<short> >();                    \
+    VTEST< thrust::device_vector<int> >();                      \
+    VTEST< thrust::device_vector<float> >();                    \
+    VTEST< thrust::device_vector<custom_numeric> >();           \
+    /* NPA vectors */                                           \
+    VTEST< thrust::device_vector<int,                           \
+        thrust::mr::stateless_resource_allocator<int,           \
+            thrust::device_memory_resource> > >();              \
+    VTEST< thrust::device_vector<int,                           \
+        thrust::mr::stateless_resource_allocator<int,           \
+            thrust::universal_memory_resource> > >();           \
+    VTEST< thrust::device_vector<int,                           \
+        thrust::mr::stateless_resource_allocator<int,           \
+            thrust::universal_host_pinned_memory_resource> > >();\
+}                                                               \
+DECLARE_UNITTEST(VTEST##Host);                                  \
 DECLARE_UNITTEST(VTEST##Device);
 
-// Macro to create instances of a test for several 
+// Same as above, but only for integral types
+#define DECLARE_INTEGRAL_VECTOR_UNITTEST(VTEST)                 \
+void VTEST##Host(void) {                                        \
+    VTEST< thrust::host_vector<char> >();                       \
+    VTEST< thrust::host_vector<short> >();                      \
+    VTEST< thrust::host_vector<int> >();                        \
+}                                                               \
+void VTEST##Device(void) {                                      \
+    VTEST< thrust::device_vector<char> >();                     \
+    VTEST< thrust::device_vector<short> >();                    \
+    VTEST< thrust::device_vector<int> >();                      \
+}                                                               \
+DECLARE_UNITTEST(VTEST##Host);                                  \
+DECLARE_UNITTEST(VTEST##Device);
+
+// Macro to create instances of a test for several
 // data types and array sizes
 #define DECLARE_VARIABLE_UNITTEST(TEST)                          \
 class TEST##UnitTest : public UnitTest {                         \

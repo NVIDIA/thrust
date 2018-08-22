@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -174,6 +174,7 @@ template<typename Ptr>
   struct pointer_traits
 {
   typedef Ptr                                    pointer;
+  typedef typename Ptr::reference                reference;
   typedef typename pointer_element<Ptr>::type    element_type;
   typedef typename pointer_difference<Ptr>::type difference_type;
 
@@ -206,6 +207,7 @@ template<typename T>
   struct pointer_traits<T*>
 {
   typedef T*                                    pointer;
+  typedef T&                                    reference;
   typedef T                                     element_type;
   typedef typename pointer_difference<T*>::type difference_type;
 
@@ -231,6 +233,43 @@ template<typename T>
   }
 };
 
+template<>
+  struct pointer_traits<void*>
+{
+  typedef void*                                    pointer;
+  typedef void                                     element_type;
+  typedef pointer_difference<void*>::type          difference_type;
+
+  template<typename U>
+    struct rebind
+  {
+    typedef U* other;
+  };
+
+  __host__ __device__
+  inline static pointer pointer_to(pointer_traits_detail::pointer_to_param<element_type>::type r)
+  {
+    return &r;
+  }
+
+  // thrust additions follow
+  typedef pointer_raw_pointer<void*>::type raw_pointer;
+
+  __host__ __device__
+  inline static raw_pointer get(pointer ptr)
+  {
+    return ptr;
+  }
+};
+
+template<typename FromPtr, typename ToPtr>
+  struct is_pointer_system_convertible
+    : thrust::detail::is_convertible<
+        typename iterator_system<FromPtr>::type,
+        typename iterator_system<ToPtr>::type
+      >
+{};
+
 template<typename FromPtr, typename ToPtr>
   struct is_pointer_convertible
     : thrust::detail::and_<
@@ -238,10 +277,18 @@ template<typename FromPtr, typename ToPtr>
           typename pointer_element<FromPtr>::type *,
           typename pointer_element<ToPtr>::type *
         >,
-        thrust::detail::is_convertible<
-          typename iterator_system<FromPtr>::type,
-          typename iterator_system<ToPtr>::type
-        >
+        is_pointer_system_convertible<FromPtr, ToPtr>
+      >
+{};
+
+template<typename FromPtr, typename ToPtr>
+  struct is_void_pointer_system_convertible
+    : thrust::detail::and_<
+        thrust::detail::is_same<
+          typename pointer_element<FromPtr>::type,
+          void
+        >,
+        is_pointer_system_convertible<FromPtr, ToPtr>
       >
 {};
 
@@ -262,10 +309,27 @@ template<typename FromPtr, typename ToPtr>
       >
 {};
 
+template<typename FromPtr, typename ToPtr>
+  struct lazy_is_void_pointer_system_convertible
+    : thrust::detail::eval_if<
+        is_thrust_pointer<FromPtr>::value && is_thrust_pointer<ToPtr>::value,
+        is_void_pointer_system_convertible<FromPtr,ToPtr>,
+        thrust::detail::identity_<thrust::detail::false_type>
+      >
+{};
+
 template<typename FromPtr, typename ToPtr, typename T = void>
   struct enable_if_pointer_is_convertible
     : thrust::detail::enable_if<
         lazy_is_pointer_convertible<FromPtr,ToPtr>::type::value,
+        T
+      >
+{};
+
+template<typename FromPtr, typename ToPtr, typename T = void>
+  struct enable_if_void_pointer_is_system_convertible
+    : thrust::detail::enable_if<
+        lazy_is_void_pointer_system_convertible<FromPtr,ToPtr>::type::value,
         T
       >
 {};

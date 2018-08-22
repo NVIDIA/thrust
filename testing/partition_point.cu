@@ -45,7 +45,7 @@ void TestPartitionPoint(void)
 
   ASSERT_EQUAL(ref - v.begin(), thrust::partition_point(v.begin(), v.end(), is_even<T>()) - v.begin());
 }
-DECLARE_VECTOR_UNITTEST(TestPartitionPoint);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestPartitionPoint);
 
 
 template<typename ForwardIterator, typename Predicate>

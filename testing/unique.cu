@@ -139,7 +139,7 @@ void TestUniqueSimple(void)
     ASSERT_EQUAL(data[1], 20);
     ASSERT_EQUAL(data[2], 31);
 }
-DECLARE_VECTOR_UNITTEST(TestUniqueSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestUniqueSimple);
 
 
 template<typename T>
@@ -206,7 +206,7 @@ void TestUniqueCopySimple(void)
     ASSERT_EQUAL(data[1], 20);
     ASSERT_EQUAL(data[2], 31);
 }
-DECLARE_VECTOR_UNITTEST(TestUniqueCopySimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestUniqueCopySimple);
 
 
 template<typename T>

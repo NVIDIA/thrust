@@ -6,16 +6,19 @@ static const size_t num_samples = 10000;
 
 template<typename Vector, typename U> struct rebind_vector;
 
-template<typename T, typename U>
-  struct rebind_vector<thrust::host_vector<T>, U>
+// TODO: C++11: use rebind from allocator_traits
+template<typename T, typename U, typename Allocator>
+  struct rebind_vector<thrust::host_vector<T, Allocator>, U>
 {
-  typedef thrust::host_vector<U> type;
+  typedef thrust::host_vector<U,
+    typename Allocator::template rebind<U>::other> type;
 };
 
-template<typename T, typename U>
-  struct rebind_vector<thrust::device_vector<T>, U>
+template<typename T, typename U, typename Allocator>
+  struct rebind_vector<thrust::device_vector<T, Allocator>, U>
 {
-  typedef thrust::device_vector<U> type;
+  typedef thrust::device_vector<U,
+    typename Allocator::template rebind<U>::other> type;
 };
 
 #define BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(name, reference_operator, functor) \

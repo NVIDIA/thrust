@@ -202,7 +202,7 @@ void TestRemoveIfSimple(void)
     ASSERT_EQUAL(data[1], 1);
     ASSERT_EQUAL(data[2], 3);
 }
-DECLARE_VECTOR_UNITTEST(TestRemoveIfSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestRemoveIfSimple);
 
 
 template<typename ForwardIterator,
@@ -366,7 +366,7 @@ void TestRemoveCopyIfSimple(void)
     ASSERT_EQUAL(result[1], 1);
     ASSERT_EQUAL(result[2], 3);
 }
-DECLARE_VECTOR_UNITTEST(TestRemoveCopyIfSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestRemoveCopyIfSimple);
 
 
 template<typename InputIterator,

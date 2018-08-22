@@ -39,14 +39,14 @@ void TestScanSimple(void)
     ASSERT_EQUAL(output, result);
     
     // exclusive scan
-    iter = thrust::exclusive_scan(input.begin(), input.end(), output.begin(), 0);
+    iter = thrust::exclusive_scan(input.begin(), input.end(), output.begin(), T(0));
     result[0] = 0; result[1] = 1; result[2] = 4; result[3] = 2; result[4] = 6;
     ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(input,  input_copy);
     ASSERT_EQUAL(output, result);
     
     // exclusive scan with init
-    iter = thrust::exclusive_scan(input.begin(), input.end(), output.begin(), 3);
+    iter = thrust::exclusive_scan(input.begin(), input.end(), output.begin(), T(3));
     result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
     ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(input,  input_copy);
@@ -60,7 +60,7 @@ void TestScanSimple(void)
     ASSERT_EQUAL(output, result);
 
     // exclusive scan with init and op
-    iter = thrust::exclusive_scan(input.begin(), input.end(), output.begin(), 3, thrust::plus<T>());
+    iter = thrust::exclusive_scan(input.begin(), input.end(), output.begin(), T(3), thrust::plus<T>());
     result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
     ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(input,  input_copy);
@@ -75,7 +75,7 @@ void TestScanSimple(void)
 
     // inplace exclusive scan with init
     input = input_copy;
-    iter = thrust::exclusive_scan(input.begin(), input.end(), input.begin(), 3);
+    iter = thrust::exclusive_scan(input.begin(), input.end(), input.begin(), T(3));
     result[0] = 3; result[1] = 4; result[2] = 7; result[3] = 5; result[4] = 9;
     ASSERT_EQUAL(std::size_t(iter - input.begin()), input.size());
     ASSERT_EQUAL(input, result);
@@ -553,5 +553,5 @@ void TestInclusiveScanWithIndirection(void)
     ASSERT_EQUAL(data[5], T(0));
     ASSERT_EQUAL(data[6], T(1));
 }
-DECLARE_VECTOR_UNITTEST(TestInclusiveScanWithIndirection);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestInclusiveScanWithIndirection);
 

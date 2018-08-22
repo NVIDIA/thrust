@@ -44,7 +44,8 @@ headers = find_headers(thrustdir, 'thrust', exclude_re)
 
 if len(headers) == 0:
     print('#error no include files found\n')
-    
+
+print('#define THRUST_CPP11_REQUIRED_NO_ERROR')
 for h in headers:
     print('#include <' + h + '>')
 

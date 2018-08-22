@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -488,7 +488,7 @@ namespace tt_detail
 template<typename T> struct make_unsigned_simple;
 
 template<> struct make_unsigned_simple<char>                   { typedef unsigned char          type; };
-template<> struct make_unsigned_simple<signed char>            { typedef signed   char          type; };
+template<> struct make_unsigned_simple<signed char>            { typedef unsigned char          type; };
 template<> struct make_unsigned_simple<unsigned char>          { typedef unsigned char          type; };
 template<> struct make_unsigned_simple<short>                  { typedef unsigned short         type; };
 template<> struct make_unsigned_simple<unsigned short>         { typedef unsigned short         type; };
@@ -668,6 +668,22 @@ template<typename T1, typename T2>
   ::value>::type>
   {
   typedef T1 type;
+  };
+
+template<typename T>
+  struct is_empty_helper : public T
+  {
+  };
+
+struct is_empty_helper_base
+{
+};
+
+template<typename T>
+  struct is_empty : integral_constant<bool,
+    sizeof(is_empty_helper_base) == sizeof(is_empty_helper<T>)
+  >
+  {
   };
 
 } // end detail

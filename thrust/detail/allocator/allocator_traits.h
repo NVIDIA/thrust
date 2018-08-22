@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -48,6 +48,7 @@ __THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_copy_assignment, prop
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_move_assignment, propagate_on_container_move_assignment)
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_propagate_on_container_swap, propagate_on_container_swap)
 __THRUST_DEFINE_HAS_NESTED_TYPE(has_system_type, system_type)
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_is_always_equal, is_always_equal)
 __THRUST_DEFINE_HAS_MEMBER_FUNCTION(has_member_system_impl, system)
 
 
@@ -115,6 +116,12 @@ template<typename T>
   struct nested_propagate_on_container_swap
 {
   typedef typename T::propagate_on_container_swap type;
+};
+
+template<typename T>
+  struct nested_is_always_equal
+{
+  typedef typename T::is_always_equal type;
 };
 
 template<typename T>
@@ -206,6 +213,12 @@ template<typename Alloc>
     allocator_traits_detail::nested_propagate_on_container_swap<allocator_type>,
     identity_<false_type>
   >::type propagate_on_container_swap;
+
+  typedef typename eval_if<
+    allocator_traits_detail::has_is_always_equal<allocator_type>::value,
+    allocator_traits_detail::nested_is_always_equal<allocator_type>,
+    is_empty<allocator_type>
+  >::type is_always_equal;
 
   typedef typename eval_if<
     allocator_traits_detail::has_system_type<allocator_type>::value,

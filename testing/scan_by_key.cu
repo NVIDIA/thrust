@@ -346,7 +346,7 @@ void TestScanByKeyReusedKeys(void)
     ASSERT_EQUAL(output[5],  6);
     ASSERT_EQUAL(output[6], 13);
 
-    thrust::exclusive_scan_by_key(keys.begin(), keys.end(), vals.begin(), output.begin(), 10);
+    thrust::exclusive_scan_by_key(keys.begin(), keys.end(), vals.begin(), output.begin(), typename Vector::value_type(10));
     
     ASSERT_EQUAL(output[0], 10);
     ASSERT_EQUAL(output[1], 10);

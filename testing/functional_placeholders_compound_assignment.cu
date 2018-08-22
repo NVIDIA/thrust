@@ -31,7 +31,7 @@ template<typename Vector> \
     ASSERT_ALMOST_EQUAL(lhs_reference, lhs); \
   } \
 }; \
-VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::device_vector, thrust::device_malloc_allocator> TestFunctionalPlaceholders##name##DeviceInstance; \
+VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::device_vector, thrust::device_allocator> TestFunctionalPlaceholders##name##DeviceInstance; \
 VectorUnitTest<TestFunctionalPlaceholders##name, type_list, thrust::host_vector, std::allocator> TestFunctionalPlaceholders##name##HostInstance;
 
 template<typename T>
@@ -161,7 +161,7 @@ template<typename Vector> \
   ASSERT_ALMOST_EQUAL(input_reference, input); \
   ASSERT_ALMOST_EQUAL(reference, result); \
 } \
-DECLARE_VECTOR_UNITTEST(TestFunctionalPlaceholdersPrefix##name);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestFunctionalPlaceholdersPrefix##name);
 
 PREFIX_FUNCTIONAL_PLACEHOLDERS_TEST(Increment,  ++,  prefix_increment_reference);
 PREFIX_FUNCTIONAL_PLACEHOLDERS_TEST(Decrement,  --,  prefix_decrement_reference);
@@ -185,7 +185,7 @@ template<typename Vector> \
   ASSERT_ALMOST_EQUAL(input_reference, input); \
   ASSERT_ALMOST_EQUAL(reference, result); \
 } \
-DECLARE_VECTOR_UNITTEST(TestFunctionalPlaceholdersSuffix##name);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestFunctionalPlaceholdersSuffix##name);
 
 SUFFIX_FUNCTIONAL_PLACEHOLDERS_TEST(Increment,  ++,  suffix_increment_reference);
 SUFFIX_FUNCTIONAL_PLACEHOLDERS_TEST(Decrement,  --,  suffix_decrement_reference);

@@ -175,7 +175,7 @@ void TestVectorFromBiDirectionalIterator(void)
     stl_list.push_back(1);
     stl_list.push_back(2);
 
-    thrust::host_vector<int> v(stl_list.begin(), stl_list.end());
+    Vector v(stl_list.begin(), stl_list.end());
 
     ASSERT_EQUAL(v.size(), 3lu);
     ASSERT_EQUAL(v[0], 0);

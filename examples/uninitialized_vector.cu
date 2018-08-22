@@ -4,7 +4,7 @@
 // This example demonstrates how to avoid default construction of a
 // device_vector's data by using a custom allocator.
 
-#include <thrust/device_malloc_allocator.h>
+#include <thrust/device_allocator.h>
 #include <thrust/device_vector.h>
 #include <thrust/logical.h>
 #include <thrust/functional.h>
@@ -15,7 +15,7 @@
 // no-op construct member function
 template<typename T>
   struct uninitialized_allocator
-    : thrust::device_malloc_allocator<T>
+    : thrust::device_allocator<T>
 {
   // note that construct is annotated as
   // a __host__ __device__ function

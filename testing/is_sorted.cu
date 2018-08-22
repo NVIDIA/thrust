@@ -72,7 +72,7 @@ void TestIsSorted(void)
 
     ASSERT_EQUAL(thrust::is_sorted(v.begin(), v.end()), true);
 }
-DECLARE_VECTOR_UNITTEST(TestIsSorted);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestIsSorted);
 
 
 template<typename InputIterator>

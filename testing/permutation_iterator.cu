@@ -52,7 +52,7 @@ void TestPermutationIteratorSimple(void)
     ASSERT_EQUAL(source[6],  7);
     ASSERT_EQUAL(source[7],  8);
 }
-DECLARE_VECTOR_UNITTEST(TestPermutationIteratorSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestPermutationIteratorSimple);
 
 template <class Vector>
 void TestPermutationIteratorGather(void)
@@ -80,7 +80,7 @@ void TestPermutationIteratorGather(void)
     ASSERT_EQUAL(output[2], 6);
     ASSERT_EQUAL(output[3], 8);
 }
-DECLARE_VECTOR_UNITTEST(TestPermutationIteratorGather);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestPermutationIteratorGather);
 
 template <class Vector>
 void TestPermutationIteratorScatter(void)
@@ -113,7 +113,7 @@ void TestPermutationIteratorScatter(void)
     ASSERT_EQUAL(output[6],  7);
     ASSERT_EQUAL(output[7], 10);
 }
-DECLARE_VECTOR_UNITTEST(TestPermutationIteratorScatter);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestPermutationIteratorScatter);
 
 template <class Vector>
 void TestMakePermutationIterator(void)
@@ -139,7 +139,7 @@ void TestMakePermutationIterator(void)
     ASSERT_EQUAL(output[2], 6);
     ASSERT_EQUAL(output[3], 8);
 }
-DECLARE_VECTOR_UNITTEST(TestMakePermutationIterator);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestMakePermutationIterator);
 
 template <typename Vector>
 void TestPermutationIteratorReduce(void)
@@ -174,7 +174,7 @@ void TestPermutationIteratorReduce(void)
                                          thrust::plus<T>());
     ASSERT_EQUAL(result2, -19);
 };
-DECLARE_VECTOR_UNITTEST(TestPermutationIteratorReduce);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestPermutationIteratorReduce);
 
 void TestPermutationIteratorHostDeviceGather(void)
 {
@@ -312,5 +312,5 @@ void TestPermutationIteratorWithCountingIterator(void)
     ASSERT_EQUAL(output[3], 3);
   }
 }
-DECLARE_VECTOR_UNITTEST(TestPermutationIteratorWithCountingIterator);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestPermutationIteratorWithCountingIterator);
 

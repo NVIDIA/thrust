@@ -200,7 +200,7 @@ void TestUniqueByKeySimple(void)
     ASSERT_EQUAL(values[1], 2);
     ASSERT_EQUAL(values[2], 7);
 }
-DECLARE_VECTOR_UNITTEST(TestUniqueByKeySimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestUniqueByKeySimple);
 
 
 template<typename Vector>
@@ -250,7 +250,7 @@ void TestUniqueCopyByKeySimple(void)
     ASSERT_EQUAL(output_values[1], 2);
     ASSERT_EQUAL(output_values[2], 7);
 }
-DECLARE_VECTOR_UNITTEST(TestUniqueCopyByKeySimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestUniqueCopyByKeySimple);
 
 
 template<typename K>

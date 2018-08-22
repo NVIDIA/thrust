@@ -58,7 +58,7 @@ void TestIsPartitioned(void)
 
   ASSERT_EQUAL(true, thrust::is_partitioned(v.begin(), v.end(), is_even<T>()));
 }
-DECLARE_VECTOR_UNITTEST(TestIsPartitioned);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestIsPartitioned);
 
 
 template<typename InputIterator, typename Predicate>

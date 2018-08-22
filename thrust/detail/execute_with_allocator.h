@@ -43,22 +43,20 @@ struct execute_with_allocator
 private:
   typedef BaseSystem<execute_with_allocator<Allocator, BaseSystem> > super_t;
 
-  Allocator& alloc;
+  Allocator alloc;
 
 public:
   __host__ __device__
-  execute_with_allocator(super_t const& super, Allocator& alloc_)
+  execute_with_allocator(super_t const& super, Allocator alloc_)
     : super_t(super), alloc(alloc_)
   {}
 
   __host__ __device__
-  execute_with_allocator(Allocator& alloc_)
+  execute_with_allocator(Allocator alloc_)
     : alloc(alloc_)
   {}
 
-  Allocator& get_allocator() { return alloc; }
-
-  Allocator const& get_allocator() const { return alloc; }
+  Allocator get_allocator() { return alloc; }
 };
 
 template <
@@ -73,10 +71,11 @@ get_temporary_buffer(
   , std::ptrdiff_t n
     )
 {
-  typedef typename thrust::detail::allocator_traits<Allocator> alloc_traits;
-  typedef typename alloc_traits::void_pointer                  void_pointer;
-  typedef typename alloc_traits::size_type                     size_type;
-  typedef typename alloc_traits::value_type                    value_type;
+  typedef typename thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename alloc_traits::void_pointer                        void_pointer;
+  typedef typename alloc_traits::size_type                           size_type;
+  typedef typename alloc_traits::value_type                          value_type;
 
   // How many elements of type value_type do we need to accommodate n elements
   // of type T?
@@ -101,8 +100,9 @@ return_temporary_buffer(
   , Pointer p
     )
 {
-  typedef typename thrust::detail::allocator_traits<Allocator> alloc_traits;
-  typedef typename alloc_traits::pointer                       pointer;
+  typedef typename thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename alloc_traits::pointer                             pointer;
 
   pointer to_ptr = thrust::detail::reinterpret_pointer_cast<pointer>(p);
   alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);

@@ -109,7 +109,7 @@ void TestReduceByKeySimple(void)
     ASSERT_EQUAL(output_values[3], 15);
     ASSERT_EQUAL(output_values[4], 15);
 }
-DECLARE_VECTOR_UNITTEST(TestReduceByKeySimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestReduceByKeySimple);
 
 template<typename K>
 struct TestReduceByKey

@@ -87,7 +87,7 @@ void TestStableSortSimple(void)
 
     ASSERT_EQUAL(unsorted_keys,   sorted_keys);
 }
-DECLARE_VECTOR_UNITTEST(TestStableSortSimple);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestStableSortSimple);
 
 
 template <typename T>
@@ -171,5 +171,5 @@ void TestStableSortWithIndirection(void)
     ASSERT_EQUAL(data[5], T(5));
     ASSERT_EQUAL(data[6], T(2));
 }
-DECLARE_VECTOR_UNITTEST(TestStableSortWithIndirection);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestStableSortWithIndirection);
 

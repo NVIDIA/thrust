@@ -294,7 +294,7 @@ void TestNot1(void)
     ASSERT_EQUAL(output[3], 0);
     ASSERT_EQUAL(output[4], 1);
 }
-DECLARE_VECTOR_UNITTEST(TestNot1);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestNot1);
 
 template <class Vector>
 void TestNot2(void)

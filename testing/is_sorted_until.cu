@@ -94,7 +94,7 @@ void TestIsSortedUntil(void)
 
     ASSERT_EQUAL_QUIET(v.end(), thrust::is_sorted_until(v.begin(), v.end()));
 }
-DECLARE_VECTOR_UNITTEST(TestIsSortedUntil);
+DECLARE_INTEGRAL_VECTOR_UNITTEST(TestIsSortedUntil);
 
 
 template<typename ForwardIterator>

@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -49,8 +49,26 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   vector_base<T,Alloc>
+    ::vector_base(const Alloc &alloc)
+      :m_storage(alloc),
+       m_size(0)
+{
+  ;
+} // end vector_base::vector_base()
+
+template<typename T, typename Alloc>
+  vector_base<T,Alloc>
     ::vector_base(size_type n)
       :m_storage(),
+       m_size(0)
+{
+  default_init(n);
+} // end vector_base::vector_base()
+
+template<typename T, typename Alloc>
+  vector_base<T,Alloc>
+    ::vector_base(size_type n, const Alloc &alloc)
+      :m_storage(alloc),
        m_size(0)
 {
   default_init(n);
@@ -67,8 +85,26 @@ template<typename T, typename Alloc>
 
 template<typename T, typename Alloc>
   vector_base<T,Alloc>
+    ::vector_base(size_type n, const value_type &value, const Alloc &alloc)
+      :m_storage(alloc),
+       m_size(0)
+{
+  fill_init(n,value);
+} // end vector_base::vector_base()
+
+template<typename T, typename Alloc>
+  vector_base<T,Alloc>
     ::vector_base(const vector_base &v)
-      :m_storage(),
+      :m_storage(copy_allocator_t(), v.m_storage),
+       m_size(0)
+{
+  range_init(v.begin(), v.end());
+} // end vector_base::vector_base()
+
+template<typename T, typename Alloc>
+  vector_base<T,Alloc>
+    ::vector_base(const vector_base &v, const Alloc &alloc)
+      :m_storage(alloc),
        m_size(0)
 {
   range_init(v.begin(), v.end());
@@ -77,9 +113,11 @@ template<typename T, typename Alloc>
 #if __cplusplus >= 201103L
   template<typename T, typename Alloc>
     vector_base<T,Alloc>
-      ::vector_base(vector_base &&v) : vector_base()
+      ::vector_base(vector_base &&v)
+        :m_storage(copy_allocator_t(), v.m_storage),
+         m_size(0)
   {
-    swap(v);
+    *this = std::move(v);
   } //end vector_base::vector_base()
 #endif
 
@@ -90,6 +128,11 @@ template<typename T, typename Alloc>
 {
   if(this != &v)
   {
+    m_storage.destroy_on_allocator_mismatch(v.m_storage, begin(), end());
+    m_storage.deallocate_on_allocator_mismatch(v.m_storage);
+
+    m_storage.propagate_allocator(v.m_storage);
+
     assign(v.begin(), v.end());
   } // end if
 
@@ -102,9 +145,13 @@ template<typename T, typename Alloc>
       vector_base<T,Alloc>
         ::operator=(vector_base &&v)
   {
-    vector_base tmp;
-    swap(tmp);
-    swap(v);
+    m_storage.destroy(begin(), end());
+    m_storage = std::move(v.m_storage);
+    m_size = std::move(v.m_size);
+
+    v.m_storage = contiguous_storage<T,Alloc>(copy_allocator_t(), m_storage);
+    v.m_size = 0;
+
     return *this;
   } // end vector_base::operator=()
 #endif
@@ -244,7 +291,23 @@ template<typename T, typename Alloc>
   typedef thrust::detail::is_integral<InputIterator> Integer;
 
   init_dispatch(first, last, Integer());
-} // end vector_basee::vector_base()
+} // end vector_base::vector_base()
+
+template<typename T, typename Alloc>
+  template<typename InputIterator>
+    vector_base<T,Alloc>
+      ::vector_base(InputIterator first,
+                    InputIterator last,
+                    const Alloc &alloc)
+        :m_storage(alloc),
+         m_size(0)
+{
+  // check the type of InputIterator: if it's an integral type,
+  // we need to interpret this call as (size_type, value_type)
+  typedef thrust::detail::is_integral<InputIterator> Integer;
+
+  init_dispatch(first, last, Integer());
+} // end vector_base::vector_base()
 
 template<typename T, typename Alloc>
   void vector_base<T,Alloc>
@@ -329,7 +392,7 @@ template<typename T, typename Alloc>
 } // end vector_base::operator[]
 
 template<typename T, typename Alloc>
-  typename vector_base<T,Alloc>::const_reference 
+  typename vector_base<T,Alloc>::const_reference
     vector_base<T,Alloc>
       ::operator[](const size_type n) const
 {
@@ -733,7 +796,7 @@ template<typename T, typename Alloc>
         throw std::length_error("insert(): insertion exceeds max_size().");
       } // end if
 
-      storage_type new_storage(new_capacity);
+      storage_type new_storage(copy_allocator_t(), m_storage, new_capacity);
 
       // record how many constructors we invoke in the try block below
       iterator new_end = new_storage.begin();
@@ -753,7 +816,7 @@ template<typename T, typename Alloc>
       } // end try
       catch(...)
       {
-        // something went wrong, so destroy & deallocate the new storage 
+        // something went wrong, so destroy & deallocate the new storage
         m_storage.destroy(new_storage.begin(), new_end);
         new_storage.deallocate();
 
@@ -801,7 +864,7 @@ template<typename T, typename Alloc>
       new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
 
       // create new storage
-      storage_type new_storage(new_capacity);
+      storage_type new_storage(copy_allocator_t(), m_storage, new_capacity);
 
       // record how many constructors we invoke in the try block below
       iterator new_end = new_storage.begin();
@@ -817,7 +880,7 @@ template<typename T, typename Alloc>
       } // end try
       catch(...)
       {
-        // something went wrong, so destroy & deallocate the new storage 
+        // something went wrong, so destroy & deallocate the new storage
         m_storage.destroy(new_storage.begin(), new_end);
         new_storage.deallocate();
 
@@ -901,7 +964,7 @@ template<typename T, typename Alloc>
         throw std::length_error("insert(): insertion exceeds max_size().");
       } // end if
 
-      storage_type new_storage(new_capacity);
+      storage_type new_storage(copy_allocator_t(), m_storage, new_capacity);
 
       // record how many constructors we invoke in the try block below
       iterator new_end = new_storage.begin();
@@ -922,7 +985,7 @@ template<typename T, typename Alloc>
       } // end try
       catch(...)
       {
-        // something went wrong, so destroy & deallocate the new storage 
+        // something went wrong, so destroy & deallocate the new storage
         m_storage.destroy(new_storage.begin(), new_end);
         new_storage.deallocate();
 
@@ -991,7 +1054,7 @@ template<typename T, typename Alloc>
 
   if(n > capacity())
   {
-    storage_type new_storage;
+    storage_type new_storage(copy_allocator_t(), m_storage);
     allocate_and_copy(n, first, last, new_storage);
 
     // call destructors on the elements in the old storage

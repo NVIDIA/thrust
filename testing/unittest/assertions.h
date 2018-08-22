@@ -311,15 +311,15 @@ void assert_almost_equal(ForwardIterator1 first1, ForwardIterator1 last1, Forwar
 }
 
 
-template <typename T, typename Alloc>
-void assert_equal(const thrust::host_vector<T,Alloc>& A, const thrust::host_vector<T,Alloc>& B,
+template <typename T, typename Alloc1, typename Alloc2>
+void assert_equal(const thrust::host_vector<T,Alloc1>& A, const thrust::host_vector<T,Alloc2>& B,
                   const std::string& filename = "unknown", int lineno = -1)
 {
     assert_equal(A.begin(), A.end(), B.begin(), B.end(), filename, lineno);
 }
 
-template <typename T, typename Alloc>
-void assert_almost_equal(const thrust::host_vector<T,Alloc>& A, const thrust::host_vector<T,Alloc>& B,
+template <typename T, typename Alloc1, typename Alloc2>
+void assert_almost_equal(const thrust::host_vector<T,Alloc1>& A, const thrust::host_vector<T,Alloc2>& B,
                          const std::string& filename = "unknown", int lineno = -1,
                          const double a_tol = DEFAULT_ABSOLUTE_TOL, const double r_tol = DEFAULT_RELATIVE_TOL)
 {
@@ -342,8 +342,8 @@ void assert_equal(const thrust::device_vector<T,Alloc1>& A, const thrust::host_v
     assert_equal(A_host, B, filename, lineno);
 }
 
-template <typename T, typename Alloc>
-void assert_equal(const thrust::device_vector<T,Alloc>& A, const thrust::device_vector<T,Alloc>& B,
+template <typename T, typename Alloc1, typename Alloc2>
+void assert_equal(const thrust::device_vector<T,Alloc1>& A, const thrust::device_vector<T,Alloc2>& B,
                   const std::string& filename = "unknown", int lineno = -1)
 {
     thrust::host_vector<T> A_host = A;
@@ -369,8 +369,8 @@ void assert_almost_equal(const thrust::device_vector<T,Alloc1>& A, const thrust:
     assert_almost_equal(A_host, B, filename, lineno, a_tol, r_tol);
 }
 
-template <typename T, typename Alloc>
-void assert_almost_equal(const thrust::device_vector<T,Alloc>& A, const thrust::device_vector<T,Alloc>& B,
+template <typename T, typename Alloc1, typename Alloc2>
+void assert_almost_equal(const thrust::device_vector<T,Alloc1>& A, const thrust::device_vector<T,Alloc2>& B,
                          const std::string& filename = "unknown", int lineno = -1,
                          const double a_tol = DEFAULT_ABSOLUTE_TOL, const double r_tol = DEFAULT_RELATIVE_TOL)
 {
