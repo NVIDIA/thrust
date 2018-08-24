@@ -17,7 +17,7 @@
 #define ASSERT_GREATER(X,Y)      unittest::assert_greater((X),(Y), __FILE__,  __LINE__)
 #define ASSERT_ALMOST_EQUAL(X,Y) unittest::assert_almost_equal((X),(Y), __FILE__, __LINE__)
 #define KNOWN_FAILURE            { unittest::UnitTestKnownFailure f; f << "[" << __FILE__ ":" << __LINE__ << "]"; throw f;}
-                    
+
 #define ASSERT_EQUAL_RANGES(X,Y,Z)  unittest::assert_equal((X),(Y),(Z), __FILE__,  __LINE__)
 
 #define ASSERT_THROWS(X,Y)                                                         \

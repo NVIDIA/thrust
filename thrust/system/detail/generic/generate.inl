@@ -38,6 +38,24 @@ __host__ __device__
                 ForwardIterator last,
                 Generator gen)
 {
+  // this static assert is necessary due to a workaround in generate_functor
+  // it takes a const reference to accept temporaries from proxy iterators
+  // and then const_casts the constness away
+  //
+  // this had the weird side effect of allowing generate (and fill, and whatever
+  // else is implemented in terms of generate) to fill through const iterators.
+  // this might become unnecessary once Thrust is C++11-and-above only, since the
+  // other solution is to take an rvalue reference in a second overload of
+  // operator() of the function object, but until we support pre-11, this is a
+  // nice solution that validates the const_cast and doesn't take away any
+  // functionality.
+  THRUST_STATIC_ASSERT(
+    !thrust::detail::is_const<
+      typename thrust::detail::remove_reference<
+        typename thrust::iterator_traits<ForwardIterator>::reference
+      >::type
+    >::value
+  );
   thrust::for_each(exec, first, last, typename thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
 } // end generate()
 
@@ -51,6 +69,24 @@ __host__ __device__
                             Size n,
                             Generator gen)
 {
+  // this static assert is necessary due to a workaround in generate_functor
+  // it takes a const reference to accept temporaries from proxy iterators
+  // and then const_casts the constness away
+  //
+  // this had the weird side effect of allowing generate (and fill, and whatever
+  // else is implemented in terms of generate) to fill through const iterators.
+  // this might become unnecessary once Thrust is C++11-and-above only, since the
+  // other solution is to take an rvalue reference in a second overload of
+  // operator() of the function object, but until we support pre-11, this is a
+  // nice solution that validates the const_cast and doesn't take away any
+  // functionality.
+  THRUST_STATIC_ASSERT(
+    !thrust::detail::is_const<
+      typename thrust::detail::remove_reference<
+        typename thrust::iterator_traits<OutputIterator>::reference
+      >::type
+    >::value
+  );
   return thrust::for_each_n(exec, first, n, typename thrust::detail::generate_functor<ExecutionPolicy,Generator>::type(gen));
 } // end generate()
 
