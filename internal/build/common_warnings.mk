@@ -65,6 +65,11 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             # GCC 4.5.
             CUDACC_FLAGS += -Xcompiler "-Wlogical-op"
           endif
+          ifeq ($(shell if test $(GCC_VERSION) -ge 73; then echo true; fi),true)
+            # GCC 7.3 complains about name mangling changes due to `noexcept`
+            # becoming part of the type system; we don't care.
+            CUDACC_FLAGS += -Xcompiler "-Wnoexcept-type"
+          endif
         else
           $(error CCBIN is not defined.)
         endif
