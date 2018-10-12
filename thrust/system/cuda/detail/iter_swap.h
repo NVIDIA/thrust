@@ -24,7 +24,7 @@
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/swap.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 
@@ -57,5 +57,5 @@ void iter_swap(thrust::cuda::execution_policy<DerivedPolicy> &, Pointer1 a, Poin
 
 
 } // end cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

@@ -36,7 +36,7 @@
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -129,7 +129,7 @@ namespace __parallel_for {
                cudaStream_t stream)
   {
     if (num_items == 0)
-      return cudaErrorNotSupported;
+      return cudaSuccess;
     using core::AgentLauncher;
     using core::AgentPlan;
 
@@ -175,5 +175,5 @@ parallel_for(execution_policy<Derived> &policy,
 
 }    // namespace cuda_cub
 
-END_NS_THRUST
+THRUST_END_NS
 #endif

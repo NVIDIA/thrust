@@ -44,7 +44,7 @@
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 template <typename DerivedPolicy,
           typename ForwardIterator1,
@@ -927,7 +927,7 @@ unique_by_key(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 
 #include <thrust/memory.h>
 #include <thrust/unique.h>

@@ -23,6 +23,7 @@ namespace thrust
 namespace detail
 {
 
+struct execution_policy_marker {};
 
 // execution_policy_base serves as a guard against
 // inifinite recursion in thrust entry points:
@@ -38,41 +39,39 @@ namespace detail
 // foo is not recursive when
 // 1. DerivedPolicy is derived from thrust::execution_policy below
 // 2. generic::foo takes thrust::execution_policy as a parameter
-template<typename DerivedPolicy> struct execution_policy_base {};
+template<typename DerivedPolicy>
+struct execution_policy_base : execution_policy_marker {};
 
 
 template<typename DerivedPolicy>
-__host__ __device__
-inline execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_base<DerivedPolicy> &x)
+THRUST_CONSTEXPR __host__ __device__
+execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_base<DerivedPolicy> &x)
 {
   return const_cast<execution_policy_base<DerivedPolicy>&>(x);
 }
 
 
 template<typename DerivedPolicy>
-__host__ __device__
-inline DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
+THRUST_CONSTEXPR __host__ __device__
+DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<DerivedPolicy&>(x);
 }
 
 
 template<typename DerivedPolicy>
-__host__ __device__
-inline const DerivedPolicy &derived_cast(const execution_policy_base<DerivedPolicy> &x)
+THRUST_CONSTEXPR __host__ __device__
+const DerivedPolicy &derived_cast(const execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<const DerivedPolicy&>(x);
 }
 
-
 } // end detail
-
 
 template<typename DerivedPolicy>
   struct execution_policy
     : thrust::detail::execution_policy_base<DerivedPolicy>
 {};
-
 
 } // end thrust
 

@@ -213,6 +213,11 @@ T aligned_reinterpret_cast(U u)
   return reinterpret_cast<T>(reinterpret_cast<void*>(u));
 }
 
+inline std::size_t aligned_storage_size(std::size_t n, std::size_t align)
+{
+  return ((n + align - 1) / align) * align;
+}
+
 } // end namespace detail
 } // end namespace thrust
 

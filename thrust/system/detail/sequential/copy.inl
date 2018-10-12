@@ -16,12 +16,12 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/detail/sequential/copy.h>
-#include <thrust/detail/dispatch/is_trivial_copy.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/system/detail/sequential/general_copy.h>
 #include <thrust/system/detail/sequential/trivial_copy.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
+#include <thrust/type_traits/is_trivially_relocatable.h>
 
 namespace thrust
 {
@@ -52,7 +52,7 @@ __host__ __device__
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::detail::true_type)  // is_trivial_copy
+                      thrust::detail::true_type)  // is_trivially_relocatable_sequence_copy
 {
   typedef typename thrust::iterator_difference<InputIterator>::type Size;
 
@@ -69,7 +69,7 @@ __host__ __device__
   OutputIterator copy(InputIterator first,
                       InputIterator last,
                       OutputIterator result,
-                      thrust::detail::false_type)  // is_trivial_copy
+                      thrust::detail::false_type)  // is_trivially_relocatable_sequence_copy
 {
   return thrust::system::detail::sequential::general_copy(first,last,result);
 } // end copy()
@@ -83,7 +83,7 @@ __host__ __device__
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::detail::true_type)  // is_trivial_copy
+                        thrust::detail::true_type)  // is_trivially_relocatable_sequence_copy
 {
   thrust::system::detail::sequential::trivial_copy_n(get(&*first), n, get(&*result));
   return result + n;
@@ -98,7 +98,7 @@ __host__ __device__
   OutputIterator copy_n(InputIterator first,
                         Size n,
                         OutputIterator result,
-                        thrust::detail::false_type)  // is_trivial_copy
+                        thrust::detail::false_type)  // is_trivially_relocatable_sequence_copy
 {
   return thrust::system::detail::sequential::general_copy_n(first,n,result);
 } // end copy_n()
@@ -118,7 +118,7 @@ __host__ __device__
                       OutputIterator result)
 {
   return thrust::system::detail::sequential::copy_detail::copy(first, last, result,
-    typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
+    typename thrust::is_trivially_relocatable_sequence_copy<InputIterator,OutputIterator>::type());
 } // end copy()
 
 
@@ -134,7 +134,7 @@ __host__ __device__
                         OutputIterator result)
 {
   return thrust::system::detail::sequential::copy_detail::copy_n(first, n, result,
-    typename thrust::detail::dispatch::is_trivial_copy<InputIterator,OutputIterator>::type());
+    typename thrust::is_trivially_relocatable_sequence_copy<InputIterator,OutputIterator>::type());
 } // end copy_n()
 
 

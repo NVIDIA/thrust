@@ -23,6 +23,10 @@
 #include <thrust/detail/util/blocking.h>
 #include <thrust/pair.h>
 
+#if __cplusplus >= 201103L
+#   include <thrust/detail/execute_with_dependencies.h>
+#endif
+
 namespace thrust
 {
 namespace detail
@@ -57,6 +61,16 @@ public:
   {}
 
   Allocator get_allocator() { return alloc; }
+
+#if __cplusplus >= 201103L
+  template<typename ...Dependencies>
+  __host__
+  execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
+  after(Dependencies ...dependencies)
+  {
+    return { alloc, std::move(dependencies)... };
+  }
+#endif
 };
 
 template <
@@ -107,6 +121,61 @@ return_temporary_buffer(
   pointer to_ptr = thrust::detail::reinterpret_pointer_cast<pointer>(p);
   alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
 }
+
+#if __cplusplus >= 201103L
+
+template <
+    typename T,
+    template <typename> class BaseSystem,
+    typename Allocator,
+    typename ...Dependencies
+>
+__host__
+thrust::pair<T*, std::ptrdiff_t>
+get_temporary_buffer(
+    thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
+    std::ptrdiff_t n
+    )
+{
+  typedef typename thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename alloc_traits::void_pointer                        void_pointer;
+  typedef typename alloc_traits::size_type                           size_type;
+  typedef typename alloc_traits::value_type                          value_type;
+
+  // How many elements of type value_type do we need to accommodate n elements
+  // of type T?
+  size_type num_elements =
+      thrust::detail::util::divide_ri(sizeof(T) * n, sizeof(value_type));
+
+  void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
+
+  // Return the pointer and the number of elements of type T allocated.
+  return thrust::make_pair(thrust::detail::reinterpret_pointer_cast<T*>(ptr),n);
+}
+
+template <
+    typename Pointer,
+    template <typename> class BaseSystem,
+    typename Allocator,
+    typename ...Dependencies
+>
+__host__
+void
+return_temporary_buffer(
+    thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system,
+    Pointer p
+    )
+{
+  typedef typename thrust::detail::remove_reference<Allocator>::type naked_allocator;
+  typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
+  typedef typename alloc_traits::pointer                             pointer;
+
+  pointer to_ptr = thrust::detail::reinterpret_pointer_cast<pointer>(p);
+  alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
+}
+
+#endif
 
 } // end detail
 } // end thrust

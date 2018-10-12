@@ -28,7 +28,6 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/pointer.h>
 #include <thrust/pair.h>
-#include <thrust/system/detail/generic/type_traits.h>
 
 namespace thrust
 {

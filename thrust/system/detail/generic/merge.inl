@@ -49,8 +49,10 @@ __host__ __device__
                        OutputIterator result,
                        StrictWeakOrdering)
 {
-  // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end merge()
 

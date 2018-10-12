@@ -43,7 +43,7 @@ j * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
 #include <thrust/distance.h>
 
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __merge {
@@ -1015,5 +1015,5 @@ merge_by_key(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

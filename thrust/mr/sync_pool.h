@@ -22,7 +22,7 @@
 
 #include <thrust/detail/cpp11_required.h>
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 
 #include <mutex>
 
@@ -111,4 +111,6 @@ private:
 
 } // end mr
 } // end thrust
-#endif
+
+#endif // THRUST_CPP_DIALECT >= 2011
+

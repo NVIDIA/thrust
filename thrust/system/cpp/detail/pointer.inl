@@ -37,6 +37,35 @@ namespace system
 namespace cpp
 {
 
+#if THRUST_CPP_DIALECT >= 2011
+template <typename T>
+__host__ __device__
+bool operator==(decltype(nullptr), pointer<T> p)
+{
+  return nullptr == p.get();
+}
+
+template <typename T>
+__host__ __device__
+bool operator==(pointer<T> p, decltype(nullptr))
+{
+  return nullptr == p.get();
+}
+
+template <typename T>
+__host__ __device__
+bool operator!=(decltype(nullptr), pointer<T> p)
+{
+  return !(nullptr == p);
+}
+
+template <typename T>
+__host__ __device__
+bool operator!=(pointer<T> p, decltype(nullptr))
+{
+  return !(nullptr == p);
+}
+#endif
 
 template<typename T>
   template<typename OtherT>

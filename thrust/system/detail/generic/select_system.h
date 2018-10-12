@@ -1,3 +1,4 @@
+
 /*
  *  Copyright 2008-2013 NVIDIA Corporation
  *
@@ -19,10 +20,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/execution_policy.h>
 #include <thrust/detail/type_traits.h>
-#include <thrust/detail/type_traits/is_metafunction_defined.h>
 #include <thrust/iterator/detail/minimum_system.h>
-#include <thrust/system/detail/generic/type_traits.h>
-#include <thrust/iterator/iterator_traits.h>
+#include <thrust/iterator/detail/device_system_tag.h>
 
 namespace thrust
 {
@@ -32,54 +31,24 @@ namespace detail
 {
 namespace generic
 {
-namespace select_system_detail
-{
 
+template<typename Tag>
+  struct select_system1_exists;
 
-// min_system case 1: both systems have the same type, just return the first one
-template<typename System>
-__host__ __device__
-System &min_system(thrust::execution_policy<System> &system1,
-                   thrust::execution_policy<System> &)
-{
-  return thrust::detail::derived_cast(system1);
-} // end min_system()
+template<typename Tag1, typename Tag2>
+  struct select_system2_exists;
 
+template<typename Tag1, typename Tag2, typename Tag3>
+  struct select_system3_exists;
 
-// min_system case 2: systems have differing type and the first type is considered the minimum
-template<typename System1, typename System2>
-__host__ __device__
-  typename thrust::detail::enable_if<
-    thrust::detail::is_same<
-      System1,
-      typename thrust::detail::minimum_system<System1,System2>::type
-    >::value,
-    System1 &
-  >::type
-    min_system(thrust::execution_policy<System1> &system1, thrust::execution_policy<System2> &)
-{
-  return thrust::detail::derived_cast(system1);
-} // end min_system()
+template<typename Tag1, typename Tag2, typename Tag3, typename Tag4>
+  struct select_system4_exists;
 
+template<typename Tag1, typename Tag2, typename Tag3, typename Tag4, typename Tag5>
+  struct select_system5_exists;
 
-// min_system case 3: systems have differing type and the second type is considered the minimum
-template<typename System1, typename System2>
-__host__ __device__
-  typename thrust::detail::enable_if<
-    thrust::detail::is_same<
-      System2,
-      typename thrust::detail::minimum_system<System1,System2>::type
-    >::value,
-    System2 &
-  >::type
-    min_system(thrust::execution_policy<System1> &, thrust::execution_policy<System2> &system2)
-{
-  return thrust::detail::derived_cast(system2);
-} // end min_system()
-
-
-} // end select_system_detail
-
+template<typename Tag1, typename Tag2, typename Tag3, typename Tag4, typename Tag5, typename Tag6>
+  struct select_system6_exists;
 
 template<typename System>
 __host__ __device__
@@ -87,11 +56,7 @@ __host__ __device__
     select_system1_exists<System>::value,
     System &
   >::type
-    select_system(thrust::execution_policy<System> &system)
-{
-  return thrust::detail::derived_cast(system);
-} // end select_system()
-
+    select_system(thrust::execution_policy<System> &system);
 
 template<typename System1, typename System2>
 __host__ __device__
@@ -99,11 +64,7 @@ __host__ __device__
     thrust::detail::minimum_system<System1,System2>
   >::type
     &select_system(thrust::execution_policy<System1> &system1,
-                   thrust::execution_policy<System2> &system2)
-{
-  return select_system_detail::min_system(system1,system2);
-} // end select_system()
-
+                   thrust::execution_policy<System2> &system2);
 
 template<typename System1, typename System2, typename System3>
 __host__ __device__
@@ -113,11 +74,7 @@ __host__ __device__
   >::type
     &select_system(thrust::execution_policy<System1> &system1,
                    thrust::execution_policy<System2> &system2,
-                   thrust::execution_policy<System3> &system3)
-{
-  return select_system(select_system(system1,system2), system3);
-} // end select_system()
-
+                   thrust::execution_policy<System3> &system3);
 
 template<typename System1, typename System2, typename System3, typename System4>
 __host__ __device__
@@ -128,11 +85,7 @@ __host__ __device__
     &select_system(thrust::execution_policy<System1> &system1,
                    thrust::execution_policy<System2> &system2,
                    thrust::execution_policy<System3> &system3,
-                   thrust::execution_policy<System4> &system4)
-{
-  return select_system(select_system(system1,system2,system3), system4);
-} // end select_system()
-
+                   thrust::execution_policy<System4> &system4);
 
 template<typename System1, typename System2, typename System3, typename System4, typename System5>
 __host__ __device__
@@ -144,11 +97,7 @@ __host__ __device__
                    thrust::execution_policy<System2> &system2,
                    thrust::execution_policy<System3> &system3,
                    thrust::execution_policy<System4> &system4,
-                   thrust::execution_policy<System5> &system5)
-{
-  return select_system(select_system(system1,system2,system3,system4), system5);
-} // end select_system()
-
+                   thrust::execution_policy<System5> &system5);
 
 template<typename System1, typename System2, typename System3, typename System4, typename System5, typename System6>
 __host__ __device__
@@ -161,22 +110,15 @@ __host__ __device__
                    thrust::execution_policy<System3> &system3,
                    thrust::execution_policy<System4> &system4,
                    thrust::execution_policy<System5> &system5,
-                   thrust::execution_policy<System6> &system6)
-{
-  return select_system(select_system(system1,system2,system3,system4,system5), system6);
-} // end select_system()
+                   thrust::execution_policy<System6> &system6);
 
-
-// map a single any_system_tag to device_system_tag
+// Map a single any_system_tag to device_system_tag.
 inline __host__ __device__
-thrust::device_system_tag select_system(thrust::any_system_tag)
-{
-  return thrust::device_system_tag();
-} // end select_system()
-
+thrust::device_system_tag select_system(thrust::any_system_tag);
 
 } // end generic
 } // end detail
 } // end system
 } // end thrust
 
+#include <thrust/system/detail/generic/select_system.inl>

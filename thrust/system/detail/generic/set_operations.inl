@@ -396,8 +396,10 @@ OutputIterator set_difference(thrust::execution_policy<DerivedPolicy> &,
                               OutputIterator  result,
                               StrictWeakOrdering)
 {
-  // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end set_difference()
 
@@ -416,8 +418,10 @@ OutputIterator set_intersection(thrust::execution_policy<DerivedPolicy> &,
                                 OutputIterator result,
                                 StrictWeakOrdering)
 {
-  // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end set_intersection()
 
@@ -436,8 +440,10 @@ OutputIterator set_symmetric_difference(thrust::execution_policy<DerivedPolicy> 
                                         OutputIterator result,
                                         StrictWeakOrdering)
 {
-  // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end set_symmetric_difference()
 
@@ -456,8 +462,10 @@ OutputIterator set_union(thrust::execution_policy<DerivedPolicy> &,
                          OutputIterator result,
                          StrictWeakOrdering)
 {
-  // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator1, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end set_union()
 

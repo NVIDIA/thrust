@@ -11,6 +11,7 @@
 #include "meta.h"
 #include "util.h"
 
+#include <thrust/detail/integer_traits.h>
 #include <thrust/memory/detail/device_system_resource.h>
 #include <thrust/memory/detail/host_system_resource.h>
 #include <thrust/mr/allocator.h>
@@ -220,6 +221,17 @@ private:
     }
 };
 
+namespace thrust { namespace detail
+{
+
+// For random number generation
+template<>
+class integer_traits<custom_numeric>
+  : public integer_traits_base<int, INT_MIN, INT_MAX>
+{};
+
+}} // namespace thrust::detail
+
 typedef unittest::type_list<char,
                             signed char,
                             unsigned char,
@@ -232,8 +244,8 @@ typedef unittest::type_list<char,
                             long long,
                             unsigned long long,
                             float,
+                            double,
                             custom_numeric> NumericTypes;
-// exclude double from NumericTypes
 
 typedef unittest::type_list<char,
                             signed char,
@@ -338,7 +350,7 @@ void VTEST##Host(void) {                                        \
     VTEST< thrust::host_vector<int> >();                        \
     VTEST< thrust::host_vector<float> >();                      \
     VTEST< thrust::host_vector<custom_numeric> >();             \
-    /* NPA vectors */                                           \
+    /* MR vectors */                                            \
     VTEST< thrust::host_vector<int,                             \
         thrust::mr::stateless_resource_allocator<int,           \
             thrust::host_memory_resource> > >();                \
@@ -349,7 +361,7 @@ void VTEST##Device(void) {                                      \
     VTEST< thrust::device_vector<int> >();                      \
     VTEST< thrust::device_vector<float> >();                    \
     VTEST< thrust::device_vector<custom_numeric> >();           \
-    /* NPA vectors */                                           \
+    /* MR vectors */                                            \
     VTEST< thrust::device_vector<int,                           \
         thrust::mr::stateless_resource_allocator<int,           \
             thrust::device_memory_resource> > >();              \
@@ -378,8 +390,25 @@ void VTEST##Device(void) {                                      \
 DECLARE_UNITTEST(VTEST##Host);                                  \
 DECLARE_UNITTEST(VTEST##Device);
 
-// Macro to create instances of a test for several
-// data types and array sizes
+// Macro to create instances of a test for several data types.
+#define DECLARE_GENERIC_UNITTEST(TEST)                           \
+class TEST##UnitTest : public UnitTest {                         \
+    public:                                                      \
+    TEST##UnitTest() : UnitTest(#TEST) {}                        \
+    void run()                                                   \
+    {                                                            \
+        TEST<char>();                                            \
+        TEST<unsigned char>();                                   \
+        TEST<short>();                                           \
+        TEST<unsigned short>();                                  \
+        TEST<int>();                                             \
+        TEST<unsigned int>();                                    \
+        TEST<float>();                                           \
+    }                                                            \
+};                                                               \
+TEST##UnitTest TEST##Instance
+
+// Macro to create instances of a test for several data types and array sizes
 #define DECLARE_VARIABLE_UNITTEST(TEST)                          \
 class TEST##UnitTest : public UnitTest {                         \
     public:                                                      \

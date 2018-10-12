@@ -32,16 +32,15 @@
 
 #include <thrust/system/cuda/config.h>
 
-#include <thrust/detail/dispatch/is_trivial_copy.h>
 #include <thrust/distance.h>
 #include <thrust/advance.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cuda/detail/uninitialized_copy.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/detail/temporary_array.h>
+#include <thrust/type_traits/is_trivially_relocatable.h>
 
-
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __copy {
@@ -124,7 +123,6 @@ namespace __copy {
                       OutputIt                               result,
                       thrust::detail::false_type)    // non-trivial copy
   {
-
     // get type of the input data
     typedef typename thrust::iterator_value<InputIt>::type InputTy;
 
@@ -218,8 +216,7 @@ namespace __copy {
         begin,
         n,
         result,
-        typename thrust::detail::dispatch::is_trivial_copy<InputIt,
-                                                           OutputIt>::type());
+        typename is_trivially_relocatable_sequence_copy<InputIt, OutputIt>::type());
   }
 
   template <class System1,
@@ -241,4 +238,4 @@ namespace __copy {
 }    // namespace __copy
 
 } // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS

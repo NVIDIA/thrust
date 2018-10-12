@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
+ * Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -24,45 +24,63 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  ******************************************************************************/
+
 #pragma once
 
+#include <thrust/version.h>
 #include <thrust/detail/execution_policy.h>
 #include <thrust/iterator/detail/any_system_tag.h>
 #include <thrust/system/cuda/config.h>
 
-BEGIN_NS_THRUST
-namespace cuda_cub {
+THRUST_BEGIN_NS
 
-  struct tag;
+namespace cuda_cub
+{
 
-  template <class>
-  struct execution_policy;
+struct tag;
 
-  template <>
-  struct execution_policy<tag> : thrust::execution_policy<tag>
-  {};
+template <class>
+struct execution_policy;
 
-  struct tag : execution_policy<tag>
-  {};
+template <>
+struct execution_policy<tag> : thrust::execution_policy<tag>
+{};
 
-  template <class Derived>
-  struct execution_policy : thrust::execution_policy<Derived>
-  {
-    inline operator tag() const { return tag(); }
-  };
-}    // namespace cuda_cub
+struct tag : execution_policy<tag>
+{};
 
-namespace system {
-namespace cuda {
-  using thrust::cuda_cub::tag;
-  using thrust::cuda_cub::execution_policy;
-} // namespace cuda
-} // namespace system
+template <class Derived>
+struct execution_policy : thrust::execution_policy<Derived>
+{
+  typedef tag tag_type; 
+  operator tag() const { return tag(); }
+};
 
-namespace cuda {
-using thrust::cuda_cub::execution_policy;
+} // namespace cuda_cub
+
+namespace system { namespace cuda { namespace detail
+{
+
 using thrust::cuda_cub::tag;
+using thrust::cuda_cub::execution_policy;
+
+}}} // namespace system::cuda::detail
+
+namespace system { namespace cuda
+{
+
+using thrust::cuda_cub::tag;
+using thrust::cuda_cub::execution_policy;
+
+}} // namespace system::cuda
+
+namespace cuda
+{
+
+using thrust::cuda_cub::tag;
+using thrust::cuda_cub::execution_policy;
+
 } // namespace cuda
 
-END_NS_THRUST
+THRUST_END_NS
 

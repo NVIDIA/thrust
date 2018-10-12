@@ -58,17 +58,16 @@ template<typename Iterator, typename Tag>
       : super_t(x) {}
 }; // end tagged_iterator
 
+} // end detail
 
-// specialize is_trivial_iterator for tagged_iterator
-template<typename> struct is_trivial_iterator;
+// specialize is_contiguous_iterator for tagged_iterator
+template<typename> struct is_contiguous_iterator;
 
 // tagged_iterator is trivial if its base iterator is
 template<typename BaseIterator, typename Tag>
-  struct is_trivial_iterator<tagged_iterator<BaseIterator,Tag> >
-    : is_trivial_iterator<BaseIterator>
+  struct is_contiguous_iterator<detail::tagged_iterator<BaseIterator,Tag> >
+    : is_contiguous_iterator<BaseIterator>
 {};
 
-
-} // end detail
 } // end thrust
 

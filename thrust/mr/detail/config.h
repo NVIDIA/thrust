@@ -20,7 +20,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/alignment.h>
-#include <thrust/detail/cpp11_compatibility.h>
+#include <thrust/detail/config/cpp_compatibility.h>
 
 #define THRUST_MR_DEFAULT_ALIGNMENT THRUST_ALIGNOF(::thrust::detail::max_align_t)
 

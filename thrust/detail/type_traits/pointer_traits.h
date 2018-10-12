@@ -237,6 +237,7 @@ template<>
   struct pointer_traits<void*>
 {
   typedef void*                                    pointer;
+  typedef void                                     reference;
   typedef void                                     element_type;
   typedef pointer_difference<void*>::type          difference_type;
 
@@ -254,6 +255,36 @@ template<>
 
   // thrust additions follow
   typedef pointer_raw_pointer<void*>::type raw_pointer;
+
+  __host__ __device__
+  inline static raw_pointer get(pointer ptr)
+  {
+    return ptr;
+  }
+};
+
+template<>
+  struct pointer_traits<const void*>
+{
+  typedef const void*                           pointer;
+  typedef const void                            reference;
+  typedef const void                            element_type;
+  typedef pointer_difference<const void*>::type difference_type;
+
+  template<typename U>
+    struct rebind
+  {
+    typedef U* other;
+  };
+
+  __host__ __device__
+  inline static pointer pointer_to(pointer_traits_detail::pointer_to_param<element_type>::type r)
+  {
+    return &r;
+  }
+
+  // thrust additions follow
+  typedef pointer_raw_pointer<const void*>::type raw_pointer;
 
   __host__ __device__
   inline static raw_pointer get(pointer ptr)

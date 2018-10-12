@@ -36,7 +36,7 @@
 #include <thrust/detail/function.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -79,6 +79,12 @@ namespace cuda_cub {
     cuda_cub::parallel_for(policy,
                            for_each_f<Input, wrapped_t>(first, wrapped_op),
                            count);
+
+    cuda_cub::throw_on_error(
+      cuda_cub::synchronize(policy)
+    , "for_each: failed to synchronize"
+    );
+
     return first + count;
   }
 
@@ -98,5 +104,5 @@ namespace cuda_cub {
   }
 }    // namespace cuda_cub
 
-END_NS_THRUST
+THRUST_END_NS
 #endif

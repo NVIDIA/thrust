@@ -37,7 +37,7 @@
 #include <thrust/pair.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __extrema {
@@ -571,5 +571,5 @@ minmax_element(execution_policy<Derived> &policy,
 
 
 } // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

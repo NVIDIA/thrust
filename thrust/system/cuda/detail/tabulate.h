@@ -34,7 +34,7 @@
 #include <thrust/system/cuda/detail/parallel_for.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __tabulate {
@@ -75,8 +75,13 @@ tabulate(execution_policy<Derived>& policy,
   cuda_cub::parallel_for(policy,
                          functor_t(first, tabulate_op),
                          count);
+
+  cuda_cub::throw_on_error(
+    cuda_cub::synchronize(policy)
+  , "tabulate: failed to synchronize"
+  );
 }
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

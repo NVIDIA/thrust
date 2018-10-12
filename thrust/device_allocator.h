@@ -68,8 +68,7 @@ public:
     {
     }
 
-    __host__
-    THRUST_NODISCARD
+    THRUST_NODISCARD __host__
     virtual pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
     {
         return pointer(m_upstream->do_allocate(bytes, alignment).get());

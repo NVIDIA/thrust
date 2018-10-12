@@ -34,8 +34,7 @@
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
 
-
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -185,8 +184,28 @@ terminate()
 #endif
 }
 
-static void __host__ __device__ 
-throw_on_error(cudaError_t status, char const *msg)
+__host__ 
+inline void throw_on_error(cudaError_t status)
+{
+  if (cudaSuccess != status)
+  {
+#if !defined(__CUDA_ARCH__)
+    throw thrust::system_error(status, thrust::cuda_category());
+#else
+#if __THRUST_HAS_CUDART__
+    printf("Thrust CUDA backend error: %s\n",
+           cudaGetErrorString(status));
+#else
+    printf("Thrust CUDA backend error: %d\n",
+           static_cast<int>(status));
+#endif
+    cuda_cub::terminate();
+#endif
+  }
+}
+
+__host__ __device__ 
+inline void throw_on_error(cudaError_t status, char const *msg)
 {
   if (cudaSuccess != status)
   {
@@ -194,11 +213,13 @@ throw_on_error(cudaError_t status, char const *msg)
     throw thrust::system_error(status, thrust::cuda_category(), msg);
 #else
 #if __THRUST_HAS_CUDART__
-    printf("Error after %s: %s\n",
-           msg,
-           cudaGetErrorString(status));
+    printf("Thrust CUDA backend error: %s: %s\n",
+           cudaGetErrorString(status),
+           msg);
 #else
-    printf("Error %d: %s \n", (int)status, msg);
+    printf("Thrust CUDA backend error: %d: %s \n",
+           static_cast<int>(status),
+           msg);
 #endif
     cuda_cub::terminate();
 #endif
@@ -422,7 +443,7 @@ struct transform_pair_of_input_iterators_t
     return (input1 != rhs.input1) || (input2 != rhs.input2);
   }
 
-};    // struct trasnform_pair_of_input_iterators_t
+};    // struct transform_pair_of_input_iterators_t
 
 template <class ValueType,
           class InputIt1,
@@ -857,4 +878,4 @@ struct counting_iterator_t
 
 }    // cuda_
 
-END_NS_THRUST
+THRUST_END_NS

@@ -18,6 +18,11 @@
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/detail/type_traits/is_call_possible.h>
 #include <thrust/detail/integer_traits.h>
+
+#if THRUST_CPP_DIALECT >= 2011
+  #include <thrust/detail/type_deduction.h>
+#endif
+
 #include <new>
 
 namespace thrust
@@ -122,6 +127,38 @@ template<typename Alloc, typename T, typename Arg1>
   ::new(static_cast<void*>(p)) T(arg1);
 }
 
+#if THRUST_CPP_DIALECT >= 2011
+
+__THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_constructN_impl, construct)
+
+template<typename Alloc, typename T, typename... Args>
+  struct has_member_constructN
+    : has_member_constructN_impl<Alloc, void(T*, Args...)>
+{};
+
+__thrust_exec_check_disable__
+template<typename Alloc, typename T, typename... Args>
+  inline __host__ __device__
+    typename enable_if<
+      has_member_constructN<Alloc, T, Args...>::value
+    >::type
+      construct(Alloc &a, T* p, Args&&... args)
+{
+  a.construct(p, THRUST_FWD(args)...);
+}
+
+__thrust_exec_check_disable__
+template<typename Alloc, typename T, typename... Args>
+  inline __host__ __device__
+    typename disable_if<
+      has_member_constructN<Alloc, T, Args...>::value
+    >::type
+      construct(Alloc &, T* p, Args&&... args)
+{
+  ::new(static_cast<void*>(p)) T(THRUST_FWD(args)...);
+}
+
+#endif
 
 __THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_destroy_impl, destroy)
 
@@ -281,6 +318,19 @@ template<typename Alloc>
 {
   return allocator_traits_detail::construct(a,p,arg1);
 }
+
+#if THRUST_CPP_DIALECT >= 2011
+
+template<typename Alloc>
+  template<typename T, typename... Args>
+  __host__ __device__
+    void allocator_traits<Alloc>
+      ::construct(allocator_type &a, T *p, Args&&... args)
+{
+  return allocator_traits_detail::construct(a, p, THRUST_FWD(args)...);
+}
+
+#endif
 
 template<typename Alloc>
   template<typename T>

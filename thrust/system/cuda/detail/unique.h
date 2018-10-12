@@ -42,7 +42,7 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 template <typename DerivedPolicy,
           typename ForwardIterator,
@@ -794,7 +794,7 @@ unique(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 
 //
 #include <thrust/memory.h>

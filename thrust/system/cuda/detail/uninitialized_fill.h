@@ -34,7 +34,7 @@
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/parallel_for.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -83,6 +83,12 @@ uninitialized_fill_n(execution_policy<Derived>& policy,
   cuda_cub::parallel_for(policy,
                          functor_t(first, x),
                          count);
+
+  cuda_cub::throw_on_error(
+    cuda_cub::synchronize(policy)
+  , "uninitialized_fill_n: failed to synchronize"
+  );
+
   return first + count;
 }
 
@@ -103,5 +109,5 @@ uninitialized_fill(execution_policy<Derived>& policy,
 
 }    // namespace cuda_cub
 
-END_NS_THRUST
+THRUST_END_NS
 #endif

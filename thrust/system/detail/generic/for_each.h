@@ -45,8 +45,10 @@ InputIterator for_each(thrust::execution_policy<DerivedPolicy> &,
                        InputIterator ,
                        UnaryFunction )
 {
-  // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return first;
 } // end for_each()
 
@@ -61,8 +63,10 @@ InputIterator for_each_n(thrust::execution_policy<DerivedPolicy> &,
                          Size ,
                          UnaryFunction )
 {
-  // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return first;
 } // end for_each_n()
 

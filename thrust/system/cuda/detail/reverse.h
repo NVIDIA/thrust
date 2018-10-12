@@ -30,7 +30,7 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/detail/execution_policy.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <class Derived, class ItemsIt, class ResultIt>
@@ -47,7 +47,7 @@ reverse(execution_policy<Derived> &policy,
         ItemsIt                    last);
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 
 #include <thrust/advance.h>
 #include <thrust/distance.h>
@@ -55,7 +55,7 @@ END_NS_THRUST
 #include <thrust/system/cuda/detail/copy.h>
 #include <thrust/iterator/reverse_iterator.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <class Derived,
@@ -92,5 +92,5 @@ reverse(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

@@ -28,10 +28,16 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
-#include <thrust/detail/allocator_aware_execution_policy.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 
-BEGIN_NS_THRUST
+#include <thrust/detail/allocator_aware_execution_policy.h>
+
+#if THRUST_CPP_DIALECT >= 2011
+#  include <thrust/detail/dependencies_aware_execution_policy.h>
+#endif
+
+
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 __host__ __device__ inline cudaStream_t default_stream()
@@ -111,6 +117,10 @@ struct execute_on_stream : execute_on_stream_base<execute_on_stream>
 struct par_t : execution_policy<par_t>,
   thrust::detail::allocator_aware_execution_policy<
     execute_on_stream_base>
+#if THRUST_CPP_DIALECT >= 2011
+, thrust::detail::dependencies_aware_execution_policy<
+    execute_on_stream_base>
+#endif
 {
   typedef execution_policy<par_t> base_t;
 
@@ -146,5 +156,5 @@ namespace cuda {
 using thrust::cuda_cub::par;
 } // namespace cuda
 
-END_NS_THRUST
+THRUST_END_NS
 

@@ -112,9 +112,3 @@ __THRUST_DISABLE_MSVC_WARNING_END(4800)
   #define THRUST_DEPRECATED
 #endif
 
-#if __cplusplus >= 201103L
-  #define THRUST_NOEXCEPT noexcept
-#else
-  #define THRUST_NOEXCEPT throw()
-#endif
-

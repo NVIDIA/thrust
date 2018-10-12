@@ -29,7 +29,7 @@
 #include <thrust/detail/seq.h>
 #include <thrust/system/cuda/detail/par.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <int PAR>
@@ -87,4 +87,4 @@ cvt_to_seq(Policy& policy)
 #endif
 
 } // namespace cuda_
-END_NS_THRUST
+THRUST_END_NS

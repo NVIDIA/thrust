@@ -43,8 +43,9 @@
 #include <thrust/distance.h>
 #include <thrust/sequence.h>
 #include <thrust/detail/alignment.h>
+#include <thrust/type_traits/is_contiguous_iterator.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __merge_sort {
@@ -1615,7 +1616,7 @@ namespace __smart_sort {
           keys_last - keys_first,
           compare_op);
 
-      if (!thrust::detail::is_trivial_iterator<ItemsIt>::value)
+      if (!is_contiguous_iterator<ItemsIt>::value)
       {
         cuda_cub::copy(policy, values.begin(), values.end(), items_first);
       }
@@ -1631,7 +1632,7 @@ namespace __smart_sort {
     }
 
     // copy results back, if necessary
-    if (!thrust::detail::is_trivial_iterator<KeysIt>::value)
+    if (!is_contiguous_iterator<KeysIt>::value)
     {
       cuda_cub::copy(policy, keys.begin(), keys.end(), keys_first);
     }
@@ -1781,5 +1782,5 @@ stable_sort_by_key(
 
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

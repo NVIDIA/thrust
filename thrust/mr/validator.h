@@ -28,13 +28,10 @@ template<typename MR>
 struct validator
 {
 #if __cplusplus >= 201103L
-    static_assert(std::is_base_of<memory_resource<typename MR::pointer>, MR>::value,
-        "a type used as a memory resource must derive from memory_resource");
-#endif
-
-#if __cplusplus >= 201402L
-    static_assert(std::is_final<MR>::value,
-        "a type used as a nonpolymorphic memory resource must be final");
+  static_assert(
+    std::is_base_of<memory_resource<typename MR::pointer>, MR>::value,
+    "a type used as a memory resource must derive from memory_resource"
+  );
 #endif
 };
 

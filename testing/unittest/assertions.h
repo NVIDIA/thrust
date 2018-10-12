@@ -65,6 +65,18 @@ void assert_equal(T1 a, T2 b,
     }
 }
 
+void assert_equal(char a, char b,
+                  const std::string& filename = "unknown", int lineno = -1)
+{
+    if(!(a == b)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << "values are not equal: " << int(a) << " " << int(b);
+        f << " [type='" << type_name<char>() << "']";
+        throw f;
+    }
+}
+
 // sometimes it's not possible to << a type
 template <typename T1, typename T2>
 void assert_equal_quiet(const T1& a, const T2& b,
@@ -73,7 +85,7 @@ void assert_equal_quiet(const T1& a, const T2& b,
     if(!(a == b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << "values are not equal.";
+        f << "values are not equal";
         f << " [type='" << type_name<T1>() << "']";
         throw f;
     }
@@ -86,8 +98,20 @@ void assert_less(T1 a, T2 b,
     if(!(a < b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is greater " << b;
+        f << a << " is greater or equal to " << b;
         f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+void assert_less(char a, char b,
+                 const std::string& filename = "unknown", int lineno = -1)
+{
+    if(!(a < b)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << int(a) << " is greater than or equal to " << int(b);
+        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -99,8 +123,20 @@ void assert_greater(T1 a, T2 b,
     if(!(a > b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is less than " << b;
+        f << a << " is less than or equal to " << b;
         f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+void assert_greater(char a, char b,
+                    const std::string& filename = "unknown", int lineno = -1)
+{
+    if(!(a > b)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << int(a) << " is less than or equal to " << int(b);
+        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -112,8 +148,20 @@ void assert_lequal(T1 a, T2 b,
     if(!(a <= b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is greater than or equal to " << b;
+        f << a << " is greater than " << b;
         f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+void assert_lequal(char a, char b,
+                   const std::string& filename = "unknown", int lineno = -1)
+{
+    if(!(a <= b)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << int(a) << " is greater than " << int(b);
+        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -125,8 +173,20 @@ void assert_gequal(T1 a, T2 b,
     if(!(a >= b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is less than or equal to " << b;
+        f << a << " is less than " << b;
         f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+void assert_gequal(char a, char b,
+                   const std::string& filename = "unknown", int lineno = -1)
+{
+    if(!(a >= b)){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << int(a) << " is less than " << int(b);
+        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }

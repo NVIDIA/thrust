@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,9 +14,12 @@
  *  limitations under the License.
  */
 
+// TODO: What about libc++?
+
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 
 #if __GNUC__
@@ -41,6 +44,7 @@ template<typename Value, typename Difference, typename Pointer, typename Referen
 
 namespace thrust
 {
+
 namespace detail
 {
 
@@ -75,22 +79,27 @@ template<typename Iterator>
 {};
 #endif // _MSC_VER
 
+} // namespace detail
 
 template<typename T>
-  struct is_trivial_iterator :
+  struct is_contiguous_iterator :
     integral_constant<
       bool,
-        is_pointer<T>::value
+        detail::is_pointer<T>::value
       | thrust::detail::is_thrust_pointer<T>::value
 #if __GNUC__
-      | is_gnu_normal_iterator<T>::value
+      | detail::is_gnu_normal_iterator<T>::value
 #endif // __GNUC__
 #ifdef _MSC_VER
-      | is_convertible_to_msvc_Ranit<T>::value
+      | detail::is_convertible_to_msvc_Ranit<T>::value
 #endif // _MSC_VER
     >
 {};
 
-} // end detail
-} // end thrust
+#if THRUST_CPP_DIALECT >= 2014
+template <typename T>
+constexpr bool is_contiguous_iterator_v = is_contiguous_iterator<T>::value;
+#endif
+
+} // namespace thrust
 

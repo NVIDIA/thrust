@@ -29,7 +29,7 @@
 #include <cuda_occupancy.h>
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/config.h>
-#include <thrust/iterator/detail/is_trivial_iterator.h>
+#include <thrust/type_traits/is_contiguous_iterator.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/cub/block/block_load.cuh>
@@ -37,7 +37,7 @@
 #include <thrust/system/cuda/detail/cub/block/block_scan.cuh>
 
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 namespace cuda_cub {
 namespace core {
@@ -603,7 +603,7 @@ namespace core {
     typedef typename iterator_traits<It>::difference_type size_type;
 
     typedef typename thrust::detail::conditional<
-        thrust::detail::is_trivial_iterator<It>::value,
+        is_contiguous_iterator<It>::value,
         cub::CacheModifiedInputIterator<PtxPlan::LOAD_MODIFIER,
                                         value_type,
                                         size_type>,
@@ -629,7 +629,7 @@ namespace core {
   make_load_iterator(PtxPlan const&, It it)
   {
     return make_load_iterator_impl<PtxPlan>(
-        it, typename thrust::detail::is_trivial_iterator<It>::type());
+        it, typename is_contiguous_iterator<It>::type());
   }
 
   template<class>
@@ -839,4 +839,4 @@ using core::sm35;
 using core::sm30;
 } // namespace cuda_ 
 
-END_NS_THRUST
+THRUST_END_NS

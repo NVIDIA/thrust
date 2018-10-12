@@ -25,7 +25,13 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         IS_CLANG := 1
       endif
 
-      ifdef IS_CLANG 
+      ifdef IS_CLANG
+        ifdef USE_CLANGLLVM
+          CLANG_VERSION = $(shell $(USE_CLANGLLVM) --version 2>/dev/null | head -1 | sed -e 's/.*\([0-9]\)\.\([0-9]\)\(\.[0-9]\).*/\1\2/g')
+        else
+          CLANG_VERSION = $(shell $(CCBIN) --version 2>/dev/null | head -1 | sed -e 's/.*\([0-9]\)\.\([0-9]\)\(\.[0-9]\).*/\1\2/g')
+        endif
+
         # GCC does not warn about unused parameters in uninstantiated
         # template functions, but Clang does. This causes Clang to choke on the
         # OMP backend, which is mostly #ifdef'd out when you aren't using it.
@@ -34,6 +40,12 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         # -Wunneeded-internal-declaration misfires in the unit test framework
         # on older versions of Clang.
         CUDACC_FLAGS += -Xcompiler "-Wno-unneeded-internal-declaration"
+
+        ifeq ($(shell if test $(CLANG_VERSION) -ge 70; then echo true; fi),true)
+          # Clang complains about name mangling changes due to `noexcept`
+          # becoming part of the type system; we don't care.
+          CUDACC_FLAGS += -Xcompiler "-Wno-noexcept-type"
+        endif
       else # GCC
         ifdef CCBIN
           CCBIN_ENVIRONMENT :=
@@ -53,8 +65,6 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             # versions only print one or two numbers.
             GCC_VERSION = $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
           endif
-
-          $(info GCC_VERSION $(GCC_VERSION))
 
           ifeq ($(shell if test $(GCC_VERSION) -lt 42; then echo true; fi),true)
             # In GCC 4.1.2 and older, numeric conversion warnings are not

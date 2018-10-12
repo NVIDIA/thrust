@@ -117,8 +117,10 @@ __host__ __device__
                                 OutputIterator result,
                                 BinaryFunction)
 {
-  // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end inclusive_scan
 
@@ -136,8 +138,10 @@ __host__ __device__
                                 T,
                                 BinaryFunction)
 {
-  // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<InputIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<InputIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return result;
 } // end exclusive_scan()
 

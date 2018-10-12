@@ -42,7 +42,7 @@ template<int...> class ID_impl;
 template<int... I> class Foo { ID_impl<I...> t;};
 #endif
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 namespace core {
 
@@ -1175,5 +1175,5 @@ namespace core {
 
 }    // namespace core
 }
-END_NS_THRUST
+THRUST_END_NS
 #endif

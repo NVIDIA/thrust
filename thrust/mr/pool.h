@@ -106,9 +106,9 @@ public:
         m_options(options),
         m_smallest_block_log2(detail::log2_ri(m_options.smallest_block_size)),
         m_pools(upstream),
-        m_allocated(NULL),
-        m_oversized(NULL),
-        m_cached_oversized(NULL)
+        m_allocated(),
+        m_oversized(),
+        m_cached_oversized()
     {
         assert(m_options.validate());
 
@@ -127,9 +127,9 @@ public:
         m_options(options),
         m_smallest_block_log2(detail::log2_ri(m_options.smallest_block_size)),
         m_pools(get_global_resource<Upstream>()),
-        m_allocated(NULL),
-        m_oversized(NULL),
-        m_cached_oversized(NULL)
+        m_allocated(),
+        m_oversized(),
+        m_cached_oversized()
     {
         assert(m_options.validate());
 
@@ -217,36 +217,36 @@ public:
         // reset the buckets
         for (std::size_t i = 0; i < m_pools.size(); ++i)
         {
-            m_pools[i].free_list = block_descriptor_ptr();
-            m_pools[i].previous_allocated_count = 0;
+            thrust::raw_reference_cast(m_pools[i]).free_list = block_descriptor_ptr();
+            thrust::raw_reference_cast(m_pools[i]).previous_allocated_count = 0;
         }
 
         // deallocate memory allocated for the buckets
         while (detail::pointer_traits<chunk_descriptor_ptr>::get(m_allocated))
         {
             chunk_descriptor_ptr alloc = m_allocated;
-            m_allocated = (*m_allocated).next;
+            m_allocated = thrust::raw_reference_cast(*m_allocated).next;
 
             void_ptr p = static_cast<void_ptr>(
                 static_cast<char_ptr>(
                     static_cast<void_ptr>(alloc)
-                ) - (*alloc).size
+                ) - thrust::raw_reference_cast(*alloc).size
             );
-            m_upstream->do_deallocate(p, (*alloc).size + sizeof(chunk_descriptor), m_options.alignment);
+            m_upstream->do_deallocate(p, thrust::raw_reference_cast(*alloc).size + sizeof(chunk_descriptor), m_options.alignment);
         }
 
         // deallocate cached oversized/overaligned memory
         while (detail::pointer_traits<oversized_block_descriptor_ptr>::get(m_oversized))
         {
             oversized_block_descriptor_ptr alloc = m_oversized;
-            m_oversized = (*m_oversized).next;
+            m_oversized = thrust::raw_reference_cast(*m_oversized).next;
 
             void_ptr p = static_cast<void_ptr>(
                 static_cast<char_ptr>(
                     static_cast<void_ptr>(alloc)
-                ) - (*alloc).size
+                ) - thrust::raw_reference_cast(*alloc).size
             );
-            m_upstream->do_deallocate(p, (*alloc).size + sizeof(oversized_block_descriptor), (*alloc).alignment);
+            m_upstream->do_deallocate(p, thrust::raw_reference_cast(*alloc).size + sizeof(oversized_block_descriptor), thrust::raw_reference_cast(*alloc).alignment);
         }
 
         m_cached_oversized = oversized_block_descriptor_ptr();
@@ -316,7 +316,7 @@ public:
                         );
                     }
 
-                    previous = &(*ptr).next_cached;
+                    previous = &thrust::raw_reference_cast(*ptr).next_cached;
                     ptr = *previous;
                 }
             }
@@ -352,7 +352,7 @@ public:
         // allocate a block from an appropriate bucket
         std::size_t bytes_log2 = thrust::detail::log2_ri(bytes);
         std::size_t bucket_idx = bytes_log2 - m_smallest_block_log2;
-        pool & bucket = m_pools[bucket_idx];
+        pool & bucket = thrust::raw_reference_cast(m_pools[bucket_idx]);
 
         bytes = static_cast<std::size_t>(1) << bytes_log2;
 
@@ -417,7 +417,7 @@ public:
 
         // allocate a block from the front of the bucket's free list
         block_descriptor_ptr block = bucket.free_list;
-        bucket.free_list = (*block).next;
+        bucket.free_list = thrust::raw_reference_cast(*block).next;
         return static_cast<void_ptr>(
             static_cast<char_ptr>(
                 static_cast<void_ptr>(block)
@@ -482,7 +482,7 @@ public:
         // push the block to the front of the appropriate bucket's free list
         std::size_t n_log2 = thrust::detail::log2_ri(n);
         std::size_t bucket_idx = n_log2 - m_smallest_block_log2;
-        pool & bucket = m_pools[bucket_idx];
+        pool & bucket = thrust::raw_reference_cast(m_pools[bucket_idx]);
 
         n = static_cast<std::size_t>(1) << n_log2;
 

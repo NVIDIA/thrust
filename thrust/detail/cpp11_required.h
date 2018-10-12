@@ -16,8 +16,11 @@
 
 #pragma once
 
+#include <thrust/detail/config/cpp_dialect.h>
+
 #ifndef THRUST_CPP11_REQUIRED_NO_ERROR
-#  if __cplusplus < 201103L
+#  if THRUST_CPP_DIALECT < 2011 
 #    error C++11 is required for this Thrust feature; please upgrade your compiler or pass the appropriate -std=c++XX flag to it.
 #  endif
 #endif
+

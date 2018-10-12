@@ -39,13 +39,12 @@
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/functional.h>
-#include <thrust/device_vector.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 // forward declare generic reduce
 // to circumvent circular dependency 
@@ -1065,7 +1064,7 @@ reduce(execution_policy<Derived> &policy,
 
 } // namespace cuda_cub
 
-END_NS_THRUST
+THRUST_END_NS
 
 #include <thrust/memory.h>
 #include <thrust/reduce.h>

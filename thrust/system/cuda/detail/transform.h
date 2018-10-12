@@ -35,7 +35,7 @@
 #include <thrust/system/cuda/detail/parallel_for.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -230,6 +230,12 @@ namespace __transform {
                                              transform_op,
                                              predicate),
                            num_items);
+
+    cuda_cub::throw_on_error(
+      cuda_cub::synchronize(policy)
+    , "transform: failed to synchronize"
+    );
+
     return result + num_items;
   }
 
@@ -270,6 +276,12 @@ namespace __transform {
                                               transform_op,
                                               predicate),
                            num_items);
+
+    cuda_cub::throw_on_error(
+      cuda_cub::synchronize(policy)
+    , "transform: failed to synchronize"
+    );
+
     return result + num_items;
   }
 
@@ -409,5 +421,5 @@ transform(execution_policy<Derived> &policy,
 
 }    // namespace cuda_cub
 
-END_NS_THRUST
+THRUST_END_NS
 #endif

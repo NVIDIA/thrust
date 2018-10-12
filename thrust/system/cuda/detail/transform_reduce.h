@@ -32,7 +32,7 @@
 #include <thrust/system/cuda/detail/reduce.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 template <class Derived,
@@ -63,5 +63,5 @@ transform_reduce(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 
 #include <thrust/detail/type_traits.h>
+#include <thrust/type_traits/is_contiguous_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/device_ptr.h>
 
@@ -64,22 +65,22 @@ void TestIsPlainOldData(void)
 }
 DECLARE_UNITTEST(TestIsPlainOldData);
 
-void TestIsTrivialIterator(void)
+void TestIsContiguousIterator(void)
 {
     typedef thrust::host_vector<int>   HostVector;
     typedef thrust::device_vector<int> DeviceVector;
     
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< int * >::value, true);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator< int * >::value, true);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator< thrust::device_ptr<int> >::value, true);
 
 
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<HostVector::iterator>::value, true);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<HostVector::const_iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<HostVector::iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<HostVector::const_iterator>::value, true);
 
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<DeviceVector::iterator>::value, true);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<DeviceVector::const_iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<DeviceVector::iterator>::value, true);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<DeviceVector::const_iterator>::value, true);
 
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator< thrust::device_ptr<int> >::value, true);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator< thrust::device_ptr<int> >::value, true);
 
     typedef thrust::tuple< HostVector::iterator,   HostVector::iterator   > HostIteratorTuple;
 
@@ -88,13 +89,13 @@ void TestIsTrivialIterator(void)
     typedef thrust::transform_iterator<thrust::identity<int>, HostVector::iterator > TransformIterator;
     typedef thrust::zip_iterator< HostIteratorTuple >  ZipIterator;
 
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<ConstantIterator>::value,  false);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<CountingIterator>::value,  false);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<TransformIterator>::value, false);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<ZipIterator>::value,       false);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<ConstantIterator>::value,  false);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<CountingIterator>::value,  false);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<TransformIterator>::value, false);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<ZipIterator>::value,       false);
 
 }
-DECLARE_UNITTEST(TestIsTrivialIterator);
+DECLARE_UNITTEST(TestIsContiguousIterator);
 
 void TestIsCommutative(void)
 {

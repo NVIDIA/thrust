@@ -31,7 +31,7 @@
 #include <thrust/system/cuda/detail/parallel_for.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 namespace __fill {
@@ -65,9 +65,15 @@ fill_n(execution_policy<Derived>& policy,
 {
   cuda_cub::parallel_for(policy,
                          __fill::functor<OutputIterator, T>(
-                             first,
-                             value),
+                         first,
+                         value),
                          count);
+
+  cuda_cub::throw_on_error(
+    cuda_cub::synchronize(policy)
+  , "fill_n: failed to synchronize"
+  );
+
   return first + count;
 }    // func fill_n
 
@@ -83,5 +89,5 @@ fill(execution_policy<Derived>& policy,
 
 
 } // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

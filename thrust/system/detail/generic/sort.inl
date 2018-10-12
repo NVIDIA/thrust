@@ -188,8 +188,10 @@ __host__ __device__
                    RandomAccessIterator,
                    StrictWeakOrdering)
 {
-  // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value)
+  , "unimplemented for this system"
+  );
 } // end stable_sort()
 
 
@@ -204,8 +206,10 @@ __host__ __device__
                           RandomAccessIterator2,
                           StrictWeakOrdering)
 {
-  // unimplemented primitive
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator1, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<RandomAccessIterator1, false>::value)
+  , "unimplemented for this system"
+  );
 } // end stable_sort_by_key()
 
 

@@ -34,7 +34,7 @@
 #include <thrust/system/cuda/detail/for_each.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 // for_each functor
@@ -85,5 +85,5 @@ generate(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 #endif

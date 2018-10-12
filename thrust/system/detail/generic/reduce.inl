@@ -64,8 +64,10 @@ __host__ __device__
                     OutputType,
                     BinaryFunction)
 {
-  // unimplemented
-  THRUST_STATIC_ASSERT( (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value) );
+  THRUST_STATIC_ASSERT_MSG(
+    (thrust::detail::depend_on_instantiation<RandomAccessIterator, false>::value)
+  , "unimplemented for this system"
+  );
   return OutputType();
 } // end reduce()
 

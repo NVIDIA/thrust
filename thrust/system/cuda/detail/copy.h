@@ -31,7 +31,7 @@
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/cross_system.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 template <typename DerivedPolicy, typename InputIt, typename OutputIt>
 __host__ __device__ OutputIt
@@ -91,7 +91,7 @@ copy_n(cross_system<System1, System2> systems,
        OutputIterator result);
 
 }    // namespace cuda_
-END_NS_THRUST
+THRUST_END_NS
 
 
 
@@ -99,7 +99,7 @@ END_NS_THRUST
 #include <thrust/system/cuda/detail/internal/copy_cross_system.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
 
@@ -190,7 +190,7 @@ copy_n(cross_system<System1, System2> systems,
 
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 
 #include <thrust/memory.h>
 #include <thrust/detail/temporary_array.h>

@@ -108,7 +108,7 @@ public:
     /*! Copy constructor. Copies the resource pointer. */
     template<typename U>
     __host__ __device__
-    allocator(const allocator<U, MR> & other) : mem_res(other.mem_res)
+    allocator(const allocator<U, MR> & other) : mem_res(other.resource())
     {
     }
 

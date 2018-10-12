@@ -27,17 +27,13 @@
 #include <thrust/mr/allocator.h>
 #include <ostream>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 namespace cuda_cub {
 
-inline __host__ __device__
-    pointer<void>
-    malloc(std::size_t n);
+inline __host__ __device__ pointer<void> malloc(std::size_t n);
 
 template <typename T>
-inline __host__ __device__
-    pointer<T>
-    malloc(std::size_t n);
+inline __host__ __device__ pointer<T> malloc(std::size_t n);
 
 inline __host__ __device__ void free(pointer<void> ptr);
 
@@ -95,7 +91,7 @@ using thrust::cuda_cub::free;
 using thrust::cuda_cub::allocator;
 }    // end cuda
 
-END_NS_THRUST
+THRUST_END_NS
 
 #include <thrust/system/cuda/detail/memory.inl>
 

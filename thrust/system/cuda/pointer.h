@@ -126,6 +126,23 @@ public:
   }
 };    // struct pointer
 
+#if THRUST_CPP_DIALECT >= 2011
+template <typename T>
+__host__ __device__
+bool operator!=(decltype(nullptr), pointer<T>);
+
+template <typename T>
+__host__ __device__
+bool operator!=(pointer<T>, decltype(nullptr));
+
+template <typename T>
+__host__ __device__
+bool operator==(decltype(nullptr), pointer<T>);
+
+template <typename T>
+__host__ __device__
+bool operator==(pointer<T>, decltype(nullptr));
+#endif
 
 template <typename T>
 class reference

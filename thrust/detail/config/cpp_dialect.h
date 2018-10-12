@@ -16,31 +16,17 @@
 
 #pragma once
 
-#include <cstddef>
-
-#if __cplusplus >= 201103L
-#  ifndef __has_cpp_attribute
-#    define __has_cpp_attribute(X) 0
-#  endif
-
-#  if __has_cpp_attribute(nodiscard)
-#    define THRUST_NODISCARD [[nodiscard]]
-#  elif __has_cpp_attribute(gnu::warn_unused_result)
-#    define THRUST_NODISCARD [[gnu::warn_unused_result]]
-#  endif
-
-#  define THRUST_OVERRIDE override
-#  define THRUST_DEFAULT = default;
-#  define THRUST_NOEXCEPT noexcept
-#  define THRUST_FINAL final
+#if   __cplusplus < 201103L
+  #define THRUST_CPP03
+  #define THRUST_CPP_DIALECT 2003
+#elif __cplusplus < 201402L
+  #define THRUST_CPP11
+  #define THRUST_CPP_DIALECT 2011
+#elif __cplusplus < 201703L
+  #define THRUST_CPP14
+  #define THRUST_CPP_DIALECT 2014
 #else
-#  define THRUST_OVERRIDE
-#  define THRUST_DEFAULT {}
-#  define THRUST_NOEXCEPT throw()
-#  define THRUST_FINAL
-#endif
-
-#ifndef THRUST_NODISCARD
-#  define THRUST_NODISCARD
+  #define THRUST_CPP17
+  #define THRUST_CPP_DIALECT 2017
 #endif
 

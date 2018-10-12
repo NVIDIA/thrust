@@ -102,6 +102,8 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
     #define CubDebugExit(e) if (cub::Debug((cudaError_t) (e), __FILE__, __LINE__)) { exit(1); }
 #endif
 
+}               // CUB namespace
+THRUST_CUB_NS_POSTFIX  // Optional outer namespace(s)
 
 /**
  * \brief Log macro for printf statements.
@@ -141,5 +143,3 @@ __host__ __device__ __forceinline__ cudaError_t Debug(
 
 /** @} */       // end group UtilMgmt
 
-}               // CUB namespace
-THRUST_CUB_NS_POSTFIX  // Optional outer namespace(s)

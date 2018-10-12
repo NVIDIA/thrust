@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/detail/trivial_sequence.h>
+#include <thrust/type_traits/is_contiguous_iterator.h>
 
 #include <thrust/iterator/zip_iterator.h> 
 
@@ -25,8 +26,8 @@ void test(Iterator first, Iterator last)
 
     typedef typename thrust::detail::trivial_sequence<Iterator,System>::iterator_type TrivialIterator;
 
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<Iterator>::value,        false);
-    ASSERT_EQUAL((bool) thrust::detail::is_trivial_iterator<TrivialIterator>::value,  true);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<Iterator>::value,        false);
+    ASSERT_EQUAL((bool) thrust::is_contiguous_iterator<TrivialIterator>::value,  true);
 }
 
 template <class Vector>

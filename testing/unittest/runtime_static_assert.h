@@ -4,8 +4,10 @@
 
 #include <thrust/detail/static_assert.h>
 #undef THRUST_STATIC_ASSERT
+#undef THRUST_STATIC_ASSERT_MSG
 
 #define THRUST_STATIC_ASSERT(B) unittest::assert_static((B), __FILE__, __LINE__);
+#define THRUST_STATIC_ASSERT_MSG(B, msg) unittest::assert_static((B), __FILE__, __LINE__);
 
 namespace unittest
 {

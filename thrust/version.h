@@ -85,3 +85,11 @@ namespace thrust
 
 }
 
+#ifndef THRUST_BEGIN_NS
+#define THRUST_BEGIN_NS namespace thrust {
+#endif
+
+#ifndef THRUST_END_NS
+#define THRUST_END_NS }
+#endif
+

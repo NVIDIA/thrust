@@ -41,7 +41,7 @@
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 // XXX declare generic copy_if interface
 // to avoid circulular dependency from thrust/copy.h
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename Predicate>
@@ -855,7 +855,7 @@ copy_if(execution_policy<Derived> &policy,
 }    // func copy_if
 
 }    // namespace cuda_cub
-END_NS_THRUST
+THRUST_END_NS
 
 #include <thrust/copy.h>
 #endif

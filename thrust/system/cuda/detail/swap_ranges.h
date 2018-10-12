@@ -35,7 +35,7 @@
 #include <thrust/system/cuda/detail/parallel_for.h>
 #include <thrust/distance.h>
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
@@ -91,11 +91,16 @@ swap_ranges(execution_policy<Derived> &policy,
                                                ItemsIt2>(first1, first2),
                          num_items);
 
+  cuda_cub::throw_on_error(
+    cuda_cub::synchronize(policy)
+  , "swap_ranges: failed to synchronize"
+  );
+
   return first2 + num_items;
 }
 
 
 }    // namespace cuda_cub
 
-END_NS_THRUST
+THRUST_END_NS
 #endif

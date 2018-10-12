@@ -165,7 +165,7 @@ struct binary_function
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                     thrust::plus<float>());
+ *                    thrust::plus<float>());
  *  // V3 is now {76, 77, 78, ..., 1075}
  *  \endcode
  *
@@ -222,7 +222,7 @@ struct plus
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                     thrust::minus<float>());
+ *                    thrust::minus<float>());
  *  // V3 is now {-74, -73, -72, ..., 925}
  *  \endcode
  *
@@ -279,7 +279,7 @@ struct minus
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                     thrust::multiplies<float>());
+ *                    thrust::multiplies<float>());
  *  // V3 is now {75, 150, 225, ..., 75000}
  *  \endcode
  *
@@ -336,7 +336,7 @@ struct multiplies
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                     thrust::divides<float>());
+ *                    thrust::divides<float>());
  *  // V3 is now {1/75, 2/75, 3/75, ..., 1000/75}
  *  \endcode
  *
@@ -393,7 +393,7 @@ struct divides
  *  thrust::fill(V2.begin(), V2.end(), 75);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),
- *                     thrust::modulus<int>());
+ *                    thrust::modulus<int>());
  *  // V3 is now {1%75, 2%75, 3%75, ..., 1000%75}
  *  \endcode
  *
@@ -432,7 +432,7 @@ struct modulus
  *          and if \c x is an object of type \p T, then <tt>-x</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>negate</tt> to negate
- *  the element of a device_vector of \c floats.
+ *  the elements of a device_vector of \c floats.
  *
  *  \code
  *  #include <thrust/device_vector.h>
@@ -447,7 +447,7 @@ struct modulus
  *  thrust::sequence(V1.begin(), V1.end(), 1);
  *
  *  thrust::transform(V1.begin(), V1.end(), V2.begin(),
- *                     thrust::negate<float>());
+ *                    thrust::negate<float>());
  *  // V2 is now {-1, -2, -3, ..., -1000}
  *  \endcode
  *
@@ -472,6 +472,54 @@ struct negate
   __thrust_exec_check_disable__
   __host__ __device__ T operator()(const T &x) const {return -x;}
 }; // end negate
+
+/*! \p square is a function object. Specifically, it is an Adaptable Unary Function.
+ *  If \c f is an object of class <tt>square<T></tt>, and \c x is an object
+ *  of class \c T, then <tt>f(x)</tt> returns <tt>x*x</tt>.
+ *
+ *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *          and if \c x is an object of type \p T, then <tt>x*x</tt> must be defined and must have a return type that is convertible to \c T.
+ *
+ *  The following code snippet demonstrates how to use <tt>square</tt> to square
+ *  the elements of a device_vector of \c floats.
+ *
+ *  \code
+ *  #include <thrust/device_vector.h>
+ *  #include <thrust/functional.h>
+ *  #include <thrust/sequence.h>
+ *  #include <thrust/transform.h>
+ *  ...
+ *  const int N = 1000;
+ *  thrust::device_vector<float> V1(N);
+ *  thrust::device_vector<float> V2(N);
+ *
+ *  thrust::sequence(V1.begin(), V1.end(), 1);
+ *
+ *  thrust::transform(V1.begin(), V1.end(), V2.begin(),
+ *                    thrust::square<float>());
+ *  // V2 is now {1, 4, 9, ..., 1000000}
+ *  \endcode
+ *
+ *  \see unary_function
+ */
+template<typename T>
+struct square
+{
+  /*! \typedef argument_type
+   *  \brief The type of the function object's argument.
+   */
+  typedef T argument_type;
+
+  /*! \typedef result_type
+   *  \brief The type of the function object's result;
+   */
+  typedef T result_type;
+
+  /*! Function call operator. The return value is <tt>x*x</tt>.
+   */
+  __thrust_exec_check_disable__
+  __host__ __device__ T operator()(const T &x) const {return x*x;}
+}; // end square
 
 /*! \}
  */

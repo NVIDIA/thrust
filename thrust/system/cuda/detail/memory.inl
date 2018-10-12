@@ -14,6 +14,8 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/cuda/detail/malloc_and_free.h>

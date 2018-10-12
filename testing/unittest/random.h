@@ -4,6 +4,8 @@
 #include <thrust/random.h>
 #include <thrust/detail/type_traits.h>
 
+#include <limits>
+
 namespace unittest
 {
 
@@ -18,8 +20,30 @@ inline unsigned int hash(unsigned int a)
     return a;
 }
 
-template<typename T, bool is_float = thrust::detail::is_floating_point<T>::value>
-  struct random_integer
+template<typename T, typename = void>
+  struct generate_random_integer;
+
+template<typename T>
+  struct generate_random_integer<T,
+    typename thrust::detail::disable_if<
+      thrust::detail::is_non_bool_arithmetic<T>::value
+    >::type
+  >
+{
+  T operator()(unsigned int i) const
+  {
+      thrust::default_random_engine rng(hash(i));
+
+      return static_cast<T>(rng());
+  }
+};
+
+template<typename T>
+  struct generate_random_integer<T,
+    typename thrust::detail::enable_if<
+      thrust::detail::is_non_bool_integral<T>::value
+    >::type
+  >
 {
   T operator()(unsigned int i) const
   {
@@ -31,18 +55,26 @@ template<typename T, bool is_float = thrust::detail::is_floating_point<T>::value
 };
 
 template<typename T>
-  struct random_integer<T,true>
+  struct generate_random_integer<T,
+    typename thrust::detail::enable_if<
+      thrust::detail::is_floating_point<T>::value
+    >::type
+  >
 {
   T operator()(unsigned int i) const
   {
-      thrust::default_random_engine rng(hash(i));
+      T const min = std::numeric_limits<T>::min();
+      T const max = std::numeric_limits<T>::max();
 
-      return static_cast<T>(rng());
+      thrust::default_random_engine rng(hash(i));
+      thrust::uniform_real_distribution<T> dist(min, max);
+
+      return static_cast<T>(dist(rng));
   }
 };
 
 template<>
-  struct random_integer<bool,false>
+  struct generate_random_integer<bool>
 {
   bool operator()(unsigned int i) const
   {
@@ -55,7 +87,7 @@ template<>
 
 
 template<typename T>
-  struct random_sample
+  struct generate_random_sample
 {
   T operator()(unsigned int i) const
   {
@@ -75,9 +107,15 @@ thrust::host_vector<T> random_integers(const size_t N)
     thrust::transform(thrust::counting_iterator<unsigned int>(static_cast<unsigned int>(0)),
                       thrust::counting_iterator<unsigned int>(static_cast<unsigned int>(N)),
                       vec.begin(),
-                      random_integer<T>());
+                      generate_random_integer<T>());
 
     return vec;
+}
+
+template<typename T>
+T random_integer()
+{
+    return generate_random_integer<T>()(0);
 }
 
 template<typename T>
@@ -87,7 +125,7 @@ thrust::host_vector<T> random_samples(const size_t N)
     thrust::transform(thrust::counting_iterator<unsigned int>(static_cast<unsigned int>(0)),
                       thrust::counting_iterator<unsigned int>(static_cast<unsigned int>(N)),
                       vec.begin(),
-                      random_sample<T>());
+                      generate_random_sample<T>());
 
     return vec;
 }

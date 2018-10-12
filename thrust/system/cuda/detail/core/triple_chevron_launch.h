@@ -32,7 +32,7 @@
 #include <cassert>
 
 
-BEGIN_NS_THRUST
+THRUST_BEGIN_NS
 
 namespace cuda_cub {
 namespace launcher {
@@ -968,4 +968,4 @@ namespace launcher {
 }    // namespace launcher
 }    // namespace cuda_
 
-END_NS_THRUST
+THRUST_END_NS

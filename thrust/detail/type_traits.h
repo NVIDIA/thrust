@@ -24,23 +24,9 @@
 
 #include <thrust/detail/config.h>
 
-// XXX nvcc 2.2 closed beta can't compile type_traits
-//// find type_traits
-//
-//#ifdef __GNUC__
-//
-//#if __GNUC__ == 4 && __GNUC_MINOR__ == 2
-//#include <tr1/type_traits>
-//#elif __GNUC__ == 4 && __GNUC_MINOR__ > 2
-//#include <type_traits>
-//#endif // GCC version
-//
-//#endif // GCC
-//
-//#ifdef _MSC_VER
-//#include <type_traits>
-//#endif // MSVC
-
+#if THRUST_CPP_DIALECT >= 2011
+#  include <type_traits>
+#endif
 
 namespace thrust
 {
@@ -51,19 +37,40 @@ template<typename T> class device_reference;
 namespace detail
 {
  /// helper classes [4.3].
- template<typename _Tp, _Tp __v>
+ template<typename T, T v>
    struct integral_constant
    {
-     static const _Tp                      value = __v;
-     typedef _Tp                           value_type;
-     typedef integral_constant<_Tp, __v>   type;
+     THRUST_STATIC_CONSTANT T value = v;
+
+     typedef T                       value_type;
+     typedef integral_constant<T, v> type;
+
+     // We don't want to switch to std::integral_constant, because we want access
+     // to the C++14 operator(), but we'd like standard traits to interoperate
+     // with our version when tag dispatching.
+     #if THRUST_CPP_DIALECT >= 2011
+     constexpr integral_constant() = default;
+
+     constexpr integral_constant(integral_constant const&) = default;
+
+     #if THRUST_CPP_DIALECT >= 2014
+     constexpr // In C++11, constexpr makes member functions const.
+     #endif
+     integral_constant& operator=(integral_constant const&) = default;
+
+     constexpr __host__ __device__
+     integral_constant(std::integral_constant<T, v>) {}
+     #endif
+
+     THRUST_CONSTEXPR __host__ __device__ operator value_type() const THRUST_NOEXCEPT { return value; }
+     THRUST_CONSTEXPR __host__ __device__ value_type operator()() const THRUST_NOEXCEPT { return value; }
    };
  
  /// typedef for true_type
- typedef integral_constant<bool, true>     true_type;
+ typedef integral_constant<bool, true>  true_type;
 
  /// typedef for true_type
- typedef integral_constant<bool, false>    false_type;
+ typedef integral_constant<bool, false> false_type;
 
 //template<typename T> struct is_integral : public std::tr1::is_integral<T> {};
 template<typename T> struct is_integral                           : public false_type {};
@@ -111,12 +118,11 @@ template<typename T> struct is_void             : public false_type {};
 template<>           struct is_void<void>       : public true_type {};
 template<>           struct is_void<const void> : public true_type {};
 
+template<typename T> struct is_non_bool_integral       : public is_integral<T> {};
+template<>           struct is_non_bool_integral<bool> : public false_type {};
 
-namespace tt_detail
-{
-
-
-} // end tt_detail
+template<typename T> struct is_non_bool_arithmetic       : public is_arithmetic<T> {};
+template<>           struct is_non_bool_arithmetic<bool> : public false_type {};
 
 template<typename T> struct is_pod
    : public integral_constant<
@@ -295,6 +301,12 @@ template<typename T1, typename T2>
 {
 }; // end lazy_is_different
 
+#if THRUST_CPP_DIALECT >= 2011
+
+using std::is_convertible;
+
+#else
+
 namespace tt_detail
 {
 
@@ -311,7 +323,6 @@ template<typename T>
 
 __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 __THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_BEGIN
-
 
 template<typename From, typename To>
   struct is_convertible_sfinae
@@ -371,6 +382,7 @@ template<typename From, typename To>
 {
 }; // end is_convertible
 
+#endif
 
 template<typename T1, typename T2>
   struct is_one_convertible_to_the_other
@@ -559,6 +571,11 @@ template<typename T1, typename T2>
       >
 {};
 
+#if THRUST_CPP_DIALECT >= 2011
+
+using std::is_base_of;
+
+#else
 
 namespace is_base_of_ns
 {
@@ -592,6 +609,8 @@ template<typename Base, typename Derived>
         is_base_of_ns::impl<Base,Derived>::value
       >
 {};
+
+#endif
 
 template<typename Base, typename Derived, typename Result = void>
   struct enable_if_base_of
@@ -687,6 +706,10 @@ template<typename T>
   };
 
 } // end detail
+
+using detail::integral_constant;
+using detail::true_type;
+using detail::false_type;
 
 } // end thrust
 

@@ -21,7 +21,7 @@ else
 include $(ROOTDIR)/build/config/DetectOS.mk
 endif
 
-FILES += ../test/warningstester.cpp
+CU_FILES += ../test/warningstester.cu
 
 # Thrust includes (thrust/)
 ifdef VULCAN

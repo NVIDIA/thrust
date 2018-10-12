@@ -3,14 +3,14 @@
 #include <thrust/system/cpp/vector.h>
 #include <memory>
 
+template <typename T>
 struct my_allocator_with_custom_construct1
-  : thrust::device_malloc_allocator<int>
+  : thrust::device_malloc_allocator<T>
 {
   __host__ __device__
   my_allocator_with_custom_construct1()
   {}
 
-  template<typename T>
   __host__ __device__
   void construct(T *p)
   {
@@ -18,24 +18,25 @@ struct my_allocator_with_custom_construct1
   }
 };
 
-void TestAllocatorCustomDefaultConstruct()
+template <typename T>
+void TestAllocatorCustomDefaultConstruct(size_t n)
 {
-  thrust::device_vector<int> ref(10,13);
-  thrust::device_vector<int, my_allocator_with_custom_construct1> vec(10);
+  thrust::device_vector<T> ref(n, 13);
+  thrust::device_vector<T, my_allocator_with_custom_construct1<T> > vec(n);
 
   ASSERT_EQUAL_QUIET(ref, vec);
 }
-DECLARE_UNITTEST(TestAllocatorCustomDefaultConstruct);
+DECLARE_VARIABLE_UNITTEST(TestAllocatorCustomDefaultConstruct);
 
-
+template <typename T>
 struct my_allocator_with_custom_construct2
-  : thrust::device_malloc_allocator<int>
+  : thrust::device_malloc_allocator<T>
 {
   __host__ __device__
   my_allocator_with_custom_construct2()
   {}
 
-  template<typename T, typename Arg>
+  template <typename Arg>
   __host__ __device__
   void construct(T *p, const Arg &)
   {
@@ -43,23 +44,26 @@ struct my_allocator_with_custom_construct2
   }
 };
 
-void TestAllocatorCustomCopyConstruct()
+template <typename T>
+void TestAllocatorCustomCopyConstruct(size_t n)
 {
-  thrust::device_vector<int> ref(10,13);
-  thrust::device_vector<int> copy_from(10,7);
-  thrust::device_vector<int, my_allocator_with_custom_construct2> vec(copy_from.begin(), copy_from.end());
+  thrust::device_vector<T> ref(n, 13);
+  thrust::device_vector<T> copy_from(n, 7);
+  thrust::device_vector<T, my_allocator_with_custom_construct2<T> >
+    vec(copy_from.begin(), copy_from.end());
 
   ASSERT_EQUAL_QUIET(ref, vec);
 }
-DECLARE_UNITTEST(TestAllocatorCustomCopyConstruct);
+DECLARE_VARIABLE_UNITTEST(TestAllocatorCustomCopyConstruct);
 
-static int g_state;
-
+template <typename T>
 struct my_allocator_with_custom_destroy
 {
-  typedef int         value_type;
-  typedef int &       reference;
-  typedef const int & const_reference;
+  typedef T         value_type;
+  typedef T &       reference;
+  typedef const T & const_reference;
+
+  static bool g_state;
 
   __host__
   my_allocator_with_custom_destroy(){}
@@ -72,12 +76,11 @@ struct my_allocator_with_custom_destroy
   __host__
   ~my_allocator_with_custom_destroy(){}
 
-  template<typename T>
   __host__ __device__
   void destroy(T *)
   {
 #if !__CUDA_ARCH__
-    g_state = 13;
+    g_state = true;
 #endif
   }
 
@@ -105,29 +108,34 @@ struct my_allocator_with_custom_destroy
 
   // use composition rather than inheritance
   // to avoid inheriting std::allocator's member
-  // function construct
-  std::allocator<int> use_me_to_alloc;
+  // function destroy
+  std::allocator<T> use_me_to_alloc;
 };
 
-void TestAllocatorCustomDestroy()
+template <typename T>
+bool my_allocator_with_custom_destroy<T>::g_state = false;
+
+template <typename T>
+void TestAllocatorCustomDestroy(size_t n)
 {
-  thrust::cpp::vector<int, my_allocator_with_custom_destroy> vec(10);
+  {
+    thrust::cpp::vector<T, my_allocator_with_custom_destroy<T> > vec(n);
+  } // destroy everything
 
-  // destroy everything
-  vec.shrink_to_fit();
-
-  ASSERT_EQUAL(13, g_state);
+  if (0 < n)
+    ASSERT_EQUAL(true, my_allocator_with_custom_destroy<T>::g_state);
 }
-DECLARE_UNITTEST(TestAllocatorCustomDestroy);
+DECLARE_VARIABLE_UNITTEST(TestAllocatorCustomDestroy);
 
+template <typename T>
 struct my_minimal_allocator
 {
-  typedef int         value_type;
+  typedef T         value_type;
 
   // XXX ideally, we shouldn't require
   //     these two typedefs
-  typedef int &       reference;
-  typedef const int & const_reference;
+  typedef T &       reference;
+  typedef const T & const_reference;
 
   __host__
   my_minimal_allocator(){}
@@ -150,18 +158,97 @@ struct my_minimal_allocator
     use_me_to_alloc.deallocate(ptr,n);
   }
 
-  std::allocator<int> use_me_to_alloc;
+  std::allocator<T> use_me_to_alloc;
 };
 
-void TestAllocatorMinimal()
+template <typename T>
+void TestAllocatorMinimal(size_t n)
 {
-  thrust::cpp::vector<int, my_minimal_allocator> vec(10, 13);
+  thrust::cpp::vector<int, my_minimal_allocator<int> > vec(n, 13);
 
   // XXX copy to h_vec because ASSERT_EQUAL doesn't know about cpp::vector
   thrust::host_vector<int> h_vec(vec.begin(), vec.end());
-  thrust::host_vector<int> ref(10, 13);
+  thrust::host_vector<int> ref(n, 13);
 
   ASSERT_EQUAL(ref, h_vec);
 }
-DECLARE_UNITTEST(TestAllocatorMinimal);
+DECLARE_VARIABLE_UNITTEST(TestAllocatorMinimal);
+
+void TestAllocatorTraitsRebind()
+{
+  ASSERT_EQUAL(
+    (thrust::detail::is_same<
+      typename thrust::detail::allocator_traits<
+        thrust::device_malloc_allocator<int>
+      >::template rebind_traits<float>::other,
+      typename thrust::detail::allocator_traits<
+        thrust::device_malloc_allocator<float>
+      >
+    >::value),
+    true
+  );
+
+  ASSERT_EQUAL(
+    (thrust::detail::is_same<
+      typename thrust::detail::allocator_traits<
+        my_minimal_allocator<int>
+      >::template rebind_traits<float>::other,
+      typename thrust::detail::allocator_traits<
+        my_minimal_allocator<float>
+      >
+    >::value),
+    true
+  );
+}
+DECLARE_UNITTEST(TestAllocatorTraitsRebind);
+
+#if __cplusplus >= 201103L
+void TestAllocatorTraitsRebindCpp11()
+{
+  ASSERT_EQUAL(
+    (thrust::detail::is_same<
+      typename thrust::detail::allocator_traits<
+        thrust::device_malloc_allocator<int>
+      >::template rebind_alloc<float>,
+      thrust::device_malloc_allocator<float>
+    >::value),
+    true
+  );
+
+  ASSERT_EQUAL(
+    (thrust::detail::is_same<
+      typename thrust::detail::allocator_traits<
+        my_minimal_allocator<int>
+      >::template rebind_alloc<float>,
+      my_minimal_allocator<float>
+    >::value),
+    true
+  );
+
+  ASSERT_EQUAL(
+    (thrust::detail::is_same<
+      typename thrust::detail::allocator_traits<
+        thrust::device_malloc_allocator<int>
+      >::template rebind_traits<float>,
+      typename thrust::detail::allocator_traits<
+        thrust::device_malloc_allocator<float>
+      >
+    >::value),
+    true
+  );
+
+  ASSERT_EQUAL(
+    (thrust::detail::is_same<
+      typename thrust::detail::allocator_traits<
+        my_minimal_allocator<int>
+      >::template rebind_traits<float>,
+      typename thrust::detail::allocator_traits<
+        my_minimal_allocator<float>
+      >
+    >::value),
+    true
+  );
+}
+DECLARE_UNITTEST(TestAllocatorTraitsRebindCpp11);
+#endif
 
