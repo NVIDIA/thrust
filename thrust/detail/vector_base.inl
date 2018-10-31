@@ -808,8 +808,11 @@ template<typename T, typename Alloc>
 
       try
       {
-        // construct copy all elements into the newly allocated storage
-        new_end = m_storage.uninitialized_copy(begin(), end(), new_storage.begin());
+        if( begin() != end() )
+        {
+          // construct copy all elements into the newly allocated storage
+          new_end = m_storage.uninitialized_copy(begin(), end(), new_storage.begin());
+        } // end if
 
         // construct new elements to insert
         m_storage.default_construct_n(new_end, n);
