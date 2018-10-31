@@ -21,7 +21,7 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         endif
       endif
 
-      ifeq ($(OS),Darwin)
+      ifeq ($(OS), Darwin)
         IS_CLANG := 1
       endif
 
@@ -43,10 +43,16 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             CCBIN_ENVIRONMENT := QNX_HOST=$(QNX_HOST) QNX_TARGET=$(QNX_TARGET)
           endif
 
-          # Older versions of GCC (~4.4 and older) seem to print three version
-          # numbers (major, minor and patch) with the -dumpversion flag; newer
-          # versions only print two numbers.
-          GCC_VERSION = $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
+          # Newer versions of GCC only print the major number with the
+          # -dumpversion flag, but they print all three with -dumpfullversion.
+          GCC_VERSION = $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) -dumpfullversion 2>/dev/null | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
+
+          ifeq ($(GCC_VERSION),)
+            # Older versions of GCC (~4.4 and older) seem to print three version
+            # numbers (major, minor and patch) with the -dumpversion flag; newer
+            # versions only print one or two numbers.
+            GCC_VERSION = $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
+          endif
 
           ifeq ($(shell if test $(GCC_VERSION) -lt 42; then echo true; fi),true)
             # In GCC 4.1.2 and older, numeric conversion warnings are not
