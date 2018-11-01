@@ -54,6 +54,8 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             GCC_VERSION = $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) -dumpversion | sed -e 's/\([0-9]\)\.\([0-9]\)\(\.[0-9]\)\?/\1\2/g')
           endif
 
+          $(info GCC_VERSION $(GCC_VERSION))
+
           ifeq ($(shell if test $(GCC_VERSION) -lt 42; then echo true; fi),true)
             # In GCC 4.1.2 and older, numeric conversion warnings are not
             # suppressable, so shut off -Wno-error.
@@ -74,7 +76,7 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
           ifeq ($(shell if test $(GCC_VERSION) -ge 73; then echo true; fi),true)
             # GCC 7.3 complains about name mangling changes due to `noexcept`
             # becoming part of the type system; we don't care.
-            CUDACC_FLAGS += -Xcompiler "-Wnoexcept-type"
+            CUDACC_FLAGS += -Xcompiler "-Wno-noexcept-type"
           endif
         else
           $(error CCBIN is not defined.)
