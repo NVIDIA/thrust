@@ -21,7 +21,7 @@
 #define ASSERT_EQUAL_RANGES(X,Y,Z)  unittest::assert_equal((X),(Y),(Z), __FILE__,  __LINE__)
 
 #define ASSERT_THROWS(X,Y)                                                         \
-    {   bool thrown = false; try { X; } catch (Y) { thrown = true; }                  \
+    {   bool thrown = false; try { X; } catch (Y &) { thrown = true; }                  \
         if (!thrown) { unittest::UnitTestFailure f; f << "[" << __FILE__ << ":" << __LINE__ << "] did not throw " << #Y; throw f; } \
     }
 
