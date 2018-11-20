@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <algorithm>
+
 #include <thrust/host_vector.h>
 #include <thrust/binary_search.h>
 

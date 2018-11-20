@@ -21,6 +21,8 @@
 
 #pragma once
 
+#include <algorithm>
+
 #include <thrust/host_vector.h>
 
 #include <thrust/mr/memory_resource.h>
