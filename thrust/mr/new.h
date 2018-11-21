@@ -65,13 +65,6 @@ public:
     {
 #if __cplusplus >= 201703L
         ::operator delete(p, bytes, std::align_val_t(alignment));
-#elif __cplusplus >= 201402L
-        char * ptr = static_cast<char *>(p);
-        // calculate where the offset is stored
-        std::size_t * offset = static_cast<std::size_t *>(ptr + bytes);
-        p = static_cast<void *>(ptr - *offset);
-        // calculate the original pointer
-        ::operator delete(p, bytes + alignment + sizeof(std::size_t));
 #else
         (void)alignment;
         char * ptr = static_cast<char *>(p);

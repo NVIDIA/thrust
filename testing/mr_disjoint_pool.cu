@@ -46,7 +46,7 @@ struct thrust::detail::pointer_traits<alloc_id>
     }
 };
 
-class dummy_resource : public thrust::mr::memory_resource<alloc_id>
+class dummy_resource THRUST_FINAL : public thrust::mr::memory_resource<alloc_id>
 {
 public:
     dummy_resource() : id_to_allocate(0), id_to_deallocate(0)

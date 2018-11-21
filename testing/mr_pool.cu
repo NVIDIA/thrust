@@ -106,7 +106,7 @@ struct tracked_pointer : thrust::iterator_facade<
     }
 };
 
-class tracked_resource : public thrust::mr::memory_resource<tracked_pointer<void> >
+class tracked_resource THRUST_FINAL : public thrust::mr::memory_resource<tracked_pointer<void> >
 {
 public:
     tracked_resource() : id_to_allocate(0), id_to_deallocate(0)

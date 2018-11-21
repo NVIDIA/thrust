@@ -65,7 +65,7 @@ namespace mr
  *  \tparam Upstream the type of memory resources that will be used for allocating memory blocks
  */
 template<typename Upstream>
-class unsynchronized_pool_resource
+class unsynchronized_pool_resource THRUST_FINAL
     : public memory_resource<typename Upstream::pointer>,
         private validator<Upstream>
 {

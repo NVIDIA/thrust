@@ -69,7 +69,7 @@ namespace mr
  *  \tparam Bookkeeper the type of memory resources that will be used for allocating bookkeeping memory
  */
 template<typename Upstream, typename Bookkeeper>
-class disjoint_unsynchronized_pool_resource
+class disjoint_unsynchronized_pool_resource THRUST_FINAL
     : public memory_resource<typename Upstream::pointer>,
         private validator2<Upstream, Bookkeeper>
 {

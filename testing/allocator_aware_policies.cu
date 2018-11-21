@@ -14,7 +14,7 @@ struct test_allocator_t
 test_allocator_t<int> test_allocator = test_allocator_t<int>();
 const test_allocator_t<int> const_test_allocator = test_allocator_t<int>();
 
-struct test_memory_resource_t : thrust::mr::memory_resource<>
+struct test_memory_resource_t THRUST_FINAL : thrust::mr::memory_resource<>
 {
     void * do_allocate(std::size_t, std::size_t) THRUST_OVERRIDE
     {
