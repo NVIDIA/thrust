@@ -84,11 +84,11 @@ public:
 
         ret.min_blocks_per_chunk = 16;
         ret.min_bytes_per_chunk = 1024;
-        ret.max_blocks_per_chunk = std::size_t(1) << 20;
-        ret.max_bytes_per_chunk = std::size_t(1) << 30;
+        ret.max_blocks_per_chunk = static_cast<std::size_t>(1) << 20;
+        ret.max_bytes_per_chunk = static_cast<std::size_t>(1) << 30;
 
         ret.smallest_block_size = THRUST_MR_DEFAULT_ALIGNMENT;
-        ret.largest_block_size = std::size_t(1) << 20;
+        ret.largest_block_size = static_cast<std::size_t>(1) << 20;
 
         ret.alignment = THRUST_MR_DEFAULT_ALIGNMENT;
 
@@ -386,7 +386,7 @@ public:
         // and split it into blocks pushed to the free list
         if (bucket.free_blocks.empty())
         {
-            std::size_t bucket_size = 1 << bytes_log2;
+            std::size_t bucket_size = static_cast<std::size_t>(1) << bytes_log2;
 
             std::size_t n = bucket.previous_allocated_count;
             if (n == 0)
