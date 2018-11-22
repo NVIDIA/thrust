@@ -469,8 +469,8 @@ sub run_unit_tests {
                     printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
                 } elsif ($known_fail == 0 and $pass == 0) {
                     $errors = $errors + 1;
-                    printf("#### ERROR $test returned 0 and had no failures, known failures, errors or passes. Invalid test?\n");
-                    printf("&&&& FAILED $test\n");
+                    printf("#### DISABLED $test returned 0 and had no failures, known failures, errors or passes.\n");
+                    printf("&&&& PASSED $test\n");
                     printf("#### WALLTIME $test %.2f [s]\n", $elapsed);
                 } else {
                     printf("&&&& PASSED $test\n");
