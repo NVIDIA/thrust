@@ -44,10 +44,10 @@
 #include <thrust/system/cuda/future.h>
 #include <thrust/type_traits/is_trivially_relocatable.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
+#include <thrust/type_traits/logical_metafunctions.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/distance.h>
-#include <thrust/addressof.h>
 
 #include <type_traits>
 
@@ -253,7 +253,7 @@ auto async_stable_sort_n(
   unique_eager_future_promise_pair<void, pointer> fp;
 
   thrust::cuda_cub::cub::DoubleBuffer<T> keys(
-    raw_pointer_cast(addressof(*first)), nullptr
+    raw_pointer_cast(&*first), nullptr
   );
 
   // Determine temporary device storage requirements.
