@@ -457,6 +457,9 @@ template<template <typename> class TestName, typename TypeList>
     VariableUnitTest()
       : UnitTest(base_class_name(unittest::type_name<TestName<int> >()).c_str()) {}
 
+    VariableUnitTest(const char * name)
+      : UnitTest(name) {}
+
     void run()
     {
         std::vector<size_t> sizes = get_test_sizes();

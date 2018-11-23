@@ -12,7 +12,7 @@ template <typename T>
 struct custom_plus
 {
   __host__ __device__
-  T operator()(T rhs, T lhs) const
+  T operator()(T lhs, T rhs) const
   {
     return lhs + rhs;
   }
@@ -32,8 +32,6 @@ struct test_async_reduce
     auto r0 = thrust::reduce(
       h0_data.begin(), h0_data.end()
     );
-
-    cudaStreamSynchronize(cudaStreamLegacy);
 
     auto f0 = thrust::async::reduce(
       d0_data.begin(), d0_data.end()
@@ -65,8 +63,6 @@ struct test_async_reduce_with_policy
     auto r0 = thrust::reduce(
       h0_data.begin(), h0_data.end()
     );
-
-    cudaStreamSynchronize(cudaStreamLegacy);
 
     auto f0 = thrust::async::reduce(
       thrust::device, d0_data.begin(), d0_data.end()
@@ -101,8 +97,6 @@ struct test_async_reduce_with_init
       h0_data.begin(), h0_data.end(), init
     );
 
-    cudaStreamSynchronize(cudaStreamLegacy);
-
     auto f0 = thrust::async::reduce(
       d0_data.begin(), d0_data.end(), init
     );
@@ -135,8 +129,6 @@ struct test_async_reduce_with_policy_init
     auto r0 = thrust::reduce(
       h0_data.begin(), h0_data.end(), init
     );
-
-    cudaStreamSynchronize(cudaStreamLegacy);
 
     auto f0 = thrust::async::reduce(
       thrust::device, d0_data.begin(), d0_data.end(), init
@@ -172,8 +164,6 @@ struct test_async_reduce_with_init_op
       h0_data.begin(), h0_data.end(), init, op
     );
 
-    cudaStreamSynchronize(cudaStreamLegacy);
-
     auto f0 = thrust::async::reduce(
       d0_data.begin(), d0_data.end(), init, op
     );
@@ -208,8 +198,6 @@ struct test_async_reduce_with_policy_init_op
       h0_data.begin(), h0_data.end(), init, op
     );
 
-    cudaStreamSynchronize(cudaStreamLegacy);
-
     auto f0 = thrust::async::reduce(
       thrust::device, d0_data.begin(), d0_data.end(), init, op
     );
@@ -226,11 +214,11 @@ VariableUnitTest<
 , NumericTypes
 > test_async_reduce_with_policy_init_op_instance;
 
-// TODO: async copy then reduce
+// TODO: Async copy then reduce.
 
 // TODO: Device-side reduction usage.
 
-// TODO: Make random_integers more generic, and create a way to get a
+// TODO: Make random_integers more generic.
 
 #endif // THRUST_CPP_DIALECT >= 2011
 

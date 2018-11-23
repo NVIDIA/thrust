@@ -27,6 +27,9 @@
 
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/select_system.h>
+#include <thrust/type_traits/logical_metafunctions.h>
+#include <thrust/type_traits/remove_cvref.h>
+#include <thrust/type_traits/is_execution_policy.h>
 #include <thrust/system/detail/adl/async/sort.h>
 
 #include <thrust/future.h>
@@ -206,8 +209,9 @@ struct sort_fn final
   template <typename ForwardIt, typename Sentinel, typename StrictWeakOrdering>
   __host__ __device__
   static auto call(ForwardIt&& first, Sentinel&& last, StrictWeakOrdering&& comp) 
-  THRUST_DECLTYPE_RETURNS(
-    call(
+  THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(
+    (negation<is_execution_policy<remove_cvref_t<ForwardIt>>>::value)
+  , call(
       thrust::detail::select_system(
         typename thrust::iterator_system<ForwardIt>::type{}
       )

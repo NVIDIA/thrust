@@ -8,7 +8,7 @@ template<typename T>
   struct plus_mod_10
 {
   __host__ __device__
-  T operator()(T rhs, T lhs) const
+  T operator()(T lhs, T rhs) const
   {
     return ((lhs % 10) + (rhs % 10)) % 10;
   }

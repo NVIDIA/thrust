@@ -161,9 +161,8 @@ struct reduce_fn final
   template <typename ForwardIt, typename Sentinel>
   __host__ __device__
   static auto call(ForwardIt&& first, Sentinel&& last)
-  THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(
-    (negation<is_execution_policy<remove_cvref_t<ForwardIt>>>::value)
-  , call(
+  THRUST_DECLTYPE_RETURNS(
+    call(
       THRUST_FWD(first), THRUST_FWD(last)
     , typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type{}
     )

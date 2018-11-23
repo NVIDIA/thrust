@@ -102,7 +102,7 @@ auto async_stable_sort_n(
   Size                             n,
   StrictWeakOrdering               comp
 ) ->
-  typename std::enable_if<
+/*  typename std::enable_if<
     conjunction<
       is_contiguous_iterator<ForwardIt>
     , negation<
@@ -111,13 +111,15 @@ auto async_stable_sort_n(
         >
       >
     >::value
-  , unique_eager_future<
+  ,
+*/
+    unique_eager_future<
       void
     , typename thrust::detail::allocator_traits<
         decltype(get_async_device_allocator(policy))
       >::template rebind_traits<void>::pointer
     >
-  >::type
+//  >::type
 {
   using T = typename thrust::iterator_traits<ForwardIt>::value_type;
 
