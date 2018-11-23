@@ -107,7 +107,8 @@ public:
     __host__ __device__
     operator void *() const
     {
-        return reinterpret_cast<void *>(value[0]);
+        // static cast first to avoid MSVC warning C4312
+        return reinterpret_cast<void *>(static_cast<std::size_t>(value[0]));
     }
 
 #define DEFINE_OPERATOR(op)                                         \
