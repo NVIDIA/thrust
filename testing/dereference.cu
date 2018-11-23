@@ -7,7 +7,7 @@
 #include <thrust/iterator/counting_iterator.h>
 
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 
 template <typename Iterator1, typename Iterator2>
@@ -106,4 +106,4 @@ void TestDeviceDereferenceTransformedCountingIterator(void)
 }
 DECLARE_UNITTEST(TestDeviceDereferenceTransformedCountingIterator);
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

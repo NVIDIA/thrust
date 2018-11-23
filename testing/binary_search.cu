@@ -5,7 +5,7 @@
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 //////////////////////
 // Scalar Functions //
@@ -290,4 +290,4 @@ void TestScalarEqualRangeDispatchImplicit()
 }
 DECLARE_UNITTEST(TestScalarEqualRangeDispatchImplicit);
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

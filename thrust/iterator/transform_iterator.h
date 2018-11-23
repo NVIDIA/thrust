@@ -299,7 +299,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
     // MSVC 2013 and 2015 incorrectly warning about returning a reference to
     // a local/temporary here.
     // See goo.gl/LELTNp
-    __THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
+    THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
 
     __thrust_exec_check_disable__
     __host__ __device__
@@ -312,7 +312,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
       return m_f(x);
     }
 
-    __THRUST_DISABLE_MSVC_WARNING_END(4172)
+    THRUST_DISABLE_MSVC_WARNING_END(4172)
 
     // tag this as mutable per Dave Abrahams in this thread:
     // http://lists.boost.org/Archives/boost/2004/05/65332.php

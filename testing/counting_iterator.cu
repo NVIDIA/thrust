@@ -6,7 +6,7 @@
 #include <thrust/detail/cstdint.h>
 
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 void TestCountingIteratorCopyConstructor(void)
 {
@@ -221,4 +221,4 @@ void TestCountingIteratorDifference(void)
 }
 DECLARE_UNITTEST(TestCountingIteratorDifference);
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

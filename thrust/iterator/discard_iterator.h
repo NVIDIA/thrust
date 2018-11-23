@@ -25,7 +25,7 @@
 #include <thrust/iterator/detail/discard_iterator_base.h>
 #include <thrust/iterator/iterator_facade.h>
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 namespace thrust
 {
@@ -167,5 +167,5 @@ discard_iterator<> make_discard_iterator(discard_iterator<>::difference_type i =
 
 } // end namespace thrust
   
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 

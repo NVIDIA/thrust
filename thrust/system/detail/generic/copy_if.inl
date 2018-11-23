@@ -58,7 +58,7 @@ OutputIterator copy_if(thrust::execution_policy<DerivedPolicy> &exec,
                        OutputIterator result,
                        Predicate pred)
 {
-  __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
+  THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(IndexType n = thrust::distance(first, last));
   
   // compute {0,1} predicates
   thrust::detail::temporary_array<IndexType, DerivedPolicy> predicates(exec, n);

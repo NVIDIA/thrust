@@ -267,10 +267,10 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
 {
   std::time_t start_time = std::time(0);
   
-  __THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_BEGIN
+  THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_BEGIN
   bool verbose = kwargs.count("verbose");
   bool concise = kwargs.count("concise");
-  __THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_END
+  THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_END
   
   std::vector< TestResult > test_results;
   

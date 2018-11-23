@@ -5,7 +5,7 @@
 #include <thrust/iterator/retag.h>
 #include <algorithm>
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
 template <class Vector>
 void TestFillSimple(void)
@@ -458,4 +458,4 @@ void TestFillNDispatchImplicit()
 DECLARE_UNITTEST(TestFillNDispatchImplicit);
 
 
-__THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END

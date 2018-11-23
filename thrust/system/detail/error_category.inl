@@ -99,9 +99,9 @@ class generic_error_category
 
       // XXX strerror is not thread-safe:
       //     prefer strerror_r (which is not provided on windows)
-      __THRUST_DISABLE_MSVC_WARNING_BEGIN(4996)
+      THRUST_DISABLE_MSVC_WARNING_BEGIN(4996)
       const char *c_str = std::strerror(ev);
-      __THRUST_DISABLE_MSVC_WARNING_END(4996)
+      THRUST_DISABLE_MSVC_WARNING_END(4996)
       return c_str ? std::string(c_str) : unknown_err;
     }
 }; // end generic_category_result

@@ -72,36 +72,97 @@
 #define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_FALSE
 #endif // _OPENMP
 
-// disable specific MSVC warnings
+// Disable specific MSVC warnings.
 #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && !defined(__CUDA_ARCH__)
-#define __THRUST_DISABLE_MSVC_WARNING_BEGIN(x) \
-__pragma(warning(push)) \
-__pragma(warning(disable : x))
-#define __THRUST_DISABLE_MSVC_WARNING_END(x) \
-__pragma(warning(pop))
+  #define THRUST_DISABLE_MSVC_WARNING_BEGIN(x)                                \
+    __pragma(warning(push))                                                   \
+    __pragma(warning(disable : x))                                            \
+    /**/
+  #define THRUST_DISABLE_MSVC_WARNING_END(x)                                  \
+    __pragma(warning(pop))                                                    \
+    /**/
 #else
-#define __THRUST_DISABLE_MSVC_WARNING_BEGIN(x)
-#define __THRUST_DISABLE_MSVC_WARNING_END(x)
+  #define THRUST_DISABLE_MSVC_WARNING_BEGIN(x)
+  #define THRUST_DISABLE_MSVC_WARNING_END(x)
 #endif
-#define __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(x) \
-__THRUST_DISABLE_MSVC_WARNING_BEGIN(4244 4267) \
-x;\
-__THRUST_DISABLE_MSVC_WARNING_END(4244 4267)
-#define __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN \
-__THRUST_DISABLE_MSVC_WARNING_BEGIN(4244 4267)
-#define __THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END \
-__THRUST_DISABLE_MSVC_WARNING_END(4244 4267)
-#define __THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL(x) \
-__THRUST_DISABLE_MSVC_WARNING_BEGIN(4800) \
-x;\
-__THRUST_DISABLE_MSVC_WARNING_END(4800)
-#define __THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_BEGIN \
-__THRUST_DISABLE_MSVC_WARNING_BEGIN(4800)
-#define __THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_END \
-__THRUST_DISABLE_MSVC_WARNING_END(4800)
 
-// figure out which host compiler we're using
-// XXX we should move the definition of THRUST_DEPRECATED out of this logic
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG) && !defined(__CUDA_ARCH__)
+  #define THRUST_IGNORE_CLANG_WARNING_IMPL(x)                                 \
+    THRUST_PP_STRINGIZE(clang diagnostic ignored x)                           \
+    /**/
+  #define THRUST_IGNORE_CLANG_WARNING(x)                                      \
+    THRUST_IGNORE_CLANG_WARNING_IMPL(THRUST_PP_STRINGIZE(x))                  \
+    /**/
+
+  #define THRUST_DISABLE_CLANG_WARNING_BEGIN(x)                               \
+    _Pragma("clang diagnostic push")                                          \
+    _Pragma(THRUST_IGNORE_CLANG_WARNING(x))                                   \
+    /**/
+  #define THRUST_DISABLE_CLANG_WARNING_END(x)                                 \
+    _Pragma("clang diagnostic pop")                                           \
+    /**/
+#else
+  #define THRUST_DISABLE_CLANG_WARNING_BEGIN(x)
+  #define THRUST_DISABLE_CLANG_WARNING_END(x)
+#endif
+
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && !defined(__CUDA_ARCH__)
+  #define THRUST_IGNORE_GCC_WARNING_IMPL(x)                                   \
+    THRUST_PP_STRINGIZE(GCC diagnostic ignored x)                             \
+    /**/
+  #define THRUST_IGNORE_GCC_WARNING(x)                                        \
+    THRUST_IGNORE_GCC_WARNING_IMPL(THRUST_PP_STRINGIZE(x))                    \
+    /**/
+
+  #define THRUST_DISABLE_GCC_WARNING_BEGIN(x)                                 \
+    _Pragma("GCC diagnostic push")                                            \
+    _Pragma(THRUST_IGNORE_GCC_WARNING(x))                                     \
+    /**/
+  #define THRUST_DISABLE_GCC_WARNING_END(x)                                   \
+    _Pragma("GCC diagnostic pop")                                             \
+    /**/
+#else
+  #define THRUST_DISABLE_GCC_WARNING_BEGIN(x)
+  #define THRUST_DISABLE_GCC_WARNING_END(x)
+#endif
+
+#define THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN               \
+  THRUST_DISABLE_MSVC_WARNING_BEGIN(4244 4267)                                \
+  /**/
+#define THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END                 \
+  THRUST_DISABLE_MSVC_WARNING_END(4244 4267)                                  \
+  /**/
+#define THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING(x)                  \
+  THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN                     \
+  x;                                                                          \
+  THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END                       \
+  /**/
+
+#define THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_BEGIN               \
+  THRUST_DISABLE_MSVC_WARNING_BEGIN(4800)                                     \
+  /**/
+#define THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_END                 \
+  THRUST_DISABLE_MSVC_WARNING_END(4800)                                       \
+  /**/
+#define THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING(x)                  \
+  THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_BEGIN                     \
+  x;                                                                          \
+  THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_END                       \
+  /**/
+
+#define THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING_BEGIN                    \
+  THRUST_DISABLE_CLANG_WARNING_BEGIN(-Wself-assign)                           \
+  /**/
+#define THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING_END                      \
+  THRUST_DISABLE_CLANG_WARNING_END(-Wself-assign)                             \
+  /**/
+#define THRUST_DISABLE_MSVC_SELF_ASSIGNMENT_WARNING(x)                        \
+  THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING_BEGIN                          \
+  x;                                                                          \
+  THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING_END                            \
+  /**/
+
+// TODO we should move the definition of THRUST_DEPRECATED out of this logic
 #if   THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
   #define THRUST_DEPRECATED __declspec(deprecated)
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG

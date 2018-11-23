@@ -170,7 +170,7 @@ template <typename ElementIterator,
     // MSVC 2013 and 2015 incorrectly warning about returning a reference to
     // a local/temporary here.
     // See goo.gl/LELTNp
-    __THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
+    THRUST_DISABLE_MSVC_WARNING_BEGIN(4172)
 
     __thrust_exec_check_disable__
     __host__ __device__
@@ -179,7 +179,7 @@ template <typename ElementIterator,
       return *(m_element_iterator + *this->base());
     }
 
-    __THRUST_DISABLE_MSVC_WARNING_END(4172)
+    THRUST_DISABLE_MSVC_WARNING_END(4172)
 
     // make friends for the copy constructor
     template<typename,typename> friend class permutation_iterator;
