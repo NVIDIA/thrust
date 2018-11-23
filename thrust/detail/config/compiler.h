@@ -156,7 +156,7 @@
 #define THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING_END                      \
   THRUST_DISABLE_CLANG_WARNING_END(-Wself-assign)                             \
   /**/
-#define THRUST_DISABLE_MSVC_SELF_ASSIGNMENT_WARNING(x)                        \
+#define THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING(x)                       \
   THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING_BEGIN                          \
   x;                                                                          \
   THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING_END                            \
