@@ -57,7 +57,8 @@ __host__ __device__
   typedef typename thrust::iterator_difference<InputIterator>::type Size;
 
   const Size n = last - first;
-  thrust::system::detail::sequential::trivial_copy_n(get(&*first), n, get(&*result));
+  if (n > 0)
+    thrust::system::detail::sequential::trivial_copy_n(get(&*first), n, get(&*result));
   return result + n;
 } // end copy()
 
