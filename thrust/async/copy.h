@@ -40,20 +40,22 @@ namespace unimplemented
 {
 
 template <
-  typename DerivedPolicy
+  typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
 __host__ __device__
-future<
-  OutputIt, DerivedPolicy
-, typename thrust::detail::pointer_traits<
-    thrust::host_memory_resource::pointer
-  >::template rebind<OutputIt>::other
->
-async_copy(
-  thrust::execution_policy<DerivedPolicy>& exec
+auto async_copy(
+  thrust::execution_policy<FromPolicy>& from_exec
+, thrust::execution_policy<ToPolicy>&   to_exec
 , ForwardIt first, Sentinel last, OutputIt output
-)
+) ->
+  future<
+    OutputIt
+  , decltype(thrust::detail::select_system(from_exec, to_exec))
+  , typename thrust::detail::pointer_traits<
+      thrust::host_memory_resource::pointer
+    >::template rebind<OutputIt>::other
+  >
 {
   THRUST_STATIC_ASSERT_MSG(
     (thrust::detail::depend_on_instantiation<ForwardIt, false>::value)
@@ -64,34 +66,53 @@ async_copy(
 
 } // namespace unimplemented
 
+namespace copy_detail
+{
+
 struct copy_fn final
 {
+  __thrust_exec_check_disable__
+  template <
+    typename FromPolicy, typename ToPolicy
+  , typename ForwardIt, typename Sentinel, typename OutputIt
+  >
+  __host__ __device__
+  static auto call(
+    thrust::detail::execution_policy_base<FromPolicy> const& from_exec
+  , thrust::detail::execution_policy_base<ToPolicy> const&   to_exec
+  , ForwardIt&& first, Sentinel&& last
+  , OutputIt&& output 
+  )
+  // ADL dispatch.
+  THRUST_DECLTYPE_RETURNS(
+    async_copy(
+      thrust::detail::derived_cast(thrust::detail::strip_const(from_exec))
+    , thrust::detail::derived_cast(thrust::detail::strip_const(to_exec))
+    , THRUST_FWD(first), THRUST_FWD(last)
+    , THRUST_FWD(output)
+    )
+  )
+
   __thrust_exec_check_disable__
   template <
     typename DerivedPolicy
   , typename ForwardIt, typename Sentinel, typename OutputIt
   >
   __host__ __device__
-  future<
-    OutputIt, DerivedPolicy
-  , typename thrust::detail::pointer_traits<
-      thrust::host_memory_resource::pointer
-    >::template rebind<OutputIt>::other
-  >
-  static call(
+  static auto call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , OutputIt&& output 
   ) 
-  {
-    // ADL dispatch.
-    using thrust::async::unimplemented::async_copy;
-    return async_copy(
+  // ADL dispatch.
+  THRUST_DECLTYPE_RETURNS(
+    async_copy(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
+    , thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(output)
-    );
-  } 
+    )
+  )
 
   __thrust_exec_check_disable__
   template <typename ForwardIt, typename Sentinel, typename OutputIt>
@@ -99,10 +120,8 @@ struct copy_fn final
   static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output) 
   THRUST_DECLTYPE_RETURNS(
     copy_fn::call(
-      thrust::detail::select_system(
-        typename thrust::iterator_system<ForwardIt>::type{}
-      , typename thrust::iterator_system<OutputIt>::type{}
-      )
+      typename thrust::iterator_system<ForwardIt>::type{}
+    , typename thrust::iterator_system<OutputIt>::type{}
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(output)
     )
@@ -116,7 +135,9 @@ struct copy_fn final
   )
 };
 
-THRUST_INLINE_CONSTANT copy_fn copy{};
+} // namespace copy_detail
+
+THRUST_INLINE_CONSTANT copy_detail::copy_fn copy{};
 
 } // namespace async
 

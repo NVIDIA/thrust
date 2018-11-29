@@ -33,6 +33,29 @@ DECLARE_VARIABLE_UNITTEST(
 template <typename T>
 __host__
 void
+test_async_copy_host_to_device_trivially_relocatable_with_policies(
+  std::size_t n
+)
+{
+  thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
+  thrust::device_vector<T> d0_data(n);
+
+  auto f0 = thrust::async::copy(
+    thrust::host, thrust::device
+  , h0_data.begin(), h0_data.end(), d0_data.begin()
+  );
+
+  std::move(f0).get();
+
+  ASSERT_EQUAL(h0_data, d0_data);
+}
+DECLARE_VARIABLE_UNITTEST(
+  test_async_copy_host_to_device_trivially_relocatable_with_policies
+);
+
+template <typename T>
+__host__
+void
 test_async_copy_device_to_host_trivially_relocatable(
   std::size_t n
 )
@@ -56,6 +79,35 @@ test_async_copy_device_to_host_trivially_relocatable(
 }
 DECLARE_VARIABLE_UNITTEST(
   test_async_copy_device_to_host_trivially_relocatable
+);
+
+template <typename T>
+__host__
+void
+test_async_copy_device_to_host_trivially_relocatable_with_policies(
+  std::size_t n
+)
+{
+  thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
+  thrust::device_vector<T> h1_data(n);
+  thrust::device_vector<T> d0_data(n);
+
+  thrust::copy(h0_data.begin(), h0_data.end(), d0_data.begin());
+
+  ASSERT_EQUAL(h0_data, d0_data);
+
+  auto f0 = thrust::async::copy(
+    thrust::device, thrust::host
+  , d0_data.begin(), d0_data.end(), h1_data.begin()
+  );
+
+  std::move(f0).get();
+
+  ASSERT_EQUAL(h0_data, d0_data);
+  ASSERT_EQUAL(d0_data, h1_data);
+}
+DECLARE_VARIABLE_UNITTEST(
+  test_async_copy_device_to_host_trivially_relocatable_with_policies
 );
 
 template <typename T>

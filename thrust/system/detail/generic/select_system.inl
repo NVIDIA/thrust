@@ -46,14 +46,14 @@ System &min_system(thrust::execution_policy<System> &system1,
 // min_system case 2: systems have differing type and the first type is considered the minimum
 template<typename System1, typename System2>
 __host__ __device__
-  typename thrust::detail::enable_if<
-    thrust::detail::is_same<
-      System1,
-      typename thrust::detail::minimum_system<System1,System2>::type
-    >::value,
-    System1 &
-  >::type
-    min_system(thrust::execution_policy<System1> &system1, thrust::execution_policy<System2> &)
+typename thrust::detail::enable_if<
+  thrust::detail::is_same<
+    System1,
+    typename thrust::detail::minimum_system<System1,System2>::type
+  >::value,
+  System1 &
+>::type
+  min_system(thrust::execution_policy<System1> &system1, thrust::execution_policy<System2> &)
 {
   return thrust::detail::derived_cast(system1);
 } // end min_system()

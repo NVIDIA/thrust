@@ -17,12 +17,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-
-#if THRUST_CPP_DIALECT >= 2011
-#  include <type_traits>
-#else
-#  include <thrust/detail/type_traits.h>
-#endif
+#include <thrust/detail/type_traits.h>
 
 THRUST_BEGIN_NS
 

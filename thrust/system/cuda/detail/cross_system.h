@@ -56,8 +56,10 @@ namespace cuda_cub {
   // Device to host.
   template <class Sys1, class Sys2>
   THRUST_CONSTEXPR __host__ __device__ 
-  auto direction_of_copy(execution_policy<Sys1> const &,
-                         thrust::cpp::execution_policy<Sys2> const &)
+  auto direction_of_copy(
+    thrust::system::cuda::execution_policy<Sys1> const&
+  , thrust::cpp::execution_policy<Sys2> const&
+  )
   THRUST_DECLTYPE_RETURNS(
     thrust::detail::integral_constant<
       cudaMemcpyKind, cudaMemcpyDeviceToHost
@@ -67,11 +69,26 @@ namespace cuda_cub {
   // Host to device.
   template <class Sys1, class Sys2>
   THRUST_CONSTEXPR __host__ __device__
-  auto direction_of_copy(thrust::cpp::execution_policy<Sys1> const &,
-                         execution_policy<Sys2> const &)
+  auto direction_of_copy(
+    thrust::cpp::execution_policy<Sys1> const&
+  , thrust::system::cuda::execution_policy<Sys2> const&
+  )
   THRUST_DECLTYPE_RETURNS(
     thrust::detail::integral_constant<
       cudaMemcpyKind, cudaMemcpyHostToDevice
+    >{}
+  )
+
+  // Device to device.
+  template <class Sys1, class Sys2>
+  THRUST_CONSTEXPR __host__ __device__
+  auto direction_of_copy(
+    thrust::system::cuda::execution_policy<Sys1> const&
+  , thrust::system::cuda::execution_policy<Sys2> const&
+  )
+  THRUST_DECLTYPE_RETURNS(
+    thrust::detail::integral_constant<
+      cudaMemcpyKind, cudaMemcpyDeviceToDevice
     >{}
   )
 
@@ -97,12 +114,46 @@ namespace cuda_cub {
     )
   )
 
+  template <typename ExecutionPolicy0, typename ExecutionPolicy1>
+  THRUST_CONSTEXPR __host__ __device__
+  auto is_device_to_host_copy(
+    ExecutionPolicy0 const& exec0
+  , ExecutionPolicy1 const& exec1
+  )
+    noexcept -> 
+      thrust::detail::integral_constant<
+        bool
+      ,    cudaMemcpyDeviceToHost
+        == decltype(direction_of_copy(exec0, exec1))::value
+      >
+  {
+    return {};
+  }
+
   template <typename ExecutionPolicy>
   THRUST_CONSTEXPR __host__ __device__
   auto is_device_to_host_copy(ExecutionPolicy const& exec)
-    THRUST_NOEXCEPT -> 
+    noexcept -> 
       thrust::detail::integral_constant<
-        bool, cudaMemcpyDeviceToHost == decltype(direction_of_copy(exec))::value
+        bool
+      ,    cudaMemcpyDeviceToHost
+        == decltype(direction_of_copy(exec))::value
+      >
+  {
+    return {};
+  }
+
+  template <typename ExecutionPolicy0, typename ExecutionPolicy1>
+  THRUST_CONSTEXPR __host__ __device__
+  auto is_host_to_device_copy(
+    ExecutionPolicy0 const& exec0
+  , ExecutionPolicy1 const& exec1
+  )
+    noexcept -> 
+      thrust::detail::integral_constant<
+        bool
+      ,    cudaMemcpyHostToDevice
+        == decltype(direction_of_copy(exec0, exec1))::value
       >
   {
     return {};
@@ -111,9 +162,27 @@ namespace cuda_cub {
   template <typename ExecutionPolicy>
   THRUST_CONSTEXPR __host__ __device__
   auto is_host_to_device_copy(ExecutionPolicy const& exec)
-    THRUST_NOEXCEPT -> 
+    noexcept -> 
       thrust::detail::integral_constant<
-        bool, cudaMemcpyHostToDevice == decltype(direction_of_copy(exec))::value
+        bool
+      ,    cudaMemcpyHostToDevice
+        == decltype(direction_of_copy(exec))::value
+      >
+  {
+    return {};
+  }
+
+  template <typename ExecutionPolicy0, typename ExecutionPolicy1>
+  THRUST_CONSTEXPR __host__ __device__
+  auto is_device_to_device_copy(
+    ExecutionPolicy0 const& exec0
+  , ExecutionPolicy1 const& exec1
+  )
+    noexcept -> 
+      thrust::detail::integral_constant<
+        bool
+      ,    cudaMemcpyDeviceToDevice
+        == decltype(direction_of_copy(exec0, exec1))::value
       >
   {
     return {};
@@ -124,11 +193,61 @@ namespace cuda_cub {
   auto is_device_to_device_copy(ExecutionPolicy const& exec)
     noexcept -> 
       thrust::detail::integral_constant<
-        bool, cudaMemcpyDeviceToDevice == decltype(direction_of_copy(exec))::value
+        bool
+      ,    cudaMemcpyDeviceToDevice
+        == decltype(direction_of_copy(exec))::value
       >
   {
     return {};
   }
+
+  // Device to host.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_device_system(execution_policy<Sys1> &             sys1,
+                       thrust::cpp::execution_policy<Sys2> &)
+  THRUST_DECLTYPE_RETURNS(sys1)
+
+  // Device to host.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_device_system(execution_policy<Sys1> const &             sys1,
+                       thrust::cpp::execution_policy<Sys2> const &)
+  THRUST_DECLTYPE_RETURNS(sys1)
+
+  // Host to device.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_device_system(thrust::cpp::execution_policy<Sys1> &,
+                       execution_policy<Sys2> &             sys2)
+  THRUST_DECLTYPE_RETURNS(sys2)
+
+  // Host to device.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_device_system(thrust::cpp::execution_policy<Sys1> const &,
+                       execution_policy<Sys2> const &             sys2)
+  THRUST_DECLTYPE_RETURNS(sys2)
+
+  // Device to device.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_device_system(execution_policy<Sys1> &sys1,
+                       execution_policy<Sys2> &)
+  THRUST_DECLTYPE_RETURNS(sys1)
+
+  // Device to device.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_device_system(execution_policy<Sys1> const &sys1,
+                       execution_policy<Sys2> const &)
+  THRUST_DECLTYPE_RETURNS(sys1)
 #endif
 
   // Device to host.
@@ -147,7 +266,7 @@ namespace cuda_cub {
   template <class Sys1, class Sys2>
   __host__ __device__
   cross_system<Sys1, Sys2>
-  select_system(const thrust::cpp::execution_policy<Sys1> &sys1,
+  select_system(thrust::cpp::execution_policy<Sys1> const &sys1,
                 execution_policy<Sys2> const &             sys2)
   {
     thrust::cpp::execution_policy<Sys1> &non_const_sys1 = const_cast<thrust::cpp::execution_policy<Sys1> &>(sys1);
@@ -155,6 +274,6 @@ namespace cuda_cub {
     return cross_system<Sys1, Sys2>(non_const_sys1, non_const_sys2);
   }
 
-}    // namespace cuda_cub
+} // namespace cuda_cub
 THRUST_END_NS
 

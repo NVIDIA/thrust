@@ -60,15 +60,16 @@ namespace system { namespace cuda { namespace detail
 // TriviallyRelocatable value type
 // Device to host, host to device
 template <
-  typename DerivedPolicy
+  typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
 THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
-  execution_policy<DerivedPolicy>& policy
-, ForwardIt                        first
-, Size                             n
-, OutputIt                         output
+  FromPolicy& from_exec
+, ToPolicy&   to_exec
+, ForwardIt   first
+, Size        n
+, OutputIt    output
 ) ->
   typename std::enable_if<
     conjunction<
@@ -78,14 +79,16 @@ auto async_copy_n(
       , typename iterator_traits<OutputIt>::value_type
       >
     , disjunction<
-        decltype(is_host_to_device_copy(policy))
-      , decltype(is_device_to_host_copy(policy))
+        decltype(is_host_to_device_copy(from_exec, to_exec))
+      , decltype(is_device_to_host_copy(from_exec, to_exec))
       >
     >::value
   , unique_eager_future<
       OutputIt
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(policy))
+        decltype(get_async_universal_host_pinned_allocator(
+          select_device_system(from_exec, to_exec)
+        ))
       >::template rebind_traits<OutputIt>::pointer
     >
   >::type
@@ -102,7 +105,10 @@ auto async_copy_n(
 // Workaround for an NVCC bug; when two SFINAE-enabled overloads are only
 // distinguishable by a part of a SFINAE condition that is in a `decltype`,
 // NVCC thinks they are the same overload and emits an error.
-template <typename ExecutionPolicy, typename ForwardIt, typename OutputIt>
+template <
+  typename FromPolicy, typename ToPolicy
+, typename ForwardIt, typename OutputIt
+>
 struct is_buffered_trivially_relocatable_host_to_device_copy
   : thrust::integral_constant<
       bool
@@ -112,7 +118,12 @@ struct is_buffered_trivially_relocatable_host_to_device_copy
             typename iterator_traits<ForwardIt>::value_type
           , typename iterator_traits<OutputIt>::value_type
           >::value
-      && decltype(is_host_to_device_copy(std::declval<ExecutionPolicy>()))::value
+      && decltype(
+           is_host_to_device_copy(
+             std::declval<FromPolicy const&>()
+           , std::declval<ToPolicy const&>()
+           )
+         )::value
     >
 {};
 
@@ -120,24 +131,29 @@ struct is_buffered_trivially_relocatable_host_to_device_copy
 // TriviallyRelocatable value type
 // Host to device
 template <
-  typename DerivedPolicy
+  typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
 THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
-  execution_policy<DerivedPolicy>& policy
-, ForwardIt                        first
-, Size                             n
-, OutputIt                         output
+  FromPolicy&                                       from_exec
+, thrust::system::cuda::execution_policy<ToPolicy>& to_exec
+, ForwardIt                                         first
+, Size                                              n
+, OutputIt                                          output
 ) ->
   typename std::enable_if<
     is_buffered_trivially_relocatable_host_to_device_copy<
-      execution_policy<DerivedPolicy>, ForwardIt, OutputIt
+      FromPolicy
+    , thrust::system::cuda::execution_policy<ToPolicy>
+    , ForwardIt, OutputIt
     >::value
   , unique_eager_future<
       OutputIt
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(policy))
+        decltype(get_async_universal_host_pinned_allocator(
+          select_device_system(from_exec, to_exec)
+        ))
       >::template rebind_traits<OutputIt>::pointer
     >
   >::type
@@ -157,7 +173,10 @@ auto async_copy_n(
 // Workaround for an NVCC bug; when two SFINAE-enabled overloads are only
 // distinguishable by a part of a SFINAE condition that is in a `decltype`,
 // NVCC thinks they are the same overload and emits an error.
-template <typename ExecutionPolicy, typename ForwardIt, typename OutputIt>
+template <
+  typename FromPolicy, typename ToPolicy
+, typename ForwardIt, typename OutputIt
+>
 struct is_buffered_trivially_relocatable_device_to_host_copy
   : thrust::integral_constant<
       bool
@@ -167,7 +186,12 @@ struct is_buffered_trivially_relocatable_device_to_host_copy
             typename iterator_traits<ForwardIt>::value_type
           , typename iterator_traits<OutputIt>::value_type
           >::value
-      && decltype(is_device_to_host_copy(std::declval<ExecutionPolicy>()))::value
+      && decltype(
+           is_device_to_host_copy(
+             std::declval<FromPolicy const&>()
+           , std::declval<ToPolicy const&>()
+           )
+         )::value
     >
 {};
 
@@ -175,24 +199,29 @@ struct is_buffered_trivially_relocatable_device_to_host_copy
 // TriviallyRelocatable value type
 // Device to host
 template <
-  typename DerivedPolicy
+  typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
 THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
-  execution_policy<DerivedPolicy>& policy
-, ForwardIt                        first
-, Size                             n
-, OutputIt                         output
+  thrust::system::cuda::execution_policy<FromPolicy>& from_exec
+, ToPolicy&                                           to_exec
+, ForwardIt                                           first
+, Size                                                n
+, OutputIt                                            output
 ) ->
   typename std::enable_if<
     is_buffered_trivially_relocatable_device_to_host_copy<
-      execution_policy<DerivedPolicy>, ForwardIt, OutputIt
+      thrust::system::cuda::execution_policy<FromPolicy>
+    , ToPolicy
+    , ForwardIt, OutputIt
     >::value
   , unique_eager_future<
       OutputIt
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(policy))
+        decltype(get_async_universal_host_pinned_allocator(
+          select_device_system(from_exec, to_exec)
+        ))
       >::template rebind_traits<OutputIt>::pointer
     >
   >::type
@@ -222,15 +251,16 @@ void async_copy_n_compile_failure_non_trivially_relocatable_elements()
 // Non-TriviallyRelocatable value type
 // Host to device, device to host
 template <
-  typename DerivedPolicy
+  typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
 THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
-  execution_policy<DerivedPolicy>& policy
-, ForwardIt                        first
-, Size                             n
-, OutputIt                         output
+  FromPolicy& from_exec
+, ToPolicy&   to_exec
+, ForwardIt   first
+, Size        n
+, OutputIt    output
 ) ->
   typename std::enable_if<
     conjunction<
@@ -241,14 +271,16 @@ auto async_copy_n(
         >
       >
     , disjunction<
-        decltype(is_host_to_device_copy(policy))
-      , decltype(is_device_to_host_copy(policy))
+        decltype(is_host_to_device_copy(from_exec, to_exec))
+      , decltype(is_device_to_host_copy(from_exec, to_exec))
       >
     >::value
   , unique_eager_future<
       OutputIt
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(policy))
+        decltype(get_async_universal_host_pinned_allocator(
+          select_device_system(from_exec, to_exec)
+        ))
       >::template rebind_traits<OutputIt>::pointer
     >
   >::type
@@ -268,63 +300,74 @@ auto async_copy_n(
 // Non-ContiguousIterator input or output iterator, or non-TriviallyRelocatable value type
 // Device to device
 template <
-  typename DerivedPolicy
+  typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
 THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
-  execution_policy<DerivedPolicy>& policy
-, ForwardIt                        first
-, Size                             n
-, OutputIt                         output
+  thrust::system::cuda::execution_policy<FromPolicy>& from_exec
+, thrust::system::cuda::execution_policy<ToPolicy>&   to_exec
+, ForwardIt                                           first
+, Size                                                n
+, OutputIt                                            output
 ) ->
   typename std::enable_if<
     conjunction<
       negation<
         thrust::is_trivially_relocatable_sequence_copy<ForwardIt, OutputIt>
       >
-    , decltype(is_device_to_device_copy(policy))
+    , decltype(is_device_to_device_copy(from_exec, to_exec))
     >::value
   , unique_eager_future<
       OutputIt
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(policy))
+        decltype(get_async_universal_host_pinned_allocator(
+          select_device_system(from_exec, to_exec)
+        ))
       >::template rebind_traits<OutputIt>::pointer
     >
   >::type
 {
   using T = typename thrust::iterator_traits<ForwardIt>::value_type;
 
-  return async_transform_n(policy, first, n, output, thrust::identity<T>());
+  return async_transform_n(
+    select_device_system(from_exec, to_exec)
+  , first, n, output, thrust::identity<T>()
+  );
 }
 
 // ContiguousIterator input and output iterators
 // TriviallyCopyable elements
 // Host to device, device to host, device to device
 template <
-  typename DerivedPolicy
+  typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
 THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
-  execution_policy<DerivedPolicy>& policy
-, ForwardIt                        first
-, Size                             n
-, OutputIt                         output
+  FromPolicy& from_exec
+, ToPolicy&   to_exec
+, ForwardIt   first
+, Size        n
+, OutputIt    output
 ) ->
   typename std::enable_if<
     thrust::is_trivially_relocatable_sequence_copy<ForwardIt, OutputIt>::value 
   , unique_eager_future<
       OutputIt
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(policy))
+        decltype(get_async_universal_host_pinned_allocator(
+          select_device_system(from_exec, to_exec)
+        ))
       >::template rebind_traits<OutputIt>::pointer
     >
   >::type
 {
   using T = typename thrust::iterator_traits<ForwardIt>::value_type;
 
-  auto const uhp_alloc = get_async_universal_host_pinned_allocator(policy);
+  auto const uhp_alloc = get_async_universal_host_pinned_allocator(
+    select_device_system(from_exec, to_exec)
+  );
 
   using return_type = OutputIt;
 
@@ -340,7 +383,9 @@ auto async_copy_n(
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
+  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(
+    select_device_system(from_exec, to_exec)
+  );
 
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
@@ -371,7 +416,7 @@ auto async_copy_n(
       thrust::raw_pointer_cast(&*output)
     , thrust::raw_pointer_cast(&*first)
     , sizeof(T) * n
-    , direction_of_copy(policy)
+    , direction_of_copy(from_exec, to_exec)
     , fp.future.stream()
     )
   , "after copy launch"
@@ -387,19 +432,58 @@ namespace cuda_cub
 
 // ADL entry point.
 template <
-  typename DerivedPolicy
+  typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
 THRUST_RUNTIME_FUNCTION
 auto async_copy(
-  execution_policy<DerivedPolicy>& policy
-, ForwardIt                        first
-, Sentinel                         last
-, OutputIt                         output
+  thrust::cuda::execution_policy<FromPolicy>&         from_exec
+, thrust::cpp::execution_policy<ToPolicy>&            to_exec
+, ForwardIt                                           first
+, Sentinel                                            last
+, OutputIt                                            output
 )
 THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_copy_n(
-    policy, first, thrust::distance(first, last), output
+    from_exec, to_exec, first, thrust::distance(first, last), output
+  )
+)
+
+// ADL entry point.
+template <
+  typename FromPolicy, typename ToPolicy
+, typename ForwardIt, typename Sentinel, typename OutputIt
+>
+THRUST_RUNTIME_FUNCTION
+auto async_copy(
+  thrust::cpp::execution_policy<FromPolicy>&          from_exec
+, thrust::system::cuda::execution_policy<ToPolicy>&   to_exec
+, ForwardIt                                           first
+, Sentinel                                            last
+, OutputIt                                            output
+)
+THRUST_DECLTYPE_RETURNS(
+  thrust::system::cuda::detail::async_copy_n(
+    from_exec, to_exec, first, thrust::distance(first, last), output
+  )
+)
+
+// ADL entry point.
+template <
+  typename FromPolicy, typename ToPolicy
+, typename ForwardIt, typename Sentinel, typename OutputIt
+>
+THRUST_RUNTIME_FUNCTION
+auto async_copy(
+  thrust::system::cuda::execution_policy<FromPolicy>& from_exec
+, thrust::system::cuda::execution_policy<ToPolicy>&   to_exec
+, ForwardIt                                           first
+, Sentinel                                            last
+, OutputIt                                            output
+)
+THRUST_DECLTYPE_RETURNS(
+  thrust::system::cuda::detail::async_copy_n(
+    from_exec, to_exec, first, thrust::distance(first, last), output
   )
 )
 
