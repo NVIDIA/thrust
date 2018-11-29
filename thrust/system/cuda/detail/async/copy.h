@@ -392,9 +392,14 @@ auto async_copy_n(
     fp = depend_on<return_type, return_pointer>(
       [] (decltype(content) const& c)
       { return c.get(); }
-    , std::make_tuple(
-        std::move(content)
-      , unique_stream(nonowning, user_raw_stream)
+    , std::tuple_cat(
+        std::make_tuple(
+          std::move(content)
+        , unique_stream(nonowning, user_raw_stream)
+        )
+      , extract_dependencies(
+          std::move(select_device_system(from_exec, to_exec))
+        )
       )
     );
   }
@@ -403,9 +408,14 @@ auto async_copy_n(
     fp = depend_on<return_type, return_pointer>(
       [] (decltype(content) const& c)
       { return c.get(); }
-    , std::make_tuple(
-        std::move(content)
-      ) 
+    , std::tuple_cat(
+        std::make_tuple(
+          std::move(content)
+        )
+      , extract_dependencies(
+          std::move(select_device_system(from_exec, to_exec))
+        )
+      )
     );
   }
 

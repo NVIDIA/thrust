@@ -136,7 +136,7 @@ auto async_reduce_n(
         , unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
+          std::move(policy)
         )
       )
     );
@@ -157,7 +157,7 @@ auto async_reduce_n(
           std::move(content)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
+          std::move(policy)
         )
       )
     );

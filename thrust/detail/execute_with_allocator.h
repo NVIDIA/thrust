@@ -55,12 +55,13 @@ public:
     : super_t(super), alloc(alloc_)
   {}
 
+  __thrust_exec_check_disable__
   __host__ __device__
   execute_with_allocator(Allocator alloc_)
     : alloc(alloc_)
   {}
 
-  Allocator get_allocator() { return alloc; }
+  typename remove_reference<Allocator>::type& get_allocator() { return alloc; }
 
 #if __cplusplus >= 201103L
   template<typename ...Dependencies>

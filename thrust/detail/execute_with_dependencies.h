@@ -104,7 +104,7 @@ public:
         return std::move(dependencies);
     }
 
-    Allocator
+    typename remove_reference<Allocator>::type&
     __host__
     get_allocator()
     {

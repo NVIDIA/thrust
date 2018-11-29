@@ -95,8 +95,13 @@ auto async_for_each_n(
   {
     fp = depend_on<void, pointer>(
       nullptr
-    , std::make_tuple(
-        unique_stream(nonowning, user_raw_stream)
+    , std::tuple_cat(
+        std::make_tuple(
+          unique_stream(nonowning, user_raw_stream)
+        )
+      , extract_dependencies(
+          std::move(policy)
+        )
       )
     );
   }
@@ -104,7 +109,9 @@ auto async_for_each_n(
   {
     fp = depend_on<void, pointer>(
       nullptr
-    , std::make_tuple()
+    , extract_dependencies(
+        std::move(policy)
+      )
     );
   }
 

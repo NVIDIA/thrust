@@ -70,15 +70,45 @@ struct TestAllocatorAttachment
             >::value), true);
     }
 
+    template<typename Policy>
+    void test_temporary_allocation_valid(Policy policy)
+    {
+        using thrust::detail::get_temporary_buffer;
+
+        return_temporary_buffer(
+            policy,
+            get_temporary_buffer<int>(
+                policy,
+                123
+            ).first
+        );
+    }
+
     void operator()()
     {
         typename PolicyInfo::policy policy;
 
+        // test correctness of attachment
         assert_correct<test_allocator_t<int> >(policy(test_allocator_t<int>()));
         assert_correct<test_allocator_t<int>&>(policy(test_allocator));
         assert_correct<test_allocator_t<int> >(policy(const_test_allocator));
 
         assert_npa_correct<test_memory_resource_t>(policy(&test_memory_resource));
+
+        // test whether the resulting policy is actually usable
+        // a real allocator is necessary here, unlike above
+        std::allocator<int> alloc;
+        const std::allocator<int> const_alloc;
+
+        test_temporary_allocation_valid(policy(std::allocator<int>()));
+        test_temporary_allocation_valid(policy(alloc));
+        test_temporary_allocation_valid(policy(const_alloc));
+
+        #if THRUST_CPP_DIALECT >= 2011 
+        test_temporary_allocation_valid(policy(std::allocator<int>()).after(1));
+        test_temporary_allocation_valid(policy(alloc).after(1));
+        test_temporary_allocation_valid(policy(const_alloc).after(1));
+        #endif
     }
 };
 
