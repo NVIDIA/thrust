@@ -46,6 +46,7 @@
 #include <thrust/mr/allocator.h>
 #include <thrust/mr/disjoint_sync_pool.h>
 #include <thrust/mr/sync_pool.h>
+#include <thrust/per_device_resource.h>
 
 THRUST_BEGIN_NS
 
@@ -59,7 +60,7 @@ using default_async_host_resource =
 
 template <typename DerivedPolicy>
 auto get_async_host_allocator(
-  thrust::detail::execution_policy_base<DerivedPolicy>& 
+  thrust::detail::execution_policy_base<DerivedPolicy>&
 )
 THRUST_DECLTYPE_RETURNS(
   thrust::mr::stateless_resource_allocator<
@@ -77,11 +78,11 @@ using default_async_device_resource =
 
 template <typename DerivedPolicy>
 auto get_async_device_allocator(
-  thrust::detail::execution_policy_base<DerivedPolicy>& 
+  thrust::detail::execution_policy_base<DerivedPolicy>&
 )
 THRUST_DECLTYPE_RETURNS(
-  thrust::mr::stateless_resource_allocator<
-    thrust::detail::uint8_t, default_async_device_resource
+  thrust::per_device_allocator<
+    thrust::detail::uint8_t, default_async_device_resource, par_t
   >{}
 )
 
@@ -100,7 +101,7 @@ using default_async_universal_host_pinned_resource =
 
 template <typename DerivedPolicy>
 auto get_async_universal_host_pinned_allocator(
-  thrust::detail::execution_policy_base<DerivedPolicy>& 
+  thrust::detail::execution_policy_base<DerivedPolicy>&
 )
 THRUST_DECLTYPE_RETURNS(
   thrust::mr::stateless_resource_allocator<
