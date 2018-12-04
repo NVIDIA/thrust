@@ -12,11 +12,6 @@
 // access that data from a device function. Even though device_vectors are not
 // accessible from device functions, the range_view class allows us to access
 // and manipulate its data as if we were manipulating a real container.
-//
-
-// This example demonstrate use of range_view with for_each algorithm which is
-// dispatch from GPU
-//
 
 template<class Iterator>
 class range_view
@@ -193,13 +188,6 @@ void saxpy(float A, View1 X, View2 Y, View3 Z)
       saxpy_functor<View1,View2,View3>(A,X,Y,Z));
 }
 
-template<class View1, class View2, class View3>
-__global__
-void saxpy_kernel(float A, View1 X, View2 Y, View3 Z)
-{
-  saxpy(A, X, Y, Z);
-}
-
 struct f1 : public thrust::unary_function<float,float>
 {
   __host__ __device__
@@ -223,7 +211,7 @@ int main()
   thrust::device_vector<float> Y(y, y + 4);
   thrust::device_vector<float> Z(z, z + 4);
 
-  saxpy_kernel<<<1, 1>>>(
+  saxpy(
       2.0, 
 
       // make a range view of a pair of transform_iterators
@@ -235,7 +223,6 @@ int main()
 
       // range view of naked pointers
       make_range_view(Z.data().get(), 4));
-  assert(cudaSuccess == cudaDeviceSynchronize());
 
   // print values from original device_vector<float> Z 
   // to ensure that range view was mapped to this vector
