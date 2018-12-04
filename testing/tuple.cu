@@ -90,7 +90,7 @@ struct TestTupleConstructor
     ASSERT_EQUAL(data[9], get<9>(t10));
   }
 };
-SimpleUnitTest<TestTupleConstructor, RandomizableTypes> TestTupleConstructorInstance;
+SimpleUnitTest<TestTupleConstructor, TriviallyRelocatableTypes> TestTupleConstructorInstance;
 
 template <typename T>
 struct TestMakeTuple
@@ -177,7 +177,7 @@ struct TestMakeTuple
     ASSERT_EQUAL(data[9], get<9>(t10));
   }
 };
-SimpleUnitTest<TestMakeTuple, RandomizableTypes> TestMakeTupleInstance;
+SimpleUnitTest<TestMakeTuple, TriviallyRelocatableTypes> TestMakeTupleInstance;
 
 template <typename T>
 struct TestTupleGet
@@ -263,7 +263,7 @@ struct TestTupleGet
     ASSERT_EQUAL(data[9], thrust::get<9>(t10));
   }
 };
-SimpleUnitTest<TestTupleGet, RandomizableTypes> TestTupleGetInstance;
+SimpleUnitTest<TestTupleGet, TriviallyRelocatableTypes> TestTupleGetInstance;
 
 
 

@@ -11,6 +11,7 @@
 #include "meta.h"
 #include "util.h"
 
+#include <thrust/limits.h>
 #include <thrust/detail/integer_traits.h>
 #include <thrust/memory/detail/device_system_resource.h>
 #include <thrust/memory/detail/host_system_resource.h>
@@ -222,7 +223,13 @@ private:
     }
 };
 
-namespace thrust { namespace detail
+namespace thrust
+{
+
+template <>
+struct numeric_limits<custom_numeric> : numeric_limits<int> {};
+
+namespace detail
 {
 
 // For random number generation
@@ -259,7 +266,8 @@ typedef unittest::type_list<char,
                             unsigned long,
                             long long,
                             unsigned long long,
-                            float> RandomizableTypes;
+                            float,
+                            double> TriviallyRelocatableTypes;
 
 inline void chop_prefix(std::string& str, const std::string& prefix)
 {
@@ -426,10 +434,35 @@ class TEST##UnitTest : public UnitTest {                         \
             TEST<int>(sizes[i]);                                 \
             TEST<unsigned int>(sizes[i]);                        \
             TEST<float>(sizes[i]);                               \
+            TEST<double>(sizes[i]);                              \
         }                                                        \
     }                                                            \
 };                                                               \
 TEST##UnitTest TEST##Instance
+
+#define DECLARE_INTEGRAL_VARIABLE_UNITTEST(TEST)                 \
+class TEST##UnitTest : public UnitTest {                         \
+    public:                                                      \
+    TEST##UnitTest() : UnitTest(#TEST) {}                        \
+    void run()                                                   \
+    {                                                            \
+        std::vector<size_t> sizes = get_test_sizes();            \
+        for(size_t i = 0; i != sizes.size(); ++i)                \
+        {                                                        \
+            TEST<char>(sizes[i]);                                \
+            TEST<unsigned char>(sizes[i]);                       \
+            TEST<short>(sizes[i]);                               \
+            TEST<unsigned short>(sizes[i]);                      \
+            TEST<int>(sizes[i]);                                 \
+            TEST<unsigned int>(sizes[i]);                        \
+        }                                                        \
+    }                                                            \
+};                                                               \
+TEST##UnitTest TEST##Instance
+
+#define DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(TEST, TYPES, NAME)  \
+  ::VariableUnitTest<TEST, TYPES> NAME##_instance(#NAME)                  \
+  /**/
 
 template<template <typename> class TestName, typename TypeList>
   class SimpleUnitTest : public UnitTest

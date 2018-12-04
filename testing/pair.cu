@@ -211,7 +211,7 @@ struct TestPairGet
     ASSERT_EQUAL(data[1], thrust::get<1>(p));
   }
 };
-SimpleUnitTest<TestPairGet, RandomizableTypes> TestPairGetInstance;
+SimpleUnitTest<TestPairGet, TriviallyRelocatableTypes> TestPairGetInstance;
 
 
 void TestPairTupleSize(void)

@@ -12,7 +12,7 @@ template <class Vector>
 void TestTransformUnarySimple(void)
 {
     typedef typename Vector::value_type T;
-    
+
     typename Vector::iterator iter;
 
     Vector input(3);
@@ -22,7 +22,7 @@ void TestTransformUnarySimple(void)
     result[0] = -1; result[1] =  2; result[2] = -3;
 
     iter = thrust::transform(input.begin(), input.end(), output.begin(), thrust::negate<T>());
-    
+
     ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(output, result);
 }
@@ -81,7 +81,7 @@ template <class Vector>
 void TestTransformIfUnaryNoStencilSimple(void)
 {
     typedef typename Vector::value_type T;
-    
+
     typename Vector::iterator iter;
 
     Vector input(3);
@@ -89,14 +89,14 @@ void TestTransformIfUnaryNoStencilSimple(void)
     Vector result(3);
 
     input[0]   =  0; input[1]   = -2; input[2]   =  0;
-    output[0]  = -1; output[1]  = -2; output[2]  = -3; 
+    output[0]  = -1; output[1]  = -2; output[2]  = -3;
     result[0]  = -1; result[1]  =  2; result[2]  = -3;
 
     iter = thrust::transform_if(input.begin(), input.end(),
                                 output.begin(),
                                 thrust::negate<T>(),
                                 thrust::identity<T>());
-    
+
     ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(output, result);
 }
@@ -169,7 +169,7 @@ template <class Vector>
 void TestTransformIfUnarySimple(void)
 {
     typedef typename Vector::value_type T;
-    
+
     typename Vector::iterator iter;
 
     Vector input(3);
@@ -178,7 +178,7 @@ void TestTransformIfUnarySimple(void)
     Vector result(3);
 
     input[0]   =  1; input[1]   = -2; input[2]   =  3;
-    output[0]  =  1; output[1]  =  2; output[2]  =  3; 
+    output[0]  =  1; output[1]  =  2; output[2]  =  3;
     stencil[0] =  1; stencil[1] =  0; stencil[2] =  1;
     result[0]  = -1; result[1]  =  2; result[2]  = -3;
 
@@ -187,7 +187,7 @@ void TestTransformIfUnarySimple(void)
                                 output.begin(),
                                 thrust::negate<T>(),
                                 thrust::identity<T>());
-    
+
     ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
     ASSERT_EQUAL(output, result);
 }
@@ -274,7 +274,7 @@ void TestTransformBinarySimple(void)
     result[0] =  5; result[1] = -7; result[2] = -3;
 
     iter = thrust::transform(input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>());
-    
+
     ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());
     ASSERT_EQUAL(output, result);
 }
@@ -339,7 +339,7 @@ template <class Vector>
 void TestTransformIfBinarySimple(void)
 {
     typedef typename Vector::value_type T;
-    
+
     typename Vector::iterator iter;
 
     Vector input1(3);
@@ -362,7 +362,7 @@ void TestTransformIfBinarySimple(void)
                                 output.begin(),
                                 thrust::minus<T>(),
                                 thrust::not1(identity));
-    
+
     ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());
     ASSERT_EQUAL(output, result);
 }
@@ -454,7 +454,7 @@ void TestTransformUnary(const size_t n)
 
     thrust::transform(h_input.begin(), h_input.end(), h_output.begin(), thrust::negate<T>());
     thrust::transform(d_input.begin(), d_input.end(), d_output.begin(), thrust::negate<T>());
-    
+
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformUnary);
@@ -473,7 +473,7 @@ void TestTransformUnaryToDiscardIterator(const size_t n)
       thrust::transform(d_input.begin(), d_input.end(), thrust::make_discard_iterator(), thrust::negate<T>());
 
     thrust::discard_iterator<> reference(n);
-    
+
     ASSERT_EQUAL_QUIET(reference, h_result);
     ASSERT_EQUAL_QUIET(reference, d_result);
 }
@@ -521,7 +521,7 @@ void TestTransformUnaryToDiscardIteratorZipped(const size_t n)
     thrust::discard_iterator<> reference(n);
 
     ASSERT_EQUAL(h_output, d_output);
-    
+
     ASSERT_EQUAL_QUIET(reference, thrust::get<1>(h_result.get_iterator_tuple()));
     ASSERT_EQUAL_QUIET(reference, thrust::get<1>(d_result.get_iterator_tuple()));
 }
@@ -554,7 +554,7 @@ void TestTransformIfUnaryNoStencil(const size_t n)
     thrust::transform_if(d_input.begin(), d_input.end(),
                          d_output.begin(),
                          thrust::negate<T>(), is_positive());
-    
+
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformIfUnaryNoStencil);
@@ -580,7 +580,7 @@ void TestTransformIfUnary(const size_t n)
                           d_stencil.begin(),
                           d_output.begin(),
                           thrust::negate<T>(), is_positive());
-    
+
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformIfUnary);
@@ -608,7 +608,7 @@ void TestTransformIfUnaryToDiscardIterator(const size_t n)
                            thrust::negate<T>(), is_positive());
 
     thrust::discard_iterator<> reference(n);
-    
+
     ASSERT_EQUAL_QUIET(reference, h_result);
     ASSERT_EQUAL_QUIET(reference, d_result);
 }
@@ -628,12 +628,12 @@ void TestTransformBinary(const size_t n)
 
     thrust::transform(h_input1.begin(), h_input1.end(), h_input2.begin(), h_output.begin(), thrust::minus<T>());
     thrust::transform(d_input1.begin(), d_input1.end(), d_input2.begin(), d_output.begin(), thrust::minus<T>());
-    
+
     ASSERT_EQUAL(h_output, d_output);
-    
+
     thrust::transform(h_input1.begin(), h_input1.end(), h_input2.begin(), h_output.begin(), thrust::multiplies<T>());
     thrust::transform(d_input1.begin(), d_input1.end(), d_input2.begin(), d_output.begin(), thrust::multiplies<T>());
-    
+
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformBinary);
@@ -653,7 +653,7 @@ void TestTransformBinaryToDiscardIterator(const size_t n)
       thrust::transform(d_input1.begin(), d_input1.end(), d_input2.begin(), thrust::make_discard_iterator(), thrust::minus<T>());
 
     thrust::discard_iterator<> reference(n);
-    
+
     ASSERT_EQUAL_QUIET(reference, h_result);
     ASSERT_EQUAL_QUIET(reference, d_result);
 }
@@ -684,12 +684,12 @@ void TestTransformIfBinary(const size_t n)
                          d_stencil.begin(),
                          d_output.begin(),
                          thrust::minus<T>(), is_positive());
-    
+
     ASSERT_EQUAL(h_output, d_output);
 
     h_stencil = unittest::random_integers<T>(n);
     d_stencil = h_stencil;
-    
+
     thrust::transform_if(h_input1.begin(), h_input1.end(),
                          h_input2.begin(),
                          h_stencil.begin(),
@@ -701,7 +701,7 @@ void TestTransformIfBinary(const size_t n)
                          d_stencil.begin(),
                          d_output.begin(),
                          thrust::multiplies<T>(), is_positive());
-    
+
     ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformIfBinary);
@@ -733,14 +733,14 @@ void TestTransformIfBinaryToDiscardIterator(const size_t n)
                            thrust::minus<T>(), is_positive());
 
     thrust::discard_iterator<> reference(n);
-    
+
     ASSERT_EQUAL_QUIET(reference, h_result);
     ASSERT_EQUAL_QUIET(reference, d_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestTransformIfBinaryToDiscardIterator);
 
 
-#if ((__GNUC__ * 10000 + __GNUC_MINOR__ * 100) == 40400) || defined(__INTEL_COMPILER) 
+#if ((__GNUC__ * 10000 + __GNUC_MINOR__ * 100) == 40400) || defined(__INTEL_COMPILER)
 template <typename T>
 void TestTransformUnaryCountingIterator(size_t)
 {
@@ -757,8 +757,7 @@ void TestTransformUnaryCountingIterator(size_t)
 template <typename T>
 void TestTransformUnaryCountingIterator(size_t n)
 {
-    // Be careful not to generate a range larger than we can represent.
-    n = thrust::min<size_t>(n, static_cast<size_t>(std::numeric_limits<T>::max()));
+    n = unittest::truncate_to_max_representable<T>(n);
 
     thrust::counting_iterator<T, thrust::host_system_tag>   h_first = thrust::make_counting_iterator<T>(0);
     thrust::counting_iterator<T, thrust::device_system_tag> d_first = thrust::make_counting_iterator<T>(0);
@@ -787,8 +786,7 @@ void TestTransformBinaryCountingIterator(size_t)
 template <typename T>
 void TestTransformBinaryCountingIterator(size_t n)
 {
-    // Be careful not to generate a range larger than we can represent.
-    n = thrust::min<size_t>(n, static_cast<size_t>(std::numeric_limits<T>::max()));
+    n = unittest::truncate_to_max_representable<T>(n);
 
     thrust::counting_iterator<T, thrust::host_system_tag>   h_first = thrust::make_counting_iterator<T>(0);
     thrust::counting_iterator<T, thrust::device_system_tag> d_first = thrust::make_counting_iterator<T>(0);
@@ -828,7 +826,7 @@ void TestTransformWithIndirection(void)
     Vector input1(7);
     Vector input2(7);
     Vector output(7, 0);
-    input1[0] = 0;  input2[0] = 2; 
+    input1[0] = 0;  input2[0] = 2;
     input1[1] = 1;  input2[1] = 2;
     input1[2] = 2;  input2[2] = 2;
     input1[3] = 1;  input2[3] = 0;
@@ -845,10 +843,10 @@ void TestTransformWithIndirection(void)
     table[5] = 2;
 
     thrust::transform(input1.begin(), input1.end(),
-                      input2.begin(), 
+                      input2.begin(),
                       output.begin(),
                       plus_mod3<T>(thrust::raw_pointer_cast(&table[0])));
-    
+
     ASSERT_EQUAL(output[0], T(2));
     ASSERT_EQUAL(output[1], T(0));
     ASSERT_EQUAL(output[2], T(1));
