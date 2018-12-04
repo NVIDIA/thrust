@@ -25,7 +25,7 @@ namespace thrust
 template <typename T>
 __host__ __device__
 complex<T>::complex()
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   // We do a functional-style cast here to suppress conversion warnings.
@@ -41,7 +41,7 @@ complex<T>::complex()
 template <typename T>
 __host__ __device__
 complex<T>::complex(const T& re)
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   : data{re, T()}
@@ -53,29 +53,11 @@ complex<T>::complex(const T& re)
 } 
 #endif
 
-#if 0
-template <typename T>
-template <typename R>
-__host__ __device__
-complex<T>::complex(const R& re)
-#if __cplusplus >= 201103L
-  // Initialize the storage in the member initializer list using C++ unicorn
-  // initialization. This allows `complex<T const>` to work.
-  // We do a functional-style cast here to suppress conversion warnings.
-  : data{T(re), T()}
-{}
-#else
-{
-  real(T(re));
-  imag(T());
-} 
-#endif
-#endif
 
 template <typename T>
 __host__ __device__
 complex<T>::complex(const T& re, const T& im)
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   : data{re, im}
@@ -87,29 +69,10 @@ complex<T>::complex(const T& re, const T& im)
 }
 #endif 
 
-#if 0
-template <typename T>
-template <typename R, typename I>
-__host__ __device__
-complex<T>::complex(const R& re, const I& im)
-#if __cplusplus >= 201103L
-  // Initialize the storage in the member initializer list using C++ unicorn
-  // initialization. This allows `complex<T const>` to work.
-  // We do a functional-style cast here to suppress conversion warnings.
-  : data{T(re), T(im)}
-{}
-#else
-{
-  real(T(re));
-  imag(T(im));
-}
-#endif 
-#endif
-
 template <typename T>
 __host__ __device__
 complex<T>::complex(const complex<T>& z)
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   : data{z.real(), z.imag()}
@@ -125,7 +88,7 @@ template <typename T>
 template <typename U> 
 __host__ __device__
 complex<T>::complex(const complex<U>& z)
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   // We do a functional-style cast here to suppress conversion warnings.
@@ -141,7 +104,7 @@ complex<T>::complex(const complex<U>& z)
 template <typename T>
 __host__
 complex<T>::complex(const std::complex<T>& z)
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   : data{z.real(), z.imag()}
@@ -157,7 +120,7 @@ template <typename T>
 template <typename U> 
 __host__
 complex<T>::complex(const std::complex<U>& z)
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   // Initialize the storage in the member initializer list using C++ unicorn
   // initialization. This allows `complex<T const>` to work.
   // We do a functional-style cast here to suppress conversion warnings.
@@ -183,19 +146,8 @@ complex<T>& complex<T>::operator=(const T& re)
   return *this;
 }
 
-#if 0
 template <typename T>
-template <typename R>
 __host__ __device__
-complex<T>& complex<T>::operator=(const R& re)
-{
-  real(re);
-  imag(T());
-  return *this;
-}
-#endif
-
-template <typename T>
 complex<T>& complex<T>::operator=(const complex<T>& z)
 {
   real(z.real());
