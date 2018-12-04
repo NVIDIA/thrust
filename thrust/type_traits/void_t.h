@@ -41,7 +41,7 @@ template <typename... Ts> using void_t = typename voider<Ts...>::type;
 #else // Older than C++11.
 
 template <
-  typename T
+  typename = void
 , typename = void
 , typename = void
 , typename = void
