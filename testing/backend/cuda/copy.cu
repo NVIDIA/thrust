@@ -22,6 +22,10 @@ void TestCopyDevice(ExecutionPolicy exec, size_t n)
   
   thrust::copy(h_src.begin(), h_src.end(), h_dst.begin());
   copy_kernel<<<1,1>>>(exec, d_src.begin(), d_src.end(), d_dst.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_dst, d_dst);
 }
@@ -62,6 +66,10 @@ void TestCopyNDevice(ExecutionPolicy exec, size_t n)
   
   thrust::copy_n(h_src.begin(), h_src.size(), h_dst.begin());
   copy_n_kernel<<<1,1>>>(exec, d_src.begin(), d_src.size(), d_dst.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_dst, d_dst);
 }

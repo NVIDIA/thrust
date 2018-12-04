@@ -27,7 +27,12 @@ void TestInnerProductDevice(ExecutionPolicy exec)
   int init = 13;
   
   int expected = thrust::inner_product(h_v1.begin(), h_v1.end(), h_v2.begin(), init);
+
   inner_product_kernel<<<1,1>>>(exec, d_v1.begin(), d_v1.end(), d_v2.begin(), init, result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(expected, result[0]);
 }

@@ -46,6 +46,8 @@ void TestPairStableSortDevice(ExecutionPolicy exec)
   thrust::device_vector<bool> is_supported(1);
 
   stable_sort_kernel<<<1,1>>>(exec, d_pairs.begin(), d_pairs.end(), is_supported.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
 
   if(is_supported[0])
   {

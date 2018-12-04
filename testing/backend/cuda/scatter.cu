@@ -33,7 +33,10 @@ void TestScatterDevice(ExecutionPolicy exec)
   thrust::device_vector<int> d_output(output_size, 0);
   
   thrust::scatter(h_input.begin(), h_input.end(), h_map.begin(), h_output.begin());
+
   scatter_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_map.begin(), d_output.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
   
   ASSERT_EQUAL(h_output, d_output);
 }
@@ -88,7 +91,10 @@ void TestScatterIfDevice(ExecutionPolicy exec)
   thrust::device_vector<int> d_output(output_size, 0);
   
   thrust::scatter_if(h_input.begin(), h_input.end(), h_map.begin(), h_map.begin(), h_output.begin(), is_even_scatter_if<unsigned int>());
+
   scatter_if_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_map.begin(), d_map.begin(), d_output.begin(), is_even_scatter_if<unsigned int>());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
   
   ASSERT_EQUAL(h_output, d_output);
 }

@@ -33,12 +33,21 @@ void TestMinElementDevice(ExecutionPolicy exec)
   typename thrust::host_vector<int>::iterator   h_min = thrust::min_element(h_data.begin(), h_data.end());
 
   min_element_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(h_min - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
 
-  
   typename thrust::host_vector<int>::iterator   h_max = thrust::min_element(h_data.begin(), h_data.end(), thrust::greater<int>());
 
   min_element_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), thrust::greater<int>(), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(h_max - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
 }
 

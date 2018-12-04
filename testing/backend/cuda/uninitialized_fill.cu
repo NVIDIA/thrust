@@ -23,6 +23,10 @@ void TestUninitializedFillDevice(ExecutionPolicy exec)
   T exemplar(7);
   
   uninitialized_fill_kernel<<<1,1>>>(exec, v.begin() + 1, v.begin() + 4, exemplar);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(v[0], 0);
   ASSERT_EQUAL(v[1], exemplar);
@@ -33,6 +37,10 @@ void TestUninitializedFillDevice(ExecutionPolicy exec)
   exemplar = 8;
   
   uninitialized_fill_kernel<<<1,1>>>(exec, v.begin() + 0, v.begin() + 3, exemplar);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(v[0], exemplar);
   ASSERT_EQUAL(v[1], exemplar);
@@ -43,6 +51,10 @@ void TestUninitializedFillDevice(ExecutionPolicy exec)
   exemplar = 9;
   
   uninitialized_fill_kernel<<<1,1>>>(exec, v.begin() + 2, v.end(), exemplar);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(v[0], 8);
   ASSERT_EQUAL(v[1], 8);
@@ -53,6 +65,10 @@ void TestUninitializedFillDevice(ExecutionPolicy exec)
   exemplar = 1;
   
   uninitialized_fill_kernel<<<1,1>>>(exec, v.begin(), v.end(), exemplar);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(v[0], exemplar);
   ASSERT_EQUAL(v[1], exemplar);
@@ -125,6 +141,11 @@ void TestUninitializedFillNDevice(ExecutionPolicy exec)
   thrust::device_vector<Vector::iterator> iter_vec(1);
   
   uninitialized_fill_n_kernel<<<1,1>>>(exec, v.begin() + 1, 3, exemplar, iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   Vector::iterator iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], 0);
@@ -137,6 +158,14 @@ void TestUninitializedFillNDevice(ExecutionPolicy exec)
   exemplar = 8;
   
   uninitialized_fill_n_kernel<<<1,1>>>(exec, v.begin() + 0, 3, exemplar, iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], exemplar);
@@ -149,6 +178,11 @@ void TestUninitializedFillNDevice(ExecutionPolicy exec)
   exemplar = 9;
   
   uninitialized_fill_n_kernel<<<1,1>>>(exec, v.begin() + 2, 3, exemplar, iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], 8);
@@ -161,6 +195,11 @@ void TestUninitializedFillNDevice(ExecutionPolicy exec)
   exemplar = 1;
   
   uninitialized_fill_n_kernel<<<1,1>>>(exec, v.begin(), v.size(), exemplar, iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], exemplar);

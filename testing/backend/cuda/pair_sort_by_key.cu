@@ -55,6 +55,8 @@ void TestPairStableSortByKeyDevice(ExecutionPolicy exec)
 
   // sort on the device
   stable_sort_by_key_kernel<<<1,1>>>(exec, d_pairs.begin(), d_pairs.end(), d_values.begin(), is_supported.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
 
   if(is_supported[0])
   {

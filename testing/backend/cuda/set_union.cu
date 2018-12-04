@@ -37,6 +37,9 @@ void TestSetUnionDevice(ExecutionPolicy exec)
                             b.begin(), b.end(),
                             result.begin(),
                             end_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   Iterator end = end_vec[0];
 
   ASSERT_EQUAL_QUIET(result.end(), end);

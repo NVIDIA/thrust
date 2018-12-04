@@ -30,6 +30,8 @@ void TestSetDifferenceDevice(ExecutionPolicy exec)
   thrust::device_vector<Iterator> end_vec(1);
 
   set_difference_kernel<<<1,1>>>(exec, a.begin(), a.end(), b.begin(), b.end(), result.begin(), end_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
 
   Iterator end = end_vec.front();
 

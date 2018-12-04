@@ -24,6 +24,8 @@ void TestReduceDevice(ExecutionPolicy exec, const size_t n)
   T h_result = thrust::reduce(h_data.begin(), h_data.end(), init);
   
   reduce_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), init, d_result.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
   
   ASSERT_EQUAL(h_result, d_result[0]);
 }

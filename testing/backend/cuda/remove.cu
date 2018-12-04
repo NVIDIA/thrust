@@ -80,7 +80,11 @@ void TestRemoveDevice(ExecutionPolicy exec)
   thrust::device_vector<iterator> d_result(1);
   
   size_t h_size = thrust::remove(h_data.begin(), h_data.end(), 0) - h_data.begin();
+
   remove_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), 0, d_result.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   size_t d_size = (iterator)d_result[0] - d_data.begin();
   
   ASSERT_EQUAL(h_size, d_size);
@@ -117,7 +121,11 @@ void TestRemoveIfDevice(ExecutionPolicy exec)
   thrust::device_vector<iterator> d_result(1);
   
   size_t h_size = thrust::remove_if(h_data.begin(), h_data.end(), is_true<int>()) - h_data.begin();
+
   remove_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), is_true<int>(), d_result.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   size_t d_size = (iterator)d_result[0] - d_data.begin();
   
   ASSERT_EQUAL(h_size, d_size);
@@ -159,6 +167,9 @@ void TestRemoveIfStencilDevice(ExecutionPolicy exec)
   size_t h_size = thrust::remove_if(h_data.begin(), h_data.end(), h_stencil.begin(), is_true<int>()) - h_data.begin();
 
   remove_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_stencil.begin(), is_true<int>(), d_result.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   size_t d_size = (iterator)d_result[0] - d_data.begin();
   
   ASSERT_EQUAL(h_size, d_size);
@@ -200,6 +211,9 @@ void TestRemoveCopyDevice(ExecutionPolicy exec)
   size_t h_size = thrust::remove_copy(h_data.begin(), h_data.end(), h_result.begin(), 0) - h_result.begin();
 
   remove_copy_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), 0, d_new_end.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   size_t d_size = (iterator)d_new_end[0] - d_result.begin();
   
   ASSERT_EQUAL(h_size, d_size);
@@ -241,6 +255,9 @@ void TestRemoveCopyIfDevice(ExecutionPolicy exec)
   size_t h_size = thrust::remove_copy_if(h_data.begin(), h_data.end(), h_result.begin(), is_true<int>()) - h_result.begin();
 
   remove_copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin(), is_true<int>(), d_new_end.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   size_t d_size = (iterator)d_new_end[0] - d_result.begin();
   
   ASSERT_EQUAL(h_size, d_size);
@@ -285,6 +302,9 @@ void TestRemoveCopyIfStencilDevice(ExecutionPolicy exec)
   size_t h_size = thrust::remove_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), h_result.begin(), is_true<int>()) - h_result.begin();
 
   remove_copy_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_stencil.begin(), d_result.begin(), is_true<int>(), d_new_end.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   size_t d_size = (iterator)d_new_end[0] - d_result.begin();
   
   ASSERT_EQUAL(h_size, d_size);

@@ -38,29 +38,59 @@ void TestScanDevice(ExecutionPolicy exec, const size_t n)
   thrust::device_vector<T> d_output(n);
   
   thrust::inclusive_scan(h_input.begin(), h_input.end(), h_output.begin());
+
   inclusive_scan_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(d_output, h_output);
   
   thrust::exclusive_scan(h_input.begin(), h_input.end(), h_output.begin());
+
   exclusive_scan_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(d_output, h_output);
   
   thrust::exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), (T) 11);
+
   exclusive_scan_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_output.begin(), (T) 11);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(d_output, h_output);
   
   // in-place scans
   h_output = h_input;
   d_output = d_input;
+
   thrust::inclusive_scan(h_output.begin(), h_output.end(), h_output.begin());
+
   inclusive_scan_kernel<<<1,1>>>(exec, d_output.begin(), d_output.end(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(d_output, h_output);
   
   h_output = h_input;
   d_output = d_input;
   
   thrust::exclusive_scan(h_output.begin(), h_output.end(), h_output.begin());
+
   exclusive_scan_kernel<<<1,1>>>(exec, d_output.begin(), d_output.end(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(d_output, h_output);
 }

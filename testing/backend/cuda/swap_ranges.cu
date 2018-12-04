@@ -23,6 +23,8 @@ void TestSwapRangesDevice(ExecutionPolicy exec)
   v2[0] = 5; v2[1] = 6; v2[2] = 7; v2[3] = 8; v2[4] = 9;
 
   swap_ranges_kernel<<<1,1>>>(exec, v1.begin(), v1.end(), v2.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
 
   ASSERT_EQUAL(v1[0], 5);
   ASSERT_EQUAL(v1[1], 6);

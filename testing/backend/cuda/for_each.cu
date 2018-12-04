@@ -89,7 +89,9 @@ void TestForEachDeviceSeq(const size_t n)
   thrust::for_each(h_input.begin(), h_input.end(), h_f);
   
   for_each_kernel<<<1,1>>>(thrust::seq, d_input.begin(), d_input.end(), d_f);
-  
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+ 
   ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestForEachDeviceSeq);
@@ -103,7 +105,7 @@ void TestForEachDeviceDevice(const size_t n)
   thrust::host_vector<T> h_input = unittest::random_integers<T>(n);
   
   for(size_t i = 0; i < n; i++)
-    h_input[i] =  ((size_t) h_input[i]) % output_size;
+    h_input[i] = ((size_t) h_input[i]) % output_size;
   
   thrust::device_vector<T> d_input = h_input;
   
@@ -118,7 +120,15 @@ void TestForEachDeviceDevice(const size_t n)
   thrust::for_each(h_input.begin(), h_input.end(), h_f);
   
   for_each_kernel<<<1,1>>>(thrust::device, d_input.begin(), d_input.end(), d_f);
-  
+  {
+    cudaError_t const err = cudaGetLastError();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+ 
   ASSERT_EQUAL(h_output, d_output);
 }
 DECLARE_VARIABLE_UNITTEST(TestForEachDeviceDevice);
@@ -155,6 +165,8 @@ void TestForEachNDeviceSeq(const size_t n)
   thrust::for_each_n(h_input.begin(), h_input.size(), h_f);
   
   for_each_n_kernel<<<1,1>>>(thrust::seq, d_input.begin(), d_input.size(), d_f);
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
   
   ASSERT_EQUAL(h_output, d_output);
 }
@@ -184,6 +196,8 @@ void TestForEachNDeviceDevice(const size_t n)
   thrust::for_each_n(h_input.begin(), h_input.size(), h_f);
   
   for_each_n_kernel<<<1,1>>>(thrust::device, d_input.begin(), d_input.size(), d_f);
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
   
   ASSERT_EQUAL(h_output, d_output);
 }

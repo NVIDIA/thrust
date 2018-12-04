@@ -28,6 +28,9 @@ void TestTransformUnaryDevice(ExecutionPolicy exec)
   thrust::device_vector<typename Vector::iterator> iter_vec(1);
   
   transform_kernel<<<1,1>>>(exec, input.begin(), input.end(), output.begin(), thrust::negate<T>(), iter_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   iter = iter_vec[0];
   
   ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
@@ -79,6 +82,9 @@ void TestTransformIfUnaryNoStencilDevice(ExecutionPolicy exec)
                                thrust::negate<T>(),
                                thrust::identity<T>(),
                                iter_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   iter = iter_vec[0];
   
   ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
@@ -133,6 +139,8 @@ void TestTransformIfUnaryDevice(ExecutionPolicy exec)
                                thrust::negate<T>(),
                                thrust::identity<T>(),
                                iter_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
 
   iter = iter_vec[0];
   
@@ -180,6 +188,9 @@ void TestTransformBinaryDevice(ExecutionPolicy exec)
   thrust::device_vector<typename Vector::iterator> iter_vec(1);
   
   transform_kernel<<<1,1>>>(exec, input1.begin(), input1.end(), input2.begin(), output.begin(), thrust::minus<T>(), iter_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   iter = iter_vec[0];
   
   ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());
@@ -239,6 +250,9 @@ void TestTransformIfBinaryDevice(ExecutionPolicy exec)
                                thrust::minus<T>(),
                                thrust::not1(identity),
                                iter_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   iter = iter_vec[0];
   
   ASSERT_EQUAL(std::size_t(iter - output.begin()), input1.size());

@@ -58,6 +58,9 @@ void TestMergeDevice(ExecutionPolicy exec)
                           d_b.begin(), d_b.begin() + size,
                           d_result.begin(),
                           d_end.begin());
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+
     d_result.resize((iter_type)d_end[0] - d_result.begin());
 
     ASSERT_EQUAL(h_result, d_result);

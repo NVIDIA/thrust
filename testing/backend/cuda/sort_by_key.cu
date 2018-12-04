@@ -39,6 +39,8 @@ void TestComparisonSortByKeyDevice(ExecutionPolicy exec, const size_t n, Compare
   
   thrust::device_vector<bool> is_supported(1);
   sort_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_values.begin(), comp, is_supported.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
 
   if(is_supported[0])
   {

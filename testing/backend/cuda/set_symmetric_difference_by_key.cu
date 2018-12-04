@@ -50,6 +50,9 @@ void TestSetSymmetricDifferenceByKeyDevice(ExecutionPolicy exec)
                                                   result_key.begin(),
                                                   result_val.begin(),
                                                   end_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   iter_pair end = end_vec[0];
 
   ASSERT_EQUAL_QUIET(result_key.end(), end.first);

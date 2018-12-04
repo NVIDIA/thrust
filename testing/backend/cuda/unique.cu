@@ -49,6 +49,11 @@ void TestUniqueDevice(ExecutionPolicy exec)
   Vector::iterator new_last;
   
   unique_kernel<<<1,1>>>(exec, data.begin(), data.end(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
 
   ASSERT_EQUAL(new_last - data.begin(), 7);
@@ -61,6 +66,11 @@ void TestUniqueDevice(ExecutionPolicy exec)
   ASSERT_EQUAL(data[6], 37);
 
   unique_kernel<<<1,1>>>(exec, data.begin(), new_last, is_equal_div_10_unique<T>(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
 
   ASSERT_EQUAL(new_last - data.begin(), 3);
@@ -172,6 +182,11 @@ void TestUniqueCopyDevice(ExecutionPolicy exec)
   Vector::iterator new_last;
   
   unique_copy_kernel<<<1,1>>>(exec, data.begin(), data.end(), output.begin(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
 
   ASSERT_EQUAL(new_last - output.begin(), 7);
@@ -184,6 +199,11 @@ void TestUniqueCopyDevice(ExecutionPolicy exec)
   ASSERT_EQUAL(output[6], 37);
 
   unique_copy_kernel<<<1,1>>>(exec, output.begin(), new_last, data.begin(), is_equal_div_10_unique<T>(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
 
   ASSERT_EQUAL(new_last - data.begin(), 3);

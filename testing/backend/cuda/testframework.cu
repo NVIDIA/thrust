@@ -90,34 +90,38 @@ std::vector<int> CUDATestDriver::target_devices(const ArgumentMap &kwargs)
 
 bool CUDATestDriver::check_cuda_error(bool concise)
 {
-  cudaError_t error = cudaGetLastError();
-  if(error)
+  cudaError_t const error = cudaGetLastError();
+  if(cudaSuccess != error)
   {
     if(!concise)
     {
-      std::cout << "[ERROR] CUDA Error detected before running tests: [";
-      std::cout << std::string(cudaGetErrorString(error));
-      std::cout << "]" << std::endl;
+      std::cout << "[ERROR] CUDA error detected before running tests: ["
+                << std::string(cudaGetErrorName(error))
+                << ": "
+                << std::string(cudaGetErrorString(error))
+                << "]" << std::endl;
     }
   } 
 
-  return error;
+  return cudaSuccess != error;
 }
 
 bool CUDATestDriver::post_test_sanity_check(const UnitTest &test, bool concise)
 {
-  cudaError_t error = cudaGetLastError();
-  if(error && error != cudaErrorMemoryAllocation)
+  cudaError_t const error = cudaDeviceSynchronize();
+  if(cudaSuccess != error)
   {
     if(!concise)
     {
-      std::cout << "\t[ERROR] CUDA Error detected after running " << test.name << ": [";
-      std::cout << std::string(cudaGetErrorString(error));
-      std::cout << "]" << std::endl;
+      std::cout << "\t[ERROR] CUDA error detected after running " << test.name << ": ["
+                << std::string(cudaGetErrorName(error))
+                << ": "
+                << std::string(cudaGetErrorString(error))
+                << "]" << std::endl;
     }
   }
 
-  return error == cudaSuccess;
+  return cudaSuccess == error;
 }
   
 bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwargs)
@@ -150,8 +154,12 @@ bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwarg
       device != devices.end();
       ++device)
   {
+    cudaDeviceSynchronize();
+
     // set the device
     cudaSetDevice(*device);
+
+    cudaDeviceSynchronize();
 
     // check if a binary exists for this device
     // if none exists, skip the device silently unless this is the only one we're targeting

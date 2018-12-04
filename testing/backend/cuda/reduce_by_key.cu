@@ -108,6 +108,11 @@ void TestReduceByKeyDevice(ExecutionPolicy exec)
   thrust::device_vector<T> output_values(values.size());
   
   reduce_by_key_kernel<<<1,1>>>(exec, keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
   
   ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
@@ -128,6 +133,11 @@ void TestReduceByKeyDevice(ExecutionPolicy exec)
   initialize_keys(keys);  initialize_values(values);
   
   reduce_by_key_kernel<<<1,1>>>(exec, keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_reduce<T>(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
   
   ASSERT_EQUAL(new_last.first  - output_keys.begin(),   3);
@@ -144,6 +154,11 @@ void TestReduceByKeyDevice(ExecutionPolicy exec)
   initialize_keys(keys);  initialize_values(values);
   
   reduce_by_key_kernel<<<1,1>>>(exec, keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), thrust::equal_to<T>(), thrust::plus<T>(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
   
   ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);

@@ -35,7 +35,11 @@ void TestComparisonSortDevice(ExecutionPolicy exec, const size_t n, Compare comp
   thrust::device_vector<T> d_data = h_data;
   
   thrust::device_vector<bool> is_supported(1);
+
   sort_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), comp, is_supported.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
 
   if(is_supported[0])
   {

@@ -47,6 +47,8 @@ void TestSetIntersectionByKeyDevice(ExecutionPolicy exec)
                                           result_key.begin(),
                                           result_val.begin(),
                                           end_vec.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
 
   thrust::pair<Iterator,Iterator> end = end_vec.front();
 

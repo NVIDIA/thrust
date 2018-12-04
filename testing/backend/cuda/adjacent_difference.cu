@@ -28,17 +28,29 @@ void TestAdjacentDifferenceDevice(ExecutionPolicy exec, const size_t n)
   
   thrust::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin());
   adjacent_difference_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_output, d_output);
   
   thrust::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin(), thrust::plus<T>());
   adjacent_difference_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_output.begin(), thrust::plus<T>());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_output, d_output);
   
   // in-place operation
   thrust::adjacent_difference(h_input.begin(), h_input.end(), h_input.begin(), thrust::plus<T>());
   adjacent_difference_kernel<<<1,1>>>(exec, d_input.begin(), d_input.end(), d_input.begin(), thrust::plus<T>());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_input, h_output); //computed previously
   ASSERT_EQUAL(d_input, d_output); //computed previously

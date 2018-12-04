@@ -22,6 +22,10 @@ void TestTabulateDevice(ExecutionPolicy exec)
   Vector v(5);
 
   tabulate_kernel<<<1,1>>>(exec, v.begin(), v.end(), thrust::identity<T>());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
 
   ASSERT_EQUAL(v[0], 0);
   ASSERT_EQUAL(v[1], 1);
@@ -30,6 +34,10 @@ void TestTabulateDevice(ExecutionPolicy exec)
   ASSERT_EQUAL(v[4], 4);
 
   tabulate_kernel<<<1,1>>>(exec, v.begin(), v.end(), -_1);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
 
   ASSERT_EQUAL(v[0],  0);
   ASSERT_EQUAL(v[1], -1);
@@ -38,6 +46,10 @@ void TestTabulateDevice(ExecutionPolicy exec)
   ASSERT_EQUAL(v[4], -4);
   
   tabulate_kernel<<<1,1>>>(exec, v.begin(), v.end(), _1 * _1 * _1);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
 
   ASSERT_EQUAL(v[0], 0);
   ASSERT_EQUAL(v[1], 1);

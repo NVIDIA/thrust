@@ -33,7 +33,11 @@ void TestSequenceDevice(ExecutionPolicy exec)
   thrust::device_vector<int> v(5);
   
   sequence_kernel<<<1,1>>>(exec, v.begin(), v.end());
-  
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+ 
   ASSERT_EQUAL(v[0], 0);
   ASSERT_EQUAL(v[1], 1);
   ASSERT_EQUAL(v[2], 2);
@@ -41,6 +45,10 @@ void TestSequenceDevice(ExecutionPolicy exec)
   ASSERT_EQUAL(v[4], 4);
   
   sequence_kernel<<<1,1>>>(exec, v.begin(), v.end(), 10);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(v[0], 10);
   ASSERT_EQUAL(v[1], 11);
@@ -49,6 +57,10 @@ void TestSequenceDevice(ExecutionPolicy exec)
   ASSERT_EQUAL(v[4], 14);
   
   sequence_kernel<<<1,1>>>(exec, v.begin(), v.end(), 10, 2);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(v[0], 10);
   ASSERT_EQUAL(v[1], 12);

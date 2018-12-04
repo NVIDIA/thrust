@@ -56,14 +56,26 @@ void TestScanByKeyDevice(ExecutionPolicy exec)
   
   thrust::inclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_output.begin());
   inclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   ASSERT_EQUAL(d_output, h_output);
   
   thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_output.begin());
   exclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   ASSERT_EQUAL(d_output, h_output);
   
   thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_vals.begin(), h_output.begin(), 11);
   exclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_vals.begin(), d_output.begin(), 11);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   ASSERT_EQUAL(d_output, h_output);
   
   // in-place scans
@@ -71,12 +83,20 @@ void TestScanByKeyDevice(ExecutionPolicy exec)
   d_output = d_vals;
   thrust::inclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_output.begin(), h_output.begin());
   inclusive_scan_by_key_kernel<<<1,1>>>(exec,d_keys.begin(), d_keys.end(), d_output.begin(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   ASSERT_EQUAL(d_output, h_output);
   
   h_output = h_vals;
   d_output = d_vals;
   thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_output.begin(), h_output.begin(), 11);
   exclusive_scan_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_output.begin(), d_output.begin(), 11);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   ASSERT_EQUAL(d_output, h_output);
 }
 

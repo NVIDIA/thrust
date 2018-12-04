@@ -22,6 +22,8 @@ void TestCountDevice(ExecutionPolicy exec, const size_t n)
   size_t h_result = thrust::count(h_data.begin(), h_data.end(), T(5));
 
   count_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), T(5), d_result.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
   
   ASSERT_EQUAL(h_result, d_result[0]);
 }
@@ -68,6 +70,8 @@ void TestCountIfDevice(ExecutionPolicy exec, const size_t n)
   
   size_t h_result = thrust::count_if(h_data.begin(), h_data.end(), greater_than_five<T>());
   count_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), greater_than_five<T>(), d_result.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
   
   ASSERT_EQUAL(h_result, d_result[0]);
 }

@@ -34,7 +34,12 @@ void TestGenerateDevice(ExecutionPolicy exec, const size_t n)
   return_value<T> f(value);
   
   thrust::generate(h_result.begin(), h_result.end(), f);
+
   generate_kernel<<<1,1>>>(exec, d_result.begin(), d_result.end(), f);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_result, d_result);
 }
@@ -99,7 +104,12 @@ void TestGenerateNDevice(ExecutionPolicy exec, const size_t n)
   return_value<T> f(value);
   
   thrust::generate_n(h_result.begin(), h_result.size(), f);
+
   generate_n_kernel<<<1,1>>>(exec, d_result.begin(), d_result.size(), f);
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_result, d_result);
 }

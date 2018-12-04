@@ -24,11 +24,22 @@ void TestIsSortedDevice(ExecutionPolicy exec)
   v[1] = 0;
 
   is_sorted_kernel<<<1,1>>>(exec, v.begin(), v.end(), result.begin());
+
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(false, result[0]);
 
   thrust::sort(v.begin(), v.end());
 
   is_sorted_kernel<<<1,1>>>(exec, v.begin(), v.end(), result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(true, result[0]);
 }
 

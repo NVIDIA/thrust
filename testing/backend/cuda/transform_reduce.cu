@@ -25,6 +25,8 @@ void TestTransformReduceDevice(ExecutionPolicy exec)
   thrust::device_vector<T> result(1);
 
   transform_reduce_kernel<<<1,1>>>(exec, data.begin(), data.end(), thrust::negate<T>(), init, thrust::plus<T>(), result.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
   
   ASSERT_EQUAL(8, (T)result[0]);
 }

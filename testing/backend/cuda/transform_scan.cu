@@ -39,6 +39,11 @@ void TestTransformScanDevice(ExecutionPolicy exec)
   
   // inclusive scan
   transform_inclusive_scan_kernel<<<1,1>>>(exec, input.begin(), input.end(), output.begin(), thrust::negate<T>(), thrust::plus<T>(), iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   iter = iter_vec[0];
   ref[0] = -1; ref[1] = -4; ref[2] = -2; ref[3] = -6; ref[4] = -1;
   ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
@@ -47,6 +52,11 @@ void TestTransformScanDevice(ExecutionPolicy exec)
   
   // exclusive scan with 0 init
   transform_exclusive_scan_kernel<<<1,1>>>(exec, input.begin(), input.end(), output.begin(), thrust::negate<T>(), 0, thrust::plus<T>(), iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ref[0] = 0; ref[1] = -1; ref[2] = -4; ref[3] = -2; ref[4] = -6;
   ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
   ASSERT_EQUAL(input,  input_copy);
@@ -54,6 +64,11 @@ void TestTransformScanDevice(ExecutionPolicy exec)
   
   // exclusive scan with nonzero init
   transform_exclusive_scan_kernel<<<1,1>>>(exec, input.begin(), input.end(), output.begin(), thrust::negate<T>(), 3, thrust::plus<T>(), iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   iter = iter_vec[0];
   ref[0] = 3; ref[1] = 2; ref[2] = -1; ref[3] = 1; ref[4] = -3;
   ASSERT_EQUAL(std::size_t(iter - output.begin()), input.size());
@@ -63,6 +78,11 @@ void TestTransformScanDevice(ExecutionPolicy exec)
   // inplace inclusive scan
   input = input_copy;
   transform_inclusive_scan_kernel<<<1,1>>>(exec, input.begin(), input.end(), input.begin(), thrust::negate<T>(), thrust::plus<T>(), iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   iter = iter_vec[0];
   ref[0] = -1; ref[1] = -4; ref[2] = -2; ref[3] = -6; ref[4] = -1;
   ASSERT_EQUAL(std::size_t(iter - input.begin()), input.size());
@@ -71,6 +91,11 @@ void TestTransformScanDevice(ExecutionPolicy exec)
   // inplace exclusive scan with init
   input = input_copy;
   transform_exclusive_scan_kernel<<<1,1>>>(exec, input.begin(), input.end(), input.begin(), thrust::negate<T>(), 3, thrust::plus<T>(), iter_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   iter = iter_vec[0];
   ref[0] = 3; ref[1] = 2; ref[2] = -1; ref[3] = 1; ref[4] = -3;
   ASSERT_EQUAL(std::size_t(iter - input.begin()), input.size());

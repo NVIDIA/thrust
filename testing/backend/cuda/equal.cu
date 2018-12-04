@@ -29,10 +29,20 @@ void TestEqualDevice(ExecutionPolicy exec, const size_t n)
   
   //empty ranges
   equal_kernel<<<1,1>>>(exec, d_data1.begin(), d_data1.begin(), d_data1.begin(), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(d_result[0], true);
   
   //symmetric cases
   equal_kernel<<<1,1>>>(exec, d_data1.begin(), d_data1.end(), d_data1.begin(), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(d_result[0], true);
   
   if(n > 0)
@@ -41,12 +51,28 @@ void TestEqualDevice(ExecutionPolicy exec, const size_t n)
     
     //different vectors
     equal_kernel<<<1,1>>>(exec, d_data1.begin(), d_data1.end(), d_data2.begin(), d_result.begin());
+    {
+      cudaError_t const err = cudaDeviceSynchronize();
+      ASSERT_EQUAL(cudaSuccess, err);
+    }
+
     ASSERT_EQUAL(d_result[0], false);
     
     //different predicates
     equal_kernel<<<1,1>>>(exec, d_data1.begin(), d_data1.begin() + 1, d_data2.begin(), thrust::less<T>(), d_result.begin());
+    {
+      cudaError_t const err = cudaDeviceSynchronize();
+      ASSERT_EQUAL(cudaSuccess, err);
+    }
+
     ASSERT_EQUAL(d_result[0], true);
+
     equal_kernel<<<1,1>>>(exec, d_data1.begin(), d_data1.begin() + 1, d_data2.begin(), thrust::greater<T>(), d_result.begin());
+    {
+      cudaError_t const err = cudaDeviceSynchronize();
+      ASSERT_EQUAL(cudaSuccess, err);
+    }
+
     ASSERT_EQUAL(d_result[0], false);
   }
 }

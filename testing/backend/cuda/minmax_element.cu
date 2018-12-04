@@ -45,6 +45,11 @@ void TestMinMaxElementDevice(ExecutionPolicy exec)
   d_max = thrust::minmax_element(d_data.begin(), d_data.end()).second;
 
   minmax_element_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   d_min = ((pair_type)d_result[0]).first;
   d_max = ((pair_type)d_result[0]).second;
   
@@ -55,6 +60,11 @@ void TestMinMaxElementDevice(ExecutionPolicy exec)
   h_min = thrust::minmax_element(h_data.begin(), h_data.end(), thrust::greater<int>()).second;
 
   minmax_element_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), thrust::greater<int>(), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   d_max = ((pair_type)d_result[0]).first;
   d_min = ((pair_type)d_result[0]).second;
   

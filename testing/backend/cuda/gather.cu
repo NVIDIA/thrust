@@ -33,7 +33,12 @@ void TestGatherDevice(ExecutionPolicy exec, const size_t n)
   thrust::device_vector<T> d_output(n);
   
   thrust::gather(h_map.begin(), h_map.end(), h_source.begin(), h_output.begin());
+
   gather_kernel<<<1,1>>>(exec, d_map.begin(), d_map.end(), d_source.begin(), d_output.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_output, d_output);
 }
@@ -129,7 +134,12 @@ void TestGatherIfDevice(ExecutionPolicy exec, const size_t n)
   thrust::device_vector<T> d_output(n);
   
   thrust::gather_if(h_map.begin(), h_map.end(), h_stencil.begin(), h_source.begin(), h_output.begin(), is_even_gather_if<unsigned int>());
+
   gather_if_kernel<<<1,1>>>(exec, d_map.begin(), d_map.end(), d_stencil.begin(), d_source.begin(), d_output.begin(), is_even_gather_if<unsigned int>());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_output, d_output);
 }

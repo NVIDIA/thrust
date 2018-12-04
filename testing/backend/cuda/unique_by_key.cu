@@ -77,6 +77,11 @@ void TestUniqueByKeyDevice(ExecutionPolicy exec)
   initialize_keys(keys);  initialize_values(values);
   
   unique_by_key_kernel<<<1,1>>>(exec, keys.begin(), keys.end(), values.begin(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
   
   ASSERT_EQUAL(new_last.first  - keys.begin(),   5);
@@ -97,6 +102,11 @@ void TestUniqueByKeyDevice(ExecutionPolicy exec)
   initialize_keys(keys);  initialize_values(values);
   
   unique_by_key_kernel<<<1,1>>>(exec, keys.begin(), keys.end(), values.begin(), is_equal_div_10_unique<T>(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
   
   ASSERT_EQUAL(new_last.first  - keys.begin(),   3);
@@ -214,6 +224,11 @@ void TestUniqueCopyByKeyDevice(ExecutionPolicy exec)
   Vector output_values(values.size());
 
   unique_by_key_copy_kernel<<<1,1>>>(exec, keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
 
   ASSERT_EQUAL(new_last.first  - output_keys.begin(),   5);
@@ -234,6 +249,11 @@ void TestUniqueCopyByKeyDevice(ExecutionPolicy exec)
   initialize_keys(keys);  initialize_values(values);
   
   unique_by_key_copy_kernel<<<1,1>>>(exec, keys.begin(), keys.end(), values.begin(), output_keys.begin(), output_values.begin(), is_equal_div_10_unique<T>(), new_last_vec.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   new_last = new_last_vec[0];
 
   ASSERT_EQUAL(new_last.first  - output_keys.begin(),   3);

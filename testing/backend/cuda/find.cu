@@ -60,15 +60,27 @@ void TestFindDevice(ExecutionPolicy exec)
   thrust::device_vector<iter_type> d_result(1);
   
   h_iter = thrust::find(h_data.begin(), h_data.end(), int(0));
+
   find_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), int(0), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
   
   ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   
   for(size_t i = 1; i < n; i *= 2)
   {
     int sample = h_data[i];
+
     h_iter = thrust::find(h_data.begin(), h_data.end(), sample);
+
     find_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), sample, d_result.begin());
+    {
+      cudaError_t const err = cudaDeviceSynchronize();
+      ASSERT_EQUAL(cudaSuccess, err);
+    }
+
     ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   }
 }
@@ -109,14 +121,27 @@ void TestFindIfDevice(ExecutionPolicy exec)
   thrust::device_vector<iter_type> d_result(1);
   
   h_iter = thrust::find_if(h_data.begin(), h_data.end(), equal_to_value_pred<int>(0));
+
   find_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), equal_to_value_pred<int>(0), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   
   for (size_t i = 1; i < n; i *= 2)
   {
     int sample = h_data[i];
+
     h_iter = thrust::find_if(h_data.begin(), h_data.end(), equal_to_value_pred<int>(sample));
+
     find_if_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), equal_to_value_pred<int>(sample), d_result.begin());
+    {
+      cudaError_t const err = cudaDeviceSynchronize();
+      ASSERT_EQUAL(cudaSuccess, err);
+    }
+
     ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   }
 }
@@ -156,14 +181,27 @@ void TestFindIfNotDevice(ExecutionPolicy exec)
   thrust::device_vector<iter_type> d_result(1);
   
   h_iter = thrust::find_if_not(h_data.begin(), h_data.end(), not_equal_to_value_pred<int>(0));
+
   find_if_not_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), not_equal_to_value_pred<int>(0), d_result.begin());
+  {
+    cudaError_t const err = cudaDeviceSynchronize();
+    ASSERT_EQUAL(cudaSuccess, err);
+  }
+
   ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   
   for(size_t i = 1; i < n; i *= 2)
   {
     int sample = h_data[i];
+
     h_iter = thrust::find_if_not(h_data.begin(), h_data.end(), not_equal_to_value_pred<int>(sample));
+
     find_if_not_kernel<<<1,1>>>(exec, d_data.begin(), d_data.end(), not_equal_to_value_pred<int>(sample), d_result.begin());
+    {
+      cudaError_t const err = cudaDeviceSynchronize();
+      ASSERT_EQUAL(cudaSuccess, err);
+    }
+
     ASSERT_EQUAL(h_iter - h_data.begin(), (iter_type)d_result[0] - d_data.begin());
   }
 }

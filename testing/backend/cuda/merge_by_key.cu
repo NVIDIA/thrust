@@ -60,6 +60,9 @@ void TestMergeByKeyDevice(ExecutionPolicy exec)
                                result_key.begin(),
                                result_val.begin(),
                                result_ends.begin());
+  cudaError_t const err = cudaDeviceSynchronize();
+  ASSERT_EQUAL(cudaSuccess, err);
+
   thrust::pair<Iterator,Iterator> ends = result_ends[0];
 
   ASSERT_EQUAL_QUIET(result_key.end(), ends.first);
