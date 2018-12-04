@@ -22,18 +22,58 @@
 #include <thrust/detail/config.h>
 #include <thrust/advance.h>
 #include <thrust/system/detail/generic/advance.h>
+#include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/type_traits.h>
+#include <thrust/detail/type_traits/has_nested_type.h>
+#include <thrust/detail/type_traits/pointer_traits.h>
 
 namespace thrust
 {
 
+__THRUST_DEFINE_HAS_NESTED_TYPE(has_difference_type, difference_type)
 
 template <typename InputIterator, typename Distance>
 __host__ __device__
 void advance(InputIterator& i, Distance n)
 {
   thrust::system::detail::generic::advance(i, n);
-} // end advance()
+}
 
+template <typename InputIterator>
+__host__ __device__
+InputIterator next(
+  InputIterator i
+, typename iterator_traits<InputIterator>::difference_type n = 1
+)
+{
+  thrust::system::detail::generic::advance(i, n);
+  return i;
+}
 
-} // end namespace thrust
+template <typename BidirectionalIterator>
+__host__ __device__
+BidirectionalIterator prev(
+  BidirectionalIterator i
+, typename iterator_traits<BidirectionalIterator>::difference_type n = 1
+)
+{
+  thrust::system::detail::generic::advance(i, -n);
+  return i;
+}
+
+template <typename BidirectionalIterator>
+__host__ __device__
+typename detail::disable_if<
+  has_difference_type<iterator_traits<BidirectionalIterator> >::value
+, BidirectionalIterator
+>::type prev(
+  BidirectionalIterator i
+, typename detail::pointer_traits<BidirectionalIterator>::difference_type n = 1
+)
+{
+  thrust::system::detail::generic::advance(i, -n);
+  return i;
+}
+
+} // namespace thrust
 
