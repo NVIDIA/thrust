@@ -81,38 +81,38 @@ void test_pp_cat2()
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_CAT2(hello, world)))
-  , "hello world"
+  , "helloworld"
   );
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_CAT2(hello , world)))
-  , "hello world"
+  , "helloworld"
   );
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_CAT2( hello, world)))
-  , "hello world"
+  , "helloworld"
   );
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_CAT2(hello,  world)))
-  , "hello world"
+  , "helloworld"
   );
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_CAT2(hello, world )))
-  , "hello world"
+  , "helloworld"
   );
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_CAT2(hello,
                                                    world )))
-  , "hello world"
+  , "helloworld"
   );
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_CAT2(hello world, from thrust!)))
-  , "hello world from thrust!"
+  , "hello worldfrom thrust!"
   );
 
   ASSERT_EQUAL(
@@ -123,6 +123,8 @@ void test_pp_cat2()
 DECLARE_UNITTEST(test_pp_cat2);
 
 #define THRUST_TEST_PP_EXPAND_TARGET() success
+
+#define THRUST_TEST_PP_EXPAND_ARGS() ()
 
 void test_pp_expand()
 {
@@ -184,12 +186,12 @@ void test_pp_expand()
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_EXPAND(THRUST_PP_EXPAND)))
-  , "THRUST_PP_STRINGIZE(THRUST_PP_EXPAND"
+  , "THRUST_PP_EXPAND"
   );
 
   ASSERT_EQUAL(
     std::string(THRUST_PP_STRINGIZE(THRUST_PP_EXPAND(THRUST_PP_EXPAND(int))))
-  , "\"int\""
+  , "int"
   );
 
   ASSERT_EQUAL(
@@ -198,10 +200,19 @@ void test_pp_expand()
     )))
   , "success"
   );
+
+  ASSERT_EQUAL(
+    std::string(THRUST_PP_STRINGIZE(THRUST_PP_EXPAND(
+      THRUST_TEST_PP_EXPAND_TARGET THRUST_TEST_PP_EXPAND_ARGS()
+    )))
+  , "success"
+  );
 }
 DECLARE_UNITTEST(test_pp_expand);
 
 #undef THRUST_TEST_PP_EXPAND_TARGET
+
+#undef THRUST_TEST_PP_EXPAND_ARGS
 
 void test_pp_arity()
 {
@@ -669,12 +680,18 @@ DECLARE_UNITTEST(test_pp_arity);
 #define THRUST_TEST_PP_DISPATCH_PLUS(...)                                     \
   THRUST_PP_DISPATCH(THRUST_TEST_PP_DISPATCH_PLUS, __VA_ARGS__)               \
   /**/
+#define THRUST_TEST_PP_DISPATCH_PLUS0()        0
 #define THRUST_TEST_PP_DISPATCH_PLUS1(x)       x
 #define THRUST_TEST_PP_DISPATCH_PLUS2(x, y)    x + y
 #define THRUST_TEST_PP_DISPATCH_PLUS3(x, y, z) x + y + z
 
 void test_pp_dispatch()
 {
+  ASSERT_EQUAL(
+    THRUST_TEST_PP_DISPATCH_PLUS()
+  , 0
+  );
+
   ASSERT_EQUAL(
     THRUST_TEST_PP_DISPATCH_PLUS(0)
   , 0
@@ -693,6 +710,7 @@ void test_pp_dispatch()
 DECLARE_UNITTEST(test_pp_dispatch);
 
 #undef THRUST_TEST_PP_DISPATCH_PLUS
+#undef THRUST_TEST_PP_DISPATCH_PLUS0
 #undef THRUST_TEST_PP_DISPATCH_PLUS1
 #undef THRUST_TEST_PP_DISPATCH_PLUS2
 #undef THRUST_TEST_PP_DISPATCH_PLUS3
