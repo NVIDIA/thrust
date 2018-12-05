@@ -17,6 +17,28 @@ template<typename T>
   struct uninitialized_allocator
     : thrust::device_allocator<T>
 {
+  // the default generated constructors and destructors are implicitly
+  // marked __host__ __device__, but the current Thrust device_allocator
+  // can only be constructed and destroyed on the host; therefore, we
+  // define these as host only
+  __host__
+  uninitialized_allocator() {}
+  __host__
+  uninitialized_allocator(const uninitialized_allocator & other)
+    : thrust::device_allocator<T>(other) {}
+  __host__
+  ~uninitialized_allocator() {}
+
+  // for correctness, you should also redefine rebind when you inherit
+  // from an allocator type; this way, if the allocator is rebound somewhere,
+  // it's going to be rebound to the correct type - and not to its base
+  // type for U
+  template<typename U>
+  struct rebind
+  {
+    typedef uninitialized_allocator<U> other;
+  };
+
   // note that construct is annotated as
   // a __host__ __device__ function
   __host__ __device__
