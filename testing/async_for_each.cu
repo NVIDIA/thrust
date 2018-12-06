@@ -78,14 +78,14 @@ DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_for_each<invoke_async_for_each_fn, divide_by_2>::tester
   )
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_for_each
 );
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_for_each<invoke_async_for_each_device_fn, divide_by_2>::tester
   )
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_for_each_policy
 );
 

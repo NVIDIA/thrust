@@ -66,8 +66,9 @@ typedef unittest::type_list<long long,
 typedef unittest::type_list<float,
                             double> FloatingPointTypes;
 
-// a type that behaves as if it was a normal numeric type,
-// so it can be used in the same tests as "normal" numeric types
+// A type that behaves as if it was a normal numeric type,
+// so it can be used in the same tests as "normal" numeric types.
+// NOTE: This is explicitly NOT proclaimed trivially reloctable.
 class custom_numeric
 {
 public:
@@ -267,7 +268,7 @@ typedef unittest::type_list<char,
                             long long,
                             unsigned long long,
                             float,
-                            double> TriviallyRelocatableTypes;
+                            double> BuiltinNumericTypes;
 
 inline void chop_prefix(std::string& str, const std::string& prefix)
 {

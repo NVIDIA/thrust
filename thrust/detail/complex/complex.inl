@@ -17,6 +17,8 @@
 
 #include <thrust/complex.h>
 
+#include <thrust/type_traits/is_trivially_relocatable.h>
+
 namespace thrust
 {
 
@@ -333,6 +335,9 @@ bool operator!=(const complex<T0>& x, const T1& y)
 {
   return !(x == y);
 }
+
+template <typename T>
+struct proclaim_trivially_relocatable<complex<T> > : thrust::true_type {};
 
 } // end namespace thrust
 

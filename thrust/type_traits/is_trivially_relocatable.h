@@ -32,7 +32,7 @@ struct is_trivially_relocatable_impl;
 
 } // namespace detail
 
-/// Unary metafunction returns \c true_type if \c T is trivially relocatable, 
+/// Unary metafunction returns \c true_type if \c T is \a TriviallyRelocatable, 
 /// e.g. can be bitwise copied (with a facility like \c memcpy), and \c false
 /// otherwise.
 template <typename T>
@@ -48,14 +48,14 @@ struct is_trivially_relocatable :
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
-/// <code>constexpr bool</code> that is \c true if \c T is trivially relocatable, 
-/// e.g. can be copied bitwise (with a facility like \c memcpy), and \c false
-/// otherwise.
+/// <code>constexpr bool</code> that is \c true if \c T is
+/// \a TriviallyRelocatable e.g. can be copied bitwise (with a facility like
+/// \c memcpy), and \c false otherwise.
 template <typename T>
 constexpr bool is_trivially_relocatable_v = is_trivially_relocatable<T>::value;
 #endif
 
-/// Unary metafunction returns \c true_type if \c From is trivially relocatable
+/// Unary metafunction returns \c true_type if \c From is \a TriviallyRelocatable
 /// to \c To, e.g. can be bitwise copied (with a facility like \c memcpy), and
 /// \c false otherwise.
 template <typename From, typename To>
@@ -74,22 +74,22 @@ struct is_trivially_relocatable_to :
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
-/// <code>constexpr bool</code> that is \c true if \c From is trivially
-/// relocatable to \c To, e.g. can be copied bitwise (with a facility like \c
-/// memcpy), and \c false otherwise.
+/// <code>constexpr bool</code> that is \c true if \c From is 
+/// \a TriviallyRelocatable to \c To, e.g. can be copied bitwise (with a
+/// facility like \c memcpy), and \c false otherwise.
 template <typename From, typename To>
 constexpr bool is_trivially_relocatable_to_v
   = is_trivially_relocatable_to<From, To>::value;
 #endif
 
 /// Unary metafunction that is \c true if the element type of
-/// \c FromIterator is trivially relocatable to the element type of
+/// \c FromIterator is \a TriviallyRelocatable to the element type of
 /// \c ToIterator.
 template <typename FromIterator, typename ToIterator>
 #if THRUST_CPP_DIALECT >= 2011
-using is_trivially_relocatable_sequence_copy =
+using is_indirectly_trivially_relocatable_to =
 #else
-struct is_trivially_relocatable_sequence_copy :
+struct is_indirectly_trivially_relocatable_to :
 #endif
   integral_constant<
     bool
@@ -107,17 +107,27 @@ struct is_trivially_relocatable_sequence_copy :
 
 #if THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if the element type of
-/// \c FromIterator is trivially relocatable to the element type of
+/// \c FromIterator is \a TriviallyRelocatable to the element type of
 /// \c ToIterator.
 template <typename FromIterator, typename ToIterator>
 constexpr bool is_trivial_relocatable_sequence_copy_v
-  = is_trivially_relocatable_sequence_copy<FromIterator, ToIterator>::value;
+  = is_indirectly_trivially_relocatable_to<FromIterator, ToIterator>::value;
 #endif
 
 /// Customization point that can be customized to indicate that a type \c T is
-/// \a TriviallyRelocatable.
+/// \a TriviallyRelocatable, e.g. can be copied bitwise (with a facility like
+/// \c memcpy).
 template <typename T>
 struct proclaim_trivially_relocatable : false_type {};
+
+/// Declares that the type \c T is \a TriviallyRelocatable by specializing
+/// `thrust::proclaim_trivially_relocatable`.
+#define THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(T)                              \
+  THRUST_BEGIN_NS                                                             \
+  template <>                                                                 \
+  struct proclaim_trivially_relocatable<T> : ::thrust::true_type {};          \
+  THRUST_END_NS                                                               \
+  /**/
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -146,4 +156,64 @@ struct is_trivially_relocatable_impl<T[N]> : is_trivially_relocatable_impl<T> {}
 } // namespace detail
  
 THRUST_END_NS
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+#include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
+
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uchar4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(short4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ushort4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(int4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(uint4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(long4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulong4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(longlong4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(ulonglong4)
+
+struct __half;
+struct __half2;
+
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(__half)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(__half2)
+
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(float4)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double1)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double2)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double3)
+THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(double4)
+#endif
 

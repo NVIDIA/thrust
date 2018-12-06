@@ -79,12 +79,12 @@ struct test_async_copy_host_to_device
 };
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_host_to_device<invoke_async_copy_fn>::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_trivially_relocatable_elements_host_to_device
 );
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_host_to_device<invoke_async_copy_host_to_device_fn>::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_trivially_relocatable_elements_host_to_device_policies
 );
 
@@ -120,12 +120,12 @@ struct test_async_copy_device_to_host
 };
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_device_to_host<invoke_async_copy_fn>::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_trivially_relocatable_elements_device_to_host
 );
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_device_to_host<invoke_async_copy_device_to_host_fn>::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_trivially_relocatable_elements_device_to_host_policies
 );
 
@@ -211,21 +211,21 @@ DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_counting_iterator_input_to_device_vector<
     invoke_async_copy_fn
   >::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_counting_iterator_input_trivially_relocatable_elements_device_to_device
 );
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_counting_iterator_input_to_device_vector<
     invoke_async_copy_device_fn
   >::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_counting_iterator_input_trivially_relocatable_elements_device_to_device_policy
 );
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_counting_iterator_input_to_device_vector<
     invoke_async_copy_device_to_device_fn
   >::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_counting_iterator_input_trivially_relocatable_elements_device_to_device_policies
 );
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
@@ -233,7 +233,7 @@ DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
     invoke_async_copy_host_to_device_fn
   >::tester
   // TODO: Re-add custom_numeric when it supports counting iterators.
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_counting_iterator_input_host_to_device_policies
 );
 
@@ -273,14 +273,14 @@ DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_counting_iterator_input_to_host_vector<
     invoke_async_copy_fn
   >::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_counting_iterator_input_trivially_relocatable_elements_device_to_host
 );
 DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_counting_iterator_input_to_host_vector<
     invoke_async_copy_device_to_host_fn
   >::tester
-, TriviallyRelocatableTypes
+, BuiltinNumericTypes
 , test_async_copy_counting_iterator_input_trivially_relocatable_elements_device_to_host_policies
 );
 

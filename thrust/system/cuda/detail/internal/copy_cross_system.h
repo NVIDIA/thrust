@@ -216,7 +216,7 @@ namespace __copy {
         begin,
         n,
         result,
-        typename is_trivially_relocatable_sequence_copy<InputIt, OutputIt>::type());
+        typename is_indirectly_trivially_relocatable_to<InputIt, OutputIt>::type());
   }
 
   template <class System1,

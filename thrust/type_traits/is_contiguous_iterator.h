@@ -14,7 +14,11 @@
  *  limitations under the License.
  */
 
-// TODO: What about libc++?
+/*! \file is_contiguous_iterator.h
+ *  \brief An extensible type trait for determining if an iterator satisifies
+ *         the <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
+ *         requirements (e.g. is pointer-like).
+ */
 
 #pragma once
 
@@ -22,84 +26,163 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 
-#if __GNUC__
-// forward declaration of gnu's __normal_iterator
-namespace __gnu_cxx
-{
+#include <iterator>
 
-template<typename Iterator, typename Container> class __normal_iterator;
+#if defined(_MSC_VER) && _MSC_VER < 1916 // MSVC 2017 version 15.9
+  #include <vector>
+  #include <string>
+  #include <array>
 
-} // end __gnu_cxx
-#endif // __GNUC__
+  #if THRUST_CPP_DIALECT >= 2017
+    #include <string_view>
+  #endif
+#endif
 
-#if _MSC_VER
-// forward declaration of MSVC's "normal iterators"
-namespace std
-{
-
-template<typename Value, typename Difference, typename Pointer, typename Reference> struct _Ranit;
-
-} // end std
-#endif // _MSC_VER
-
-namespace thrust
-{
+THRUST_BEGIN_NS
 
 namespace detail
 {
 
-#ifdef __GNUC__
-template<typename T>
-  struct is_gnu_normal_iterator
-    : false_type
-{};
-
-
-// catch gnu __normal_iterators
-template<typename Iterator, typename Container>
-  struct is_gnu_normal_iterator< __gnu_cxx::__normal_iterator<Iterator, Container> >
-    : true_type
-{};
-#endif // __GNUC__
-
-
-#ifdef _MSC_VER
-// catch msvc _Ranit
-template<typename Iterator>
-  struct is_convertible_to_msvc_Ranit :
-    is_convertible<
-      Iterator,
-      std::_Ranit<
-        typename iterator_value<Iterator>::type,
-        typename iterator_difference<Iterator>::type,
-        typename iterator_pointer<Iterator>::type,
-        typename iterator_reference<Iterator>::type
-      >
-    >
-{};
-#endif // _MSC_VER
+template <typename Iterator>
+struct is_contiguous_iterator_impl;
 
 } // namespace detail
 
-template<typename T>
-  struct is_contiguous_iterator :
-    integral_constant<
-      bool,
-        detail::is_pointer<T>::value
-      | thrust::detail::is_thrust_pointer<T>::value
-#if __GNUC__
-      | detail::is_gnu_normal_iterator<T>::value
-#endif // __GNUC__
-#ifdef _MSC_VER
-      | detail::is_convertible_to_msvc_Ranit<T>::value
-#endif // _MSC_VER
+/// Unary metafunction returns \c true_type if \c Iterator satisfies
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
+/// e.g. it points to elements that are contiguous in memory, and \c false
+/// otherwise.
+template <typename Iterator>
+#if THRUST_CPP_DIALECT >= 2011
+using is_contiguous_iterator =
+#else
+struct is_contiguous_iterator :
+#endif
+  detail::is_contiguous_iterator_impl<Iterator>
+#if THRUST_CPP_DIALECT < 2011
+{}
+#endif
+;
+
+#if THRUST_CPP_DIALECT >= 2014
+/// <code>constexpr bool</code> that is \c true if \c Iterator satisfies
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
+/// e.g. it points to elements that are contiguous in memory, and \c false
+/// otherwise.
+template <typename Iterator>
+constexpr bool is_contiguous_iterator_v = is_contiguous_iterator<Iterator>::value;
+#endif
+
+/// Customization point that can be customized to indicate that an iterator
+/// type \c Iterator satisfies
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>.
+/// e.g. it points to elements that are contiguous in memory.
+template <typename Iterator>
+struct proclaim_contiguous_iterator : false_type {};
+
+/// Declares that the iterator \c Iterator is
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
+/// by specializing `thrust::proclaim_contiguous_iterator`.
+#define THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)                         \
+  THRUST_BEGIN_NS                                                             \
+  template <>                                                                 \
+  struct proclaim_contiguous_iterator<Iterator> : ::thrust::true_type {};     \
+  THRUST_END_NS                                                               \
+  /**/
+
+THRUST_END_NS
+
+///////////////////////////////////////////////////////////////////////////////
+
+THRUST_BEGIN_NS
+
+namespace detail
+{
+
+template <typename Iterator>
+struct is_libcxx_wrap_iter : false_type {};
+
+#if defined(_LIBCPP_VERSION)
+template <typename Iterator>
+struct is_libcxx_wrap_iter<
+  _VSTD::__wrap_iter<Iterator>
+> : true_type {};
+#endif
+
+template <typename Iterator>
+struct is_libstdcxx_normal_iterator : false_type {};
+
+#if defined(__GLIBCXX__)
+template <typename Iterator, typename Container>
+struct is_libstdcxx_normal_iterator<
+  ::__gnu_cxx::__normal_iterator<Iterator, Container>
+> : true_type {};
+#endif
+
+#if   _MSC_VER >= 1916 // MSVC 2017 version 15.9.
+template <typename Iterator>
+struct is_msvc_contiguous_iterator
+  : is_pointer<::std::_Unwrapped_t<Iterator> > {};
+#elif _MSC_VER >= 1800 // MSVC 2013.
+template <typename Iterator>
+struct is_msvc_contiguous_iterator : false_type {};
+
+template <typename Vector>
+struct is_msvc_contiguous_iterator<
+  ::std::_Vector_const_iterator<Vector>
+> : true_type {};
+
+template <typename Vector>
+struct is_msvc_contiguous_iterator<
+  ::std::_Vector_iterator<Vector>
+> : true_type {};
+
+template <typename String>
+struct is_msvc_contiguous_iterator<
+  ::std::_String_const_iterator<String>
+> : true_type {};
+
+template <typename String>
+struct is_msvc_contiguous_iterator<
+  ::std::_String_iterator<String>
+> : true_type {};
+
+template <typename T, std::size_t N>
+struct is_msvc_contiguous_iterator<
+  ::std::_Array_const_iterator<T, N>
+> : true_type {};
+
+template <typename T, std::size_t N>
+struct is_msvc_contiguous_iterator<
+  ::std::_Array_iterator<T, N>
+> : true_type {};
+
+#if THRUST_CPP_DIALECT >= 2017
+template <typename Traits>
+struct is_msvc_contiguous_iterator<
+  ::std::_String_view_iterator<Traits>
+> : true_type {};
+#endif
+#else
+template <typename Iterator>
+struct is_msvc_contiguous_iterator : false_type {};
+#endif
+
+
+template <typename Iterator>
+struct is_contiguous_iterator_impl
+  : integral_constant<
+      bool
+    ,    is_pointer<Iterator>::value
+      || is_thrust_pointer<Iterator>::value
+      || is_libcxx_wrap_iter<Iterator>::value
+      || is_libstdcxx_normal_iterator<Iterator>::value
+      || is_msvc_contiguous_iterator<Iterator>::value
+      || proclaim_contiguous_iterator<Iterator>::value
     >
 {};
 
-#if THRUST_CPP_DIALECT >= 2014
-template <typename T>
-constexpr bool is_contiguous_iterator_v = is_contiguous_iterator<T>::value;
-#endif
+} // namespace detail
 
-} // namespace thrust
+THRUST_END_NS
 

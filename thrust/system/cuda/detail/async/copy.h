@@ -74,7 +74,7 @@ auto async_copy_n(
 , OutputIt    output
 ) ->
   typename std::enable_if<
-    is_trivially_relocatable_sequence_copy<ForwardIt, OutputIt>::value
+    is_indirectly_trivially_relocatable_to<ForwardIt, OutputIt>::value
   , unique_eager_future<
       OutputIt
     , typename thrust::detail::allocator_traits<
@@ -178,7 +178,7 @@ auto async_copy_n(
   typename std::enable_if<
     conjunction<
       negation<
-        is_trivially_relocatable_sequence_copy<ForwardIt, OutputIt>
+        is_indirectly_trivially_relocatable_to<ForwardIt, OutputIt>
       >
     , decltype(is_device_to_device_copy(from_exec, to_exec))
     >::value
@@ -205,8 +205,9 @@ void async_copy_n_compile_failure_no_cuda_to_non_contiguous_output()
 {
   THRUST_STATIC_ASSERT_MSG(
     (negation<is_contiguous_iterator<OutputIt>>::value)
-  , "copying to non-ContiguousIterators in another system from the cuda system "
-    "is not currently supported"
+  , "copying to non-ContiguousIterators in another system from the CUDA system "
+    "is not supported; use `THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)` to "
+    "indicate that an iterator points to elements that are contiguous in memory."
   );
 }
 
@@ -459,7 +460,7 @@ void async_copy_n_compile_failure_non_trivially_relocatable_elements()
   THRUST_STATIC_ASSERT_MSG(
     (is_trivially_relocatable_to<OutputType, InputType>::value)
   , "only sequences of TriviallyRelocatable elements can be copied to and from "
-    "the cuda system; specialize `thrust::proclaim_trivially_relocatable<T>` to "
+    "the CUDA system; use `THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(T)` to "
     "indicate that a type can be copied by bitwise (e.g. by `memcpy`)"
   );
 }
