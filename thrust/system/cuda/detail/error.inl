@@ -59,9 +59,12 @@ class cuda_error_category
 
     inline virtual std::string message(int ev) const
     {
-      static const std::string unknown_err("Unknown error");
-      const char *c_str = ::cudaGetErrorString(static_cast<cudaError_t>(ev));
-      return c_str ? std::string(c_str) : unknown_err;
+      char const* const unknown_str  = "unknown error";
+      char const* const unknown_name = "cudaErrorUnknown";
+      char const* c_str  = ::cudaGetErrorString(static_cast<cudaError_t>(ev));
+      char const* c_name = ::cudaGetErrorName(static_cast<cudaError_t>(ev));
+      return std::string(c_name ? c_name : unknown_name)
+           + ": " + (c_str ? c_str : unknown_str);
     }
 
     inline virtual error_condition default_error_condition(int ev) const
