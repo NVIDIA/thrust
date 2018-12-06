@@ -50,7 +50,7 @@ VariableUnitTest<
 > test_async_sort_instance;
 
 template <typename T>
-struct test_async_sort_with_policy
+struct test_async_sort_policy
 {
   __host__
   void operator()(std::size_t n)
@@ -76,12 +76,12 @@ struct test_async_sort_with_policy
 // TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
 // the list of types it covers.
 VariableUnitTest<
-  test_async_sort_with_policy
+  test_async_sort_policy
 , NumericTypes
-> test_async_sort_with_policy_instance;
+> test_async_sort_policy_instance;
 
 template <template <typename> class Op>
-struct test_async_sort_with_op
+struct test_async_sort_op
 {
   template <typename T>
   struct tester
@@ -113,26 +113,26 @@ struct test_async_sort_with_op
 // TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
 // the list of types it covers.
 VariableUnitTest<
-  test_async_sort_with_op<custom_greater>::tester
+  test_async_sort_op<custom_greater>::tester
 , NumericTypes
-> test_async_sort_with_op_instance(
-  "test_async_sort_with_op<custom_greater>"
+> test_async_sort_op_instance(
+  "test_async_sort_op<custom_greater>"
 );
 VariableUnitTest<
-  test_async_sort_with_op<thrust::less>::tester
+  test_async_sort_op<thrust::less>::tester
 , NumericTypes
-> test_async_sort_with_less_instance(
-  "test_async_sort_with_op<thrust::less>"
+> test_async_sort_less_instance(
+  "test_async_sort_op<thrust::less>"
 );
 VariableUnitTest<
-  test_async_sort_with_op<thrust::greater>::tester
+  test_async_sort_op<thrust::greater>::tester
 , NumericTypes
-> test_async_sort_with_greater_instance(
-  "test_async_sort_with_op<thrust::greater>"
+> test_async_sort_greater_instance(
+  "test_async_sort_op<thrust::greater>"
 );
 
 template <template <typename> class Op>
-struct test_async_sort_with_policy_op
+struct test_async_sort_policy_op
 {
   template <typename T>
   struct tester
@@ -164,22 +164,22 @@ struct test_async_sort_with_policy_op
 // TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
 // the list of types it covers.
 VariableUnitTest<
-  test_async_sort_with_policy_op<custom_greater>::tester
+  test_async_sort_policy_op<custom_greater>::tester
 , NumericTypes
-> test_async_sort_with_policy_op_instance(
-  "test_async_sort_with_policy_op<custom_greater>"
+> test_async_sort_policy_op_instance(
+  "test_async_sort_policy_op<custom_greater>"
 );
 VariableUnitTest<
-  test_async_sort_with_policy_op<thrust::less>::tester
+  test_async_sort_policy_op<thrust::less>::tester
 , NumericTypes
-> test_async_sort_with_policy_less_instance(
-  "test_async_sort_with_policy_op<thrust::less>"
+> test_async_sort_policy_less_instance(
+  "test_async_sort_policy_op<thrust::less>"
 );
 VariableUnitTest<
-  test_async_sort_with_policy_op<thrust::greater>::tester
+  test_async_sort_policy_op<thrust::greater>::tester
 , NumericTypes
-> test_async_sort_with_policy_greater_instance(
-  "test_async_sort_with_policy_op<thrust::greater>"
+> test_async_sort_policy_greater_instance(
+  "test_async_sort_policy_op<thrust::greater>"
 );
 
 // TODO: Async copy then sort.

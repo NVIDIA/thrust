@@ -911,71 +911,102 @@ void create_dependencies(acquired_stream& as, std::tuple<Dependencies...>& deps)
 // Metafunction that determine which `Dependencies` need to be kept alive.
 // Returns the result as an `index_sequence` of indices into the parameter
 // pack.
-template <std::size_t I, typename... Dependencies>
+template <typename Tuple, typename Indices>
   struct find_keep_alives_impl;
-template <typename... Dependencies>
+template <typename Tuple>
   using find_keep_alives
-    = typename find_keep_alives_impl<0, Dependencies...>::type;
+    = typename find_keep_alives_impl<
+        Tuple, make_index_sequence<std::tuple_size<Tuple>::value>
+      >::type;
 
-template <std::size_t I>
-struct find_keep_alives_impl<I>
+template <>
+struct find_keep_alives_impl<
+  std::tuple<>, index_sequence<>
+>
 {
   using type = index_sequence<>;
 };
 
 // User-provided stream.
-template <std::size_t I, typename... Dependencies>
+template <
+  typename... Dependencies
+, std::size_t I0, std::size_t... Is
+>
 struct find_keep_alives_impl<
-  I, unique_stream, Dependencies...
+  std::tuple<unique_stream, Dependencies...>, index_sequence<I0, Is...>
 >
 {
   // Nothing to keep alive, skip this index.
-  using type = typename find_keep_alives_impl<I + 1, Dependencies...>::type;
+  using type = typename find_keep_alives_impl<
+    std::tuple<Dependencies...>, index_sequence<Is...>
+  >::type;
 };
 
-template <std::size_t I, typename... Dependencies>
+template <
+  typename... Dependencies
+, std::size_t I0, std::size_t... Is
+>
 struct find_keep_alives_impl<
-  I, ready_future<void>, Dependencies...
+  std::tuple<ready_future<void>, Dependencies...>, index_sequence<I0, Is...>
 >
 {
   // Nothing to keep alive, skip this index.
-  using type = typename find_keep_alives_impl<I + 1, Dependencies...>::type;
+  using type = typename find_keep_alives_impl<
+    std::tuple<Dependencies...>, index_sequence<Is...>
+  >::type;
 };
 
-template <std::size_t I, typename T, typename... Dependencies>
+template <
+  typename T, typename... Dependencies
+, std::size_t I0, std::size_t... Is
+>
 struct find_keep_alives_impl<
-  I, ready_future<T>, Dependencies...
+  std::tuple<ready_future<T>, Dependencies...>, index_sequence<I0, Is...>
 >
 {
   // Add this index to the list.
   using type = integer_sequence_push_front<
-    std::size_t, I
-  , typename find_keep_alives_impl<I + 1, Dependencies...>::type
+    std::size_t, I0
+  , typename find_keep_alives_impl<
+      std::tuple<Dependencies...>, index_sequence<Is...>
+    >::type
   >;
 };
 
-template <std::size_t I, typename T, typename... Dependencies>
+template <
+  typename X, typename XPointer, typename... Dependencies
+, std::size_t I0, std::size_t... Is
+>
 struct find_keep_alives_impl<
-  I, unique_eager_future<T>, Dependencies...
+  std::tuple<unique_eager_future<X, XPointer>, Dependencies...>
+, index_sequence<I0, Is...>
 >
 {
   // Add this index to the list.
   using type = integer_sequence_push_front<
-    std::size_t, I
-  , typename find_keep_alives_impl<I + 1, Dependencies...>::type
+    std::size_t, I0
+  , typename find_keep_alives_impl<
+      std::tuple<Dependencies...>, index_sequence<Is...>
+    >::type
   >;
 };
 
 // Content storage.
-template <std::size_t I, typename T, typename Deleter, typename... Dependencies>
+template <
+  typename T, typename Deleter, typename... Dependencies
+, std::size_t I0, std::size_t... Is
+>
 struct find_keep_alives_impl<
-  I, std::unique_ptr<T, Deleter>, Dependencies...
+  std::tuple<std::unique_ptr<T, Deleter>, Dependencies...>
+, index_sequence<I0, Is...>
 >
 {
   // Add this index to the list.
   using type = integer_sequence_push_front<
-    std::size_t, I
-  , typename find_keep_alives_impl<I + 1, Dependencies...>::type
+    std::size_t, I0
+  , typename find_keep_alives_impl<
+      std::tuple<Dependencies...>, index_sequence<Is...>
+    >::type
   >;
 };
 
@@ -1000,7 +1031,10 @@ depend_on(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
   create_dependencies(as, deps);
 
   // Then, we determine which subset of dependencies need to be kept alive.
-  auto ka = tuple_subset(std::move(deps), find_keep_alives<Dependencies...>{});
+  auto ka = tuple_subset(
+    std::move(deps)
+  , find_keep_alives<std::tuple<Dependencies...>>{}
+  );
 
   // Next, we create the asynchronous value.
   std::unique_ptr<async_value<X, XPointer>> av(

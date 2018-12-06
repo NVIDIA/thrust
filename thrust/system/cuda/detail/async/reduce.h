@@ -136,7 +136,7 @@ auto async_reduce_n(
         , unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -157,7 +157,7 @@ auto async_reduce_n(
           std::move(content)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -203,7 +203,7 @@ auto async_reduce(
 )
 THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_reduce_n(
-    policy, first, thrust::distance(first, last), init, op
+    policy, first, distance(first, last), init, op
   )
 )
 

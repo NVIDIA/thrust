@@ -498,8 +498,8 @@ void return_temporary_buffer(const thrust::detail::execution_policy_base<Derived
  */
 template<typename Pointer>
 __host__ __device__
-inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
-  raw_pointer_cast(const Pointer &ptr);
+typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+  raw_pointer_cast(Pointer ptr);
 
 
 /*! \p raw_reference_cast creates a "raw" reference from a wrapped reference type,
@@ -515,7 +515,7 @@ inline typename thrust::detail::pointer_traits<Pointer>::raw_pointer
  */
 template<typename T>
 __host__ __device__
-inline typename detail::raw_reference<T>::type
+typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
 
@@ -532,7 +532,7 @@ inline typename detail::raw_reference<T>::type
  */
 template<typename T>
 __host__ __device__
-inline typename detail::raw_reference<const T>::type
+typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref);
 
 

@@ -201,52 +201,104 @@ namespace cuda_cub {
     return {};
   }
 
+  /////////////////////////////////////////////////////////////////////////////
+
   // Device to host.
   template <class Sys1, class Sys2>
   __host__ __device__
   auto
-  select_device_system(execution_policy<Sys1> &             sys1,
-                       thrust::cpp::execution_policy<Sys2> &)
+  select_device_system(thrust::cuda::execution_policy<Sys1> &sys1,
+                       thrust::execution_policy<Sys2> &)
   THRUST_DECLTYPE_RETURNS(sys1)
 
   // Device to host.
   template <class Sys1, class Sys2>
   __host__ __device__
   auto
-  select_device_system(execution_policy<Sys1> const &             sys1,
-                       thrust::cpp::execution_policy<Sys2> const &)
+  select_device_system(thrust::cuda::execution_policy<Sys1> const &sys1,
+                       thrust::execution_policy<Sys2> const &)
   THRUST_DECLTYPE_RETURNS(sys1)
 
   // Host to device.
   template <class Sys1, class Sys2>
   __host__ __device__
   auto
-  select_device_system(thrust::cpp::execution_policy<Sys1> &,
-                       execution_policy<Sys2> &             sys2)
+  select_device_system(thrust::execution_policy<Sys1> &,
+                       thrust::cuda::execution_policy<Sys2> &sys2)
   THRUST_DECLTYPE_RETURNS(sys2)
 
   // Host to device.
   template <class Sys1, class Sys2>
   __host__ __device__
   auto
-  select_device_system(thrust::cpp::execution_policy<Sys1> const &,
-                       execution_policy<Sys2> const &             sys2)
+  select_device_system(thrust::execution_policy<Sys1> const &,
+                       thrust::cuda::execution_policy<Sys2> const &sys2)
   THRUST_DECLTYPE_RETURNS(sys2)
 
   // Device to device.
   template <class Sys1, class Sys2>
   __host__ __device__
   auto
-  select_device_system(execution_policy<Sys1> &sys1,
-                       execution_policy<Sys2> &)
+  select_device_system(thrust::cuda::execution_policy<Sys1> &sys1,
+                       thrust::cuda::execution_policy<Sys2> &)
   THRUST_DECLTYPE_RETURNS(sys1)
 
   // Device to device.
   template <class Sys1, class Sys2>
   __host__ __device__
   auto
-  select_device_system(execution_policy<Sys1> const &sys1,
-                       execution_policy<Sys2> const &)
+  select_device_system(thrust::cuda::execution_policy<Sys1> const &sys1,
+                       thrust::cuda::execution_policy<Sys2> const &)
+  THRUST_DECLTYPE_RETURNS(sys1)
+
+  /////////////////////////////////////////////////////////////////////////////
+
+  // Device to host.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_host_system(thrust::cuda::execution_policy<Sys1> &,
+                     thrust::execution_policy<Sys2> &sys2)
+  THRUST_DECLTYPE_RETURNS(sys2)
+
+  // Device to host.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_host_system(thrust::cuda::execution_policy<Sys1> const &,
+                     thrust::execution_policy<Sys2> const &sys2)
+  THRUST_DECLTYPE_RETURNS(sys2)
+
+  // Host to device.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_host_system(thrust::execution_policy<Sys1> &sys1,
+                     thrust::cuda::execution_policy<Sys2> &)
+  THRUST_DECLTYPE_RETURNS(sys1)
+
+  // Host to device.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_host_system(thrust::execution_policy<Sys1> const &sys1,
+                     thrust::cuda::execution_policy<Sys2> const &)
+  THRUST_DECLTYPE_RETURNS(sys1)
+
+  // Device to device.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_host_system(thrust::execution_policy<Sys1> &sys1,
+                     thrust::execution_policy<Sys2> &)
+  THRUST_DECLTYPE_RETURNS(sys1)
+
+  // Device to device.
+  template <class Sys1, class Sys2>
+  __host__ __device__
+  auto
+  select_host_system(thrust::execution_policy<Sys1> const &sys1,
+                     thrust::execution_policy<Sys2> const &)
   THRUST_DECLTYPE_RETURNS(sys1)
 #endif
 

@@ -613,7 +613,7 @@ namespace __copy_if {
             bool             debug_sync)
   {
     if (num_items == 0)
-      return cudaErrorNotSupported;
+      return cudaSuccess;
 
     using core::AgentLauncher;
     using core::AgentPlan;

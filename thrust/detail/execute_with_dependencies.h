@@ -21,7 +21,10 @@
 
 #if THRUST_CPP_DIALECT >= 2011
 
+#include <thrust/detail/type_deduction.h>
+
 #include <tuple>
+#include <type_traits>
 
 namespace thrust
 {
@@ -44,9 +47,31 @@ public:
     {
     }
 
+    template <typename... UDependencies>
     __host__
-    execute_with_dependencies(Dependencies && ...dependencies)
-        : dependencies(std::forward<Dependencies>(dependencies)...)
+    execute_with_dependencies(super_t const &super, UDependencies && ...deps)
+        : super_t(super), dependencies(THRUST_FWD(deps)...)
+    {
+    }
+
+    template <typename... UDependencies>
+    __host__
+    execute_with_dependencies(UDependencies && ...deps)
+        : dependencies(THRUST_FWD(deps)...)
+    {
+    }
+
+    template <typename... UDependencies>
+    __host__
+    execute_with_dependencies(super_t const &super, std::tuple<UDependencies...>&& deps)
+        : super_t(super), dependencies(std::move(deps))
+    {
+    }
+
+    template <typename... UDependencies>
+    __host__
+    execute_with_dependencies(std::tuple<UDependencies...>&& deps)
+        : dependencies(std::move(deps))
     {
     }
 
@@ -85,15 +110,31 @@ private:
     Allocator alloc;
 
 public:
+    template <typename... UDependencies>
     __host__
-    execute_with_allocator_and_dependencies(super_t const &super, Allocator alloc, Dependencies && ...dependencies)
-        : super_t(super), alloc(alloc), dependencies(std::forward<Dependencies>(dependencies)...)
+    execute_with_allocator_and_dependencies(super_t const &super, Allocator a, UDependencies && ...deps)
+        : super_t(super), alloc(a), dependencies(THRUST_FWD(deps)...)
     {
     }
 
+    template <typename... UDependencies>
     __host__
-    execute_with_allocator_and_dependencies(Allocator alloc, Dependencies && ...dependencies)
-        : alloc(alloc), dependencies(std::forward<Dependencies>(dependencies)...)
+    execute_with_allocator_and_dependencies(Allocator a, UDependencies && ...deps)
+        : alloc(a), dependencies(THRUST_FWD(deps)...)
+    {
+    }
+
+    template <typename... UDependencies>
+    __host__
+    execute_with_allocator_and_dependencies(super_t const &super, Allocator a, std::tuple<UDependencies...>&& deps)
+        : super_t(super), alloc(a), dependencies(std::move(deps))
+    {
+    }
+
+    template <typename... UDependencies>
+    __host__
+    execute_with_allocator_and_dependencies(Allocator a, std::tuple<UDependencies...>&& deps)
+        : alloc(a), dependencies(std::move(deps))
     {
     }
 
@@ -104,7 +145,7 @@ public:
         return std::move(dependencies);
     }
 
-    typename remove_reference<Allocator>::type&
+    typename std::remove_reference<Allocator>::type&
     __host__
     get_allocator()
     {

@@ -17,62 +17,18 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+
+#include <thrust/detail/execute_with_allocator_fwd.h>
+#include <thrust/pair.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/allocator/allocator_traits.h>
-#include <thrust/detail/util/blocking.h>
-#include <thrust/pair.h>
-
-#if __cplusplus >= 201103L
-#   include <thrust/detail/execute_with_dependencies.h>
-#endif
+#include <thrust/detail/integer_math.h>
 
 namespace thrust
 {
 namespace detail
 {
-
-template <typename ToPointer, typename FromPointer>
-__host__ __device__
-ToPointer reinterpret_pointer_cast(FromPointer ptr)
-{
-  typedef typename thrust::detail::pointer_element<ToPointer>::type to_element;
-  return ToPointer(reinterpret_cast<to_element*>(thrust::raw_pointer_cast(ptr)));
-}
-
-template <typename Allocator, template <typename> class BaseSystem>
-struct execute_with_allocator
-  : BaseSystem<execute_with_allocator<Allocator, BaseSystem> >
-{
-private:
-  typedef BaseSystem<execute_with_allocator<Allocator, BaseSystem> > super_t;
-
-  Allocator alloc;
-
-public:
-  __host__ __device__
-  execute_with_allocator(super_t const& super, Allocator alloc_)
-    : super_t(super), alloc(alloc_)
-  {}
-
-  __thrust_exec_check_disable__
-  __host__ __device__
-  execute_with_allocator(Allocator alloc_)
-    : alloc(alloc_)
-  {}
-
-  typename remove_reference<Allocator>::type& get_allocator() { return alloc; }
-
-#if __cplusplus >= 201103L
-  template<typename ...Dependencies>
-  __host__
-  execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
-  after(Dependencies ...dependencies)
-  {
-    return { alloc, std::move(dependencies)... };
-  }
-#endif
-};
 
 template <
     typename T
@@ -94,13 +50,12 @@ get_temporary_buffer(
 
   // How many elements of type value_type do we need to accommodate n elements
   // of type T?
-  size_type num_elements =
-      thrust::detail::util::divide_ri(sizeof(T) * n, sizeof(value_type));
+  size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
   void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
 
   // Return the pointer and the number of elements of type T allocated.
-  return thrust::make_pair(thrust::detail::reinterpret_pointer_cast<T*>(ptr),n);
+  return thrust::make_pair(thrust::reinterpret_pointer_cast<T*>(ptr),n);
 }
 
 template <
@@ -119,7 +74,7 @@ return_temporary_buffer(
   typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
   typedef typename alloc_traits::pointer                             pointer;
 
-  pointer to_ptr = thrust::detail::reinterpret_pointer_cast<pointer>(p);
+  pointer to_ptr = thrust::reinterpret_pointer_cast<pointer>(p);
   alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
 }
 
@@ -146,13 +101,12 @@ get_temporary_buffer(
 
   // How many elements of type value_type do we need to accommodate n elements
   // of type T?
-  size_type num_elements =
-      thrust::detail::util::divide_ri(sizeof(T) * n, sizeof(value_type));
+  size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
   void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
 
   // Return the pointer and the number of elements of type T allocated.
-  return thrust::make_pair(thrust::detail::reinterpret_pointer_cast<T*>(ptr),n);
+  return thrust::make_pair(thrust::reinterpret_pointer_cast<T*>(ptr),n);
 }
 
 template <
@@ -172,12 +126,11 @@ return_temporary_buffer(
   typedef typename thrust::detail::allocator_traits<naked_allocator> alloc_traits;
   typedef typename alloc_traits::pointer                             pointer;
 
-  pointer to_ptr = thrust::detail::reinterpret_pointer_cast<pointer>(p);
+  pointer to_ptr = thrust::reinterpret_pointer_cast<pointer>(p);
   alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
 }
 
 #endif
 
-} // end detail
-} // end thrust
+}} // namespace thrust::detail
 

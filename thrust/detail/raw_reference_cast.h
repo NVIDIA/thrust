@@ -283,13 +283,13 @@ template <
 
 // provide declarations of raw_reference_cast's overloads for raw_reference_caster below
 template<typename T>
-inline __host__ __device__
+__host__ __device__
 typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref);
 
 
 template<typename T>
-inline __host__ __device__
+__host__ __device__
 typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref);
 
@@ -354,7 +354,7 @@ struct raw_reference_caster
 
 
 template<typename T>
-inline __host__ __device__
+__host__ __device__
 typename detail::raw_reference<T>::type
   raw_reference_cast(T &ref)
 {
@@ -363,7 +363,7 @@ typename detail::raw_reference<T>::type
 
 
 template<typename T>
-inline __host__ __device__
+__host__ __device__
 typename detail::raw_reference<const T>::type
   raw_reference_cast(const T &ref)
 {

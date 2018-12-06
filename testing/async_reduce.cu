@@ -50,7 +50,7 @@ VariableUnitTest<
 > test_async_reduce_instance;
 
 template <typename T>
-struct test_async_reduce_with_policy
+struct test_async_reduce_policy
 {
   __host__
   void operator()(std::size_t n)
@@ -76,12 +76,12 @@ struct test_async_reduce_with_policy
 // TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
 // the list of types it covers.
 VariableUnitTest<
-  test_async_reduce_with_policy
+  test_async_reduce_policy
 , NumericTypes
-> test_async_reduce_with_policy_instance;
+> test_async_reduce_policy_instance;
 
 template <typename T>
-struct test_async_reduce_with_init
+struct test_async_reduce_init
 {
   __host__
   void operator()(std::size_t n)
@@ -109,12 +109,12 @@ struct test_async_reduce_with_init
 // TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
 // the list of types it covers.
 VariableUnitTest<
-  test_async_reduce_with_init
+  test_async_reduce_init
 , NumericTypes
-> test_async_reduce_with_init_instance;
+> test_async_reduce_init_instance;
 
 template <typename T>
-struct test_async_reduce_with_policy_init
+struct test_async_reduce_policy_init
 {
   __host__
   void operator()(std::size_t n)
@@ -142,12 +142,12 @@ struct test_async_reduce_with_policy_init
 // TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
 // the list of types it covers.
 VariableUnitTest<
-  test_async_reduce_with_policy_init
+  test_async_reduce_policy_init
 , NumericTypes
-> test_async_reduce_with_policy_init_instance;
+> test_async_reduce_policy_init_instance;
 
 template <typename T>
-struct test_async_reduce_with_init_op
+struct test_async_reduce_init_op
 {
   __host__
   void operator()(std::size_t n)
@@ -176,12 +176,12 @@ struct test_async_reduce_with_init_op
 // TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
 // the list of types it covers.
 VariableUnitTest<
-  test_async_reduce_with_init_op
+  test_async_reduce_init_op
 , NumericTypes
-> test_async_reduce_with_init_op_instance;
+> test_async_reduce_init_op_instance;
 
 template <typename T>
-struct test_async_reduce_with_policy_init_op
+struct test_async_reduce_policy_init_op
 {
   __host__
   void operator()(std::size_t n)
@@ -210,9 +210,9 @@ struct test_async_reduce_with_policy_init_op
 // TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
 // the list of types it covers.
 VariableUnitTest<
-  test_async_reduce_with_policy_init_op
+  test_async_reduce_policy_init_op
 , NumericTypes
-> test_async_reduce_with_policy_init_op_instance;
+> test_async_reduce_policy_init_op_instance;
 
 // TODO: Async copy then reduce.
 

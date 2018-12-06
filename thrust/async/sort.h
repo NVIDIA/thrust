@@ -101,7 +101,9 @@ struct stable_sort_fn final
     return call(
       exec
     , THRUST_FWD(first), THRUST_FWD(last)
-    , thrust::less<typename thrust::iterator_traits<ForwardIt>::value_type>{}
+    , thrust::less<
+        typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type
+      >{}
     );
   }
 
@@ -112,7 +114,7 @@ struct stable_sort_fn final
   THRUST_DECLTYPE_RETURNS(
     call(
       thrust::detail::select_system(
-        typename thrust::iterator_system<ForwardIt>::type{}
+        typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
       )
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(comp)
@@ -126,7 +128,9 @@ struct stable_sort_fn final
   THRUST_DECLTYPE_RETURNS(
     call(
       THRUST_FWD(first), THRUST_FWD(last)
-    , thrust::less<typename thrust::iterator_traits<ForwardIt>::value_type>{}
+    , thrust::less<
+        typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type
+      >{}
     )
   )
 
@@ -201,7 +205,9 @@ struct sort_fn final
     return call(
       exec
     , THRUST_FWD(first), THRUST_FWD(last)
-    , thrust::less<typename thrust::iterator_traits<ForwardIt>::value_type>{}
+    , thrust::less<
+        typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type
+      >{}
     );
   }
 
@@ -213,7 +219,7 @@ struct sort_fn final
     (negation<is_execution_policy<remove_cvref_t<ForwardIt>>>::value)
   , call(
       thrust::detail::select_system(
-        typename thrust::iterator_system<ForwardIt>::type{}
+        typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
       )
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(comp)
@@ -227,7 +233,9 @@ struct sort_fn final
   THRUST_DECLTYPE_RETURNS(
     call(
       THRUST_FWD(first), THRUST_FWD(last)
-    , thrust::less<typename thrust::iterator_traits<ForwardIt>::value_type>{}
+    , thrust::less<
+        typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type
+      >{}
     )
   )
 

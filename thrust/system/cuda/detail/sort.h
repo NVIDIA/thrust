@@ -38,6 +38,7 @@
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/detail/trivial_sequence.h>
+#include <thrust/detail/integer_math.h>
 #include <thrust/extrema.h>
 #include <thrust/sort.h>
 #include <thrust/distance.h>
@@ -1134,44 +1135,6 @@ namespace __merge_sort {
   };    // struct MergeAgent;
 
   /////////////////////////
-  /////////////////////////
-  /////////////////////////
-
-  template<class Size>
-  THRUST_RUNTIME_FUNCTION Size clz(Size x)
-  {
-    for (int i = sizeof(Size)*8-1; i >= 0; --i)
-      if ((Size(1) << i) & x) return (sizeof(Size)*8-1) - i;
-    return sizeof(Size)*8;
-  }
- 
-  template<>
-  THRUST_RUNTIME_FUNCTION int clz<int>(int x)
-  {
-#if 0
-    // XXX clang complains that __clz is device called from host
-#if __CUDA_ARCH__ >= 200 && !(defined(__clang__)  && defined(__CUDA__))
-    return ::__clz(x);
-#endif
-#endif
-    for (int i = 31; i >= 0; --i)
-      if ((1 << i) & x) return 31 - i;
-    return 32;
-  }
-
-  template <class Size>
-  THRUST_RUNTIME_FUNCTION bool is_pow2(Size x)
-  {
-    return 0 == (x & (x-1));
-  }
-
-  template<class Size>
-  THRUST_RUNTIME_FUNCTION int log2_up(Size x)
-  {
-    int a = (int)(8*sizeof(Size)-1) - (int)clz(x);
-    a += !is_pow2(x);
-    return a;
-  }
 
   template <class SORT_ITEMS,
             class STABLE,
@@ -1252,7 +1215,7 @@ namespace __merge_sort {
       return status;
     };
 
-    int num_passes = log2_up(num_tiles);
+    int num_passes = thrust::detail::log2_ri(num_tiles);
     bool ping = !(1 & num_passes);
 
     Size*      merge_partitions = (Size*)allocations[0];

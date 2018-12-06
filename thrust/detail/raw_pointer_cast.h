@@ -23,11 +23,30 @@ namespace thrust
 {
 
 template<typename Pointer>
-  inline __host__ __device__ typename thrust::detail::pointer_traits<Pointer>::raw_pointer
-    raw_pointer_cast(const Pointer &ptr)
+__host__ __device__
+typename thrust::detail::pointer_traits<Pointer>::raw_pointer
+raw_pointer_cast(Pointer ptr)
 {
   return thrust::detail::pointer_traits<Pointer>::get(ptr);
-} // end raw_pointer_cast()
+}
+
+template <typename ToPointer, typename FromPointer>
+__host__ __device__
+ToPointer
+reinterpret_pointer_cast(FromPointer ptr)
+{
+  typedef typename thrust::detail::pointer_element<ToPointer>::type to_element;
+  return ToPointer(reinterpret_cast<to_element*>(thrust::raw_pointer_cast(ptr)));
+}
+
+template <typename ToPointer, typename FromPointer>
+__host__ __device__
+ToPointer
+static_pointer_cast(FromPointer ptr)
+{
+  typedef typename thrust::detail::pointer_element<ToPointer>::type to_element;
+  return ToPointer(static_cast<to_element*>(thrust::raw_pointer_cast(ptr)));
+}
 
 } // end thrust
 

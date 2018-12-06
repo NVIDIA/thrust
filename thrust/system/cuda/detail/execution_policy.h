@@ -32,6 +32,12 @@
 #include <thrust/iterator/detail/any_system_tag.h>
 #include <thrust/system/cuda/config.h>
 
+#include <thrust/detail/allocator_aware_execution_policy.h>
+
+#if THRUST_CPP_DIALECT >= 2011
+  #include <thrust/detail/dependencies_aware_execution_policy.h>
+#endif
+
 THRUST_BEGIN_NS
 
 namespace cuda_cub
@@ -47,6 +53,10 @@ struct execution_policy<tag> : thrust::execution_policy<tag>
 {};
 
 struct tag : execution_policy<tag>
+, thrust::detail::allocator_aware_execution_policy<cuda_cub::execution_policy>
+#if THRUST_CPP_DIALECT >= 2011
+, thrust::detail::dependencies_aware_execution_policy<cuda_cub::execution_policy>
+#endif
 {};
 
 template <class Derived>

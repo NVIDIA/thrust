@@ -167,7 +167,7 @@ auto async_stable_sort_n(
         , unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -181,7 +181,7 @@ auto async_stable_sort_n(
           std::move(content)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -310,7 +310,7 @@ auto async_stable_sort_n(
         , unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -324,7 +324,7 @@ auto async_stable_sort_n(
           std::move(content)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -383,7 +383,7 @@ auto async_stable_sort(
 )
 THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_stable_sort_n(
-    policy, first, thrust::distance(first, last), comp
+    policy, first, distance(first, last), comp
   )
 );
 

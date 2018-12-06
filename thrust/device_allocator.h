@@ -23,6 +23,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
+#include <thrust/mr/allocator.h>
 #include <thrust/memory/detail/device_system_resource.h>
 
 #include <limits>

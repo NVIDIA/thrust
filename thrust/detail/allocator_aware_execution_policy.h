@@ -17,11 +17,24 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/execute_with_allocator.h>
-#include <thrust/mr/allocator.h>
+#include <thrust/detail/execute_with_allocator_fwd.h>
+#include <thrust/detail/alignment.h>
+
+#if THRUST_CPP_DIALECT >= 2011
+  #include <type_traits>
+#endif
 
 namespace thrust
 {
+
+namespace mr
+{
+
+template<typename T, class MR>
+class allocator;
+
+}
+
 namespace detail
 {
 

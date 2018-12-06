@@ -27,6 +27,7 @@
 
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/select_system.h>
+#include <thrust/type_traits/remove_cvref.h>
 #include <thrust/system/detail/adl/async/copy.h>
 
 #include <thrust/future.h>
@@ -120,8 +121,12 @@ struct copy_fn final
   static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output) 
   THRUST_DECLTYPE_RETURNS(
     copy_fn::call(
-      typename thrust::iterator_system<ForwardIt>::type{}
-    , typename thrust::iterator_system<OutputIt>::type{}
+      thrust::detail::select_system(
+        typename thrust::iterator_system<remove_cvref_t<ForwardIt>>::type{}
+      )
+    , thrust::detail::select_system(
+        typename thrust::iterator_system<remove_cvref_t<OutputIt>>::type{}
+      )
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(output)
     )

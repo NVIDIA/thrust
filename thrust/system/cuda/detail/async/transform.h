@@ -43,6 +43,7 @@
 #include <thrust/system/cuda/future.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/distance.h>
+#include <thrust/advance.h>
 
 #include <type_traits>
 
@@ -104,7 +105,7 @@ auto async_transform_n(
 
   // Create result storage.
 
-  auto content = allocate_unique<OutputIt>(uhp_alloc, std::next(output, n));
+  auto content = allocate_unique<OutputIt>(uhp_alloc, next(output, n));
 
   // Set up stream with dependencies.
 
@@ -121,7 +122,7 @@ auto async_transform_n(
         , unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -136,7 +137,7 @@ auto async_transform_n(
           std::move(content)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -179,7 +180,7 @@ auto async_transform(
 )
 THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_transform_n(
-    policy, first, thrust::distance(first, last), output, THRUST_FWD(op)
+    policy, first, distance(first, last), output, THRUST_FWD(op)
   )
 );
 

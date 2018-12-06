@@ -100,7 +100,7 @@ auto async_for_each_n(
           unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(policy)
+          std::move(thrust::detail::derived_cast(policy))
         )
       )
     );
@@ -110,7 +110,7 @@ auto async_for_each_n(
     fp = depend_on<void, pointer>(
       nullptr
     , extract_dependencies(
-        std::move(policy)
+        std::move(thrust::detail::derived_cast(policy))
       )
     );
   }
@@ -150,7 +150,7 @@ auto async_for_each(
 )
 THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_for_each_n(
-    policy, first, thrust::distance(first, last), THRUST_FWD(f)
+    policy, first, distance(first, last), THRUST_FWD(f)
   )
 );
 

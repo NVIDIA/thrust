@@ -21,7 +21,10 @@
 
 #if THRUST_CPP_DIALECT >= 2011
 
+#include <tuple>
+
 #include <thrust/detail/execute_with_dependencies.h>
+#include <thrust/detail/type_deduction.h>
 
 namespace thrust
 {
@@ -38,10 +41,19 @@ struct dependencies_aware_execution_policy
     >;
 
     template<typename ...Dependencies>
+    __host__
     execute_with_dependencies_type<Dependencies...>
-    after(Dependencies ...dependencies) const
+    after(Dependencies&& ...dependencies) const
     {
-        return { std::move(dependencies)... };
+        return { THRUST_FWD(dependencies)... };
+    }
+
+    template<typename ...Dependencies>
+    __host__
+    execute_with_dependencies_type<Dependencies...>
+    after(std::tuple<Dependencies...>&& dependencies) const
+    {
+        return { std::move(dependencies) };
     }
 };
 

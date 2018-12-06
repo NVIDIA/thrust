@@ -66,7 +66,6 @@
 
 #ifdef THRUST_DEBUG_SYNC
 #define THRUST_DEBUG_SYNC_FLAG true
-#define DEBUG
 #else
 #define THRUST_DEBUG_SYNC_FLAG false
 #endif
