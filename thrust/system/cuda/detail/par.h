@@ -40,24 +40,34 @@
 THRUST_BEGIN_NS
 namespace cuda_cub {
 
-__host__ __device__ inline cudaStream_t default_stream()
+inline __host__ __device__
+cudaStream_t
+default_stream()
 {
   return cudaStreamLegacy;
 }
 
 template <class Derived>
-cudaStream_t __host__ __device__
+__host__ __device__
+cudaStream_t
 get_stream(execution_policy<Derived> &)
 {
   return default_stream();
 }
 
+__thrust_exec_check_disable__
 template <class Derived>
-cudaError_t THRUST_RUNTIME_FUNCTION
+__host__ __device__
+cudaError_t
 synchronize_stream(execution_policy<Derived> &)
 {
-  cudaDeviceSynchronize();
-  return cudaGetLastError();
+  if (__THRUST_HAS_CUDART__)
+  {
+    cudaDeviceSynchronize();
+    return cudaGetLastError();
+  }
+  else
+    return cudaSuccess;
 }
 
 
@@ -82,24 +92,28 @@ public:
   }
 
 private:
-  friend cudaStream_t __host__ __device__
+  friend __host__ __device__
+  cudaStream_t
   get_stream(const execute_on_stream_base &exec)
   {
     return exec.stream;
   }
 
-  friend cudaError_t THRUST_RUNTIME_FUNCTION
+  friend __host__ __device__
+  cudaError_t
   synchronize_stream(execute_on_stream_base &exec)
   {
-#ifdef __CUDA_ARCH__
-#ifdef __THRUST_HAS_CUDART__
-    THRUST_UNUSED_VAR(exec);
-    cudaDeviceSynchronize();
-#endif
-#else
-    cudaStreamSynchronize(exec.stream);
-#endif
-    return cudaGetLastError();
+    #if   !__CUDA_ARCH__
+      cudaStreamSynchronize(exec.stream);
+      return cudaGetLastError();
+    #elif __THRUST_HAS_CUDART__
+      THRUST_UNUSED_VAR(exec);
+      cudaDeviceSynchronize();
+      return cudaGetLastError();
+    #else
+      THRUST_UNUSED_VAR(exec);
+      return cudaSuccess;
+    #endif
   }
 };
 
@@ -124,12 +138,13 @@ struct par_t : execution_policy<par_t>,
 {
   typedef execution_policy<par_t> base_t;
 
-  __device__ __host__
+  __host__ __device__
   par_t() : base_t() {}
 
   typedef execute_on_stream stream_attachment_type;
 
-  stream_attachment_type __device__ __host__
+  __host__ __device__
+  stream_attachment_type
   on(cudaStream_t const &stream) const
   {
     return execute_on_stream(stream);

@@ -38,9 +38,9 @@ THRUST_BEGIN_NS
 
 namespace cuda_cub {
 
-__thrust_exec_check_disable__
 template <class Policy>
-__host__ __device__ cudaError_t
+__host__ __device__
+cudaError_t
 synchronize(Policy &policy)
 {
   return synchronize_stream(derived_cast(policy));
@@ -184,7 +184,7 @@ terminate()
 #endif
 }
 
-__host__ 
+__host__  __device__
 inline void throw_on_error(cudaError_t status)
 {
   if (cudaSuccess != status)
