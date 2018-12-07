@@ -91,16 +91,17 @@ public:
   ~unique_event() = default;
 
   __host__
-  operator native_handle_type()      const THRUST_RETURNS(handle_.get());
+  auto get() const
+  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
   __host__
-  native_handle_type get()           const THRUST_RETURNS(handle_.get());
-  __host__
-  native_handle_type native_handle() const THRUST_RETURNS(handle_.get());
-
-  bool valid() const THRUST_RETURNS(bool(handle_));
+  auto native_handle() const
+  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
 
   __host__
-  bool ready() const 
+  bool valid() const noexcept { return bool(handle_); }
+
+  __host__
+  bool ready() const
   {
     cudaError_t const err = cudaEventQuery(handle_.get());
 
@@ -114,7 +115,7 @@ public:
   }
 
   __host__
-  void wait() const 
+  void wait() const
   {
     thrust::cuda_cub::throw_on_error(cudaEventSynchronize(handle_.get()));
   }
@@ -211,16 +212,17 @@ public:
   ~unique_stream() = default;
 
   __host__
-  operator native_handle_type()      THRUST_RETURNS(handle_.get());
+  auto get() const
+  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
   __host__
-  native_handle_type get()           THRUST_RETURNS(handle_.get());
-  __host__
-  native_handle_type native_handle() THRUST_RETURNS(handle_.get());
+  auto native_handle() const
+  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
 
-  bool valid() const THRUST_RETURNS(bool(handle_));
- 
   __host__
-  bool ready() const 
+  bool valid() const noexcept { return bool(handle_); }
+
+  __host__
+  bool ready() const
   {
     cudaError_t const err = cudaStreamQuery(handle_.get());
 
@@ -234,7 +236,7 @@ public:
   }
 
   __host__
-  void wait() const 
+  void wait() const
   {
     thrust::cuda_cub::throw_on_error(
       cudaStreamSynchronize(handle_.get())
@@ -242,15 +244,15 @@ public:
   }
 
   __host__
-  void depend_on(unique_event& e) 
+  void depend_on(unique_event& e)
   {
     thrust::cuda_cub::throw_on_error(
       cudaStreamWaitEvent(handle_.get(), e.get(), 0)
-    ); 
+    );
   }
 
   __host__
-  void depend_on(unique_stream& s) 
+  void depend_on(unique_stream& s)
   {
     if (s != *this)
     {
@@ -261,7 +263,7 @@ public:
   }
 
   __host__
-  void record(unique_event& e) 
+  void record(unique_event& e)
   {
     thrust::cuda_cub::throw_on_error(cudaEventRecord(e.get(), handle_.get()));
   }
@@ -365,8 +367,8 @@ public:
   __host__
   virtual ~async_value_base() {}
 
-  unique_stream&       stream()       THRUST_RETURNS(stream_);
-  unique_stream const& stream() const THRUST_RETURNS(stream_);
+  unique_stream&       stream()       noexcept { return stream_; }
+  unique_stream const& stream() const noexcept { return stream_; }
 
   template <typename X, typename XPointer>
   friend __host__
@@ -381,10 +383,10 @@ struct async_value : async_value_base
 {
   using pointer
     = typename thrust::detail::pointer_traits<Pointer>::template
-      rebind<T>::other; 
+      rebind<T>::other;
   using const_pointer
     = typename thrust::detail::pointer_traits<Pointer>::template
-      rebind<T const>::other; 
+      rebind<T const>::other;
 
 protected:
   Pointer content_;
@@ -400,9 +402,9 @@ public:
   virtual ~async_value() {}
 
   __host__
-  pointer       data()       THRUST_RETURNS(content_);
+  pointer       data()       noexcept { return content_; }
   __host__
-  const_pointer data() const THRUST_RETURNS(content_);
+  const_pointer data() const noexcept { return content_; }
 };
 
 template <typename Pointer>
@@ -410,10 +412,10 @@ struct async_value<void, Pointer> : async_value_base
 {
   using pointer
     = typename thrust::detail::pointer_traits<Pointer>::template
-      rebind<void>::other; 
+      rebind<void>::other;
   using const_pointer
     = typename thrust::detail::pointer_traits<Pointer>::template
-      rebind<void const>::other; 
+      rebind<void const>::other;
 
   // Constructs an `async_value<void>` which uses `stream`.
   __host__
@@ -421,11 +423,6 @@ struct async_value<void, Pointer> : async_value_base
 
   __host__
   virtual ~async_value() {}
-
-  __host__
-  pointer       data()       THRUST_RETURNS(pointer{});
-  __host__
-  const_pointer data() const THRUST_RETURNS(pointer{});
 };
 
 template <typename T, typename Pointer, typename... KeepAlives>
@@ -458,7 +455,7 @@ public:
     : async_value<T, Pointer>(std::move(stream))
     , keep_alives_(std::move(keep_alives))
   {
-    this->content_ = THRUST_FWD(cc)(std::get<0>(keep_alives_)); 
+    this->content_ = THRUST_FWD(cc)(std::get<0>(keep_alives_));
   }
 };
 
@@ -498,12 +495,13 @@ struct weak_promise final
 private:
   pointer content_;
 
-  __host__ __device__
-  weak_promise(pointer content)
-    : content_(content)
+  __host__
+  weak_promise(async_value<T, Pointer>* av)
+    : content_(av->data())
   {}
 
 public:
+  __host__ __device__
   weak_promise() : content_{} {}
 
   __thrust_exec_check_disable__
@@ -541,12 +539,10 @@ struct weak_promise<void, Pointer> final
 
 private:
   __host__ __device__
-  weak_promise(pointer p)
-  {
-    assert(pointer{} == p);
-  }
+  weak_promise(async_value<void, Pointer>*) {}
 
 public:
+  __host__ __device__
   weak_promise() {}
 
   __thrust_exec_check_disable__
@@ -617,14 +613,28 @@ struct unique_eager_future final
 
 private:
   int device_ = 0;
-  std::unique_ptr<detail::async_value<T, Pointer>> async_value_;
+  std::unique_ptr<detail::async_value_base> async_value_;
 
   __host__
   unique_eager_future(
     int device, std::unique_ptr<detail::async_value<T, Pointer>> av
   )
+    // NOTE: We upcast to `unique_ptr<async_value_base>` here.
     : device_(device), async_value_(std::move(av))
   {}
+
+  __host__
+  auto downcast()
+  THRUST_DECLTYPE_RETURNS(
+    // Downcast to `async_value<T, Pointer>`.
+    static_cast<detail::async_value<T, Pointer>*>(async_value_.get())
+  )
+  __host__
+  auto downcast() const
+  THRUST_DECLTYPE_RETURNS(
+    // Downcast to `async_value<T, Pointer>`.
+    static_cast<detail::async_value<T, Pointer> const*>(async_value_.get())
+  )
 
 public:
   __host__
@@ -637,27 +647,31 @@ public:
   unique_eager_future& operator=(unique_eager_future&&) = default;
   unique_eager_future& operator=(unique_eager_future const&) = delete;
 
-  bool valid() const THRUST_RETURNS(bool(async_value_));
+  __host__
+  bool valid() const noexcept { return bool(async_value_); }
 
   // Precondition: `true == valid()`.
   __host__
-  detail::unique_stream& stream() 
+  detail::unique_stream& stream()
   {
     assert(true == valid());
     return async_value_->stream();
   }
 
   __host__
+  int where() const noexcept { return device_; }
+
+  __host__
   const_pointer data() const
   {
     if (async_value_)
-      return async_value_->data();
+      return downcast()->data();
     else
       return const_pointer{};
   }
 
   __host__
-  void wait() 
+  void wait()
   {
     stream().wait();
   }
@@ -666,9 +680,9 @@ public:
   T get() &&
   {
     stream().wait();
-    return std::move(*async_value_->data());
+    return std::move(*(downcast()->data()));
   }
-  
+
   template <typename X, typename XPointer>
   __host__
   friend optional<detail::unique_stream>
@@ -685,6 +699,9 @@ public:
   thrust::system::cuda::detail::depend_on(
     ComputeContent&& cc, std::tuple<Dependencies...>&& deps
   );
+
+  template <typename X, typename XPointer>
+  friend struct unique_eager_future;
 };
 
 template <typename Pointer>
@@ -697,12 +714,13 @@ struct unique_eager_future<void, Pointer> final
 
 private:
   int device_ = 0;
-  std::unique_ptr<detail::async_value<void, Pointer>> async_value_;
+  std::unique_ptr<detail::async_value_base> async_value_;
 
   __host__
   unique_eager_future(
     int device, std::unique_ptr<detail::async_value<void, Pointer>> av
   )
+    // NOTE: We upcast to `unique_ptr<async_value_base>` here.
     : device_(device), async_value_(std::move(av))
   {}
 
@@ -717,18 +735,31 @@ public:
   unique_eager_future& operator=(unique_eager_future&&) = default;
   unique_eager_future& operator=(unique_eager_future const&) = delete;
 
-  bool valid() const THRUST_RETURNS(bool(async_value_));
+  // Any `unique_eager_future<T>` can be explicitly converted to a
+  // `unique_eager_future<void>`.
+  template <typename U, typename UPointer>
+  __host__
+  explicit unique_eager_future(unique_eager_future<U, UPointer>&& other)
+    // NOTE: We upcast to `unique_ptr<async_value_base>` here.
+    : device_(other.where()), async_value_(std::move(other.async_value_))
+  {}
+
+  __host__
+  bool valid() const noexcept { return bool(async_value_); }
 
   // Precondition: `true == valid()`.
   __host__
-  detail::unique_stream& stream() 
+  detail::unique_stream& stream()
   {
     assert(true == valid());
     return async_value_->stream();
   }
 
   __host__
-  void wait() 
+  int where() const noexcept { return device_; }
+
+  __host__
+  void wait()
   {
     stream().wait();
   }
@@ -737,7 +768,7 @@ public:
   {
     stream().wait();
   }
-  
+
   template <typename X, typename XPointer>
   __host__
   friend optional<detail::unique_stream>
@@ -891,8 +922,8 @@ void create_dependencies_impl(
   // stream from it.
   if (!as.acquired_from || *as.acquired_from == I0)
   {
-    create_dependency(as.stream, std::get<I0>(deps)); 
-  }    
+    create_dependency(as.stream, std::get<I0>(deps));
+  }
 
   create_dependencies_impl(as, deps, index_sequence<Is...>{});
 }
@@ -1039,12 +1070,12 @@ depend_on(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
   // Next, we create the asynchronous value.
   std::unique_ptr<async_value<X, XPointer>> av(
     new async_value_with_keep_alives<X, XPointer, decltype(ka)>(
-      std::move(as.stream), std::move(cc), std::move(ka) 
+      std::move(as.stream), std::move(cc), std::move(ka)
     )
   );
 
   // Finally, we create the promise and future objects.
-  weak_promise<X, XPointer> child_prom(av->data());
+  weak_promise<X, XPointer> child_prom(av.get());
   unique_eager_future<X, XPointer> child_fut(device, std::move(av));
 
   return unique_eager_future_promise_pair<X, XPointer>

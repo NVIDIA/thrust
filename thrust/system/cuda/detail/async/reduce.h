@@ -174,7 +174,7 @@ auto async_reduce_n(
     , n
     , op
     , init
-    , fp.future.stream()
+    , fp.future.stream().native_handle()
     , THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction launch"

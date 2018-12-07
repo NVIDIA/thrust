@@ -151,7 +151,7 @@ auto async_transform_n(
 
   thrust::cuda_cub::throw_on_error(
     thrust::cuda_cub::__parallel_for::parallel_for(
-      n, std::move(wrapped), fp.future.stream()
+      n, std::move(wrapped), fp.future.stream().native_handle()
     )
   , "after transform launch"
   );

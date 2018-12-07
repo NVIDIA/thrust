@@ -24,6 +24,7 @@
 
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/type_traits/is_contiguous_iterator.h>
 
 namespace thrust
 {
@@ -68,10 +69,10 @@ template<typename Pointer>
 
 } // end detail
 
-// specialize is_contiguous_iterator for normal_iterator
-template<typename> struct is_contiguous_iterator;
-
-template<typename T> struct is_contiguous_iterator< detail::normal_iterator<T> > : public true_type {};
+template <typename T>
+struct proclaim_contiguous_iterator<
+  thrust::detail::normal_iterator<T>
+> : true_type {};
 
 } // end thrust
 

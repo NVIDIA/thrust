@@ -39,11 +39,13 @@
 #include <thrust/system/cuda/config.h>
 
 #include <thrust/system/cuda/detail/async/customization.h>
+#include <thrust/system/cuda/detail/async/copy.h>
 #include <thrust/system/cuda/detail/sort.h>
 #include <thrust/detail/alignment.h>
 #include <thrust/system/cuda/future.h>
 #include <thrust/type_traits/is_trivially_relocatable.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
+#include <thrust/type_traits/is_operator_less_or_greater_function_object.h>
 #include <thrust/type_traits/logical_metafunctions.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/static_assert.h>
@@ -56,7 +58,7 @@ THRUST_BEGIN_NS
 namespace system { namespace cuda { namespace detail
 {
 
-// Non-ContiguousIterator iterators
+// Non-ContiguousIterator input and output iterators
 template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
@@ -78,19 +80,79 @@ auto async_stable_sort_n(
     >
   >::type
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (thrust::detail::depend_on_instantiation<ForwardIt, false>::value)
-  , "unimplemented"
+  using T = typename iterator_traits<ForwardIt>::value_type;
+
+  auto const device_alloc = get_async_device_allocator(policy);
+
+  // Create device-side buffer.
+
+  // FIXME: Combine this temporary allocation with the main one for CUB.
+  auto device_buffer = uninitialized_allocate_unique_n<T>(device_alloc, n);
+
+  auto const device_buffer_ptr = device_buffer.get();
+
+  // Copy from the input into the buffer.
+
+  auto new_policy0 = thrust::detail::derived_cast(policy).after(
+    std::move(device_buffer)
   );
 
-  // TODO: Buffer + copy
+  auto f0 = async_copy_n(
+    // TODO: We have to cast back to the right execution_policy class. Ideally,
+    // we should be moving here.
+    static_cast<thrust::cuda::execution_policy<decltype(new_policy0)>&>(
+      new_policy0
+    )
+  , static_cast<thrust::cuda::execution_policy<decltype(new_policy0)>&>(
+      new_policy0
+    )
+  , first
+  , n
+  , device_buffer_ptr
+  );
 
-  return {};
+  // Sort the buffer.
+
+  auto new_policy1 = thrust::detail::derived_cast(policy).after(
+    std::move(f0)
+  );
+
+  auto f1 = async_sort_n(
+    // TODO: We have to cast back to the right execution_policy class. Ideally,
+    // we should be moving here.
+    static_cast<thrust::cuda::execution_policy<decltype(new_policy1)>&>(
+      new_policy1
+    )
+  , device_buffer_ptr
+  , n
+  , comp
+  );
+
+  // Copy from the buffer into the input.
+  // FIXME: Combine this with the potential memcpy at the end of the main sort
+  // routine.
+
+  auto new_policy2 = thrust::detail::derived_cast(policy).after(
+    std::move(f1)
+  );
+
+  return async_copy_n(
+    // TODO: We have to cast back to the right execution_policy class. Ideally,
+    // we should be moving here.
+    static_cast<thrust::cuda::execution_policy<decltype(new_policy2)>&>(
+      new_policy2
+    )
+  , static_cast<thrust::cuda::execution_policy<decltype(new_policy2)>&>(
+      new_policy2
+    )
+  , device_buffer_ptr
+  , n
+  , first
+  );
 }
 
 // ContiguousIterator iterators
-// Non-Scalar value type
-// User-defined StrictWeakOrdering
+// Non-Scalar value type or user-defined StrictWeakOrdering
 template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
@@ -102,12 +164,27 @@ auto async_stable_sort_n(
   Size                             n,
   StrictWeakOrdering               comp
 ) ->
-  unique_eager_future<
-    void
-  , typename thrust::detail::allocator_traits<
-      decltype(get_async_device_allocator(policy))
-    >::template rebind_traits<void>::pointer
-  >
+  typename std::enable_if<
+    conjunction<
+      is_contiguous_iterator<ForwardIt>
+    , disjunction<
+        negation<
+          std::is_scalar<
+            typename iterator_traits<ForwardIt>::value_type
+          >
+        >
+      , negation<
+          is_operator_less_or_greater_function_object<StrictWeakOrdering>
+        >
+      >
+    >::value
+  , unique_eager_future<
+      void
+    , typename thrust::detail::allocator_traits<
+        decltype(get_async_device_allocator(policy))
+      >::template rebind_traits<void>::pointer
+    >
+  >::type
 {
   using T = typename thrust::iterator_traits<ForwardIt>::value_type;
 
@@ -128,7 +205,7 @@ auto async_stable_sort_n(
     >(
       nullptr
     , tmp_size
-    , first 
+    , first
     , static_cast<thrust::detail::uint8_t*>(nullptr) // Items.
     , n
     , comp
@@ -195,11 +272,11 @@ auto async_stable_sort_n(
     >(
       tmp_ptr
     , tmp_size
-    , first 
+    , first
     , static_cast<thrust::detail::uint8_t*>(nullptr) // Items.
     , n
     , comp
-    , fp.future.stream()
+    , fp.future.stream().native_handle()
     , THRUST_DEBUG_SYNC_FLAG
     )
   , "after merge sort sizing"
@@ -208,31 +285,81 @@ auto async_stable_sort_n(
   return std::move(fp.future);
 }
 
-// ContiguousIterator iterators
-// Scalar value type
-// thrust::greater<>
-// TODO (hack up CUB)
+template <typename T, typename Size, typename StrictWeakOrdering>
+THRUST_RUNTIME_FUNCTION
+typename std::enable_if<
+  is_operator_less_function_object<StrictWeakOrdering>::value
+, cudaError_t
+>::type
+invoke_radix_sort(
+  cudaStream_t                           stream
+, void*                                  tmp_ptr
+, std::size_t                            tmp_size
+, thrust::cuda_cub::cub::DoubleBuffer<T> keys
+, Size                                   n
+, StrictWeakOrdering
+)
+{
+  return thrust::cuda_cub::cub::DeviceRadixSort::SortKeys(
+    tmp_ptr
+  , tmp_size
+  , keys
+  , n
+  , 0
+  , sizeof(T) * 8
+  , stream
+  , THRUST_DEBUG_SYNC_FLAG
+  );
+}
+
+template <typename T, typename Size, typename StrictWeakOrdering>
+THRUST_RUNTIME_FUNCTION
+typename std::enable_if<
+  is_operator_greater_function_object<StrictWeakOrdering>::value
+, cudaError_t
+>::type
+invoke_radix_sort(
+  cudaStream_t                           stream
+, void*                                  tmp_ptr
+, std::size_t                            tmp_size
+, thrust::cuda_cub::cub::DoubleBuffer<T> keys
+, Size                                   n
+, StrictWeakOrdering
+)
+{
+  return thrust::cuda_cub::cub::DeviceRadixSort::SortKeysDescending(
+    tmp_ptr
+  , tmp_size
+  , keys
+  , n
+  , 0
+  , sizeof(T) * 8
+  , stream
+  , THRUST_DEBUG_SYNC_FLAG
+  );
+}
 
 // ContiguousIterator iterators
 // Scalar value type
-// thrust::less<>
+// operator< or operator>
 template <
   typename DerivedPolicy
-, typename ForwardIt, typename Size, typename CompareT
+, typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
 THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
-  execution_policy<DerivedPolicy>& policy,
-  ForwardIt                        first,
-  Size                             n,
-  thrust::less<CompareT>
+  execution_policy<DerivedPolicy>& policy
+, ForwardIt                        first
+, Size                             n
+, StrictWeakOrdering               comp
 ) ->
   typename std::enable_if<
     conjunction<
       is_contiguous_iterator<ForwardIt>
     , std::is_scalar<
-        typename thrust::iterator_traits<ForwardIt>::value_type
+        typename iterator_traits<ForwardIt>::value_type
       >
+    , is_operator_less_or_greater_function_object<StrictWeakOrdering>
     >::value
   , unique_eager_future<
       void
@@ -242,7 +369,7 @@ auto async_stable_sort_n(
     >
   >::type
 {
-  using T = typename thrust::iterator_traits<ForwardIt>::value_type;
+  using T = typename iterator_traits<ForwardIt>::value_type;
 
   auto const device_alloc = get_async_device_allocator(policy);
 
@@ -260,15 +387,13 @@ auto async_stable_sort_n(
 
   size_t tmp_size = 0;
   thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::cub::DeviceRadixSort::SortKeys(
-      nullptr
+    invoke_radix_sort(
+      nullptr // Null stream, just for sizing.
+    , nullptr
     , tmp_size
-    , keys 
+    , keys
     , n
-    , 0
-    , sizeof(T) * 8
-    , nullptr // Null stream, just for sizing.
-    , THRUST_DEBUG_SYNC_FLAG
+    , comp
     )
   , "after radix sort sizing"
   );
@@ -333,35 +458,40 @@ auto async_stable_sort_n(
   // Run radix sort.
 
   thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::cub::DeviceRadixSort::SortKeys(
-      tmp_ptr
+    invoke_radix_sort(
+      fp.future.stream().native_handle()
+    , tmp_ptr
     , tmp_size
     , keys
     , n
-    , 0
-    , sizeof(T) * 8
-    , fp.future.stream()
-    , THRUST_DEBUG_SYNC_FLAG
+    , comp
     )
   , "after radix sort launch"
   );
 
   if (0 != keys.selector)
   {
-    // TODO: Temporary hack.
-    thrust::cuda_cub::throw_on_error(
-      cudaMemcpyAsync(
-        reinterpret_cast<T*>(keys.d_buffers[0])
-      , reinterpret_cast<T*>(keys.d_buffers[1])
-      , sizeof(T) * n
-      , cudaMemcpyDeviceToDevice
-      , fp.future.stream()
-      )
-    , "radix sort copy back"
+    auto new_policy0 = thrust::detail::derived_cast(policy).after(
+      std::move(fp.future)
     );
-  }
 
-  return std::move(fp.future);
+    using return_future = decltype(fp.future);
+    return return_future(async_copy_n(
+      // TODO: We have to cast back to the right execution_policy class.
+      // Ideally, we should be moving here.
+      static_cast<thrust::cuda::execution_policy<decltype(new_policy0)>&>(
+        new_policy0
+      )
+    , static_cast<thrust::cuda::execution_policy<decltype(new_policy0)>&>(
+        new_policy0
+      )
+    , keys.d_buffers[1]
+    , n
+    , keys.d_buffers[0]
+    ));
+  }
+  else
+    return std::move(fp.future);
 }
 
 }}} // namespace system::cuda::detail
@@ -385,7 +515,7 @@ THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_stable_sort_n(
     policy, first, distance(first, last), comp
   )
-);
+)
 
 } // cuda_cub
 

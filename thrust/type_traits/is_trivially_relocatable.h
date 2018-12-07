@@ -33,8 +33,8 @@ struct is_trivially_relocatable_impl;
 } // namespace detail
 
 /// Unary metafunction returns \c true_type if \c T is \a TriviallyRelocatable, 
-/// e.g. can be bitwise copied (with a facility like \c memcpy), and \c false
-/// otherwise.
+/// e.g. can be bitwise copied (with a facility like \c memcpy), and
+/// \c false_type otherwise.
 template <typename T>
 #if THRUST_CPP_DIALECT >= 2011
 using is_trivially_relocatable =
@@ -57,7 +57,7 @@ constexpr bool is_trivially_relocatable_v = is_trivially_relocatable<T>::value;
 
 /// Unary metafunction returns \c true_type if \c From is \a TriviallyRelocatable
 /// to \c To, e.g. can be bitwise copied (with a facility like \c memcpy), and
-/// \c false otherwise.
+/// \c false_type otherwise.
 template <typename From, typename To>
 #if THRUST_CPP_DIALECT >= 2011
 using is_trivially_relocatable_to =
@@ -82,9 +82,9 @@ constexpr bool is_trivially_relocatable_to_v
   = is_trivially_relocatable_to<From, To>::value;
 #endif
 
-/// Unary metafunction that is \c true if the element type of
+/// Unary metafunction that returns \c true_type if the element type of
 /// \c FromIterator is \a TriviallyRelocatable to the element type of
-/// \c ToIterator.
+/// \c ToIterator, and \c false_type otherwise.
 template <typename FromIterator, typename ToIterator>
 #if THRUST_CPP_DIALECT >= 2011
 using is_indirectly_trivially_relocatable_to =
@@ -108,7 +108,7 @@ struct is_indirectly_trivially_relocatable_to :
 #if THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if the element type of
 /// \c FromIterator is \a TriviallyRelocatable to the element type of
-/// \c ToIterator.
+/// \c ToIterator, and \c false otherwise.
 template <typename FromIterator, typename ToIterator>
 constexpr bool is_trivial_relocatable_sequence_copy_v
   = is_indirectly_trivially_relocatable_to<FromIterator, ToIterator>::value;
@@ -158,6 +158,7 @@ struct is_trivially_relocatable_impl<T[N]> : is_trivially_relocatable_impl<T> {}
 THRUST_END_NS
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 
 THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(char1)

@@ -153,7 +153,7 @@ auto async_copy_n(
     , thrust::raw_pointer_cast(&*first)
     , sizeof(T) * n
     , direction_of_copy(from_exec, to_exec)
-    , fp.future.stream()
+    , fp.future.stream().native_handle()
     )
   , "after copy launch"
   );
@@ -413,7 +413,7 @@ auto async_copy_n(
     >
   >::type
 {
-  using T = typename thrust::iterator_traits<ForwardIt>::value_type;
+  using T = typename iterator_traits<ForwardIt>::value_type;
 
   auto const device_alloc = get_async_device_allocator(
     from_exec
@@ -434,6 +434,7 @@ auto async_copy_n(
   , n
   , buffer_ptr
   );
+
   // Run copy back to host.
 
   auto new_from_exec = thrust::detail::derived_cast(from_exec).after(

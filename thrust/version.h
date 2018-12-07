@@ -28,7 +28,7 @@
 
 #pragma once
 
-//  This is the only Thrust header that is guaranteed to 
+//  This is the only Thrust header that is guaranteed to
 //  change with every Thrust release.
 //
 //  THRUST_VERSION % 100 is the sub-minor version

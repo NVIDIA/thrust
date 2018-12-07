@@ -20,6 +20,7 @@
 #include <thrust/iterator/iterator_adaptor.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/use_default.h>
+#include <thrust/type_traits/is_contiguous_iterator.h>
 
 namespace thrust
 {
@@ -60,14 +61,11 @@ template<typename Iterator, typename Tag>
 
 } // end detail
 
-// specialize is_contiguous_iterator for tagged_iterator
-template<typename> struct is_contiguous_iterator;
-
-// tagged_iterator is trivial if its base iterator is
-template<typename BaseIterator, typename Tag>
-  struct is_contiguous_iterator<detail::tagged_iterator<BaseIterator,Tag> >
-    : is_contiguous_iterator<BaseIterator>
-{};
+// tagged_iterator is trivial if its base iterator is.
+template <typename BaseIterator, typename Tag>
+struct proclaim_contiguous_iterator<
+  detail::tagged_iterator<BaseIterator, Tag>
+> : is_contiguous_iterator<BaseIterator> {};
 
 } // end thrust
 

@@ -50,7 +50,7 @@ struct is_contiguous_iterator_impl;
 
 /// Unary metafunction returns \c true_type if \c Iterator satisfies
 /// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
-/// e.g. it points to elements that are contiguous in memory, and \c false
+/// e.g. it points to elements that are contiguous in memory, and \c false_type
 /// otherwise.
 template <typename Iterator>
 #if THRUST_CPP_DIALECT >= 2011
@@ -75,7 +75,7 @@ constexpr bool is_contiguous_iterator_v = is_contiguous_iterator<Iterator>::valu
 
 /// Customization point that can be customized to indicate that an iterator
 /// type \c Iterator satisfies
-/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>.
+/// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>,
 /// e.g. it points to elements that are contiguous in memory.
 template <typename Iterator>
 struct proclaim_contiguous_iterator : false_type {};
@@ -90,11 +90,7 @@ struct proclaim_contiguous_iterator : false_type {};
   THRUST_END_NS                                                               \
   /**/
 
-THRUST_END_NS
-
 ///////////////////////////////////////////////////////////////////////////////
-
-THRUST_BEGIN_NS
 
 namespace detail
 {

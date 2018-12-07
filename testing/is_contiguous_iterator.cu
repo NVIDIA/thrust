@@ -1,4 +1,5 @@
 #include <unittest/unittest.h>
+#include <thrust/detail/static_assert.h>
 #include <iterator>
 #include <vector>
 #if THRUST_CPP_DIALECT >= 2011
@@ -16,7 +17,6 @@
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
-#include <thrust/detail/static_assert.h>
 
 THRUST_STATIC_ASSERT((thrust::is_contiguous_iterator<
   std::string::iterator
@@ -41,7 +41,7 @@ THRUST_STATIC_ASSERT((!thrust::is_contiguous_iterator<
 >::value));
 
 template <typename T>
-inline __host__
+__host__
 void test_is_contiguous_iterator()
 {
   THRUST_STATIC_ASSERT((thrust::is_contiguous_iterator<
@@ -123,7 +123,7 @@ void test_is_contiguous_iterator()
 DECLARE_GENERIC_UNITTEST(test_is_contiguous_iterator);
 
 template <typename Vector>
-inline __host__
+__host__
 void test_is_contiguous_iterator_vectors()
 {
   THRUST_STATIC_ASSERT((thrust::is_contiguous_iterator<
