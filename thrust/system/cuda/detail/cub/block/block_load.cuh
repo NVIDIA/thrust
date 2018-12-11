@@ -78,13 +78,11 @@ __device__ __forceinline__ void LoadDirectBlocked(
     InputIteratorT  block_itr,                  ///< [in] The thread block's base input iterator for loading from
     InputT          (&items)[ITEMS_PER_THREAD]) ///< [out] Data to load
 {
-    InputIteratorT thread_itr = block_itr + (linear_tid * ITEMS_PER_THREAD);
-
     // Load directly in thread-blocked order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        items[ITEM] = thread_itr[ITEM];
+        items[ITEM] = block_itr[(linear_tid * ITEMS_PER_THREAD) + ITEM];
     }
 }
 
@@ -108,14 +106,13 @@ __device__ __forceinline__ void LoadDirectBlocked(
     InputT          (&items)[ITEMS_PER_THREAD], ///< [out] Data to load
     int             valid_items)                ///< [in] Number of valid items to load
 {
-    InputIteratorT thread_itr = block_itr + (linear_tid * ITEMS_PER_THREAD);
 
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
         if ((linear_tid * ITEMS_PER_THREAD) + ITEM < valid_items)
         {
-            items[ITEM] = thread_itr[ITEM];
+            items[ITEM] = block_itr[(linear_tid * ITEMS_PER_THREAD) + ITEM];
         }
     }
 }
@@ -260,12 +257,10 @@ __device__ __forceinline__ void LoadDirectStriped(
     InputIteratorT  block_itr,                  ///< [in] The thread block's base input iterator for loading from
     InputT          (&items)[ITEMS_PER_THREAD]) ///< [out] Data to load
 {
-    InputIteratorT thread_itr = block_itr + linear_tid;
-
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        items[ITEM] = thread_itr[ITEM * BLOCK_THREADS];
+        items[ITEM] = block_itr[linear_tid + ITEM * BLOCK_THREADS];
     }
 }
 
@@ -291,14 +286,12 @@ __device__ __forceinline__ void LoadDirectStriped(
     InputT          (&items)[ITEMS_PER_THREAD], ///< [out] Data to load
     int             valid_items)                ///< [in] Number of valid items to load
 {
-    InputIteratorT thread_itr = block_itr + linear_tid;
-
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
         if (linear_tid + (ITEM * BLOCK_THREADS) < valid_items)
         {
-            items[ITEM] = thread_itr[ITEM * BLOCK_THREADS];
+            items[ITEM] = block_itr[linear_tid + ITEM * BLOCK_THREADS];
         }
     }
 }
@@ -368,13 +361,11 @@ __device__ __forceinline__ void LoadDirectWarpStriped(
     int wid                = linear_tid >> CUB_PTX_LOG_WARP_THREADS;
     int warp_offset        = wid * CUB_PTX_WARP_THREADS * ITEMS_PER_THREAD;
 
-    InputIteratorT thread_itr = block_itr + warp_offset + tid ;
-
     // Load directly in warp-striped order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
-        items[ITEM] = thread_itr[(ITEM * CUB_PTX_WARP_THREADS)];
+        items[ITEM] = block_itr[warp_offset + tid + (ITEM * CUB_PTX_WARP_THREADS)];
     }
 }
 
@@ -389,7 +380,7 @@ __device__ __forceinline__ void LoadDirectWarpStriped(
  *
  * \tparam T                    <b>[inferred]</b> The data type to load.
  * \tparam ITEMS_PER_THREAD     <b>[inferred]</b> The number of consecutive items partitioned onto each thread.
- * \tparam InputIteratorT        <b>[inferred]</b> The random-access iterator type for input \iterator.
+ * \tparam InputIteratorT       <b>[inferred]</b> The random-access iterator type for input \iterator.
  */
 template <
     typename        InputT,
@@ -405,15 +396,13 @@ __device__ __forceinline__ void LoadDirectWarpStriped(
     int wid                = linear_tid >> CUB_PTX_LOG_WARP_THREADS;
     int warp_offset        = wid * CUB_PTX_WARP_THREADS * ITEMS_PER_THREAD;
 
-    InputIteratorT thread_itr = block_itr + warp_offset + tid ;
-
     // Load directly in warp-striped order
     #pragma unroll
     for (int ITEM = 0; ITEM < ITEMS_PER_THREAD; ITEM++)
     {
         if (warp_offset + tid + (ITEM * CUB_PTX_WARP_THREADS) < valid_items)
         {
-            items[ITEM] = thread_itr[(ITEM * CUB_PTX_WARP_THREADS)];
+            items[ITEM] = block_itr[warp_offset + tid + (ITEM * CUB_PTX_WARP_THREADS)];
         }
     }
 }
@@ -790,7 +779,7 @@ private:
             InputIteratorT  block_itr,                      ///< [in] The thread block's base input iterator for loading from
             InputT          (&items)[ITEMS_PER_THREAD],     ///< [out] Data to load
             int             valid_items,                    ///< [in] Number of valid items to load
-            DefaultT          oob_default)                    ///< [in] Default value to assign out-of-bound items
+            DefaultT        oob_default)                    ///< [in] Default value to assign out-of-bound items
         {
             LoadDirectBlocked(linear_tid, block_itr, items, valid_items, oob_default);
         }
