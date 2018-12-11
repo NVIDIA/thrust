@@ -61,13 +61,12 @@ __host__ __device__
 cudaError_t
 synchronize_stream(execution_policy<Derived> &)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
+  #if __THRUST_HAS_CUDART__
     cudaDeviceSynchronize();
     return cudaGetLastError();
-  }
-  else
+  #else
     return cudaSuccess;
+  #endif
 }
 
 
