@@ -24,6 +24,7 @@
 #include <thrust/allocate_unique.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/execute_with_dependencies.h>
+#include <thrust/detail/future_error.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/cuda/future.h>
 #include <thrust/system/cuda/detail/util.h>
@@ -654,7 +655,9 @@ public:
   __host__
   detail::unique_stream& stream()
   {
-    assert(true == valid());
+    if (!valid())
+      throw thrust::system_error(future_errc::no_state, future_category());
+
     return async_value_->stream();
   }
 
@@ -751,7 +754,9 @@ public:
   __host__
   detail::unique_stream& stream()
   {
-    assert(true == valid());
+    if (!valid())
+      throw thrust::system_error(future_errc::no_state, future_category());
+
     return async_value_->stream();
   }
 

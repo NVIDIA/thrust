@@ -25,6 +25,18 @@
 
 #if THRUST_CPP_DIALECT >= 2011
 
+#include <thrust/execution_policy.h>
+
+// #include the device system's pointer.h header.
+#define __THRUST_DEVICE_SYSTEM_POINTER_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/pointer.h>
+  #include __THRUST_DEVICE_SYSTEM_POINTER_HEADER
+#undef __THRUST_DEVICE_SYSTEM_POINTER_HEADER
+
+//// #include the host system's pointer.h header.
+//#define __THRUST_HOST_SYSTEM_POINTER_HEADER <__THRUST_HOST_SYSTEM_ROOT/pointer.h>
+//  #include __THRUST_HOST_SYSTEM_POINTER_HEADER
+//#undef __THRUST_HOST_SYSTEM_POINTER_HEADER
+
 THRUST_BEGIN_NS
 
 // Fallback.
@@ -76,15 +88,15 @@ template <
 
 THRUST_END_NS
 
-// #include the host system's execution_policy header
-//#define __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_HOST_SYSTEM_ROOT/future.h>
-//#include __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
-//#undef __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
+// #include the device system's future.h header.
+#define __THRUST_DEVICE_SYSTEM_FUTURE_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/future.h>
+  #include __THRUST_DEVICE_SYSTEM_FUTURE_HEADER
+#undef __THRUST_DEVICE_SYSTEM_FUTURE_HEADER
 
-// #include the device system's execution_policy.h header
-#define __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/future.h>
-#include __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
-#undef __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+//// #include the host system's future.h header.
+//#define __THRUST_HOST_SYSTEM_FUTURE_HEADER <__THRUST_HOST_SYSTEM_ROOT/future.h>
+//  #include __THRUST_HOST_SYSTEM_FUTURE_HEADER
+//#undef __THRUST_HOST_SYSTEM_FUTURE_HEADER
 
 #endif // THRUST_CPP_DIALECT >= 2011
 
