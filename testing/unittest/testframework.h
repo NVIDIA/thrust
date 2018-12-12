@@ -461,8 +461,12 @@ class TEST##UnitTest : public UnitTest {                         \
 };                                                               \
 TEST##UnitTest TEST##Instance
 
-#define DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(TEST, TYPES, NAME)  \
-  ::VariableUnitTest<TEST, TYPES> NAME##_instance(#NAME)                  \
+#define DECLARE_GENERIC_UNITTEST_WITH_TYPES_AND_NAME(TEST, TYPES, NAME)       \
+  ::SimpleUnitTest<TEST, TYPES> NAME##_instance(#NAME)                        \
+  /**/
+
+#define DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(TEST, TYPES, NAME) \
+  ::VariableUnitTest<TEST, TYPES> NAME##_instance(#NAME)                      \
   /**/
 
 template<template <typename> class TestName, typename TypeList>

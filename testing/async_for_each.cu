@@ -38,7 +38,7 @@ DEFINE_ASYNC_FOR_EACH_CALLABLE(
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct divide_by_2
+struct inplace_divide_by_2
 {
   template <typename T>
   __host__ __device__
@@ -74,18 +74,24 @@ struct test_async_for_each
     }
   };
 };
-DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
-    test_async_for_each<invoke_async_for_each_fn, divide_by_2>::tester
+    test_async_for_each<
+      invoke_async_for_each_fn
+    , inplace_divide_by_2
+    >::tester
   )
-, BuiltinNumericTypes
+, NumericTypes
 , test_async_for_each
 );
-DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME(
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
-    test_async_for_each<invoke_async_for_each_device_fn, divide_by_2>::tester
+    test_async_for_each<
+      invoke_async_for_each_device_fn
+    , inplace_divide_by_2
+    >::tester
   )
-, BuiltinNumericTypes
+, NumericTypes
 , test_async_for_each_policy
 );
 
