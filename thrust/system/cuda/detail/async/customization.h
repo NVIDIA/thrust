@@ -92,6 +92,14 @@ auto get_async_device_allocator(
 )
 THRUST_DECLTYPE_RETURNS(exec.get_allocator())
 
+template <typename Allocator, template <typename> class BaseSystem>
+auto get_async_device_allocator(
+  thrust::detail::execute_with_allocator_and_dependencies<
+    Allocator, BaseSystem
+  >& exec
+)
+THRUST_DECLTYPE_RETURNS(exec.get_allocator())
+
 ///////////////////////////////////////////////////////////////////////////////
 
 using default_async_universal_host_pinned_resource =
