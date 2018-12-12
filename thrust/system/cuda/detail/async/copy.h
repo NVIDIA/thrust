@@ -120,9 +120,10 @@ auto async_copy_n(
         , unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(
-            select_device_system(from_exec, to_exec)
-          ))
+          std::move(thrust::detail::derived_cast(from_exec))
+        )
+      , extract_dependencies(
+          std::move(thrust::detail::derived_cast(to_exec))
         )
       )
     );
@@ -137,9 +138,10 @@ auto async_copy_n(
           std::move(content)
         )
       , extract_dependencies(
-          std::move(thrust::detail::derived_cast(
-            select_device_system(from_exec, to_exec)
-          ))
+          std::move(thrust::detail::derived_cast(from_exec))
+        )
+      , extract_dependencies(
+          std::move(thrust::detail::derived_cast(to_exec))
         )
       )
     );
@@ -336,9 +338,10 @@ auto async_copy_n(
         std::move(buffer)
       )
     , extract_dependencies(
-        std::move(thrust::detail::derived_cast(
-          to_exec
-        ))
+        std::move(thrust::detail::derived_cast(from_exec))
+      )
+    , extract_dependencies(
+        std::move(thrust::detail::derived_cast(to_exec))
       )
     )
   );
