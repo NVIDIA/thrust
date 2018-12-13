@@ -5,7 +5,7 @@
   #include <array>
 #endif
 #include <string>
-#if defined(__cpp_lib_string_view)
+#if THRUST_CPP_DIALECT >= 2017
   #include <string_view>
 #endif
 #include <deque>
@@ -26,7 +26,7 @@ THRUST_STATIC_ASSERT((thrust::is_contiguous_iterator<
   std::wstring::iterator
 >::value));
 
-#if defined(__cpp_lib_string_view)
+#if THRUST_CPP_DIALECT >= 2017
 THRUST_STATIC_ASSERT((thrust::is_contiguous_iterator<
   std::string_view::iterator
 >::value));

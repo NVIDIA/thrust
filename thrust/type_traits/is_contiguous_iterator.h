@@ -123,7 +123,7 @@ struct is_libstdcxx_normal_iterator<
 template <typename Iterator>
 struct is_msvc_contiguous_iterator
   : is_pointer<::std::_Unwrapped_t<Iterator> > {};
-#elif _MSC_VER >= 1800 // MSVC 2013.
+#elif _MSC_VER >= 1700 // MSVC 2012.
 template <typename Iterator>
 struct is_msvc_contiguous_iterator : false_type {};
 
