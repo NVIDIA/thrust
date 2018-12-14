@@ -46,12 +46,7 @@ template <
 , typename UnaryOperation
 >
 __host__ __device__
-future<
-  OutputIt, DerivedPolicy
-, typename thrust::detail::pointer_traits<
-    thrust::host_memory_resource::pointer
-  >::template rebind<OutputIt>::other
->
+future<void, DerivedPolicy>
 async_transform(
   thrust::execution_policy<DerivedPolicy>& exec
 , ForwardIt first, Sentinel last, OutputIt output, UnaryOperation op
@@ -59,7 +54,7 @@ async_transform(
 {
   THRUST_STATIC_ASSERT_MSG(
     (thrust::detail::depend_on_instantiation<ForwardIt, false>::value)
-  , "unimplemented for this system"
+  , "this algorithm is not implemented for the specified system"
   );
   return {};
 } 
@@ -75,13 +70,8 @@ struct transform_fn final
   , typename UnaryOperation
   >
   __host__ __device__
-  future<
-    OutputIt, DerivedPolicy
-  , typename thrust::detail::pointer_traits<
-      thrust::host_memory_resource::pointer
-    >::template rebind<OutputIt>::other
-  >
-  static call(
+  static future<void, DerivedPolicy>
+  call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , OutputIt&& output 

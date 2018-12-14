@@ -83,29 +83,11 @@ auto async_transform_n(
   Size                             n,
   OutputIt                         output,
   UnaryOperation                   op
-) ->
-  unique_eager_future<
-    OutputIt
-  , typename thrust::detail::allocator_traits<
-      decltype(get_async_universal_host_pinned_allocator(policy))
-    >::template rebind_traits<OutputIt>::pointer
-  >
+) -> unique_eager_future<void>
 {
-  using T = typename thrust::iterator_traits<ForwardIt>::value_type;
+  using pointer = typename unique_eager_future<void>::pointer;
 
-  auto const uhp_alloc = get_async_universal_host_pinned_allocator(policy);
-
-  using return_type = OutputIt;
-
-  using return_pointer =
-    typename thrust::detail::allocator_traits<decltype(uhp_alloc)>::
-      template rebind_traits<return_type>::pointer;
-
-  unique_eager_future_promise_pair<return_type, return_pointer> fp;
-
-  // Create result storage.
-
-  auto content = allocate_unique<OutputIt>(uhp_alloc, next(output, n));
+  unique_eager_future_promise_pair<void> fp;
 
   // Set up stream with dependencies.
 
@@ -113,13 +95,11 @@ auto async_transform_n(
 
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
-    fp = depend_on<return_type, return_pointer>(
-      [] (decltype(content) const& c)
-      { return c.get(); }
+    fp = depend_on<void, pointer>(
+      nullptr
     , std::tuple_cat(
         std::make_tuple(
-          std::move(content)
-        , unique_stream(nonowning, user_raw_stream)
+          unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
           std::move(thrust::detail::derived_cast(policy))
@@ -129,16 +109,10 @@ auto async_transform_n(
   }
   else
   {
-    fp = depend_on<return_type, return_pointer>(
-      [] (decltype(content) const& c)
-      { return c.get(); }
-    , std::tuple_cat(
-        std::make_tuple(
-          std::move(content)
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
+    fp = depend_on<void, pointer>(
+      nullptr
+    , extract_dependencies(
+        std::move(thrust::detail::derived_cast(policy))
       )
     );
   }

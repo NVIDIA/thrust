@@ -469,12 +469,23 @@ TEST##UnitTest TEST##Instance
   ::VariableUnitTest<TEST, TYPES> NAME##_instance(#NAME)                      \
   /**/
 
+#define DECLARE_GENERIC_UNITTEST_WITH_TYPES(TEST, TYPES)                      \
+  ::SimpleUnitTest<TEST, TYPES> TEST##_instance(#TEST)                        \
+  /**/
+
+#define DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES(TEST, TYPES)                \
+  ::VariableUnitTest<TEST, TYPES> TEST##_instance(#TEST)                      \
+  /**/
+
 template<template <typename> class TestName, typename TypeList>
   class SimpleUnitTest : public UnitTest
 {
   public:
     SimpleUnitTest()
       : UnitTest(base_class_name(unittest::type_name<TestName<int> >()).c_str()) {}
+
+    SimpleUnitTest(const char * name)
+      : UnitTest(name) {}
 
     void run()
     {
@@ -526,6 +537,9 @@ template<template <typename> class TestName,
     : UnitTest((base_class_name(unittest::type_name<TestName< Vector<int, Alloc<int> > > >()) + "<" + 
                 base_class_name(unittest::type_name<Vector<int, Alloc<int> > >()) + ">").c_str())
   { }
+
+  VectorUnitTest(const char * name)
+    : UnitTest(name) {}
 
   void run()
   {

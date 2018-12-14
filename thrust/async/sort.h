@@ -55,9 +55,9 @@ async_stable_sort(
 {
   THRUST_STATIC_ASSERT_MSG(
     (thrust::detail::depend_on_instantiation<ForwardIt, false>::value)
-  , "unimplemented for this system"
+  , "this algorithm is not implemented for the specified system"
   );
-  return future<void, DerivedPolicy>();
+  return {};
 } 
 
 } // namespace unimplemented
@@ -70,12 +70,18 @@ struct stable_sort_fn final
   , typename ForwardIt, typename Sentinel, typename StrictWeakOrdering
   >
   __host__ __device__
-  static future<void, DerivedPolicy>
+  static auto
   call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , StrictWeakOrdering&& comp
-  )
+  ) ->
+    unique_eager_future<
+      void
+    , typename thrust::detail::allocator_traits<
+        decltype(get_async_device_allocator(exec))
+      >::template rebind_traits<void>::pointer
+    >
   {
     // ADL dispatch.
     using thrust::async::unimplemented::async_stable_sort;
@@ -92,11 +98,17 @@ struct stable_sort_fn final
   , typename ForwardIt, typename Sentinel
   >
   __host__ __device__
-  static future<void, DerivedPolicy>
+  static auto
   call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
-  )
+  ) ->
+    unique_eager_future<
+      void
+    , typename thrust::detail::allocator_traits<
+        decltype(get_async_device_allocator(exec))
+      >::template rebind_traits<void>::pointer
+    >
   {
     return call(
       exec

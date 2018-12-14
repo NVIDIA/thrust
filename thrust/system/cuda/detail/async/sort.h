@@ -186,8 +186,6 @@ auto async_stable_sort_n(
     >
   >::type
 {
-  using T = typename thrust::iterator_traits<ForwardIt>::value_type;
-
   auto const device_alloc = get_async_device_allocator(policy);
 
   using pointer
@@ -292,11 +290,11 @@ typename std::enable_if<
 , cudaError_t
 >::type
 invoke_radix_sort(
-  cudaStream_t                           stream
-, void*                                  tmp_ptr
-, std::size_t                            tmp_size
-, thrust::cuda_cub::cub::DoubleBuffer<T> keys
-, Size                                   n
+  cudaStream_t                            stream
+, void*                                   tmp_ptr
+, std::size_t&                            tmp_size
+, thrust::cuda_cub::cub::DoubleBuffer<T>& keys
+, Size&                                   n
 , StrictWeakOrdering
 )
 {
@@ -319,11 +317,11 @@ typename std::enable_if<
 , cudaError_t
 >::type
 invoke_radix_sort(
-  cudaStream_t                           stream
-, void*                                  tmp_ptr
-, std::size_t                            tmp_size
-, thrust::cuda_cub::cub::DoubleBuffer<T> keys
-, Size                                   n
+  cudaStream_t                            stream
+, void*                                   tmp_ptr
+, std::size_t&                            tmp_size
+, thrust::cuda_cub::cub::DoubleBuffer<T>& keys
+, Size&                                   n
 , StrictWeakOrdering
 )
 {

@@ -8,6 +8,12 @@
 #include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 
+enum wait_policy
+{
+  wait_for_futures
+, do_not_wait_for_futures
+};
+
 template <typename T>
 struct custom_greater
 {
@@ -18,71 +24,110 @@ struct custom_greater
   }
 };
 
-template <typename T>
+#define DEFINE_SORT_INVOKER(name, ...)                                        \
+  template <typename T>                                                       \
+  struct name                                                                 \
+  {                                                                           \
+    template <                                                                \
+      typename ForwardIt, typename Sentinel                                   \
+    >                                                                         \
+    __host__                                                                  \
+    static void sync(                                                         \
+      ForwardIt&& first, Sentinel&& last                                      \
+    )                                                                         \
+    {                                                                         \
+      ::thrust::sort(                                                         \
+        THRUST_FWD(first), THRUST_FWD(last)                                   \
+      );                                                                      \
+    }                                                                         \
+                                                                              \
+    template <                                                                \
+      typename ForwardIt, typename Sentinel                                   \
+    >                                                                         \
+    __host__                                                                  \
+    static auto async(                                                        \
+      ForwardIt&& first, Sentinel&& last                                      \
+    )                                                                         \
+    THRUST_DECLTYPE_RETURNS(                                                  \
+      ::thrust::async::sort(                                                  \
+        __VA_ARGS__                                                           \
+        THRUST_PP_COMMA_IF(THRUST_PP_ARITY(__VA_ARGS__))                      \
+        THRUST_FWD(first), THRUST_FWD(last)                                   \
+      )                                                                       \
+    )                                                                         \
+  };                                                                          \
+  /**/
+
+DEFINE_SORT_INVOKER(
+  sort_invoker
+);
+DEFINE_SORT_INVOKER(
+  sort_invoker_device, thrust::device
+);
+
+#define DEFINE_SORT_OP_INVOKER(name, op, ...)                                 \
+  template <typename T>                                                       \
+  struct name                                                                 \
+  {                                                                           \
+    template <                                                                \
+      typename ForwardIt, typename Sentinel                                   \
+    >                                                                         \
+    __host__                                                                  \
+    static void sync(                                                         \
+      ForwardIt&& first, Sentinel&& last                                      \
+    )                                                                         \
+    {                                                                         \
+      ::thrust::sort(                                                         \
+        THRUST_FWD(first), THRUST_FWD(last), op<T>{}                          \
+      );                                                                      \
+    }                                                                         \
+                                                                              \
+    template <                                                                \
+      typename ForwardIt, typename Sentinel                                   \
+    >                                                                         \
+    __host__                                                                  \
+    static auto async(                                                        \
+      ForwardIt&& first, Sentinel&& last                                      \
+    )                                                                         \
+    THRUST_DECLTYPE_RETURNS(                                                  \
+      ::thrust::async::sort(                                                  \
+        __VA_ARGS__                                                           \
+        THRUST_PP_COMMA_IF(THRUST_PP_ARITY(__VA_ARGS__))                      \
+        THRUST_FWD(first), THRUST_FWD(last), op<T>{}                          \
+      )                                                                       \
+    )                                                                         \
+  };                                                                          \
+  /**/
+
+DEFINE_SORT_OP_INVOKER(
+  sort_invoker_less,        thrust::less
+);
+DEFINE_SORT_OP_INVOKER(
+  sort_invoker_less_device, thrust::less, thrust::device 
+);
+
+DEFINE_SORT_OP_INVOKER(
+  sort_invoker_greater,        thrust::greater
+);
+DEFINE_SORT_OP_INVOKER(
+  sort_invoker_greater_device, thrust::greater, thrust::device 
+);
+
+DEFINE_SORT_OP_INVOKER(
+  sort_invoker_custom_greater,        custom_greater
+);
+DEFINE_SORT_OP_INVOKER(
+  sort_invoker_custom_greater_device, custom_greater, thrust::device 
+);
+
+#undef DEFINE_SORT_INVOKER
+#undef DEFINE_SORT_OP_INVOKER
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <template <typename> class SortInvoker, wait_policy WaitPolicy>
 struct test_async_sort
 {
-  __host__
-  void operator()(std::size_t n)
-  {
-    thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
-    thrust::device_vector<T> d0_data(h0_data);
-
-    ASSERT_EQUAL(h0_data, d0_data);
-
-    thrust::sort(
-      h0_data.begin(), h0_data.end()
-    );
-
-    auto f0 = thrust::async::sort(
-      d0_data.begin(), d0_data.end()
-    );
-
-    f0.wait();
-
-    ASSERT_EQUAL(h0_data, d0_data);
-  }
-};
-// TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
-// the list of types it covers.
-VariableUnitTest<
-  test_async_sort
-, NumericTypes
-> test_async_sort_instance;
-
-template <typename T>
-struct test_async_sort_policy
-{
-  __host__
-  void operator()(std::size_t n)
-  {
-    thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
-    thrust::device_vector<T> d0_data(h0_data);
-
-    ASSERT_EQUAL(h0_data, d0_data);
-
-    thrust::sort(
-      h0_data.begin(), h0_data.end()
-    );
-
-    auto f0 = thrust::async::sort(
-      thrust::device, d0_data.begin(), d0_data.end()
-    );
-
-    f0.wait();
-
-    ASSERT_EQUAL(h0_data, d0_data);
-  }
-};
-// TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
-// the list of types it covers.
-VariableUnitTest<
-  test_async_sort_policy
-, NumericTypes
-> test_async_sort_policy_instance;
-
-template <template <typename> class Op>
-struct test_async_sort_op
-{
   template <typename T>
   struct tester
   {
@@ -94,92 +139,182 @@ struct test_async_sort_op
 
       ASSERT_EQUAL(h0_data, d0_data);
 
-      Op<T> op{};
-
-      thrust::sort(
-        h0_data.begin(), h0_data.end(), op
+      SortInvoker<T>::sync(
+        h0_data.begin(), h0_data.end()
       );
 
-      auto f0 = thrust::async::sort(
-        d0_data.begin(), d0_data.end(), op
+      auto f0 = SortInvoker<T>::async(
+        d0_data.begin(), d0_data.end()
       );
 
-      f0.wait();
+      if (wait_for_futures == WaitPolicy)
+      {
+        f0.wait();
 
-      ASSERT_EQUAL(h0_data, d0_data);
+        ASSERT_EQUAL(h0_data, d0_data);
+      }
     }
   };
 };
-// TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
-// the list of types it covers.
-VariableUnitTest<
-  test_async_sort_op<custom_greater>::tester
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker
+    , wait_for_futures
+    >::tester
+  )
 , NumericTypes
-> test_async_sort_op_instance(
-  "test_async_sort_op<custom_greater>"
+, test_async_sort
 );
-VariableUnitTest<
-  test_async_sort_op<thrust::less>::tester
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker
+    , do_not_wait_for_futures
+    >::tester
+  )
 , NumericTypes
-> test_async_sort_less_instance(
-  "test_async_sort_op<thrust::less>"
+, test_async_sort_no_wait
 );
-VariableUnitTest<
-  test_async_sort_op<thrust::greater>::tester
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_device
+    , wait_for_futures
+    >::tester
+  )
 , NumericTypes
-> test_async_sort_greater_instance(
-  "test_async_sort_op<thrust::greater>"
+, test_async_sort_policy
 );
-
-template <template <typename> class Op>
-struct test_async_sort_policy_op
-{
-  template <typename T>
-  struct tester
-  {
-    __host__
-    void operator()(std::size_t n)
-    {
-      thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
-      thrust::device_vector<T> d0_data(h0_data);
-
-      ASSERT_EQUAL(h0_data, d0_data);
-
-      Op<T> op{};
-
-      thrust::sort(
-        h0_data.begin(), h0_data.end(), op
-      );
-
-      auto f0 = thrust::async::sort(
-        thrust::device, d0_data.begin(), d0_data.end(), op
-      );
-
-      f0.wait();
-
-      ASSERT_EQUAL(h0_data, d0_data);
-    }
-  };
-};
-// TODO: Switch to `DECLARE_VARIABLE_UNITTEST` when we add `custom_numeric` to
-// the list of types it covers.
-VariableUnitTest<
-  test_async_sort_policy_op<custom_greater>::tester
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_device
+    , do_not_wait_for_futures
+    >::tester
+  )
 , NumericTypes
-> test_async_sort_policy_op_instance(
-  "test_async_sort_policy_op<custom_greater>"
+, test_async_sort_policy_no_wait
 );
-VariableUnitTest<
-  test_async_sort_policy_op<thrust::less>::tester
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_less
+    , wait_for_futures
+    >::tester
+  )
 , NumericTypes
-> test_async_sort_policy_less_instance(
-  "test_async_sort_policy_op<thrust::less>"
+, test_async_sort_less
 );
-VariableUnitTest<
-  test_async_sort_policy_op<thrust::greater>::tester
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_less
+    , do_not_wait_for_futures
+    >::tester
+  )
 , NumericTypes
-> test_async_sort_policy_greater_instance(
-  "test_async_sort_policy_op<thrust::greater>"
+, test_async_sort_less_no_wait
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_less_device
+    , wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_policy_less
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_less_device
+    , do_not_wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_policy_less_no_wait
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_greater
+    , wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_greater
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_greater
+    , do_not_wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_greater_no_wait
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_greater_device
+    , wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_policy_greater
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_greater_device
+    , do_not_wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_policy_greater_no_wait
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_custom_greater
+    , wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_custom_greater
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_custom_greater
+    , do_not_wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_custom_greater_no_wait
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_custom_greater_device
+    , wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_policy_custom_greater
+);
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  THRUST_PP_EXPAND_ARGS(
+    test_async_sort<
+      sort_invoker_custom_greater_device
+    , do_not_wait_for_futures
+    >::tester
+  )
+, NumericTypes
+, test_async_sort_policy_custom_greater_no_wait
 );
 
 // TODO: Async copy then sort.

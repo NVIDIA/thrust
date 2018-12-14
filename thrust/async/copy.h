@@ -45,22 +45,16 @@ template <
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
 __host__ __device__
-auto async_copy(
+future<void, FromPolicy>
+async_copy(
   thrust::execution_policy<FromPolicy>& from_exec
 , thrust::execution_policy<ToPolicy>&   to_exec
 , ForwardIt first, Sentinel last, OutputIt output
-) ->
-  future<
-    OutputIt
-  , decltype(thrust::detail::select_system(from_exec, to_exec))
-  , typename thrust::detail::pointer_traits<
-      thrust::host_memory_resource::pointer
-    >::template rebind<OutputIt>::other
-  >
+)
 {
   THRUST_STATIC_ASSERT_MSG(
     (thrust::detail::depend_on_instantiation<ForwardIt, false>::value)
-  , "unimplemented for this system"
+  , "this algorithm is not implemented for the specified system"
   );
   return {};
 } 
@@ -69,6 +63,8 @@ auto async_copy(
 
 namespace copy_detail
 {
+
+using thrust::async::unimplemented::async_copy;
 
 struct copy_fn final
 {

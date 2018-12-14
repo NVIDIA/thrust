@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/system/error_code.h>
+
+#include <stdexcept>
 
 THRUST_BEGIN_NS
 
@@ -102,6 +104,41 @@ inline error_condition make_error_condition(future_errc e)
 {
   return error_condition(static_cast<int>(e), future_category());
 } 
+
+struct future_error : std::logic_error
+{
+  __host__
+  explicit future_error(error_code ec)
+    : std::logic_error(ec.message()), ec_(ec)
+  {}
+
+  __host__
+  explicit future_error(future_errc e)
+    : future_error(make_error_code(e))
+  {}
+
+  __host__
+  error_code const& code() const noexcept
+  {
+    return ec_;
+  }
+
+  __host__
+  virtual ~future_error() noexcept {}
+
+private:
+  error_code ec_;
+};
+
+inline bool operator==(future_error const& lhs, future_error const& rhs) noexcept
+{
+  return lhs.code() == rhs.code();
+}
+
+inline bool operator<(future_error const& lhs, future_error const& rhs) noexcept
+{
+  return lhs.code() < rhs.code();
+}
 
 THRUST_END_NS
 

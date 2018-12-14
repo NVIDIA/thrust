@@ -54,9 +54,9 @@ async_reduce(
 {
   THRUST_STATIC_ASSERT_MSG(
     (thrust::detail::depend_on_instantiation<ForwardIt, false>::value)
-  , "unimplemented for this system"
+  , "this algorithm is not implemented for the specified system"
   );
-  return future<T, DerivedPolicy>();
+  return {};
 } 
 
 } // namespace unimplemented

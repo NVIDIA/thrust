@@ -20,11 +20,31 @@
 
 #define ASSERT_EQUAL_RANGES(X,Y,Z)  unittest::assert_equal((X),(Y),(Z), __FILE__,  __LINE__)
 
-#define ASSERT_THROWS(X,Y)                                                         \
-    {   bool thrown = false; try { X; } catch (Y &) { thrown = true; }                  \
-        if (!thrown) { unittest::UnitTestFailure f; f << "[" << __FILE__ << ":" << __LINE__ << "] did not throw " << #Y; throw f; } \
-    }
+#define ASSERT_THROWS(expr, exception_type)                                   \
+  {                                                                           \
+    unittest::threw_status s = unittest::did_not_throw;                       \
+    try { expr; }                                                             \
+    catch (exception_type const&) { s = unittest::threw_right_type; }         \
+    catch (...)                   { s = unittest::threw_wrong_type; }         \
+    unittest::check_assert_throws(s, #exception_type, __FILE__, __LINE__);    \
+  }                                                                           \
+  /**/
 
+#define ASSERT_THROWS_EQUAL(expr, exception_type, value)                      \
+  {                                                                           \
+    unittest::threw_status s = unittest::did_not_throw;                       \
+    try { expr; }                                                             \
+    catch (exception_type const& e)                                           \
+    {                                                                         \
+      if (value == e)                                                         \
+        s = unittest::threw_right_type;                                       \
+      else                                                                    \
+        s = unittest::threw_right_type_but_wrong_value;                       \
+    }                                                                         \
+    catch (...) { s = unittest::threw_wrong_type; }                           \
+    unittest::check_assert_throws(s, #exception_type, __FILE__, __LINE__);    \
+  }                                                                           \
+  /**/
 
 namespace unittest
 {
@@ -437,6 +457,55 @@ void assert_almost_equal(const thrust::device_vector<T,Alloc1>& A, const thrust:
     thrust::host_vector<T> A_host = A;
     thrust::host_vector<T> B_host = B;
     assert_almost_equal(A_host, B_host, filename, lineno, a_tol, r_tol);
+}
+
+enum threw_status
+{
+  did_not_throw
+, threw_wrong_type
+, threw_right_type_but_wrong_value
+, threw_right_type
+};
+
+void check_assert_throws(
+  threw_status s
+, std::string const& exception_name
+, std::string const& file_name = "unknown"
+, int line_number = -1
+)
+{
+  switch (s)
+  {
+    case did_not_throw:
+    {
+      unittest::UnitTestFailure f;
+      f << "[" << file_name << ":" << line_number << "] did not throw anything";
+      throw f;
+    }
+    case threw_wrong_type:
+    {
+      unittest::UnitTestFailure f;
+      f << "[" << file_name << ":" << line_number << "] did not throw an "
+        << "object of type " << exception_name;
+      throw f;
+    }
+    case threw_right_type_but_wrong_value:
+    {
+      unittest::UnitTestFailure f;
+      f << "[" << file_name << ":" << line_number << "] threw an object of the "
+        << "correct type (" << exception_name << ") but wrong value";
+      throw f;
+    }
+    case threw_right_type:
+      break;
+    default:
+    {
+      unittest::UnitTestFailure f;
+      f << "[" << file_name << ":" << line_number << "] encountered an "
+        << "unknown error";
+      throw f;
+    }
+  }
 }
 
 }; //end namespace unittest

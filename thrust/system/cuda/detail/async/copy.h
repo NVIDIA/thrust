@@ -76,32 +76,26 @@ auto async_copy_n(
   typename std::enable_if<
     is_indirectly_trivially_relocatable_to<ForwardIt, OutputIt>::value
   , unique_eager_future<
-      OutputIt
+      void
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(
+        decltype(get_async_device_allocator(
           select_device_system(from_exec, to_exec)
         ))
-      >::template rebind_traits<OutputIt>::pointer
+      >::template rebind_traits<void>::pointer
     >
   >::type
 {
   using T = typename thrust::iterator_traits<ForwardIt>::value_type;
 
-  auto const uhp_alloc = get_async_universal_host_pinned_allocator(
+  auto const device_alloc = get_async_device_allocator(
     select_device_system(from_exec, to_exec)
   );
 
-  using return_type = OutputIt;
+  using pointer
+    = typename thrust::detail::allocator_traits<decltype(device_alloc)>::
+      template rebind_traits<void>::pointer;
 
-  using return_pointer =
-    typename thrust::detail::allocator_traits<decltype(uhp_alloc)>::
-      template rebind_traits<return_type>::pointer;
-
-  unique_eager_future_promise_pair<return_type, return_pointer> fp;
-
-  // Create result storage.
-
-  auto content = allocate_unique<OutputIt>(uhp_alloc, next(output, n));
+  unique_eager_future_promise_pair<void, pointer> fp;
 
   // Set up stream with dependencies.
 
@@ -111,13 +105,11 @@ auto async_copy_n(
 
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
-    fp = depend_on<return_type, return_pointer>(
-      [] (decltype(content) const& c)
-      { return c.get(); }
+    fp = depend_on<void, pointer>(
+      nullptr
     , std::tuple_cat(
         std::make_tuple(
-          std::move(content)
-        , unique_stream(nonowning, user_raw_stream)
+          unique_stream(nonowning, user_raw_stream)
         )
       , extract_dependencies(
           std::move(thrust::detail::derived_cast(from_exec))
@@ -130,14 +122,10 @@ auto async_copy_n(
   }
   else
   {
-    fp = depend_on<return_type, return_pointer>(
-      [] (decltype(content) const& c)
-      { return c.get(); }
+    fp = depend_on<void, pointer>(
+      nullptr
     , std::tuple_cat(
-        std::make_tuple(
-          std::move(content)
-        )
-      , extract_dependencies(
+        extract_dependencies(
           std::move(thrust::detail::derived_cast(from_exec))
         )
       , extract_dependencies(
@@ -185,12 +173,12 @@ auto async_copy_n(
     , decltype(is_device_to_device_copy(from_exec, to_exec))
     >::value
   , unique_eager_future<
-      OutputIt
+      void
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(
+        decltype(get_async_device_allocator(
           select_device_system(from_exec, to_exec)
         ))
-      >::template rebind_traits<OutputIt>::pointer
+      >::template rebind_traits<void>::pointer
     >
   >::type
 {
@@ -241,12 +229,12 @@ auto async_copy_n(
       >
     >::value
   , unique_eager_future<
-      OutputIt
+      void
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(
+        decltype(get_async_device_allocator(
           select_device_system(from_exec, to_exec)
         ))
-      >::template rebind_traits<OutputIt>::pointer
+      >::template rebind_traits<void>::pointer
     >
   >::type
 {
@@ -303,12 +291,12 @@ auto async_copy_n(
     , ForwardIt, OutputIt
     >::value
   , unique_eager_future<
-      OutputIt
+      void
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(
-          to_exec
+        decltype(get_async_device_allocator(
+          select_device_system(from_exec, to_exec)
         ))
-      >::template rebind_traits<OutputIt>::pointer
+      >::template rebind_traits<void>::pointer
     >
   >::type
 {
@@ -407,12 +395,12 @@ auto async_copy_n(
     , ForwardIt, OutputIt
     >::value
   , unique_eager_future<
-      OutputIt
+      void
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(
-          from_exec
+        decltype(get_async_device_allocator(
+          select_device_system(from_exec, to_exec)
         ))
-      >::template rebind_traits<OutputIt>::pointer
+      >::template rebind_traits<void>::pointer
     >
   >::type
 {
@@ -497,12 +485,12 @@ auto async_copy_n(
       >
     >::value
   , unique_eager_future<
-      OutputIt
+      void
     , typename thrust::detail::allocator_traits<
-        decltype(get_async_universal_host_pinned_allocator(
+        decltype(get_async_device_allocator(
           select_device_system(from_exec, to_exec)
         ))
-      >::template rebind_traits<OutputIt>::pointer
+      >::template rebind_traits<void>::pointer
     >
   >::type
 {

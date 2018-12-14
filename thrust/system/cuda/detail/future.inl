@@ -581,6 +581,7 @@ private:
 
 public:
   template <typename U>
+  __host__ __device__
   explicit ready_future(U&& u)
     : value_(THRUST_FWD(u))
   {}
@@ -590,13 +591,19 @@ public:
   ready_future& operator=(ready_future&&) = default;
   ready_future& operator=(ready_future const&) = default;
 
-  __host__
+  __host__ __device__
+  static constexpr bool valid() noexcept { return true; }
+
+  __host__ __device__
+  static constexpr bool ready() noexcept { return true; }
+
+  __host__ __device__
   const_pointer data() const
   {
-    return std::addressof(value_);
+    return addressof(value_);
   }
 
-  __host__
+  __host__ __device__
   T get() &&
   {
     return std::move(value_);
@@ -604,7 +611,20 @@ public:
 };
 
 template <>
-struct ready_future<void> final {};
+struct ready_future<void> final
+{
+  ready_future() = default;
+
+  template <typename U>
+  __host__ __device__
+  explicit ready_future(ready_future<U>) {}
+
+  __host__ __device__
+  static constexpr bool valid() noexcept { return true; }
+
+  __host__ __device__
+  static constexpr bool ready() noexcept { return true; }
+};
 
 template <typename T, typename Pointer>
 struct unique_eager_future final
@@ -643,6 +663,14 @@ public:
     : device_(0), async_value_()
   {}
 
+  __host__
+  ~unique_eager_future()
+  {
+    // FIXME: If we could asynchronously handle destruction of keep alives, we
+    // could avoid doing this.
+    if (valid()) wait();
+  }
+
   unique_eager_future(unique_eager_future&&) = default;
   unique_eager_future(unique_eager_future const&) = delete;
   unique_eager_future& operator=(unique_eager_future&&) = default;
@@ -651,12 +679,21 @@ public:
   __host__
   bool valid() const noexcept { return bool(async_value_); }
 
+  __host__
+  bool ready() const noexcept
+  {
+    if (async_value_)
+      return stream().ready();
+    else
+      return false;
+  }
+
   // Precondition: `true == valid()`.
   __host__
   detail::unique_stream& stream()
   {
     if (!valid())
-      throw thrust::system_error(future_errc::no_state, future_category());
+      throw thrust::future_error(future_errc::no_state);
 
     return async_value_->stream();
   }
@@ -738,6 +775,14 @@ public:
   unique_eager_future& operator=(unique_eager_future&&) = default;
   unique_eager_future& operator=(unique_eager_future const&) = delete;
 
+  __host__
+  ~unique_eager_future()
+  {
+    // FIXME: If we could asynchronously handle destruction of keep alives, we
+    // could avoid doing this.
+    if (valid()) wait();
+  }
+
   // Any `unique_eager_future<T>` can be explicitly converted to a
   // `unique_eager_future<void>`.
   template <typename U, typename UPointer>
@@ -750,12 +795,21 @@ public:
   __host__
   bool valid() const noexcept { return bool(async_value_); }
 
+  __host__
+  bool ready() const noexcept
+  {
+    if (async_value_)
+      return stream().ready();
+    else
+      return false;
+  }
+
   // Precondition: `true == valid()`.
   __host__
   detail::unique_stream& stream()
   {
     if (!valid())
-      throw thrust::system_error(future_errc::no_state, future_category());
+      throw thrust::future_error(future_errc::no_state);
 
     return async_value_->stream();
   }
