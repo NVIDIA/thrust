@@ -61,6 +61,11 @@ async_reduce(
 
 } // namespace unimplemented
 
+namespace reduce_detail
+{
+
+using thrust::async::unimplemented::async_reduce;
+
 struct reduce_fn final
 {
   __thrust_exec_check_disable__
@@ -69,23 +74,21 @@ struct reduce_fn final
   , typename ForwardIt, typename Sentinel, typename T, typename BinaryOp
   >
   __host__ __device__
-  static future<remove_cvref_t<T>, DerivedPolicy>
-  call(
+  static auto call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , T&& init
   , BinaryOp&& op
   )
-  {
-    // ADL dispatch.
-    using thrust::async::unimplemented::async_reduce;
-    return async_reduce(
+  // ADL dispatch.
+  THRUST_DECLTYPE_RETURNS(
+    async_reduce(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(init)
     , THRUST_FWD(op)
-    );
-  } 
+    )
+  )
 
   __thrust_exec_check_disable__
   template <
@@ -93,19 +96,20 @@ struct reduce_fn final
   , typename ForwardIt, typename Sentinel, typename T
   >
   __host__ __device__
-  static future<remove_cvref_t<T>, DerivedPolicy> call(
+  static auto call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , T&& init
   )
-  {
-    return call(
-      exec
+  // ADL dispatch.
+  THRUST_DECLTYPE_RETURNS(
+    async_reduce(
+      thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(init)
     , thrust::plus<remove_cvref_t<T>>{}
-    );
-  }
+    )
+  )
 
   __thrust_exec_check_disable__
   template <
@@ -113,20 +117,24 @@ struct reduce_fn final
   , typename ForwardIt, typename Sentinel
   >
   __host__ __device__
-  static future<
-    typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type, DerivedPolicy
-  >
+  static auto
   call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   )
-  {
-    return call(
-      exec
+  // ADL dispatch.
+  THRUST_DECLTYPE_RETURNS(
+    async_reduce(
+      thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
     , typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type{}
-    );
-  }
+    , thrust::plus<
+        remove_cvref_t<
+          typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type
+        >
+      >{}
+    )
+  )
 
   __thrust_exec_check_disable__
   template <typename ForwardIt, typename Sentinel, typename T, typename BinaryOp>
@@ -134,7 +142,7 @@ struct reduce_fn final
   static auto call(ForwardIt&& first, Sentinel&& last, T&& init, BinaryOp&& op)
   THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(
     (negation<is_execution_policy<remove_cvref_t<ForwardIt>>>::value)
-  , call(
+  , reduce_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
       )
@@ -150,8 +158,11 @@ struct reduce_fn final
   static auto call(ForwardIt&& first, Sentinel&& last, T&& init)
   THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(
     (negation<is_execution_policy<remove_cvref_t<ForwardIt>>>::value)
-  , call(
-      THRUST_FWD(first), THRUST_FWD(last)
+  , reduce_fn::call(
+      thrust::detail::select_system(
+        typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
+      )
+    , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(init)
     , thrust::plus<remove_cvref_t<T>>{}
     )
@@ -161,10 +172,19 @@ struct reduce_fn final
   template <typename ForwardIt, typename Sentinel>
   __host__ __device__
   static auto call(ForwardIt&& first, Sentinel&& last)
-  THRUST_DECLTYPE_RETURNS(
-    call(
-      THRUST_FWD(first), THRUST_FWD(last)
+  THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(
+    (negation<is_execution_policy<remove_cvref_t<ForwardIt>>>::value)
+  , reduce_fn::call(
+      thrust::detail::select_system(
+        typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
+      )
+    , THRUST_FWD(first), THRUST_FWD(last)
     , typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type{}
+    , thrust::plus<
+        remove_cvref_t<
+          typename iterator_traits<remove_cvref_t<ForwardIt>>::value_type
+        >
+      >{}
     )
   )
 
@@ -175,7 +195,9 @@ struct reduce_fn final
   )
 };
 
-THRUST_INLINE_CONSTANT reduce_fn reduce{};
+} // namespace reduce_detail
+
+THRUST_INLINE_CONSTANT reduce_detail::reduce_fn reduce{};
 
 } // namespace async
 

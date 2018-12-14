@@ -86,6 +86,10 @@ template <
 >
   using device_future = device_unique_eager_future<T, Pointer>;
 
+struct new_stream_t final {};
+
+THRUST_INLINE_CONSTANT new_stream_t new_stream{};
+
 THRUST_END_NS
 
 // #include the device system's future.h header.

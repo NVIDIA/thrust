@@ -57,9 +57,14 @@ async_transform(
   , "this algorithm is not implemented for the specified system"
   );
   return {};
-} 
+}
 
 } // namespace unimplemented
+
+namespace transform_detail
+{
+
+using thrust::async::unimplemented::async_transform;
 
 struct transform_fn final
 {
@@ -70,23 +75,22 @@ struct transform_fn final
   , typename UnaryOperation
   >
   __host__ __device__
-  static future<void, DerivedPolicy>
+  static auto
   call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
-  , OutputIt&& output 
+  , OutputIt&& output
   , UnaryOperation&& op
   )
-  {
-    // ADL dispatch.
-    using thrust::async::unimplemented::async_transform;
-    return async_transform(
+  // ADL dispatch.
+  THRUST_DECLTYPE_RETURNS(
+    async_transform(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(output)
     , THRUST_FWD(op)
-    );
-  } 
+    )
+  )
 
   __thrust_exec_check_disable__
   template <
@@ -98,7 +102,7 @@ struct transform_fn final
     ForwardIt&& first, Sentinel&& last
   , OutputIt&& output
   , UnaryOperation&& op
-  ) 
+  )
   THRUST_DECLTYPE_RETURNS(
     transform_fn::call(
       thrust::detail::select_system(
@@ -119,7 +123,9 @@ struct transform_fn final
   )
 };
 
-THRUST_INLINE_CONSTANT transform_fn transform{};
+} // namespace tranform_detail
+
+THRUST_INLINE_CONSTANT transform_detail::transform_fn transform{};
 
 } // namespace async
 

@@ -20,7 +20,7 @@
 #include <thrust/detail/type_deduction.h>
 #include <thrust/type_traits/integer_sequence.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
-#include <thrust/tuple_algorithms.h>
+#include <thrust/detail/tuple_algorithms.h>
 #include <thrust/allocate_unique.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/execute_with_dependencies.h>
@@ -35,6 +35,9 @@
 
 THRUST_BEGIN_NS
 
+// Forward declaration.
+struct new_stream_t;
+
 namespace system { namespace cuda { namespace detail
 {
 
@@ -42,7 +45,7 @@ namespace system { namespace cuda { namespace detail
 
 struct nonowning_t final {};
 
-constexpr nonowning_t nonowning{};
+THRUST_INLINE_CONSTANT nonowning_t nonowning{};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -149,7 +152,7 @@ struct stream_deleter final
 struct stream_conditional_deleter final
 {
 private:
-  bool const cond_ = true;
+  bool const cond_;
 
 public:
   __host__
@@ -157,7 +160,7 @@ public:
     : cond_(true) {}
 
   __host__
-  constexpr stream_conditional_deleter(nonowning_t) noexcept
+  explicit constexpr stream_conditional_deleter(nonowning_t) noexcept
     : cond_(false) {}
 
   __host__
@@ -196,7 +199,7 @@ public:
   /// \brief Construct a non-owning handle to an existing stream. When the
   ///        handle is destroyed, the stream is not destroyed.
   __host__
-  unique_stream(nonowning_t, native_handle_type handle)
+  explicit unique_stream(nonowning_t, native_handle_type handle)
     : handle_(handle, stream_conditional_deleter(nonowning))
   {}
 
@@ -361,7 +364,7 @@ protected:
 public:
   // Constructs an `async_value_base` which uses `stream`.
   __host__
-  async_value_base(unique_stream stream)
+  explicit async_value_base(unique_stream stream)
     : stream_(std::move(stream))
   {}
 
@@ -395,7 +398,7 @@ protected:
 public:
   // Constructs an `async_value` which uses `stream`.
   __host__
-  async_value(unique_stream stream)
+  explicit async_value(unique_stream stream)
     : async_value_base(std::move(stream)), content_{}
   {}
 
@@ -420,7 +423,9 @@ struct async_value<void, Pointer> : async_value_base
 
   // Constructs an `async_value<void>` which uses `stream`.
   __host__
-  async_value(unique_stream stream) : async_value_base(std::move(stream)) {}
+  explicit async_value(unique_stream stream)
+    : async_value_base(std::move(stream))
+  {}
 
   __host__
   virtual ~async_value() {}
@@ -450,7 +455,7 @@ public:
   // `ComputeContent` on the first element of `keep_alives_`.
   template <typename ComputeContent>
   __host__
-  async_value_with_keep_alives(
+  explicit async_value_with_keep_alives(
     unique_stream stream, ComputeContent&& cc, keep_alives_type&& keep_alives
   )
     : async_value<T, Pointer>(std::move(stream))
@@ -476,8 +481,11 @@ public:
   // Constructs an `async_value_with_keep_alives` which uses `stream` and keeps
   // the objects in the tuple `keep_alives` alive until the asynchronous value
   // is destroyed.
+  // FIXME: The `nullptr_t` parameter should perhaps just be a callable that is
+  // not used. The reason it's not now is to avoid accidentally passing a
+  // meaningful content callable to a `future<void>`.
   __host__
-  async_value_with_keep_alives(
+  explicit async_value_with_keep_alives(
     unique_stream stream, std::nullptr_t, keep_alives_type&& keep_alives
   )
     : async_value<void, Pointer>(std::move(stream))
@@ -497,7 +505,7 @@ private:
   pointer content_;
 
   __host__
-  weak_promise(async_value<T, Pointer>* av)
+  explicit weak_promise(async_value<T, Pointer>* av)
     : content_(av->data())
   {}
 
@@ -540,7 +548,7 @@ struct weak_promise<void, Pointer> final
 
 private:
   __host__ __device__
-  weak_promise(async_value<void, Pointer>*) {}
+  explicit weak_promise(async_value<void, Pointer>*) {}
 
 public:
   __host__ __device__
@@ -604,7 +612,7 @@ public:
   }
 
   __host__ __device__
-  T get() &&
+  T get()
   {
     return std::move(value_);
   }
@@ -637,7 +645,7 @@ private:
   std::unique_ptr<detail::async_value_base> async_value_;
 
   __host__
-  unique_eager_future(
+  explicit unique_eager_future(
     int device, std::unique_ptr<detail::async_value<T, Pointer>> av
   )
     // NOTE: We upcast to `unique_ptr<async_value_base>` here.
@@ -664,17 +672,27 @@ public:
   {}
 
   __host__
-  ~unique_eager_future()
+  explicit unique_eager_future(new_stream_t)
+    : device_(0)
+    , async_value_(
+        new detail::async_value<T, Pointer>(detail::unique_stream{})
+      )
   {
-    // FIXME: If we could asynchronously handle destruction of keep alives, we
-    // could avoid doing this.
-    if (valid()) wait();
+    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
   }
 
   unique_eager_future(unique_eager_future&&) = default;
   unique_eager_future(unique_eager_future const&) = delete;
   unique_eager_future& operator=(unique_eager_future&&) = default;
   unique_eager_future& operator=(unique_eager_future const&) = delete;
+
+  __host__
+  ~unique_eager_future()
+  {
+    // FIXME: If we could asynchronously handle destruction of keep alives, we
+    // could avoid doing this.
+    if (valid()) wait();
+  }
 
   __host__
   bool valid() const noexcept { return bool(async_value_); }
@@ -717,7 +735,14 @@ public:
   }
 
   __host__
-  T get() &&
+  T get()
+  {
+    stream().wait();
+    return *(downcast()->data());
+  }
+
+  __host__
+  T consume()
   {
     stream().wait();
     return std::move(*(downcast()->data()));
@@ -757,7 +782,7 @@ private:
   std::unique_ptr<detail::async_value_base> async_value_;
 
   __host__
-  unique_eager_future(
+  explicit unique_eager_future(
     int device, std::unique_ptr<detail::async_value<void, Pointer>> av
   )
     // NOTE: We upcast to `unique_ptr<async_value_base>` here.
@@ -769,6 +794,16 @@ public:
   unique_eager_future()
     : device_(0), async_value_()
   {}
+
+  __host__
+  explicit unique_eager_future(new_stream_t)
+    : device_(0)
+    , async_value_(
+        new detail::async_value<void, Pointer>(detail::unique_stream{})
+      )
+  {
+    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
+  }
 
   unique_eager_future(unique_eager_future&&) = default;
   unique_eager_future(unique_eager_future const&) = delete;
@@ -819,11 +854,6 @@ public:
 
   __host__
   void wait()
-  {
-    stream().wait();
-  }
-
-  void get() &&
   {
     stream().wait();
   }
@@ -899,7 +929,7 @@ acquired_stream acquire_stream_impl(
 {
   // We tried to take a stream from all of our dependencies and failed every
   // time, so we need to make a new stream.
-  return {unique_stream(), {}};
+  return {unique_stream{}, {}};
 }
 
 template <typename... Dependencies, std::size_t I0, std::size_t... Is>
@@ -1144,6 +1174,11 @@ depend_on(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
 } // namespace detail
 
 ///////////////////////////////////////////////////////////////////////////////
+
+// ADL hook for transparent `.after` move support.
+template <typename X, typename XPointer>
+auto capture_as_dependency(unique_eager_future<X, XPointer>& dependency)
+THRUST_DECLTYPE_RETURNS(std::move(dependency))
 
 }} // namespace system::cuda
 

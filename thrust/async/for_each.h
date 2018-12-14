@@ -59,6 +59,11 @@ async_for_each(
 
 } // namespace unimplemented
 
+namespace for_each_detail
+{
+    
+using thrust::async::unimplemented::async_for_each;
+
 struct for_each_fn final
 {
   __thrust_exec_check_disable__
@@ -67,21 +72,19 @@ struct for_each_fn final
   , typename ForwardIt, typename Sentinel, typename UnaryFunction
   >
   __host__ __device__
-  static future<void, DerivedPolicy>
-  call(
+  static auto call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
   , UnaryFunction&& f 
   )
-  {
-    // ADL dispatch.
-    using thrust::async::unimplemented::async_for_each;
-    return async_for_each(
+  // ADL dispatch.
+  THRUST_DECLTYPE_RETURNS(
+    async_for_each(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(f)
-    );
-  } 
+    )
+  )
 
   __thrust_exec_check_disable__
   template <typename ForwardIt, typename Sentinel, typename UnaryFunction>
@@ -104,7 +107,9 @@ struct for_each_fn final
   )
 };
 
-THRUST_INLINE_CONSTANT for_each_fn for_each{};
+} // namespace for_each_detail
+
+THRUST_INLINE_CONSTANT for_each_detail::for_each_fn for_each{};
 
 } // namespace async
 

@@ -3,6 +3,9 @@
 //
 // Distributed under the Boost Software License v1.0 (boost.org/LICENSE_1_0.txt)
 
+// TODO: These need to be turned into proper Thrust algorithms (dispatch layer,
+// backends, etc).
+
 #pragma once
 
 #include <thrust/detail/type_traits.h>

@@ -101,11 +101,44 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
 template<typename Element, typename Tag, typename Reference, typename Derived,
          typename charT, typename traits>
+__host__
 std::basic_ostream<charT, traits> &
 operator<<(std::basic_ostream<charT, traits> &os,
            const pointer<Element, Tag, Reference, Derived> &p) {
   return os << p.get();
 }
+
+#if THRUST_CPP_DIALECT >= 2011
+// NOTE: These are needed so that Thrust smart pointers work with
+// `std::unique_ptr`.
+template <typename Element, typename Tag, typename Reference, typename Derived>
+__host__ __device__
+bool operator==(decltype(nullptr), pointer<Element, Tag, Reference, Derived> p)
+{
+  return nullptr == p.get();
+}
+
+template <typename Element, typename Tag, typename Reference, typename Derived>
+__host__ __device__
+bool operator==(pointer<Element, Tag, Reference, Derived> p, decltype(nullptr))
+{
+  return nullptr == p.get();
+}
+
+template <typename Element, typename Tag, typename Reference, typename Derived>
+__host__ __device__
+bool operator!=(decltype(nullptr), pointer<Element, Tag, Reference, Derived> p)
+{
+  return !(nullptr == p);
+}
+
+template <typename Element, typename Tag, typename Reference, typename Derived>
+__host__ __device__
+bool operator!=(pointer<Element, Tag, Reference, Derived> p, decltype(nullptr))
+{
+  return !(nullptr == p);
+}
+#endif
 
 namespace detail
 {

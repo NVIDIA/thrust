@@ -12,7 +12,7 @@
 
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/detail/type_deduction.h>
-#include <thrust/memory_algorithms.h>
+#include <thrust/detail/memory_algorithms.h>
 #include <thrust/detail/allocator/allocator_traits.h>
 
 #include <utility>

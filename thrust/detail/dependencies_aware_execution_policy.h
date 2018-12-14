@@ -31,6 +31,24 @@ namespace thrust
 namespace detail
 {
 
+struct capture_as_dependency_fn
+{
+    template<typename Dependency>
+    auto operator()(Dependency&& dependency) const
+    THRUST_DECLTYPE_RETURNS(capture_as_dependency(THRUST_FWD(dependency)))
+};
+
+// Default implementation: universal forwarding.
+template<typename Dependency>
+auto capture_as_dependency(Dependency&& dependency)
+THRUST_DECLTYPE_RETURNS(THRUST_FWD(dependency))
+
+template<typename... Dependencies>
+auto capture_as_dependency(std::tuple<Dependencies...>& dependencies)
+THRUST_DECLTYPE_RETURNS(
+    tuple_for_each(THRUST_FWD(dependencies), capture_as_dependency_fn{})
+)
+
 template<template<typename> class ExecutionPolicyCRTPBase>
 struct dependencies_aware_execution_policy
 {
@@ -45,15 +63,22 @@ struct dependencies_aware_execution_policy
     execute_with_dependencies_type<Dependencies...>
     after(Dependencies&& ...dependencies) const
     {
-        return { THRUST_FWD(dependencies)... };
+        return { capture_as_dependency(THRUST_FWD(dependencies))... };
     }
 
     template<typename ...Dependencies>
     __host__
     execute_with_dependencies_type<Dependencies...>
+    after(std::tuple<Dependencies...>& dependencies) const
+    {
+        return { capture_as_dependency(dependencies) };
+    }
+    template<typename ...Dependencies>
+    __host__
+    execute_with_dependencies_type<Dependencies...>
     after(std::tuple<Dependencies...>&& dependencies) const
     {
-        return { std::move(dependencies) };
+        return { capture_as_dependency(std::move(dependencies)) };
     }
 };
 

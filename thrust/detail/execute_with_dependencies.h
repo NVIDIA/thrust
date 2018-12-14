@@ -22,6 +22,7 @@
 #if THRUST_CPP_DIALECT >= 2011
 
 #include <thrust/detail/type_deduction.h>
+#include <thrust/type_traits/remove_cvref.h>
 
 #include <tuple>
 #include <type_traits>
@@ -38,7 +39,7 @@ struct execute_with_dependencies
 private:
     using super_t = BaseSystem<execute_with_dependencies<BaseSystem, Dependencies...>>;
 
-    std::tuple<Dependencies...> dependencies;
+    std::tuple<remove_cvref_t<Dependencies>...> dependencies;
 
 public:
     __host__
@@ -75,9 +76,9 @@ public:
     {
     }
 
-    std::tuple<Dependencies...>
+    std::tuple<remove_cvref_t<Dependencies>...>
     __host__
-    extract_dependencies() &&
+    extract_dependencies() 
     {
         return std::move(dependencies);
     }
@@ -138,9 +139,9 @@ public:
     {
     }
 
-    std::tuple<Dependencies...>
+    std::tuple<remove_cvref_t<Dependencies>...>
     __host__
-    extract_dependencies() &&
+    extract_dependencies() 
     {
         return std::move(dependencies);
     }
@@ -155,16 +156,30 @@ public:
 
 template<template<typename> class BaseSystem, typename ...Dependencies>
 __host__
-std::tuple<Dependencies...>
+std::tuple<remove_cvref_t<Dependencies>...>
 extract_dependencies(thrust::detail::execute_with_dependencies<BaseSystem, Dependencies...>&& system)
+{
+    return std::move(system).extract_dependencies();
+}
+template<template<typename> class BaseSystem, typename ...Dependencies>
+__host__
+std::tuple<remove_cvref_t<Dependencies>...>
+extract_dependencies(thrust::detail::execute_with_dependencies<BaseSystem, Dependencies...>& system)
 {
     return std::move(system).extract_dependencies();
 }
 
 template<typename Allocator, template<typename> class BaseSystem, typename ...Dependencies>
 __host__
-std::tuple<Dependencies...>
+std::tuple<remove_cvref_t<Dependencies>...>
 extract_dependencies(thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>&& system)
+{
+    return std::move(system).extract_dependencies();
+}
+template<typename Allocator, template<typename> class BaseSystem, typename ...Dependencies>
+__host__
+std::tuple<remove_cvref_t<Dependencies>...>
+extract_dependencies(thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system)
 {
     return std::move(system).extract_dependencies();
 }
@@ -173,6 +188,13 @@ template<typename System>
 __host__
 std::tuple<>
 extract_dependencies(System &&)
+{
+    return std::tuple<>{};
+}
+template<typename System>
+__host__
+std::tuple<>
+extract_dependencies(System &)
 {
     return std::tuple<>{};
 }
