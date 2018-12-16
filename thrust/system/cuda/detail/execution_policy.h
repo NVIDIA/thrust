@@ -50,7 +50,9 @@ struct execution_policy;
 
 template <>
 struct execution_policy<tag> : thrust::execution_policy<tag>
-{};
+{
+  typedef tag tag_type; 
+};
 
 struct tag : execution_policy<tag>
 , thrust::detail::allocator_aware_execution_policy<cuda_cub::execution_policy>

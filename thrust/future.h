@@ -15,7 +15,7 @@
  */
 
 /*! \file thrust/future.h
- *  \brief Thrust's asynchronous handle.
+ *  \brief `thrust::future`, an asynchronous value type.
  */
 
 #pragma once
@@ -26,81 +26,152 @@
 #if THRUST_CPP_DIALECT >= 2011
 
 #include <thrust/execution_policy.h>
+#include <thrust/detail/static_assert.h>
+
+#include <utility>
+
+/*
+// #include the host system's pointer.h header.
+#define __THRUST_HOST_SYSTEM_POINTER_HEADER <__THRUST_HOST_SYSTEM_ROOT/pointer.h>
+  #include __THRUST_HOST_SYSTEM_POINTER_HEADER
+#undef __THRUST_HOST_SYSTEM_POINTER_HEADER
+*/
 
 // #include the device system's pointer.h header.
 #define __THRUST_DEVICE_SYSTEM_POINTER_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/pointer.h>
   #include __THRUST_DEVICE_SYSTEM_POINTER_HEADER
 #undef __THRUST_DEVICE_SYSTEM_POINTER_HEADER
 
-//// #include the host system's pointer.h header.
-//#define __THRUST_HOST_SYSTEM_POINTER_HEADER <__THRUST_HOST_SYSTEM_ROOT/pointer.h>
-//  #include __THRUST_HOST_SYSTEM_POINTER_HEADER
-//#undef __THRUST_HOST_SYSTEM_POINTER_HEADER
-
-THRUST_BEGIN_NS
-
-// Fallback.
-template <typename T, typename Pointer>
-void unique_eager_future_type(...);
-
-template <
-  typename T
-, typename System = thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag
-, typename Pointer = thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::pointer<T>
->
-  using unique_eager_future = decltype(unique_eager_future_type<T, Pointer>(
-    std::declval<System>()
-  ));
-template <
-  typename T
-, typename System = thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag
-, typename Pointer = thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::pointer<T>
->
-  using future = unique_eager_future<T, System, Pointer>;
-
-//template <
-//  typename T
-//, typename Pointer = thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::pointer<T>
-//>
-//  using host_unique_eager_future
-//    = decltype(unique_eager_future_type<T, Pointer>(
-//        std::declval<thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag>()
-//      ));
-//template <
-//  typename T
-//, typename Pointer = thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::pointer<T>
-//>
-//  using host_future = host_unique_eager_future<T>;
-
-template <
-  typename T
-, typename Pointer = thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::pointer<T>
->
-  using device_unique_eager_future
-    = decltype(unique_eager_future_type<T, Pointer>(
-        std::declval<thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag>()
-      ));
-template <
-  typename T
-, typename Pointer = thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::pointer<T>
->
-  using device_future = device_unique_eager_future<T, Pointer>;
-
-struct new_stream_t final {};
-
-THRUST_INLINE_CONSTANT new_stream_t new_stream{};
-
-THRUST_END_NS
+/*
+// #include the host system's future.h header.
+#define __THRUST_HOST_SYSTEM_FUTURE_HEADER <__THRUST_HOST_SYSTEM_ROOT/future.h>
+  #include __THRUST_HOST_SYSTEM_FUTURE_HEADER
+#undef __THRUST_HOST_SYSTEM_FUTURE_HEADER
+*/
 
 // #include the device system's future.h header.
 #define __THRUST_DEVICE_SYSTEM_FUTURE_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/future.h>
   #include __THRUST_DEVICE_SYSTEM_FUTURE_HEADER
 #undef __THRUST_DEVICE_SYSTEM_FUTURE_HEADER
 
-//// #include the host system's future.h header.
-//#define __THRUST_HOST_SYSTEM_FUTURE_HEADER <__THRUST_HOST_SYSTEM_ROOT/future.h>
-//  #include __THRUST_HOST_SYSTEM_FUTURE_HEADER
-//#undef __THRUST_HOST_SYSTEM_FUTURE_HEADER
+THRUST_BEGIN_NS
+
+///////////////////////////////////////////////////////////////////////////////
+
+// `select_unique_(future|event)_type` is a hook for choosing the
+// `unique_eager_event`/`unique_eager_future` type for a system. `decltype` is
+// used to determine the return type of an ADL call to
+// `select_unique_eager_(future|event)_type(system)`; that return type should
+// be the correct event/future type for `system`. Overloads should only be
+// declared, not defined.
+
+namespace unimplemented
+{
+
+struct no_unique_eager_event_type_found {};
+
+inline __host__ 
+no_unique_eager_event_type_found
+unique_eager_event_type(...) noexcept;
+
+struct no_unique_eager_future_type_found {};
+
+template <typename T>
+__host__ 
+no_unique_eager_future_type_found
+unique_eager_future_type(...) noexcept;
+
+} // namespace unimplemented
+
+namespace unique_eager_event_type_detail
+{
+
+using unimplemented::unique_eager_event_type;
+
+template <typename System>
+using select = decltype(
+  unique_eager_event_type(std::declval<System>())
+);
+
+} // namespace unique_eager_event_type_detail
+
+namespace unique_eager_future_type_detail
+{
+
+using unimplemented::unique_eager_future_type;
+
+template <typename System, typename T>
+using select = decltype(
+  unique_eager_future_type<T>(std::declval<System>())
+);
+
+} // namespace unique_eager_future_type_detail
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename System>
+using unique_eager_event = unique_eager_event_type_detail::select<System>;
+
+template <typename System>
+using event = unique_eager_event<System>;
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename System, typename T>
+using unique_eager_future = unique_eager_future_type_detail::select<System, T>;
+
+template <typename System, typename T>
+using future = unique_eager_future<System, T>;
+
+/*
+///////////////////////////////////////////////////////////////////////////////
+
+using host_unique_eager_event = unique_eager_event_type_detail::select<
+  thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag
+>;
+using host_event = host_unique_eager_event;
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+using host_unique_eager_future = unique_eager_future_type_detail::select<
+  thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag, T
+>;
+template <typename T>
+using host_future = host_unique_eager_future<T>;
+*/
+
+///////////////////////////////////////////////////////////////////////////////
+
+using device_unique_eager_event = unique_eager_event_type_detail::select<
+  thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag
+>;
+
+using device_event = device_unique_eager_event;
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+using device_unique_eager_future = unique_eager_future_type_detail::select<
+  thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::tag, T
+>;
+
+template <typename T>
+using device_future = device_unique_eager_future<T>;
+
+///////////////////////////////////////////////////////////////////////////////
+
+struct new_stream_t final {};
+
+THRUST_INLINE_CONSTANT new_stream_t new_stream{};
+
+///////////////////////////////////////////////////////////////////////////////
+
+using thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::when_all;
+
+///////////////////////////////////////////////////////////////////////////////
+
+THRUST_END_NS
 
 #endif // THRUST_CPP_DIALECT >= 2011
 

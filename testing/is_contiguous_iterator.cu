@@ -4,6 +4,8 @@
 #include <vector>
 #if THRUST_CPP_DIALECT >= 2011
   #include <array>
+  #include <unordered_map>
+  #include <unordered_set>
 #endif
 #include <string>
 #if THRUST_CPP_DIALECT >= 2017

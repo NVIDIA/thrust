@@ -83,11 +83,9 @@ auto async_transform_n(
   Size                             n,
   OutputIt                         output,
   UnaryOperation                   op
-) -> unique_eager_future<void>
+) -> unique_eager_event
 {
-  using pointer = typename unique_eager_future<void>::pointer;
-
-  unique_eager_future_promise_pair<void> fp;
+  unique_eager_event e;
 
   // Set up stream with dependencies.
 
@@ -95,9 +93,8 @@ auto async_transform_n(
 
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
-    fp = depend_on<void, pointer>(
-      nullptr
-    , std::tuple_cat(
+    e = make_dependent_event(
+      std::tuple_cat(
         std::make_tuple(
           unique_stream(nonowning, user_raw_stream)
         )
@@ -109,9 +106,8 @@ auto async_transform_n(
   }
   else
   {
-    fp = depend_on<void, pointer>(
-      nullptr
-    , extract_dependencies(
+    e = make_dependent_event(
+      extract_dependencies(
         std::move(thrust::detail::derived_cast(policy))
       )
     );
@@ -125,12 +121,12 @@ auto async_transform_n(
 
   thrust::cuda_cub::throw_on_error(
     thrust::cuda_cub::__parallel_for::parallel_for(
-      n, std::move(wrapped), fp.future.stream().native_handle()
+      n, std::move(wrapped), e.stream().native_handle()
     )
   , "after transform launch"
   );
 
-  return std::move(fp.future);
+  return std::move(e);
 }
 
 }}} // namespace system::cuda::detail

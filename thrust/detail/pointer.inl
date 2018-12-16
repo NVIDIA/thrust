@@ -26,8 +26,24 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   pointer<Element,Tag,Reference,Derived>
     ::pointer()
-      : super_t(static_cast<Element*>(0))
+      : super_t(static_cast<Element*>(
+          #if THRUST_CPP_DIALECT >= 2011
+          nullptr
+          #else
+          0
+          #endif
+        ))
 {} // end pointer::pointer
+
+
+#if THRUST_CPP_DIALECT >= 2011
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  __host__ __device__
+  pointer<Element,Tag,Reference,Derived>
+    ::pointer(decltype(nullptr))
+      : super_t(static_cast<Element*>(nullptr))
+{} // end pointer::pointer
+#endif
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
@@ -64,6 +80,18 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
         : super_t(static_cast<Element *>(thrust::detail::pointer_traits<OtherPointer>::get(other)))
 {} // end pointer::pointer
 
+
+#if THRUST_CPP_DIALECT >= 2011
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  __host__ __device__
+  typename pointer<Element,Tag,Reference,Derived>::derived_type &
+    pointer<Element,Tag,Reference,Derived>
+      ::operator=(decltype(nullptr))
+{
+  super_t::base_reference() = nullptr;
+  return static_cast<derived_type&>(*this);
+} // end pointer::operator=
+#endif
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
   template<typename OtherPointer>

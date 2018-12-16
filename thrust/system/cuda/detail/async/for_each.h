@@ -80,12 +80,10 @@ auto async_for_each_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
   Size                             n,
-  UnaryFunction                    f
-) -> unique_eager_future<void>
+  UnaryFunction                    func
+) -> unique_eager_event
 {
-  using pointer = typename unique_eager_future<void>::pointer;
-
-  unique_eager_future_promise_pair<void> fp;
+  unique_eager_event e;
 
   // Set up stream with dependencies.
 
@@ -93,9 +91,8 @@ auto async_for_each_n(
 
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
-    fp = depend_on<void, pointer>(
-      nullptr
-    , std::tuple_cat(
+    e = make_dependent_event(
+      std::tuple_cat(
         std::make_tuple(
           unique_stream(nonowning, user_raw_stream)
         )
@@ -107,9 +104,8 @@ auto async_for_each_n(
   }
   else
   {
-    fp = depend_on<void, pointer>(
-      nullptr
-    , extract_dependencies(
+    e = make_dependent_event(
+      extract_dependencies(
         std::move(thrust::detail::derived_cast(policy))
       )
     );
@@ -118,17 +114,17 @@ auto async_for_each_n(
   // Run for_each.
 
   async_for_each_fn<ForwardIt, UnaryFunction> wrapped(
-    std::move(first), std::move(f)
+    std::move(first), std::move(func)
   );
 
   thrust::cuda_cub::throw_on_error(
     thrust::cuda_cub::__parallel_for::parallel_for(
-      n, std::move(wrapped), fp.future.stream().native_handle()
+      n, std::move(wrapped), e.stream().native_handle()
     )
   , "after for_each launch"
   );
 
-  return std::move(fp.future);
+  return std::move(e);
 }
 
 }}} // namespace system::cuda::detail
@@ -146,11 +142,11 @@ auto async_for_each(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
   Sentinel                         last,
-  UnaryFunction&&                  f
+  UnaryFunction&&                  func
 )
 THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_for_each_n(
-    policy, first, distance(first, last), THRUST_FWD(f)
+    policy, first, distance(first, last), THRUST_FWD(func)
   )
 );
 

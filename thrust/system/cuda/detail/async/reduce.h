@@ -65,13 +65,7 @@ auto async_reduce_n(
 , Size                             n
 , T                                init
 , BinaryOp                         op
-) ->
-  unique_eager_future<
-    remove_cvref_t<T>
-  , typename thrust::detail::allocator_traits<
-      decltype(get_async_device_allocator(policy))
-    >::template rebind_traits<remove_cvref_t<T>>::pointer
-  >
+) -> unique_eager_future<remove_cvref_t<T>>
 {
   using U = remove_cvref_t<T>;
 
@@ -91,9 +85,7 @@ auto async_reduce_n(
       nullptr
     , tmp_size
     , first
-      // FIXME: This is `NULL` not `nullptr` because Thrust smart pointers
-      // don't interoperate with `nullptr_t`.
-    , reinterpret_cast<U*>(NULL)
+    , static_cast<U*>(nullptr)
     , n
     , op
     , init
@@ -117,7 +109,7 @@ auto async_reduce_n(
     raw_pointer_cast(content_ptr)
   );
   void* const tmp_ptr = static_cast<void*>(
-    thrust::raw_pointer_cast(content_ptr + sizeof(U))
+    raw_pointer_cast(content_ptr + sizeof(U))
   );
 
   // Set up stream with dependencies.
@@ -126,7 +118,7 @@ auto async_reduce_n(
 
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
-    fp = depend_on<U, pointer>(
+    fp = make_dependent_future<U, pointer>(
       [] (decltype(content) const& c)
       {
         return pointer(
@@ -148,7 +140,7 @@ auto async_reduce_n(
   }
   else
   {
-    fp = depend_on<U, pointer>(
+    fp = make_dependent_future<U, pointer>(
       [] (decltype(content) const& c)
       {
         return pointer(
@@ -232,23 +224,13 @@ auto async_reduce_into_n(
 , OutputIt                         output
 , T                                init
 , BinaryOp                         op
-) ->
-  unique_eager_future<
-    void
-  , typename thrust::detail::allocator_traits<
-      decltype(get_async_device_allocator(policy))
-    >::template rebind_traits<void>::pointer
-  >
+) -> unique_eager_event
 {
   using U = remove_cvref_t<T>;
 
   auto const device_alloc = get_async_device_allocator(policy);
 
-  using pointer
-    = typename thrust::detail::allocator_traits<decltype(device_alloc)>::
-      template rebind_traits<void>::pointer;
-
-  unique_eager_future_promise_pair<void, pointer> fp;
+  unique_eager_event e;
 
   // Determine temporary device storage requirements.
 
@@ -258,9 +240,7 @@ auto async_reduce_into_n(
       nullptr
     , tmp_size
     , first
-      // FIXME: This is `NULL` not `nullptr` because Thrust smart pointers
-      // don't interoperate with `nullptr_t`.
-    , reinterpret_cast<U*>(NULL)
+    , static_cast<U*>(nullptr)
     , n
     , op
     , init
@@ -282,7 +262,7 @@ auto async_reduce_into_n(
   auto const content_ptr = content.get();
 
   void* const tmp_ptr = static_cast<void*>(
-    thrust::raw_pointer_cast(content_ptr)
+    raw_pointer_cast(content_ptr)
   );
 
   // Set up stream with dependencies.
@@ -291,9 +271,8 @@ auto async_reduce_into_n(
 
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
-    fp = depend_on<void, pointer>(
-      nullptr
-    , std::tuple_cat(
+    e = make_dependent_event(
+      std::tuple_cat(
         std::make_tuple(
           std::move(content)
         , unique_stream(nonowning, user_raw_stream)
@@ -306,9 +285,8 @@ auto async_reduce_into_n(
   }
   else
   {
-    fp = depend_on<void, pointer>(
-      nullptr
-    , std::tuple_cat(
+    e = make_dependent_event(
+      std::tuple_cat(
         std::make_tuple(
           std::move(content)
         )
@@ -330,13 +308,13 @@ auto async_reduce_into_n(
     , n
     , op
     , init
-    , fp.future.stream().native_handle()
+    , e.stream().native_handle()
     , THRUST_DEBUG_SYNC_FLAG
     )
   , "after reduction launch"
   );
 
-  return std::move(fp.future);
+  return std::move(e);
 }
 
 }}} // namespace system::cuda::detail
@@ -359,7 +337,7 @@ auto async_reduce_into(
 , T                                init
 , BinaryOp                         op
 )
-THRUST_DECLTYPE_RETURNS2(
+THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_reduce_into_n(
     policy, first, distance(first, last), output, init, op
   )

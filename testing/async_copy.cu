@@ -3,6 +3,7 @@
 #if THRUST_CPP_DIALECT >= 2011
 
 #include <unittest/unittest.h>
+#include <unittest/util_async.h>
 
 #include <thrust/limits.h>
 #include <thrust/async/copy.h>
@@ -64,16 +65,16 @@ struct test_async_copy_host_to_device
     __host__
     void operator()(std::size_t n)
     {
-      thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
-      thrust::device_vector<T> d0_data(n);
+      thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
+      thrust::device_vector<T> d0(n);
 
       auto f0 = AsyncCopyCallable{}(
-        h0_data.begin(), h0_data.end(), d0_data.begin()
+        h0.begin(), h0.end(), d0.begin()
       );
 
       f0.wait();
 
-      ASSERT_EQUAL(h0_data, d0_data);
+      ASSERT_EQUAL(h0, d0);
     }
   };
 };
@@ -99,22 +100,22 @@ struct test_async_copy_device_to_host
     __host__
     void operator()(std::size_t n)
     {
-      thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
-      thrust::device_vector<T> h1_data(n);
-      thrust::device_vector<T> d0_data(n);
+      thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
+      thrust::device_vector<T> h1(n);
+      thrust::device_vector<T> d0(n);
 
-      thrust::copy(h0_data.begin(), h0_data.end(), d0_data.begin());
+      thrust::copy(h0.begin(), h0.end(), d0.begin());
 
-      ASSERT_EQUAL(h0_data, d0_data);
+      ASSERT_EQUAL(h0, d0);
 
       auto f0 = AsyncCopyCallable{}(
-        d0_data.begin(), d0_data.end(), h1_data.begin()
+        d0.begin(), d0.end(), h1.begin()
       );
 
       f0.wait();
 
-      ASSERT_EQUAL(h0_data, d0_data);
-      ASSERT_EQUAL(d0_data, h1_data);
+      ASSERT_EQUAL(h0, d0);
+      ASSERT_EQUAL(d0, h1);
     }
   };
 };
@@ -140,22 +141,22 @@ struct test_async_copy_device_to_device
     __host__
     void operator()(std::size_t n)
     {
-      thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
-      thrust::device_vector<T> d0_data(n);
-      thrust::device_vector<T> d1_data(n);
+      thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
+      thrust::device_vector<T> d0(n);
+      thrust::device_vector<T> d1(n);
 
-      thrust::copy(h0_data.begin(), h0_data.end(), d0_data.begin());
+      thrust::copy(h0.begin(), h0.end(), d0.begin());
 
-      ASSERT_EQUAL(h0_data, d0_data);
+      ASSERT_EQUAL(h0, d0);
 
       auto f0 = AsyncCopyCallable{}(
-        d0_data.begin(), d0_data.end(), d1_data.begin()
+        d0.begin(), d0.end(), d1.begin()
       );
 
       f0.wait();
 
-      ASSERT_EQUAL(h0_data, d0_data);
-      ASSERT_EQUAL(d0_data, d1_data);
+      ASSERT_EQUAL(h0, d0);
+      ASSERT_EQUAL(d0, d1);
     }
   };
 };
@@ -192,21 +193,22 @@ struct test_async_copy_counting_iterator_input_to_device_vector
         unittest::truncate_to_max_representable<T>(n)
       );
 
-      thrust::device_vector<T> d0_data(n);
-      thrust::device_vector<T> d1_data(n);
+      thrust::device_vector<T> d0(n);
+      thrust::device_vector<T> d1(n);
 
-      thrust::copy(first, last, d0_data.begin());
+      thrust::copy(first, last, d0.begin());
 
       auto f0 = AsyncCopyCallable{}(
-        first, last, d1_data.begin()
+        first, last, d1.begin()
       );
 
       f0.wait();
 
-      ASSERT_EQUAL(d0_data, d1_data);
+      ASSERT_EQUAL(d0, d1);
     }
   };
 };
+// TODO: Re-add custom_numeric when it supports counting iterators.
 DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_counting_iterator_input_to_device_vector<
     invoke_async_copy_fn
@@ -232,7 +234,6 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_counting_iterator_input_to_device_vector<
     invoke_async_copy_host_to_device_fn
   >::tester
-  // TODO: Re-add custom_numeric when it supports counting iterators.
 , BuiltinNumericTypes
 , test_async_copy_counting_iterator_input_host_to_device_policies
 );
@@ -254,18 +255,18 @@ struct test_async_copy_counting_iterator_input_to_host_vector
         unittest::truncate_to_max_representable<T>(n)
       );
 
-      thrust::host_vector<T> d0_data(n);
-      thrust::host_vector<T> d1_data(n);
+      thrust::host_vector<T> d0(n);
+      thrust::host_vector<T> d1(n);
 
-      thrust::copy(first, last, d0_data.begin());
+      thrust::copy(first, last, d0.begin());
 
       auto f0 = AsyncCopyCallable{}(
-        first, last, d1_data.begin()
+        first, last, d1.begin()
       );
 
       f0.wait();
 
-      ASSERT_EQUAL(d0_data, d1_data);
+      ASSERT_EQUAL(d0, d1);
     }
   };
 };
@@ -282,6 +283,38 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   >::tester
 , BuiltinNumericTypes
 , test_async_copy_counting_iterator_input_trivially_relocatable_elements_device_to_host_policies
+);
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+struct test_async_copy_roundtrip
+{
+  __host__
+  void operator()(std::size_t n)
+  {
+    thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
+    thrust::device_vector<T> d0(n);
+
+    auto e0 = thrust::async::copy(
+      thrust::host, thrust::device
+    , h0.begin(), h0.end(), d0.begin()
+    );
+
+    auto e1 = thrust::async::copy(
+      thrust::device.after(e0), thrust::host
+    , d0.begin(), d0.end(), h0.begin()
+    );
+
+    TEST_EVENT_WAIT(e1);
+
+    ASSERT_EQUAL(h0, d0);
+  }
+};
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
+  test_async_copy_roundtrip
+, BuiltinNumericTypes
+, test_async_copy_trivially_relocatable_elements_roundtrip
 );
 
 ///////////////////////////////////////////////////////////////////////////////

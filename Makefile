@@ -1,15 +1,15 @@
 # Copyright 1993-2010 NVIDIA Corporation.  All rights reserved.
 #
-# NOTICE TO USER:   
+# NOTICE TO USER:
 #
 # This source code is subject to NVIDIA ownership rights under U.S. and
-# international Copyright laws.  
+# international Copyright laws.
 #
-# This software and the information contained herein is being provided 
-# under the terms and conditions of a Source Code License Agreement.     
+# This software and the information contained herein is being provided
+# under the terms and conditions of a Source Code License Agreement.
 #
 # NVIDIA MAKES NO REPRESENTATION ABOUT THE SUITABILITY OF THIS SOURCE
-# CODE FOR ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR 
+# CODE FOR ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR
 # IMPLIED WARRANTY OF ANY KIND.  NVIDIA DISCLAIMS ALL WARRANTIES WITH
 # REGARD TO THIS SOURCE CODE, INCLUDING ALL IMPLIED WARRANTIES OF
 # MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE.
@@ -17,18 +17,23 @@
 # OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
 # OF USE, DATA OR PROFITS,  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
 # OR OTHER TORTIOUS ACTION,  ARISING OUT OF OR IN CONNECTION WITH THE USE
-# OR PERFORMANCE OF THIS SOURCE CODE.  
+# OR PERFORMANCE OF THIS SOURCE CODE.
 #
-# U.S. Government End Users.   This source code is a "commercial item" as 
+# U.S. Government End Users.   This source code is a "commercial item" as
 # that term is defined at  48 C.F.R. 2.101 (OCT 1995), consisting  of
-# "commercial computer  software"  and "commercial computer software 
+# "commercial computer  software"  and "commercial computer software
 # documentation" as such terms are  used in 48 C.F.R. 12.212 (SEPT 1995)
 # and is provided to the U.S. Government only as a commercial end item.
 # Consistent with 48 C.F.R.12.212 and 48 C.F.R. 227.7202-1 through
-# 227.7202-4 (JUNE 1995), all U.S. Government End Users acquire the 
+# 227.7202-4 (JUNE 1995), all U.S. Government End Users acquire the
 # source code with only those rights set forth herein.
 
 # Makefile for building Thrust unit test driver
+
+# Force C++11 mode. NVCC will ignore it if the host compiler doesn't support it.
+#export CXX_STD = c++11
+
+export VERBOSE = 1
 
 ifndef PROFILE
   ifdef VULCAN_TOOLKIT_BASE
@@ -151,6 +156,7 @@ endif
 
 $(info #### CCBIN         : $(CCBIN))
 $(info #### CCBIN VERSION : $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) $(VERSION_FLAG)))
+$(info #### CXX_STD       : $(CXX_STD))
 
 ifeq ($(OS), win32)
   CREATE_DVS_PACKAGE = $(ZIP) -r built/CUDA-thrust-package.zip bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)
@@ -158,7 +164,7 @@ ifeq ($(OS), win32)
   APPEND_INL_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.inl
   APPEND_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.cuh
   MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_HEADERS_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE)
-else 
+else
   CREATE_DVS_PACKAGE = tar -cv -f built/CUDA-thrust-package.tar bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)
   APPEND_HEADERS_DVS_PACKAGE = find thrust -name "*.h" | xargs tar rvf built/CUDA-thrust-package.tar
   APPEND_INL_DVS_PACKAGE = find thrust -name "*.inl" | xargs tar rvf built/CUDA-thrust-package.tar
@@ -184,7 +190,7 @@ pack:
 dvs:
 	$(MAKE) $(DVS_OPTIONS) -s -C ../cuda $(THRUST_DVS_BUILD)
 	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1
-	cd .. && $(MAKE_DVS_PACKAGE) 
+	cd .. && $(MAKE_DVS_PACKAGE)
 
 # XXX Deprecated, remove.
 dvs_nightly: dvs

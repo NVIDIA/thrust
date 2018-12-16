@@ -137,7 +137,7 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     device_vector(const device_vector &v, const Alloc &alloc)
       :Parent(v,alloc) {}
 
-  #if __cplusplus >= 201103L
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move constructor moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
@@ -152,23 +152,23 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     __host__
     device_vector(device_vector &&v, const Alloc &alloc)
       :Parent(std::move(v), alloc) {}
-  #endif
+  #endif // THRUST_CPP_DIALECT >= 2011
 
-  /*! Copy assign operator copies another \p device_vector with the same type.
-   *  \param v The \p device_vector to copy.
-   */
-  __host__
-  device_vector &operator=(const device_vector &v)
-  { Parent::operator=(v); return *this; }
+    /*! Copy assign operator copies another \p device_vector with the same type.
+     *  \param v The \p device_vector to copy.
+     */
+    __host__
+    device_vector &operator=(const device_vector &v)
+    { Parent::operator=(v); return *this; }
 
-  #if __cplusplus >= 201103L
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move assign operator moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
      __host__
      device_vector &operator=(device_vector &&v)
      { Parent::operator=(std::move(v)); return *this; }
-  #endif
+  #endif // THRUST_CPP_DIALECT >= 2011
 
     /*! Copy constructor copies from an exemplar \p device_vector with different type.
      *  \param v The \p device_vector to copy.

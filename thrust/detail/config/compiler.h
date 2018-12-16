@@ -162,6 +162,20 @@
   THRUST_DISABLE_CLANG_SELF_ASSIGNMENT_WARNING_END                            \
   /**/
 
+#define THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_BEGIN     \
+  THRUST_DISABLE_CLANG_WARNING_BEGIN(-Wreorder)                               \
+  THRUST_DISABLE_GCC_WARNING_BEGIN(-Wreorder)                                 \
+  /**/
+#define THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_END       \
+  THRUST_DISABLE_CLANG_WARNING_END(-Wreorder)                                 \
+  THRUST_DISABLE_GCC_WARNING_END(-Wreorder)                                   \
+  /**/
+#define THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING(x)        \
+  THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_BEGIN           \
+  x;                                                                          \
+  THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_END             \
+  /**/
+
 // TODO we should move the definition of THRUST_DEPRECATED out of this logic
 #if   THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
   #define THRUST_DEPRECATED __declspec(deprecated)

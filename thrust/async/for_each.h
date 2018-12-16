@@ -30,7 +30,7 @@
 #include <thrust/type_traits/remove_cvref.h>
 #include <thrust/system/detail/adl/async/for_each.h>
 
-#include <thrust/future.h>
+#include <thrust/event.h>
 
 THRUST_BEGIN_NS
 
@@ -44,8 +44,8 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename UnaryFunction
 >
-__host__ __device__
-future<void, DerivedPolicy>
+__host__
+event<DerivedPolicy>
 async_for_each(
   thrust::execution_policy<DerivedPolicy>&, ForwardIt, Sentinel, UnaryFunction
 )
@@ -66,12 +66,11 @@ using thrust::async::unimplemented::async_for_each;
 
 struct for_each_fn final
 {
-  __thrust_exec_check_disable__
   template <
     typename DerivedPolicy
   , typename ForwardIt, typename Sentinel, typename UnaryFunction
   >
-  __host__ __device__
+  __host__
   static auto call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
@@ -86,9 +85,8 @@ struct for_each_fn final
     )
   )
 
-  __thrust_exec_check_disable__
   template <typename ForwardIt, typename Sentinel, typename UnaryFunction>
-  __host__ __device__
+  __host__
   static auto call(ForwardIt&& first, Sentinel&& last, UnaryFunction&& f) 
   THRUST_DECLTYPE_RETURNS(
     for_each_fn::call(
@@ -101,6 +99,7 @@ struct for_each_fn final
   )
 
   template <typename... Args>
+  THRUST_NODISCARD __host__
   auto operator()(Args&&... args) const
   THRUST_DECLTYPE_RETURNS(
     call(THRUST_FWD(args)...)

@@ -317,6 +317,8 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
 , test_async_sort_policy_custom_greater_no_wait
 );
 
+///////////////////////////////////////////////////////////////////////////////
+
 // TODO: Async copy then sort.
 
 // TODO: Test future return type.

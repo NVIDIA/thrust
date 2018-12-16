@@ -32,6 +32,24 @@ namespace thrust
 namespace detail
 {
 
+struct capture_as_dependency_fn
+{
+  template<typename Dependency>
+  auto operator()(Dependency&& dependency) const
+  THRUST_DECLTYPE_RETURNS(capture_as_dependency(THRUST_FWD(dependency)))
+};
+
+// Default implementation: universal forwarding.
+template<typename Dependency>
+auto capture_as_dependency(Dependency&& dependency)
+THRUST_DECLTYPE_RETURNS(THRUST_FWD(dependency))
+
+template<typename... Dependencies>
+auto capture_as_dependency(std::tuple<Dependencies...>& dependencies)
+THRUST_DECLTYPE_RETURNS(
+  tuple_for_each(THRUST_FWD(dependencies), capture_as_dependency_fn{})
+)
+
 template<template<typename> class BaseSystem, typename... Dependencies>
 struct execute_with_dependencies
     : BaseSystem<execute_with_dependencies<BaseSystem, Dependencies...>>
@@ -82,6 +100,31 @@ public:
     {
         return std::move(dependencies);
     }
+
+    // Rebinding.
+    template<typename ...UDependencies>
+    __host__
+    execute_with_dependencies<BaseSystem, UDependencies...>
+    rebind_after(UDependencies&& ...udependencies) const
+    {
+        return { capture_as_dependency(THRUST_FWD(udependencies))... };
+    }
+
+    // Rebinding.
+    template<typename ...UDependencies>
+    __host__
+    execute_with_dependencies<BaseSystem, UDependencies...>
+    rebind_after(std::tuple<UDependencies...>& udependencies) const
+    {
+        return { capture_as_dependency(udependencies) };
+    }
+    template<typename ...UDependencies>
+    __host__
+    execute_with_dependencies<BaseSystem, UDependencies...>
+    rebind_after(std::tuple<UDependencies...>&& udependencies) const
+    {
+        return { capture_as_dependency(std::move(udependencies)) };
+    }
 };
 
 template<
@@ -107,7 +150,7 @@ private:
         >
     >;
 
-    std::tuple<Dependencies...> dependencies;
+    std::tuple<remove_cvref_t<Dependencies>...> dependencies;
     Allocator alloc;
 
 public:
@@ -151,6 +194,31 @@ public:
     get_allocator()
     {
         return alloc;
+    }
+
+    // Rebinding.
+    template<typename ...UDependencies>
+    __host__
+    execute_with_allocator_and_dependencies<Allocator, BaseSystem, UDependencies...>
+    rebind_after(UDependencies&& ...udependencies) const
+    {
+        return { alloc, capture_as_dependency(THRUST_FWD(udependencies))... };
+    }
+
+    // Rebinding.
+    template<typename ...UDependencies>
+    __host__
+    execute_with_allocator_and_dependencies<Allocator, BaseSystem, UDependencies...>
+    rebind_after(std::tuple<UDependencies...>& udependencies) const
+    {
+        return { alloc, capture_as_dependency(udependencies) };
+    }
+    template<typename ...UDependencies>
+    __host__
+    execute_with_allocator_and_dependencies<Allocator, BaseSystem, UDependencies...>
+    rebind_after(std::tuple<UDependencies...>&& udependencies) const
+    {
+        return { alloc, capture_as_dependency(std::move(udependencies)) };
     }
 };
 

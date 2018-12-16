@@ -30,7 +30,7 @@
 #include <thrust/type_traits/remove_cvref.h>
 #include <thrust/system/detail/adl/async/copy.h>
 
-#include <thrust/future.h>
+#include <thrust/event.h>
 
 THRUST_BEGIN_NS
 
@@ -44,8 +44,8 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-__host__ __device__
-future<void, FromPolicy>
+__host__
+event<FromPolicy>
 async_copy(
   thrust::execution_policy<FromPolicy>& from_exec
 , thrust::execution_policy<ToPolicy>&   to_exec
@@ -68,12 +68,11 @@ using thrust::async::unimplemented::async_copy;
 
 struct copy_fn final
 {
-  __thrust_exec_check_disable__
   template <
     typename FromPolicy, typename ToPolicy
   , typename ForwardIt, typename Sentinel, typename OutputIt
   >
-  __host__ __device__
+  __host__
   static auto call(
     thrust::detail::execution_policy_base<FromPolicy> const& from_exec
   , thrust::detail::execution_policy_base<ToPolicy> const&   to_exec
@@ -90,12 +89,11 @@ struct copy_fn final
     )
   )
 
-  __thrust_exec_check_disable__
   template <
     typename DerivedPolicy
   , typename ForwardIt, typename Sentinel, typename OutputIt
   >
-  __host__ __device__
+  __host__
   static auto call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
@@ -111,9 +109,8 @@ struct copy_fn final
     )
   )
 
-  __thrust_exec_check_disable__
   template <typename ForwardIt, typename Sentinel, typename OutputIt>
-  __host__ __device__
+  __host__
   static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output) 
   THRUST_DECLTYPE_RETURNS(
     copy_fn::call(
@@ -129,7 +126,7 @@ struct copy_fn final
   )
 
   template <typename... Args>
-  __host__ __device__
+  THRUST_NODISCARD __host__
   auto operator()(Args&&... args) const
   THRUST_DECLTYPE_RETURNS(
     call(THRUST_FWD(args)...)

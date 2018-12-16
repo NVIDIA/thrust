@@ -75,17 +75,10 @@ auto async_copy_n(
 ) ->
   typename std::enable_if<
     is_indirectly_trivially_relocatable_to<ForwardIt, OutputIt>::value
-  , unique_eager_future<
-      void
-    , typename thrust::detail::allocator_traits<
-        decltype(get_async_device_allocator(
-          select_device_system(from_exec, to_exec)
-        ))
-      >::template rebind_traits<void>::pointer
-    >
+  , unique_eager_event
   >::type
 {
-  using T = typename thrust::iterator_traits<ForwardIt>::value_type;
+  using T = typename iterator_traits<ForwardIt>::value_type;
 
   auto const device_alloc = get_async_device_allocator(
     select_device_system(from_exec, to_exec)
@@ -95,7 +88,7 @@ auto async_copy_n(
     = typename thrust::detail::allocator_traits<decltype(device_alloc)>::
       template rebind_traits<void>::pointer;
 
-  unique_eager_future_promise_pair<void, pointer> fp;
+  unique_eager_event e;
 
   // Set up stream with dependencies.
 
@@ -105,9 +98,8 @@ auto async_copy_n(
 
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
-    fp = depend_on<void, pointer>(
-      nullptr
-    , std::tuple_cat(
+    e = make_dependent_event(
+      std::tuple_cat(
         std::make_tuple(
           unique_stream(nonowning, user_raw_stream)
         )
@@ -122,9 +114,8 @@ auto async_copy_n(
   }
   else
   {
-    fp = depend_on<void, pointer>(
-      nullptr
-    , std::tuple_cat(
+    e = make_dependent_event(
+      std::tuple_cat(
         extract_dependencies(
           std::move(thrust::detail::derived_cast(from_exec))
         )
@@ -143,12 +134,12 @@ auto async_copy_n(
     , thrust::raw_pointer_cast(&*first)
     , sizeof(T) * n
     , direction_of_copy(from_exec, to_exec)
-    , fp.future.stream().native_handle()
+    , e.stream().native_handle()
     )
   , "after copy launch"
   );
 
-  return std::move(fp.future);
+  return std::move(e);
 }
 
 // Non-ContiguousIterator input or output, or non-TriviallyRelocatable value type
@@ -172,17 +163,10 @@ auto async_copy_n(
       >
     , decltype(is_device_to_device_copy(from_exec, to_exec))
     >::value
-  , unique_eager_future<
-      void
-    , typename thrust::detail::allocator_traits<
-        decltype(get_async_device_allocator(
-          select_device_system(from_exec, to_exec)
-        ))
-      >::template rebind_traits<void>::pointer
-    >
+  , unique_eager_event
   >::type
 {
-  using T = typename thrust::iterator_traits<ForwardIt>::value_type;
+  using T = typename iterator_traits<ForwardIt>::value_type;
 
   return async_transform_n(
     select_device_system(from_exec, to_exec)
@@ -228,14 +212,7 @@ auto async_copy_n(
       , decltype(is_device_to_host_copy(from_exec, to_exec))
       >
     >::value
-  , unique_eager_future<
-      void
-    , typename thrust::detail::allocator_traits<
-        decltype(get_async_device_allocator(
-          select_device_system(from_exec, to_exec)
-        ))
-      >::template rebind_traits<void>::pointer
-    >
+  , unique_eager_event
   >::type
 {
   async_copy_n_compile_failure_no_cuda_to_non_contiguous_output<OutputIt>();
@@ -290,17 +267,10 @@ auto async_copy_n(
     , thrust::cuda::execution_policy<ToPolicy>
     , ForwardIt, OutputIt
     >::value
-  , unique_eager_future<
-      void
-    , typename thrust::detail::allocator_traits<
-        decltype(get_async_device_allocator(
-          select_device_system(from_exec, to_exec)
-        ))
-      >::template rebind_traits<void>::pointer
-    >
+  , unique_eager_event
   >::type
 {
-  using T = typename thrust::iterator_traits<ForwardIt>::value_type;
+  using T = typename iterator_traits<ForwardIt>::value_type;
 
   auto const host_alloc = get_async_host_allocator(
     from_exec
@@ -320,7 +290,7 @@ auto async_copy_n(
 
   // Run device-side copy.
 
-  auto new_to_exec = thrust::detail::derived_cast(to_exec).after(
+  auto new_to_exec = thrust::detail::derived_cast(to_exec).rebind_after(
     std::tuple_cat(
       std::make_tuple(
         std::move(buffer)
@@ -334,13 +304,21 @@ auto async_copy_n(
     )
   );
 
+  THRUST_STATIC_ASSERT((
+    std::tuple_size<decltype(
+      extract_dependencies(to_exec)
+    )>::value + 1
+    <=
+    std::tuple_size<decltype(
+      extract_dependencies(new_to_exec)
+    )>::value
+  ));
+
   return async_copy_n(
     from_exec
     // TODO: We have to cast back to the right execution_policy class. Ideally,
     // we should be moving here.
-  , static_cast<thrust::cuda::execution_policy<decltype(new_to_exec)>&>(
-      new_to_exec
-    )
+  , new_to_exec
   , buffer_ptr
   , n
   , output
@@ -394,14 +372,7 @@ auto async_copy_n(
     , ToPolicy
     , ForwardIt, OutputIt
     >::value
-  , unique_eager_future<
-      void
-    , typename thrust::detail::allocator_traits<
-        decltype(get_async_device_allocator(
-          select_device_system(from_exec, to_exec)
-        ))
-      >::template rebind_traits<void>::pointer
-    >
+  , unique_eager_event
   >::type
 {
   using T = typename iterator_traits<ForwardIt>::value_type;
@@ -428,17 +399,23 @@ auto async_copy_n(
 
   // Run copy back to host.
 
-  auto new_from_exec = thrust::detail::derived_cast(from_exec).after(
+  auto new_from_exec = thrust::detail::derived_cast(from_exec).rebind_after(
     std::move(buffer)
   , std::move(f0)
   );
 
+  THRUST_STATIC_ASSERT((
+    std::tuple_size<decltype(
+      extract_dependencies(from_exec)
+    )>::value + 1
+    <=
+    std::tuple_size<decltype(
+      extract_dependencies(new_from_exec)
+    )>::value
+  ));
+
   return async_copy_n(
-    // TODO: We have to cast back to the right execution_policy class. Ideally,
-    // we should be moving here.
-    static_cast<thrust::cuda::execution_policy<decltype(new_from_exec)>&>(
-      new_from_exec
-    )
+    new_from_exec
   , to_exec
   , buffer_ptr
   , n
@@ -484,14 +461,7 @@ auto async_copy_n(
       , decltype(is_device_to_host_copy(from_exec, to_exec))
       >
     >::value
-  , unique_eager_future<
-      void
-    , typename thrust::detail::allocator_traits<
-        decltype(get_async_device_allocator(
-          select_device_system(from_exec, to_exec)
-        ))
-      >::template rebind_traits<void>::pointer
-    >
+  , unique_eager_event
   >::type
 {
   // TODO: We could do more here with cudaHostRegister.

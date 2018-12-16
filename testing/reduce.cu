@@ -191,14 +191,16 @@ void TestReduceWithIndirection(void)
 DECLARE_INTEGRAL_VECTOR_UNITTEST(TestReduceWithIndirection);
 
 template<typename T>
-  void TestReduceCountingIterator(size_t n)
+  void TestReduceCountingIterator()
 {
-  n = unittest::truncate_to_max_representable<T>(n);
+  size_t const n = 15 * sizeof(T);
+
+  ASSERT_LEQUAL(T(n), unittest::truncate_to_max_representable<T>(n));
 
   thrust::counting_iterator<T, thrust::host_system_tag>   h_first = thrust::make_counting_iterator<T>(0);
   thrust::counting_iterator<T, thrust::device_system_tag> d_first = thrust::make_counting_iterator<T>(0);
 
-  T init = 13;
+  T init = unittest::random_integer<T>();
 
   T h_result = thrust::reduce(h_first, h_first + n, init);
   T d_result = thrust::reduce(d_first, d_first + n, init);
@@ -206,5 +208,5 @@ template<typename T>
   // we use ASSERT_ALMOST_EQUAL because we're testing floating point types
   ASSERT_ALMOST_EQUAL(h_result, d_result);
 }
-DECLARE_VARIABLE_UNITTEST(TestReduceCountingIterator);
+DECLARE_GENERIC_UNITTEST(TestReduceCountingIterator);
 

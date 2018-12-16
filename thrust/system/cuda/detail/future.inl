@@ -3,11 +3,8 @@
 //
 // Distributed under the Boost Software License v1.0 (boost.org/LICENSE_1_0.txt)
 
-// TODO: Split into future.h and detail/future.h
-
-// TODO: Move stream/event classes to another header.
-
-// TODO: Deparameterize pointer.
+// TODO: Split into more granular headers (move unique_stream/unique_marker to
+// another header, etc).
 
 #pragma once
 
@@ -19,12 +16,13 @@
 #include <thrust/optional.h>
 #include <thrust/detail/type_deduction.h>
 #include <thrust/type_traits/integer_sequence.h>
+#include <thrust/type_traits/remove_cvref.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 #include <thrust/detail/tuple_algorithms.h>
 #include <thrust/allocate_unique.h>
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/execute_with_dependencies.h>
-#include <thrust/detail/future_error.h>
+#include <thrust/detail/event_error.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/cuda/future.h>
 #include <thrust/system/cuda/detail/util.h>
@@ -49,7 +47,7 @@ THRUST_INLINE_CONSTANT nonowning_t nonowning{};
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct event_deleter final
+struct marker_deleter final
 {
   __host__
   void operator()(CUevent_st* e) const
@@ -61,19 +59,19 @@ struct event_deleter final
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct unique_event final
+struct unique_marker final
 {
   using native_handle_type = CUevent_st*;
 
 private:
-  std::unique_ptr<CUevent_st, event_deleter> handle_;
+  std::unique_ptr<CUevent_st, marker_deleter> handle_;
 
 public:
   /// \brief Create a new stream and construct a handle to it. When the handle
   ///        is destroyed, the stream is destroyed.
   __host__
-  unique_event()
-    : handle_(nullptr, event_deleter())
+  unique_marker()
+    : handle_(nullptr, marker_deleter())
   {
     native_handle_type e;
     thrust::cuda_cub::throw_on_error(
@@ -83,16 +81,16 @@ public:
   }
 
   __thrust_exec_check_disable__
-  unique_event(unique_event const&) = delete;
+  unique_marker(unique_marker const&) = delete;
   __thrust_exec_check_disable__
-  unique_event(unique_event&&) = default;
+  unique_marker(unique_marker&&) = default;
   __thrust_exec_check_disable__
-  unique_event& operator=(unique_event const&) = delete;
+  unique_marker& operator=(unique_marker const&) = delete;
   __thrust_exec_check_disable__
-  unique_event& operator=(unique_event&&) = default;
+  unique_marker& operator=(unique_marker&&) = default;
 
   __thrust_exec_check_disable__
-  ~unique_event() = default;
+  ~unique_marker() = default;
 
   __host__
   auto get() const
@@ -125,13 +123,13 @@ public:
   }
 
   __host__
-  bool operator==(unique_event const& other) const
+  bool operator==(unique_marker const& other) const
   {
     return other.handle_ == handle_;
   }
 
   __host__
-  bool operator!=(unique_event const& other) const
+  bool operator!=(unique_marker const& other) const
   {
     return !(other == *this);
   }
@@ -248,7 +246,7 @@ public:
   }
 
   __host__
-  void depend_on(unique_event& e)
+  void depend_on(unique_marker& e)
   {
     thrust::cuda_cub::throw_on_error(
       cudaStreamWaitEvent(handle_.get(), e.get(), 0)
@@ -260,14 +258,14 @@ public:
   {
     if (s != *this)
     {
-      unique_event e;
+      unique_marker e;
       s.record(e);
       depend_on(e);
     }
   }
 
   __host__
-  void record(unique_event& e)
+  void record(unique_marker& e)
   {
     thrust::cuda_cub::throw_on_error(cudaEventRecord(e.get(), handle_.get()));
   }
@@ -287,20 +285,21 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////
 
-} // detail
+// Inheritance hierarchy of future/event shared state types.
+
+struct async_signal;
+
+template <typename KeepAlives>
+struct async_keep_alives /* : virtual async_signal */;
 
 template <typename T>
-struct ready_future;
-
-namespace detail {
-
-struct async_value_base;
-
-template <typename T, typename Pointer>
-struct async_value;
+struct async_value /* : virtual async_signal */;
 
 template <typename T, typename Pointer, typename KeepAlives>
-struct async_value_with_keep_alives;
+struct async_addressable_value_with_keep_alives
+/* : async_value<T>, async_keep_alives<KeepAlives> */;
+
+///////////////////////////////////////////////////////////////////////////////
 
 template <typename T, typename Pointer>
 struct weak_promise;
@@ -308,15 +307,17 @@ struct weak_promise;
 template <typename X, typename XPointer = pointer<X>>
 struct unique_eager_future_promise_pair final
 {
-  unique_eager_future<X, XPointer> future;
-  weak_promise<X, XPointer>        promise;
+  unique_eager_future<X>    future;
+  weak_promise<X, XPointer> promise;
 };
 
 struct acquired_stream final
 {
   unique_stream stream;
   optional<std::size_t> const acquired_from;
-  // If `acquired_from` is empty, then the stream is newly created.
+  // `acquired_from` contains the index in the tuple of dependencies from which
+  // the stream was acquired. If `acquired_from` is empty, no stream could be
+  // acquired from a dependency, and then the stream was newly created.
 };
 
 // Precondition: `device` is the current CUDA device.
@@ -331,20 +332,37 @@ optional<unique_stream>
 try_acquire_stream(int, unique_stream& stream) noexcept;
 
 // Precondition: `device` is the current CUDA device.
-template <typename T>
-__host__
+inline __host__
 optional<unique_stream>
-try_acquire_stream(int device, ready_future<T>&) noexcept;
+try_acquire_stream(int device, ready_event&) noexcept;
 
 // Precondition: `device` is the current CUDA device.
-template <typename X, typename XPointer>
+template <typename X>
+inline __host__
+optional<unique_stream>
+try_acquire_stream(int device, ready_future<X>&) noexcept;
+
+// Precondition: `device` is the current CUDA device.
+inline __host__
+optional<unique_stream>
+try_acquire_stream(int device, unique_eager_event& parent) noexcept;
+
+// Precondition: `device` is the current CUDA device.
+template <typename X>
 __host__
 optional<unique_stream>
-try_acquire_stream(int device, unique_eager_future<X, XPointer>& parent) noexcept;
+try_acquire_stream(int device, unique_eager_future<X>& parent) noexcept;
 
 template <typename... Dependencies>
 __host__
 acquired_stream acquire_stream(int device, Dependencies&... deps) noexcept;
+  
+template <typename... Dependencies>
+__host__
+unique_eager_event
+make_dependent_event(
+  std::tuple<Dependencies...>&& deps
+);
 
 template <
   typename X, typename XPointer
@@ -352,145 +370,195 @@ template <
 >
 __host__
 unique_eager_future_promise_pair<X, XPointer>
-depend_on(ComputeContent&& cc, std::tuple<Dependencies...>&& deps);
+make_dependent_future(ComputeContent&& cc, std::tuple<Dependencies...>&& deps);
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct async_value_base
+struct async_signal
 {
 protected:
   unique_stream stream_;
 
 public:
-  // Constructs an `async_value_base` which uses `stream`.
+  // Constructs an `async_signal` which uses `stream`.
   __host__
-  explicit async_value_base(unique_stream stream)
+  explicit async_signal(unique_stream&& stream)
     : stream_(std::move(stream))
   {}
 
   __host__
-  virtual ~async_value_base() {}
+  virtual ~async_signal() {}
 
   unique_stream&       stream()       noexcept { return stream_; }
   unique_stream const& stream() const noexcept { return stream_; }
-
-  template <typename X, typename XPointer>
-  friend __host__
-  optional<unique_stream>
-  thrust::system::cuda::detail::try_acquire_stream(
-    int device, unique_eager_future<X, XPointer>& parent
-    ) noexcept;
 };
 
-template <typename T, typename Pointer>
-struct async_value : async_value_base
+template <typename... KeepAlives>
+struct async_keep_alives<std::tuple<KeepAlives...>> : virtual async_signal
 {
-  using pointer
-    = typename thrust::detail::pointer_traits<Pointer>::template
-      rebind<T>::other;
-  using const_pointer
-    = typename thrust::detail::pointer_traits<Pointer>::template
-      rebind<T const>::other;
+  using keep_alives_type = std::tuple<KeepAlives...>;
 
 protected:
-  Pointer content_;
+  keep_alives_type keep_alives_;
 
 public:
-  // Constructs an `async_value` which uses `stream`.
+  // Constructs an `async_keep_alives` which uses `stream`, and keeps the
+  // objects in the tuple `keep_alives` alive until the asynchronous signal is
+  // destroyed.
   __host__
-  explicit async_value(unique_stream stream)
-    : async_value_base(std::move(stream)), content_{}
+  explicit async_keep_alives(
+    unique_stream&& stream, keep_alives_type&& keep_alives
+  )
+    : async_signal(std::move(stream))
+    , keep_alives_(std::move(keep_alives))
   {}
 
   __host__
-  virtual ~async_value() {}
-
-  __host__
-  pointer       data()       noexcept { return content_; }
-  __host__
-  const_pointer data() const noexcept { return content_; }
+  virtual ~async_keep_alives() {}
 };
 
-template <typename Pointer>
-struct async_value<void, Pointer> : async_value_base
+template <typename T>
+struct async_value : virtual async_signal
 {
-  using pointer
-    = typename thrust::detail::pointer_traits<Pointer>::template
-      rebind<void>::other;
-  using const_pointer
-    = typename thrust::detail::pointer_traits<Pointer>::template
-      rebind<void const>::other;
+  using value_type        = T;
+  using raw_const_pointer = value_type const*;
 
-  // Constructs an `async_value<void>` which uses `stream`.
+  // Constructs an `async_value` which uses `stream` and has no content.
   __host__
   explicit async_value(unique_stream stream)
-    : async_value_base(std::move(stream))
+    : async_signal(std::move(stream))
   {}
 
   __host__
   virtual ~async_value() {}
+
+  __host__
+  virtual bool valid_content() const noexcept { return false; }
+
+  __host__
+  virtual value_type get()
+  {
+    throw thrust::event_error(event_errc::no_state);
+  }
+
+  __host__
+  virtual value_type extract()
+  {
+    throw thrust::event_error(event_errc::no_state);
+  }
+
+  // For testing only.
+  #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
+  __host__
+  virtual raw_const_pointer raw_data() const
+  {
+    return nullptr;
+  }
+  #endif
 };
 
 template <typename T, typename Pointer, typename... KeepAlives>
-struct async_value_with_keep_alives<T, Pointer, std::tuple<KeepAlives...>> final
-  : async_value<T, Pointer>
+struct async_addressable_value_with_keep_alives<
+  T, Pointer, std::tuple<KeepAlives...>
+> final
+  : async_value<T>, async_keep_alives<std::tuple<KeepAlives...>>
 {
-  THRUST_STATIC_ASSERT_MSG(
-    (0 < sizeof...(KeepAlives))
-  , "non-void async_value_with_keep_alives must have at least one keep alive"
-  );
+  using value_type        = typename async_value<T>::value_type;
+  using raw_const_pointer = typename async_value<T>::raw_const_pointer;
 
-  using pointer = typename async_value<T, Pointer>::pointer;
-  using const_pointer = typename async_value<T, Pointer>::const_pointer;
+  using keep_alives_type
+    = typename async_keep_alives<std::tuple<KeepAlives...>>::keep_alives_type;
 
-  using keep_alives_type = std::tuple<KeepAlives...>;
+  using pointer
+    = typename thrust::detail::pointer_traits<Pointer>::template
+      rebind<value_type>::other;
+  using const_pointer
+    = typename thrust::detail::pointer_traits<Pointer>::template
+      rebind<value_type const>::other;
 
-protected:
-  keep_alives_type keep_alives_;
+private:
+  pointer content_;
 
 public:
-  // Constructs an `async_value_with_keep_alives` which uses `stream`, keeps
-  // the objects in the tuple `keep_alives` alive until the asynchronous value
-  // is destroyed, and has a content pointer determined by calling
-  // `ComputeContent` on the first element of `keep_alives_`.
+  // Constructs an `async_addressable_value_with_keep_alives` which uses
+  // `stream`, keeps the objects in the tuple `keep_alives` alive until the
+  // asynchronous value is destroyed, and determines the location of its
+  // content by evaluating `compute_content(content_keep_alive)`.
+  // NOTE: The use of a callback idiom is necessary if the content is stored in
+  // place in the content keep alive object, in which case we need to get its
+  // address after its been moved into the new signal we're constructing.
+  // NOTE: NVCC has a bug that causes it to reorder our base class initializers
+  // in generated host code, which leads to -Wreorder warnings.
+  THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_BEGIN
   template <typename ComputeContent>
   __host__
-  explicit async_value_with_keep_alives(
-    unique_stream stream, ComputeContent&& cc, keep_alives_type&& keep_alives
+  explicit async_addressable_value_with_keep_alives(
+    unique_stream&&    stream
+  , keep_alives_type&& keep_alives
+  , ComputeContent&&   compute_content
   )
-    : async_value<T, Pointer>(std::move(stream))
-    , keep_alives_(std::move(keep_alives))
+    : async_signal(std::move(stream))
+    , async_value<T>(std::move(stream))
+    , async_keep_alives<keep_alives_type>(
+        std::move(stream), std::move(keep_alives)
+      )
   {
-    this->content_ = THRUST_FWD(cc)(std::get<0>(keep_alives_));
+    content_ = THRUST_FWD(compute_content)(std::get<0>(this->keep_alives_));
   }
-};
+  THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_END
 
-template <typename Pointer, typename... KeepAlives>
-struct async_value_with_keep_alives<void, Pointer, std::tuple<KeepAlives...>> final
-  : async_value<void, Pointer>
-{
-  using pointer = typename async_value<void, Pointer>::pointer;
-  using const_pointer = typename async_value<void, Pointer>::const_pointer;
-
-  using keep_alives_type = std::tuple<KeepAlives...>;
-
-protected:
-  keep_alives_type keep_alives_;
-
-public:
-  // Constructs an `async_value_with_keep_alives` which uses `stream` and keeps
-  // the objects in the tuple `keep_alives` alive until the asynchronous value
-  // is destroyed.
-  // FIXME: The `nullptr_t` parameter should perhaps just be a callable that is
-  // not used. The reason it's not now is to avoid accidentally passing a
-  // meaningful content callable to a `future<void>`.
   __host__
-  explicit async_value_with_keep_alives(
-    unique_stream stream, std::nullptr_t, keep_alives_type&& keep_alives
-  )
-    : async_value<void, Pointer>(std::move(stream))
-    , keep_alives_(std::move(keep_alives))
-  {}
+  bool valid_content() const noexcept final override
+  {
+    return nullptr != content_;
+  }
+
+  // Precondition: `true == valid_content()`.
+  __host__
+  pointer data() 
+  {
+    if (!valid_content())
+      throw thrust::event_error(event_errc::no_content);
+
+    return content_;
+  }
+
+  // Precondition: `true == valid_content()`.
+  __host__
+  const_pointer data() const 
+  {
+    if (!valid_content())
+      throw thrust::event_error(event_errc::no_content);
+
+    return content_;
+  }
+
+  // Blocks.
+  // Precondition: `true == valid_content()`.
+  __host__
+  value_type get() final override
+  {
+    this->stream().wait();
+    return *data();
+  }
+
+  // Blocks.
+  // Precondition: `true == valid_content()`.
+  __host__
+  value_type extract() final override
+  {
+    this->stream().wait();
+    return std::move(*data());
+  }
+
+  // For testing only.
+  #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
+  __host__
+  raw_const_pointer raw_data() const final override
+  {
+    return raw_pointer_cast(content_);
+  }
+  #endif
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -498,20 +566,26 @@ public:
 template <typename T, typename Pointer>
 struct weak_promise final
 {
-  using pointer = typename async_value<T, Pointer>::pointer;
-  using const_pointer = typename async_value<T, Pointer>::const_pointer;
+  using value_type = typename async_value<T>::value_type;
+
+  using pointer
+    = typename thrust::detail::pointer_traits<Pointer>::template
+      rebind<T>::other;
+  using const_pointer
+    = typename thrust::detail::pointer_traits<Pointer>::template
+      rebind<T const>::other;
 
 private:
+  int device_ = 0;
   pointer content_;
 
-  __host__
-  explicit weak_promise(async_value<T, Pointer>* av)
-    : content_(av->data())
+  explicit weak_promise(int device, pointer content)
+    : device_(device), content_(std::move(content))
   {}
 
 public:
   __host__ __device__
-  weak_promise() : content_{} {}
+  weak_promise() : device_(0), content_{} {}
 
   __thrust_exec_check_disable__
   weak_promise(weak_promise const&) = default;
@@ -535,41 +609,7 @@ public:
   >
   friend __host__
   unique_eager_future_promise_pair<X, XPointer>
-  thrust::system::cuda::detail::depend_on(
-    ComputeContent&& cc, std::tuple<Dependencies...>&& deps
-  );
-};
-
-template <typename Pointer>
-struct weak_promise<void, Pointer> final
-{
-  using pointer       = typename async_value<void, Pointer>::pointer;
-  using const_pointer = typename async_value<void, Pointer>::const_pointer;
-
-private:
-  __host__ __device__
-  explicit weak_promise(async_value<void, Pointer>*) {}
-
-public:
-  __host__ __device__
-  weak_promise() {}
-
-  __thrust_exec_check_disable__
-  weak_promise(weak_promise const&) = default;
-  __thrust_exec_check_disable__
-  weak_promise(weak_promise&&) = default;
-  __thrust_exec_check_disable__
-  weak_promise& operator=(weak_promise const&) = default;
-  __thrust_exec_check_disable__
-  weak_promise& operator=(weak_promise&&) = default;
-
-  template <
-    typename X, typename XPointer
-  , typename ComputeContent, typename... Dependencies
-  >
-  friend __host__
-  unique_eager_future_promise_pair<X, XPointer>
-  thrust::system::cuda::detail::depend_on(
+  thrust::system::cuda::detail::make_dependent_future(
     ComputeContent&& cc, std::tuple<Dependencies...>&& deps
   );
 };
@@ -578,291 +618,325 @@ public:
 
 } // namespace detail
 
+struct ready_event final
+{
+  ready_event() = default;
+
+  template <typename U>
+  __host__ __device__
+  explicit ready_event(ready_future<U>) {}
+
+  __host__ __device__
+  static constexpr bool valid_content() noexcept { return true; }
+
+  __host__ __device__
+  static constexpr bool ready() noexcept { return true; }
+};
+
 template <typename T>
 struct ready_future final
 {
-  using pointer       = T*;
-  using const_pointer = T const*;
+  using value_type        = T;
+  using raw_const_pointer = T const*;
 
 private:
-  T value_;
+  value_type value_;
 
 public:
-  template <typename U>
   __host__ __device__
-  explicit ready_future(U&& u)
-    : value_(THRUST_FWD(u))
-  {}
+  ready_future() : value_{} {}
 
   ready_future(ready_future&&) = default;
   ready_future(ready_future const&) = default;
   ready_future& operator=(ready_future&&) = default;
   ready_future& operator=(ready_future const&) = default;
 
+  template <typename U>
   __host__ __device__
-  static constexpr bool valid() noexcept { return true; }
+  explicit ready_future(U&& u) : value_(THRUST_FWD(u)) {}
+
+  __host__ __device__
+  static constexpr bool valid_content() noexcept { return true; }
 
   __host__ __device__
   static constexpr bool ready() noexcept { return true; }
 
   __host__ __device__
-  const_pointer data() const
+  value_type get() const
   {
-    return addressof(value_);
+    return value_;
   }
 
-  __host__ __device__
-  T get()
+  THRUST_NODISCARD __host__ __device__
+  value_type extract() 
   {
     return std::move(value_);
   }
+
+  #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
+  // For testing only.
+  __host__ __device__
+  raw_const_pointer data() const
+  {
+    return addressof(value_);
+  }
+  #endif
 };
 
-template <>
-struct ready_future<void> final
+struct unique_eager_event final
 {
-  ready_future() = default;
-
-  template <typename U>
-  __host__ __device__
-  explicit ready_future(ready_future<U>) {}
-
-  __host__ __device__
-  static constexpr bool valid() noexcept { return true; }
-
-  __host__ __device__
-  static constexpr bool ready() noexcept { return true; }
-};
-
-template <typename T, typename Pointer>
-struct unique_eager_future final
-{
-  using pointer       = typename detail::async_value<T, Pointer>::pointer;
-  using const_pointer = typename detail::async_value<T, Pointer>::const_pointer;
-
-private:
+protected:
   int device_ = 0;
-  std::unique_ptr<detail::async_value_base> async_value_;
+  std::unique_ptr<detail::async_signal> async_signal_;
 
   __host__
-  explicit unique_eager_future(
-    int device, std::unique_ptr<detail::async_value<T, Pointer>> av
+  explicit unique_eager_event(
+    int device, std::unique_ptr<detail::async_signal> async_signal
   )
-    // NOTE: We upcast to `unique_ptr<async_value_base>` here.
-    : device_(device), async_value_(std::move(av))
-  {}
-
-  __host__
-  auto downcast()
-  THRUST_DECLTYPE_RETURNS(
-    // Downcast to `async_value<T, Pointer>`.
-    static_cast<detail::async_value<T, Pointer>*>(async_value_.get())
-  )
-  __host__
-  auto downcast() const
-  THRUST_DECLTYPE_RETURNS(
-    // Downcast to `async_value<T, Pointer>`.
-    static_cast<detail::async_value<T, Pointer> const*>(async_value_.get())
-  )
-
-public:
-  __host__
-  unique_eager_future()
-    : device_(0), async_value_()
-  {}
-
-  __host__
-  explicit unique_eager_future(new_stream_t)
-    : device_(0)
-    , async_value_(
-        new detail::async_value<T, Pointer>(detail::unique_stream{})
-      )
-  {
-    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
-  }
-
-  unique_eager_future(unique_eager_future&&) = default;
-  unique_eager_future(unique_eager_future const&) = delete;
-  unique_eager_future& operator=(unique_eager_future&&) = default;
-  unique_eager_future& operator=(unique_eager_future const&) = delete;
-
-  __host__
-  ~unique_eager_future()
-  {
-    // FIXME: If we could asynchronously handle destruction of keep alives, we
-    // could avoid doing this.
-    if (valid()) wait();
-  }
-
-  __host__
-  bool valid() const noexcept { return bool(async_value_); }
-
-  __host__
-  bool ready() const noexcept
-  {
-    if (async_value_)
-      return stream().ready();
-    else
-      return false;
-  }
-
-  // Precondition: `true == valid()`.
-  __host__
-  detail::unique_stream& stream()
-  {
-    if (!valid())
-      throw thrust::future_error(future_errc::no_state);
-
-    return async_value_->stream();
-  }
-
-  __host__
-  int where() const noexcept { return device_; }
-
-  __host__
-  const_pointer data() const
-  {
-    if (async_value_)
-      return downcast()->data();
-    else
-      return const_pointer{};
-  }
-
-  __host__
-  void wait()
-  {
-    stream().wait();
-  }
-
-  __host__
-  T get()
-  {
-    stream().wait();
-    return *(downcast()->data());
-  }
-
-  __host__
-  T consume()
-  {
-    stream().wait();
-    return std::move(*(downcast()->data()));
-  }
-
-  template <typename X, typename XPointer>
-  __host__
-  friend optional<detail::unique_stream>
-  thrust::system::cuda::detail::try_acquire_stream(
-    int device, unique_eager_future<X, XPointer>& parent
-    ) noexcept;
-
-  template <
-    typename X, typename XPointer
-  , typename ComputeContent, typename... Dependencies
-  >
-  friend __host__
-  detail::unique_eager_future_promise_pair<X, XPointer>
-  thrust::system::cuda::detail::depend_on(
-    ComputeContent&& cc, std::tuple<Dependencies...>&& deps
-  );
-
-  template <typename X, typename XPointer>
-  friend struct unique_eager_future;
-};
-
-template <typename Pointer>
-struct unique_eager_future<void, Pointer> final
-{
-  using pointer
-    = typename detail::async_value<void, Pointer>::pointer;
-  using const_pointer
-    = typename detail::async_value<void, Pointer>::const_pointer;
-
-private:
-  int device_ = 0;
-  std::unique_ptr<detail::async_value_base> async_value_;
-
-  __host__
-  explicit unique_eager_future(
-    int device, std::unique_ptr<detail::async_value<void, Pointer>> av
-  )
-    // NOTE: We upcast to `unique_ptr<async_value_base>` here.
-    : device_(device), async_value_(std::move(av))
+    : device_(device), async_signal_(std::move(async_signal))
   {}
 
 public:
   __host__
-  unique_eager_future()
-    : device_(0), async_value_()
+  unique_eager_event()
+    : device_(0), async_signal_()
   {}
 
-  __host__
-  explicit unique_eager_future(new_stream_t)
-    : device_(0)
-    , async_value_(
-        new detail::async_value<void, Pointer>(detail::unique_stream{})
-      )
-  {
-    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
-  }
-
-  unique_eager_future(unique_eager_future&&) = default;
-  unique_eager_future(unique_eager_future const&) = delete;
-  unique_eager_future& operator=(unique_eager_future&&) = default;
-  unique_eager_future& operator=(unique_eager_future const&) = delete;
-
-  __host__
-  ~unique_eager_future()
-  {
-    // FIXME: If we could asynchronously handle destruction of keep alives, we
-    // could avoid doing this.
-    if (valid()) wait();
-  }
+  unique_eager_event(unique_eager_event&&) = default;
+  unique_eager_event(unique_eager_event const&) = delete;
+  unique_eager_event& operator=(unique_eager_event&&) = default;
+  unique_eager_event& operator=(unique_eager_event const&) = delete;
 
   // Any `unique_eager_future<T>` can be explicitly converted to a
-  // `unique_eager_future<void>`.
-  template <typename U, typename UPointer>
+  // `unique_eager_event<void>`.
+  template <typename U>
   __host__
-  explicit unique_eager_future(unique_eager_future<U, UPointer>&& other)
-    // NOTE: We upcast to `unique_ptr<async_value_base>` here.
-    : device_(other.where()), async_value_(std::move(other.async_value_))
+  explicit unique_eager_event(unique_eager_future<U>&& other)
+    // NOTE: We upcast to `unique_ptr<async_signal>` here.
+    : device_(other.where()), async_signal_(std::move(other.async_signal_))
   {}
 
   __host__
-  bool valid() const noexcept { return bool(async_value_); }
+  // NOTE: We take `new_stream_t` by `const&` because it is incomplete here.
+  explicit unique_eager_event(new_stream_t const&)
+    : device_(0)
+    , async_signal_(new detail::async_signal(detail::unique_stream{}))
+  {
+    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
+  }
+
+  __host__
+  virtual ~unique_eager_event()
+  {
+    // FIXME: If we could asynchronously handle destruction of keep alives, we
+    // could avoid doing this.
+    if (valid_stream()) wait();
+  }
+
+  __host__
+  bool valid_stream() const noexcept
+  {
+    return bool(async_signal_);
+  }
 
   __host__
   bool ready() const noexcept
   {
-    if (async_value_)
+    if (valid_stream())
       return stream().ready();
     else
       return false;
   }
 
-  // Precondition: `true == valid()`.
+  // Precondition: `true == valid_stream()`.
   __host__
   detail::unique_stream& stream()
   {
-    if (!valid())
-      throw thrust::future_error(future_errc::no_state);
+    if (!valid_stream())
+      throw thrust::event_error(event_errc::no_state);
 
-    return async_value_->stream();
+    return async_signal_->stream();
+  }
+  detail::unique_stream const& stream() const
+  {
+    if (!valid_stream())
+      throw thrust::event_error(event_errc::no_state);
+
+    return async_signal_->stream();
   }
 
   __host__
   int where() const noexcept { return device_; }
 
+  // Precondition: `true == valid_stream()`.
   __host__
   void wait()
   {
     stream().wait();
   }
 
-  template <typename X, typename XPointer>
-  __host__
-  friend optional<detail::unique_stream>
+  friend __host__
+  optional<detail::unique_stream>
   thrust::system::cuda::detail::try_acquire_stream(
-    int device, unique_eager_future<X, XPointer>& parent
+    int device, unique_eager_event& parent
+    ) noexcept;
+
+  template <typename... Dependencies>
+  friend __host__
+  unique_eager_event
+  thrust::system::cuda::detail::make_dependent_event(
+    std::tuple<Dependencies...>&& deps
+  );
+};
+
+template <typename T>
+struct unique_eager_future final
+{
+  THRUST_STATIC_ASSERT_MSG(
+    (!std::is_same<T, remove_cvref_t<void>>::value)
+  , "`thrust::event` should be used to express valueless futures"
+  );
+
+  using value_type        = typename detail::async_value<T>::value_type;
+  using raw_const_pointer = typename detail::async_value<T>::raw_const_pointer;
+
+private:
+  int device_ = 0;
+  std::unique_ptr<detail::async_value<value_type>> async_signal_;
+
+  __host__
+  explicit unique_eager_future(
+    int device, std::unique_ptr<detail::async_value<value_type>> async_signal
+  )
+    : device_(device), async_signal_(std::move(async_signal))
+  {}
+
+public:
+  __host__
+  unique_eager_future()
+    : device_(0), async_signal_()
+  {}
+
+  unique_eager_future(unique_eager_future&&) = default;
+  unique_eager_future(unique_eager_future const&) = delete;
+  unique_eager_future& operator=(unique_eager_future&&) = default;
+  unique_eager_future& operator=(unique_eager_future const&) = delete;
+
+  __host__
+  // NOTE: We take `new_stream_t` by `const&` because it is incomplete here.
+  explicit unique_eager_future(new_stream_t const&)
+    : device_(0)
+    , async_signal_(new detail::async_value<value_type>(detail::unique_stream{}))
+  {
+    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
+  }
+
+  __host__
+  ~unique_eager_future()
+  {
+    // FIXME: If we could asynchronously handle destruction of keep alives, we
+    // could avoid doing this.
+    if (valid_stream()) wait();
+  }
+
+  __host__
+  bool valid_stream() const noexcept
+  {
+    return bool(async_signal_);
+  }
+
+  __host__
+  bool valid_content() const noexcept
+  {
+    if (!valid_stream())
+      return false;
+
+    // We might have been constructed with `new_stream_t`, in which case we'd
+    // have an async_value, but it doesn't have content.
+    return async_signal_->valid_content();
+  }
+
+  // Precondition: `true == valid_stream()`.
+  __host__
+  bool ready() const noexcept
+  {
+    if (valid_stream())
+      return stream().ready();
+    else
+      return false;
+  }
+
+  // Precondition: `true == valid_stream()`.
+  __host__
+  detail::unique_stream& stream()
+  {
+    if (!valid_stream())
+      throw thrust::event_error(event_errc::no_state);
+
+    return async_signal_->stream();
+  }
+  __host__
+  detail::unique_stream const& stream() const
+  {
+    if (!valid_stream())
+      throw thrust::event_error(event_errc::no_state);
+
+    return async_signal_->stream();
+  }
+
+  __host__
+  int where() const noexcept { return device_; }
+
+  // Blocks.
+  // Precondition: `true == valid_stream()`.
+  __host__
+  void wait()
+  {
+    stream().wait();
+  }
+
+  // Blocks.
+  // Precondition: `true == valid_content()`.
+  __host__
+  value_type get()
+  {
+    if (!valid_content())
+      throw thrust::event_error(event_errc::no_content);
+
+    return async_signal_->get();
+  }
+
+  // Blocks.
+  // Precondition: `true == valid_content()`.
+  THRUST_NODISCARD __host__
+  value_type extract()
+  {
+    if (!valid_content())
+      throw thrust::event_error(event_errc::no_content);
+
+    value_type tmp(async_signal_->extract());
+    async_signal_.reset();
+    return std::move(tmp);
+  }
+
+  // For testing only.
+  #if defined(THRUST_ENABLE_FUTURE_RAW_DATA_MEMBER)
+  // Precondition: `true == valid_stream()`.
+  __host__
+  raw_const_pointer raw_data() const
+  {
+    if (!valid_stream())
+      throw thrust::event_error(event_errc::no_state);
+
+    return async_signal_->raw_data();
+  }
+  #endif
+
+  template <typename X>
+  friend __host__
+  optional<detail::unique_stream>
+  thrust::system::cuda::detail::try_acquire_stream(
+    int device, unique_eager_future<X>& parent
     ) noexcept;
 
   template <
@@ -871,9 +945,11 @@ public:
   >
   friend __host__
   detail::unique_eager_future_promise_pair<X, XPointer>
-  thrust::system::cuda::detail::depend_on(
+  thrust::system::cuda::detail::make_dependent_future(
     ComputeContent&& cc, std::tuple<Dependencies...>&& deps
   );
+
+  friend struct unique_eager_event;
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -896,25 +972,46 @@ try_acquire_stream(int, unique_stream& stream) noexcept
   return {std::move(stream)};
 }
 
-template <typename T>
-__host__
+inline __host__
 optional<unique_stream>
-try_acquire_stream(int, ready_future<T>&) noexcept
+try_acquire_stream(int, ready_event&) noexcept
 {
   // There's no stream to acquire!
   return {};
 }
 
-template <typename X, typename XPointer>
+template <typename X>
 __host__
 optional<unique_stream>
-try_acquire_stream(int device, unique_eager_future<X, XPointer>& parent) noexcept
+try_acquire_stream(int, ready_future<X>&) noexcept
+{
+  // There's no stream to acquire!
+  return {};
+}
+
+__host__
+optional<unique_stream>
+try_acquire_stream(int device, unique_eager_event& parent) noexcept
 {
   // We have unique ownership, so we can always steal the stream if the future
   // has one as long as they are on the same device as us.
-  if (parent.async_value_)
+  if (parent.valid_stream())
     if (device == parent.device_)
-      return std::move(parent.async_value_->stream());
+      return std::move(parent.async_signal_->stream());
+
+  return {};
+}
+
+template <typename X>
+__host__
+optional<unique_stream>
+try_acquire_stream(int device, unique_eager_future<X>& parent) noexcept
+{
+  // We have unique ownership, so we can always steal the stream if the future
+  // has one as long as they are on the same device as us.
+  if (parent.valid_stream())
+    if (device == parent.device_)
+      return std::move(parent.async_signal_->stream());
 
   return {};
 }
@@ -968,6 +1065,12 @@ void create_dependency(
 ) noexcept
 {}
 
+inline __host__
+void create_dependency(
+  unique_stream&, ready_event&
+) noexcept
+{}
+
 template <typename T>
 __host__
 void create_dependency(
@@ -983,10 +1086,18 @@ void create_dependency(
   child.depend_on(parent);
 }
 
-template <typename X, typename XPointer>
+inline __host__
+void create_dependency(
+  unique_stream& child, unique_eager_event& parent
+)
+{
+  child.depend_on(parent.stream());
+}
+
+template <typename X>
 __host__
 void create_dependency(
-  unique_stream& child, unique_eager_future<X, XPointer>& parent
+  unique_stream& child, unique_eager_future<X>& parent
 )
 {
   child.depend_on(parent.stream());
@@ -1067,7 +1178,7 @@ template <
 , std::size_t I0, std::size_t... Is
 >
 struct find_keep_alives_impl<
-  std::tuple<ready_future<void>, Dependencies...>, index_sequence<I0, Is...>
+  std::tuple<ready_event, Dependencies...>, index_sequence<I0, Is...>
 >
 {
   // Nothing to keep alive, skip this index.
@@ -1094,11 +1205,29 @@ struct find_keep_alives_impl<
 };
 
 template <
-  typename X, typename XPointer, typename... Dependencies
+  typename... Dependencies
 , std::size_t I0, std::size_t... Is
 >
 struct find_keep_alives_impl<
-  std::tuple<unique_eager_future<X, XPointer>, Dependencies...>
+  std::tuple<unique_eager_event, Dependencies...>
+, index_sequence<I0, Is...>
+>
+{
+  // Add this index to the list.
+  using type = integer_sequence_push_front<
+    std::size_t, I0
+  , typename find_keep_alives_impl<
+      std::tuple<Dependencies...>, index_sequence<Is...>
+    >::type
+  >;
+};
+
+template <
+  typename X, typename... Dependencies
+, std::size_t I0, std::size_t... Is
+>
+struct find_keep_alives_impl<
+  std::tuple<unique_eager_future<X>, Dependencies...>
 , index_sequence<I0, Is...>
 >
 {
@@ -1132,13 +1261,46 @@ struct find_keep_alives_impl<
 
 ///////////////////////////////////////////////////////////////////////////////
 
+template <typename... Dependencies>
+__host__
+unique_eager_event make_dependent_event(std::tuple<Dependencies...>&& deps)
+{
+  int device = 0;
+  thrust::cuda_cub::throw_on_error(cudaGetDevice(&device));
+
+  // First, either steal a stream from one of our children or make a new one.
+  auto as = acquire_stream(device, deps);
+
+  // Then, make the stream we've acquired asynchronously wait on all of our
+  // dependencies, except the one we stole the stream from.
+  create_dependencies(as, deps);
+
+  // Then, we determine which subset of dependencies need to be kept alive.
+  auto ka = tuple_subset(
+    std::move(deps)
+  , find_keep_alives<std::tuple<Dependencies...>>{}
+  );
+
+  // Next, we create the asynchronous signal.
+  using async_signal_type = async_keep_alives<decltype(ka)>;
+
+  std::unique_ptr<async_signal_type> sig(
+    new async_signal_type(std::move(as.stream), std::move(ka))
+  );
+
+  // Finally, we create the event object.
+  return unique_eager_event(device, std::move(sig));
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
 template <
   typename X, typename XPointer
 , typename ComputeContent, typename... Dependencies
 >
 __host__
 unique_eager_future_promise_pair<X, XPointer>
-depend_on(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
+make_dependent_future(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
 {
   int device = 0;
   thrust::cuda_cub::throw_on_error(cudaGetDevice(&device));
@@ -1157,15 +1319,17 @@ depend_on(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
   );
 
   // Next, we create the asynchronous value.
-  std::unique_ptr<async_value<X, XPointer>> av(
-    new async_value_with_keep_alives<X, XPointer, decltype(ka)>(
-      std::move(as.stream), std::move(cc), std::move(ka)
-    )
-  );
+  using async_signal_type = async_addressable_value_with_keep_alives<
+    X, XPointer, decltype(ka)
+  >;
 
+  std::unique_ptr<async_signal_type> sig(
+    new async_signal_type(std::move(as.stream), std::move(ka), std::move(cc))
+  );
+ 
   // Finally, we create the promise and future objects.
-  weak_promise<X, XPointer> child_prom(av.get());
-  unique_eager_future<X, XPointer> child_fut(device, std::move(av));
+  weak_promise<X, XPointer> child_prom(device, sig->data());
+  unique_eager_future<X> child_fut(device, std::move(sig));
 
   return unique_eager_future_promise_pair<X, XPointer>
     {std::move(child_fut), std::move(child_prom)};
@@ -1175,9 +1339,24 @@ depend_on(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+template <typename... Events>
+__host__
+unique_eager_event when_all(Events&&... evs)
+// TODO: Constrain to events, futures, and maybe streams (currently allows keep
+// alives).
+{
+  return detail::make_dependent_event(std::make_tuple(std::move(evs)...)); 
+}
+
 // ADL hook for transparent `.after` move support.
-template <typename X, typename XPointer>
-auto capture_as_dependency(unique_eager_future<X, XPointer>& dependency)
+inline __host__
+auto capture_as_dependency(unique_eager_event& dependency)
+THRUST_DECLTYPE_RETURNS(std::move(dependency))
+
+// ADL hook for transparent `.after` move support.
+template <typename X>
+__host__
+auto capture_as_dependency(unique_eager_future<X>& dependency)
 THRUST_DECLTYPE_RETURNS(std::move(dependency))
 
 }} // namespace system::cuda

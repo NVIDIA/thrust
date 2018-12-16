@@ -9,42 +9,83 @@
 #include <unittest/exceptions.h>
 #include <unittest/util.h>
 
-#define ASSERT_EQUAL_QUIET(X,Y)  unittest::assert_equal_quiet((X),(Y), __FILE__, __LINE__)
-#define ASSERT_EQUAL(X,Y)        unittest::assert_equal((X),(Y), __FILE__,  __LINE__)
-#define ASSERT_LEQUAL(X,Y)       unittest::assert_lequal((X),(Y), __FILE__,  __LINE__)
-#define ASSERT_GEQUAL(X,Y)       unittest::assert_gequal((X),(Y), __FILE__,  __LINE__)
-#define ASSERT_LESS(X,Y)         unittest::assert_less((X),(Y), __FILE__,  __LINE__)
-#define ASSERT_GREATER(X,Y)      unittest::assert_greater((X),(Y), __FILE__,  __LINE__)
-#define ASSERT_ALMOST_EQUAL(X,Y) unittest::assert_almost_equal((X),(Y), __FILE__, __LINE__)
-#define KNOWN_FAILURE            { unittest::UnitTestKnownFailure f; f << "[" << __FILE__ ":" << __LINE__ << "]"; throw f;}
+#define ASSERT_EQUAL_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_)           unittest::assert_equal((X),(Y), FILE_,  LINE_)
+#define ASSERT_EQUAL_QUIET_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_)     unittest::assert_equal_quiet((X),(Y), FILE_, LINE_)
+#define ASSERT_NOT_EQUAL_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_)       unittest::assert_not_equal((X),(Y), FILE_,  LINE_)
+#define ASSERT_NOT_EQUAL_QUIET_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_) unittest::assert_not_equal_quiet((X),(Y), FILE_, LINE_)
+#define ASSERT_LEQUAL_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_)          unittest::assert_lequal((X),(Y), FILE_,  LINE_)
+#define ASSERT_GEQUAL_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_)          unittest::assert_gequal((X),(Y), FILE_,  LINE_)
+#define ASSERT_LESS_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_)            unittest::assert_less((X),(Y), FILE_,  LINE_)
+#define ASSERT_GREATER_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_)         unittest::assert_greater((X),(Y), FILE_,  LINE_)
+#define ASSERT_ALMOST_EQUAL_WITH_FILE_AND_LINE(X,Y,FILE_,LINE_)    unittest::assert_almost_equal((X),(Y), FILE_, LINE_)
+#define ASSERT_EQUAL_RANGES_WITH_FILE_AND_LINE(X,Y,Z,FILE_,LINE_)  unittest::assert_equal((X),(Y),(Z), FILE_,  LINE_)
 
-#define ASSERT_EQUAL_RANGES(X,Y,Z)  unittest::assert_equal((X),(Y),(Z), __FILE__,  __LINE__)
-
-#define ASSERT_THROWS(expr, exception_type)                                   \
+#define ASSERT_THROWS_WITH_FILE_AND_LINE(                                     \
+  EXPR, EXCEPTION_TYPE, FILE_, LINE_                                          \
+)                                                                             \
   {                                                                           \
-    unittest::threw_status s = unittest::did_not_throw;                       \
-    try { expr; }                                                             \
-    catch (exception_type const&) { s = unittest::threw_right_type; }         \
-    catch (...)                   { s = unittest::threw_wrong_type; }         \
-    unittest::check_assert_throws(s, #exception_type, __FILE__, __LINE__);    \
+    unittest::threw_status THRUST_PP_CAT2(__s, LINE_)                         \
+      = unittest::did_not_throw;                                              \
+    try { EXPR; }                                                             \
+    catch (EXCEPTION_TYPE const&)                                             \
+    { THRUST_PP_CAT2(__s, LINE_) = unittest::threw_right_type; }              \
+    catch (...)                                                               \
+    { THRUST_PP_CAT2(__s, LINE_) = unittest::threw_wrong_type; }              \
+    unittest::check_assert_throws(                                            \
+      THRUST_PP_CAT2(__s, LINE_), THRUST_PP_STRINGIZE(EXCEPTION_TYPE)         \
+    , FILE_, LINE_                                                            \
+    );                                                                        \
   }                                                                           \
   /**/
 
-#define ASSERT_THROWS_EQUAL(expr, exception_type, value)                      \
+#define ASSERT_THROWS_EQUAL_WITH_FILE_AND_LINE(                               \
+  EXPR, EXCEPTION_TYPE, VALUE, FILE_, LINE_                                   \
+)                                                                             \
   {                                                                           \
-    unittest::threw_status s = unittest::did_not_throw;                       \
-    try { expr; }                                                             \
-    catch (exception_type const& e)                                           \
+    unittest::threw_status THRUST_PP_CAT2(__s, LINE_)                         \
+      = unittest::did_not_throw;                                              \
+    try { EXPR; }                                                             \
+    catch (EXCEPTION_TYPE const& THRUST_PP_CAT2(__e, LINE_))                  \
     {                                                                         \
-      if (value == e)                                                         \
-        s = unittest::threw_right_type;                                       \
+      if (VALUE == THRUST_PP_CAT2(__e, LINE_))                                \
+        THRUST_PP_CAT2(__s, LINE_)                                            \
+          = unittest::threw_right_type;                                       \
       else                                                                    \
-        s = unittest::threw_right_type_but_wrong_value;                       \
+        THRUST_PP_CAT2(__s, LINE_)                                            \
+          = unittest::threw_right_type_but_wrong_value;                       \
     }                                                                         \
-    catch (...) { s = unittest::threw_wrong_type; }                           \
-    unittest::check_assert_throws(s, #exception_type, __FILE__, __LINE__);    \
+    catch (...) { THRUST_PP_CAT2(__s, LINE_) = unittest::threw_wrong_type; }  \
+    unittest::check_assert_throws(                                            \
+      THRUST_PP_CAT2(__s, LINE_), THRUST_PP_STRINGIZE(EXCEPTION_TYPE)         \
+    , FILE_, LINE_                                                            \
+    );                                                                        \
   }                                                                           \
   /**/
+
+#define KNOWN_FAILURE_WITH_FILE_AND_LINE(FILE_, LINE_)                                  \
+  { unittest::UnitTestKnownFailure f; f << "[" << FILE_ ":" << LINE_ << "]"; throw f; } \
+  /**/
+
+#define ASSERT_EQUAL(X,Y)           ASSERT_EQUAL_WITH_FILE_AND_LINE((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_EQUAL_QUIET(X,Y)     ASSERT_EQUAL_QUIET_WITH_FILE_AND_LINE((X),(Y), __FILE__, __LINE__)
+#define ASSERT_NOT_EQUAL(X,Y)       ASSERT_NOT_EQUAL_WITH_FILE_AND_LINE((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_NOT_EQUAL_QUIET(X,Y) ASSERT_NOT_EQUAL_QUIET_WITH_FILE_AND_LINE((X),(Y), __FILE__, __LINE__)
+#define ASSERT_LEQUAL(X,Y)          ASSERT_LEQUAL_WITH_FILE_AND_LINE((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_GEQUAL(X,Y)          ASSERT_GEQUAL_WITH_FILE_AND_LINE((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_LESS(X,Y)            ASSERT_LESS_WITH_FILE_AND_LINE((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_GREATER(X,Y)         ASSERT_GREATER_WITH_FILE_AND_LINE((X),(Y), __FILE__,  __LINE__)
+#define ASSERT_ALMOST_EQUAL(X,Y)    ASSERT_ALMOST_EQUAL_WITH_FILE_AND_LINE((X),(Y), __FILE__, __LINE__)
+#define ASSERT_EQUAL_RANGES(X,Y,Z)  ASSERT_EQUAL_WITH_FILE_AND_LINE((X),(Y),(Z), __FILE__,  __LINE__)
+
+#define ASSERT_THROWS(EXPR, EXCEPTION_TYPE)                                   \
+  ASSERT_THROWS_WITH_FILE_AND_LINE(EXPR, EXCEPTION_TYPE, __FILE__, __LINE__)  \
+  /**/
+
+#define ASSERT_THROWS_EQUAL(EXPR, EXCEPTION_TYPE, VALUE)                                  \
+  ASSERT_THROWS_EQUAL_WITH_FILE_AND_LINE(EXPR, EXCEPTION_TYPE, VALUE, __FILE__, __LINE__) \
+  /**/
+
+#define KNOWN_FAILURE KNOWN_FAILURE_WITH_FILE_AND_LINE(__FILE__, __LINE__)
 
 namespace unittest
 {
@@ -97,7 +138,7 @@ void assert_equal(char a, char b,
     }
 }
 
-// sometimes it's not possible to << a type
+// sometimes its not possible to << a type
 template <typename T1, typename T2>
 void assert_equal_quiet(const T1& a, const T2& b,
                         const std::string& filename = "unknown", int lineno = -1)
@@ -106,6 +147,47 @@ void assert_equal_quiet(const T1& a, const T2& b,
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
         f << "values are not equal";
+        f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+////
+// check scalar values
+template <typename T1, typename T2>
+void assert_not_equal(T1 a, T2 b,
+                      const std::string& filename = "unknown", int lineno = -1)
+{
+    if(a == b){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << "values are equal: " << a << " " << b;
+        f << " [type='" << type_name<T1>() << "']";
+        throw f;
+    }
+}
+
+void assert_not_equal(char a, char b,
+                      const std::string& filename = "unknown", int lineno = -1)
+{
+    if(a == b){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << "values are equal: " << int(a) << " " << int(b);
+        f << " [type='" << type_name<char>() << "']";
+        throw f;
+    }
+}
+
+// sometimes its not possible to << a type
+template <typename T1, typename T2>
+void assert_not_equal_quiet(const T1& a, const T2& b,
+                            const std::string& filename = "unknown", int lineno = -1)
+{
+    if(a == b){
+        unittest::UnitTestFailure f;
+        f << "[" << filename << ":" << lineno << "] ";
+        f << "values are equal";
         f << " [type='" << type_name<T1>() << "']";
         throw f;
     }

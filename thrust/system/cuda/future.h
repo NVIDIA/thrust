@@ -13,36 +13,57 @@
 #include <thrust/system/cuda/pointer.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 
-#include <thrust/future.h>
-
 THRUST_BEGIN_NS
 
 namespace system { namespace cuda
 {
 
+struct ready_event;
+
 template <typename T>
 struct ready_future;
 
-template <typename T, typename Pointer = pointer<T>>
+struct unique_eager_event;
+
+template <typename T>
 struct unique_eager_future;
+
+template <typename... Events>
+__host__
+unique_eager_event when_all(Events&&... evs);
 
 }} // namespace system::cuda
 
 namespace cuda
 {
 
-template <typename T>
-using ready_future = thrust::system::cuda::ready_future<T>;
+using thrust::system::cuda::ready_event;
 
-template <typename T, typename Pointer = thrust::system::cuda::pointer<T>>
-using unique_eager_future = thrust::system::cuda::unique_eager_future<T, Pointer>;
+using thrust::system::cuda::ready_future;
+
+using thrust::system::cuda::unique_eager_event;
+using event = unique_eager_event;
+
+using thrust::system::cuda::unique_eager_future;
+template <typename T> using future = unique_eager_future<T>;
+
+using thrust::system::cuda::when_all;
 
 } // namespace cuda
 
-template <typename T, typename Pointer, typename DerivedPolicy>
-__host__ __device__
-thrust::system::cuda::unique_eager_future<T, Pointer>
-unique_eager_future_type(thrust::cuda_cub::execution_policy<DerivedPolicy> const&);
+template <typename DerivedPolicy>
+__host__ 
+thrust::cuda::unique_eager_event
+unique_eager_event_type(
+  thrust::cuda::execution_policy<DerivedPolicy> const&
+) noexcept;
+
+template <typename T, typename DerivedPolicy>
+__host__ 
+thrust::cuda::unique_eager_future<T>
+unique_eager_future_type(
+  thrust::cuda::execution_policy<DerivedPolicy> const&
+) noexcept;
 
 THRUST_END_NS
 
