@@ -21,8 +21,9 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/cpp11_required.h>
+#include <thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 
 #include <thrust/detail/type_traits.h>
 #include <thrust/system/error_code.h>
@@ -157,4 +158,5 @@ inline bool operator<(event_error const& lhs, event_error const& rhs) noexcept
 
 THRUST_END_NS
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif
+

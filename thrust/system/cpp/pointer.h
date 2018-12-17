@@ -162,6 +162,13 @@ template<typename T>
     __host__ __device__
     pointer() : super_t() {}
 
+    #if THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __host__ __device__
+    pointer(decltype(nullptr)) : super_t(nullptr) {}
+    #endif
+
     /*! This constructor allows construction of a <tt>pointer<const T></tt> from a <tt>T*</tt>.
      *
      *  \param ptr A raw pointer to copy from, presumed to point to a location in memory
@@ -218,25 +225,18 @@ template<typename T>
     {
       return super_t::operator=(other);
     }
+
+    #if THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __host__ __device__
+    pointer& operator=(decltype(nullptr))
+    {
+      super_t::operator=(nullptr);
+      return *this;
+    }
+    #endif
 }; // end pointer
-
-#if THRUST_CPP_DIALECT >= 2011
-template <typename T>
-__host__ __device__
-bool operator!=(decltype(nullptr), pointer<T>);
-
-template <typename T>
-__host__ __device__
-bool operator!=(pointer<T>, decltype(nullptr));
-
-template <typename T>
-__host__ __device__
-bool operator==(decltype(nullptr), pointer<T>);
-
-template <typename T>
-__host__ __device__
-bool operator==(pointer<T>, decltype(nullptr));
-#endif
 
 /*! \p reference is a wrapped reference to an object stored in memory available to the \p cpp system.
  *  \p reference is the type of the result of dereferencing a \p cpp::pointer.

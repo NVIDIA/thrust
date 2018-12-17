@@ -80,6 +80,13 @@ template<typename T>
     __host__ __device__
     device_ptr() : super_t() {}
 
+    #if THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __host__ __device__
+    device_ptr(decltype(nullptr)) : super_t(nullptr) {}
+    #endif
+
     /*! \p device_ptr's copy constructor is templated to allow copying to a
      *  <tt>device_ptr<const T></tt> from a <tt>T *</tt>.
      *  
@@ -108,6 +115,17 @@ template<typename T>
       super_t::operator=(other);
       return *this;
     }
+
+    #if THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __host__ __device__
+    device_ptr& operator=(decltype(nullptr))
+    {
+      super_t::operator=(nullptr);
+      return *this;
+    }
+    #endif
 
 // declare these members for the purpose of Doxygenating them
 // they actually exist in a derived-from class

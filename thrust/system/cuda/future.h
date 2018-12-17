@@ -7,8 +7,9 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/cpp11_required.h>
+#include <thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 
 #include <thrust/system/cuda/pointer.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
@@ -69,5 +70,5 @@ THRUST_END_NS
 
 #include <thrust/system/cuda/detail/future.inl>
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif
 

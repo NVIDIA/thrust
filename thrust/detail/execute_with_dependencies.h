@@ -259,13 +259,6 @@ extract_dependencies(System &&)
 {
     return std::tuple<>{};
 }
-template<typename System>
-__host__
-std::tuple<>
-extract_dependencies(System &)
-{
-    return std::tuple<>{};
-}
 
 } // end detail
 } // end thrust

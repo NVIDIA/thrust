@@ -41,7 +41,7 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
         # on older versions of Clang.
         CUDACC_FLAGS += -Xcompiler "-Wno-unneeded-internal-declaration"
 
-        ifeq ($(shell if test $(CLANG_VERSION) -ge 70; then echo true; fi),true)
+        ifeq ($(shell if test $(CLANG_VERSION) -ge 60; then echo true; fi),true)
           # Clang complains about name mangling changes due to `noexcept`
           # becoming part of the type system; we don't care.
           CUDACC_FLAGS += -Xcompiler "-Wno-noexcept-type"

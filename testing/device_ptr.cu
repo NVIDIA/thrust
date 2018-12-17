@@ -91,3 +91,31 @@ void TestRawPointerCast(void)
 }
 DECLARE_VECTOR_UNITTEST(TestRawPointerCast);
 
+
+#if THRUST_CPP_DIALECT >= 2011
+template<typename T>
+void TestDevicePointerNullptrCompatibility()
+{
+    thrust::device_ptr<T> p0(nullptr);
+
+    ASSERT_EQUAL_QUIET(nullptr, p0);
+    ASSERT_EQUAL_QUIET(p0, nullptr);
+
+    p0 = nullptr;
+
+    ASSERT_EQUAL_QUIET(nullptr, p0);
+    ASSERT_EQUAL_QUIET(p0, nullptr);
+}
+DECLARE_GENERIC_UNITTEST(TestDevicePointerNullptrCompatibility);
+
+template<typename T>
+void TestDevicePointerBoolConversion()
+{
+    thrust::device_ptr<T> p0(nullptr);
+    auto const b = bool(p0);
+
+    ASSERT_EQUAL_QUIET(false, b);
+}
+DECLARE_GENERIC_UNITTEST(TestDevicePointerBoolConversion);
+#endif
+

@@ -2,7 +2,7 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 
 #include <unittest/unittest.h>
 #include <unittest/util_async.h>
@@ -1132,5 +1132,5 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES(
 
 // TODO: when_all from reductions.
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif
 

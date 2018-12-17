@@ -1,6 +1,6 @@
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 
 #include <unittest/unittest.h>
 
@@ -323,5 +323,5 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
 
 // TODO: Test future return type.
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif
 

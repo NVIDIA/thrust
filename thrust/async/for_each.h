@@ -22,8 +22,9 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/cpp11_required.h>
+#include <thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/select_system.h>
@@ -114,5 +115,5 @@ THRUST_INLINE_CONSTANT for_each_detail::for_each_fn for_each{};
 
 THRUST_END_NS
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif
 

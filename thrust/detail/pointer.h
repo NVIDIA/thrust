@@ -204,6 +204,13 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 
     __host__ __device__
     Element *get() const;
+
+    #if THRUST_CPP_DIALECT >= 2011
+    // NOTE: This is needed so that Thrust smart pointers can be used in
+    // `std::unique_ptr`.
+    __host__ __device__
+    explicit operator bool() const;
+    #endif
 }; // end pointer
 
 // Output stream operator

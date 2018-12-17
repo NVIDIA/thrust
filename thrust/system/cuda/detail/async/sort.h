@@ -31,8 +31,9 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/cpp11_required.h>
+#include <thrust/detail/modern_gcc_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011
+#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
@@ -283,7 +284,7 @@ auto async_stable_sort_n(
   , "after merge sort sizing"
   );
 
-  return std::move(e);
+  return e;
 }
 
 template <typename T, typename Size, typename StrictWeakOrdering>
@@ -489,7 +490,7 @@ auto async_stable_sort_n(
     ));
   }
   else
-    return std::move(e);
+    return e;
 }
 
 }}} // namespace system::cuda::detail
@@ -521,5 +522,5 @@ THRUST_END_NS
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
-#endif // THRUST_CPP_DIALECT >= 2011
+#endif
 
