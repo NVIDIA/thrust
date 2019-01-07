@@ -67,7 +67,7 @@ namespace thrust
  *  int_v[0] = 0; int_v[1] = 1; int_v[2] = 2;
  *
  *  thrust::device_vector<float> float_v(3);
- *  float_v[0] = 0.0f; float_v[1] = 1.0;f float_v[2] = 2.0f;
+ *  float_v[0] = 0.0f; float_v[1] = 1.0f; float_v[2] = 2.0f;
  *
  *  thrust::device_vector<char> char_v(3);
  *  char_v[0] = 'a'; char_v[1] = 'b'; char_v[2] = 'c';

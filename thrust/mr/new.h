@@ -15,7 +15,7 @@
  */
 
 /*! \file new.h
- *  \brief <tt>::operator new</tt>-based memory resource.
+ *  \brief Global operator new-based memory resource.
  */
 
 #pragma once
@@ -27,10 +27,8 @@ namespace thrust
 namespace mr
 {
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
- *  \addtogroup memory_resources Memory Resources
- *  \ingroup memory_resources
+/** \addtogroup memory_resources Memory Resources
+ *  \ingroup memory_management_classes
  *  \{
  */
 

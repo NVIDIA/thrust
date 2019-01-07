@@ -361,7 +361,11 @@ public:
   operator std::complex<T>() const { return std::complex<T>(real(), imag()); }
 
 private:
+  /*! \cond
+   */
   struct generic_storage_type { T x; T y; };
+  /*! \endcond
+   */
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
   typedef typename detail::conditional<

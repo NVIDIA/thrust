@@ -73,7 +73,7 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
       :Parent() {}
 
     /*! This constructor creates an empty \p device_vector.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this device_vector.
      */
     __host__
     device_vector(const Alloc &alloc)
@@ -97,7 +97,7 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     /*! This constructor creates a \p device_vector with the given
      *  size.
      *  \param n The number of elements to initially create.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this device_vector.
      */
     __host__
     explicit device_vector(size_type n, const Alloc &alloc)
@@ -116,7 +116,7 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  of an exemplar element.
      *  \param n The number of elements to initially create.
      *  \param value An element to copy.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this device_vector.
      */
     __host__
     explicit device_vector(size_type n, const value_type &value, const Alloc &alloc)
@@ -131,7 +131,7 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
 
     /*! Copy constructor copies from an exemplar \p device_vector.
      *  \param v The \p device_vector to copy.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this device_vector.
      */
     __host__
     device_vector(const device_vector &v, const Alloc &alloc)
@@ -147,7 +147,7 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
 
     /*! Move constructor moves from another \p device_vector.
      *  \param v The device_vector to move.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this device_vector.
      */
     __host__
     device_vector(device_vector &&v, const Alloc &alloc)
@@ -230,7 +230,7 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     /*! This constructor builds a \p device_vector from a range.
      *  \param first The beginning of the range.
      *  \param last The end of the range.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this device_vector.
      */
     template<typename InputIterator>
     __host__
@@ -427,7 +427,7 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      */
     void pop_back(void);
 
-    /*! This method swaps the contents of this vector_base with another vector.
+    /*! This method swaps the contents of this device_vector with another vector.
      *  \param v The vector with which to swap.
      */
     void swap(device_vector &v);
@@ -498,6 +498,10 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
 #endif // end doxygen-only members
 }; // end device_vector
 
+/*! Exchanges the values of two vectors.
+ *  \p x The first \p device_vector of interest.
+ *  \p y The second \p device_vector of interest.
+ */
 template<typename T, typename Alloc>
   void swap(device_vector<T,Alloc> &a, device_vector<T,Alloc> &b)
 {

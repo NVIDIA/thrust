@@ -31,7 +31,7 @@ namespace thrust
 namespace mr
 {
 
-/*! \addtogroup memory_management Memory Management
+/*! \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management
  *  \{
  */

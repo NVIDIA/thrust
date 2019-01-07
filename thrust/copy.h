@@ -15,7 +15,7 @@
  */
 
 
-/*! \file copy.h
+/*! \file thrust/copy.h
  *  \brief Copies elements from one range to another
  */
 

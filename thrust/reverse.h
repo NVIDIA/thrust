@@ -105,7 +105,7 @@ template<typename BidirectionalIterator>
                BidirectionalIterator last);
 
 
-/*! \p reverse_copy differs from \ref reverse only in that the reversed range
+/*! \p reverse_copy differs from \p reverse only in that the reversed range
  *  is written to a different output range, rather than inplace.
  *
  *  \p reverse_copy copies elements from the range <tt>[first, last)</tt> to the
@@ -159,7 +159,7 @@ __host__ __device__
                               OutputIterator result);
 
 
-/*! \p reverse_copy differs from \ref reverse only in that the reversed range
+/*! \p reverse_copy differs from \p reverse only in that the reversed range
  *  is written to a different output range, rather than inplace.
  *
  *  \p reverse_copy copies elements from the range <tt>[first, last)</tt> to the

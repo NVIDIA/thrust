@@ -14,6 +14,10 @@
  *  limitations under the License.
  */
 
+/*! \file cpp/memory_resource.h
+ *  \brief Memory resources for the CPP system.
+ */
+
 #pragma once
 
 #include <thrust/detail/config.h>
@@ -29,6 +33,7 @@ namespace system
 namespace cpp
 {
 
+//! \cond
 namespace detail
 {
     typedef thrust::mr::fancy_pointer_resource<
@@ -36,10 +41,21 @@ namespace detail
         thrust::cpp::pointer<void>
     > native_resource;
 }
+//! \endcond
 
+/*! \addtogroup memory_resources Memory Resources
+ *  \ingroup memory_management_classes
+ */
+
+/*! The memory resource for the CPP system. Uses \p mr::new_delete_resource and tags it with \p cpp::pointer. */
 typedef detail::native_resource memory_resource;
+/*! An alias for \p cpp::memory_resource. */
 typedef detail::native_resource universal_memory_resource;
+/*! An alias for \p cpp::memory_resource. */
 typedef detail::native_resource universal_host_pinned_memory_resource;
+
+/*! \}
+ */
 
 }
 }

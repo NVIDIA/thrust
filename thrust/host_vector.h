@@ -71,7 +71,7 @@ template<typename T, typename Alloc = std::allocator<T> >
       :Parent() {}
 
     /*! This constructor creates an empty \p host_vector.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this host_vector.
      */
     __host__
     host_vector(const Alloc &alloc)
@@ -95,7 +95,7 @@ template<typename T, typename Alloc = std::allocator<T> >
     /*! This constructor creates a \p host_vector with the given
      *  size.
      *  \param n The number of elements to initially create.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this host_vector.
      */
     __host__
     explicit host_vector(size_type n, const Alloc &alloc)
@@ -114,7 +114,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  of an exemplar element.
      *  \param n The number of elements to initially create.
      *  \param value An element to copy.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this host_vector.
      */
     __host__
     explicit host_vector(size_type n, const value_type &value, const Alloc &alloc)
@@ -129,7 +129,7 @@ template<typename T, typename Alloc = std::allocator<T> >
 
     /*! Copy constructor copies from an exemplar \p host_vector.
      *  \param v The \p host_vector to copy.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this host_vector.
      */
     __host__
     host_vector(const host_vector &v, const Alloc &alloc)
@@ -145,7 +145,7 @@ template<typename T, typename Alloc = std::allocator<T> >
 
     /*! Move constructor moves from another host_vector.
      *  \param v The host_vector to move.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this host_vector.
      */
      __host__
     host_vector(host_vector &&v, const Alloc &alloc)
@@ -227,7 +227,7 @@ template<typename T, typename Alloc = std::allocator<T> >
     /*! This constructor builds a \p host_vector from a range.
      *  \param first The beginning of the range.
      *  \param last The end of the range.
-     *  \param alloc The allocator to use by this vector_base.
+     *  \param alloc The allocator to use by this host_vector.
      */
     template<typename InputIterator>
     __host__
@@ -424,7 +424,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      */
     void pop_back(void);
 
-    /*! This method swaps the contents of this vector_base with another vector.
+    /*! This method swaps the contents of this host_vector with another vector.
      *  \param v The vector with which to swap.
      */
     void swap(host_vector &v);
@@ -495,6 +495,10 @@ template<typename T, typename Alloc = std::allocator<T> >
 #endif // end doxygen-only members
 }; // end host_vector
 
+/*! Exchanges the values of two vectors.
+ *  \p x The first \p host_vector of interest.
+ *  \p y The second \p host_vector of interest.
+ */
 template<typename T, typename Alloc>
   void swap(host_vector<T,Alloc> &a, host_vector<T,Alloc> &b)
 {

@@ -25,6 +25,8 @@
 #include <thrust/detail/execute_with_allocator.h>
 #include <thrust/detail/seq.h>
 
+//! \cond
+
 // #include the host system's execution_policy header
 #define __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
 #include __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
@@ -34,6 +36,8 @@
 #define __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/execution_policy.h>
 #include __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
 #undef __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+
+//! \endcond
 
 namespace thrust
 {

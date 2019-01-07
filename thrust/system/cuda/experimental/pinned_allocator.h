@@ -40,8 +40,7 @@ namespace cuda
 namespace experimental
 {
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes
+/*! \addtogroup memory_management_classes
  *  \ingroup memory_management
  *  \{
  */
@@ -76,6 +75,7 @@ template<typename T>
   class pinned_allocator
 {
   public:
+    //! \{
     typedef T              value_type;
     typedef T*             pointer;
     typedef const T*       const_pointer;
@@ -83,6 +83,7 @@ template<typename T>
     typedef const T&       const_reference;
     typedef std::size_t    size_type;
     typedef std::ptrdiff_t difference_type;
+    //! \}
 
     // convert a pinned_allocator<T> to pinned_allocator<U>
     template<typename U>
@@ -201,7 +202,7 @@ template<typename T>
      *  \return This method always returns \c true.
      */
     __host__ __device__
-    inline bool operator==(pinned_allocator const&) const { return true; }
+    inline bool operator==(pinned_allocator const& x) const { return true; }
 
     /*! This method tests this \p pinned_allocator for inequality
      *  to another.

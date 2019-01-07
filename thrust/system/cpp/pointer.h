@@ -325,13 +325,16 @@ template<typename T>
 
 /*! Exchanges the values of two objects referred to by \p reference.
  *  \p x The first \p reference of interest.
- *  \p y The second \p reference ot interest.
+ *  \p y The second \p reference of interest.
  */
 template<typename T>
 __host__ __device__
 void swap(reference<T> x, reference<T> y);
 
 } // end cpp
+
+/*! \}
+ */
 
 } // end system
 

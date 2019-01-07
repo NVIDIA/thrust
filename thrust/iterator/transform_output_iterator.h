@@ -136,16 +136,15 @@ template <typename UnaryFunction, typename OutputIterator>
      */
 }; // end transform_output_iterator
 
-/* \p make_transform_output_iterator creates a \p transform_output_iterator from
- * an \c OutputIterator and \c UnaryFunction.
+/*! \p make_transform_output_iterator creates a \p transform_output_iterator from
+ *  an \c OutputIterator and \c UnaryFunction.
  *
- * \param out The \c OutputIterator pointing to the output range of the newly
+ *  \param out The \c OutputIterator pointing to the output range of the newly
  *            created \p transform_output_iterator
- * \param fun The \c UnaryFunction transform the object before assigning it to
+ *  \param fun The \c UnaryFunction transform the object before assigning it to
  *            \c out by the newly created \p transform_output_iterator
- * \see transform_output_iterator
+ *  \see transform_output_iterator
  */
-
 template <typename UnaryFunction, typename OutputIterator>
 transform_output_iterator<UnaryFunction, OutputIterator>
 __host__ __device__

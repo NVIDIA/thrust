@@ -48,7 +48,7 @@ namespace thrust
  *
  *  Note that the relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
- *  \ref stable_partition, does guarantee to preserve the relative order.
+ *  \p stable_partition, does guarantee to preserve the relative order.
  *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
@@ -114,7 +114,7 @@ __host__ __device__
  *
  *  Note that the relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
- *  \ref stable_partition, does guarantee to preserve the relative order.
+ *  \p stable_partition, does guarantee to preserve the relative order.
  *
  *  \param first The beginning of the sequence to reorder.
  *  \param last The end of the sequence to reorder.
@@ -172,7 +172,7 @@ template<typename ForwardIterator,
  *
  *  Note that the relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
- *  \ref stable_partition, does guarantee to preserve the relative order.
+ *  \p stable_partition, does guarantee to preserve the relative order.
  *
  *  The algorithm's execution is parallelized as determined by \p exec.
  *
@@ -245,7 +245,7 @@ __host__ __device__
  *
  *  Note that the relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
- *  \ref stable_partition, does guarantee to preserve the relative order.
+ *  \p stable_partition, does guarantee to preserve the relative order.
  *
  *  \param first The beginning of the sequence to reorder.
  *  \param last The end of the sequence to reorder.
@@ -299,7 +299,7 @@ template<typename ForwardIterator,
                             Predicate pred);
 
 
-/*! \p partition_copy differs from \ref partition only in that the reordered
+/*! \p partition_copy differs from \p partition only in that the reordered
  *  sequence is written to difference output sequences, rather than in place.
  *
  *  \p partition_copy copies the elements <tt>[first, last)</tt> based on the
@@ -360,7 +360,7 @@ template<typename ForwardIterator,
  *
  *  \note The relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
- *  \ref stable_partition_copy, does guarantee to preserve the relative order.
+ *  \p stable_partition_copy, does guarantee to preserve the relative order.
  *
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf
  *  \see \p stable_partition_copy
@@ -381,7 +381,7 @@ __host__ __device__
                    Predicate pred);
 
 
-/*! \p partition_copy differs from \ref partition only in that the reordered
+/*! \p partition_copy differs from \p partition only in that the reordered
  *  sequence is written to difference output sequences, rather than in place.
  *
  *  \p partition_copy copies the elements <tt>[first, last)</tt> based on the
@@ -437,7 +437,7 @@ __host__ __device__
  *
  *  \note The relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
- *  \ref stable_partition_copy, does guarantee to preserve the relative order.
+ *  \p stable_partition_copy, does guarantee to preserve the relative order.
  *
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf
  *  \see \p stable_partition_copy
@@ -455,7 +455,7 @@ template<typename InputIterator,
                    Predicate pred);
 
 
-/*! \p partition_copy differs from \ref partition only in that the reordered
+/*! \p partition_copy differs from \p partition only in that the reordered
  *  sequence is written to difference output sequences, rather than in place.
  *
  *  \p partition_copy copies the elements <tt>[first, last)</tt> based on the
@@ -514,7 +514,7 @@ template<typename InputIterator,
  *
  *  \note The relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
- *  \ref stable_partition_copy, does guarantee to preserve the relative order.
+ *  \p stable_partition_copy, does guarantee to preserve the relative order.
  *
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf
  *  \see \p stable_partition_copy
@@ -537,7 +537,7 @@ __host__ __device__
                    Predicate pred);
 
 
-/*! \p partition_copy differs from \ref partition only in that the reordered
+/*! \p partition_copy differs from \p partition only in that the reordered
  *  sequence is written to difference output sequences, rather than in place.
  *
  *  \p partition_copy copies the elements <tt>[first, last)</tt> based on the
@@ -590,7 +590,7 @@ __host__ __device__
  *
  *  \note The relative order of elements in the two reordered sequences is not
  *  necessarily the same as it was in the original sequence. A different algorithm,
- *  \ref stable_partition_copy, does guarantee to preserve the relative order.
+ *  \p stable_partition_copy, does guarantee to preserve the relative order.
  *
  *  \see http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf
  *  \see \p stable_partition_copy
@@ -610,7 +610,7 @@ template<typename InputIterator1,
                    Predicate pred);
 
 
-/*! \p stable_partition is much like \ref partition : it reorders the elements in the
+/*! \p stable_partition is much like \p partition : it reorders the elements in the
  *  range <tt>[first, last)</tt> based on the function object \p pred, such that all of
  *  the elements that satisfy \p pred precede all of the elements that fail to satisfy
  *  it. The postcondition is that, for some iterator \p middle in the range
@@ -618,7 +618,7 @@ template<typename InputIterator1,
  *  range <tt>[first,middle)</tt> and \c false for every iterator \c i in the range
  *  <tt>[middle, last)</tt>. The return value of \p stable_partition is \c middle.
  *
- *  \p stable_partition differs from \ref partition in that \p stable_partition is
+ *  \p stable_partition differs from \p partition in that \p stable_partition is
  *  guaranteed to preserve relative order. That is, if \c x and \c y are elements in
  *  <tt>[first, last)</tt>, and \c stencil_x and \c stencil_y are the stencil elements
  *  in corresponding positions within <tt>[stencil, stencil + (last - first))</tt>,
@@ -679,7 +679,7 @@ __host__ __device__
                                    Predicate pred);
 
 
-/*! \p stable_partition is much like \ref partition : it reorders the elements in the
+/*! \p stable_partition is much like \p partition : it reorders the elements in the
  *  range <tt>[first, last)</tt> based on the function object \p pred, such that all of
  *  the elements that satisfy \p pred precede all of the elements that fail to satisfy
  *  it. The postcondition is that, for some iterator \p middle in the range
@@ -687,7 +687,7 @@ __host__ __device__
  *  range <tt>[first,middle)</tt> and \c false for every iterator \c i in the range
  *  <tt>[middle, last)</tt>. The return value of \p stable_partition is \c middle.
  *
- *  \p stable_partition differs from \ref partition in that \p stable_partition is
+ *  \p stable_partition differs from \p partition in that \p stable_partition is
  *  guaranteed to preserve relative order. That is, if \c x and \c y are elements in
  *  <tt>[first, last)</tt>, and \c stencil_x and \c stencil_y are the stencil elements
  *  in corresponding positions within <tt>[stencil, stencil + (last - first))</tt>,
@@ -749,7 +749,7 @@ template<typename ForwardIterator,
  *  in the range <tt>[stencil + (middle - first), stencil + (last - first))</tt>.
  *  The return value of \p stable_partition is \c middle.
  *
- *  \p stable_partition differs from \ref partition in that \p stable_partition is
+ *  \p stable_partition differs from \p partition in that \p stable_partition is
  *  guaranteed to preserve relative order. That is, if \c x and \c y are elements in
  *  <tt>[first, last)</tt>, such that <tt>pred(x) == pred(y)</tt>, and if \c x precedes
  *  \c y, then it will still be true after \p stable_partition that \c x precedes \c y.
@@ -824,7 +824,7 @@ __host__ __device__
  *  in the range <tt>[stencil + (middle - first), stencil + (last - first))</tt>.
  *  The return value of \p stable_partition is \c middle.
  *
- *  \p stable_partition differs from \ref partition in that \p stable_partition is
+ *  \p stable_partition differs from \p partition in that \p stable_partition is
  *  guaranteed to preserve relative order. That is, if \c x and \c y are elements in
  *  <tt>[first, last)</tt>, such that <tt>pred(x) == pred(y)</tt>, and if \c x precedes
  *  \c y, then it will still be true after \p stable_partition that \c x precedes \c y.
@@ -881,7 +881,7 @@ template<typename ForwardIterator,
                                    Predicate pred);
 
 
-/*! \p stable_partition_copy differs from \ref stable_partition only in that the reordered
+/*! \p stable_partition_copy differs from \p stable_partition only in that the reordered
  *  sequence is written to different output sequences, rather than in place.
  *
  *  \p stable_partition_copy copies the elements <tt>[first, last)</tt> based on the
@@ -889,7 +889,7 @@ template<typename ForwardIterator,
  *  to the range beginning at \p out_true and all the elements that fail to satisfy it
  *  are copied to the range beginning at \p out_false.
  *
- *  \p stable_partition_copy differs from \ref partition_copy in that
+ *  \p stable_partition_copy differs from \p partition_copy in that
  *  \p stable_partition_copy is guaranteed to preserve relative order. That is, if
  *  \c x and \c y are elements in <tt>[first, last)</tt>, such that
  *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true
@@ -965,7 +965,7 @@ __host__ __device__
                           Predicate pred);
 
 
-/*! \p stable_partition_copy differs from \ref stable_partition only in that the reordered
+/*! \p stable_partition_copy differs from \p stable_partition only in that the reordered
  *  sequence is written to different output sequences, rather than in place.
  *
  *  \p stable_partition_copy copies the elements <tt>[first, last)</tt> based on the
@@ -973,7 +973,7 @@ __host__ __device__
  *  to the range beginning at \p out_true and all the elements that fail to satisfy it
  *  are copied to the range beginning at \p out_false.
  *
- *  \p stable_partition_copy differs from \ref partition_copy in that
+ *  \p stable_partition_copy differs from \p partition_copy in that
  *  \p stable_partition_copy is guaranteed to preserve relative order. That is, if
  *  \c x and \c y are elements in <tt>[first, last)</tt>, such that
  *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true
@@ -1041,7 +1041,7 @@ template<typename InputIterator,
                           Predicate pred);
 
 
-/*! \p stable_partition_copy differs from \ref stable_partition only in that the reordered
+/*! \p stable_partition_copy differs from \p stable_partition only in that the reordered
  *  sequence is written to different output sequences, rather than in place.
  *
  *  \p stable_partition_copy copies the elements <tt>[first, last)</tt> based on the
@@ -1050,7 +1050,7 @@ template<typename InputIterator,
  *  and all the elements whose stencil element fails to satisfy it are copied to the range beginning
  *  at \p out_false.
  *
- *  \p stable_partition_copy differs from \ref partition_copy in that
+ *  \p stable_partition_copy differs from \p partition_copy in that
  *  \p stable_partition_copy is guaranteed to preserve relative order. That is, if
  *  \c x and \c y are elements in <tt>[first, last)</tt>, such that
  *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true
@@ -1124,7 +1124,7 @@ __host__ __device__
                           Predicate pred);
 
 
-/*! \p stable_partition_copy differs from \ref stable_partition only in that the reordered
+/*! \p stable_partition_copy differs from \p stable_partition only in that the reordered
  *  sequence is written to different output sequences, rather than in place.
  *
  *  \p stable_partition_copy copies the elements <tt>[first, last)</tt> based on the
@@ -1133,7 +1133,7 @@ __host__ __device__
  *  and all the elements whose stencil element fails to satisfy it are copied to the range beginning
  *  at \p out_false.
  *
- *  \p stable_partition_copy differs from \ref partition_copy in that
+ *  \p stable_partition_copy differs from \p partition_copy in that
  *  \p stable_partition_copy is guaranteed to preserve relative order. That is, if
  *  \c x and \c y are elements in <tt>[first, last)</tt>, such that
  *  <tt>pred(x) == pred(y)</tt>, and if \c x precedes \c y, then it will still be true

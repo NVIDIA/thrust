@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-/*! \file thrust/system/cuda_bulk/vector.h
+/*! \file thrust/system/cuda/vector.h
  *  \brief A dynamically-sizable array of elements which reside in memory available to
  *         Thrust's CUDA system.
  */

@@ -31,13 +31,20 @@
 namespace thrust
 {
 
+/*! \defgroup memory_management Memory Management
+ *
+ *  All Thrust functionalities related to memory allocation and deallocation.
+ *
+ */
 
-/*! \addtogroup memory_management Memory Management
- *  \addtogroup memory_management_classes Memory Management Classes
+/** \addtogroup memory_management_classes Memory Management Classes
  *  \ingroup memory_management
  *  \{
  */
 
+// define pointer for the purpose of Doxygenating it
+// it is actually defined elsewhere
+#if 0
 /*! \p pointer stores a pointer to an object allocated in memory. Like \p device_ptr, this
  *  type ensures type safety when dispatching standard algorithms on ranges resident in memory.
  *
@@ -68,9 +75,6 @@ namespace thrust
  *  \see reference
  *  \see raw_pointer_cast
  */
-// define pointer for the purpose of Doxygenating it
-// it is actually defined elsewhere
-#if 0
 template<typename Element, typename Tag, typename Reference = thrust::use_default, typename Derived = thrust::use_default>
   class pointer
 {
@@ -133,6 +137,9 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
 };
 #endif
 
+// define pointer for the purpose of Doxygenating it
+// it is actually defined elsewhere
+#if 0
 /*! \p reference is a wrapped reference to an object stored in memory. \p reference generalizes
  *  \p device_reference by relaxing the type of pointer associated with the object. \p reference
  *  is the type of the result of dereferencing a tagged pointer-like object such as \p pointer, and
@@ -144,9 +151,6 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
  *          a base class. This is useful to ensure that assignment to objects of the derived type return
  *          values of the derived type as a result. By default, this type is <tt>reference<Element,Pointer></tt>.
  */
-// define pointer for the purpose of Doxygenating it
-// it is actually defined elsewhere
-#if 0
 template<typename Element, typename Pointer, typename Derived = thrust::use_default>
   class reference
 {

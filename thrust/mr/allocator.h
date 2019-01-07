@@ -70,8 +70,11 @@ public:
     /*! The difference type between pointers allocated by this allocator. */
     typedef typename thrust::detail::pointer_traits<pointer>::difference_type difference_type;
 
+    /*! Specifies that the allocator shall be propagated on container copy assignment. */
     typedef detail::true_type propagate_on_container_copy_assignment;
+    /*! Specifies that the allocator shall be propagated on container move assignment. */
     typedef detail::true_type propagate_on_container_move_assignment;
+    /*! Specifies that the allocator shall be propagated on container swap. */
     typedef detail::true_type propagate_on_container_swap;
 
     /*! The \p rebind metafunction provides the type of an \p allocator instantiated with another type.
@@ -178,6 +181,8 @@ class polymorphic_allocator : public allocator<T, polymorphic_adaptor_resource<P
     typedef allocator<T, polymorphic_adaptor_resource<Pointer> > base;
 
 public:
+    /*! Initializes the base class with the parameter \p resource.
+     */
     polymorphic_allocator(polymorphic_adaptor_resource<Pointer>  * resource) : base(resource)
     {
     }
@@ -189,7 +194,7 @@ public:
  *      to be default constructible.
  *
  *  \tparam T the type that will be allocated by this allocator.
- *  \tparam MR the upstream memory resource to use for memory allocation. Must derive from
+ *  \tparam Upstream the upstream memory resource to use for memory allocation. Must derive from
  *      \p thrust::mr::memory_resource and must be \p final (in C++11 and beyond).
  */
 template<typename T, typename Upstream>

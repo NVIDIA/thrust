@@ -15,7 +15,7 @@
  */
 
 
-/*! \file transform.h
+/*! \file thrust/transform.h
  *  \brief Transforms input ranges using a function object
  */
 

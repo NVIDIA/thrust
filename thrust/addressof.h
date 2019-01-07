@@ -15,6 +15,8 @@ THRUST_BEGIN_NS
 
 ///////////////////////////////////////////////////////////////////////////////
 
+/*! Obtains the actual address of the object or function arg, even in presence of overloaded operator&.
+ */
 template <typename T>
 __host__ __device__
 T* addressof(T& arg) 

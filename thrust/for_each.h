@@ -14,7 +14,7 @@
  */
 
 
-/*! \file for_each.h
+/*! \file thrust/for_each.h
  *  \brief Applies a function to each element in a range
  */
 
