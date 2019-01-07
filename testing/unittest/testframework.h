@@ -278,10 +278,10 @@ inline void chop_prefix(std::string& str, const std::string& prefix)
 inline std::string base_class_name(const std::string& name)
 {
   std::string result = name;
-  
+
   // if the name begins with "struct ", chop it off
   chop_prefix(result, "struct ");
-  
+
   // if the name begins with "class ", chop it off
   chop_prefix(result, "class ");
 
@@ -307,7 +307,7 @@ class UnitTest {
         virtual ~UnitTest() {}
         virtual void run() {}
 
-        bool operator<(const UnitTest& u) const 
+        bool operator<(const UnitTest& u) const
         {
             return name < u.name;
         }
@@ -335,7 +335,7 @@ public:
 
   void register_test(UnitTest * test);
   virtual bool run_tests(const ArgumentSet& args, const ArgumentMap& kwargs);
-  void list_tests(void); 
+  void list_tests(void);
 
   static UnitTestDriver &s_driver();
 };
@@ -355,7 +355,7 @@ TEST##UnitTest TEST##Instance
 // unit test for a bunch of data types
 #define DECLARE_VECTOR_UNITTEST(VTEST)                          \
 void VTEST##Host(void) {                                        \
-    VTEST< thrust::host_vector<char> >();                       \
+    VTEST< thrust::host_vector<signed char> >();                \
     VTEST< thrust::host_vector<short> >();                      \
     VTEST< thrust::host_vector<int> >();                        \
     VTEST< thrust::host_vector<float> >();                      \
@@ -366,7 +366,7 @@ void VTEST##Host(void) {                                        \
             thrust::host_memory_resource> > >();                \
 }                                                               \
 void VTEST##Device(void) {                                      \
-    VTEST< thrust::device_vector<char> >();                     \
+    VTEST< thrust::device_vector<signed char> >();              \
     VTEST< thrust::device_vector<short> >();                    \
     VTEST< thrust::device_vector<int> >();                      \
     VTEST< thrust::device_vector<float> >();                    \
@@ -388,12 +388,12 @@ DECLARE_UNITTEST(VTEST##Device);
 // Same as above, but only for integral types
 #define DECLARE_INTEGRAL_VECTOR_UNITTEST(VTEST)                 \
 void VTEST##Host(void) {                                        \
-    VTEST< thrust::host_vector<char> >();                       \
+    VTEST< thrust::host_vector<signed char> >();                \
     VTEST< thrust::host_vector<short> >();                      \
     VTEST< thrust::host_vector<int> >();                        \
 }                                                               \
 void VTEST##Device(void) {                                      \
-    VTEST< thrust::device_vector<char> >();                     \
+    VTEST< thrust::device_vector<signed char> >();              \
     VTEST< thrust::device_vector<short> >();                    \
     VTEST< thrust::device_vector<int> >();                      \
 }                                                               \
@@ -407,7 +407,7 @@ class TEST##UnitTest : public UnitTest {                         \
     TEST##UnitTest() : UnitTest(#TEST) {}                        \
     void run()                                                   \
     {                                                            \
-        TEST<char>();                                            \
+        TEST<signed char>();                                     \
         TEST<unsigned char>();                                   \
         TEST<short>();                                           \
         TEST<unsigned short>();                                  \
@@ -428,7 +428,7 @@ class TEST##UnitTest : public UnitTest {                         \
         std::vector<size_t> sizes = get_test_sizes();            \
         for(size_t i = 0; i != sizes.size(); ++i)                \
         {                                                        \
-            TEST<char>(sizes[i]);                                \
+            TEST<signed char>(sizes[i]);                         \
             TEST<unsigned char>(sizes[i]);                       \
             TEST<short>(sizes[i]);                               \
             TEST<unsigned short>(sizes[i]);                      \
@@ -450,7 +450,7 @@ class TEST##UnitTest : public UnitTest {                         \
         std::vector<size_t> sizes = get_test_sizes();            \
         for(size_t i = 0; i != sizes.size(); ++i)                \
         {                                                        \
-            TEST<char>(sizes[i]);                                \
+            TEST<signed char>(sizes[i]);                         \
             TEST<unsigned char>(sizes[i]);                       \
             TEST<short>(sizes[i]);                               \
             TEST<unsigned short>(sizes[i]);                      \
