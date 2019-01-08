@@ -19,6 +19,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cpp/detail/execution_policy.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/pointer.h>
+#include <thrust/detail/reference.h>
 
 namespace thrust
 {

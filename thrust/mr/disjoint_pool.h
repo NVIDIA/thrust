@@ -25,6 +25,7 @@
 
 #include <thrust/host_vector.h>
 #include <thrust/binary_search.h>
+#include <thrust/detail/seq.h>
 
 #include <thrust/mr/memory_resource.h>
 #include <thrust/mr/allocator.h>

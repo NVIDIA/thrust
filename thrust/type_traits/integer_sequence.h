@@ -20,6 +20,7 @@
 
 #include <type_traits>
 #include <cstdint>
+#include <utility>
 
 THRUST_BEGIN_NS
 
