@@ -2,9 +2,12 @@
 
 #include <thrust/detail/seq.h>
 #include <thrust/system/cpp/detail/par.h>
-#include <thrust/system/cuda/detail/par.h>
 #include <thrust/system/omp/detail/par.h>
 #include <thrust/system/tbb/detail/par.h>
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+#  include <thrust/system/cuda/detail/par.h>
+#endif
 
 #if __cplusplus >= 201103L
 
@@ -146,10 +149,6 @@ typedef policy_info<
     thrust::system::cpp::detail::execution_policy
 > cpp_par_info;
 typedef policy_info<
-    thrust::system::cuda::detail::par_t,
-    thrust::cuda_cub::execute_on_stream_base
-> cuda_par_info;
-typedef policy_info<
     thrust::system::omp::detail::par_t,
     thrust::system::omp::detail::execution_policy
 > omp_par_info;
@@ -158,15 +157,24 @@ typedef policy_info<
     thrust::system::tbb::detail::execution_policy
 > tbb_par_info;
 
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+typedef policy_info<
+    thrust::system::cuda::detail::par_t,
+    thrust::cuda_cub::execute_on_stream_base
+> cuda_par_info;
+#endif
+
 SimpleUnitTest<
     TestDependencyAttachment,
     unittest::type_list<
         // TODO: uncomment when dependencies are generalized to all backends
         // sequential_info,
         // cpp_par_info,
-        cuda_par_info
         // omp_par_info,
-        // tbb_par_info
+        // tbb_par_info,
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+        cuda_par_info
+#endif
     >
 > TestDependencyAttachmentInstance;
 

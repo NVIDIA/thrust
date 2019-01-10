@@ -39,7 +39,7 @@ namespace detail
 
 typedef detail::native_resource memory_resource;
 typedef detail::native_resource universal_memory_resource;
-typedef detail::native_resource host_pinned_memory_resource;
+typedef detail::native_resource universal_host_pinned_memory_resource;
 
 }
 }

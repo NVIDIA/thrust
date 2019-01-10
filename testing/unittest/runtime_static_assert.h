@@ -18,6 +18,8 @@ namespace unittest
 #include <thrust/device_new.h>
 #include <thrust/device_delete.h>
 
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
 #define ASSERT_STATIC_ASSERT(X) \
     { \
         bool triggered = false; \
@@ -34,6 +36,18 @@ namespace unittest
         ::cudaMemcpyToSymbol(unittest::detail::device_exception, &raw_ptr, sizeof(ex_t*)); \
         if (!triggered) { unittest::UnitTestFailure f; f << "[" << __FILE__ << ":" << __LINE__ << "] did not trigger a THRUST_STATIC_ASSERT"; throw f; } \
     }
+
+#else
+
+#define ASSERT_STATIC_ASSERT(X) \
+    { \
+        bool triggered = false; \
+        typedef unittest::static_assert_exception ex_t; \
+        try { X; } catch (ex_t) { triggered = true; } \
+        if (!triggered) { unittest::UnitTestFailure f; f << "[" << __FILE__ << ":" << __LINE__ << "] did not trigger a THRUST_STATIC_ASSERT"; throw f; } \
+    }
+
+#endif
 
 namespace unittest
 {
