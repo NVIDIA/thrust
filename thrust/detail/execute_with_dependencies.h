@@ -157,28 +157,28 @@ public:
     template <typename... UDependencies>
     __host__
     execute_with_allocator_and_dependencies(super_t const &super, Allocator a, UDependencies && ...deps)
-        : super_t(super), alloc(a), dependencies(THRUST_FWD(deps)...)
+        : super_t(super), dependencies(THRUST_FWD(deps)...), alloc(a)
     {
     }
 
     template <typename... UDependencies>
     __host__
     execute_with_allocator_and_dependencies(Allocator a, UDependencies && ...deps)
-        : alloc(a), dependencies(THRUST_FWD(deps)...)
+        : dependencies(THRUST_FWD(deps)...), alloc(a)
     {
     }
 
     template <typename... UDependencies>
     __host__
     execute_with_allocator_and_dependencies(super_t const &super, Allocator a, std::tuple<UDependencies...>&& deps)
-        : super_t(super), alloc(a), dependencies(std::move(deps))
+        : super_t(super), dependencies(std::move(deps)), alloc(a)
     {
     }
 
     template <typename... UDependencies>
     __host__
     execute_with_allocator_and_dependencies(Allocator a, std::tuple<UDependencies...>&& deps)
-        : alloc(a), dependencies(std::move(deps))
+        : dependencies(std::move(deps)), alloc(a)
     {
     }
 

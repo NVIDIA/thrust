@@ -41,7 +41,7 @@ constexpr bool disjunction_v = disjunction<Ts...>::value;
 
 /// An \c integral_constant whose value is <code>!Ts::value</code>. 
 template <typename T>
-using negation = std::negation<Ts>;
+using negation = std::negation<T>;
 
 /// A <code>constexpr bool</code> whose value is <code>!Ts::value</code>.
 template <typename T>

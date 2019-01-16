@@ -20,6 +20,7 @@
 #include <thrust/detail/execution_policy.h>
 #include <thrust/system/detail/generic/tag.h>
 #include <thrust/mr/memory_resource.h>
+#include <thrust/detail/execution_policy.h>
 
 namespace thrust
 {

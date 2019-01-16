@@ -30,8 +30,9 @@ struct alloc_id
     }
 };
 
+namespace thrust { namespace detail {
 template<>
-struct thrust::detail::pointer_traits<alloc_id>
+struct pointer_traits<alloc_id>
 {
     template<typename>
     struct rebind
@@ -45,6 +46,7 @@ struct thrust::detail::pointer_traits<alloc_id>
         return reinterpret_cast<void *>(id.alignment);
     }
 };
+}}
 
 class dummy_resource THRUST_FINAL : public thrust::mr::memory_resource<alloc_id>
 {

@@ -115,8 +115,8 @@ public:
         m_smallest_block_log2(detail::log2_ri(m_options.smallest_block_size)),
         m_pools(m_bookkeeper),
         m_allocated(m_bookkeeper),
-        m_oversized(m_bookkeeper),
-        m_cached_oversized(m_bookkeeper)
+        m_cached_oversized(m_bookkeeper),
+        m_oversized(m_bookkeeper)
     {
         assert(m_options.validate());
 
@@ -138,8 +138,8 @@ public:
         m_smallest_block_log2(detail::log2_ri(m_options.smallest_block_size)),
         m_pools(m_bookkeeper),
         m_allocated(m_bookkeeper),
-        m_oversized(m_bookkeeper),
-        m_cached_oversized(m_bookkeeper)
+        m_cached_oversized(m_bookkeeper),
+        m_oversized(m_bookkeeper)
     {
         assert(m_options.validate());
 

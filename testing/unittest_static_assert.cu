@@ -22,7 +22,9 @@ struct static_assertion
 template<typename V>
 void TestStaticAssertAssert()
 {
+#if THRUST_DEVICE_SYSTEM != THRUST_DEVICE_SYSTEM_OMP
     V test(10);
     ASSERT_STATIC_ASSERT(thrust::generate(test.begin(), test.end(), static_assertion<int>()));
+#endif
 }
 DECLARE_VECTOR_UNITTEST(TestStaticAssertAssert);

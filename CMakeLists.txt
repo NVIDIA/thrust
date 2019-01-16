@@ -2,8 +2,22 @@ cmake_minimum_required(VERSION 3.8)
 
 project(Thrust CXX)
 
-list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
+# Default to a release build.
+if ("" STREQUAL "${CMAKE_BUILD_TYPE}")
+  set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build." FORCE)
 
+  set_property(
+    CACHE CMAKE_BUILD_TYPE
+    PROPERTY STRINGS Debug Release RelWithDebInfo MinSizeRel
+  )
+endif ()
+
+# CONFIGURE_DEPENDS helper
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.12)
+  set(CMAKE_CONFIGURE_DEPENDS CONFIGURE_DEPENDS)
+endif ()
+
+list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
 include(AppendOptionIfAvailable)
 
 file(READ "thrust/version.h" THRUST_VERSION_HEADER)
@@ -48,8 +62,26 @@ endif ()
 
 add_definitions(-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_${THRUST_DEVICE_SYSTEM})
 
+set(CMAKE_CXX_STANDARD 98 CACHE STRING "The C++ version to be used.")
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+message("-- C++ Standard version: ${CMAKE_CXX_STANDARD}")
+
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
+  if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
+    unset(CMAKE_CUDA_HOST_COMPILER CACHE)
+    message(FATAL_ERROR "Thrust tests and examples require the C++ compiler"
+        " and the CUDA host compiler to be the same; to set this compiler, please"
+        " use the CMAKE_CXX_COMPILER variable, not the CMAKE_CUDA_HOST_COMPILER"
+        " variable.")
+  endif ()
+  set(CMAKE_CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
+
   enable_language(CUDA)
+
+  # force CUDA C++ standard to be the same as the C++ standard used
+  unset (CMAKE_CUDA_STANDARD CACHE)
+  set (CMAKE_CUDA_STANDARD ${CMAKE_CXX_STANDARD})
 endif ()
 
 if ("OMP" STREQUAL "${THRUST_DEVICE_SYSTEM}")
@@ -70,6 +102,10 @@ if ("TBB" STREQUAL "${THRUST_DEVICE_SYSTEM}")
     set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${TBB_LD_FLAGS}")
     set (THRUST_ADDITIONAL_LIBRARIES "${TBB_LIBRARIES}")
   endif ()
+
+  # there's a ton of these in the TBB backend, even though the code is correct
+  # TODO: silence these warnings in code instead
+  append_option_if_available("-Wno-unused-parameter" THRUST_CXX_WARNINGS)
 endif ()
 
 if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
@@ -86,32 +122,33 @@ endif ()
 
 if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
   # TODO Enable /Wall
-  append_option_if_available(CXX "/WX" THRUST_OPTIONS_WARNINGS)
+  append_option_if_available("/WX" THRUST_CXX_WARNINGS)
 
   # Disabled loss-of-data conversion warnings.
   # TODO Re-enable.
-  append_option_if_available(CXX "/wd4244" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "/wd4267" THRUST_OPTIONS_WARNINGS)
+  append_option_if_available("/wd4244" THRUST_CXX_WARNINGS)
+  append_option_if_available("/wd4267" THRUST_CXX_WARNINGS)
 
   # Suppress numeric conversion-to-bool warnings.
   # TODO Re-enable.
-  append_option_if_available(CXX "/wd4800" THRUST_OPTIONS_WARNINGS)
+  append_option_if_available("/wd4800" THRUST_CXX_WARNINGS)
 
   # Disable warning about applying unary operator- to unsigned type.
-  append_option_if_available(CXX "/wd4146" THRUST_OPTIONS_WARNINGS)
+  append_option_if_available("/wd4146" THRUST_CXX_WARNINGS)
 
   set(THRUST_TREAT_FILE_AS_CXX "/TP")
 else ()
-  append_option_if_available(CXX "-Werror" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "-Wall" THRUST_O:TIONS_WARNINGS)
-  append_option_if_available(CXX "-Wextra" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "-Winit-self" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "-Woverloaded-virtual" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "-Wcast-qual" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "-Wno-cast-align" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "-Wno-long-long" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "-Wno-variadic-macros" THRUST_OPTIONS_WARNINGS)
-  append_option_if_available(CXX "-Wno-unused-function" THRUST_OPTIONS_WARNINGS)
+  append_option_if_available("-Werror" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Wall" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Wextra" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Winit-self" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Woverloaded-virtual" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Wcast-qual" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Wno-cast-align" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Wno-long-long" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Wno-variadic-macros" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Wno-unused-function" THRUST_CXX_WARNINGS)
+  append_option_if_available("-Wno-unused-variable" THRUST_CXX_WARNINGS)
 
   set(THRUST_TREAT_FILE_AS_CXX "-x c++")
 endif ()
@@ -121,19 +158,19 @@ if ("GNU" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
     # In GCC 4.4, the CUDA backend's kernel launch templates cause
     # impossible-to-decipher "'<anonymous>' is used uninitialized in this
     # function" warnings, so we disable uninitialized variable warnings.
-    append_option_if_available(CXX "-Wno-uninitialized" THRUST_OPTIONS_WARNINGS)
+    append_option_if_available("-Wno-uninitialized" THRUST_CXX_WARNINGS)
   endif ()
 
   if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 4.5)
     # This isn't available until GCC 4.3, and misfires on TMP code until
     # GCC 4.5.
-    append_option_if_available(CXX "-Wlogical-op" THRUST_OPTIONS_WARNINGS)
+    append_option_if_available("-Wlogical-op" THRUST_CXX_WARNINGS)
   endif ()
 
   if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 7.3)
     # GCC 7.3 complains about name mangling changes due to `noexcept`
     # becoming part of the type system; we don't care.
-    append_option_if_available(CXX "-Wnoexcept-type" THRUST_OPTIONS_WARNINGS)
+    append_option_if_available("-Wnoexcept-type" THRUST_CXX_WARNINGS)
   endif ()
 endif ()
 
@@ -142,22 +179,135 @@ if (("Clang" STREQUAL "${CMAKE_CXX_COMPILER_ID}") OR
   # xlC and Clang warn about unused parameters in uninstantiated templates.
   # This causes xlC to choke on the OMP backend, which is mostly #ifdef'd out
   # (and thus has unused parameters) when you aren't using it.
-  append_option_if_available(CXX "-Wno-unused-parameters" THRUST_OPTIONS_WARNINGS)
+  append_option_if_available("-Wno-unused-parameters" THRUST_CXX_WARNINGS)
 endif ()
 
 if ("Clang" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
   # -Wunneeded-internal-declaration misfires in the unit test framework
   # on older versions of Clang.
-  append_option_if_available(CXX "-Wno-unneeded-internal-declaration" THRUST_OPTIONS_WARNINGS)
+  append_option_if_available("-Wno-unneeded-internal-declaration" THRUST_CXX_WARNINGS)
 endif ()
 
+foreach (CXX_OPTION IN LISTS THRUST_CXX_WARNINGS)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CXX_OPTION}")
+endforeach ()
 
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-  append_option_if_available(CUDA "-rdc=true" THRUST_OPTIONS_RDC)
+  foreach (CXX_OPTION IN LISTS THRUST_CXX_WARNINGS)
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler=${CXX_OPTION}")
+  endforeach ()
 endif ()
 
-set(THRUST_OPTIONS_DEBUG ${THRUST_OPTIONS_WARNINGS})
-set(THRUST_OPTIONS_RELEASE ${THRUST_OPTIONS_WARNINGS})
+# For every public header, build a translation unit containing `#include <header>`
+# to let the compiler try to figure out warnings in that header if it is not otherwise
+# included in tests, and also to verify if the headers are modular enough.
+list(APPEND THRUST_HEADER_GLOBS thrust/*.h)
+list(APPEND THRUST_HEADER_EXCLUDE_SYSTEMS_GLOBS thrust/system/*/*)
+
+string(TOLOWER ${THRUST_HOST_SYSTEM} THRUST_HOST_SYSTEM_LOWERCASE)
+list(APPEND THRUST_HEADER_SYSTEMS_GLOBS thrust/system/${THRUST_HOST_SYSTEM_LOWERCASE}/*)
+
+string(TOLOWER ${THRUST_DEVICE_SYSTEM} THRUST_DEVICE_SYSTEM_LOWERCASE)
+list(APPEND THRUST_HEADER_SYSTEMS_GLOBS thrust/system/${THRUST_DEVICE_SYSTEM_LOWERCASE}/*)
+
+list(APPEND THRUST_HEADER_EXCLUDE_DETAILS_GLOBS thrust/detail/*)
+list(APPEND THRUST_HEADER_EXCLUDE_DETAILS_GLOBS thrust/*/detail/*)
+list(APPEND THRUST_HEADER_EXCLUDE_DETAILS_GLOBS thrust/*/*/detail/*)
+
+# Get all .h files...
+file(
+  GLOB_RECURSE THRUST_HEADERS
+  RELATIVE ${PROJECT_SOURCE_DIR}/thrust
+  ${CMAKE_CONFIGURE_DEPENDS}
+  ${THRUST_HEADER_GLOBS}
+)
+
+# ...then remove all system specific headers...
+file(
+  GLOB_RECURSE THRUST_HEADER_EXCLUDE_SYSTEMS
+  RELATIVE ${PROJECT_SOURCE_DIR}/thrust
+  ${CMAKE_CONFIGURE_DEPENDS}
+  ${THRUST_HEADER_EXCLUDE_SYSTEMS_GLOBS}
+)
+list(REMOVE_ITEM THRUST_HEADERS ${THRUST_HEADER_EXCLUDE_SYSTEMS})
+
+# ...then add all headers specific to the selected host and device systems back again...
+file(
+  GLOB_RECURSE THRUST_SYSTEMS_HEADERS
+  RELATIVE ${PROJECT_SOURCE_DIR}/thrust
+  ${CMAKE_CONFIGURE_DEPENDS}
+  ${THRUST_HEADER_SYSTEMS_GLOBS}
+)
+list(APPEND THRUST_HEADERS ${THRUST_SYSTEMS_HEADERS})
+
+# ...and remove all the detail headers (also removing the detail headers from the selected systems).
+file(
+  GLOB_RECURSE THRUST_HEADER_EXCLUDE_DETAILS
+  RELATIVE ${PROJECT_SOURCE_DIR}/thrust
+  ${CMAKE_CONFIGURE_DEPENDS}
+  ${THRUST_HEADER_EXCLUDE_DETAILS_GLOBS}
+)
+list(REMOVE_ITEM THRUST_HEADERS ${THRUST_HEADER_EXCLUDE_DETAILS})
+
+# list of headers that aren't implemented for all backends, but are implemented for CUDA
+set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_CUDA
+  async/copy.h
+  async/for_each.h
+  async/reduce.h
+  async/sort.h
+  async/transform.h
+  event.h
+  future.h
+)
+
+# list of headers that aren't implemented for all backends, but are implemented for CPP
+set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_CPP
+)
+
+# list of headers that aren't implemented for all backends, but are implemented for TBB
+set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_TBB
+)
+
+# list of headers that aren't implemented for all backends, but are implemented for OMP
+set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_OMP
+)
+
+# list of all partially implemented headers
+set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS
+  emptylistguard
+  ${THRUST_PARTIALLY_IMPLEMENTED_HEADERS_CUDA}
+  ${THRUST_PARTIALLY_IMPLEMENTED_HEADERS_CPP}
+  ${THRUST_PARTIALLY_IMPLEMENTED_HEADERS_TBB}
+  ${THRUST_PARTIALLY_IMPLEMENTED_HEADERS_OMP}
+)
+
+list(REMOVE_DUPLICATES THRUST_PARTIALLY_IMPLEMENTED_HEADERS)
+
+foreach (THRUST_HEADER IN LISTS THRUST_HEADERS)
+  if ("${THRUST_HEADER}" IN_LIST THRUST_PARTIALLY_IMPLEMENTED_HEADERS)
+    # this header is partially implemented on _some_ backends
+    if (NOT "${THRUST_HEADER}" IN_LIST THRUST_PARTIALLY_IMPLEMENTED_HEADERS_${THRUST_DEVICE_SYSTEM})
+      # but not on the selected one
+      continue()
+    endif ()
+  endif ()
+
+  set(THRUST_HEADER_TEST_EXT .cpp)
+  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
+    set(THRUST_HEADER_TEST_EXT .cu)
+  endif ()
+
+  set(SOURCE_NAME headers/${THRUST_HEADER}${THRUST_HEADER_TEST_EXT})
+  configure_file(cmake/header_test.in ${SOURCE_NAME})
+
+  list(APPEND THRUST_HEADER_TEST_SOURCES ${SOURCE_NAME})
+endforeach ()
+
+add_library(header-test OBJECT ${THRUST_HEADER_TEST_SOURCES})
+target_include_directories(
+  header-test
+  PUBLIC ${PROJECT_SOURCE_DIR}
+)
 
 include(CTest)
 enable_testing()
@@ -192,20 +342,12 @@ elseif ("OMP" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   list(APPEND THRUST_TEST_GLOBS testing/omp/*.cpp)
 endif ()
 
-if (CMAKE_VERSION VERSION_LESS 3.12)
-  file(
-    GLOB THRUST_TESTS
-    RELATIVE ${PROJECT_SOURCE_DIR}/testing
-    ${THRUST_TEST_GLOBS}
-    CONFIGURE_DEPENDS
-  )
-else ()
-  file(
-    GLOB THRUST_TESTS
-    RELATIVE ${PROJECT_SOURCE_DIR}/testing
-    ${THRUST_TEST_GLOBS}
-  )
-endif ()
+file(
+  GLOB THRUST_TESTS
+  RELATIVE ${PROJECT_SOURCE_DIR}/testing
+  ${CMAKE_CONFIGURE_DEPENDS}
+  ${THRUST_TEST_GLOBS}
+)
 
 # list of tests that aren't implemented for all backends, but are implemented for CUDA
 set(THRUST_PARTIALLY_IMPLEMENTED_CUDA
@@ -282,10 +424,6 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
     ${PROJECT_SOURCE_DIR}/testing/${THRUST_TEST_SOURCE}
   )
 
-  target_compile_options(${THRUST_TEST}
-    PRIVATE "$<$<CONFIG:DEBUG>:${THRUST_OPTIONS_DEBUG}>"
-            "$<$<CONFIG:RELEASE>:${THRUST_OPTIONS_RELEASE}>")
-
   target_include_directories(
     ${THRUST_TEST}
     PUBLIC ${PROJECT_SOURCE_DIR}
@@ -310,10 +448,6 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
       ${PROJECT_SOURCE_DIR}/testing/${THRUST_TEST_SOURCE}
     )
 
-    target_compile_options(${THRUST_TEST_RDC}
-      PRIVATE "$<$<CONFIG:DEBUG>:${THRUST_OPTIONS_DEBUG} ${THRUST_OPTIONS_RDC}>"
-              "$<$<CONFIG:RELEASE>:${THRUST_OPTIONS_RELEASE} ${THRUST_OPTIONS_RDC}>")
-
     target_include_directories(
       ${THRUST_TEST_RDC}
       PUBLIC ${PROJECT_SOURCE_DIR}
@@ -323,6 +457,9 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
     target_link_libraries(${THRUST_TEST_RDC}
       thrust_testframework
       ${THRUST_ADDITIONAL_LIBRARIES})
+
+    set_target_properties(${THRUST_TEST_RDC}
+      PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
     if (THRUST_TEST_ADD_TO_CTEST)
       add_test(${THRUST_TEST_RDC} ${THRUST_TEST_RDC})
@@ -384,10 +521,6 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
     ${PROJECT_SOURCE_DIR}/examples/${THRUST_EXAMPLE_SOURCE}
   )
 
-  target_compile_options(${THRUST_EXAMPLE}
-    PRIVATE "$<$<CONFIG:DEBUG>:${THRUST_OPTIONS_DEBUG}>"
-            "$<$<CONFIG:RELEASE>:${THRUST_OPTIONS_RELEASE}>")
-
   target_include_directories(
     ${THRUST_EXAMPLE}
     PUBLIC ${PROJECT_SOURCE_DIR}
@@ -407,10 +540,6 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
       ${PROJECT_SOURCE_DIR}/examples/${THRUST_EXAMPLE_SOURCE}
     )
 
-    target_compile_options(${THRUST_EXAMPLE_RDC}
-      PRIVATE "$<$<CONFIG:DEBUG>:${THRUST_OPTIONS_DEBUG} ${THRUST_OPTIONS_RDC}>"
-              "$<$<CONFIG:RELEASE>:${THRUST_OPTIONS_RELEASE} ${THRUST_OPTIONS_RDC}>")
-
     target_include_directories(
       ${THRUST_EXAMPLE_RDC}
       PUBLIC ${PROJECT_SOURCE_DIR}
@@ -419,6 +548,9 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
     target_link_libraries(${THRUST_EXAMPLE_RDC}
       ${THRUST_ADDITIONAL_LIBRARIES})
+
+    set_target_properties(${THRUST_EXAMPLE_RDC}
+      PROPERTIES CUDA_SEPERABLE_COMPILATION ON)
 
     add_test(${THRUST_EXAMPLE_RDC} ${THRUST_EXAMPLE_RDC})
   endif ()

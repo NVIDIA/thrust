@@ -23,6 +23,7 @@
 
 #include <thrust/system/detail/generic/per_device_resource.h>
 #include <thrust/system/detail/adl/per_device_resource.h>
+#include <thrust/mr/allocator.h>
 
 #include <thrust/detail/execution_policy.h>
 #include <thrust/mr/allocator.h>
