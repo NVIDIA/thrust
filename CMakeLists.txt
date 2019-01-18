@@ -80,6 +80,11 @@ if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   enable_language(CUDA)
 
   # force CUDA C++ standard to be the same as the C++ standard used
+  #
+  # now, CMake is unaligned with reality on standard versions: https://gitlab.kitware.com/cmake/cmake/issues/18597
+  # which means that using standard CMake methods, it's impossible to actually sync the CXX and CUDA versions for pre-11
+  # versions of C++; CUDA accepts 98 but translates that to 03, while CXX doesn't accept 03 (and doesn't translate that to 03).
+  # in case this gives You, dear user, any trouble, please escalate the above CMake bug, so we can support reality properly.
   unset (CMAKE_CUDA_STANDARD CACHE)
   set (CMAKE_CUDA_STANDARD ${CMAKE_CXX_STANDARD})
 endif ()
@@ -469,6 +474,8 @@ endforeach ()
 
 # Handle examples
 
+option(THRUST_ENABLE_EXAMPLES_WITH_RDC "Also build all examples with RDC." OFF)
+
 list(APPEND THRUST_EXAMPLE_GLOBS examples/*.cu)
 list(APPEND THRUST_EXAMPLE_GLOBS examples/*.cpp)
 
@@ -532,7 +539,7 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
   add_test(${THRUST_EXAMPLE}     ${THRUST_EXAMPLE})
 
-  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
+  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND THRUST_ENABLE_EXAMPLES_WITH_RDC)
     set(THRUST_EXAMPLE_RDC "thrust.example.${THRUST_EXAMPLE_CATEGORY}rdc.${THRUST_EXAMPLE_NAME}")
 
     add_executable(
