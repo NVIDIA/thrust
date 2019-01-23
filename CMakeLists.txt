@@ -386,6 +386,13 @@ set(THRUST_PARTIALLY_IMPLEMENTED
   ${THRUST_PARTIALLY_IMPLEMENTED_OMP}
 )
 
+if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
+  if (14 EQUAL ${CMAKE_CXX_STANDARD})
+    # temporarily disable until NVBug 2492786 is fixed
+    list(APPEND THRUST_PARTIALLY_IMPLEMENTED tuple_algorithms)
+  endif()
+endif ()
+
 list(REMOVE_DUPLICATES THRUST_PARTIALLY_IMPLEMENTED)
 
 foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
@@ -474,6 +481,7 @@ endforeach ()
 
 # Handle examples
 
+option(THRUST_EXAMPLE_FILECHECK_PATH "Path to the LLVM FileCheck utility." "")
 option(THRUST_ENABLE_EXAMPLES_WITH_RDC "Also build all examples with RDC." OFF)
 
 list(APPEND THRUST_EXAMPLE_GLOBS examples/*.cu)
