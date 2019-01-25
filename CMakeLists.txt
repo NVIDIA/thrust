@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.8)
 
 project(Thrust CXX)
 
+set(THRUST_SOURCE ${CMAKE_SOURCE_DIR})
+include(cmake/common_variables.cmake)
+
 # Default to a release build.
 if ("" STREQUAL "${CMAKE_BUILD_TYPE}")
   set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build." FORCE)
@@ -177,6 +180,12 @@ if ("GNU" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
     # becoming part of the type system; we don't care.
     append_option_if_available("-Wnoexcept-type" THRUST_CXX_WARNINGS)
   endif ()
+
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.1 AND CMAKE_CXX_STANDARD EQUAL 98)
+    # thrust::complex can't really be made trivially copyable in pre-11
+    # disable a warning about a non-trivially-copyable type being memmoved that was added to GCC 8
+    append_option_if_available("-Wno-class-memaccess" THRUST_CXX_WARNINGS)
+  endif ()
 endif ()
 
 if (("Clang" STREQUAL "${CMAKE_CXX_COMPILER_ID}") OR
@@ -319,6 +328,10 @@ enable_testing()
 
 # Handle tests
 
+set(THRUST_TEST_RUN_ARGUMENTS
+  -DTHRUST_SOURCE=${CMAKE_SOURCE_DIR}
+  -P "${CMAKE_SOURCE_DIR}/cmake/run_test.cmake")
+
 list(APPEND THRUST_TESTFRAMEWORK_FILES testing/unittest/testframework.cu)
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   list(APPEND THRUST_TESTFRAMEWORK_FILES testing/unittest/cuda/testframework.cu)
@@ -447,7 +460,10 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
     ${THRUST_ADDITIONAL_LIBRARIES})
 
   if (THRUST_TEST_ADD_TO_CTEST)
-    add_test(${THRUST_TEST}     ${THRUST_TEST})
+    add_test(NAME ${THRUST_TEST}
+      COMMAND ${CMAKE_COMMAND}
+        -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_TEST}>
+        ${THRUST_TEST_RUN_ARGUMENTS})
   endif ()
 
   if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
@@ -474,7 +490,10 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
       PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
 
     if (THRUST_TEST_ADD_TO_CTEST)
-      add_test(${THRUST_TEST_RDC} ${THRUST_TEST_RDC})
+      add_test(NAME ${THRUST_TEST_RDC}
+        COMMAND ${CMAKE_COMMAND}
+          -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_TEST_RDC}>
+          ${THRUST_TEST_RUN_ARGUMENTS})
     endif ()
   endif ()
 endforeach ()
@@ -483,6 +502,20 @@ endforeach ()
 
 option(THRUST_EXAMPLE_FILECHECK_PATH "Path to the LLVM FileCheck utility." "")
 option(THRUST_ENABLE_EXAMPLES_WITH_RDC "Also build all examples with RDC." OFF)
+
+set(THRUST_EXAMPLE_FILECHECK_ENABLED OFF)
+if (NOT "" STREQUAL "${THRUST_EXAMPLE_FILECHECK_PATH}")
+  execute_process(
+    COMMAND "${THRUST_EXAMPLE_FILECHECK_PATH}" "${THRUST_FILECHECK_DATA_PATH}/thrust.sanity.filecheck"
+    INPUT_FILE "${CMAKE_SOURCE_DIR}/cmake/sanity"
+    RESULT_VARIABLE THRUST_FILECHECK_RESULT
+  )
+
+  if ("0" STREQUAL "${THRUST_FILECHECK_RESULT}")
+    set(THRUST_EXAMPLE_FILECHECK_ENABLED ON)
+    message("-- FileCheck enabled: ${THRUST_EXAMPLE_FILECHECK_PATH}")
+  endif ()
+endif ()
 
 list(APPEND THRUST_EXAMPLE_GLOBS examples/*.cu)
 list(APPEND THRUST_EXAMPLE_GLOBS examples/*.cpp)
@@ -508,6 +541,12 @@ else ()
     ${THRUST_EXAMPLE_GLOBS}
   )
 endif ()
+
+set(THRUST_EXAMPLE_RUN_ARGUMENTS
+  -DTHRUST_SOURCE=${CMAKE_SOURCE_DIR}
+  -DTHRUST_FILECHECK_ENABLED=${THRUST_EXAMPLE_FILECHECK_ENABLED}
+  -DTHRUST_FILECHECK=${THRUST_EXAMPLE_FILECHECK_PATH}
+  -P "${CMAKE_SOURCE_DIR}/cmake/run_example.cmake")
 
 foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
   # TODO: Per-example flags.
@@ -545,7 +584,11 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
   target_link_libraries(${THRUST_EXAMPLE}
     ${THRUST_ADDITIONAL_LIBRARIES})
 
-  add_test(${THRUST_EXAMPLE}     ${THRUST_EXAMPLE})
+  add_test(NAME ${THRUST_EXAMPLE}
+    COMMAND ${CMAKE_COMMAND}
+      -DTHRUST_EXAMPLE=${THRUST_EXAMPLE}
+      -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_EXAMPLE}>
+      ${THRUST_EXAMPLE_RUN_ARGUMENTS})
 
   if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND THRUST_ENABLE_EXAMPLES_WITH_RDC)
     set(THRUST_EXAMPLE_RDC "thrust.example.${THRUST_EXAMPLE_CATEGORY}rdc.${THRUST_EXAMPLE_NAME}")
@@ -567,7 +610,11 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
     set_target_properties(${THRUST_EXAMPLE_RDC}
       PROPERTIES CUDA_SEPERABLE_COMPILATION ON)
 
-    add_test(${THRUST_EXAMPLE_RDC} ${THRUST_EXAMPLE_RDC})
+    add_test(NAME ${THRUST_EXAMPLE_RDC}
+      COMMAND ${CMAKE_COMMAND}
+        -DTHRUST_EXAMPLE=${THRUST_EXAMPLE}
+        -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_EXAMPLE_RDC}>
+        ${THRUST_EXAMPLE_RUN_ARGUMENTS})
   endif ()
 endforeach ()
 
