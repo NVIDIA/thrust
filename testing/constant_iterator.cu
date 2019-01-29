@@ -46,17 +46,6 @@ void TestConstantIteratorIncrement(void)
 }
 DECLARE_UNITTEST(TestConstantIteratorIncrement);
 
-void TestConstantIteratorIncrementBig(void)
-{
-    long long int n = 10000000000ULL;
-
-    thrust::constant_iterator<long long int> begin(1);
-    thrust::constant_iterator<long long int> end = begin + n;
-
-    ASSERT_EQUAL(thrust::distance(begin, end), n);
-}
-DECLARE_UNITTEST(TestConstantIteratorIncrementBig);
-
 void TestConstantIteratorComparison(void)
 {
     using namespace thrust;
@@ -96,7 +85,7 @@ void TestMakeConstantIterator(void)
     ASSERT_EQUAL(13, *iter0);
 
     // test two argument version
-    constant_iterator<int,thrust::detail::intmax_t> iter1 = make_constant_iterator<int,thrust::detail::intmax_t>(13, 7);
+    constant_iterator<int,int> iter1 = make_constant_iterator<int,int>(13, 7);
 
     ASSERT_EQUAL(13, *iter1);
     ASSERT_EQUAL(7, iter1 - iter0);
