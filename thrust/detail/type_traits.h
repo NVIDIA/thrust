@@ -40,7 +40,7 @@ namespace detail
  template<typename T, T v>
    struct integral_constant
    {
-     THRUST_STATIC_CONSTANT T value = v;
+     THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT T value = v;
 
      typedef T                       value_type;
      typedef integral_constant<T, v> type;

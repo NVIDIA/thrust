@@ -37,7 +37,7 @@ namespace detail
 template <typename, bool x>
 struct depend_on_instantiation
 {
-  THRUST_STATIC_CONSTANT bool value = x;
+  THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT bool value = x;
 };
 
 #if THRUST_CPP_DIALECT >= 2011

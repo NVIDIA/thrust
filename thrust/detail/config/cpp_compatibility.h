@@ -36,35 +36,44 @@
 #  define THRUST_DEFAULT = default;
 #  define THRUST_NOEXCEPT noexcept
 #  define THRUST_FINAL final
-#  define THRUST_STATIC_CONSTANT static constexpr
 #else
 #  define THRUST_CONSTEXPR 
 #  define THRUST_OVERRIDE
 #  define THRUST_DEFAULT {}
 #  define THRUST_NOEXCEPT throw()
 #  define THRUST_FINAL
-#  define THRUST_STATIC_CONSTANT static const
 #endif
 
 #ifndef THRUST_NODISCARD
 #  define THRUST_NODISCARD
 #endif
 
+// FIXME: Combine THRUST_INLINE_CONSTANT and
+// THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT into one macro when NVCC properly
+// supports `constexpr` globals in host and device code.
 #ifdef __CUDA_ARCH__
-#  if   THRUST_CPP_DIALECT >= 2017
-#    define THRUST_INLINE_CONSTANT inline const __device__
-#  elif THRUST_CPP_DIALECT >= 2011
-#    define THRUST_INLINE_CONSTANT static const __device__
+// FIXME: Add this when NVCC supports inline variables.
+//#  if   THRUST_CPP_DIALECT >= 2017
+//#    define THRUST_INLINE_CONSTANT                 inline constexpr
+//#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
+#  if THRUST_CPP_DIALECT >= 2011
+#    define THRUST_INLINE_CONSTANT                 static constexpr
+#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
 #  else
-#    define THRUST_INLINE_CONSTANT static const __device__
+#    define THRUST_INLINE_CONSTANT                 static const __device__
+#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
 #  endif
 #else
-#  if   THRUST_CPP_DIALECT >= 2017
-#    define THRUST_INLINE_CONSTANT inline constexpr
-#  elif THRUST_CPP_DIALECT >= 2011
-#    define THRUST_INLINE_CONSTANT static constexpr
+// FIXME: Add this when NVCC supports inline variables.
+//#  if   THRUST_CPP_DIALECT >= 2017
+//#    define THRUST_INLINE_CONSTANT                 inline constexpr
+//#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
+#  if THRUST_CPP_DIALECT >= 2011
+#    define THRUST_INLINE_CONSTANT                 static constexpr
+#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
 #  else
-#    define THRUST_INLINE_CONSTANT static const
+#    define THRUST_INLINE_CONSTANT                 static const
+#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
 #  endif
 #endif
 
