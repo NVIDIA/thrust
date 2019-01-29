@@ -1,4 +1,156 @@
 #######################################
+#      Thrust v1.9.4 (CUDA 10.1)      #
+#######################################
+
+Summary
+    Thrust v1.9.4 adds asynchronous interfaces for parallel algorithms, a
+    new allocator system including caching allocators and unified memory
+    support, as well as a variety of other enhancements, mostly related to
+    C++11/C++14/C++17/C++20 support. The new asynchronous algorithms in the
+    `thrust::async` namespace return `thrust::event` or `thrust::future`
+    objects, which can be waited upon to synchronize with the completion of the
+    parallel operation.
+
+New Features
+    `thrust::event` and `thrust::future<T>`, uniquely-owned asynchronous handles consisting of a state (ready or not ready), content (some value; for `thrust::future` only), and an optional set of objects that should be destroyed only when the future's value is ready and has been consumed.
+      The design is loosely based on C++11's `std::future`.
+      They can be `.wait`'d on, and the value of a future can be waited on and retrieved with `.get` or `.extract`.
+      Multiple `thrust::event`s and `thrust::future`s can be combined with `thrust::when_all`.
+      `thrust::future`s can be converted to `thrust::event`s.
+      Currently, these primitives are only implemented for the CUDA backend and are C++11 only.
+
+    New asynchronous algorithms that return `thrust::event`/`thrust::future`s, implemented as C++20 range style customization points:
+      `thrust::async::reduce`.
+      `thrust::async::reduce_into`, which takes a target location to store the reduction result into.
+      `thrust::async::copy`, including a two-policy overload that allows explicit cross system copies which execution policy properties can be attached to.
+      `thrust::async::transform`.
+      `thrust::async::for_each`.
+      `thrust::async::stable_sort`.
+      `thrust::async::sort`.
+      By default the asynchronous algorithms use the new caching allocators. Deallocation of temporary storage is deferred until the destruction of the returned `thrust::future`. The content of `thrust::future`s is stored in either device or universal memory and transferred to the host only upon request to prevent unnecessary data migration.
+      Asynchronous algorithms are currently only implemented for the CUDA system and are C++11 only.
+
+    `exec.after(f, g, ...)`, a new execution policy method that takes a set of `thrust::event`/`thrust::future`s and returns an execution policy that operations on that execution policy should depend upon. 
+
+    New logic and mindset for the type requirements for cross-system sequence copies (currently only used by `thrust::async::copy`), based on:
+      `thrust::is_contiguous_iterator` and `THRUST_PROCLAIM_CONTIGUOUS_ITERATOR` for detecting/indicating that an iterator points to contiguous storage.
+      `thrust::is_trivially_relocatable` and `THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE` for detecting/indicating that a type is `memcpy`able (based on principles from https://wg21.link/P1144).
+      The new approach reduces buffering, increases performance, and increases correctness.
+      The fast path is now enabled when copying fp16 and CUDA vector types with `thrust::async::copy`.
+
+    All Thrust synchronous algorithms for the CUDA backend now actually synchronize. Previously, any algorithm that did not allocate temporary storage (counterexample: `thrust::sort`) and did not have a computation-dependent result (counterexample: `thrust::reduce`) would actually be launched asynchronously.  Additionally, synchronous algorithms that allocated temporary storage would become asynchronous if a custom allocator was supplied that did not synchronize on allocation/deallocation, unlike `cudaMalloc`/`cudaFree`. So, now `thrust::for_each`, `thrust::transform`, `thrust::sort`, etc are truly synchronous. In some cases this may be a performance regression; if you need asynchrony, use the new asynchronous algorithms.
+
+    Thrust's allocator framework has been rewritten. It now uses a memory resource system, similar to C++17's `std::pmr` but supporting static polymorphism. Memory resources are objects that allocate untyped storage and allocators are cheap handles to memory resources in this new model. The new facilities live in `<thrust/mr/*>`.
+      `thrust::mr::memory_resource<Pointer>`, the memory resource base class, which takes a (possibly tagged) pointer to `void` type as a parameter.
+      `thrust::mr::allocator<T, MemoryResource>`, an allocator backed by a memory resource object.
+      `thrust::mr::polymorphic_adaptor_resource<Pointer>`, a type-erased memory resource adaptor.
+      `thrust::mr::polymorphic_allocator<T>`, a C++17-style polymorphic allocator backed by a type-erased memory resource object.
+      New tunable C++17-style caching memory resources, `thrust::mr::(disjoint_)?(un)?synchronized_pool_resource`, designed to cache both small object allocations and large repetitive temporary allocations. The disjoint variants use separate storage for management of the pool, which is necessary if the memory being allocated cannot be accessed on the host (e.g. device memory).
+      System-specific allocators were rewritten to use the new memory resource framework.
+      New `thrust::device_memory_resource` for allocating device memory.    
+      New `thrust::universal_memory_resource` for allocating memory that can be accessed from both the host and device (e.g. `cudaMallocManaged`).
+      New `thrust::universal_host_pinned_memory_resource` for allocating memory that can be accessed from the host and the device but always resides in host memory (e.g. `cudaMallocHost`).
+      `thrust::get_per_device_resource` and `thrust::per_device_allocator`, which lazily create and retrieve a per-device singleton memory resource.
+      Rebinding mechanisms (`rebind_traits` and `rebind_alloc`) for `thrust::allocator_traits`.
+      `thrust::device_make_unique`, a factory function for creating a `std::unique_ptr` to a newly allocated object in device memory.
+      `<thrust/detail/memory_algorithms>`, a C++11 implementation of the C++17 uninitialized memory algorithms.
+      `thrust::allocate_unique` and friends, based on the proposed C++23 `std::allocate_unique` (https://wg21.link/P0211).
+
+    New type traits and metaprogramming facilities. Type traits are slowly being migrated out of `thrust::detail::` and `<thrust/detail/*>`; their new home will be `thrust::` and `<thrust/type_traits/*>`.
+      `thrust::is_execution_policy`.
+      `thrust::is_operator_less_or_greater_function_object`, which detects `thrust::less`, `thrust::greater`, `std::less`, and `std::greater`.
+      `thrust::is_operator_plus_function_object``, which detects `thrust::plus` and `std::plus`.
+      `thrust::remove_cvref(_t)?`, a C++11 implementation of C++20's `thrust::remove_cvref(_t)?`.
+      `thrust::void_t`, and various other new type traits.
+      `thrust::integer_sequence` and friends, a C++11 implementation of C++20's `std::integer_sequence`
+      `thrust::conjunction`, `thrust::disjunction`, and `thrust::disjunction`, a C++11 implementation of C++17's logical metafunctions.
+      Some Thrust type traits (such as `thrust::is_constructible`) have been redefined in terms of C++11's type traits when they are available.
+
+    `<thrust/detail/tuple_algorithms.h>`, new `std::tuple` algorithms:
+      `thrust::tuple_transform`.
+      `thrust::tuple_for_each`.
+      `thrust::tuple_subset`.
+
+    Miscellaneous new `std::`-like facilities:
+      `thrust::optional`, a C++11 implementation of C++17's `std::optional`.
+      `thrust::addressof`, an implementation of C++11's `std::addressof`.
+      `thrust::next` and `thrust::prev`, an implementation of C++11's `std::next` and `std::prev`.
+      `thrust::square`, a `<functional>` style unary function object that multiplies its argument by itself.
+      `<thrust/limits.h>` and `thrust::numeric_limits`, a customized version of `<limits>` and `std::numeric_limits`.
+
+    `<thrust/detail/preprocessor.h>`, new general purpose preprocessor facilities:
+      `THRUST_PP_CAT[2-5]`, concatenates two to five tokens.
+      `THRUST_PP_EXPAND(_ARGS)?`, performs double expansion.
+      `THRUST_PP_ARITY` and `THRUST_PP_DISPATCH`, tools for macro overloading.
+      `THRUST_PP_BOOL`, boolean conversion.
+      `THRUST_PP_INC` and `THRUST_PP_DEC`, increment/decrement.
+      `THRUST_PP_HEAD`, a variadic macro that expands to the first argument.
+      `THRUST_PP_TAIL`, a variadic macro that expands to all its arguments after the first.
+      `THRUST_PP_IIF`, bitwise conditional.
+      `THRUST_PP_COMMA_IF`, and `THRUST_PP_HAS_COMMA`, facilities for adding and detecting comma tokens.
+      `THRUST_PP_IS_VARIADIC_NULLARY`, returns true if called with a nullary `__VA_ARGS__`.
+      `THRUST_CURRENT_FUNCTION`, expands to the name of the current function.
+
+    New C++11 compatibility macros:
+      `THRUST_NODISCARD`, expands to `[[nodiscard]]` when available and the best equivalent otherwise.
+      `THRUST_CONSTEXPR`, expands to `constexpr` when available and the best equivalent otherwise.
+      `THRUST_OVERRIDE`, expands to `override` when available and the best equivalent otherwise.
+      `THRUST_DEFAULT`, expands to `= default;` when available and the best equivalent otherwise.
+      `THRUST_NOEXCEPT`, expands to `noexcept` when available and the best equivalent otherwise.
+      `THRUST_FINAL`, expands to `final` when available and the best equivalent otherwise.
+      `THRUST_INLINE_CONSTANT`, expands to `inline constexpr` when available and the best equivalent otherwise.
+
+    `<thrust/detail/type_deduction.h>`, new C++11-only type deduction helpers:
+      `THRUST_DECLTYPE_RETURNS*`, expand to function definitions with suitable conditional `noexcept` qualifiers and trailing return types.
+      `THRUST_FWD(x)`, expands to `::std::forward<decltype(x)>(x)`.
+      `THRUST_MVCAP`, expands to a lambda move capture.
+      `THRUST_RETOF`, expands to a decltype computing the return type of an invocable.
+     
+New Examples
+    mr_basic demonstrates how to use the new memory resource allocator system.
+
+Other Enhancements
+    Tagged pointer enhancements:
+      New `thrust::pointer_traits` specialization for `void const*`.
+      `nullptr` support to Thrust tagged pointers.
+      New `explicit operator bool` for Thrust tagged pointers when using C++11 for `std::unique_ptr` interoperability.
+      Added `thrust::reinterpret_pointer_cast` and `thrust::static_pointer_cast` for casting Thrust tagged pointers.
+
+    Iterator enhancements:
+      `thrust::iterator_system` is now SFINAE friendly.
+      Removed cv qualifiers from iterator types when using `thrust::iterator_system`.
+
+    Static assert enhancements:
+      New `THRUST_STATIC_ASSERT_MSG`, takes an optional string constant to be used as the error message when possible.
+      Update `THRUST_STATIC_ASSERT(_MSG)` to use C++11's `static_assert` when it's available.
+      Introduce a way to test for static assertions.
+
+    Testing enhancements:
+      Additional scalar and sequence types, including non-builtin types and vectors with unified memory allocators, have been added to the list of types used by generic unit tests.
+      The generation of random input data has been improved to increase the range of values used and catch more corner cases.
+      New `truncate_to_max_representable` utility for avoiding the generation of ranges that cannot be represented by the underlying element type in generic unit test code. 
+      The test driver now synchronizes with CUDA devices and check for errors after each test, when switching devices, and after each raw kernel launch.
+      The warningtester uber header is now compiled with NVCC to avoid needing to disable CUDA-specific code with the preprocessor.
+      Fixed the unit test framework's `ASSERT_*` to print `char`s as `int`s.
+      New `DECLARE_INTEGRAL_VARIABLE_UNITTEST` test declaration macro.
+      New `DECLARE_VARIABLE_UNITTEST_WITH_TYPES_AND_NAME` test declaration macro.
+      `thrust::system_error` in the CUDA backend now print out its `cudaError_t` enumerator in addition to the diagnostic message.
+      Stopped using conditionally signed types like `char`.
+
+Bug Fixes
+    #897, 2062242 Fix compilation error when using `__device__` lambdas with `reduce` on MSVC.
+    #908, 2089386 Static assert that `thrust::generate`/`thrust::fill` isn't operate on const iterators.
+    #919 Fix compilation failure with `thrust::zip_iterator` and `thrust::complex<float>`.
+    #924, 2096679, 2315990 Fix dispatch for the CUDA backend's `thrust::reduce` to use two functions (one with the pragma for disabling exec checks, one with THRUST_RUNTIME_FUNCTION) instead of one. This fixes a regression with device compilation that started in CUDA 9.2.
+    #928, 2341455 Add missing `__host__ __device__` annotations to a `thrust::complex::operator=` to satisfy GoUDA.
+    2094642 Make `thrust::vector_base::clear` not depend on the element type being default constructible.
+    2289115 Remove flaky `simple_cuda_streams` example.
+    2328572 Add missing `thrust::device_vector` constructor that takes an allocator parameter.
+    2455740 Update the `range_view` example to not use device-side launch.
+    2455943 Ensure that sized unit tests that use `counting_iterator` perform proper truncation.
+    2455952 Refactor questionable `copy_if` unit tests.
+
+#######################################
 #      Thrust v1.9.3 (CUDA 10.0)      #
 #######################################
 
@@ -6,7 +158,7 @@ Summary
     Thrust v1.9.3 unifies and integrates CUDA Thrust and GitHub Thrust.
 
 Bug Fixes
-    #725, #850, #855, #859, #860 Unifiy `iter_swap` interface and fix `device_reference` swapping.
+    #725, #850, #855, #859, #860 Unify `iter_swap` interface and fix `device_reference` swapping.
     2004663 Add a `data` method to `detail::temporary_array` and refactor temporary memory allocation in the CUDA backend to be exception and leak safe.
     #886, #894, #914 Various documentation typo fixes.
     #724 Provide NVVMIR_LIBRARY_DIR environment variable to NVCC.
@@ -41,7 +193,7 @@ Bug Fixes
     200385527, 200385119, 200385113, 200349350, 2058778 Various compiler warning issues.
     200355591 `reduce` performance issues.
     2053727 ADL bug causing user-supplied `allocate` to be overlooked but `deallocate` to be called with GCC <= 4.3.
-    1777043 `complex` does not work with `sequence`
+    1777043 `complex` does not work with `sequence`.
 
 #######################################
 #     Thrust v1.9.1-2 (CUDA 9.1)      #
