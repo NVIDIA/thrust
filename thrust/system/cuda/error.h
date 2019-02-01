@@ -148,19 +148,19 @@ inline const error_category &cuda_category(void);
 
 /*! Specialization of \p is_error_code_enum for \p cuda::errc::errc_t
  */
-template<> struct is_error_code_enum<cuda_cub::errc::errc_t> : thrust::detail::true_type {};
+template<> struct is_error_code_enum<cuda::errc::errc_t> : thrust::detail::true_type {};
 
 
 // XXX replace cuda::errc::errc_t with cuda::errc upon c++0x
 /*! \return <tt>error_code(static_cast<int>(e), cuda::error_category())</tt>
  */
-inline error_code make_error_code(cuda_cub::errc::errc_t e);
+inline error_code make_error_code(cuda::errc::errc_t e);
 
 
 // XXX replace cuda::errc::errc_t with cuda::errc upon c++0x
 /*! \return <tt>error_condition(static_cast<int>(e), cuda::error_category())</tt>.
  */
-inline error_condition make_error_condition(cuda_cub::errc::errc_t e);
+inline error_condition make_error_condition(cuda::errc::errc_t e);
 
 } // end system
 

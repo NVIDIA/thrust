@@ -27,13 +27,13 @@ namespace system
 {
 
 
-error_code make_error_code(cuda_cub::errc::errc_t e)
+error_code make_error_code(cuda::errc::errc_t e)
 {
   return error_code(static_cast<int>(e), cuda_category());
 } // end make_error_code()
 
 
-error_condition make_error_condition(cuda_cub::errc::errc_t e)
+error_condition make_error_condition(cuda::errc::errc_t e)
 {
   return error_condition(static_cast<int>(e), cuda_category());
 } // end make_error_condition()
@@ -69,7 +69,7 @@ class cuda_error_category
 
     inline virtual error_condition default_error_condition(int ev) const
     {
-      using namespace cuda_cub::errc;
+      using namespace cuda::errc;
 
       if(ev < ::cudaErrorApiFailureBase)
       {

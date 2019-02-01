@@ -27,8 +27,6 @@
 
 #  if __has_cpp_attribute(nodiscard)
 #    define THRUST_NODISCARD [[nodiscard]]
-#  elif __has_cpp_attribute(gnu::warn_unused_result)
-#    define THRUST_NODISCARD [[gnu::warn_unused_result]]
 #  endif
 
 #  define THRUST_CONSTEXPR constexpr
@@ -37,7 +35,7 @@
 #  define THRUST_NOEXCEPT noexcept
 #  define THRUST_FINAL final
 #else
-#  define THRUST_CONSTEXPR 
+#  define THRUST_CONSTEXPR
 #  define THRUST_OVERRIDE
 #  define THRUST_DEFAULT {}
 #  define THRUST_NOEXCEPT throw()
