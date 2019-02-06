@@ -1,4 +1,4 @@
-/******************************************************************************§/a
+/******************************************************************************
  * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
