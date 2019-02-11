@@ -90,6 +90,36 @@ if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   # in case this gives You, dear user, any trouble, please escalate the above CMake bug, so we can support reality properly.
   unset (CMAKE_CUDA_STANDARD CACHE)
   set (CMAKE_CUDA_STANDARD ${CMAKE_CXX_STANDARD})
+
+  set(THRUST_HIGHEST_COMPUTE_ARCH 75)
+  set(THRUST_KNOWN_COMPUTE_ARCHS 30 32 35 50 52 53 60 61 62 70 72 75)
+
+  option(THRUST_DISABLE_ARCH_BY_DEFAULT "If ON, then all CUDA architectures are disabled on the initial CMake run." OFF)
+  set(OPTION_INIT ON)
+  if (THRUST_DISABLE_ARCH_BY_DEFAULT)
+    set(OPTION_INIT OFF)
+  endif ()
+
+  if (NOT ${THRUST_HIGHEST_COMPUTE_ARCH} IN_LIST THRUST_KNOWN_COMPUTE_ARCHS)
+    message(FATAL_ERROR "When changing the highest compute version, don't forget to add it to the list!")
+  endif ()
+
+  foreach (COMPUTE_ARCH IN LISTS THRUST_KNOWN_COMPUTE_ARCHS)
+    option(THRUST_ENABLE_COMPUTE_${COMPUTE_ARCH} "Enable code generation for tests for sm_${COMPUTE_ARCH}" ${OPTION_INIT})
+    if (THRUST_ENABLE_COMPUTE_${COMPUTE_ARCH})
+      set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${COMPUTE_ARCH},code=sm_${COMPUTE_ARCH}")
+      set(COMPUTE_MESSAGE "${COMPUTE_MESSAGE} sm_${COMPUTE_ARCH}")
+    endif ()
+  endforeach ()
+
+  option(THRUST_ENABLE_COMPUTE_FUTURE "Enable code generation for tests for compute_${THRUST_HIGHEST_COMPUTE_ARCH}" ${OPTION_INIT})
+  if (THRUST_ENABLE_COMPUTE_FUTURE)
+    set(CMAKE_CUDA_FLAGS
+      "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${THRUST_HIGHEST_COMPUTE_ARCH},code=compute_${THRUST_HIGHEST_COMPUTE_ARCH}")
+    set(COMPUTE_MESSAGE "${COMPUTE_MESSAGE} compute_${THRUST_HIGHEST_COMPUTE_ARCH}")
+  endif ()
+
+  message("-- Enabled CUDA architectures:${COMPUTE_MESSAGE}")
 endif ()
 
 if ("OMP" STREQUAL "${THRUST_DEVICE_SYSTEM}")
@@ -178,7 +208,7 @@ if ("GNU" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
   if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 7.3)
     # GCC 7.3 complains about name mangling changes due to `noexcept`
     # becoming part of the type system; we don't care.
-    append_option_if_available("-Wnoexcept-type" THRUST_CXX_WARNINGS)
+    append_option_if_available("-Wno-noexcept-type" THRUST_CXX_WARNINGS)
   endif ()
 
   if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.1 AND CMAKE_CXX_STANDARD EQUAL 98)
