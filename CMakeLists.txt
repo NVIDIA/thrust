@@ -5,7 +5,6 @@ project(Thrust CXX)
 set(THRUST_SOURCE ${CMAKE_SOURCE_DIR})
 include(cmake/common_variables.cmake)
 
-# Default to a release build.
 if ("" STREQUAL "${CMAKE_BUILD_TYPE}")
   set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build." FORCE)
 
@@ -15,7 +14,6 @@ if ("" STREQUAL "${CMAKE_BUILD_TYPE}")
   )
 endif ()
 
-# CONFIGURE_DEPENDS helper
 if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.12)
   set(CMAKE_CONFIGURE_DEPENDS CONFIGURE_DEPENDS)
 endif ()
@@ -65,7 +63,8 @@ endif ()
 
 add_definitions(-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_${THRUST_DEVICE_SYSTEM})
 
-set(CMAKE_CXX_STANDARD 98 CACHE STRING "The C++ version to be used.")
+# Please note this also sets the default for the CUDA C++ version; see the comment below.
+set(CMAKE_CXX_STANDARD 11 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 message("-- C++ Standard version: ${CMAKE_CXX_STANDARD}")
@@ -82,14 +81,18 @@ if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
 
   enable_language(CUDA)
 
-  # force CUDA C++ standard to be the same as the C++ standard used
+  # Force CUDA C++ standard to be the same as the C++ standard used.
   #
-  # now, CMake is unaligned with reality on standard versions: https://gitlab.kitware.com/cmake/cmake/issues/18597
+  # Now, CMake is unaligned with reality on standard versions: https://gitlab.kitware.com/cmake/cmake/issues/18597
   # which means that using standard CMake methods, it's impossible to actually sync the CXX and CUDA versions for pre-11
   # versions of C++; CUDA accepts 98 but translates that to 03, while CXX doesn't accept 03 (and doesn't translate that to 03).
-  # in case this gives You, dear user, any trouble, please escalate the above CMake bug, so we can support reality properly.
-  unset (CMAKE_CUDA_STANDARD CACHE)
-  set (CMAKE_CUDA_STANDARD ${CMAKE_CXX_STANDARD})
+  # In case this gives You, dear user, any trouble, please escalate the above CMake bug, so we can support reality properly.
+  if (DEFINED CMAKE_CUDA_STANDARD)
+      message(WARNING "You've set CMAKE_CUDA_STANDARD; please note that this variable is ignored, and CMAKE_CXX_STANDARD"
+          " is used as the C++ standard version for both C++ and CUDA.")
+  endif()
+  unset(CMAKE_CUDA_STANDARD CACHE)
+  set(CMAKE_CUDA_STANDARD ${CMAKE_CXX_STANDARD})
 
   set(THRUST_HIGHEST_COMPUTE_ARCH 75)
   set(THRUST_KNOWN_COMPUTE_ARCHS 30 32 35 50 52 53 60 61 62 70 72 75)
@@ -141,13 +144,13 @@ if ("TBB" STREQUAL "${THRUST_DEVICE_SYSTEM}")
     set (THRUST_ADDITIONAL_LIBRARIES "${TBB_LIBRARIES}")
   endif ()
 
-  # there's a ton of these in the TBB backend, even though the code is correct
+  # There's a ton of these in the TBB backend, even though the code is correct.
   # TODO: silence these warnings in code instead
   append_option_if_available("-Wno-unused-parameter" THRUST_CXX_WARNINGS)
 endif ()
 
 if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
-  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 1700)
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 1900)
     message(FATAL_ERROR "This version of MSVC no longer supported.")
   endif ()
 endif ()
@@ -212,8 +215,8 @@ if ("GNU" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
   endif ()
 
   if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 8.1 AND CMAKE_CXX_STANDARD EQUAL 98)
-    # thrust::complex can't really be made trivially copyable in pre-11
-    # disable a warning about a non-trivially-copyable type being memmoved that was added to GCC 8
+    # thrust::complex can't really be made trivially copyable in pre-11.
+    # Disable a warning about a non-trivially-copyable type being memmoved that was added to GCC 8.
     append_option_if_available("-Wno-class-memaccess" THRUST_CXX_WARNINGS)
   endif ()
 endif ()
@@ -245,6 +248,8 @@ endif ()
 # For every public header, build a translation unit containing `#include <header>`
 # to let the compiler try to figure out warnings in that header if it is not otherwise
 # included in tests, and also to verify if the headers are modular enough.
+# .inl files are not globbed for, because they are not supposed to be used as public
+# entrypoints.
 list(APPEND THRUST_HEADER_GLOBS thrust/*.h)
 list(APPEND THRUST_HEADER_EXCLUDE_SYSTEMS_GLOBS thrust/system/*/*)
 
@@ -293,7 +298,7 @@ file(
 )
 list(REMOVE_ITEM THRUST_HEADERS ${THRUST_HEADER_EXCLUDE_DETAILS})
 
-# list of headers that aren't implemented for all backends, but are implemented for CUDA
+# List of headers that aren't implemented for all backends, but are implemented for CUDA.
 set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_CUDA
   async/copy.h
   async/for_each.h
@@ -304,19 +309,19 @@ set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_CUDA
   future.h
 )
 
-# list of headers that aren't implemented for all backends, but are implemented for CPP
+# List of headers that aren't implemented for all backends, but are implemented for CPP.
 set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_CPP
 )
 
-# list of headers that aren't implemented for all backends, but are implemented for TBB
+# List of headers that aren't implemented for all backends, but are implemented for TBB.
 set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_TBB
 )
 
-# list of headers that aren't implemented for all backends, but are implemented for OMP
+# List of headers that aren't implemented for all backends, but are implemented for OMP.
 set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS_OMP
 )
 
-# list of all partially implemented headers
+# List of all partially implemented headers.
 set(THRUST_PARTIALLY_IMPLEMENTED_HEADERS
   emptylistguard
   ${THRUST_PARTIALLY_IMPLEMENTED_HEADERS_CUDA}
@@ -329,9 +334,9 @@ list(REMOVE_DUPLICATES THRUST_PARTIALLY_IMPLEMENTED_HEADERS)
 
 foreach (THRUST_HEADER IN LISTS THRUST_HEADERS)
   if ("${THRUST_HEADER}" IN_LIST THRUST_PARTIALLY_IMPLEMENTED_HEADERS)
-    # this header is partially implemented on _some_ backends
+    # This header is partially implemented on _some_ backends...
     if (NOT "${THRUST_HEADER}" IN_LIST THRUST_PARTIALLY_IMPLEMENTED_HEADERS_${THRUST_DEVICE_SYSTEM})
-      # but not on the selected one
+      # ...but not on the selected one.
       continue()
     endif ()
   endif ()
@@ -356,7 +361,7 @@ target_include_directories(
 include(CTest)
 enable_testing()
 
-# Handle tests
+# Handle tests.
 
 set(THRUST_TEST_RUN_ARGUMENTS
   -DTHRUST_SOURCE=${CMAKE_SOURCE_DIR}
@@ -366,7 +371,7 @@ list(APPEND THRUST_TESTFRAMEWORK_FILES testing/unittest/testframework.cu)
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   list(APPEND THRUST_TESTFRAMEWORK_FILES testing/unittest/cuda/testframework.cu)
 else ()
-  # when CUDA is disabled, explain to CMake that testframework.cu is actually a C++ file
+  # When CUDA is disabled, explain to CMake that testframework.cu is actually a C++ file.
   set_source_files_properties(testing/unittest/testframework.cu
     PROPERTIES
       LANGUAGE CXX
@@ -397,7 +402,7 @@ file(
   ${THRUST_TEST_GLOBS}
 )
 
-# list of tests that aren't implemented for all backends, but are implemented for CUDA
+# List of tests that aren't implemented for all backends, but are implemented for CUDA.
 set(THRUST_PARTIALLY_IMPLEMENTED_CUDA
     async_copy
     async_for_each
@@ -409,19 +414,19 @@ set(THRUST_PARTIALLY_IMPLEMENTED_CUDA
     future
 )
 
-# list of tests that aren't implemented for all backends, but are implemented for CPP
+# List of tests that aren't implemented for all backends, but are implemented for CPP.
 set(THRUST_PARTIALLY_IMPLEMENTED_CPP
 )
 
-# list of tests that aren't implemented for all backends, but are implemented for TBB
+# List of tests that aren't implemented for all backends, but are implemented for TBB.
 set(THRUST_PARTIALLY_IMPLEMENTED_TBB
 )
 
-# list of tests that aren't implemented for all backends, but are implemented for OMP
+# List of tests that aren't implemented for all backends, but are implemented for OMP.
 set(THRUST_PARTIALLY_IMPLEMENTED_OMP
 )
 
-# list of all partially implemented tests
+# List of all partially implemented tests.
 set(THRUST_PARTIALLY_IMPLEMENTED
   ${THRUST_PARTIALLY_IMPLEMENTED_CUDA}
   ${THRUST_PARTIALLY_IMPLEMENTED_CPP}
@@ -431,7 +436,7 @@ set(THRUST_PARTIALLY_IMPLEMENTED
 
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   if (14 EQUAL ${CMAKE_CXX_STANDARD})
-    # temporarily disable until NVBug 2492786 is fixed
+    # Temporarily disable until NVBug 2492786 is fixed.
     list(APPEND THRUST_PARTIALLY_IMPLEMENTED tuple_algorithms)
   endif()
 endif ()
@@ -452,9 +457,9 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
   get_filename_component(THRUST_TEST_NAME ${THRUST_TEST_SOURCE} NAME_WE)
 
   if ("${THRUST_TEST_NAME}" IN_LIST THRUST_PARTIALLY_IMPLEMENTED)
-    # this test is partially implemented on _some_ backends
+    # This test is partially implemented on _some_ backends...
     if (NOT "${THRUST_TEST_NAME}" IN_LIST THRUST_PARTIALLY_IMPLEMENTED_${THRUST_DEVICE_SYSTEM})
-      # but not on the selected one
+      # ...but not on the selected one.
       set(THRUST_TEST_CREATION_ADDITIONAL EXCLUDE_FROM_ALL)
       set(THRUST_TEST_ADD_TO_CTEST OFF)
     endif ()
@@ -463,8 +468,8 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
   set(THRUST_TEST "thrust.test.${THRUST_TEST_CATEGORY}${THRUST_TEST_NAME}")
 
   if (NOT "CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-    # test files are generally .cu; if CUDA is not enabled, CMake doesn't know what to
-    # do with them. but since they are pretty much just C++, we can compile them with
+    # Test files are generally .cu; if CUDA is not enabled, CMake doesn't know what to
+    # do with them. But since they are pretty much just C++, we can compile them with
     # non-nvcc C++ compilers... but we need to tell CMake that they are, in fact, just C++.
     set_source_files_properties(${PROJECT_SOURCE_DIR}/testing/${THRUST_TEST_SOURCE}
       PROPERTIES
@@ -475,7 +480,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
   add_executable(
     ${THRUST_TEST}
     ${THRUST_TEST_CREATION_ADDITIONAL}
-
+    # THRUST_TEST_CREATION_ADDITIONAL is actually a CMake keyword (sometimes).
     ${PROJECT_SOURCE_DIR}/testing/${THRUST_TEST_SOURCE}
   )
 
@@ -502,7 +507,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
     add_executable(
       ${THRUST_TEST_RDC}
       ${THRUST_TEST_CREATION_ADDITIONAL}
-
+      # THRUST_TEST_CREATION_ADDITIONAL is actually a CMake keyword (sometimes).
       ${PROJECT_SOURCE_DIR}/testing/${THRUST_TEST_SOURCE}
     )
 
@@ -528,7 +533,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
   endif ()
 endforeach ()
 
-# Handle examples
+# Handle examples.
 
 option(THRUST_EXAMPLE_FILECHECK_PATH "Path to the LLVM FileCheck utility." "")
 option(THRUST_ENABLE_EXAMPLES_WITH_RDC "Also build all examples with RDC." OFF)
@@ -591,8 +596,8 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
   set(THRUST_EXAMPLE "thrust.example.${THRUST_EXAMPLE_CATEGORY}${THRUST_EXAMPLE_NAME}")
 
   if (NOT "CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-    # example files are generally .cu; if CUDA is not enabled, CMake doesn't know what to
-    # do with them. but since they are pretty much just C++, we can compile them with
+    # Example files are generally .cu; if CUDA is not enabled, CMake doesn't know what to
+    # do with them. But since they are pretty much just C++, we can compile them with
     # non-nvcc C++ compilers... but we need to tell CMake that they are, in fact, just C++.
     set_source_files_properties(${PROJECT_SOURCE_DIR}/examples/${THRUST_EXAMPLE_SOURCE}
       PROPERTIES
