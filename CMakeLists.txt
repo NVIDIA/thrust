@@ -363,6 +363,8 @@ enable_testing()
 
 # Handle tests.
 
+option(THRUST_ENABLE_TESTS_WITH_RDC "Also build all tests with RDC." OFF)
+
 set(THRUST_TEST_RUN_ARGUMENTS
   -DTHRUST_SOURCE=${CMAKE_SOURCE_DIR}
   -P "${CMAKE_SOURCE_DIR}/cmake/run_test.cmake")
@@ -501,7 +503,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
         ${THRUST_TEST_RUN_ARGUMENTS})
   endif ()
 
-  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
+  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND THRUST_ENABLE_TESTS_WITH_RDC)
     set(THRUST_TEST_RDC "thrust.test.${THRUST_TEST_CATEGORY}rdc.${THRUST_TEST_NAME}")
 
     add_executable(
