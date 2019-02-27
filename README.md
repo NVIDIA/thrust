@@ -1,12 +1,14 @@
 Thrust: Code at the speed of light
 ==================================
 
-Thrust is a parallel algorithms library which resembles the C++ Standard
-Template Library (STL). Thrust's **high-level** interface greatly enhances
+Thrust is a C++ parallel programming library which resembles the C++ Standard
+Library. Thrust's **high-level** interface greatly enhances
 programmer **productivity** while enabling performance portability between
 GPUs and multicore CPUs. **Interoperability** with established technologies
 (such as CUDA, TBB, and OpenMP) facilitates integration with existing
 software. Develop **high-performance** applications rapidly with Thrust!
+
+Thrust is distributed with the CUDA Toolkit in addition to GitHub.
 
 Examples
 --------
@@ -69,7 +71,3 @@ int main(void)
     
 Refer to the [Quick Start Guide](http://github.com/thrust/thrust/wiki/Quick-Start-Guide) page for further information and examples.
 
-Contributors
-------------
-
-The original creators of Thrust are [Jared Hoberock](http://github.com/jaredhoberock) and [Nathan Bell](http://research.nvidia.com/users/nathan-bell).
