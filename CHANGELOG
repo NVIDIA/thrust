@@ -266,7 +266,7 @@ Bug Fixes
     clear() operations on vector types no longer requires the element type to have a default constructor
 
 #######################################
-#      Thrust v1.8.2 (CUDA 7.0)       #
+#      Thrust v1.8.2 (CUDA 7.5)       #
 #######################################
 
 Summary

@@ -13,30 +13,30 @@ versions don't directly map to any CUDA Toolkit version.
 
 | Thrust version    | CUDA version  |
 | ----------------- | ------------- |
-| v1.9.4            | 10.1          |
-| v1.9.3            | 10.0          |
-| v1.9.2            | 9.2           |
-| v1.9.1-2          | 9.1           |
-| v1.9.0-4          | 9.0           |
-| v1.8.3-2          | 8.0           |
-| v1.8.2            | 7.0           |
-| v1.8.1            | 7.0           |
-| v1.8.0            | *N/A*         |
-| v1.7.2            | 6.5           |
-| v1.7.1            | 6.0           |
-| v1.7.0            | 5.5           |
-| v1.6.0            | *N/A*         |
-| v1.5.3            | 5.0           |
-| v1.5.2            | 4.2           |
-| v1.5.1            | 4.1           |
-| v1.5.0            | *N/A*         |
-| v1.4.0            | 4.0           |
-| v1.3.0            | 3.2           |
-| v1.2.1            | 3.1           |
-| v1.2.0            | *N/A*         |
-| v1.1.1            | *N/A*         |
-| v1.1.0            | *N/A*         |
-| v1.0.0            | *N/A*         |
+| 1.9.4             | 10.1          |
+| 1.9.3             | 10.0          |
+| 1.9.2             | 9.2           |
+| 1.9.1-2           | 9.1           |
+| 1.9.0-4           | 9.0           |
+| 1.8.3-2           | 8.0           |
+| 1.8.2             | 7.5           |
+| 1.8.1             | 7.0           |
+| 1.8.0             | *N/A*         |
+| 1.7.2             | 6.5           |
+| 1.7.1             | 6.0           |
+| 1.7.0             | 5.5           |
+| 1.6.0             | *N/A*         |
+| 1.5.3             | 5.0           |
+| 1.5.2             | 4.2           |
+| 1.5.1             | 4.1           |
+| 1.5.0             | *N/A*         |
+| 1.4.0             | 4.0           |
+| 1.3.0             | 3.2           |
+| 1.2.1             | 3.1           |
+| 1.2.0             | *N/A*         |
+| 1.1.1             | *N/A*         |
+| 1.1.0             | *N/A*         |
+| 1.0.0             | *N/A*         |
 
 ## Repositories
 
@@ -52,7 +52,7 @@ As Thrust is developed both on GitHub and internally at NVIDIA, there's three ma
 The following tag names are used in the Thrust project:
 
   * `github/cuda-X.Y`: the tag that directly corresponds to what has been shipped in the CUDA Toolkit release X.Y.
-  * `github/vA.B.C`: the tag that directly corresponds to a Thrust version A.B.C.
+  * `github/A.B.C`: the tag that directly corresponds to a Thrust version A.B.C.
 
 The following branch names are used in the Thrust project:
 
