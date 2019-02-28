@@ -11,6 +11,11 @@ Summary
     objects, which can be waited upon to synchronize with the completion of the
     parallel operation.
 
+Breaking API Changes
+    Synchronous Thrust algorithms now block until all of their operations have
+    completed. Use the new asynchronous Thrust algorithms for non-blocking
+    behavior.
+
 New Features
     `thrust::event` and `thrust::future<T>`, uniquely-owned asynchronous handles consisting of a state (ready or not ready), content (some value; for `thrust::future` only), and an optional set of objects that should be destroyed only when the future's value is ready and has been consumed.
       The design is loosely based on C++11's `std::future`.
@@ -196,7 +201,7 @@ Bug Fixes
     1777043 `complex` does not work with `sequence`.
 
 #######################################
-#     Thrust v1.9.1-2 (CUDA 9.1)      #
+#      Thrust v1.9.1 (CUDA 9.1)       #
 #######################################
 
 Summary
@@ -209,7 +214,7 @@ Bug Fixes
     1904217 Allow callables that take non-const refs to be used with reduce and scan.
 
 #######################################
-#     Thrust v1.9.0-4 (CUDA 9.0)      #
+#      Thrust v1.9.0 (CUDA 9.0)       #
 #######################################
 
 Summary
@@ -242,14 +247,14 @@ Bug Fixes
 Acknowledgments
     Thanks to Manuel Schiller for contributing a C++11 based enhancement 
     regarding the deduction of functor return types, improving the performance 
-    of thrust::unique and implementing transform_output_iterator.
+    of `thrust::unique` and implementing `thrust::transform_output_iterator`.
     Thanks to Thibault Notargiacomo for the implementation of move semantics for 
     the vector_base based class.
     Thanks to Duane Merrill for developing CUB and helping to integrate it into
     Thrust's backend.
 
 #######################################
-#     Thrust v1.8.3-2 (CUDA 8.0)      #
+#      Thrust v1.8.3 (CUDA 8.0)       #
 #######################################
 
 Summary
@@ -308,9 +313,6 @@ Summary
     sequential algorithms library available to individual CUDA threads. The .on(stream) syntax allows users to
     request a CUDA stream for kernels launched during algorithm execution. Finally, new CUDA algorithm
     implementations provide substantial performance improvements.
-
-Breaking API Changes
-    None.
 
 New Features
     Algorithms in CUDA __device__ code

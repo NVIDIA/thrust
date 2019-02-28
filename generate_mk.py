@@ -33,7 +33,7 @@ def Glob(pattern, directory,exclude='\B'):
 def generate_test_mk(mk_path, test_path, group, TEST_DIR):
     print 'Generating makefiles in "'+mk_path+'" for tests in "'+test_path+'"'
     src_cu  = Glob("*.cu",  test_path, ".*testframework.cu$")
-    src_cxx = Glob("*.cpp", test_path, ".*testframework.cpp$")
+    src_cxx = Glob("*.cpp", test_path)
     src_cu.sort();
     src_cxx.sort();
     src_all = src_cu + src_cxx;

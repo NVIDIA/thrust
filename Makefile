@@ -116,7 +116,7 @@ ifneq ($(TEST_EXAMPLES),)
   # Empty PROJECTS.
   PROJECTS :=
 
-	# Populate PROJECTS with examples.
+  # Populate PROJECTS with examples.
   include $(THRUST_MKDIR)/examples.mk
 
   # Once PROJECTS is populated with examples, re-add the previous projects.
@@ -133,25 +133,25 @@ endif
 
 VERSION_FLAG :=
 ifeq ($(OS),$(filter $(OS),Linux Darwin))
-	ifdef USEPGCXX        # PGI
-		VERSION_FLAG := -V
-	else
-		ifdef USEXLC        # XLC
-			VERSION_FLAG := -qversion
-		else                # GCC, ICC or Clang AKA the sane ones.
-			VERSION_FLAG := --version
-		endif
-	endif
+  ifdef USEPGCXX        # PGI
+    VERSION_FLAG := -V
+  else
+    ifdef USEXLC        # XLC
+      VERSION_FLAG := -qversion
+    else                # GCC, ICC or Clang AKA the sane ones.
+      VERSION_FLAG := --version
+    endif
+  endif
 else ifeq ($(OS),win32) # MSVC
-	# cl.exe run without any options will print its version info and exit.
-	VERSION_FLAG :=
+  # cl.exe run without any options will print its version info and exit.
+  VERSION_FLAG :=
 endif
 
 CCBIN_ENVIRONMENT :=
 ifeq ($(OS), QNX)
-	# QNX's GCC complains if QNX_HOST and QNX_TARGET aren't defined in the
-	# environment.
-	CCBIN_ENVIRONMENT := QNX_HOST=$(QNX_HOST) QNX_TARGET=$(QNX_TARGET)
+  # QNX's GCC complains if QNX_HOST and QNX_TARGET aren't defined in the
+  # environment.
+  CCBIN_ENVIRONMENT := QNX_HOST=$(QNX_HOST) QNX_TARGET=$(QNX_TARGET)
 endif
 
 $(info #### CCBIN         : $(CCBIN))
