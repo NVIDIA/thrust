@@ -68,6 +68,11 @@ int main(void)
   return 0;
 }
 ```
-    
+
 Refer to the [Quick Start Guide](http://github.com/thrust/thrust/wiki/Quick-Start-Guide) page for further information and examples.
+
+Development process
+-------------------
+
+For information on development process and branching, see [this document](doc/branching.md).
 

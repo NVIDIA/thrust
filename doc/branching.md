@@ -64,7 +64,8 @@ The following branch names are used in the Thrust project:
   * `github/maintenance/cuda-Z.W`: the continuation of gitlab/staging/cuda-Z.W, but after release of CUDA Z.W, plus
     post-release fixes if any are needed (see "Old release branches" below).
   * `gitlab/feature/<name>`: feature branch for internally developed features.
-  * `gitlab/bug/<bug-system><bug-name>`: bug fix branch.
+  * `gitlab/bug/<bug-system>-<bug-id>`: bug fix branch, where `bug-system` is `github` or `nvbug`. Permits a description
+    after `bug-id`.
   * `gitlab/master`: same as `github/master`, but not yet published, during a freezing period (see "Feature freeze"
     below).
 
@@ -75,8 +76,8 @@ The following branch names are used in the Thrust project:
 During regular parts of the development cycle, when we develop features on feature branches, and fix bugs on the
 main branch, we can:
 
-  1. Merge internal fixes to `github/master` and to `perforce/private`.
-  2. Merge Github contributions to `github/master` and to `perforce/private`.
+  * Merge internal fixes to `github/master` and to `perforce/private`.
+  * Merge Github contributions to `github/master` and to `perforce/private`.
 
 ### Feature freeze
 
