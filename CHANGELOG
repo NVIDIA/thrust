@@ -1,4 +1,35 @@
 #######################################
+#      Thrust v1.?.? (CUDA ??.?)      #
+#######################################
+
+Summary
+    TODO
+
+Breaking API Changes
+    TODO
+
+New Features
+    TODO
+    `thrust::random::threefry4x64_engine`
+    `thrust::random::threefry4x64_13`
+    `thrust::random::threefry4x64_13_64`
+    `thrust::random::threefry4x64_20`
+    `thrust::random::threefry4x64_20_64`
+
+New Examples
+    TODO
+
+Other Enhancements
+    TODO
+
+Bug Fixes
+    TODO
+
+Acknowledgments
+    TODO
+    Thanks to Thijs van den Berg for providing an implementation of Threefry4x64.
+
+#######################################
 #      Thrust v1.9.4 (CUDA 10.1)      #
 #######################################
 

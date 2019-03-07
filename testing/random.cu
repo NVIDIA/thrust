@@ -1,7 +1,18 @@
 #include <unittest/unittest.h>
-#include <thrust/random.h>
 #include <thrust/generate.h>
 #include <sstream>
+
+// XXX Some of the code in <thrust/random/threefry4x64.h> causes nvcc to emit benign warnings.
+// To suppress these warnings, uncomment the #pragmas below.
+// Be aware that it's not possible to reenable these warnings once suppressed.
+// XXX Eliminate these pragmas once these nvbugs are fixed
+#if defined(__NVCC__)
+#pragma diag_suppress = subscript_out_of_range // nvbug 2512048
+#pragma diag_suppress = code_is_unreachable    // nvbug 1902675
+#pragma diag_suppress = initialization_not_reachable // nvbug ???
+#endif // __NVCC__
+
+#include <thrust/random.h>
 
 template<typename Engine>
   struct ValidateEngine
@@ -737,6 +748,222 @@ void TestRanlux48Unequal(void)
   TestEngineUnequal<Engine>();
 }
 DECLARE_UNITTEST(TestRanlux48Unequal);
+
+
+void TestThreefry4x64_13Validation(void)
+{
+  typedef thrust::random::threefry4x64_13 Engine;
+
+  TestEngineValidation<Engine,2373911387u>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13Validation);
+
+
+void TestThreefry4x64_13Min(void)
+{
+  typedef thrust::random::threefry4x64_13 Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13Min);
+
+
+void TestThreefry4x64_13Max(void)
+{
+  typedef thrust::random::threefry4x64_13 Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13Max);
+
+
+void TestThreefry4x64_13SaveRestore(void)
+{
+  typedef thrust::random::threefry4x64_13 Engine;
+
+  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13SaveRestore);
+
+
+void TestThreefry4x64_13Equal(void)
+{
+  typedef thrust::random::threefry4x64_13 Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13Equal);
+
+
+void TestThreefry4x64_13Unequal(void)
+{
+  typedef thrust::random::threefry4x64_13 Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13Unequal);
+
+
+void TestThreefry4x64_13_64Validation(void)
+{
+  typedef thrust::random::threefry4x64_13_64 Engine;
+
+  TestEngineValidation<Engine,10433005109212818813u>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13_64Validation);
+
+
+void TestThreefry4x64_13_64Min(void)
+{
+  typedef thrust::random::threefry4x64_13_64 Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13_64Min);
+
+
+void TestThreefry4x64_13_64Max(void)
+{
+  typedef thrust::random::threefry4x64_13_64 Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13_64Max);
+
+
+void TestThreefry4x64_13_64SaveRestore(void)
+{
+  typedef thrust::random::threefry4x64_13_64 Engine;
+
+  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13_64SaveRestore);
+
+
+void TestThreefry4x64_13_64Equal(void)
+{
+  typedef thrust::random::threefry4x64_13_64 Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13_64Equal);
+
+
+void TestThreefry4x64_13_64Unequal(void)
+{
+  typedef thrust::random::threefry4x64_13_64 Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_13_64Unequal);
+
+
+void TestThreefry4x64_20Validation(void)
+{
+  typedef thrust::random::threefry4x64_20 Engine;
+
+  TestEngineValidation<Engine,4062489272u>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20Validation);
+
+
+void TestThreefry4x64_20Min(void)
+{
+  typedef thrust::random::threefry4x64_20 Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20Min);
+
+
+void TestThreefry4x64_20Max(void)
+{
+  typedef thrust::random::threefry4x64_20 Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20Max);
+
+
+void TestThreefry4x64_20SaveRestore(void)
+{
+  typedef thrust::random::threefry4x64_20 Engine;
+
+  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20SaveRestore);
+
+
+void TestThreefry4x64_20Equal(void)
+{
+  typedef thrust::random::threefry4x64_20 Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20Equal);
+
+
+void TestThreefry4x64_20Unequal(void)
+{
+  typedef thrust::random::threefry4x64_20 Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20Unequal);
+
+
+void TestThreefry4x64_20_64Validation(void)
+{
+  typedef thrust::random::threefry4x64_20_64 Engine;
+
+  TestEngineValidation<Engine,3110068036081305158u>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20_64Validation);
+
+
+void TestThreefry4x64_20_64Min(void)
+{
+  typedef thrust::random::threefry4x64_20_64 Engine;
+
+  TestEngineMin<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20_64Min);
+
+
+void TestThreefry4x64_20_64Max(void)
+{
+  typedef thrust::random::threefry4x64_20_64 Engine;
+
+  TestEngineMax<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20_64Max);
+
+
+void TestThreefry4x64_20_64SaveRestore(void)
+{
+  typedef thrust::random::threefry4x64_20_64 Engine;
+
+  TestEngineSaveRestore<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20_64SaveRestore);
+
+
+void TestThreefry4x64_20_64Equal(void)
+{
+  typedef thrust::random::threefry4x64_20_64 Engine;
+
+  TestEngineEqual<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20_64Equal);
+
+
+void TestThreefry4x64_20_64Unequal(void)
+{
+  typedef thrust::random::threefry4x64_20_64 Engine;
+
+  TestEngineUnequal<Engine>();
+}
+DECLARE_UNITTEST(TestThreefry4x64_20_64Unequal);
 
 
 template<typename Distribution, typename Validator>

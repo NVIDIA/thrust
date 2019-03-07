@@ -25,6 +25,7 @@
 
 // RNGs
 #include <thrust/random/discard_block_engine.h>
+#include <thrust/random/threefry4x64_engine.h>
 #include <thrust/random/linear_congruential_engine.h>
 #include <thrust/random/linear_feedback_shift_engine.h>
 #include <thrust/random/subtract_with_carry_engine.h>
