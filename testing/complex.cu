@@ -284,3 +284,27 @@ struct TestComplexStreamOperators
 };
 
 SimpleUnitTest<TestComplexStreamOperators, FloatingPointTypes> TestComplexStreamOperatorsInstance;
+
+#if THRUST_CPP_DIALECT >= 2011
+template<typename T>
+struct TestComplexStdComplexDeviceInterop
+{
+  void operator()()
+  {
+    thrust::host_vector<T> data = unittest::random_samples<T>(6);
+    std::vector<std::complex<T> > vec(10);
+    vec[0] = std::complex<T>(data[0], data[1]);
+    vec[1] = std::complex<T>(data[2], data[3]);
+    vec[2] = std::complex<T>(data[4], data[5]);
+
+    thrust::device_vector<thrust::complex<T> > device_vec = vec;
+    ASSERT_ALMOST_EQUAL(vec[0].real(), thrust::complex<T>(device_vec[0]).real());
+    ASSERT_ALMOST_EQUAL(vec[0].imag(), thrust::complex<T>(device_vec[0]).imag());
+    ASSERT_ALMOST_EQUAL(vec[1].real(), thrust::complex<T>(device_vec[1]).real());
+    ASSERT_ALMOST_EQUAL(vec[1].imag(), thrust::complex<T>(device_vec[1]).imag());
+    ASSERT_ALMOST_EQUAL(vec[2].real(), thrust::complex<T>(device_vec[2]).real());
+    ASSERT_ALMOST_EQUAL(vec[2].imag(), thrust::complex<T>(device_vec[2]).imag());
+  }
+};
+SimpleUnitTest<TestComplexStdComplexDeviceInterop, FloatingPointTypes> TestComplexStdComplexDeviceInteropInstance;
+#endif
