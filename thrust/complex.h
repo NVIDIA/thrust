@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2018 NVIDIA Corporation
+ *  Copyright 2008-2019 NVIDIA Corporation
  *  Copyright 2013 Filipe RNC Maia
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,11 +28,27 @@
 #include <sstream>
 #include <thrust/detail/type_traits.h>
 
+#if THRUST_CPP_DIALECT >= 2011
+#  define THRUST_STD_COMPLEX_REAL(z) \
+    reinterpret_cast< \
+      const typename thrust::detail::remove_reference<decltype(z)>::type::value_type (&)[2] \
+    >(z)[0]
+#  define THRUST_STD_COMPLEX_IMAG(z) \
+    reinterpret_cast< \
+      const typename thrust::detail::remove_reference<decltype(z)>::type::value_type (&)[2] \
+    >(z)[1]
+#  define THRUST_STD_COMPLEX_DEVICE __device__
+#else
+#  define THRUST_STD_COMPLEX_REAL(z) (z).real()
+#  define THRUST_STD_COMPLEX_IMAG(z) (z).imag()
+#  define THRUST_STD_COMPLEX_DEVICE
+#endif
+
 namespace thrust
 {
 
 /*
- *  Calls to the standard math library from inside the thrust namespace 
+ *  Calls to the standard math library from inside the thrust namespace
  *  with real arguments require explicit scope otherwise they will fail
  *  to resolve as it will find the equivalent complex function but then
  *  fail to match the template, and give up looking for other scopes.
@@ -125,7 +141,7 @@ public:
    *
    *  \param z The \p complex to copy from.
    */
-  __host__
+  __host__ THRUST_STD_COMPLEX_DEVICE
   complex(const std::complex<T>& z);
 
   /*! This converting copy constructor copies from a <tt>std::complex</tt> with
@@ -136,7 +152,7 @@ public:
    *  \tparam U is convertible to \c value_type.
    */
   template <typename U>
-  __host__
+  __host__ THRUST_STD_COMPLEX_DEVICE
   complex(const std::complex<U>& z);
 
 
@@ -184,7 +200,7 @@ public:
    *
    *  \param z The \p complex to copy from.
    */
-  __host__
+  __host__ THRUST_STD_COMPLEX_DEVICE
   complex& operator=(const std::complex<T>& z);
 
   /*! Assign `z.real()` and `z.imag()` to the real and imaginary parts of this
@@ -195,7 +211,7 @@ public:
    *  \tparam U is convertible to \c value_type.
    */
   template <typename U>
-  __host__
+  __host__ THRUST_STD_COMPLEX_DEVICE
   complex& operator=(const std::complex<U>& z);
 
 
@@ -205,7 +221,7 @@ public:
    *  \p complex.
    *
    *  \param z The \p complex to be added.
-   * 
+   *
    *  \tparam U is convertible to \c value_type.
    */
   template <typename U>
@@ -269,7 +285,7 @@ public:
 
   /*! Multiplies this \p complex by a scalar and assigns the result
    *  to this \p complex.
-   * 
+   *
    *  \param z The scalar to be multiplied.
    *
    *  \tparam U is convertible to \c value_type.
@@ -280,7 +296,7 @@ public:
 
   /*! Divides this \p complex by a scalar and assigns the result to
    *  this \p complex.
-   * 
+   *
    *  \param z The scalar to be divided.
    *
    *  \tparam U is convertible to \c value_type.
@@ -291,7 +307,7 @@ public:
 
 
 
-  /* --- Getter functions --- 
+  /* --- Getter functions ---
    * The volatile ones are there to help for example
    * with certain reductions optimizations
    */
@@ -318,7 +334,7 @@ public:
 
 
 
-  /* --- Setter functions --- 
+  /* --- Setter functions ---
    * The volatile ones are there to help for example
    * with certain reductions optimizations
    */
@@ -434,8 +450,8 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 polar(const T0& m, const T1& theta = T1());
 
 /*! Returns the projection of a \p complex on the Riemann sphere.
- *  For all finite \p complex it returns the argument. For \p complexs 
- *  with a non finite part returns (INFINITY,+/-0) where the sign of 
+ *  For all finite \p complex it returns the argument. For \p complexs
+ *  with a non finite part returns (INFINITY,+/-0) where the sign of
  *  the zero matches the sign of the imaginary part of the argument.
  *
  *  \param z The \p complex argument.
@@ -449,7 +465,7 @@ complex<T> proj(const T& z);
 /* --- Binary Arithmetic operators --- */
 
 /*! Adds two \p complex numbers.
- * 
+ *
  *  The value types of the two \p complex types should be compatible and the
  *  type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -462,7 +478,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator+(const complex<T0>& x, const complex<T1>& y);
 
 /*! Adds a scalar to a \p complex number.
- * 
+ *
  *  The value type of the \p complex should be compatible with the scalar and
  *  the type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -475,7 +491,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator+(const complex<T0>& x, const T1& y);
 
 /*! Adds a \p complex number to a scalar.
- * 
+ *
  *  The value type of the \p complex should be compatible with the scalar and
  *  the type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -488,7 +504,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator+(const T0& x, const complex<T1>& y);
 
 /*! Subtracts two \p complex numbers.
- * 
+ *
  *  The value types of the two \p complex types should be compatible and the
  *  type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -501,7 +517,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator-(const complex<T0>& x, const complex<T1>& y);
 
 /*! Subtracts a scalar from a \p complex number.
- * 
+ *
  *  The value type of the \p complex should be compatible with the scalar and
  *  the type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -514,7 +530,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator-(const complex<T0>& x, const T1& y);
 
 /*! Subtracts a \p complex number from a scalar.
- * 
+ *
  *  The value type of the \p complex should be compatible with the scalar and
  *  the type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -527,7 +543,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator-(const T0& x, const complex<T1>& y);
 
 /*! Multiplies two \p complex numbers.
- * 
+ *
  *  The value types of the two \p complex types should be compatible and the
  *  type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -550,7 +566,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator*(const complex<T0>& x, const T1& y);
 
 /*! Multiplies a scalar by a \p complex number.
- * 
+ *
  *  The value type of the \p complex should be compatible with the scalar and
  *  the type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -563,7 +579,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator*(const T0& x, const complex<T1>& y);
 
 /*! Divides two \p complex numbers.
- * 
+ *
  *  The value types of the two \p complex types should be compatible and the
  *  type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -576,7 +592,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator/(const complex<T0>& x, const complex<T1>& y);
 
 /*! Divides a \p complex number by a scalar.
- * 
+ *
  *  The value type of the \p complex should be compatible with the scalar and
  *  the type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -589,7 +605,7 @@ complex<typename detail::promoted_numerical_type<T0, T1>::type>
 operator/(const complex<T0>& x, const T1& y);
 
 /*! Divides a scalar by a \p complex number.
- * 
+ *
  *  The value type of the \p complex should be compatible with the scalar and
  *  the type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -657,7 +673,7 @@ complex<T> log10(const complex<T>& z);
 /* --- Power Functions --- */
 
 /*! Returns a \p complex number raised to another.
- * 
+ *
  *  The value types of the two \p complex types should be compatible and the
  *  type of the returned \p complex is the promoted type of the two arguments.
  *
@@ -764,7 +780,7 @@ complex<T> tanh(const complex<T>& z);
 
 /*! Returns the complex arc cosine of a \p complex number.
  *
- *  The range of the real part of the result is [0, Pi] and 
+ *  The range of the real part of the result is [0, Pi] and
  *  the range of the imaginary part is [-inf, +inf]
  *
  *  \param z The \p complex argument.
@@ -775,7 +791,7 @@ complex<T> acos(const complex<T>& z);
 
 /*! Returns the complex arc sine of a \p complex number.
  *
- *  The range of the real part of the result is [-Pi/2, Pi/2] and 
+ *  The range of the real part of the result is [-Pi/2, Pi/2] and
  *  the range of the imaginary part is [-inf, +inf]
  *
  *  \param z The \p complex argument.
@@ -786,7 +802,7 @@ complex<T> asin(const complex<T>& z);
 
 /*! Returns the complex arc tangent of a \p complex number.
  *
- *  The range of the real part of the result is [-Pi/2, Pi/2] and 
+ *  The range of the real part of the result is [-Pi/2, Pi/2] and
  *  the range of the imaginary part is [-inf, +inf]
  *
  *  \param z The \p complex argument.
@@ -801,7 +817,7 @@ complex<T> atan(const complex<T>& z);
 
 /*! Returns the complex inverse hyperbolic cosine of a \p complex number.
  *
- *  The range of the real part of the result is [0, +inf] and 
+ *  The range of the real part of the result is [0, +inf] and
  *  the range of the imaginary part is [-Pi, Pi]
  *
  *  \param z The \p complex argument.
@@ -812,7 +828,7 @@ complex<T> acosh(const complex<T>& z);
 
 /*! Returns the complex inverse hyperbolic sine of a \p complex number.
  *
- *  The range of the real part of the result is [-inf, +inf] and 
+ *  The range of the real part of the result is [-inf, +inf] and
  *  the range of the imaginary part is [-Pi/2, Pi/2]
  *
  *  \param z The \p complex argument.
@@ -823,7 +839,7 @@ complex<T> asinh(const complex<T>& z);
 
 /*! Returns the complex inverse hyperbolic tangent of a \p complex number.
  *
- *  The range of the real part of the result is [-inf, +inf] and 
+ *  The range of the real part of the result is [-inf, +inf] and
  *  the range of the imaginary part is [-Pi/2, Pi/2]
  *
  *  \param z The \p complex argument.
@@ -852,7 +868,7 @@ operator<<(std::basic_ostream<CharT, Traits>& os, const complex<T>& z);
  * - (real)
  * - (real, imaginary)
  *
- * The values read must be convertible to the \p complex's \c value_type 
+ * The values read must be convertible to the \p complex's \c value_type
  *
  *  \param is The input stream.
  *  \param z The \p complex number to set.
@@ -881,7 +897,7 @@ bool operator==(const complex<T0>& x, const complex<T1>& y);
  *  \param y The second \p complex.
  */
 template <typename T0, typename T1>
-__host__
+__host__ THRUST_STD_COMPLEX_DEVICE
 bool operator==(const complex<T0>& x, const std::complex<T1>& y);
 
 /*! Returns true if two \p complex numbers are equal and false otherwise.
@@ -890,7 +906,7 @@ bool operator==(const complex<T0>& x, const std::complex<T1>& y);
  *  \param y The second \p complex.
  */
 template <typename T0, typename T1>
-__host__
+__host__ THRUST_STD_COMPLEX_DEVICE
 bool operator==(const std::complex<T0>& x, const complex<T1>& y);
 
 /*! Returns true if the imaginary part of the \p complex number is zero and
@@ -928,7 +944,7 @@ bool operator!=(const complex<T0>& x, const complex<T1>& y);
  *  \param y The second \p complex.
  */
 template <typename T0, typename T1>
-__host__
+__host__ THRUST_STD_COMPLEX_DEVICE
 bool operator!=(const complex<T0>& x, const std::complex<T1>& y);
 
 /*! Returns true if two \p complex numbers are different and false otherwise.
@@ -937,7 +953,7 @@ bool operator!=(const complex<T0>& x, const std::complex<T1>& y);
  *  \param y The second \p complex.
  */
 template <typename T0, typename T1>
-__host__
+__host__ THRUST_STD_COMPLEX_DEVICE
 bool operator!=(const std::complex<T0>& x, const complex<T1>& y);
 
 /*! Returns true if the imaginary part of the \p complex number is not zero or
@@ -963,6 +979,10 @@ bool operator!=(const complex<T0>& x, const T1& y);
 } // end namespace thrust
 
 #include <thrust/detail/complex/complex.inl>
+
+#undef THRUST_STD_COMPLEX_REAL
+#undef THRUST_STD_COMPLEX_IMAG
+#undef THRUST_STD_COMPLEX_DEVICE
 
 /*! \} // complex_numbers
  */
