@@ -3,6 +3,8 @@
 #include <thrust/device_ptr.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/retag.h>
+#include <thrust/device_malloc.h>
+#include <thrust/device_free.h>
 #include <algorithm>
 
 THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
@@ -352,3 +354,46 @@ void TestForEachNWithLargeTypes(void)
 DECLARE_UNITTEST(TestForEachNWithLargeTypes);
 
 THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+
+struct OnlySetWhenExpected
+{
+    unsigned long long expected;
+    bool * flag;
+
+    __device__
+    void operator()(unsigned long long x)
+    {
+        if (x == expected)
+        {
+            *flag = true;
+        }
+    }
+};
+
+void TestForEachWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<unsigned long long> begin(0);
+    thrust::counting_iterator<unsigned long long> end = begin + (1ull << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    thrust::device_ptr<bool> has_executed = thrust::device_malloc<bool>(1);
+    *has_executed = false;
+
+    OnlySetWhenExpected fn = { (1ull << magnitude) - 1, thrust::raw_pointer_cast(has_executed) };
+
+    thrust::for_each(thrust::device, begin, end, fn);
+
+    bool has_executed_h = *has_executed;
+    thrust::device_free(has_executed);
+
+    ASSERT_EQUAL(has_executed_h, true);
+}
+
+void TestForEachWithBigIndexes()
+{
+    TestForEachWithBigIndexesHelper(30);
+    TestForEachWithBigIndexesHelper(31);
+    TestForEachWithBigIndexesHelper(32);
+    TestForEachWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestForEachWithBigIndexes);

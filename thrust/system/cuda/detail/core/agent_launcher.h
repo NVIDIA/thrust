@@ -408,7 +408,7 @@ namespace core {
           stream(stream_),
           name(name_),
           debug_sync(debug_sync_),
-          grid(static_cast<unsigned int>(count + plan.items_per_tile - 1) / plan.items_per_tile),
+          grid(static_cast<unsigned int>((count + plan.items_per_tile - 1) / plan.items_per_tile)),
           vshmem(NULL),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
           shmem_size(has_shmem ? plan.shared_memory_size : 0)
@@ -429,7 +429,7 @@ namespace core {
           stream(stream_),
           name(name_),
           debug_sync(debug_sync_),
-          grid(static_cast<unsigned int>(count + plan.items_per_tile - 1) / plan.items_per_tile),
+          grid(static_cast<unsigned int>((count + plan.items_per_tile - 1) / plan.items_per_tile)),
           vshmem(vshmem),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
           shmem_size(has_shmem ? plan.shared_memory_size : 0)
