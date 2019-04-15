@@ -3,3 +3,4 @@ thrust/system/cuda/detail/.gitignore
 run
 build
 doc/html
+discrete_voronoi.pgm
