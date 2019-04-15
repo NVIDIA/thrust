@@ -2,6 +2,8 @@
 #include <thrust/mr/new.h>
 #include <thrust/mr/pool.h>
 #include <thrust/mr/disjoint_pool.h>
+#include <thrust/device_vector.h>
+#include <thrust/device_ptr.h>
 
 #include <cassert>
 
@@ -41,6 +43,18 @@ int main()
         Alloc alloc(&adaptor);
 
         do_stuff_with_vector<thrust::host_vector<int, Alloc> >(alloc);
+    }
+
+    {
+        // use the global device_ptr-flavored device memory resource
+        typedef thrust::device_ptr_memory_resource<thrust::device_memory_resource> Resource;
+        thrust::mr::polymorphic_adaptor_resource<thrust::device_ptr<void> > adaptor(
+            thrust::mr::get_global_resource<Resource>()
+        );
+        typedef thrust::mr::polymorphic_allocator<int, thrust::device_ptr<void> > Alloc;
+        Alloc alloc(&adaptor);
+
+        do_stuff_with_vector<thrust::device_vector<int, Alloc> >(alloc);
     }
 
     typedef thrust::mr::unsynchronized_pool_resource<
