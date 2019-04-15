@@ -208,11 +208,13 @@ struct aligned_type;
 /// \p aligned_reinterpret_cast is responsible for ensuring that the alignment
 /// requirements are actually satisified.
 template <typename T, typename U>
+__host__ __device__
 T aligned_reinterpret_cast(U u)
 {
   return reinterpret_cast<T>(reinterpret_cast<void*>(u));
 }
 
+__host__ __device__
 inline std::size_t aligned_storage_size(std::size_t n, std::size_t align)
 {
   return ((n + align - 1) / align) * align;
