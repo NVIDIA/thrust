@@ -2,6 +2,8 @@
 #include <thrust/adjacent_difference.h>
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/retag.h>
+#include <thrust/device_malloc.h>
+#include <thrust/device_free.h>
 
 template <class Vector>
 void TestAdjacentDifferenceSimple(void)
@@ -13,21 +15,21 @@ void TestAdjacentDifferenceSimple(void)
     input[0] = 1; input[1] = 4; input[2] = 6;
 
     typename Vector::iterator result;
-    
+
     result = thrust::adjacent_difference(input.begin(), input.end(), output.begin());
 
     ASSERT_EQUAL(result - output.begin(), 3);
     ASSERT_EQUAL(output[0], T(1));
     ASSERT_EQUAL(output[1], T(3));
     ASSERT_EQUAL(output[2], T(2));
-    
+
     result = thrust::adjacent_difference(input.begin(), input.end(), output.begin(), thrust::plus<T>());
-    
+
     ASSERT_EQUAL(result - output.begin(), 3);
     ASSERT_EQUAL(output[0], T( 1));
     ASSERT_EQUAL(output[1], T( 5));
     ASSERT_EQUAL(output[2], T(10));
-    
+
     // test in-place operation, result and first are permitted to be the same
     result = thrust::adjacent_difference(input.begin(), input.end(), input.begin());
 
@@ -57,14 +59,14 @@ void TestAdjacentDifference(const size_t n)
     ASSERT_EQUAL(std::size_t(h_result - h_output.begin()), n);
     ASSERT_EQUAL(std::size_t(d_result - d_output.begin()), n);
     ASSERT_EQUAL(h_output, d_output);
-    
+
     h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin(), thrust::plus<T>());
     d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_output.begin(), thrust::plus<T>());
 
     ASSERT_EQUAL(std::size_t(h_result - h_output.begin()), n);
     ASSERT_EQUAL(std::size_t(d_result - d_output.begin()), n);
     ASSERT_EQUAL(h_output, d_output);
-    
+
     // in-place operation
     h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_input.begin(), thrust::plus<T>());
     d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_input.begin(), thrust::plus<T>());
@@ -90,7 +92,7 @@ void TestAdjacentDifferenceInPlaceWithRelatedIteratorTypes(const size_t n)
 
     h_result = thrust::adjacent_difference(h_input.begin(), h_input.end(), h_output.begin(), thrust::plus<T>());
     d_result = thrust::adjacent_difference(d_input.begin(), d_input.end(), d_output.begin(), thrust::plus<T>());
-    
+
     // in-place operation with different iterator types
     h_result = thrust::adjacent_difference(h_input.cbegin(), h_input.cend(), h_input.begin(), thrust::plus<T>());
     d_result = thrust::adjacent_difference(d_input.cbegin(), d_input.cend(), d_input.begin(), thrust::plus<T>());
@@ -160,3 +162,51 @@ void TestAdjacentDifferenceDispatchImplicit()
 }
 DECLARE_UNITTEST(TestAdjacentDifferenceDispatchImplicit);
 
+struct detect_wrong_difference
+{
+    bool * flag;
+
+    __host__ __device__ detect_wrong_difference operator++() const { return *this; }
+    __host__ __device__ detect_wrong_difference operator*() const { return *this; }
+    template<typename Difference>
+    __host__ __device__ detect_wrong_difference operator+(Difference) const { return *this; }
+    template<typename Index>
+    __host__ __device__ detect_wrong_difference operator[](Index) const { return *this; }
+
+    __device__
+    void operator=(long long difference) const
+    {
+        if (difference != 1)
+        {
+            *flag = false;
+        }
+    }
+};
+
+void TestAdjacentDifferenceWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<long long> begin(1);
+    thrust::counting_iterator<long long> end = begin + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    thrust::device_ptr<bool> all_differences_correct = thrust::device_malloc<bool>(1);
+    *all_differences_correct = true;
+
+    detect_wrong_difference out = { thrust::raw_pointer_cast(all_differences_correct) };
+
+    thrust::adjacent_difference(thrust::device, begin, end, out);
+
+    bool all_differences_correct_h = *all_differences_correct;
+    thrust::device_free(all_differences_correct);
+
+    ASSERT_EQUAL(all_differences_correct_h, true);
+}
+
+void TestAdjacentDifferenceWithBigIndexes()
+{
+    TestAdjacentDifferenceWithBigIndexesHelper(30);
+    TestAdjacentDifferenceWithBigIndexesHelper(31);
+    TestAdjacentDifferenceWithBigIndexesHelper(32);
+    TestAdjacentDifferenceWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestAdjacentDifferenceWithBigIndexes);

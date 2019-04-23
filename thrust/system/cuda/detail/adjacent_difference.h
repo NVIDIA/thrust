@@ -37,6 +37,7 @@
 #include <cub/block/block_adjacent_difference.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/dispatch.h>
 #include <thrust/functional.h>
 #include <thrust/distance.h>
 #include <thrust/detail/mpl/math.h>
@@ -257,8 +258,8 @@ namespace __adjacent_difference {
 
       template <bool IS_LAST_TILE>
       void THRUST_DEVICE_FUNCTION
-      consume_tile(Size num_remaining,
-                   Size  tile_idx,
+      consume_tile(int  num_remaining,
+                   int  tile_idx,
                    Size tile_base)
       {
         if (tile_idx == 0)
@@ -279,7 +280,7 @@ namespace __adjacent_difference {
       consume_range(Size num_items)
       {
         int  tile_idx      = blockIdx.x;
-        Size tile_base     = tile_idx * ITEMS_PER_TILE;
+        Size tile_base     = static_cast<Size>(tile_idx) * ITEMS_PER_TILE;
         Size num_remaining = num_items - tile_base;
 
         if (num_remaining > ITEMS_PER_TILE)    // not a last tile
@@ -349,7 +350,7 @@ namespace __adjacent_difference {
                        char *   /*shmem*/)
     {
       int tile_idx  = blockIdx.x * blockDim.x + threadIdx.x;
-      int tile_base = tile_idx * items_per_tile;
+      Size tile_base = static_cast<Size>(tile_idx) * items_per_tile;
       if (tile_base > 0 && tile_idx < num_tiles)
         result[tile_idx] = first[tile_base - 1];
     }
@@ -391,8 +392,8 @@ namespace __adjacent_difference {
     AgentPlan init_plan       = init_agent::get_plan();
 
 
-    size_t tile_size = difference_plan.items_per_tile;
-    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
+    Size tile_size = difference_plan.items_per_tile;
+    Size num_tiles = (num_items + tile_size - 1) / tile_size;
 
     size_t tmp1        = num_tiles * sizeof(input_type);
     size_t vshmem_size = core::vshmem_size(difference_plan.shared_memory_size,
@@ -448,14 +449,9 @@ namespace __adjacent_difference {
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step(NULL,
-                       storage_size,
-                       first,
-                       result,
-                       binary_op,
-                       num_items,
-                       stream,
-                       debug_sync);
+    THRUST_INDEX_TYPE_DISPATCH(status, doit_step, num_items,
+        (NULL, storage_size, first, result, binary_op,
+           num_items_fixed, stream, debug_sync));
     cuda_cub::throw_on_error(status, "adjacent_difference failed on 1st step");
 
     // Allocate temporary storage.
@@ -463,14 +459,9 @@ namespace __adjacent_difference {
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
-    status = doit_step(ptr,
-                       storage_size,
-                       first,
-                       result,
-                       binary_op,
-                       num_items,
-                       stream,
-                       debug_sync);
+    THRUST_INDEX_TYPE_DISPATCH(status, doit_step, num_items,
+        (ptr, storage_size, first, result, binary_op,
+           num_items_fixed, stream, debug_sync));
     cuda_cub::throw_on_error(status, "adjacent_difference failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);

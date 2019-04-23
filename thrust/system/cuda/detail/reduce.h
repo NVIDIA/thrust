@@ -38,6 +38,7 @@
 #include <cub/device/device_reduce.cuh>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/get_value.h>
+#include <thrust/system/cuda/detail/dispatch.h>
 #include <thrust/functional.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/detail/minmax.h>
@@ -930,21 +931,22 @@ T reduce_n_impl(execution_policy<Derived>& policy,
                 BinaryOp                   binary_op)
 {
   cudaStream_t stream = cuda_cub::stream(policy);
+  cudaError_t status;
 
   // Determine temporary device storage requirements.
 
   size_t tmp_size = 0;
-  cuda_cub::throw_on_error(
-    cub::DeviceReduce::Reduce(NULL,
-                              tmp_size,
-                              first,
-                              reinterpret_cast<T*>(NULL),
-                              num_items,
-                              binary_op,
-                              init,
-                              stream,
-                              THRUST_DEBUG_SYNC_FLAG),
-    "after reduction step 1");
+
+  THRUST_INDEX_TYPE_DISPATCH2(status,
+    cub::DeviceReduce::Reduce,
+    (cub::DispatchReduce<
+        InputIt, T*, Size, BinaryOp
+    >::Dispatch),
+    num_items,
+    (NULL, tmp_size, first, reinterpret_cast<T*>(NULL),
+        num_items_fixed, binary_op, init, stream,
+        THRUST_DEBUG_SYNC_FLAG));
+  cuda_cub::throw_on_error(status, "after reduction step 1");
 
   // Allocate temporary storage.
 
@@ -963,17 +965,16 @@ T reduce_n_impl(execution_policy<Derived>& policy,
   // make this guarantee.
   T* ret_ptr = thrust::detail::aligned_reinterpret_cast<T*>(tmp.data().get());
   void* tmp_ptr = static_cast<void*>((tmp.data() + sizeof(T)).get());
-  cuda_cub::throw_on_error(
-    cub::DeviceReduce::Reduce(tmp_ptr,
-                              tmp_size,
-                              first,
-                              ret_ptr,
-                              num_items,
-                              binary_op,
-                              init,
-                              stream,
-                              THRUST_DEBUG_SYNC_FLAG),
-    "after reduction step 2");
+  THRUST_INDEX_TYPE_DISPATCH2(status,
+    cub::DeviceReduce::Reduce,
+    (cub::DispatchReduce<
+        InputIt, T*, Size, BinaryOp
+    >::Dispatch),
+    num_items,
+    (tmp_ptr, tmp_size, first, ret_ptr,
+        num_items_fixed, binary_op, init, stream,
+        THRUST_DEBUG_SYNC_FLAG));
+  cuda_cub::throw_on_error(status, "after reduction step 2");
 
   // Synchronize the stream and get the value.
 
