@@ -766,12 +766,20 @@ template<typename Distribution, typename Validator>
     // test Distribution with same range as engine
 
     // test host
-    thrust::generate(h.begin(), h.end(), Validator(Distribution(Engine::min, Engine::max)));
+    THRUST_DISABLE_MSVC_WARNING_BEGIN(4305)
+    thrust::generate(h.begin(), h.end(), Validator(
+        Distribution(Engine::min, Engine::max)
+    ));
+    THRUST_DISABLE_MSVC_WARNING_END(4305)
 
     ASSERT_EQUAL(true, h[0]);
 
     // test device
-    thrust::generate(d.begin(), d.end(), Validator(Distribution(Engine::min, Engine::max)));
+    THRUST_DISABLE_MSVC_WARNING_BEGIN(4305)
+    thrust::generate(d.begin(), d.end(), Validator(
+        Distribution(Engine::min, Engine::max)
+    ));
+    THRUST_DISABLE_MSVC_WARNING_END(4305)
 
     ASSERT_EQUAL(true, d[0]);
 
