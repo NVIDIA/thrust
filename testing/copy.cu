@@ -9,6 +9,8 @@
 #include <thrust/iterator/constant_iterator.h>
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/retag.h>
+#include <thrust/device_malloc.h>
+#include <thrust/device_free.h>
 
 void TestCopyFromConstIterator(void)
 {
@@ -617,3 +619,62 @@ void TestCopyIfStencilDispatchImplicit()
 }
 DECLARE_UNITTEST(TestCopyIfStencilDispatchImplicit);
 
+struct only_set_when_expected_it
+{
+    unsigned long long expected;
+    bool * flag;
+
+    __host__ __device__ only_set_when_expected_it operator++() const { return *this; }
+    __host__ __device__ only_set_when_expected_it operator*() const { return *this; }
+    template<typename Difference>
+    __host__ __device__ only_set_when_expected_it operator+(Difference) const { return *this; }
+    template<typename Index>
+    __host__ __device__ only_set_when_expected_it operator[](Index) const { return *this; }
+
+    __device__
+    void operator=(long long value) const
+    {
+        if (value == expected)
+        {
+            *flag = true;
+        }
+    }
+};
+
+namespace thrust
+{
+template<>
+struct iterator_traits<only_set_when_expected_it>
+{
+    typedef long long value_type;
+    typedef only_set_when_expected_it reference;
+};
+}
+
+void TestCopyWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<unsigned long long> begin(0);
+    thrust::counting_iterator<unsigned long long> end = begin + (1ull << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    thrust::device_ptr<bool> has_executed = thrust::device_malloc<bool>(1);
+    *has_executed = false;
+
+    only_set_when_expected_it out = { (1ull << magnitude) - 1, thrust::raw_pointer_cast(has_executed) };
+
+    thrust::copy(thrust::device, begin, end, out);
+
+    bool has_executed_h = *has_executed;
+    thrust::device_free(has_executed);
+
+    ASSERT_EQUAL(has_executed_h, true);
+}
+
+void TestCopyWithBigIndexes()
+{
+    TestCopyWithBigIndexesHelper(30);
+    TestCopyWithBigIndexesHelper(31);
+    TestCopyWithBigIndexesHelper(32);
+    TestCopyWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestCopyWithBigIndexes);

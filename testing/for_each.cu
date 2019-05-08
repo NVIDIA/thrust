@@ -355,7 +355,7 @@ DECLARE_UNITTEST(TestForEachNWithLargeTypes);
 
 THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
 
-struct OnlySetWhenExpected
+struct only_set_when_expected
 {
     unsigned long long expected;
     bool * flag;
@@ -379,7 +379,7 @@ void TestForEachWithBigIndexesHelper(int magnitude)
     thrust::device_ptr<bool> has_executed = thrust::device_malloc<bool>(1);
     *has_executed = false;
 
-    OnlySetWhenExpected fn = { (1ull << magnitude) - 1, thrust::raw_pointer_cast(has_executed) };
+    only_set_when_expected fn = { (1ull << magnitude) - 1, thrust::raw_pointer_cast(has_executed) };
 
     thrust::for_each(thrust::device, begin, end, fn);
 
