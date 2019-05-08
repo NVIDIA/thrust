@@ -1,6 +1,8 @@
 #include <unittest/unittest.h>
 #include <thrust/inner_product.h>
 #include <thrust/iterator/retag.h>
+#include <thrust/device_malloc.h>
+#include <thrust/device_free.h>
 
 template <class Vector>
 void TestInnerProductSimple(void)
@@ -100,4 +102,54 @@ struct TestInnerProduct
 };
 VariableUnitTest<TestInnerProduct, IntegralTypes> TestInnerProductInstance;
 
+struct only_set_when_both_expected
+{
+    long long expected;
+    bool * flag;
 
+    __device__
+    long long operator()(long long x, long long y)
+    {
+        if (x == expected && y == expected)
+        {
+            *flag = true;
+        }
+
+        return x == y;
+    }
+};
+
+void TestInnerProductWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<long long> begin(1);
+    thrust::counting_iterator<long long> end = begin + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    thrust::device_ptr<bool> has_executed = thrust::device_malloc<bool>(1);
+    *has_executed = false;
+
+    only_set_when_both_expected fn = { (1ll << magnitude) - 1,
+        thrust::raw_pointer_cast(has_executed) };
+
+    ASSERT_EQUAL(thrust::inner_product(
+        thrust::device,
+        begin, end,
+        begin,
+        0ll,
+        thrust::plus<long long>(),
+        fn), (1ll << magnitude));
+
+    bool has_executed_h = *has_executed;
+    thrust::device_free(has_executed);
+
+    ASSERT_EQUAL(has_executed_h, true);
+}
+
+void TestInnerProductWithBigIndexes()
+{
+    TestInnerProductWithBigIndexesHelper(30);
+    TestInnerProductWithBigIndexesHelper(31);
+    TestInnerProductWithBigIndexesHelper(32);
+    TestInnerProductWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestInnerProductWithBigIndexes);
