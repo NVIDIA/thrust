@@ -291,3 +291,57 @@ void TestScalarEqualRangeDispatchImplicit()
 DECLARE_UNITTEST(TestScalarEqualRangeDispatchImplicit);
 
 THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_END
+
+void TestBoundsWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<long long> begin(1);
+    thrust::counting_iterator<long long> end = begin + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    thrust::detail::intmax_t distance_low_value = thrust::distance(
+        begin,
+        thrust::lower_bound(
+            thrust::device,
+            begin,
+            end,
+            17));
+
+    thrust::detail::intmax_t distance_high_value = thrust::distance(
+        begin,
+        thrust::lower_bound(
+            thrust::device,
+            begin,
+            end,
+            (1ll << magnitude) - 17));
+
+    ASSERT_EQUAL(distance_low_value, 16);
+    ASSERT_EQUAL(distance_high_value, (1ll << magnitude) - 18);
+
+    distance_low_value = thrust::distance(
+        begin,
+        thrust::upper_bound(
+            thrust::device,
+            begin,
+            end,
+            17));
+
+    distance_high_value = thrust::distance(
+        begin,
+        thrust::upper_bound(
+            thrust::device,
+            begin,
+            end,
+            (1ll << magnitude) - 17));
+
+    ASSERT_EQUAL(distance_low_value, 17);
+    ASSERT_EQUAL(distance_high_value, (1ll << magnitude) - 17);
+}
+
+void TestBoundsWithBigIndexes()
+{
+    TestBoundsWithBigIndexesHelper(30);
+    TestBoundsWithBigIndexesHelper(31);
+    TestBoundsWithBigIndexesHelper(32);
+    TestBoundsWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestBoundsWithBigIndexes);
