@@ -116,3 +116,22 @@ void TestCountDispatchImplicit()
 }
 DECLARE_UNITTEST(TestCountDispatchImplicit);
 
+void TestCountWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<long long> begin(1);
+    thrust::counting_iterator<long long> end = begin + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    long long result = thrust::count(thrust::device, begin, end, (1ll << magnitude) - 17);
+
+    ASSERT_EQUAL(result, 1);
+}
+
+void TestCountWithBigIndexes()
+{
+    TestCountWithBigIndexesHelper(30);
+    TestCountWithBigIndexesHelper(31);
+    TestCountWithBigIndexesHelper(32);
+    TestCountWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestCountWithBigIndexes);
