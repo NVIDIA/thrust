@@ -103,3 +103,22 @@ void TestMinElementDispatchImplicit()
 }
 DECLARE_UNITTEST(TestMinElementDispatchImplicit);
 
+void TestMinElementWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<long long> begin(1);
+    thrust::counting_iterator<long long> end = begin + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    ASSERT_EQUAL(
+        *thrust::min_element(thrust::device, begin, end, thrust::greater<long long>()),
+        (1ll << magnitude));
+}
+
+void TestMinElementWithBigIndexes()
+{
+    TestMinElementWithBigIndexesHelper(30);
+    TestMinElementWithBigIndexesHelper(31);
+    TestMinElementWithBigIndexesHelper(32);
+    TestMinElementWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestMinElementWithBigIndexes);

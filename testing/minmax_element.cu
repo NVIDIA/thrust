@@ -110,3 +110,29 @@ void TestMinMaxElementDispatchImplicit()
 }
 DECLARE_UNITTEST(TestMinMaxElementDispatchImplicit);
 
+void TestMinMaxElementWithBigIndexesHelper(int magnitude)
+{
+    typedef thrust::counting_iterator<long long> Iter;
+    Iter begin(1);
+    Iter end = begin + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    thrust::pair<Iter, Iter> result = thrust::minmax_element(
+        thrust::device, begin, end);
+    ASSERT_EQUAL(*result.first, 1);
+    ASSERT_EQUAL(*result.second, (1ll << magnitude));
+
+    result = thrust::minmax_element(thrust::device, begin, end,
+        thrust::greater<long long>());
+    ASSERT_EQUAL(*result.second, 1);
+    ASSERT_EQUAL(*result.first, (1ll << magnitude));
+}
+
+void TestMinMaxElementWithBigIndexes()
+{
+    TestMinMaxElementWithBigIndexesHelper(30);
+    TestMinMaxElementWithBigIndexesHelper(31);
+    TestMinMaxElementWithBigIndexesHelper(32);
+    TestMinMaxElementWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestMinMaxElementWithBigIndexes);

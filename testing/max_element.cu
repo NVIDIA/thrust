@@ -105,3 +105,20 @@ void TestMaxElementDispatchImplicit()
 }
 DECLARE_UNITTEST(TestMaxElementDispatchImplicit);
 
+void TestMaxElementWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<long long> begin(1);
+    thrust::counting_iterator<long long> end = begin + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    ASSERT_EQUAL(*thrust::max_element(thrust::device, begin, end), (1ll << magnitude));
+}
+
+void TestMaxElementWithBigIndexes()
+{
+    TestMaxElementWithBigIndexesHelper(30);
+    TestMaxElementWithBigIndexesHelper(31);
+    TestMaxElementWithBigIndexesHelper(32);
+    TestMaxElementWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestMaxElementWithBigIndexes);
