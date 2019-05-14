@@ -1,4 +1,15 @@
 #######################################
+# Thrust v1.9.5  (CUDA 10.1 Update 1) #
+#######################################
+
+Summary
+    Thrust v1.9.5 is a minor release accompanying the CUDA 10.1 Update 1
+    CUDA Toolkit release.
+
+Bug Fixes
+    2502854 Assignment of complex vector between host and device fails to compile in CUDA >=9.1 with GCC 6
+
+#######################################
 #      Thrust v1.9.4 (CUDA 10.1)      #
 #######################################
 
