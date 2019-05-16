@@ -621,7 +621,7 @@ DECLARE_UNITTEST(TestCopyIfStencilDispatchImplicit);
 
 struct only_set_when_expected_it
 {
-    unsigned long long expected;
+    long long expected;
     bool * flag;
 
     __host__ __device__ only_set_when_expected_it operator++() const { return *this; }
@@ -653,14 +653,14 @@ struct iterator_traits<only_set_when_expected_it>
 
 void TestCopyWithBigIndexesHelper(int magnitude)
 {
-    thrust::counting_iterator<unsigned long long> begin(0);
-    thrust::counting_iterator<unsigned long long> end = begin + (1ull << magnitude);
+    thrust::counting_iterator<long long> begin(0);
+    thrust::counting_iterator<long long> end = begin + (1ll << magnitude);
     ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
 
     thrust::device_ptr<bool> has_executed = thrust::device_malloc<bool>(1);
     *has_executed = false;
 
-    only_set_when_expected_it out = { (1ull << magnitude) - 1, thrust::raw_pointer_cast(has_executed) };
+    only_set_when_expected_it out = { (1ll << magnitude) - 1, thrust::raw_pointer_cast(has_executed) };
 
     thrust::copy(thrust::device, begin, end, out);
 

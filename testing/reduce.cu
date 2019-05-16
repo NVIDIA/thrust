@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/reduce.h>
 #include <thrust/iterator/counting_iterator.h>
+#include <thrust/iterator/constant_iterator.h>
 #include <thrust/iterator/retag.h>
 #include <limits>
 
@@ -210,3 +211,22 @@ template<typename T>
 }
 DECLARE_GENERIC_UNITTEST(TestReduceCountingIterator);
 
+void TestReduceWithBigIndexesHelper(int magnitude)
+{
+    thrust::constant_iterator<long long> begin(1);
+    thrust::constant_iterator<long long> end = begin + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin, end), 1ll << magnitude);
+
+    long long result = thrust::reduce(thrust::device, begin, end);
+
+    ASSERT_EQUAL(result, 1ll << magnitude);
+}
+
+void TestReduceWithBigIndexes()
+{
+    TestReduceWithBigIndexesHelper(30);
+    TestReduceWithBigIndexesHelper(31);
+    TestReduceWithBigIndexesHelper(32);
+    TestReduceWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestReduceWithBigIndexes);

@@ -30,14 +30,14 @@ void TestRemoveSimple(void)
     typedef typename Vector::value_type T;
 
     Vector data(5);
-    data[0] =  1; 
-    data[1] =  2; 
+    data[0] =  1;
+    data[1] =  2;
     data[2] =  1;
-    data[3] =  3; 
-    data[4] =  2; 
+    data[3] =  3;
+    data[4] =  2;
 
-    typename Vector::iterator end = thrust::remove(data.begin(), 
-                                                    data.end(), 
+    typename Vector::iterator end = thrust::remove(data.begin(),
+                                                    data.end(),
                                                     (T) 2);
 
     ASSERT_EQUAL(end - data.begin(), 3);
@@ -102,17 +102,17 @@ void TestRemoveCopySimple(void)
     typedef typename Vector::value_type T;
 
     Vector data(5);
-    data[0] =  1; 
-    data[1] =  2; 
+    data[0] =  1;
+    data[1] =  2;
     data[2] =  1;
-    data[3] =  3; 
-    data[4] =  2; 
+    data[3] =  3;
+    data[4] =  2;
 
     Vector result(5);
 
-    typename Vector::iterator end = thrust::remove_copy(data.begin(), 
-                                                        data.end(), 
-                                                        result.begin(), 
+    typename Vector::iterator end = thrust::remove_copy(data.begin(),
+                                                        data.end(),
+                                                        result.begin(),
                                                         (T) 2);
 
     ASSERT_EQUAL(end - result.begin(), 3);
@@ -186,14 +186,14 @@ void TestRemoveIfSimple(void)
     typedef typename Vector::value_type T;
 
     Vector data(5);
-    data[0] =  1; 
-    data[1] =  2; 
+    data[0] =  1;
+    data[1] =  2;
     data[2] =  1;
-    data[3] =  3; 
-    data[4] =  2; 
+    data[3] =  3;
+    data[4] =  2;
 
-    typename Vector::iterator end = thrust::remove_if(data.begin(), 
-                                                      data.end(), 
+    typename Vector::iterator end = thrust::remove_if(data.begin(),
+                                                      data.end(),
                                                       is_even<T>());
 
     ASSERT_EQUAL(end - data.begin(), 3);
@@ -258,11 +258,11 @@ void TestRemoveIfStencilSimple(void)
     typedef typename Vector::value_type T;
 
     Vector data(5);
-    data[0] =  1; 
-    data[1] =  2; 
+    data[0] =  1;
+    data[1] =  2;
     data[2] =  1;
-    data[3] =  3; 
-    data[4] =  2; 
+    data[3] =  3;
+    data[4] =  2;
 
     Vector stencil(5);
     stencil[0] = 0;
@@ -271,7 +271,7 @@ void TestRemoveIfStencilSimple(void)
     stencil[3] = 0;
     stencil[4] = 1;
 
-    typename Vector::iterator end = thrust::remove_if(data.begin(), 
+    typename Vector::iterator end = thrust::remove_if(data.begin(),
                                                       data.end(),
                                                       stencil.begin(),
                                                       thrust::identity<T>());
@@ -347,17 +347,17 @@ void TestRemoveCopyIfSimple(void)
     typedef typename Vector::value_type T;
 
     Vector data(5);
-    data[0] =  1; 
-    data[1] =  2; 
+    data[0] =  1;
+    data[1] =  2;
     data[2] =  1;
-    data[3] =  3; 
-    data[4] =  2; 
+    data[3] =  3;
+    data[4] =  2;
 
     Vector result(5);
 
-    typename Vector::iterator end = thrust::remove_copy_if(data.begin(), 
-                                                           data.end(), 
-                                                           result.begin(), 
+    typename Vector::iterator end = thrust::remove_copy_if(data.begin(),
+                                                           data.end(),
+                                                           result.begin(),
                                                            is_even<T>());
 
     ASSERT_EQUAL(end - result.begin(), 3);
@@ -431,11 +431,11 @@ void TestRemoveCopyIfStencilSimple(void)
     typedef typename Vector::value_type T;
 
     Vector data(5);
-    data[0] =  1; 
-    data[1] =  2; 
+    data[0] =  1;
+    data[1] =  2;
     data[2] =  1;
-    data[3] =  3; 
-    data[4] =  2; 
+    data[3] =  3;
+    data[4] =  2;
 
     Vector stencil(5);
     stencil[0] = 0;
@@ -446,10 +446,10 @@ void TestRemoveCopyIfStencilSimple(void)
 
     Vector result(5);
 
-    typename Vector::iterator end = thrust::remove_copy_if(data.begin(), 
-                                                           data.end(), 
+    typename Vector::iterator end = thrust::remove_copy_if(data.begin(),
+                                                           data.end(),
                                                            stencil.begin(),
-                                                           result.begin(), 
+                                                           result.begin(),
                                                            thrust::identity<T>());
 
     ASSERT_EQUAL(end - result.begin(), 3);
@@ -531,7 +531,7 @@ void TestRemove(const size_t n)
 
     size_t h_size = thrust::remove(h_data.begin(), h_data.end(), T(0)) - h_data.begin();
     size_t d_size = thrust::remove(d_data.begin(), d_data.end(), T(0)) - d_data.begin();
-    
+
     ASSERT_EQUAL(h_size, d_size);
 
     h_data.resize(h_size);
@@ -550,7 +550,7 @@ void TestRemoveIf(const size_t n)
 
     size_t h_size = thrust::remove_if(h_data.begin(), h_data.end(), is_true<T>()) - h_data.begin();
     size_t d_size = thrust::remove_if(d_data.begin(), d_data.end(), is_true<T>()) - d_data.begin();
-   
+
     ASSERT_EQUAL(h_size, d_size);
 
     h_data.resize(h_size);
@@ -569,10 +569,10 @@ void TestRemoveIfStencil(const size_t n)
 
     thrust::host_vector<bool>   h_stencil = unittest::random_integers<bool>(n);
     thrust::device_vector<bool> d_stencil = h_stencil;
-    
+
     size_t h_size = thrust::remove_if(h_data.begin(), h_data.end(), h_stencil.begin(), is_true<T>()) - h_data.begin();
     size_t d_size = thrust::remove_if(d_data.begin(), d_data.end(), d_stencil.begin(), is_true<T>()) - d_data.begin();
-   
+
     ASSERT_EQUAL(h_size, d_size);
 
     h_data.resize(h_size);
@@ -588,13 +588,13 @@ void TestRemoveCopy(const size_t n)
 {
     thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
-    
+
     thrust::host_vector<T>   h_result(n);
     thrust::device_vector<T> d_result(n);
 
     size_t h_size = thrust::remove_copy(h_data.begin(), h_data.end(), h_result.begin(), T(0)) - h_result.begin();
     size_t d_size = thrust::remove_copy(d_data.begin(), d_data.end(), d_result.begin(), T(0)) - d_result.begin();
-    
+
     ASSERT_EQUAL(h_size, d_size);
 
     h_result.resize(h_size);
@@ -621,7 +621,7 @@ void TestRemoveCopyToDiscardIterator(const size_t n)
       thrust::remove_copy(d_data.begin(), d_data.end(), thrust::make_discard_iterator(), T(0));
 
     thrust::discard_iterator<> reference(num_nonzeros);
-    
+
     ASSERT_EQUAL_QUIET(reference, h_result);
     ASSERT_EQUAL_QUIET(reference, d_result);
 }
@@ -659,7 +659,7 @@ void TestRemoveCopyToDiscardIteratorZipped(const size_t n)
                           thrust::make_tuple(T(0),T(0)));
 
     thrust::discard_iterator<> reference(num_nonzeros);
-    
+
     ASSERT_EQUAL(h_output, d_output);
     ASSERT_EQUAL_QUIET(reference, thrust::get<1>(h_result.get_iterator_tuple()));
     ASSERT_EQUAL_QUIET(reference, thrust::get<1>(d_result.get_iterator_tuple()));
@@ -675,10 +675,10 @@ void TestRemoveCopyIf(const size_t n)
 
     thrust::host_vector<T>   h_result(n);
     thrust::device_vector<T> d_result(n);
-    
+
     size_t h_size = thrust::remove_copy_if(h_data.begin(), h_data.end(), h_result.begin(), is_true<T>()) - h_result.begin();
     size_t d_size = thrust::remove_copy_if(d_data.begin(), d_data.end(), d_result.begin(), is_true<T>()) - d_result.begin();
-    
+
     ASSERT_EQUAL(h_size, d_size);
 
     h_result.resize(h_size);
@@ -716,16 +716,16 @@ void TestRemoveCopyIfStencil(const size_t n)
 {
     thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
-    
+
     thrust::host_vector<bool>   h_stencil = unittest::random_integers<bool>(n);
     thrust::device_vector<bool> d_stencil = h_stencil;
-    
+
     thrust::host_vector<T>   h_result(n);
     thrust::device_vector<T> d_result(n);
 
     size_t h_size = thrust::remove_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), h_result.begin(), is_true<T>()) - h_result.begin();
     size_t d_size = thrust::remove_copy_if(d_data.begin(), d_data.end(), d_stencil.begin(), d_result.begin(), is_true<T>()) - d_result.begin();
-    
+
     ASSERT_EQUAL(h_size, d_size);
 
     h_result.resize(h_size);
@@ -741,7 +741,7 @@ void TestRemoveCopyIfStencilToDiscardIterator(const size_t n)
 {
     thrust::host_vector<T>   h_data = unittest::random_samples<T>(n);
     thrust::device_vector<T> d_data = h_data;
-    
+
     thrust::host_vector<bool>   h_stencil = unittest::random_integers<bool>(n);
     thrust::device_vector<bool> d_stencil = h_stencil;
 
@@ -759,4 +759,3 @@ void TestRemoveCopyIfStencilToDiscardIterator(const size_t n)
     ASSERT_EQUAL_QUIET(reference, d_result);
 }
 DECLARE_VARIABLE_UNITTEST(TestRemoveCopyIfStencilToDiscardIterator);
-
