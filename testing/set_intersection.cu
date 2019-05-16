@@ -251,3 +251,29 @@ void TestSetIntersectionMultiset(const size_t n)
 }
 DECLARE_VARIABLE_UNITTEST(TestSetIntersectionMultiset);
 
+void TestSetDifferenceWithBigIndexesHelper(int magnitude)
+{
+    thrust::counting_iterator<long long> begin1(0);
+    thrust::counting_iterator<long long> begin2 = begin1 + (1ll << magnitude);
+    thrust::counting_iterator<long long> end1 = begin2 + 1;
+    thrust::counting_iterator<long long> end2 = begin2 + (1ll << magnitude);
+    ASSERT_EQUAL(thrust::distance(begin2, end1), 1);
+
+    thrust::device_vector<long long> result;
+    result.resize(1);
+    thrust::set_intersection(thrust::device, begin1, end1, begin2, end2, result.begin());
+
+    thrust::host_vector<long long> expected;
+    expected.push_back(*begin2);
+
+    ASSERT_EQUAL(result, expected);
+}
+
+void TestSetDifferenceWithBigIndexes()
+{
+    TestSetDifferenceWithBigIndexesHelper(30);
+    TestSetDifferenceWithBigIndexesHelper(31);
+    TestSetDifferenceWithBigIndexesHelper(32);
+    TestSetDifferenceWithBigIndexesHelper(33);
+}
+DECLARE_UNITTEST(TestSetDifferenceWithBigIndexes);

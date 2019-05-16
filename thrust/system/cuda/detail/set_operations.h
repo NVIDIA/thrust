@@ -50,35 +50,36 @@ namespace __set_operations {
 
   template <bool UpperBound,
             class IntT,
+            class Size,
             class It,
             class T,
             class Comp>
   THRUST_DEVICE_FUNCTION void
   binary_search_iteration(It   data,
-                          int &begin,
-                          int &end,
+                          Size &begin,
+                          Size &end,
                           T    key,
                           int  shift,
                           Comp comp)
   {
 
     IntT scale = (1 << shift) - 1;
-    int  mid   = (int)((begin + scale * end) >> shift);
+    Size mid   = (begin + scale * end) >> shift;
 
     T    key2 = data[mid];
     bool pred = UpperBound ? !comp(key, key2) : comp(key2, key);
     if (pred)
-      begin = (int)mid + 1;
+      begin = mid + 1;
     else
       end = mid;
   }
 
-  template <bool UpperBound, class T, class It, class Comp>
-  THRUST_DEVICE_FUNCTION int
-  binary_search(It data, int count, T key, Comp comp)
+  template <bool UpperBound, class Size, class T, class It, class Comp>
+  THRUST_DEVICE_FUNCTION Size
+  binary_search(It data, Size count, T key, Comp comp)
   {
-    int begin = 0;
-    int end   = count;
+    Size begin = 0;
+    Size end   = count;
     while (begin < end)
       binary_search_iteration<UpperBound, int>(data,
                                                begin,
@@ -89,12 +90,12 @@ namespace __set_operations {
     return begin;
   }
 
-  template <bool UpperBound, class IntT, class T, class It, class Comp>
-  THRUST_DEVICE_FUNCTION int
-  biased_binary_search(It data, int count, T key, IntT levels, Comp comp)
+  template <bool UpperBound, class IntT, class Size, class T, class It, class Comp>
+  THRUST_DEVICE_FUNCTION Size
+  biased_binary_search(It data, Size count, T key, IntT levels, Comp comp)
   {
-    int begin = 0;
-    int end   = count;
+    Size begin = 0;
+    Size end   = count;
 
     if (levels >= 4 && begin < end)
       binary_search_iteration<UpperBound, IntT>(data, begin, end, key, 9, comp);
@@ -110,18 +111,18 @@ namespace __set_operations {
     return begin;
   }
 
-  template <bool UpperBound, class It1, class It2, class Comp>
-  THRUST_DEVICE_FUNCTION int
-  merge_path(It1 a, int aCount, It2 b, int bCount, int diag, Comp comp)
+  template <bool UpperBound, class Size, class It1, class It2, class Comp>
+  THRUST_DEVICE_FUNCTION Size
+  merge_path(It1 a, Size aCount, It2 b, Size bCount, Size diag, Comp comp)
   {
     typedef typename thrust::iterator_traits<It1>::value_type T;
 
-    int begin = thrust::max(0, diag - bCount);
-    int end   = thrust::min(diag, aCount);
+    Size begin = thrust::max<Size>(0, diag - bCount);
+    Size end   = thrust::min<Size>(diag, aCount);
 
     while (begin < end)
     {
-      int  mid  = (begin + end) >> 1;
+      Size  mid  = (begin + end) >> 1;
       T    aKey = a[mid];
       T    bKey = b[diag - 1 - mid];
       bool pred = UpperBound ? comp(aKey, bKey) : !comp(bKey, aKey);
@@ -134,7 +135,7 @@ namespace __set_operations {
   }
 
   template <class It1, class It2, class Size, class Size2, class CompareOp>
-  pair<Size, Size> THRUST_DEVICE_FUNCTION
+  THRUST_DEVICE_FUNCTION pair<Size, Size>
   balanced_path(It1       keys1,
                 It2       keys2,
                 Size      num_keys1,
@@ -434,7 +435,7 @@ namespace __set_operations {
       CompareOp      compare_op;
       SetOp          set_op;
       pair<Size, Size> *partitions;
-      Size *output_count;
+      std::size_t *output_count;
 
       //---------------------------------------------------------------------
       // Utility functions
@@ -756,7 +757,7 @@ namespace __set_operations {
            CompareOp      compare_op_,
            SetOp          set_op_,
            pair<Size, Size> *partitions_,
-           Size *output_count_)
+           std::size_t * output_count_)
           : storage(storage_),
             tile_state(tile_state_),
             keys1_in(core::make_load_iterator(ptx_plan(), keys1_)),
@@ -801,7 +802,7 @@ namespace __set_operations {
                        CompareOp      compare_op,
                        SetOp          set_op,
                        pair<Size, Size> *partitions,
-                       Size *        output_count,
+                       std::size_t *  output_count,
                        ScanTileState tile_state,
                        char *        shmem)
     {
@@ -1124,7 +1125,7 @@ namespace __set_operations {
             Size           num_keys2,
             KeysOutputIt   keys_output,
             ValuesOutputIt values_output,
-            Size *         output_count,
+            std::size_t *  output_count,
             CompareOp      compare_op,
             SetOp          set_op,
             cudaStream_t   stream,
@@ -1167,7 +1168,7 @@ namespace __set_operations {
     Size num_tiles = (keys_total + tile_size - 1) / tile_size;
 
     size_t tile_agent_storage;
-    status = ScanTileState::AllocationSize(static_cast<int>(num_tiles), tile_agent_storage);
+    status = ScanTileState::AllocationSize(num_tiles, tile_agent_storage);
     CUDA_CUB_RET_IF_FAIL(status);
 
     size_t vshmem_storage = core::vshmem_size(set_op_plan.shared_memory_size,
@@ -1191,7 +1192,7 @@ namespace __set_operations {
     }
 
     ScanTileState tile_state;
-    status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
+    status = tile_state.Init(num_tiles, allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     pair<Size, Size> *partitions = (pair<Size, Size> *)allocations[1];
@@ -1268,24 +1269,25 @@ namespace __set_operations {
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step<HAS_VALUES>(NULL,
+    THRUST_DOUBLE_INDEX_TYPE_DISPATCH(status, doit_step<HAS_VALUES>,
+        num_keys1, num_keys2, (NULL,
                                    temp_storage_bytes,
                                    keys1_first,
                                    keys2_first,
                                    values1_first,
                                    values2_first,
-                                   num_keys1,
-                                   num_keys2,
+                                   num_keys1_fixed,
+                                   num_keys2_fixed,
                                    keys_output,
                                    values_output,
-                                   reinterpret_cast<size_type*>(NULL),
+                                   reinterpret_cast<std::size_t*>(NULL),
                                    compare_op,
                                    set_op,
                                    stream,
-                                   debug_sync);
+                                   debug_sync));
     cuda_cub::throw_on_error(status, "set_operations failed on 1st step");
 
-    size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
+    size_t allocation_sizes[2] = {sizeof(std::size_t), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
 
     size_t storage_size = 0;
@@ -1307,30 +1309,31 @@ namespace __set_operations {
                                  allocation_sizes);
     cuda_cub::throw_on_error(status, "set_operations failed on 2nd alias_storage");
 
-    size_type* d_output_count
-      = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
+    std::size_t* d_output_count
+      = thrust::detail::aligned_reinterpret_cast<std::size_t*>(allocations[0]);
 
-    status = doit_step<HAS_VALUES>(allocations[1],
+    THRUST_DOUBLE_INDEX_TYPE_DISPATCH(status, doit_step<HAS_VALUES>,
+        num_keys1, num_keys2, (allocations[1],
                                    temp_storage_bytes,
                                    keys1_first,
                                    keys2_first,
                                    values1_first,
                                    values2_first,
-                                   num_keys1,
-                                   num_keys2,
+                                   num_keys1_fixed,
+                                   num_keys2_fixed,
                                    keys_output,
                                    values_output,
                                    d_output_count,
                                    compare_op,
                                    set_op,
                                    stream,
-                                   debug_sync);
+                                   debug_sync));
     cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
 
-    size_type output_count = cuda_cub::get_value(policy, d_output_count);
+    std::size_t output_count = cuda_cub::get_value(policy, d_output_count);
 
     return thrust::make_pair(keys_output + output_count, values_output + output_count);
   }
