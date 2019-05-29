@@ -19,15 +19,16 @@
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/detail/raw_reference_cast.h>
 #include <thrust/detail/seq.h>
-#include <thrust/memory.h>
 #include <thrust/system/cuda/config.h>
 #ifdef THRUST_CACHING_DEVICE_MALLOC
 #include <cub/util_allocator.cuh>
 #endif
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/detail/bad_alloc.h>
-
+#include <thrust/detail/malloc_and_free.h>
 
 namespace thrust
 {
