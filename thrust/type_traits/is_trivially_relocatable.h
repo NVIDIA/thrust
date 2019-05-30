@@ -134,19 +134,49 @@ struct proclaim_trivially_relocatable : false_type {};
 namespace detail
 {
 
+// There is no way to actually detect the libstdc++ version; __GLIBCXX__
+// is always set to the date of libstdc++ being packaged, not the release
+// day or version. This means that we can't detect the libstdc++ version,
+// except when compiling with GCC.
+//
+// Therefore, for the best approximation of is_trivially_copyable, we need to
+// handle three distinct cases:
+// 1) GCC above 5, or another C++11 compiler not using libstdc++: use the
+//      standard trait directly.
+// 2) A C++11 compiler using libstdc++ that provides the intrinsic: use the
+//      intrinsic.
+// 3) Any other case (essentially: compiling without C++11): has_trivial_assign.
+
+#ifndef __has_feature
+    #define __has_feature(x) 0
+#endif
+
+template <typename T>
+struct is_trivially_copyable_impl
+    : integral_constant<
+        bool,
+        #if THRUST_CPP_DIALECT >= 2011
+            #if defined(__GLIBCXX__) && __has_feature(is_trivially_copyable)
+                __is_trivially_copyable(T)
+            #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC && THRUST_GCC_VERSION >= 50000
+                std::is_trivially_copyable<T>::value
+            #else
+                has_trivial_assign<T>::value
+            #endif
+        #else
+            has_trivial_assign<T>::value
+        #endif
+    >
+{
+};
+
 // https://wg21.link/P1144R0#wording-inheritance
 template <typename T>
 struct is_trivially_relocatable_impl
-  : integral_constant<
-      bool
-      #if    THRUST_CPP_DIALECT >= 2011                                       \
-          && (  (THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_GCC)            \
-             || (THRUST_GCC_VERSION >= 50000))
-    ,    std::is_trivially_copyable<T>::value
-      #else
-    ,    has_trivial_assign<T>::value
-      #endif
-      || proclaim_trivially_relocatable<T>::value
+    : integral_constant<
+        bool,
+        is_trivially_copyable_impl<T>::value
+            || proclaim_trivially_relocatable<T>::value
     >
 {};
 
@@ -154,7 +184,7 @@ template <typename T, std::size_t N>
 struct is_trivially_relocatable_impl<T[N]> : is_trivially_relocatable_impl<T> {};
 
 } // namespace detail
- 
+
 THRUST_END_NS
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
