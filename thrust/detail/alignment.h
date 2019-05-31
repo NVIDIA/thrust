@@ -26,7 +26,7 @@
 #include <cstddef> // For `std::size_t` and `std::max_align_t`.
 
 #if __cplusplus >= 201103L
-    #include <type_traits> // For `std::alignment_of`.
+    #include <type_traits> // For `std::alignment_of` and `std::aligned_storage`.
 #endif
 
 namespace thrust
@@ -155,7 +155,7 @@ struct aligned_type;
 /// 
 /// The behavior is undefined if `Len` is 0 or `Align` is not a power of 2.
 ///
-/// It is an implementation of C++11's \p std::alignment_of.
+/// It is an implementation of C++11's \p std::aligned_storage.
 #if __cplusplus >= 201103L
     template <std::size_t Len, std::size_t Align>
     using aligned_storage = std::aligned_storage<Len, Align>;
