@@ -23,6 +23,7 @@
 #endif // omp support
 
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/system/omp/detail/default_decomposition.h>
 #include <thrust/system/detail/generic/select_system.h>
 #include <thrust/sort.h>
 #include <thrust/merge.h>
