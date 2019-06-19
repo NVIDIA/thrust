@@ -12,7 +12,12 @@ bool binary_exists_for_current_device()
   // we didn't compile a binary compatible with the current device
   cudaFuncAttributes attr;
   cudaError_t error = cudaFuncGetAttributes(&attr, dummy_kernel);
-  return error == cudaSuccess;
+
+  // clear the CUDA global error state if we just set it, so that
+  // check_cuda_error doesn't complain
+  if (cudaSuccess != error) (void)cudaGetLastError();
+
+  return cudaSuccess == error;
 }
 
 void list_devices(void)
@@ -159,13 +164,17 @@ bool CUDATestDriver::run_tests(const ArgumentSet &args, const ArgumentMap &kwarg
     // set the device
     cudaSetDevice(*device);
 
-    cudaDeviceSynchronize();
-
     // check if a binary exists for this device
     // if none exists, skip the device silently unless this is the only one we're targeting
     if(devices.size() > 1 && !binary_exists_for_current_device())
     {
-      continue;     
+      // note which device we're skipping
+      cudaDeviceProp deviceProp;
+      cudaGetDeviceProperties(&deviceProp, *device);
+      
+      std::cout << "Skipping Device " << *device << ": \"" << deviceProp.name << "\"" << std::endl;
+
+      continue;
     }
 
     if(!concise)
