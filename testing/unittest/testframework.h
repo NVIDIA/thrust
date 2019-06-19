@@ -351,6 +351,16 @@ class TEST##UnitTest : public UnitTest {                         \
 };                                                               \
 TEST##UnitTest TEST##Instance
 
+#define DECLARE_UNITTEST_WITH_NAME(TEST, NAME)                   \
+class NAME##UnitTest : public UnitTest {                         \
+    public:                                                      \
+    NAME##UnitTest() : UnitTest(#NAME) {}                        \
+    void run(){                                                  \
+            TEST();                                              \
+    }                                                            \
+};                                                               \
+NAME##UnitTest NAME##Instance
+
 // Macro to create host and device versions of a
 // unit test for a bunch of data types
 #define DECLARE_VECTOR_UNITTEST(VTEST)                          \

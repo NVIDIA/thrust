@@ -100,7 +100,7 @@ struct aligned_type;
 #if __cplusplus >= 201103L                                                     \
   && (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                        \
   && (THRUST_GCC_VERSION >= 40800)
-    // GCC 4.7 doesn't have `alignas`.
+    // C++11 implementation, excluding GCC 4.7, which doesn't have `alignas`.
     template <std::size_t Align>
     struct aligned_type
     {
@@ -109,39 +109,44 @@ struct aligned_type;
 #elif  (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)                    \
     || (   (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                 \
         && (THRUST_GCC_VERSION < 40300))
+    // C++03 implementation for MSVC and GCC <= 4.2.
+    // 
     // We have to implement `aligned_type` with specializations for MSVC
     // and GCC 4.2.x and older because they require literals as arguments to 
     // their alignment attribute.
 
     #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
-        #define THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(X)                  \
+        // MSVC implementation.
+        #define THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(X)                  \
             template <>                                                       \
-            struct aligned_type<X>                                    \
+            struct aligned_type<X>                                            \
             {                                                                 \
                 __declspec(align(X)) struct type {};                          \
             };                                                                \
             /**/
     #else
-        #define THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(X)                  \
+        // GCC <= 4.2 implementation.
+        #define THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(X)                  \
             template <>                                                       \
-            struct aligned_type<X>                                    \
+            struct aligned_type<X>                                            \
             {                                                                 \
                 struct type {} __attribute__((aligned(X)));                   \
             };                                                                \
             /**/
     #endif
     
-    THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(1);
-    THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(2);
-    THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(4);
-    THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(8);
-    THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(16);
-    THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(32);
-    THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(64);
-    THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION(128);
+    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(1);
+    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(2);
+    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(4);
+    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(8);
+    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(16);
+    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(32);
+    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(64);
+    THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION(128);
 
-    #undef THRUST_DEFINE_ALIGNED_BYTE_SPECIALIZATION
+    #undef THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION
 #else
+    // C++03 implementation for GCC > 4.2, Clang, PGI, ICPC, and xlC.
     template <std::size_t Align>
     struct aligned_type
     {
