@@ -19,8 +19,6 @@
 use strict;
 use warnings;
 
-die("Intentionally breaking tests to re-enable them.");
-
 print(`perl --version`);
 
 use Getopt::Long;
