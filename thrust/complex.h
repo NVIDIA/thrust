@@ -80,8 +80,8 @@ struct complex_storage;
   };
 #elif  (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)                    \
     || (   (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                 \
-        && (THRUST_GCC_VERSION < 40300))
-  // C++03 implementation for MSVC and GCC <= 4.2.
+        && (THRUST_GCC_VERSION < 40600))
+  // C++03 implementation for MSVC and GCC <= 4.5.
   // 
   // We have to implement `aligned_type` with specializations for MSVC
   // and GCC 4.2 and older because they require literals as arguments to 
@@ -127,7 +127,7 @@ struct complex_storage;
 
   #undef THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION
 #else
-  // C++03 implementation for GCC > 4.2, Clang, PGI, ICPC, and xlC.
+  // C++03 implementation for GCC > 4.5, Clang, PGI, ICPC, and xlC.
   template <typename T, std::size_t Align>
   struct complex_storage
   {
