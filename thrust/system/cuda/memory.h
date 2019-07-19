@@ -100,7 +100,7 @@ public:
 
   /*! No-argument constructor has no effect.
    */
-  __host__ __device__
+  __host__
   inline allocator() {}
 
   /*! Copy constructor has no effect.
