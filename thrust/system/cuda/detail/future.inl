@@ -1121,7 +1121,7 @@ void create_dependencies_impl(
 {
   // We only need to wait on the current dependency if we didn't steal our
   // stream from it.
-  if (!as.acquired_from || *as.acquired_from == I0)
+  if (!as.acquired_from || *as.acquired_from != I0)
   {
     create_dependency(as.stream, std::get<I0>(deps));
   }
