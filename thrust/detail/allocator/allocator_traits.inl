@@ -246,9 +246,8 @@ __host__ __device__
   >::type
     system(Alloc &)
 {
-  // return a copy of a default-constructed system
-  typename allocator_system<Alloc>::type result;
-  return result;
+  // return a copy of a value-initialized system
+  return typename allocator_system<Alloc>::type();
 }
 
 
