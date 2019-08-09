@@ -73,12 +73,9 @@ int main(void)
     
     print_range("values         ", values.begin(), values.end());
 
-    // define some more types
-    typedef thrust::transform_iterator<clamp<int>, VectorIterator> ClampedVectorIterator;
-
     // create a transform_iterator that applies clamp() to the values array
-    ClampedVectorIterator cv_begin = thrust::make_transform_iterator(values.begin(), clamp<int>(lo, hi));
-    ClampedVectorIterator cv_end   = cv_begin + values.size();
+    auto cv_begin = thrust::make_transform_iterator(values.begin(), clamp<int>(lo, hi));
+    auto cv_end   = cv_begin + values.size();
     
     // now [clamped_begin, clamped_end) defines a sequence of clamped values
     print_range("clamped values ", cv_begin, cv_end);
@@ -94,15 +91,14 @@ int main(void)
     ////
     // combine transform_iterator with other fancy iterators like counting_iterator
     typedef thrust::counting_iterator<int>                           CountingIterator;
-    typedef thrust::transform_iterator<clamp<int>, CountingIterator> ClampedCountingIterator;
 
     CountingIterator count_begin(0);
     CountingIterator count_end(10);
     
     print_range("sequence         ", count_begin, count_end);
 
-    ClampedCountingIterator cs_begin = thrust::make_transform_iterator(count_begin, clamp<int>(lo, hi));
-    ClampedCountingIterator cs_end   = thrust::make_transform_iterator(count_end,   clamp<int>(lo, hi));
+    auto cs_begin = thrust::make_transform_iterator(count_begin, clamp<int>(lo, hi));
+    auto cs_end   = thrust::make_transform_iterator(count_end,   clamp<int>(lo, hi));
 
     print_range("clamped sequence ", cs_begin, cs_end);
 
@@ -110,10 +106,8 @@ int main(void)
 
     ////
     // combine transform_iterator with another transform_iterator
-    typedef thrust::transform_iterator<thrust::negate<int>, ClampedCountingIterator> NegatedClampedCountingIterator;
-    
-    NegatedClampedCountingIterator ncs_begin = thrust::make_transform_iterator(cs_begin, thrust::negate<int>());
-    NegatedClampedCountingIterator ncs_end   = thrust::make_transform_iterator(cs_end,   thrust::negate<int>());
+    auto ncs_begin = thrust::make_transform_iterator(cs_begin, thrust::negate<int>());
+    auto ncs_end   = thrust::make_transform_iterator(cs_end,   thrust::negate<int>());
 
     print_range("negated sequence ", ncs_begin, ncs_end);
 

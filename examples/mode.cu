@@ -71,8 +71,7 @@ int main(void)
     std::cout << std::endl;
 
     // find the index of the maximum count
-    thrust::device_vector<int>::iterator mode_iter;
-    mode_iter = thrust::max_element(d_output_counts.begin(), d_output_counts.end());
+    auto mode_iter = thrust::max_element(d_output_counts.begin(), d_output_counts.end());
 
     int mode = d_output_keys[mode_iter - d_output_counts.begin()];
     int occurances = *mode_iter;

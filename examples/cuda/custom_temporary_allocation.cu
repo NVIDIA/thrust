@@ -63,7 +63,7 @@ struct cached_allocator
     char *result = 0;
 
     // Search the cache for a free block.
-    free_blocks_type::iterator free_block = free_blocks.find(num_bytes);
+    auto free_block = free_blocks.find(num_bytes);
 
     if (free_block != free_blocks.end())
     {
@@ -106,7 +106,7 @@ struct cached_allocator
               << reinterpret_cast<void*>(ptr) << std::endl;
 
     // Erase the allocated block from the allocated blocks map.
-    allocated_blocks_type::iterator iter = allocated_blocks.find(ptr);
+    auto iter = allocated_blocks.find(ptr);
 
     if (iter == allocated_blocks.end())
       throw not_my_pointer(reinterpret_cast<void*>(ptr));
@@ -130,20 +130,16 @@ private:
     std::cout << "cached_allocator::free_all()" << std::endl;
 
     // Deallocate all outstanding blocks in both lists.
-    for ( free_blocks_type::iterator i = free_blocks.begin()
-        ; i != free_blocks.end()
-        ; ++i)
+    for ( auto i : free_blocks )
     {
       // Transform the pointer to cuda::pointer before calling cuda::free.
-      thrust::cuda::free(thrust::cuda::pointer<char>(i->second));
+      thrust::cuda::free(thrust::cuda::pointer<char>(i.second));
     }
 
-    for( allocated_blocks_type::iterator i = allocated_blocks.begin()
-       ; i != allocated_blocks.end()
-       ; ++i)
+    for( auto i : allocated_blocks)
     {
       // Transform the pointer to cuda::pointer before calling cuda::free.
-      thrust::cuda::free(thrust::cuda::pointer<char>(i->first));
+      thrust::cuda::free(thrust::cuda::pointer<char>(i.first));
     }
   }
 };

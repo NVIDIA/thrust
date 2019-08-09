@@ -102,13 +102,8 @@ int main(void)
   transform_tuple<int,float>  unary_op(n, N);                // transformation operator
   reduce_tuple<int,float>     binary_op;                     // reduction operator
 
-  result_type result = 
-    thrust::transform_reduce(
-        thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<int>(0), data.begin())),
-        thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<int>(0), data.begin())) + data.size(),
-        unary_op,
-        init,
-        binary_op);
+  auto begin = thrust::make_zip_iterator(thrust::make_tuple(thrust::counting_iterator<int>(0), data.begin()));
+  result_type result = thrust::transform_reduce(begin, begin + data.size(), unary_op, init, binary_op);
 
   std::cout << "minimum value: " << thrust::get<1>(result) << std::endl;
   std::cout << "maximum value: " << thrust::get<2>(result) << std::endl;

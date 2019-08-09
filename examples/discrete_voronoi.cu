@@ -154,33 +154,22 @@ void vector_to_pgm(thrust::host_vector<int> &t, int m, int n, const char *out)
 
 /************Main Jfa loop********************/
 // Perform a jump with step k
-void jfa(thrust::device_vector<int>& in,thrust::device_vector<int>& out, unsigned int k, int m, int n)
+void jfa(thrust::device_vector<int>& in, thrust::device_vector<int>& out, unsigned int k, int m, int n)
 {
-   thrust::transform(
-        thrust::make_zip_iterator(
-            thrust::make_tuple(in.begin(), 
-                               in.begin() + k, 
-                               in.begin() + m*k, 
-                               in.begin() - k, 
-                               in.begin() - m*k, 
-                               in.begin() + k+m*k,
-                               in.begin() + k-m*k,
-                               in.begin() - k+m*k,
-                               in.begin() - k-m*k,
-                               thrust::counting_iterator<int>(0))),
-        thrust::make_zip_iterator(
-            thrust::make_tuple(in.begin(), 
-				    		   in.begin() + k, 
-                               in.begin() + m*k, 
-                               in.begin() - k, 
-                               in.begin() - m*k, 
-                               in.begin() + k+m*k,
-                               in.begin() + k-m*k,
-                               in.begin() - k+m*k,
-                               in.begin() - k-m*k,
-                               thrust::counting_iterator<int>(0)))+ n*m,
-        out.begin(),
-        minFunctor(m,n,k));
+    auto tuple = thrust::make_tuple(in.begin(),
+                                    in.begin() + k,
+                                    in.begin() + m*k,
+                                    in.begin() - k,
+                                    in.begin() - m*k,
+                                    in.begin() + k+m*k,
+                                    in.begin() + k-m*k,
+                                    in.begin() - k+m*k,
+                                    in.begin() - k-m*k,
+                                    thrust::counting_iterator<int>(0));
+    auto begin = thrust::make_zip_iterator(tuple);
+    auto end = begin + n*m;
+
+    thrust::transform(begin, end, out.begin(), minFunctor(m, n, k));
 }
 /********************************************/
 

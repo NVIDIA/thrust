@@ -36,7 +36,6 @@ int main(void)
 
     // define some types
     typedef thrust::device_vector<int> Vector;
-    typedef Vector::iterator           Iterator;
 
     // allocate storage for array
     Vector values(N);
@@ -50,7 +49,7 @@ int main(void)
     Vector output(values.size());
 
     // copy odd numbers to separate array
-    Iterator output_end = thrust::copy_if(values.begin(), values.end(), output.begin(), is_odd<int>());
+    auto output_end = thrust::copy_if(values.begin(), values.end(), output.begin(), is_odd<int>());
 
     print_range("output", output.begin(), output_end);
 
@@ -65,7 +64,7 @@ int main(void)
     print_range("small_output", small_output.begin(), small_output.end());
 
     // we can also compact sequences with the remove functions, which do the opposite of copy
-    Iterator values_end = thrust::remove_if(values.begin(), values.end(), is_odd<int>());
+    auto values_end = thrust::remove_if(values.begin(), values.end(), is_odd<int>());
 
     // since the values after values_end are garbage, we'll resize the vector
     values.resize(values_end - values.begin());

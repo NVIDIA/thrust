@@ -39,9 +39,10 @@ int main(void)
   thrust::device_vector<int> row_indices(R);
   
   // compute row sums by summing values with equal row indices
+  auto begin = thrust::make_transform_iterator(thrust::counting_iterator<int>(0), linear_index_to_row_index<int>(C));
   thrust::reduce_by_key
-    (thrust::make_transform_iterator(thrust::counting_iterator<int>(0), linear_index_to_row_index<int>(C)),
-     thrust::make_transform_iterator(thrust::counting_iterator<int>(0), linear_index_to_row_index<int>(C)) + (R*C),
+    (begin,
+     begin + (R*C),
      array.begin(),
      row_indices.begin(),
      row_sums.begin(),

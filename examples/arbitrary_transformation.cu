@@ -59,9 +59,9 @@ int main(void)
     A[4] = 2;  B[4] = 8;  C[4] = 3; 
 
     // apply the transformation
-    thrust::for_each(thrust::make_zip_iterator(thrust::make_tuple(A.begin(), B.begin(), C.begin(), D.begin())),
-                     thrust::make_zip_iterator(thrust::make_tuple(A.end(),   B.end(),   C.end(),   D.end())),
-                     arbitrary_functor());
+    auto begin = thrust::make_zip_iterator(thrust::make_tuple(A.begin(), B.begin(), C.begin(), D.begin()));
+    auto end = thrust::make_zip_iterator(thrust::make_tuple(A.end(),   B.end(),   C.end(),   D.end()));
+    thrust::for_each(begin, end, arbitrary_functor());
 
     // print the output
     for(int i = 0; i < 5; i++)
