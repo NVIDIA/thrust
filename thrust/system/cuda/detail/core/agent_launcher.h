@@ -47,7 +47,7 @@ namespace cuda_cub {
 namespace core {
 
 
-#ifdef __CUDA_ARCH__
+#if defined(__CUDA_ARCH__) || defined(__PGI_CUDA__)
 #if 0
   template <class Agent, class... Args>
   void __global__ 
@@ -408,7 +408,7 @@ namespace core {
           stream(stream_),
           name(name_),
           debug_sync(debug_sync_),
-          grid(static_cast<unsigned int>(count + plan.items_per_tile - 1) / plan.items_per_tile),
+          grid(static_cast<unsigned int>((count + plan.items_per_tile - 1) / plan.items_per_tile)),
           vshmem(NULL),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
           shmem_size(has_shmem ? plan.shared_memory_size : 0)
@@ -429,7 +429,7 @@ namespace core {
           stream(stream_),
           name(name_),
           debug_sync(debug_sync_),
-          grid(static_cast<unsigned int>(count + plan.items_per_tile - 1) / plan.items_per_tile),
+          grid(static_cast<unsigned int>((count + plan.items_per_tile - 1) / plan.items_per_tile)),
           vshmem(vshmem),
           has_shmem((size_t)core::get_max_shared_memory_per_block() >= (size_t)plan.shared_memory_size),
           shmem_size(has_shmem ? plan.shared_memory_size : 0)
@@ -518,11 +518,15 @@ namespace core {
     {
       if (debug_sync)
       {
-#ifdef __CUDA_ARCH__
-        cudaDeviceSynchronize();
-#else
-        cudaStreamSynchronize(stream);
-#endif
+        if (THRUST_IS_DEVICE_CODE) {
+          #if THRUST_INCLUDE_DEVICE_CODE
+            cudaDeviceSynchronize();
+          #endif
+        } else {
+          #if THRUST_INCLUDE_HOST_CODE
+            cudaStreamSynchronize(stream);
+          #endif
+        }
       }
     }
 

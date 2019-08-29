@@ -90,12 +90,8 @@ __device__ __forceinline__ unsigned int SHR_ADD(
     unsigned int addend)
 {
     unsigned int ret;
-#if CUB_PTX_ARCH >= 200
     asm ("vshr.u32.u32.u32.clamp.add %0, %1, %2, %3;" :
         "=r"(ret) : "r"(x), "r"(shift), "r"(addend));
-#else
-    ret = (x >> shift) + addend;
-#endif
     return ret;
 }
 
@@ -109,12 +105,8 @@ __device__ __forceinline__ unsigned int SHL_ADD(
     unsigned int addend)
 {
     unsigned int ret;
-#if CUB_PTX_ARCH >= 200
     asm ("vshl.u32.u32.u32.clamp.add %0, %1, %2, %3;" :
         "=r"(ret) : "r"(x), "r"(shift), "r"(addend));
-#else
-    ret = (x << shift) + addend;
-#endif
     return ret;
 }
 
@@ -131,12 +123,7 @@ __device__ __forceinline__ unsigned int BFE(
     Int2Type<BYTE_LEN>      /*byte_len*/)
 {
     unsigned int bits;
-#if CUB_PTX_ARCH >= 200
     asm ("bfe.u32 %0, %1, %2, %3;" : "=r"(bits) : "r"((unsigned int) source), "r"(bit_start), "r"(num_bits));
-#else
-    const unsigned int MASK = (1 << num_bits) - 1;
-    bits = (source >> bit_start) & MASK;
-#endif
     return bits;
 }
 
@@ -180,15 +167,8 @@ __device__ __forceinline__ void BFI(
     unsigned int bit_start,
     unsigned int num_bits)
 {
-#if CUB_PTX_ARCH >= 200
     asm ("bfi.b32 %0, %1, %2, %3, %4;" :
         "=r"(ret) : "r"(y), "r"(x), "r"(bit_start), "r"(num_bits));
-#else
-    x <<= bit_start;
-    unsigned int MASK_X = ((1 << num_bits) - 1) << bit_start;
-    unsigned int MASK_Y = ~MASK_X;
-    ret = (y & MASK_Y) | (x & MASK_X);
-#endif
 }
 
 
@@ -197,11 +177,7 @@ __device__ __forceinline__ void BFI(
  */
 __device__ __forceinline__ unsigned int IADD3(unsigned int x, unsigned int y, unsigned int z)
 {
-#if CUB_PTX_ARCH >= 200
     asm ("vadd.u32.u32.u32.add %0, %1, %2, %3;" : "=r"(x) : "r"(x), "r"(y), "r"(z));
-#else
-    x = x + y + z;
-#endif
     return x;
 }
 

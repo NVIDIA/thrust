@@ -204,24 +204,32 @@ public:
     /// Indirection
     __host__ __device__ __forceinline__ reference operator*() const
     {
-#if (CUB_PTX_ARCH == 0)
-        // Simply dereference the pointer on the host
-        return ptr[tex_offset];
-#else
-        // Move array of uninitialized words, then alias and assign to return value
-        TextureWord words[TEXTURE_MULTIPLE];
+        if (CUB_IS_HOST_CODE) {
+            #if CUB_INCLUDE_HOST_CODE
+                // Simply dereference the pointer on the host
+                return ptr[tex_offset];
+            #endif
+        } else {
+            #if CUB_INCLUDE_DEVICE_CODE
+                // Move array of uninitialized words, then alias and assign to return value
+                TextureWord words[TEXTURE_MULTIPLE];
 
-        #pragma unroll
-        for (int i = 0; i < TEXTURE_MULTIPLE; ++i)
-        {
-            words[i] = tex1Dfetch<TextureWord>(
-                tex_obj,
-                (tex_offset * TEXTURE_MULTIPLE) + i);
+                #pragma unroll
+                for (int i = 0; i < TEXTURE_MULTIPLE; ++i)
+                {
+                    words[i] = tex1Dfetch<TextureWord>(
+                        tex_obj,
+                        (tex_offset * TEXTURE_MULTIPLE) + i);
+                }
+
+                // Load from words
+                return *reinterpret_cast<T*>(words);
+            #else
+                // This is dead code which will never be executed. It is here
+                // only to avoid warnings about missing return statements.
+                return *ptr;
+            #endif
         }
-
-        // Load from words
-        return *reinterpret_cast<T*>(words);
-#endif
     }
 
     /// Addition

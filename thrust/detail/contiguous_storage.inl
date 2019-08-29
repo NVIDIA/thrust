@@ -428,15 +428,19 @@ __host__ __device__
   void contiguous_storage<T,Alloc>
     ::swap_allocators(false_type, Alloc &other)
 {
-#ifdef __CUDA_ARCH__
-  // allocators must be equal when swapping containers with allocators that propagate on swap
-  assert(!is_allocator_not_equal(other));
-#else
-  if (is_allocator_not_equal(other))
-  {
-    throw allocator_mismatch_on_swap();
+  if (THRUST_IS_DEVICE_CODE) {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      // allocators must be equal when swapping containers with allocators that propagate on swap
+      assert(!is_allocator_not_equal(other));
+    #endif
+  } else {
+    #if THRUST_INCLUDE_HOST_CODE
+      if (is_allocator_not_equal(other))
+      {
+        throw allocator_mismatch_on_swap();
+      }
+    #endif
   }
-#endif
   thrust::swap(m_allocator, other);
 } // end contiguous_storage::swap_allocators()
 

@@ -43,19 +43,42 @@ namespace cub {
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS    // Do not document
 
-#if (__CUDACC_VER_MAJOR__ >= 9) && !defined(CUB_USE_COOPERATIVE_GROUPS)
+#if ((__CUDACC_VER_MAJOR__ >= 9) || defined(__PGI_CUDA__)) && \
+        !defined(CUB_USE_COOPERATIVE_GROUPS)
     #define CUB_USE_COOPERATIVE_GROUPS
 #endif
 
 /// CUB_PTX_ARCH reflects the PTX version targeted by the active compiler pass (or zero during the host pass).
 #ifndef CUB_PTX_ARCH
-    #ifndef __CUDA_ARCH__
+    #if defined(__PGI_CUDA__)
+	// __PGI_CUDA_ARCH__ is the minimum supported SM target.  It is defined
+	// with the same value when compiling both host code and device code.
+        #define CUB_PTX_ARCH __PGI_CUDA_ARCH__
+    #elif !defined(__CUDA_ARCH__)
         #define CUB_PTX_ARCH 0
     #else
         #define CUB_PTX_ARCH __CUDA_ARCH__
     #endif
 #endif
 
+#ifndef CUB_IS_DEVICE_CODE
+    #if defined(__PGI_CUDA__)
+        #define CUB_IS_DEVICE_CODE __builtin_is_device_code()
+        #define CUB_IS_HOST_CODE (!__builtin_is_device_code())
+        #define CUB_INCLUDE_DEVICE_CODE 1
+        #define CUB_INCLUDE_HOST_CODE 1
+    #elif CUB_PTX_ARCH > 0
+        #define CUB_IS_DEVICE_CODE 1
+        #define CUB_IS_HOST_CODE 0
+        #define CUB_INCLUDE_DEVICE_CODE 1
+        #define CUB_INCLUDE_HOST_CODE 0
+    #else
+        #define CUB_IS_DEVICE_CODE 0
+        #define CUB_IS_HOST_CODE 1
+        #define CUB_INCLUDE_DEVICE_CODE 0
+        #define CUB_INCLUDE_HOST_CODE 1
+    #endif
+#endif
 
 /// Whether or not the source targeted by the active compiler pass is allowed to  invoke device kernels or methods from the CUDA runtime API.
 #ifndef CUB_RUNTIME_FUNCTION

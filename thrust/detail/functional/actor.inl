@@ -38,7 +38,7 @@ namespace functional
 
 template<typename Eval>
   __host__ __device__
-  actor<Eval>
+  THRUST_CONSTEXPR actor<Eval>
     ::actor(void)
       : eval_type()
 {}

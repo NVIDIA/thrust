@@ -42,16 +42,28 @@ THRUST_BEGIN_NS
 namespace cuda_cub {
 namespace core {
 
-#if (__CUDA_ARCH__ >= 600)
-#  define THRUST_TUNING_ARCH sm60
-#elif (__CUDA_ARCH__ >= 520)
-#  define THRUST_TUNING_ARCH sm52
-#elif (__CUDA_ARCH__ >= 350)
-#  define THRUST_TUNING_ARCH sm35
-#elif (__CUDA_ARCH__ >= 300)
-#  define THRUST_TUNING_ARCH sm30
-#elif !defined (__CUDA_ARCH__)
-#  define THRUST_TUNING_ARCH sm30
+#ifdef __PGI_CUDA__
+#  if (__PGI_CUDA_ARCH__ >= 600)
+#    define THRUST_TUNING_ARCH sm60
+#  elif (__PGI_CUDA_ARCH__ >= 520)
+#    define THRUST_TUNING_ARCH sm52
+#  elif (__PGI_CUDA_ARCH__ >= 350)
+#    define THRUST_TUNING_ARCH sm35
+#  else
+#    define THRUST_TUNING_ARCH sm30
+#  endif
+#else
+#  if (__CUDA_ARCH__ >= 600)
+#    define THRUST_TUNING_ARCH sm60
+#  elif (__CUDA_ARCH__ >= 520)
+#    define THRUST_TUNING_ARCH sm52
+#  elif (__CUDA_ARCH__ >= 350)
+#    define THRUST_TUNING_ARCH sm35
+#  elif (__CUDA_ARCH__ >= 300)
+#    define THRUST_TUNING_ARCH sm30
+#  elif !defined (__CUDA_ARCH__)
+#    define THRUST_TUNING_ARCH sm30
+#  endif
 #endif
 
   // Typelist - a container of types, supports up to 10 types
@@ -342,14 +354,30 @@ namespace core {
     typename get_plan<Agent>::type THRUST_RUNTIME_FUNCTION
     get_agent_plan(int ptx_version)
     {
-#if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
-      typedef typename get_plan<Agent>::type Plan;
-      THRUST_UNUSED_VAR(ptx_version);
-      // We're on device, use default policy
-      return Plan(typename Agent::ptx_plan());
-#else
-      return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
-#endif
+      // Use one path, with Agent::ptx_plan, for device code where device-side
+      // kernel launches are supported. The other path, with
+      // get_agent_plan_impl::get(version), is for host code and for device
+      // code without device-side kernel launches.  PGI and NVCC check for
+      // these situations differently.
+      #ifdef __PGI_CUDA__
+        #ifdef __THRUST_HAS_CUDART__
+          if (CUB_IS_DEVICE_CODE) {
+            return typename get_plan<Agent>::type(typename Agent::ptx_plan());
+          } else
+        #endif
+        {
+          return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
+        }
+      #else
+        #if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
+          typedef typename get_plan<Agent>::type Plan;
+          THRUST_UNUSED_VAR(ptx_version);
+          // We're on device, use default policy
+          return Plan(typename Agent::ptx_plan());
+        #else
+          return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
+        #endif
+      #endif
     }
 
 // XXX keep this dead-code for now as a gentle reminder
@@ -437,54 +465,54 @@ namespace core {
   get_occ_device_properties(cudaOccDeviceProp &occ_prop, int dev_id)
   {
     cudaError_t status = cudaSuccess;
-#ifdef __CUDA_ARCH__
-    {
-      cudaOccDeviceProp &o = occ_prop;
-      //
-      status = cudaDeviceGetAttribute(&o.computeMajor,
-                                      cudaDevAttrComputeCapabilityMajor,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.computeMinor,
-                                      cudaDevAttrComputeCapabilityMinor,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.maxThreadsPerBlock,
-                                      cudaDevAttrMaxThreadsPerBlock,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.maxThreadsPerMultiprocessor,
-                                      cudaDevAttrMaxThreadsPerMultiProcessor,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.regsPerBlock,
-                                      cudaDevAttrMaxRegistersPerBlock,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.regsPerMultiprocessor,
-                                      cudaDevAttrMaxRegistersPerMultiprocessor,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.warpSize,
-                                      cudaDevAttrWarpSize,
-                                      dev_id);
+    if (THRUST_IS_DEVICE_CODE) {
+      #if THRUST_INCLUDE_DEVICE_CODE
+        cudaOccDeviceProp &o = occ_prop;
+        //
+        status = cudaDeviceGetAttribute(&o.computeMajor,
+                                        cudaDevAttrComputeCapabilityMajor,
+                                        dev_id);
+        status = cudaDeviceGetAttribute(&o.computeMinor,
+                                        cudaDevAttrComputeCapabilityMinor,
+                                        dev_id);
+        status = cudaDeviceGetAttribute(&o.maxThreadsPerBlock,
+                                        cudaDevAttrMaxThreadsPerBlock,
+                                        dev_id);
+        status = cudaDeviceGetAttribute(&o.maxThreadsPerMultiprocessor,
+                                        cudaDevAttrMaxThreadsPerMultiProcessor,
+                                        dev_id);
+        status = cudaDeviceGetAttribute(&o.regsPerBlock,
+                                        cudaDevAttrMaxRegistersPerBlock,
+                                        dev_id);
+        status = cudaDeviceGetAttribute(&o.regsPerMultiprocessor,
+                                        cudaDevAttrMaxRegistersPerMultiprocessor,
+                                        dev_id);
+        status = cudaDeviceGetAttribute(&o.warpSize,
+                                        cudaDevAttrWarpSize,
+                                        dev_id);
 
-      int i32value;
-      status = cudaDeviceGetAttribute(&i32value,
-                                      cudaDevAttrMaxSharedMemoryPerBlock,
-                                      dev_id);
-      o.sharedMemPerBlock = static_cast<size_t>(i32value);
+        int i32value;
+        status = cudaDeviceGetAttribute(&i32value,
+                                        cudaDevAttrMaxSharedMemoryPerBlock,
+                                        dev_id);
+        o.sharedMemPerBlock = static_cast<size_t>(i32value);
 
-      status = cudaDeviceGetAttribute(&i32value,
-                                      cudaDevAttrMaxSharedMemoryPerMultiprocessor,
-                                      dev_id);
-      o.sharedMemPerMultiprocessor = static_cast<size_t>(i32value);
+        status = cudaDeviceGetAttribute(&i32value,
+                                        cudaDevAttrMaxSharedMemoryPerMultiprocessor,
+                                        dev_id);
+        o.sharedMemPerMultiprocessor = static_cast<size_t>(i32value);
 
-      status = cudaDeviceGetAttribute(&o.numSms,
-                                      cudaDevAttrMultiProcessorCount,
-                                      dev_id);
+        status = cudaDeviceGetAttribute(&o.numSms,
+                                        cudaDevAttrMultiProcessorCount,
+                                        dev_id);
+      #endif
+    } else {
+      #if THRUST_INCLUDE_HOST_CODE
+        cudaDeviceProp props;
+        status   = cudaGetDeviceProperties(&props, dev_id);
+        occ_prop = cudaOccDeviceProp(props);
+      #endif
     }
-#else
-    {
-      cudaDeviceProp props;
-      status   = cudaGetDeviceProperties(&props, dev_id);
-      occ_prop = cudaOccDeviceProp(props);
-    }
-#endif
     return status;
   }
   

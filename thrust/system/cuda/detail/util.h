@@ -177,11 +177,15 @@ trivial_copy_device_to_device(Policy &    policy,
 inline void __host__ __device__
 terminate()
 {
-#ifdef __CUDA_ARCH__
-  asm("trap;");
-#else
-  std::terminate();
-#endif
+  if (THRUST_IS_DEVICE_CODE) {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      asm("trap;");
+    #endif
+  } else {
+    #if THRUST_INCLUDE_HOST_CODE
+      std::terminate();
+    #endif
+  }
 }
 
 __host__  __device__
@@ -189,18 +193,22 @@ inline void throw_on_error(cudaError_t status)
 {
   if (cudaSuccess != status)
   {
-#if !defined(__CUDA_ARCH__)
-    throw thrust::system_error(status, thrust::cuda_category());
-#else
-#if __THRUST_HAS_CUDART__
-    printf("Thrust CUDA backend error: %s\n",
-           cudaGetErrorString(status));
-#else
-    printf("Thrust CUDA backend error: %d\n",
-           static_cast<int>(status));
-#endif
-    cuda_cub::terminate();
-#endif
+    if (THRUST_IS_HOST_CODE) {
+      #if THRUST_INCLUDE_HOST_CODE
+        throw thrust::system_error(status, thrust::cuda_category());
+      #endif
+    } else {
+      #if THRUST_INCLUDE_DEVICE_CODE
+        #if __THRUST_HAS_CUDART__
+          printf("Thrust CUDA backend error: %s\n",
+                 cudaGetErrorString(status));
+        #else
+          printf("Thrust CUDA backend error: %d\n",
+                 static_cast<int>(status));
+        #endif
+        cuda_cub::terminate();
+      #endif
+    }
   }
 }
 
@@ -209,20 +217,24 @@ inline void throw_on_error(cudaError_t status, char const *msg)
 {
   if (cudaSuccess != status)
   {
-#if !defined(__CUDA_ARCH__)
-    throw thrust::system_error(status, thrust::cuda_category(), msg);
-#else
-#if __THRUST_HAS_CUDART__
-    printf("Thrust CUDA backend error: %s: %s\n",
-           cudaGetErrorString(status),
-           msg);
-#else
-    printf("Thrust CUDA backend error: %d: %s \n",
-           static_cast<int>(status),
-           msg);
-#endif
-    cuda_cub::terminate();
-#endif
+    if (THRUST_IS_HOST_CODE) {
+      #if THRUST_INCLUDE_HOST_CODE
+        throw thrust::system_error(status, thrust::cuda_category(), msg);
+      #endif
+    } else {
+      #if THRUST_INCLUDE_DEVICE_CODE
+        #if __THRUST_HAS_CUDART__
+          printf("Thrust CUDA backend error: %s: %s\n",
+                 cudaGetErrorString(status),
+                 msg);
+        #else
+          printf("Thrust CUDA backend error: %d: %s \n",
+                 static_cast<int>(status),
+                 msg);
+        #endif
+        cuda_cub::terminate();
+      #endif
+    }
   }
 }
 
@@ -244,6 +256,16 @@ struct transform_input_iterator_t
   __host__ __device__ __forceinline__
   transform_input_iterator_t(InputIt input, UnaryOp op)
       : input(input), op(op) {}
+
+#ifdef __PGI_CUDA__
+  // UnaryOp might not be copy assignable, such as when it is a lambda.  Define
+  // an explicit copy assignment operator that doesn't try to assign it.
+  self_t& operator=(const self_t& o)
+  {
+    input = o.input;
+    return *this;
+  }
+#endif
 
   /// Postfix increment
   __host__ __device__ __forceinline__ self_t operator++(int)
@@ -362,6 +384,17 @@ struct transform_pair_of_input_iterators_t
                                       InputIt2 input2_,
                                       BinaryOp op_)
       : input1(input1_), input2(input2_), op(op_) {}
+
+#ifdef __PGI_CUDA__
+  // BinaryOp might not be copy assignable, such as when it is a lambda.
+  // Define an explicit copy assignment operator that doesn't try to assign it.
+  self_t& operator=(const self_t& o)
+  {
+    input1 = o.input1;
+    input2 = o.input2;
+    return *this;
+  }
+#endif
 
   /// Postfix increment
   __host__ __device__ __forceinline__ self_t operator++(int)

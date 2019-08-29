@@ -304,45 +304,48 @@ struct DispatchScan
         int             ptx_version,
         KernelConfig    &scan_kernel_config)
     {
-    #if (CUB_PTX_ARCH > 0)
-        (void)ptx_version;
-
-        // We're on the device, so initialize the kernel dispatch configurations with the current PTX policy
-        scan_kernel_config.template Init<PtxAgentScanPolicy>();
-
-    #else
-
-        // We're on the host, so lookup and initialize the kernel dispatch configurations with the policies that match the device's PTX version
-        if (ptx_version >= 600)
+        if (CUB_IS_DEVICE_CODE)
         {
-            scan_kernel_config.template Init<typename Policy600::ScanPolicyT>();
-        }
-        else if (ptx_version >= 520)
-        {
-            scan_kernel_config.template Init<typename Policy520::ScanPolicyT>();
-        }
-        else if (ptx_version >= 350)
-        {
-            scan_kernel_config.template Init<typename Policy350::ScanPolicyT>();
-        }
-        else if (ptx_version >= 300)
-        {
-            scan_kernel_config.template Init<typename Policy300::ScanPolicyT>();
-        }
-        else if (ptx_version >= 200)
-        {
-            scan_kernel_config.template Init<typename Policy200::ScanPolicyT>();
-        }
-        else if (ptx_version >= 130)
-        {
-            scan_kernel_config.template Init<typename Policy130::ScanPolicyT>();
+            #if CUB_INCLUDE_DEVICE_CODE
+                (void)ptx_version;
+                // We're on the device, so initialize the kernel dispatch configurations with the current PTX policy
+                scan_kernel_config.template Init<PtxAgentScanPolicy>();
+            #endif
         }
         else
         {
-            scan_kernel_config.template Init<typename Policy100::ScanPolicyT>();
+            #if CUB_INCLUDE_HOST_CODE
+                // We're on the host, so lookup and initialize the kernel dispatch configurations with the policies that match the device's PTX version
+                if (ptx_version >= 600)
+                {
+                    scan_kernel_config.template Init<typename Policy600::ScanPolicyT>();
+                }
+                else if (ptx_version >= 520)
+                {
+                    scan_kernel_config.template Init<typename Policy520::ScanPolicyT>();
+                }
+                else if (ptx_version >= 350)
+                {
+                    scan_kernel_config.template Init<typename Policy350::ScanPolicyT>();
+                }
+                else if (ptx_version >= 300)
+                {
+                    scan_kernel_config.template Init<typename Policy300::ScanPolicyT>();
+                }
+                else if (ptx_version >= 200)
+                {
+                    scan_kernel_config.template Init<typename Policy200::ScanPolicyT>();
+                }
+                else if (ptx_version >= 130)
+                {
+                    scan_kernel_config.template Init<typename Policy130::ScanPolicyT>();
+                }
+                else
+                {
+                    scan_kernel_config.template Init<typename Policy100::ScanPolicyT>();
+                }
+            #endif
         }
-
-    #endif
     }
 
 
@@ -453,7 +456,9 @@ struct DispatchScan
             if (debug_synchronous) _CubLog("Invoking init_kernel<<<%d, %d, 0, %lld>>>()\n", init_grid_size, INIT_KERNEL_THREADS, (long long) stream);
 
             // Invoke init_kernel to initialize tile descriptors
-            init_kernel<<<init_grid_size, INIT_KERNEL_THREADS, 0, stream>>>(
+            cuda_cub::launcher::triple_chevron(
+                init_grid_size, INIT_KERNEL_THREADS, 0, stream
+            ).doit(init_kernel,
                 tile_state,
                 num_tiles);
 
@@ -483,7 +488,9 @@ struct DispatchScan
                     start_tile, scan_grid_size, scan_kernel_config.block_threads, (long long) stream, scan_kernel_config.items_per_thread, scan_sm_occupancy);
 
                 // Invoke scan_kernel
-                scan_kernel<<<scan_grid_size, scan_kernel_config.block_threads, 0, stream>>>(
+                cuda_cub::launcher::triple_chevron(
+                    scan_grid_size, scan_kernel_config.block_threads, 0, stream
+                ).doit(scan_kernel,
                     d_in,
                     d_out,
                     tile_state,

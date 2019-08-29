@@ -443,7 +443,9 @@ struct DispatchReduce : DeviceReducePolicy<OutputT, OffsetT, ReductionOpT>
                 ActivePolicyT::SingleTilePolicy::ITEMS_PER_THREAD);
 
             // Invoke single_reduce_sweep_kernel
-            single_tile_kernel<<<1, ActivePolicyT::SingleTilePolicy::BLOCK_THREADS, 0, stream>>>(
+            cuda_cub::launcher::triple_chevron(
+                1, ActivePolicyT::SingleTilePolicy::BLOCK_THREADS, 0, stream
+            ).doit(single_tile_kernel,
                 d_in,
                 d_out,
                 num_items,
@@ -537,7 +539,10 @@ struct DispatchReduce : DeviceReducePolicy<OutputT, OffsetT, ReductionOpT>
                 reduce_config.sm_occupancy);
 
             // Invoke DeviceReduceKernel
-            reduce_kernel<<<reduce_grid_size, ActivePolicyT::ReducePolicy::BLOCK_THREADS, 0, stream>>>(
+            cuda_cub::launcher::triple_chevron(
+                reduce_grid_size, ActivePolicyT::ReducePolicy::BLOCK_THREADS,
+                0, stream
+            ).doit(reduce_kernel,
                 d_in,
                 d_block_reductions,
                 num_items,
@@ -557,7 +562,9 @@ struct DispatchReduce : DeviceReducePolicy<OutputT, OffsetT, ReductionOpT>
                 ActivePolicyT::SingleTilePolicy::ITEMS_PER_THREAD);
 
             // Invoke DeviceReduceSingleTileKernel
-            single_tile_kernel<<<1, ActivePolicyT::SingleTilePolicy::BLOCK_THREADS, 0, stream>>>(
+            cuda_cub::launcher::triple_chevron(
+                1, ActivePolicyT::SingleTilePolicy::BLOCK_THREADS, 0, stream
+            ).doit(single_tile_kernel,
                 d_block_reductions,
                 d_out,
                 reduce_grid_size,
@@ -769,7 +776,10 @@ struct DispatchSegmentedReduce :
                 segmented_reduce_config.sm_occupancy);
 
             // Invoke DeviceReduceKernel
-            segmented_reduce_kernel<<<num_segments, ActivePolicyT::SegmentedReducePolicy::BLOCK_THREADS, 0, stream>>>(
+            cuda_cub::launcher::triple_chevron(
+                num_segments, ActivePolicyT::SegmentedReducePolicy::BLOCK_THREADS,
+                0, stream
+            ).doit(segmented_reduce_kernel,
                 d_in,
                 d_out,
                 d_begin_offsets,

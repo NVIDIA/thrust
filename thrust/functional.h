@@ -1400,7 +1400,7 @@ template<typename BinaryPredicate>
  */
 
 
-/*! \namespace placeholders
+/*! \namespace thrust::placeholders
  *  \brief Facilities for constructing simple functions inline.
  *
  *  Objects in the \p thrust::placeholders namespace may be used to create simple arithmetic functions inline
@@ -1424,7 +1424,7 @@ template<typename BinaryPredicate>
  *    x[1] = 2;
  *    x[2] = 3;
  *    x[3] = 4;
- *    
+ *
  *    y[0] = 1;
  *    y[1] = 1;
  *    y[2] = 1;
@@ -1448,92 +1448,52 @@ namespace placeholders
 
 /*! \p thrust::placeholders::_1 is the placeholder for the first function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<0>::type _1;
-#else
-static const thrust::detail::functional::placeholder<0>::type _1;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<0>::type _1;
 
 
 /*! \p thrust::placeholders::_2 is the placeholder for the second function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<1>::type _2;
-#else
-static const thrust::detail::functional::placeholder<1>::type _2;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<1>::type _2;
 
 
 /*! \p thrust::placeholders::_3 is the placeholder for the third function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<2>::type _3;
-#else
-static const thrust::detail::functional::placeholder<2>::type _3;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<2>::type _3;
 
 
 /*! \p thrust::placeholders::_4 is the placeholder for the fourth function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<3>::type _4;
-#else
-static const thrust::detail::functional::placeholder<3>::type _4;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<3>::type _4;
 
 
 /*! \p thrust::placeholders::_5 is the placeholder for the fifth function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<4>::type _5;
-#else
-static const thrust::detail::functional::placeholder<4>::type _5;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<4>::type _5;
 
 
 /*! \p thrust::placeholders::_6 is the placeholder for the sixth function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<5>::type _6;
-#else
-static const thrust::detail::functional::placeholder<5>::type _6;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<5>::type _6;
 
 
 /*! \p thrust::placeholders::_7 is the placeholder for the seventh function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<6>::type _7;
-#else
-static const thrust::detail::functional::placeholder<6>::type _7;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<6>::type _7;
 
 
 /*! \p thrust::placeholders::_8 is the placeholder for the eighth function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<7>::type _8;
-#else
-static const thrust::detail::functional::placeholder<7>::type _8;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<7>::type _8;
 
 
 /*! \p thrust::placeholders::_9 is the placeholder for the ninth function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<8>::type _9;
-#else
-static const thrust::detail::functional::placeholder<8>::type _9;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<8>::type _9;
 
 
 /*! \p thrust::placeholders::_10 is the placeholder for the tenth function parameter.
  */
-#ifdef __CUDA_ARCH__
-static const __device__ thrust::detail::functional::placeholder<9>::type _10;
-#else
-static const thrust::detail::functional::placeholder<9>::type _10;
-#endif
+THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<9>::type _10;
 
 
 } // end placeholders

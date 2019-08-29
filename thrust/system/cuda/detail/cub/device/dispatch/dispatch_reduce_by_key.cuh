@@ -284,37 +284,40 @@ struct DispatchReduceByKey
         int             ptx_version,
         KernelConfig    &reduce_by_key_config)
     {
-    #if (CUB_PTX_ARCH > 0)
-        (void)ptx_version;
-
-        // We're on the device, so initialize the kernel dispatch configurations with the current PTX policy
-        reduce_by_key_config.template Init<PtxReduceByKeyPolicy>();
-
-    #else
-
-        // We're on the host, so lookup and initialize the kernel dispatch configurations with the policies that match the device's PTX version
-        if (ptx_version >= 350)
+        if (CUB_IS_DEVICE_CODE)
         {
-            reduce_by_key_config.template Init<typename Policy350::ReduceByKeyPolicyT>();
-        }
-        else if (ptx_version >= 300)
-        {
-            reduce_by_key_config.template Init<typename Policy300::ReduceByKeyPolicyT>();
-        }
-        else if (ptx_version >= 200)
-        {
-            reduce_by_key_config.template Init<typename Policy200::ReduceByKeyPolicyT>();
-        }
-        else if (ptx_version >= 130)
-        {
-            reduce_by_key_config.template Init<typename Policy130::ReduceByKeyPolicyT>();
+            #if CUB_INCLUDE_DEVICE_CODE
+                (void)ptx_version;
+                // We're on the device, so initialize the kernel dispatch configurations with the current PTX policy
+                reduce_by_key_config.template Init<PtxReduceByKeyPolicy>();
+            #endif
         }
         else
         {
-            reduce_by_key_config.template Init<typename Policy110::ReduceByKeyPolicyT>();
+            #if CUB_INCLUDE_HOST_CODE
+                // We're on the host, so lookup and initialize the kernel dispatch configurations with the policies that match the device's PTX version
+                if (ptx_version >= 350)
+                {
+                    reduce_by_key_config.template Init<typename Policy350::ReduceByKeyPolicyT>();
+                }
+                else if (ptx_version >= 300)
+                {
+                    reduce_by_key_config.template Init<typename Policy300::ReduceByKeyPolicyT>();
+                }
+                else if (ptx_version >= 200)
+                {
+                    reduce_by_key_config.template Init<typename Policy200::ReduceByKeyPolicyT>();
+                }
+                else if (ptx_version >= 130)
+                {
+                    reduce_by_key_config.template Init<typename Policy130::ReduceByKeyPolicyT>();
+                }
+                else
+                {
+                    reduce_by_key_config.template Init<typename Policy110::ReduceByKeyPolicyT>();
+                }
+            #endif
         }
-
-    #endif
     }
 
 
@@ -428,7 +431,9 @@ struct DispatchReduceByKey
             if (debug_synchronous) _CubLog("Invoking init_kernel<<<%d, %d, 0, %lld>>>()\n", init_grid_size, INIT_KERNEL_THREADS, (long long) stream);
 
             // Invoke init_kernel to initialize tile descriptors
-            init_kernel<<<init_grid_size, INIT_KERNEL_THREADS, 0, stream>>>(
+            cuda_cub::launcher::triple_chevron(
+                init_grid_size, INIT_KERNEL_THREADS, 0, stream
+            ).doit(init_kernel,
                 tile_state,
                 num_tiles,
                 d_num_runs_out);
@@ -463,7 +468,10 @@ struct DispatchReduceByKey
                     start_tile, scan_grid_size, reduce_by_key_config.block_threads, (long long) stream, reduce_by_key_config.items_per_thread, reduce_by_key_sm_occupancy);
 
                 // Invoke reduce_by_key_kernel
-                reduce_by_key_kernel<<<scan_grid_size, reduce_by_key_config.block_threads, 0, stream>>>(
+                cuda_cub::launcher::triple_chevron(
+                    scan_grid_size, reduce_by_key_config.block_threads, 0,
+                    stream
+                ).doit(reduce_by_key_kernel,
                     d_keys_in,
                     d_unique_out,
                     d_values_in,
@@ -513,11 +521,11 @@ struct DispatchReduceByKey
         {
             // Get PTX version
             int ptx_version;
-    #if (CUB_PTX_ARCH == 0)
-            if (CubDebug(error = PtxVersion(ptx_version))) break;
-    #else
-            ptx_version = CUB_PTX_ARCH;
-    #endif
+	    if (CUB_IS_HOST_CODE) {
+                if (CubDebug(error = PtxVersion(ptx_version))) break;
+            } else {
+                ptx_version = CUB_PTX_ARCH;
+            }
 
             // Get kernel kernel dispatch configurations
             KernelConfig reduce_by_key_config;

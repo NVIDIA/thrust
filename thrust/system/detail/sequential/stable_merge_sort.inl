@@ -353,12 +353,16 @@ void stable_merge_sort(sequential::execution_policy<DerivedPolicy> &exec,
                        RandomAccessIterator last,
                        StrictWeakOrdering comp)
 {
-  // avoid recursion in CUDA threads
-#ifdef __CUDA_ARCH__
-  stable_merge_sort_detail::iterative_stable_merge_sort(exec, first, last, comp);
-#else
-  stable_merge_sort_detail::recursive_stable_merge_sort(exec, first, last, comp);
-#endif
+  if (THRUST_IS_DEVICE_CODE) {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      // avoid recursion in CUDA threads
+      stable_merge_sort_detail::iterative_stable_merge_sort(exec, first, last, comp);
+    #endif
+  } else {
+    #if THRUST_INCLUDE_HOST_CODE
+      stable_merge_sort_detail::recursive_stable_merge_sort(exec, first, last, comp);
+    #endif
+  }
 }
 
 
@@ -373,12 +377,16 @@ void stable_merge_sort_by_key(sequential::execution_policy<DerivedPolicy> &exec,
                               RandomAccessIterator2 first2,
                               StrictWeakOrdering comp)
 {
-  // avoid recursion in CUDA threads
-#ifdef __CUDA_ARCH__
-  stable_merge_sort_detail::iterative_stable_merge_sort_by_key(exec, first1, last1, first2, comp);
-#else
-  stable_merge_sort_detail::recursive_stable_merge_sort_by_key(exec, first1, last1, first2, comp);
-#endif
+  if (THRUST_IS_DEVICE_CODE) {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      // avoid recursion in CUDA threads
+      stable_merge_sort_detail::iterative_stable_merge_sort_by_key(exec, first1, last1, first2, comp);
+    #endif
+  } else {
+    #if THRUST_INCLUDE_HOST_CODE
+      stable_merge_sort_detail::recursive_stable_merge_sort_by_key(exec, first1, last1, first2, comp);
+    #endif
+  }
 }
 
 

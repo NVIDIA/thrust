@@ -274,36 +274,36 @@ struct DeviceRleDispatch
         int             ptx_version,
         KernelConfig&   device_rle_config)
     {
-    #if (CUB_PTX_ARCH > 0)
-
-        // We're on the device, so initialize the kernel dispatch configurations with the current PTX policy
-        device_rle_config.template Init<PtxRleSweepPolicy>();
-
-    #else
-
-        // We're on the host, so lookup and initialize the kernel dispatch configurations with the policies that match the device's PTX version
-        if (ptx_version >= 350)
-        {
-            device_rle_config.template Init<typename Policy350::RleSweepPolicy>();
+        if (CUB_IS_DEVICE_CODE) {
+            #if CUB_INCLUDE_DEVICE_CODE
+                // We're on the device, so initialize the kernel dispatch configurations with the current PTX policy
+                device_rle_config.template Init<PtxRleSweepPolicy>();
+            #endif
+        } else {
+            #if CUB_INCLUDE_HOST_CODE
+                // We're on the host, so lookup and initialize the kernel dispatch configurations with the policies that match the device's PTX version
+                if (ptx_version >= 350)
+                {
+                    device_rle_config.template Init<typename Policy350::RleSweepPolicy>();
+                }
+                else if (ptx_version >= 300)
+                {
+                    device_rle_config.template Init<typename Policy300::RleSweepPolicy>();
+                }
+                else if (ptx_version >= 200)
+                {
+                    device_rle_config.template Init<typename Policy200::RleSweepPolicy>();
+                }
+                else if (ptx_version >= 130)
+                {
+                    device_rle_config.template Init<typename Policy130::RleSweepPolicy>();
+                }
+                else
+                {
+                    device_rle_config.template Init<typename Policy100::RleSweepPolicy>();
+                }
+            #endif
         }
-        else if (ptx_version >= 300)
-        {
-            device_rle_config.template Init<typename Policy300::RleSweepPolicy>();
-        }
-        else if (ptx_version >= 200)
-        {
-            device_rle_config.template Init<typename Policy200::RleSweepPolicy>();
-        }
-        else if (ptx_version >= 130)
-        {
-            device_rle_config.template Init<typename Policy130::RleSweepPolicy>();
-        }
-        else
-        {
-            device_rle_config.template Init<typename Policy100::RleSweepPolicy>();
-        }
-
-    #endif
     }
 
 
@@ -415,7 +415,9 @@ struct DeviceRleDispatch
             if (debug_synchronous) _CubLog("Invoking device_scan_init_kernel<<<%d, %d, 0, %lld>>>()\n", init_grid_size, INIT_KERNEL_THREADS, (long long) stream);
 
             // Invoke device_scan_init_kernel to initialize tile descriptors and queue descriptors
-            device_scan_init_kernel<<<init_grid_size, INIT_KERNEL_THREADS, 0, stream>>>(
+            cuda_cub::launcher::triple_chevron(
+                init_grid_size, INIT_KERNEL_THREADS, 0, stream
+            ).doit(device_scan_init_kernel,
                 tile_status,
                 num_tiles,
                 d_num_runs_out);
@@ -452,7 +454,9 @@ struct DeviceRleDispatch
                 scan_grid_size.x, scan_grid_size.y, scan_grid_size.z, device_rle_config.block_threads, (long long) stream, device_rle_config.items_per_thread, device_rle_kernel_sm_occupancy);
 
             // Invoke device_rle_sweep_kernel
-            device_rle_sweep_kernel<<<scan_grid_size, device_rle_config.block_threads, 0, stream>>>(
+            cuda_cub::launcher::triple_chevron(
+                scan_grid_size, device_rle_config.block_threads, 0, stream
+            ).doit(device_rle_sweep_kernel,
                 d_in,
                 d_offsets_out,
                 d_lengths_out,
@@ -498,11 +502,11 @@ struct DeviceRleDispatch
         {
             // Get PTX version
             int ptx_version;
-    #if (CUB_PTX_ARCH == 0)
-            if (CubDebug(error = PtxVersion(ptx_version))) break;
-    #else
-            ptx_version = CUB_PTX_ARCH;
-    #endif
+            if (CUB_IS_HOST_CODE) {
+                if (CubDebug(error = PtxVersion(ptx_version))) break;
+            } else {
+                ptx_version = CUB_PTX_ARCH;
+            }
 
             // Get kernel kernel dispatch configurations
             KernelConfig device_rle_config;

@@ -279,13 +279,19 @@ public:
     /// Indirection
     __host__ __device__ __forceinline__ reference operator*() const
     {
-#if (CUB_PTX_ARCH == 0)
-        // Simply dereference the pointer on the host
-        return ptr[tex_offset];
-#else
-        // Use the texture reference
-        return TexId::Fetch(tex_offset);
-#endif
+        if (CUB_IS_HOST_CODE) {
+            // Simply dereference the pointer on the host
+            return ptr[tex_offset];
+        } else {
+            #if CUB_INCLUDE_DEVICE_CODE
+                // Use the texture reference
+                return TexId::Fetch(tex_offset);
+            #else
+                // This is dead code that will never be executed. It is here
+                // only to avoid warnings about missing returns.
+                return *ptr;
+            #endif
+        }
     }
 
     /// Addition

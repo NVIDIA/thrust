@@ -45,11 +45,15 @@ __host__ __device__
     // note that we pass cnt to deallocate, not a value derived from result.second
     deallocate(result.first, cnt);
 
-#if !defined(__CUDA_ARCH__)
-    throw thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
-#else
-    thrust::system::cuda::detail::terminate_with_message("temporary_buffer::allocate: get_temporary_buffer failed");
-#endif
+    if (THRUST_IS_HOST_CODE) {
+      #if THRUST_INCLUDE_HOST_CODE
+        throw thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
+      #endif
+    } else {
+      #if THRUST_INCLUDE_DEVICE_CODE
+        thrust::system::cuda::detail::terminate_with_message("temporary_buffer::allocate: get_temporary_buffer failed");
+      #endif
+    }
   } // end if
 
   return result.first;

@@ -137,24 +137,27 @@ CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t PtxVersion(int &ptx_version)
     // CUDA API calls not supported from this device
     return cudaErrorInvalidConfiguration;
 
-#elif (CUB_PTX_ARCH > 0)
-
-    ptx_version = CUB_PTX_ARCH;
-    return cudaSuccess;
-
 #else
-
     cudaError_t error = cudaSuccess;
-    do
-    {
-        cudaFuncAttributes empty_kernel_attrs;
-        if (CubDebug(error = cudaFuncGetAttributes(&empty_kernel_attrs, EmptyKernel<void>))) break;
-        ptx_version = empty_kernel_attrs.ptxVersion * 10;
+    if (CUB_IS_DEVICE_CODE) {
+        #if CUB_INCLUDE_DEVICE_CODE
+            ptx_version = CUB_PTX_ARCH;
+        #endif
+    } else {
+        #if CUB_INCLUDE_HOST_CODE
+            // Host code. Query the CUDA driver to figure out the optimal
+	    // target SM architecture for the current device, then pass that
+	    // through for policy selection.
+            do
+            {
+                cudaFuncAttributes empty_kernel_attrs;
+                if (CubDebug(error = cudaFuncGetAttributes(&empty_kernel_attrs, EmptyKernel<void>))) break;
+                ptx_version = empty_kernel_attrs.ptxVersion * 10;
+            }
+            while (0);
+        #endif
     }
-    while (0);
-
     return error;
-
 #endif
 }
 
@@ -198,13 +201,19 @@ CUB_RUNTIME_FUNCTION __forceinline__ cudaError_t SmVersion(int &sm_version, int 
 CUB_RUNTIME_FUNCTION __forceinline__
 static cudaError_t SyncStream(cudaStream_t stream)
 {
-#if (CUB_PTX_ARCH == 0)
-    return cudaStreamSynchronize(stream);
-#else
-    (void)stream;
-    // Device can't yet sync on a specific stream
-    return cudaDeviceSynchronize();
-#endif
+    cudaError_t result;
+    if (CUB_IS_HOST_CODE) {
+        #if CUB_INCLUDE_HOST_CODE
+            result = cudaStreamSynchronize(stream);
+        #endif
+    } else {
+        #if CUB_INCLUDE_DEVICE_CODE
+            (void)stream;
+            // Device can't yet sync on a specific stream
+            result = cudaDeviceSynchronize();
+        #endif
+    }
+    return result;
 }
 
 

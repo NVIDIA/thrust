@@ -35,14 +35,14 @@ struct par_t : thrust::system::cpp::detail::execution_policy<par_t>,
     thrust::system::cpp::detail::execution_policy>
 {
   __host__ __device__
-  par_t() : thrust::system::cpp::detail::execution_policy<par_t>() {}
+  THRUST_CONSTEXPR par_t() : thrust::system::cpp::detail::execution_policy<par_t>() {}
 };
 
 
 } // end detail
 
 
-static const detail::par_t par;
+THRUST_INLINE_CONSTANT detail::par_t par;
 
 
 } // end cpp
