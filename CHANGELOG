@@ -1,4 +1,16 @@
 #######################################
+#      Thrust v1.9.7 (CUDA 10.2)      #
+#######################################
+
+Summary
+    Thrust v1.9.7 is a minor release accompanying the CUDA 10.2
+    CUDA Toolkit release.
+
+Bug Fixes
+    #967, 2448170 Fix the CUDA backend for_each so that it can handle big indexes.
+    #968, 2612102 Fix the polymorphic adaptor to actually use its template parameter.
+
+#######################################
 # Thrust v1.9.6  (CUDA 10.1 Update 2) #
 #######################################
 
