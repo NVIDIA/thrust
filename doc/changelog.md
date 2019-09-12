@@ -1,3 +1,21 @@
+# Thrust v1.9.6  (CUDA 10.1 Update 2) #
+
+## Summary
+
+Thrust v1.9.6 is a minor release accompanying the CUDA 10.1 Update 2 release.
+
+## Bug Fixes
+
+- NVBug 2509847 Inconsistent alignment of `thrust::complex`
+- NVBug 2586774 Compilation failure with Clang + older libstdc++ that doesn't
+    have `std::is_trivially_copyable`
+- NVBug 200488234 CUDA header files contain unicode characters which leads
+    compiling errors on Windows
+- #949, #973, NVBug 2422333, NVBug 2522259, NVBug 2528822 `thrust::detail::aligned_reinterpret_cast`
+    must be annotated with __host__ __device__
+- NVBug 2599629 Missing include in the OpenMP sort implementation
+- NVBug 200513211 Truncation warning in test code under VC142
+
 # Thrust v1.9.5  (CUDA 10.1 Update 1)
 
 ## Summary

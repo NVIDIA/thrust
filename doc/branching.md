@@ -13,6 +13,7 @@ versions don't directly map to any CUDA Toolkit version.
 
 | Thrust version    | CUDA version  |
 | ----------------- | ------------- |
+| 1.9.6             | 10.1 Update 2 |
 | 1.9.5             | 10.1 Update 1 |
 | 1.9.4             | 10.1          |
 | 1.9.3             | 10.0          |
