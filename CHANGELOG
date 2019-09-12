@@ -1,4 +1,31 @@
 #######################################
+# Thrust v1.9.6  (CUDA 10.1 Update 2) #
+#######################################
+
+Summary
+    Thrust v1.9.6 is a minor release accompanying the CUDA 10.1 Update 2
+    CUDA Toolkit release.
+
+Bug Fixes
+    2509847 Inconsistent alignment of `thrust::complex`
+    2586774 Compilation failure with Clang + older libstdc++ that doesn't have `std::is_trivially_copyable`
+    200488234 CUDA header files contain unicode characters which leads compiling errors on Windows
+    #949, #973, 2422333, 2522259, 2528822 thrust::detail::aligned_reinterpret_cast must be annotated with __host__ __device__
+    2599629 Missing include in the OpenMP sort implementation
+    200513211 Truncation warning in test code under VC142
+
+#######################################
+# Thrust v1.9.5  (CUDA 10.1 Update 1) #
+#######################################
+
+Summary
+    Thrust v1.9.5 is a minor release accompanying the CUDA 10.1 Update 1
+    CUDA Toolkit release.
+
+Bug Fixes
+    2502854 Assignment of of complex vector between host and device fails to compile in CUDA >=9.1 with GCC 6
+
+#######################################
 #      Thrust v1.9.4 (CUDA 10.1)      #
 #######################################
 
