@@ -406,7 +406,7 @@ struct CachingDeviceAllocator
                 // in use by the device, only consider cached blocks that are
                 // either (from the active stream) or (from an idle stream)
                 if ((active_stream == block_itr->associated_stream) ||
-                    (cudaEventQuery(block_itr->ready_event) != cudaErrorNotReady))
+                    (CubDebug(cudaEventQuery(block_itr->ready_event)) != cudaErrorNotReady))
                 {
                     // Reuse existing cache block.  Insert into live blocks.
                     found = true;

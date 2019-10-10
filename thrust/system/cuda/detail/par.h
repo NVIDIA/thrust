@@ -29,6 +29,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
+#include <thrust/system/cuda/detail/util.h>
 
 #include <thrust/detail/allocator_aware_execution_policy.h>
 
@@ -39,36 +40,6 @@
 
 THRUST_BEGIN_NS
 namespace cuda_cub {
-
-inline __host__ __device__
-cudaStream_t
-default_stream()
-{
-  return cudaStreamLegacy;
-}
-
-template <class Derived>
-__host__ __device__
-cudaStream_t
-get_stream(execution_policy<Derived> &)
-{
-  return default_stream();
-}
-
-__thrust_exec_check_disable__
-template <class Derived>
-__host__ __device__
-cudaError_t
-synchronize_stream(execution_policy<Derived> &)
-{
-  #if __THRUST_HAS_CUDART__
-    cudaDeviceSynchronize();
-    return cudaGetLastError();
-  #else
-    return cudaSuccess;
-  #endif
-}
-
 
 template <class Derived>
 struct execute_on_stream_base : execution_policy<Derived>

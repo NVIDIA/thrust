@@ -56,6 +56,7 @@ namespace detail
 
             if (status != cudaSuccess)
             {
+                cudaGetLastError(); // Clear the CUDA global error state.
                 throw thrust::system::detail::bad_alloc(thrust::cuda_category().message(status).c_str());
             }
 

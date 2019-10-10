@@ -62,9 +62,9 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
 
   if(status != cudaSuccess)
   {
-  //  cuda_cub::throw_on_error(status, "device malloc failed");
+    cudaGetLastError(); // Clear global CUDA error state.
     thrust::system::detail::bad_alloc(thrust::cuda_category().message(status).c_str());
-  } 
+  }
 #else
   result = thrust::raw_pointer_cast(thrust::malloc(thrust::seq, n));
 #endif

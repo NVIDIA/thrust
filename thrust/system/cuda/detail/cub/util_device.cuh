@@ -1,7 +1,7 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
  * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the NVIDIA CORPORATION nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -199,11 +199,11 @@ CUB_RUNTIME_FUNCTION __forceinline__
 static cudaError_t SyncStream(cudaStream_t stream)
 {
 #if (CUB_PTX_ARCH == 0)
-    return cudaStreamSynchronize(stream);
+    return CubDebug(cudaStreamSynchronize(stream));
 #else
     (void)stream;
     // Device can't yet sync on a specific stream
-    return cudaDeviceSynchronize();
+    return CubDebug(cudaDeviceSynchronize());
 #endif
 }
 
@@ -255,15 +255,12 @@ cudaError_t MaxSmOccupancy(
 
     // CUDA API calls not supported from this device
     return CubDebug(cudaErrorInvalidConfiguration);
-
 #else
-
-    return cudaOccupancyMaxActiveBlocksPerMultiprocessor (
+    return CubDebug(cudaOccupancyMaxActiveBlocksPerMultiprocessor(
         &max_sm_occupancy,
         kernel_ptr,
         block_threads,
-        dynamic_smem_bytes);
-
+        dynamic_smem_bytes));
 #endif  // CUB_RUNTIME_ENABLED
 }
 
