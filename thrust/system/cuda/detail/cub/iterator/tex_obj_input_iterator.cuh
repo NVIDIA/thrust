@@ -1,7 +1,7 @@
 /******************************************************************************
  * Copyright (c) 2011, Duane Merrill.  All rights reserved.
  * Copyright (c) 2011-2018, NVIDIA CORPORATION.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
  *     * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
  *     * Neither the name of the NVIDIA CORPORATION nor the
  *       names of its contributors may be used to endorse or promote products
  *       derived from this software without specific prior written permission.
- * 
+ *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
  * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -177,13 +177,13 @@ public:
         res_desc.res.linear.desc        = channel_desc;
         res_desc.res.linear.sizeInBytes = bytes;
         tex_desc.readMode               = cudaReadModeElementType;
-        return cudaCreateTextureObject(&tex_obj, &res_desc, &tex_desc, NULL);
+        return CubDebug(cudaCreateTextureObject(&tex_obj, &res_desc, &tex_desc, NULL));
     }
 
     /// Unbind this iterator from its texture reference
     cudaError_t UnbindTexture()
     {
-        return cudaDestroyTextureObject(tex_obj);
+        return CubDebug(cudaDestroyTextureObject(tex_obj));
     }
 
     /// Postfix increment
