@@ -30,8 +30,8 @@
 
 # Makefile for building Thrust unit test driver
 
-# Force C++11 mode. NVCC will ignore it if the host compiler doesn't support it.
-#export CXX_STD = c++11
+# Don't force any C++ mode, use the host compiler's default.
+export CXX_STD =
 
 export VERBOSE = 1
 
