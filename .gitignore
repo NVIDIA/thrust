@@ -1,4 +1,6 @@
 thrust/system/cuda/detail/.gitignore
+*.bash
+*.log
 .p4config
 run
 build
