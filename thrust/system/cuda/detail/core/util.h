@@ -36,7 +36,6 @@
 #include <thrust/system/cuda/detail/cub/block/block_store.cuh>
 #include <thrust/system/cuda/detail/cub/block/block_scan.cuh>
 
-
 THRUST_BEGIN_NS
 
 namespace cuda_cub {
@@ -56,13 +55,13 @@ namespace core {
 
   // Typelist - a container of types, supports up to 10 types
   // --------------------------------------------------------------------------
-  
+
   class _;
   template <class = _, class = _, class = _, class = _, class = _, class = _, class = _, class = _, class = _, class = _>
   struct typelist;
 
   // -------------------------------------
-  
+
   // supported SM arch
   // ---------------------
   struct sm30  { enum { ver = 300, warpSize = 32 }; };
@@ -94,7 +93,7 @@ namespace core {
 
   // metafunction to match next viable PtxPlan specialization
   // --------------------------------------------------------------------------
- 
+
   __THRUST_DEFINE_HAS_NESTED_TYPE(has_tuning_t, tuning)
   __THRUST_DEFINE_HAS_NESTED_TYPE(has_type_t, type)
 
@@ -121,7 +120,7 @@ namespace core {
             template <class, class> class Tuning,
             class _0>
   struct has_sm_tuning_impl<SM, Tuning<lowest_supported_sm_arch, _0> > : has_type_t<Tuning<SM, _0> > {};
-  
+
   // specializing for Tunig which needs 2 args
   template <class SM,
             template <class, class,class> class Tuning,
@@ -131,9 +130,9 @@ namespace core {
   template <template <class> class P, class SM>
   struct has_sm_tuning : has_sm_tuning_impl<SM, typename P<lowest_supported_sm_arch>::tuning > {};
 
-  // once first match is found in sm_list, all remaining sm are possible 
+  // once first match is found in sm_list, all remaining sm are possible
   // candidate for tuning, so pick the first available
-  //   if the plan P has SM-level tuning then pick it, 
+  //   if the plan P has SM-level tuning then pick it,
   //   otherwise move on to the next sm in the sm_list
   template <template <class> class P, class SM, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
   struct specialize_plan_impl_match<P, typelist<SM, _1, _2, _3, _4, _5, _6, _7, _8, _9> >
@@ -146,14 +145,14 @@ namespace core {
     struct specialize_plan_msvc10_war
     {
       // if Plan has tuning type, this means it has SM-specific tuning
-      // so loop through sm_list to find match, 
+      // so loop through sm_list to find match,
       // otherwise just specialize on provided SM
       typedef thrust::detail::conditional<has_tuning_t<Plan<lowest_supported_sm_arch> >::value,
                                   specialize_plan_impl_loop<Plan, SM, sm_list>,
                                   Plan<SM> >
           type;
     };
-    
+
     template <template <class> class Plan, class SM = THRUST_TUNING_ARCH>
     struct specialize_plan : specialize_plan_msvc10_war<Plan,SM>::type::type {};
 
@@ -433,67 +432,12 @@ namespace core {
   /////////////////////////
   /////////////////////////
 
-  inline cudaError_t CUB_RUNTIME_FUNCTION
-  get_occ_device_properties(cudaOccDeviceProp &occ_prop, int dev_id)
-  {
-    cudaError_t status = cudaSuccess;
-#ifdef __CUDA_ARCH__
-    {
-      cudaOccDeviceProp &o = occ_prop;
-      //
-      status = cudaDeviceGetAttribute(&o.computeMajor,
-                                      cudaDevAttrComputeCapabilityMajor,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.computeMinor,
-                                      cudaDevAttrComputeCapabilityMinor,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.maxThreadsPerBlock,
-                                      cudaDevAttrMaxThreadsPerBlock,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.maxThreadsPerMultiprocessor,
-                                      cudaDevAttrMaxThreadsPerMultiProcessor,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.regsPerBlock,
-                                      cudaDevAttrMaxRegistersPerBlock,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.regsPerMultiprocessor,
-                                      cudaDevAttrMaxRegistersPerMultiprocessor,
-                                      dev_id);
-      status = cudaDeviceGetAttribute(&o.warpSize,
-                                      cudaDevAttrWarpSize,
-                                      dev_id);
-
-      int i32value;
-      status = cudaDeviceGetAttribute(&i32value,
-                                      cudaDevAttrMaxSharedMemoryPerBlock,
-                                      dev_id);
-      o.sharedMemPerBlock = static_cast<size_t>(i32value);
-
-      status = cudaDeviceGetAttribute(&i32value,
-                                      cudaDevAttrMaxSharedMemoryPerMultiprocessor,
-                                      dev_id);
-      o.sharedMemPerMultiprocessor = static_cast<size_t>(i32value);
-
-      status = cudaDeviceGetAttribute(&o.numSms,
-                                      cudaDevAttrMultiProcessorCount,
-                                      dev_id);
-    }
-#else
-    {
-      cudaDeviceProp props;
-      status   = cudaGetDeviceProperties(&props, dev_id);
-      occ_prop = cudaOccDeviceProp(props);
-    }
-#endif
-    return status;
-  }
-  
-  int CUB_RUNTIME_FUNCTION
-  inline get_sm_count()
+  THRUST_RUNTIME_FUNCTION
+  int get_sm_count()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
-                             "get_sm_count:"
+                             "get_sm_count :"
                              "failed to cudaGetDevice");
 
     cudaError_t status;
@@ -536,7 +480,7 @@ namespace core {
     else
       return 0;
   }
-  
+
   size_t CUB_RUNTIME_FUNCTION
   inline vshmem_size(size_t shmem_per_block, size_t num_blocks)
   {
@@ -547,51 +491,6 @@ namespace core {
       return 0;
   }
 
-  template <class Kernel>
-  int CUB_RUNTIME_FUNCTION 
-  get_max_block_size(Kernel k)
-  {
-    int devId;
-    cuda_cub::throw_on_error(cudaGetDevice(&devId),
-                   "get_max_block_size :"
-                   "failed to cudaGetDevice");
-
-    cudaOccDeviceProp occ_prop;
-    cuda_cub::throw_on_error(get_occ_device_properties(occ_prop, devId),
-                   "get_max_block_size: "
-                   "failed to cudaGetDeviceProperties");
-
-
-    cudaFuncAttributes attribs;
-    cuda_cub::throw_on_error(cudaFuncGetAttributes(&attribs, reinterpret_cast<void *>(k)),
-                   "get_max_block_size: "
-                   "failed to cudaFuncGetAttributes");
-    cudaOccFuncAttributes occ_attrib(attribs);
-
-
-    cudaFuncCache cacheConfig;
-    cuda_cub::throw_on_error(cudaDeviceGetCacheConfig(&cacheConfig),
-                   "get_max_block_size: "
-                   "failed to cudaDeviceGetCacheConfig");
-
-    cudaOccDeviceState occ_state;
-    occ_state.cacheConfig      = (cudaOccCacheConfig)cacheConfig;
-    int          block_size    = 0;
-    int          min_grid_size = 0;
-    cudaOccError occ_status    = cudaOccMaxPotentialOccupancyBlockSize(&min_grid_size,
-                                                                    &block_size,
-                                                                    &occ_prop,
-                                                                    &occ_attrib,
-                                                                    &occ_state,
-                                                                    0);
-    if (CUDA_OCC_SUCCESS != occ_status || block_size <= 0)
-      cuda_cub::throw_on_error(cudaErrorInvalidConfiguration,
-                     "get_max_block_size: "
-                     "failed to cudaOccMaxPotentialOccupancyBlockSize");
-
-    return block_size;
-  }
-  
   // LoadIterator
   // ------------
   // if trivial iterator is passed, wrap loads into LDG
@@ -616,7 +515,7 @@ namespace core {
   {
     return raw_pointer_cast(&*it);
   }
-  
+
   template <class PtxPlan, class It>
   typename LoadIterator<PtxPlan, It>::type __device__ __forceinline__
   make_load_iterator_impl(It it, thrust::detail::false_type /* is_trivial */)
@@ -657,7 +556,7 @@ namespace core {
 
         type;
   };
-  
+
   // BlockStore
   // -----------
   // a helper metaprogram that returns type of a block loader
@@ -749,7 +648,7 @@ namespace core {
 
     __host__ __device__ __forceinline__ operator T&() { return get(); }
   };
-  
+
   // uninitialized_array
   // --------------
   // allocates uninitialized data on stack
@@ -837,6 +736,6 @@ using core::sm60;
 using core::sm52;
 using core::sm35;
 using core::sm30;
-} // namespace cuda_ 
+} // namespace cuda_
 
 THRUST_END_NS
