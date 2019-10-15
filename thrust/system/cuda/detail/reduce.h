@@ -35,7 +35,7 @@
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/detail/raw_reference_cast.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <thrust/system/cuda/detail/cub/device/device_reduce.cuh>
+#include <cub/device/device_reduce.cuh>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/functional.h>
@@ -47,8 +47,8 @@
 THRUST_BEGIN_NS
 
 // forward declare generic reduce
-// to circumvent circular dependency 
-template <typename DerivedPolicy, 
+// to circumvent circular dependency
+template <typename DerivedPolicy,
           typename InputIterator,
           typename T,
           typename BinaryFunction>
@@ -82,21 +82,21 @@ namespace __reduce {
   {
     enum
     {
-      BLOCK_THREADS      = _BLOCK_THREADS,        
-      ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,    
-      VECTOR_LOAD_LENGTH = _VECTOR_LOAD_LENGTH, 
+      BLOCK_THREADS      = _BLOCK_THREADS,
+      ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
+      VECTOR_LOAD_LENGTH = _VECTOR_LOAD_LENGTH,
       MIN_BLOCKS         = _MIN_BLOCKS,
       ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD
     };
 
-    static const cub::BlockReduceAlgorithm BLOCK_ALGORITHM = _BLOCK_ALGORITHM;    
-    static const cub::CacheLoadModifier    LOAD_MODIFIER   = _LOAD_MODIFIER;     
-    static const cub::GridMappingStrategy  GRID_MAPPING    = _GRID_MAPPING;     
+    static const cub::BlockReduceAlgorithm BLOCK_ALGORITHM = _BLOCK_ALGORITHM;
+    static const cub::CacheLoadModifier    LOAD_MODIFIER   = _LOAD_MODIFIER;
+    static const cub::GridMappingStrategy  GRID_MAPPING    = _GRID_MAPPING;
   }; // struct PtxPolicy
 
   template<class,class>
   struct Tuning;
-  
+
   template <class T>
   struct Tuning<sm30, T>
   {
@@ -108,34 +108,34 @@ namespace __reduce {
       SCALE_FACTOR_1B = sizeof(T),
     };
 
-    typedef PtxPolicy<256,                                 
-                      CUB_MAX(1, 20 / SCALE_FACTOR_4B),   
-                      2,                                 
-                      cub::BLOCK_REDUCE_WARP_REDUCTIONS,    
-                      cub::LOAD_DEFAULT,                   
-                      cub::GRID_MAPPING_RAKE>       
+    typedef PtxPolicy<256,
+                      CUB_MAX(1, 20 / SCALE_FACTOR_4B),
+                      2,
+                      cub::BLOCK_REDUCE_WARP_REDUCTIONS,
+                      cub::LOAD_DEFAULT,
+                      cub::GRID_MAPPING_RAKE>
         type;
   }; // Tuning sm30
-  
+
   template <class T>
   struct Tuning<sm35, T> : Tuning<sm30,T>
   {
     // ReducePolicy1B (GTX Titan: 228.7 GB/s @ 192M 1B items)
-    typedef PtxPolicy<128,                                 
-                      CUB_MAX(1, 24 / Tuning::SCALE_FACTOR_1B),   
-                      4,                                 
-                      cub::BLOCK_REDUCE_WARP_REDUCTIONS,    
-                      cub::LOAD_LDG,                       
-                      cub::GRID_MAPPING_DYNAMIC>          
+    typedef PtxPolicy<128,
+                      CUB_MAX(1, 24 / Tuning::SCALE_FACTOR_1B),
+                      4,
+                      cub::BLOCK_REDUCE_WARP_REDUCTIONS,
+                      cub::LOAD_LDG,
+                      cub::GRID_MAPPING_DYNAMIC>
         ReducePolicy1B;
 
     // ReducePolicy4B types (GTX Titan: 255.1 GB/s @ 48M 4B items)
-    typedef PtxPolicy<256,                                 
-                      CUB_MAX(1, 20 / Tuning::SCALE_FACTOR_4B),   
-                      4,                                 
-                      cub::BLOCK_REDUCE_WARP_REDUCTIONS,     
-                      cub::LOAD_LDG,                        
-                      cub::GRID_MAPPING_DYNAMIC>           
+    typedef PtxPolicy<256,
+                      CUB_MAX(1, 20 / Tuning::SCALE_FACTOR_4B),
+                      4,
+                      cub::BLOCK_REDUCE_WARP_REDUCTIONS,
+                      cub::LOAD_LDG,
+                      cub::GRID_MAPPING_DYNAMIC>
         ReducePolicy4B;
 
     typedef typename thrust::detail::conditional<(sizeof(T) < 4),
@@ -201,7 +201,7 @@ namespace __reduce {
       {
       }
     };
-   
+
     // this specialized PtxPlan for a device-compiled Arch
     // ptx_plan type *must* only be used from device code
     // Its use from host code will result in *undefined behaviour*
@@ -589,7 +589,7 @@ namespace __reduce {
                    : consume_tiles_impl(num_items, queue, path_b());
       }
     };    // struct impl
-    
+
     //---------------------------------------------------------------------
     // Agent entry points
     //---------------------------------------------------------------------
@@ -1000,7 +1000,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
 // Thrust API entry points
 //-------------------------
 
-__thrust_exec_check_disable__ 
+__thrust_exec_check_disable__
 template <typename Derived,
           typename InputIt,
           typename Size,

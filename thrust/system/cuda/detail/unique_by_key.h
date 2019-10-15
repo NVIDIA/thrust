@@ -33,7 +33,7 @@
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/cub/device/device_select.cuh>
+#include <cub/device/device_select.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
@@ -99,7 +99,7 @@ namespace __unique_by_key {
 
   template<class,class>
   struct Tuning;
-  
+
   namespace mpl = thrust::detail::mpl::math;
 
   template<class T, size_t NOMINAL_4B_ITEMS_PER_THREAD>
@@ -137,7 +137,7 @@ namespace __unique_by_key {
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning for sm52
-  
+
   template<class T>
   struct Tuning<sm35,T>
   {
@@ -157,7 +157,7 @@ namespace __unique_by_key {
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning for sm35
-  
+
   template<class T>
   struct Tuning<sm30,T>
   {
@@ -177,7 +177,7 @@ namespace __unique_by_key {
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning for sm30
-  
+
   template <class KeyInputIt,
             class ValInputIt,
             class KeyOutputIt,
@@ -337,7 +337,7 @@ namespace __unique_by_key {
 
         sync_threadblock();
       }
-      
+
       //---------------------------------------------------------------------
       // Tile processing
       //---------------------------------------------------------------------
@@ -648,7 +648,7 @@ namespace __unique_by_key {
                          Size,
                          NumSelectedOutIt> >
         unique_agent;
-    
+
     typedef typename unique_agent::ScanTileState ScanTileState;
 
     typedef AgentLauncher<
@@ -687,13 +687,13 @@ namespace __unique_by_key {
     ScanTileState tile_status;
     status =  tile_status.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
-   
+
     num_tiles = max<size_t>(1,num_tiles);
     init_agent ia(init_plan, num_tiles, stream, "unique_by_key::init_agent", debug_sync);
     ia.launch(tile_status, num_tiles, num_selected_out);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
-    
-    if (num_items == 0) { return status; } 
+
+    if (num_items == 0) { return status; }
 
     char *vshmem_ptr = vshmem_size > 0 ? (char *)allocations[1] : NULL;
 
@@ -730,7 +730,7 @@ namespace __unique_by_key {
 
     typedef int size_type;
 
-    size_type num_items 
+    size_type num_items
       = static_cast<size_type>(thrust::distance(keys_first, keys_last));
 
     size_t       temp_storage_bytes = 0;

@@ -23,7 +23,7 @@
 #include <thrust/memory.h>
 #include <thrust/system/cuda/config.h>
 #ifdef THRUST_CACHING_DEVICE_MALLOC
-#include <thrust/system/cuda/detail/cub/util_allocator.cuh>
+#include <cub/util_allocator.cuh>
 #endif
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/detail/bad_alloc.h>

@@ -33,7 +33,7 @@
 #include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/core/util.h>
-#include <thrust/system/cuda/detail/cub/device/device_radix_sort.cuh>
+#include <cub/device/device_radix_sort.cuh>
 
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
@@ -55,7 +55,7 @@ namespace __merge_sort {
             class KeysIt2,
             class Size,
             class BinaryPred>
-  THRUST_DEVICE_FUNCTION Size 
+  THRUST_DEVICE_FUNCTION Size
   merge_path(KeysIt1    keys1,
              KeysIt2    keys2,
              Size       keys1_count,
@@ -88,7 +88,7 @@ namespace __merge_sort {
   }
 
   template <class It, class T2, class CompareOp, int ITEMS_PER_THREAD>
-  THRUST_DEVICE_FUNCTION void 
+  THRUST_DEVICE_FUNCTION void
   serial_merge(It  keys_shared,
                int keys1_beg,
                int keys2_beg,
@@ -100,7 +100,7 @@ namespace __merge_sort {
   {
     int keys1_end = keys1_beg + keys1_count;
     int keys2_end = keys2_beg + keys2_count;
-    
+
     typedef typename iterator_value<It>::type key_type;
 
     key_type key1 = keys_shared[keys1_beg];
@@ -210,7 +210,7 @@ namespace __merge_sort {
         type;
   };
 
-  template<class T>  
+  template<class T>
   struct Tuning<sm30,T>
   {
     enum
@@ -226,7 +226,7 @@ namespace __merge_sort {
                       cub::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };
-  
+
   template <class KeysIt,
             class ItemsIt,
             class Size,
@@ -305,7 +305,7 @@ namespace __merge_sort {
       CompareOp    compare_op;
 
       //---------------------------------------------------------------------
-      // Serial stable sort network 
+      // Serial stable sort network
       //---------------------------------------------------------------------
 
       THRUST_DEVICE_FUNCTION
@@ -432,9 +432,9 @@ namespace __merge_sort {
           }
         }
       }    // func block_merge_sort
-      
+
       //---------------------------------------------------------------------
-      // Tile processing 
+      // Tile processing
       //---------------------------------------------------------------------
 
       template <bool IS_LAST_TILE>
@@ -560,7 +560,7 @@ namespace __merge_sort {
       }
 
       //---------------------------------------------------------------------
-      // Constructor 
+      // Constructor
       //---------------------------------------------------------------------
 
       THRUST_DEVICE_FUNCTION
@@ -639,7 +639,7 @@ namespace __merge_sort {
     struct PtxPlan : PtxPolicy<256> {};
 
     typedef core::specialize_plan<PtxPlan> ptx_plan;
-    
+
     //---------------------------------------------------------------------
     // Agent entry point
     //---------------------------------------------------------------------
@@ -798,7 +798,7 @@ namespace __merge_sort {
       //---------------------------------------------------------------------
       // Utility functions
       //---------------------------------------------------------------------
-      
+
       template <bool IS_FULL_TILE, class T, class It1, class It2>
       THRUST_DEVICE_FUNCTION void
       gmem_to_reg(T (&output)[ITEMS_PER_THREAD],
@@ -844,7 +844,7 @@ namespace __merge_sort {
       }
 
       //---------------------------------------------------------------------
-      // Tile processing 
+      // Tile processing
       //---------------------------------------------------------------------
 
       template <bool IS_FULL_TILE>
@@ -901,7 +901,7 @@ namespace __merge_sort {
                                     num_keys2);
         }
         reg_to_shared(&storage.keys_shared[0], keys_loc);
-        
+
         // preload items into registers already
         //
         item_type items_loc[ITEMS_PER_THREAD];
@@ -1043,7 +1043,7 @@ namespace __merge_sort {
       }
 
       //---------------------------------------------------------------------
-      // Constructor 
+      // Constructor
       //---------------------------------------------------------------------
 
       THRUST_DEVICE_FUNCTION
@@ -1271,7 +1271,7 @@ namespace __merge_sort {
             typename KeysIt,
             typename ItemsIt,
             typename CompareOp>
-  THRUST_RUNTIME_FUNCTION 
+  THRUST_RUNTIME_FUNCTION
   void merge_sort(execution_policy<Derived>& policy,
                   KeysIt                     keys_first,
                   KeysIt                     keys_last,
@@ -1347,7 +1347,7 @@ namespace __radix_sort {
                                             debug_sync);
     }
   }; // struct dispatch -- sort keys in ascending order;
-  
+
   // sort keys in descending order
   template <class K>
   struct dispatch<thrust::detail::false_type, thrust::greater<K> >
@@ -1372,7 +1372,7 @@ namespace __radix_sort {
                                                       debug_sync);
     }
   }; // struct dispatch -- sort keys in descending order;
-  
+
   // sort pairs in ascending order
   template <class K>
   struct dispatch<thrust::detail::true_type, thrust::less<K> >
@@ -1398,7 +1398,7 @@ namespace __radix_sort {
                                              debug_sync);
     }
   }; // struct dispatch -- sort pairs in ascending order;
-  
+
   // sort pairs in descending order
   template <class K>
   struct dispatch<thrust::detail::true_type, thrust::greater<K> >
@@ -1471,7 +1471,7 @@ namespace __radix_sort {
       tmp(policy, storage_size);
 
     keys_buffer.d_buffers[1]  = thrust::detail::aligned_reinterpret_cast<Key*>(
-      tmp.data().get()  
+      tmp.data().get()
     );
     items_buffer.d_buffers[1] = thrust::detail::aligned_reinterpret_cast<Item*>(
       tmp.data().get() + keys_temp_storage

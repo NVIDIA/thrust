@@ -32,9 +32,9 @@
 #include <thrust/type_traits/is_contiguous_iterator.h>
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/cub/block/block_load.cuh>
-#include <thrust/system/cuda/detail/cub/block/block_store.cuh>
-#include <thrust/system/cuda/detail/cub/block/block_scan.cuh>
+#include <cub/block/block_load.cuh>
+#include <cub/block/block_store.cuh>
+#include <cub/block/block_scan.cuh>
 
 THRUST_BEGIN_NS
 
@@ -491,6 +491,51 @@ namespace core {
       return 0;
   }
 
+  template <class Kernel>
+  int CUB_RUNTIME_FUNCTION
+  get_max_block_size(Kernel k)
+  {
+    int devId;
+    cuda_cub::throw_on_error(cudaGetDevice(&devId),
+                   "get_max_block_size :"
+                   "failed to cudaGetDevice");
+
+    cudaOccDeviceProp occ_prop;
+    cuda_cub::throw_on_error(get_occ_device_properties(occ_prop, devId),
+                   "get_max_block_size: "
+                   "failed to cudaGetDeviceProperties");
+
+
+    cudaFuncAttributes attribs;
+    cuda_cub::throw_on_error(cudaFuncGetAttributes(&attribs, reinterpret_cast<void *>(k)),
+                   "get_max_block_size: "
+                   "failed to cudaFuncGetAttributes");
+    cudaOccFuncAttributes occ_attrib(attribs);
+
+
+    cudaFuncCache cacheConfig;
+    cuda_cub::throw_on_error(cudaDeviceGetCacheConfig(&cacheConfig),
+                   "get_max_block_size: "
+                   "failed to cudaDeviceGetCacheConfig");
+
+    cudaOccDeviceState occ_state;
+    occ_state.cacheConfig      = (cudaOccCacheConfig)cacheConfig;
+    int          block_size    = 0;
+    int          min_grid_size = 0;
+    cudaOccError occ_status    = cudaOccMaxPotentialOccupancyBlockSize(&min_grid_size,
+                                                                    &block_size,
+                                                                    &occ_prop,
+                                                                    &occ_attrib,
+                                                                    &occ_state,
+                                                                    0);
+    if (CUDA_OCC_SUCCESS != occ_status || block_size <= 0)
+      cuda_cub::throw_on_error(cudaErrorInvalidConfiguration,
+                     "get_max_block_size: "
+                     "failed to cudaOccMaxPotentialOccupancyBlockSize");
+
+    return block_size;
+  }
+
   // LoadIterator
   // ------------
   // if trivial iterator is passed, wrap loads into LDG
@@ -623,7 +668,7 @@ namespace core {
   }
 
 #define CUDA_CUB_RET_IF_FAIL(e) \
-  if (thrust::cuda_cub::cub::Debug((e), __FILE__, __LINE__)) return e;
+  if (cub::Debug((e), __FILE__, __LINE__)) return e;
 
   // uninitialized
   // -------

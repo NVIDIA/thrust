@@ -36,7 +36,7 @@
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/detail/raw_reference_cast.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
-#include <thrust/system/cuda/detail/cub/device/device_reduce.cuh>
+#include <cub/device/device_reduce.cuh>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/get_value.h>
@@ -68,7 +68,7 @@ reduce_by_key(
 namespace cuda_cub {
 
 namespace __reduce_by_key {
-  
+
   template<bool> struct is_true : thrust::detail::false_type {};
   template<> struct is_true<true> : thrust::detail::true_type {};
 
@@ -97,7 +97,7 @@ namespace __reduce_by_key {
 
   template <class Arch, class Key, class Value>
   struct Tuning;
-  
+
   template <class Key, class Value>
   struct Tuning<sm30, Key, Value>
   {
@@ -146,7 +146,7 @@ namespace __reduce_by_key {
                         ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
                          Tuning::COMBINED_INPUT_BYTES - 1) /
                             Tuning::COMBINED_INPUT_BYTES>::value>::value,
-    };  
+    };
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
@@ -155,7 +155,7 @@ namespace __reduce_by_key {
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning sm35
-  
+
   template<class Key, class Value>
   struct Tuning<sm52,Key,Value> : Tuning<sm30,Key,Value>
   {
@@ -175,7 +175,7 @@ namespace __reduce_by_key {
                         ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
                          Tuning::COMBINED_INPUT_BYTES - 1) /
                             Tuning::COMBINED_INPUT_BYTES>::value>::value,
-    };  
+    };
 
     typedef PtxPolicy<256,
                       ITEMS_PER_THREAD,
@@ -400,7 +400,7 @@ namespace __reduce_by_key {
       //---------------------------------------------------------------------
       // Scatter utility methods
       //---------------------------------------------------------------------
-    
+
       // Directly scatter flagged items to output offsets
       // (specialized for IS_SEGMENTED_REDUCTION_FIXUP == false)
       THRUST_DEVICE_FUNCTION void scatter_direct(
@@ -424,7 +424,7 @@ namespace __reduce_by_key {
       // (specialized for IS_SEGMENTED_REDUCTION_FIXUP == false
       //
       // The exclusive scan causes each head flag to be paired with
-      // the previous value aggregate: 
+      // the previous value aggregate:
       //   * the scatter offsets must be decremented for value aggregates
       //
       THRUST_DEVICE_FUNCTION void scatter_two_phase(
@@ -503,7 +503,7 @@ namespace __reduce_by_key {
         // Last thread will output final count and last item, if necessary
         if (threadIdx.x == BLOCK_THREADS - 1)
         {
-          // If the last tile is a whole tile, the inclusive prefix 
+          // If the last tile is a whole tile, the inclusive prefix
           // contains accumulated value reduction for the last segment
           if (num_remaining == ITEMS_PER_TILE)
           {
@@ -517,7 +517,7 @@ namespace __reduce_by_key {
           *num_runs_output_it = num_segments;
         }
       }
-    
+
       //---------------------------------------------------------------------
       // Cooperatively scan a device-wide sequence of tiles with other CTAs
       //---------------------------------------------------------------------
@@ -605,7 +605,7 @@ namespace __reduce_by_key {
           if (!IS_LAST_TILE)
             tile_state.SetInclusive(0, tile_aggregate);
 
-          // Initialize the segment index for the first scan item if necessary 
+          // Initialize the segment index for the first scan item if necessary
           // (the exclusive prefix for the first item is garbage)
           if (!HAS_IDENTITY_ZERO)
             scan_items[0].key = 0;
@@ -930,7 +930,7 @@ namespace __reduce_by_key {
     {
       return status;
     }
-    
+
     ScanTileState tile_state;
     status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
@@ -985,7 +985,7 @@ namespace __reduce_by_key {
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
-    
+
     if (num_items == 0)
       return thrust::make_pair(keys_output, values_output);
 
@@ -1059,7 +1059,7 @@ namespace __reduce_by_key {
 // Thrust API entry points
 //-------------------------
 
-__thrust_exec_check_disable__ 
+__thrust_exec_check_disable__
 template <class Derived,
           class KeyInputIt,
           class ValInputIt,

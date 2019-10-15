@@ -29,7 +29,7 @@
 #include <cstdio>
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/system/cuda/detail/cub/util_arch.cuh>
+#include <cub/util_arch.cuh>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>

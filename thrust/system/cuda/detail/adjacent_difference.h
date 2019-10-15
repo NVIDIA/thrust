@@ -33,8 +33,8 @@
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/cub/device/device_select.cuh>
-#include <thrust/system/cuda/detail/cub/block/block_adjacent_difference.cuh>
+#include <cub/device/device_select.cuh>
+#include <cub/block/block_adjacent_difference.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/functional.h>
@@ -100,7 +100,7 @@ namespace __adjacent_difference {
 
   template<class Arch, class T>
   struct Tuning;
-  
+
   template <class T>
   struct Tuning<sm30, T>
   {
@@ -520,7 +520,7 @@ adjacent_difference(execution_policy<Derived> &policy,
   }
 
   return ret;
-} 
+}
 
 template <class Derived,
           class InputIt,

@@ -37,7 +37,7 @@
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/cub/device/device_scan.cuh>
+#include <cub/device/device_scan.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/detail/mpl/math.h>
@@ -153,7 +153,7 @@ namespace __scan {
 
   template <class Arch, class T, class U>
   struct Tuning;
-  
+
   template<class T, class U>
   struct Tuning<sm30,T,U>
   {
@@ -177,7 +177,7 @@ namespace __scan {
                       cub::BLOCK_SCAN_RAKING_MEMOIZE>
         type;
   };    // struct Tuning for sm30
-  
+
   template<class T, class U>
   struct Tuning<sm35,T,U>
   {
@@ -201,7 +201,7 @@ namespace __scan {
                       cub::BLOCK_SCAN_RAKING>
         type;
   };    // struct Tuning for sm35
-  
+
   template<class T, class U>
   struct Tuning<sm52,T,U>
   {
@@ -363,7 +363,7 @@ namespace __scan {
         BlockScan(storage.scan).ExclusiveScan(items, items, scan_op, prefix_op);
         block_aggregate = prefix_op.GetBlockAggregate();
       }
-  
+
       // Exclusive sum specialization (with prefix from predecessors)
       //
       template <class PrefixCallback>
@@ -473,12 +473,12 @@ namespace __scan {
           BlockStore(storage.store).Store(output_it + tile_base, items, num_remaining);
         }
       }
-      
+
 
       //---------------------------------------------------------------------
       // Constructor
       //---------------------------------------------------------------------
-      
+
       // Dequeue and scan tiles of items as part of a dynamic chained scan
       // with Init
       template <class AddInitToExclusiveScan>
@@ -551,7 +551,7 @@ namespace __scan {
   {
     template <class Arch>
     struct PtxPlan : PtxPolicy<128> {};
-   
+
     typedef core::specialize_plan<PtxPlan> ptx_plan;
 
     //---------------------------------------------------------------------
@@ -667,13 +667,13 @@ namespace __scan {
     {
       return status;
     }
-    
+
     ScanTileState tile_state;
     status = tile_state.Init(static_cast<int>(num_tiles), allocations[0], allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
 
     char *vshmem_ptr = vshmem_size > 0 ? (char*)allocations[1] : NULL;
-    
+
     init_agent ia(init_plan, num_tiles, stream, "scan::init_agent", debug_sync);
     ia.launch(tile_state, num_tiles);
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());

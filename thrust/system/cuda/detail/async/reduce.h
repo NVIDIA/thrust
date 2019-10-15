@@ -82,7 +82,7 @@ auto async_reduce_n(
 
   size_t tmp_size = 0;
   thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::cub::DeviceReduce::Reduce(
+    cub::DeviceReduce::Reduce(
       nullptr
     , tmp_size
     , first
@@ -164,7 +164,7 @@ auto async_reduce_n(
   // Run reduction.
 
   thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::cub::DeviceReduce::Reduce(
+    cub::DeviceReduce::Reduce(
       tmp_ptr
     , tmp_size
     , first
@@ -237,7 +237,7 @@ auto async_reduce_into_n(
 
   size_t tmp_size = 0;
   thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::cub::DeviceReduce::Reduce(
+    cub::DeviceReduce::Reduce(
       nullptr
     , tmp_size
     , first
@@ -301,7 +301,7 @@ auto async_reduce_into_n(
   // Run reduction.
 
   thrust::cuda_cub::throw_on_error(
-    thrust::cuda_cub::cub::DeviceReduce::Reduce(
+    cub::DeviceReduce::Reduce(
       tmp_ptr
     , tmp_size
     , first
@@ -350,5 +350,5 @@ THRUST_END_NS
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
-#endif 
+#endif
 

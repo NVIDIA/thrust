@@ -87,7 +87,7 @@ auto async_stable_sort_n(
 
   auto const device_buffer_ptr = device_buffer.get();
 
-  // Synthesize a suitable new execution policy, because we don't want to 
+  // Synthesize a suitable new execution policy, because we don't want to
   // try and extract twice from the one we were passed.
   typename remove_cvref_t<decltype(policy)>::tag_type tag_policy{};
 
@@ -294,15 +294,15 @@ typename std::enable_if<
 , cudaError_t
 >::type
 invoke_radix_sort(
-  cudaStream_t                            stream
-, void*                                   tmp_ptr
-, std::size_t&                            tmp_size
-, thrust::cuda_cub::cub::DoubleBuffer<T>& keys
-, Size&                                   n
+  cudaStream_t          stream
+, void*                 tmp_ptr
+, std::size_t&          tmp_size
+, cub::DoubleBuffer<T>& keys
+, Size&                 n
 , StrictWeakOrdering
 )
 {
-  return thrust::cuda_cub::cub::DeviceRadixSort::SortKeys(
+  return cub::DeviceRadixSort::SortKeys(
     tmp_ptr
   , tmp_size
   , keys
@@ -321,15 +321,15 @@ typename std::enable_if<
 , cudaError_t
 >::type
 invoke_radix_sort(
-  cudaStream_t                            stream
-, void*                                   tmp_ptr
-, std::size_t&                            tmp_size
-, thrust::cuda_cub::cub::DoubleBuffer<T>& keys
-, Size&                                   n
+  cudaStream_t          stream
+, void*                 tmp_ptr
+, std::size_t&          tmp_size
+, cub::DoubleBuffer<T>& keys
+, Size&                 n
 , StrictWeakOrdering
 )
 {
-  return thrust::cuda_cub::cub::DeviceRadixSort::SortKeysDescending(
+  return cub::DeviceRadixSort::SortKeysDescending(
     tmp_ptr
   , tmp_size
   , keys
@@ -372,7 +372,7 @@ auto async_stable_sort_n(
 
   unique_eager_event e;
 
-  thrust::cuda_cub::cub::DoubleBuffer<T> keys(
+  cub::DoubleBuffer<T> keys(
     raw_pointer_cast(&*first), nullptr
   );
 
@@ -476,7 +476,7 @@ auto async_stable_sort_n(
       )>::value
     ));
 
-    // Synthesize a suitable new execution policy, because we don't want to 
+    // Synthesize a suitable new execution policy, because we don't want to
     // try and extract twice from the one we were passed.
     typename remove_cvref_t<decltype(policy)>::tag_type tag_policy{};
 

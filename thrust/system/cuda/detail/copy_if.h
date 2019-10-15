@@ -33,7 +33,7 @@
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
 #include <thrust/system/cuda/detail/util.h>
-#include <thrust/system/cuda/detail/cub/device/device_select.cuh>
+#include <cub/device/device_select.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/core/util.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
@@ -89,7 +89,7 @@ namespace __copy_if {
 
   template<class, class>
   struct Tuning;
-  
+
   template<class T>
   struct Tuning<sm52, T>
   {
@@ -109,7 +109,7 @@ namespace __copy_if {
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning<350>
-  
+
 
   template<class T>
   struct Tuning<sm35, T>
@@ -130,7 +130,7 @@ namespace __copy_if {
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning<350>
-  
+
   template<class T>
   struct Tuning<sm30, T>
   {
@@ -150,7 +150,7 @@ namespace __copy_if {
                       cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning<300>
-  
+
   struct no_stencil_tag_    {};
   typedef no_stencil_tag_* no_stencil_tag;
   template <class ItemsIt,
@@ -206,7 +206,7 @@ namespace __copy_if {
         core::uninitialized_array<item_type, PtxPlan::ITEMS_PER_TILE> raw_exchange;
       };    // union TempStorage
     };    // struct PtxPlan
-    
+
     typedef typename core::specialize_plan_msvc10_war<PtxPlan>::type::type ptx_plan;
 
     typedef typename ptx_plan::ItemsLoadIt        ItemsLoadIt;
@@ -224,7 +224,7 @@ namespace __copy_if {
       ITEMS_PER_THREAD = ptx_plan::ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = ptx_plan::ITEMS_PER_TILE
     };
-    
+
     struct impl
     {
       //---------------------------------------------------------------------
@@ -238,7 +238,7 @@ namespace __copy_if {
       OutputIt       output_it;
       Predicate      predicate;
       Size           num_items;
-      
+
       //------------------------------------------
       // scatter results to memory
       //------------------------------------------
@@ -272,7 +272,7 @@ namespace __copy_if {
           output_it[num_selections_prefix + item] = storage.raw_exchange[item];
         }
       }    // func scatter
-      
+
       //------------------------------------------
       // specialize predicate on different types
       //------------------------------------------
@@ -357,11 +357,11 @@ namespace __copy_if {
           }
         }
       }
-      
+
       //------------------------------------------
       // consume tiles
       //------------------------------------------
-      
+
       template <bool IS_LAST_TILE, bool IS_FIRST_TILE>
       Size THRUST_DEVICE_FUNCTION
       consume_tile_impl(int  num_tile_items,
@@ -501,7 +501,7 @@ namespace __copy_if {
       //---------------------------------------------------------------------
       // Constructor
       //---------------------------------------------------------------------
-      
+
       THRUST_DEVICE_FUNCTION impl(TempStorage &       storage_,
                                   ScanTileState &     tile_state_,
                                   ItemsIt             items_it,
@@ -578,7 +578,7 @@ namespace __copy_if {
     template <class Arch>
     struct PtxPlan : PtxPolicy<128> {};
     typedef core::specialize_plan<PtxPlan> ptx_plan;
-    
+
     //---------------------------------------------------------------------
     // Agent entry point
     //---------------------------------------------------------------------
@@ -648,11 +648,11 @@ namespace __copy_if {
     cudaError_t status = cudaSuccess;
     if (num_items == 0)
       return status;
-    
+
     size_t allocation_sizes[2] = {0, vshmem_size};
     status = ScanTileState::AllocationSize(static_cast<int>(num_tiles), allocation_sizes[0]);
     CUDA_CUB_RET_IF_FAIL(status);
-    
+
 
     void* allocations[2] = {NULL, NULL};
     status = cub::AliasTemporaries(d_temp_storage,
@@ -660,7 +660,7 @@ namespace __copy_if {
                                    allocations,
                                    allocation_sizes);
     CUDA_CUB_RET_IF_FAIL(status);
-    
+
 
     if (d_temp_storage == NULL)
     {
