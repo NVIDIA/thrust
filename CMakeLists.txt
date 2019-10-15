@@ -383,7 +383,7 @@ endif ()
 add_library(thrust_testframework STATIC ${THRUST_TESTFRAMEWORK_FILES})
 target_include_directories(
   thrust_testframework
-  PUBLIC ${PROJECT_SOURCE_DIR}
+  PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
   PRIVATE ${PROJECT_SOURCE_DIR}/testing
 )
 
@@ -488,7 +488,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
 
   target_include_directories(
     ${THRUST_TEST}
-    PUBLIC ${PROJECT_SOURCE_DIR}
+    PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
     PRIVATE ${PROJECT_SOURCE_DIR}/testing
   )
 
@@ -515,7 +515,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
 
     target_include_directories(
       ${THRUST_TEST_RDC}
-      PUBLIC ${PROJECT_SOURCE_DIR}
+      PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
       PRIVATE ${PROJECT_SOURCE_DIR}/testing
     )
 
@@ -614,7 +614,7 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
   target_include_directories(
     ${THRUST_EXAMPLE}
-    PUBLIC ${PROJECT_SOURCE_DIR}
+    PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
     PRIVATE ${PROJECT_SOURCE_DIR}/examples
   )
 
@@ -637,7 +637,7 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
     target_include_directories(
       ${THRUST_EXAMPLE_RDC}
-      PUBLIC ${PROJECT_SOURCE_DIR}
+      PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
       PRIVATE ${PROJECT_SOURCE_DIR}/examples
     )
 
