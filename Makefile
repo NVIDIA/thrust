@@ -160,17 +160,25 @@ $(info #### CXX_STD       : $(CXX_STD))
 
 ifeq ($(OS), win32)
   CREATE_DVS_PACKAGE = $(ZIP) -r built/CUDA-thrust-package.zip bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)
-  APPEND_HEADERS_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.h
-  APPEND_INL_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.inl
-  APPEND_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.cuh
-  MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_HEADERS_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE)
+  APPEND_THRUST_H_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.h
+  APPEND_THRUST_INL_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.inl
+  APPEND_THRUST_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.cuh
+  APPEND_CUB_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip ../cub -9 -i *.cuh
+  APPEND_H_DVS_PACKAGE = $(APPEND_THRUST_H_DVS_PACKAGE)
+  APPEND_INL_DVS_PACKAGE = $(APPEND_THRUST_INL_DVS_PACKAGE)
+  APPEND_CUH_DVS_PACKAGE = $(APPEND_THRUST_CUH_DVS_PACKAGE) $(APPEND_CUB_CUH_DVS_PACKAGE)
+  MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_H_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE)
 else
   CREATE_DVS_PACKAGE = tar -cv -f built/CUDA-thrust-package.tar bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)
-  APPEND_HEADERS_DVS_PACKAGE = find thrust -name "*.h" | xargs tar rvf built/CUDA-thrust-package.tar
-  APPEND_INL_DVS_PACKAGE = find thrust -name "*.inl" | xargs tar rvf built/CUDA-thrust-package.tar
-  APPEND_CUH_DVS_PACKAGE = find thrust -name "*.cuh" | xargs tar rvf built/CUDA-thrust-package.tar
+  APPEND_THRUST_H_DVS_PACKAGE = find thrust -name "*.h" | xargs tar rvf built/CUDA-thrust-package.tar
+  APPEND_THRUST_INL_DVS_PACKAGE = find thrust -name "*.inl" | xargs tar rvf built/CUDA-thrust-package.tar
+  APPEND_THRUST_CUH_DVS_PACKAGE = find thrust -name "*.cuh" | xargs tar rvf built/CUDA-thrust-package.tar
+  APPEND_CUB_CUH_DVS_PACKAGE = find ../cub -name "*.cuh" | xargs tar rvf built/CUDA-thrust-package.tar
+  APPEND_H_DVS_PACKAGE = $(APPEND_THRUST_H_DVS_PACKAGE)
+  APPEND_INL_DVS_PACKAGE = $(APPEND_THRUST_INL_DVS_PACKAGE)
+  APPEND_CUH_DVS_PACKAGE = $(APPEND_THRUST_CUH_DVS_PACKAGE) $(APPEND_CUB_CUH_DVS_PACKAGE)
   COMPRESS_DVS_PACKAGE = bzip2 built/CUDA-thrust-package.tar
-  MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_HEADERS_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE) && $(COMPRESS_DVS_PACKAGE)
+  MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_H_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE) && $(COMPRESS_DVS_PACKAGE)
 endif
 
 DVS_OPTIONS :=
