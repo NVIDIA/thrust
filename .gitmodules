@@ -1,0 +1,3 @@
+[submodule "cub"]
+	path = .dependencies/cub
+	url = ../cub.git
