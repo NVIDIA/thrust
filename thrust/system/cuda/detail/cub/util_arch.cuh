@@ -34,6 +34,7 @@
 #pragma once
 
 #include "util_namespace.cuh"
+#include "util_macro.cuh"
 
 /// Optional outer namespace(s)
 THRUST_CUB_NS_PREFIX
@@ -116,32 +117,31 @@ namespace cub {
 #endif
 
 
-/// Scale down the number of threads to keep same amount of scratch storage as the nominal configuration for 4B data.  Minimum of two warps.
-#ifndef CUB_SCALED_BLOCK_THREADS
-    #define CUB_SCALED_BLOCK_THREADS(NOMINAL_4B_BLOCK_THREADS, T, PTX_ARCH)                   \
-        (CUB_MIN(                                                                           \
-            NOMINAL_4B_BLOCK_THREADS,                                                       \
-            CUB_WARP_THREADS(PTX_ARCH) * CUB_MAX(                                           \
-                2,                                                                          \
-                (NOMINAL_4B_BLOCK_THREADS / CUB_WARP_THREADS(PTX_ARCH)) * 4 / sizeof(T))))
-#endif
+template <
+    int NOMINAL_4B_BLOCK_THREADS,
+    int NOMINAL_4B_ITEMS_PER_THREAD,
+    typename T>
+struct RegBoundScaling
+{
+    enum {
+        ITEMS_PER_THREAD    = CUB_MAX(1, NOMINAL_4B_ITEMS_PER_THREAD * 4 / CUB_MAX(4, sizeof(T))),
+        BLOCK_THREADS       = CUB_MIN(NOMINAL_4B_BLOCK_THREADS, (((1024 * 48) / (sizeof(T) * ITEMS_PER_THREAD)) + 31) / 32 * 32),
+    };
+};
 
-/// Scale down number of items per thread to keep the same amount of register storage as the nominal configuration for 4B data.  Minimum 1 item per thread
-#ifndef CUB_SCALED_ITEMS_PER_THREAD
-    #define CUB_SCALED_ITEMS_PER_THREAD(NOMINAL_4B_ITEMS_PER_THREAD, NOMINAL_4B_BLOCK_THREADS, T, PTX_ARCH)     \
-        CUB_MAX(                                                                                                \
-            1,                                                                                                  \
-            (sizeof(T) < 4) ?                                                                                   \
-                ((NOMINAL_4B_ITEMS_PER_THREAD * NOMINAL_4B_BLOCK_THREADS * 4) / CUB_MAX(4, sizeof(T))) / CUB_SCALED_BLOCK_THREADS(NOMINAL_4B_BLOCK_THREADS, T, PTX_ARCH) / 2 :  \
-                ((NOMINAL_4B_ITEMS_PER_THREAD * NOMINAL_4B_BLOCK_THREADS * 4) / CUB_MAX(4, sizeof(T))) / CUB_SCALED_BLOCK_THREADS(NOMINAL_4B_BLOCK_THREADS, T, PTX_ARCH))
-#endif
 
-/// Define both nominal threads-per-block and items-per-thread
-#ifndef CUB_SCALED_GRANULARITIES
-    #define CUB_SCALED_GRANULARITIES(NOMINAL_4B_BLOCK_THREADS, NOMINAL_4B_ITEMS_PER_THREAD, T)      \
-        CUB_SCALED_BLOCK_THREADS(NOMINAL_4B_BLOCK_THREADS, T, 200),                                   \
-        CUB_SCALED_ITEMS_PER_THREAD(NOMINAL_4B_ITEMS_PER_THREAD, NOMINAL_4B_BLOCK_THREADS, T, 200)
-#endif
+template <
+    int NOMINAL_4B_BLOCK_THREADS,
+    int NOMINAL_4B_ITEMS_PER_THREAD,
+    typename T>
+struct MemBoundScaling
+{
+    enum {
+        ITEMS_PER_THREAD    = CUB_MAX(1, CUB_MIN(NOMINAL_4B_ITEMS_PER_THREAD * 4 / sizeof(T), NOMINAL_4B_ITEMS_PER_THREAD * 2)),
+        BLOCK_THREADS       = CUB_MIN(NOMINAL_4B_BLOCK_THREADS, (((1024 * 48) / (sizeof(T) * ITEMS_PER_THREAD)) + 31) / 32 * 32),
+    };
+};
+
 
 
 

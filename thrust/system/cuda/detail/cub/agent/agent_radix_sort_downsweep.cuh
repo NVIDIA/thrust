@@ -70,19 +70,19 @@ enum RadixRankAlgorithm
  * Parameterizable tuning policy type for AgentRadixSortDownsweep
  */
 template <
-    int                         _BLOCK_THREADS,         ///< Threads per thread block
-    int                         _ITEMS_PER_THREAD,      ///< Items per thread (per tile of input)
-    BlockLoadAlgorithm          _LOAD_ALGORITHM,        ///< The BlockLoad algorithm to use
-    CacheLoadModifier           _LOAD_MODIFIER,         ///< Cache load modifier for reading keys (and values)
-    RadixRankAlgorithm          _RANK_ALGORITHM,        ///< The radix ranking algorithm to use
-    BlockScanAlgorithm          _SCAN_ALGORITHM,        ///< The block scan algorithm to use
-    int                         _RADIX_BITS>            ///< The number of radix bits, i.e., log2(bins)
-struct AgentRadixSortDownsweepPolicy
+    int                 NOMINAL_BLOCK_THREADS_4B,       ///< Threads per thread block
+    int                 NOMINAL_ITEMS_PER_THREAD_4B,    ///< Items per thread (per tile of input)
+    typename            ComputeT,                       ///< Dominant compute type
+    BlockLoadAlgorithm  _LOAD_ALGORITHM,                ///< The BlockLoad algorithm to use
+    CacheLoadModifier   _LOAD_MODIFIER,                 ///< Cache load modifier for reading keys (and values)
+    RadixRankAlgorithm  _RANK_ALGORITHM,                ///< The radix ranking algorithm to use
+    BlockScanAlgorithm  _SCAN_ALGORITHM,                ///< The block scan algorithm to use
+    int                 _RADIX_BITS>                    ///< The number of radix bits, i.e., log2(bins)
+struct AgentRadixSortDownsweepPolicy :
+    RegBoundScaling<NOMINAL_BLOCK_THREADS_4B, NOMINAL_ITEMS_PER_THREAD_4B, ComputeT>
 {
     enum
     {
-        BLOCK_THREADS           = _BLOCK_THREADS,           ///< Threads per thread block
-        ITEMS_PER_THREAD        = _ITEMS_PER_THREAD,        ///< Items per thread (per tile of input)
         RADIX_BITS              = _RADIX_BITS,              ///< The number of radix bits, i.e., log2(bins)
     };
 
@@ -334,7 +334,7 @@ struct AgentRadixSortDownsweep
     {
         // Register pressure work-around: moving valid_items through shfl prevents compiler
         // from reusing guards/addressing from prior guarded loads
-        valid_items = ShuffleIndex(valid_items, 0, CUB_PTX_WARP_THREADS, 0xffffffff);
+        valid_items = ShuffleIndex<CUB_PTX_WARP_THREADS>(valid_items, 0, 0xffffffff);
 
         BlockLoadKeysT(temp_storage.load_keys).Load(
             d_keys_in + block_offset, keys, valid_items, oob_item);
@@ -371,7 +371,7 @@ struct AgentRadixSortDownsweep
     {
         // Register pressure work-around: moving valid_items through shfl prevents compiler
         // from reusing guards/addressing from prior guarded loads
-        valid_items = ShuffleIndex(valid_items, 0, CUB_PTX_WARP_THREADS, 0xffffffff);
+        valid_items = ShuffleIndex<CUB_PTX_WARP_THREADS>(valid_items, 0, 0xffffffff);
 
         LoadDirectWarpStriped(threadIdx.x, d_keys_in + block_offset, keys, valid_items, oob_item);
     }
@@ -408,7 +408,7 @@ struct AgentRadixSortDownsweep
     {
         // Register pressure work-around: moving valid_items through shfl prevents compiler
         // from reusing guards/addressing from prior guarded loads
-        valid_items = ShuffleIndex(valid_items, 0, CUB_PTX_WARP_THREADS, 0xffffffff);
+        valid_items = ShuffleIndex<CUB_PTX_WARP_THREADS>(valid_items, 0, 0xffffffff);
 
         BlockLoadValuesT(temp_storage.load_values).Load(
             d_values_in + block_offset, values, valid_items);
@@ -443,7 +443,7 @@ struct AgentRadixSortDownsweep
     {
         // Register pressure work-around: moving valid_items through shfl prevents compiler
         // from reusing guards/addressing from prior guarded loads
-        valid_items = ShuffleIndex(valid_items, 0, CUB_PTX_WARP_THREADS, 0xffffffff);
+        valid_items = ShuffleIndex<CUB_PTX_WARP_THREADS>(valid_items, 0, 0xffffffff);
 
         LoadDirectWarpStriped(threadIdx.x, d_values_in + block_offset, values, valid_items);
     }

@@ -59,17 +59,17 @@ namespace cub {
  * Parameterizable tuning policy type for AgentReduce
  */
 template <
-    int                     _BLOCK_THREADS,         ///< Threads per thread block
-    int                     _ITEMS_PER_THREAD,      ///< Items per thread (per tile of input)
-    int                     _VECTOR_LOAD_LENGTH,    ///< Number of items per vectorized load
-    BlockReduceAlgorithm    _BLOCK_ALGORITHM,       ///< Cooperative block-wide reduction algorithm to use
-    CacheLoadModifier       _LOAD_MODIFIER>         ///< Cache load modifier for reading input elements
-struct AgentReducePolicy
+    int                     NOMINAL_BLOCK_THREADS_4B,       ///< Threads per thread block
+    int                     NOMINAL_ITEMS_PER_THREAD_4B,    ///< Items per thread (per tile of input)
+    typename                ComputeT,                       ///< Dominant compute type
+    int                     _VECTOR_LOAD_LENGTH,            ///< Number of items per vectorized load
+    BlockReduceAlgorithm    _BLOCK_ALGORITHM,               ///< Cooperative block-wide reduction algorithm to use
+    CacheLoadModifier       _LOAD_MODIFIER>                 ///< Cache load modifier for reading input elements
+struct AgentReducePolicy :
+    MemBoundScaling<NOMINAL_BLOCK_THREADS_4B, NOMINAL_ITEMS_PER_THREAD_4B, ComputeT>
 {
     enum
     {
-        BLOCK_THREADS       = _BLOCK_THREADS,       ///< Threads per thread block
-        ITEMS_PER_THREAD    = _ITEMS_PER_THREAD,    ///< Items per thread (per tile of input)
         VECTOR_LOAD_LENGTH  = _VECTOR_LOAD_LENGTH,  ///< Number of items per vectorized load
     };
 

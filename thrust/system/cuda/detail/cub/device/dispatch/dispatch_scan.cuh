@@ -174,7 +174,8 @@ struct DispatchScan
     struct Policy600
     {
         typedef AgentScanPolicy<
-            CUB_SCALED_GRANULARITIES(128, 15, OutputT),      ///< Threads per block, items per thread
+                128, 15,                                        ///< Threads per block, items per thread
+                OutputT,
                 BLOCK_LOAD_TRANSPOSE,
                 LOAD_DEFAULT,
                 BLOCK_STORE_TRANSPOSE,
@@ -188,7 +189,8 @@ struct DispatchScan
     {
         // Titan X: 32.47B items/s @ 48M 32-bit T
         typedef AgentScanPolicy<
-                CUB_SCALED_GRANULARITIES(128, 12, OutputT),      ///< Threads per block, items per thread
+                128, 12,                                        ///< Threads per block, items per thread
+                OutputT,
                 BLOCK_LOAD_DIRECT,
                 LOAD_LDG,
                 BLOCK_STORE_WARP_TRANSPOSE,
@@ -202,7 +204,8 @@ struct DispatchScan
     {
         // GTX Titan: 29.5B items/s (232.4 GB/s) @ 48M 32-bit T
         typedef AgentScanPolicy<
-                CUB_SCALED_GRANULARITIES(128, 12, OutputT),      ///< Threads per block, items per thread
+                128, 12,                                        ///< Threads per block, items per thread
+                OutputT,
                 BLOCK_LOAD_DIRECT,
                 LOAD_LDG,
                 BLOCK_STORE_WARP_TRANSPOSE_TIMESLICED,
@@ -214,7 +217,8 @@ struct DispatchScan
     struct Policy300
     {
         typedef AgentScanPolicy<
-                CUB_SCALED_GRANULARITIES(256, 9, OutputT),      ///< Threads per block, items per thread
+                256, 9,                                         ///< Threads per block, items per thread
+                OutputT,
                 BLOCK_LOAD_WARP_TRANSPOSE,
                 LOAD_DEFAULT,
                 BLOCK_STORE_WARP_TRANSPOSE,
@@ -227,7 +231,8 @@ struct DispatchScan
     {
         // GTX 580: 20.3B items/s (162.3 GB/s) @ 48M 32-bit T
         typedef AgentScanPolicy<
-                CUB_SCALED_GRANULARITIES(128, 12, OutputT),      ///< Threads per block, items per thread
+                128, 12,                                        ///< Threads per block, items per thread
+                OutputT,
                 BLOCK_LOAD_WARP_TRANSPOSE,
                 LOAD_DEFAULT,
                 BLOCK_STORE_WARP_TRANSPOSE,
@@ -239,7 +244,8 @@ struct DispatchScan
     struct Policy130
     {
         typedef AgentScanPolicy<
-                CUB_SCALED_GRANULARITIES(96, 21, OutputT),      ///< Threads per block, items per thread
+                96, 21,                                         ///< Threads per block, items per thread
+                OutputT,
                 BLOCK_LOAD_WARP_TRANSPOSE,
                 LOAD_DEFAULT,
                 BLOCK_STORE_WARP_TRANSPOSE,
@@ -251,7 +257,8 @@ struct DispatchScan
     struct Policy100
     {
         typedef AgentScanPolicy<
-                CUB_SCALED_GRANULARITIES(64, 9, OutputT),      ///< Threads per block, items per thread
+                64, 9,                                          ///< Threads per block, items per thread
+                OutputT,
                 BLOCK_LOAD_WARP_TRANSPOSE,
                 LOAD_DEFAULT,
                 BLOCK_STORE_WARP_TRANSPOSE,

@@ -188,7 +188,7 @@ __global__ void DeviceSegmentedReduceKernel(
     OffsetIteratorT         d_begin_offsets,            ///< [in] Pointer to the sequence of beginning offsets of length \p num_segments, such that <tt>d_begin_offsets[i]</tt> is the first element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>
     OffsetIteratorT         d_end_offsets,              ///< [in] Pointer to the sequence of ending offsets of length \p num_segments, such that <tt>d_end_offsets[i]-1</tt> is the last element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>.  If <tt>d_end_offsets[i]-1</tt> <= <tt>d_begin_offsets[i]</tt>, the <em>i</em><sup>th</sup> is considered empty.
     int                     /*num_segments*/,           ///< [in] The number of segments that comprise the sorting data
-    ReductionOpT            reduction_op,               ///< [in] Binary reduction functor 
+    ReductionOpT            reduction_op,               ///< [in] Binary reduction functor
     OutputT                 init)                       ///< [in] The initial value of the reduction
 {
     // Thread block type for reducing input tiles
@@ -234,9 +234,10 @@ __global__ void DeviceSegmentedReduceKernel(
  ******************************************************************************/
 
 template <
-    typename OutputT,            ///< Data type
+    typename InputT,            ///< Input data type
+    typename OutputT,           ///< Compute/output data type
     typename OffsetT,           ///< Signed integer type for global offsets
-    typename ReductionOpT>      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
+    typename ReductionOpT>      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt>
 struct DeviceReducePolicy
 {
     //------------------------------------------------------------------------------
@@ -248,10 +249,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(128, 8, OutputT), ///< Threads per block, items per thread
-                2,                                         ///< Number of items per vectorized load
-                BLOCK_REDUCE_RAKING,                       ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                              ///< Cache load modifier
+                128, 8, InputT,                        ///< Threads per block, items per thread, compute type
+                2,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_RAKING,                    ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                           ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -267,10 +268,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX 580: 178.9 GB/s @ 48M 4B items, 158.1 GB/s @ 192M 1B items)
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(128, 8, OutputT), ///< Threads per block, items per thread
-                4,                                         ///< Number of items per vectorized load
-                BLOCK_REDUCE_RAKING,                       ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                              ///< Cache load modifier
+                128, 8, InputT,                        ///< Threads per block, items per thread, compute type
+                4,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_RAKING,                    ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                           ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -286,10 +287,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX670: 154.0 @ 48M 4B items)
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(256, 20, OutputT), ///< Threads per block, items per thread
-                2,                                          ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
-                LOAD_DEFAULT>                               ///< Cache load modifier
+                256, 20, InputT,                       ///< Threads per block, items per thread, compute type, compute type
+                2,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
+                LOAD_DEFAULT>                           ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -305,10 +306,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (GTX Titan: 255.1 GB/s @ 48M 4B items; 228.7 GB/s @ 192M 1B items)
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(256, 20, OutputT), ///< Threads per block, items per thread
-                4,                                          ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
-                LOAD_LDG>                                   ///< Cache load modifier
+                256, 20, InputT,                       ///< Threads per block, items per thread, compute type
+                4,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
+                LOAD_LDG>                               ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -323,10 +324,10 @@ struct DeviceReducePolicy
     {
         // ReducePolicy (P100: 591 GB/s @ 64M 4B items; 583 GB/s @ 256M 1B items)
         typedef AgentReducePolicy<
-                CUB_SCALED_GRANULARITIES(256, 16, OutputT), ///< Threads per block, items per thread
-                4,                                          ///< Number of items per vectorized load
-                BLOCK_REDUCE_WARP_REDUCTIONS,               ///< Cooperative block-wide reduction algorithm to use
-                LOAD_LDG>                                   ///< Cache load modifier
+                256, 16, InputT,                       ///< Threads per block, items per thread, compute type
+                4,                                      ///< Number of items per vectorized load
+                BLOCK_REDUCE_WARP_REDUCTIONS,           ///< Cooperative block-wide reduction algorithm to use
+                LOAD_LDG>                               ///< Cache load modifier
             ReducePolicy;
 
         // SingleTilePolicy
@@ -355,12 +356,17 @@ template <
     typename InputIteratorT,    ///< Random-access input iterator type for reading input items \iterator
     typename OutputIteratorT,   ///< Output iterator type for recording the reduced aggregate \iterator
     typename OffsetT,           ///< Signed integer type for global offsets
-    typename ReductionOpT,      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
+    typename ReductionOpT,      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt>
     typename OutputT =          ///< Data type of the output iterator
         typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
             typename std::iterator_traits<InputIteratorT>::value_type,                                  // ... then the input iterator's value type,
             typename std::iterator_traits<OutputIteratorT>::value_type>::Type>                          // ... else the output iterator's value type
-struct DispatchReduce : DeviceReducePolicy<OutputT, OffsetT, ReductionOpT>
+struct DispatchReduce :
+    DeviceReducePolicy<
+        typename std::iterator_traits<InputIteratorT>::value_type,
+        OutputT,
+        OffsetT,
+        ReductionOpT>
 {
     //------------------------------------------------------------------------------
     // Problem state
@@ -371,7 +377,7 @@ struct DispatchReduce : DeviceReducePolicy<OutputT, OffsetT, ReductionOpT>
     InputIteratorT      d_in;                           ///< [in] Pointer to the input sequence of data items
     OutputIteratorT     d_out;                          ///< [out] Pointer to the output aggregate
     OffsetT             num_items;                      ///< [in] Total number of input items (i.e., length of \p d_in)
-    ReductionOpT        reduction_op;                   ///< [in] Binary reduction functor 
+    ReductionOpT        reduction_op;                   ///< [in] Binary reduction functor
     OutputT             init;                           ///< [in] The initial value of the reduction
     cudaStream_t        stream;                         ///< [in] CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
     bool                debug_synchronous;              ///< [in] Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
@@ -622,7 +628,7 @@ struct DispatchReduce : DeviceReducePolicy<OutputT, OffsetT, ReductionOpT>
         InputIteratorT  d_in,                               ///< [in] Pointer to the input sequence of data items
         OutputIteratorT d_out,                              ///< [out] Pointer to the output aggregate
         OffsetT         num_items,                          ///< [in] Total number of input items (i.e., length of \p d_in)
-        ReductionOpT    reduction_op,                       ///< [in] Binary reduction functor 
+        ReductionOpT    reduction_op,                       ///< [in] Binary reduction functor
         OutputT         init,                               ///< [in] The initial value of the reduction
         cudaStream_t    stream,                             ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool            debug_synchronous)                  ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
@@ -665,7 +671,7 @@ template <
     typename OutputIteratorT,   ///< Output iterator type for recording the reduced aggregate \iterator
     typename OffsetIteratorT,   ///< Random-access input iterator type for reading segment offsets \iterator
     typename OffsetT,           ///< Signed integer type for global offsets
-    typename ReductionOpT,      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt> 
+    typename ReductionOpT,      ///< Binary reduction functor type having member <tt>T operator()(const T &a, const T &b)</tt>
     typename OutputT =          ///< Data type of the output iterator
         typename If<(Equals<typename std::iterator_traits<OutputIteratorT>::value_type, void>::VALUE),  // OutputT =  (if output iterator's value type is void) ?
             typename std::iterator_traits<InputIteratorT>::value_type,                                  // ... then the input iterator's value type,
@@ -673,6 +679,7 @@ template <
 struct DispatchSegmentedReduce :
     DeviceReducePolicy<
         typename std::iterator_traits<InputIteratorT>::value_type,
+        OutputT,
         OffsetT,
         ReductionOpT>
 {
@@ -687,7 +694,7 @@ struct DispatchSegmentedReduce :
     OffsetT             num_segments;           ///< [in] The number of segments that comprise the sorting data
     OffsetIteratorT     d_begin_offsets;        ///< [in] Pointer to the sequence of beginning offsets of length \p num_segments, such that <tt>d_begin_offsets[i]</tt> is the first element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>
     OffsetIteratorT     d_end_offsets;          ///< [in] Pointer to the sequence of ending offsets of length \p num_segments, such that <tt>d_end_offsets[i]-1</tt> is the last element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>.  If <tt>d_end_offsets[i]-1</tt> <= <tt>d_begin_offsets[i]</tt>, the <em>i</em><sup>th</sup> is considered empty.
-    ReductionOpT        reduction_op;           ///< [in] Binary reduction functor 
+    ReductionOpT        reduction_op;           ///< [in] Binary reduction functor
     OutputT             init;                   ///< [in] The initial value of the reduction
     cudaStream_t        stream;                 ///< [in] CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
     bool                debug_synchronous;      ///< [in] Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
@@ -822,7 +829,7 @@ struct DispatchSegmentedReduce :
         int             num_segments,                       ///< [in] The number of segments that comprise the sorting data
         OffsetIteratorT d_begin_offsets,                    ///< [in] Pointer to the sequence of beginning offsets of length \p num_segments, such that <tt>d_begin_offsets[i]</tt> is the first element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>
         OffsetIteratorT d_end_offsets,                      ///< [in] Pointer to the sequence of ending offsets of length \p num_segments, such that <tt>d_end_offsets[i]-1</tt> is the last element of the <em>i</em><sup>th</sup> data segment in <tt>d_keys_*</tt> and <tt>d_values_*</tt>.  If <tt>d_end_offsets[i]-1</tt> <= <tt>d_begin_offsets[i]</tt>, the <em>i</em><sup>th</sup> is considered empty.
-        ReductionOpT    reduction_op,                       ///< [in] Binary reduction functor 
+        ReductionOpT    reduction_op,                       ///< [in] Binary reduction functor
         OutputT         init,                               ///< [in] The initial value of the reduction
         cudaStream_t    stream,                             ///< [in] <b>[optional]</b> CUDA stream to launch kernels within.  Default is stream<sub>0</sub>.
         bool            debug_synchronous)                  ///< [in] <b>[optional]</b> Whether or not to synchronize the stream after every kernel launch to check for errors.  Also causes launch configurations to be printed to the console.  Default is \p false.
