@@ -80,8 +80,15 @@ ifndef BUILD_AGAINST_RELEASE
   else
     INCLUDES_ABSPATH += $(ROOTDIR)/thrust
   endif
+
+  # CUB includes
+  ifdef VULCAN
+    INCLUDES_ABSPATH += $(VULCAN_TOOLKIT_BASE)/cub
+  else
+    INCLUDES_ABSPATH += $(ROOTDIR)/cub
+  endif
 else
-  # CUDA and Thrust includes
+  # CUDA, CUB, and Thrust includes
   INCLUDES_ABSPATH += $(GPGPU_COMPILER_EXPORT)/include
 
   ifeq ($(TARGET_ARCH),ARMv7)
