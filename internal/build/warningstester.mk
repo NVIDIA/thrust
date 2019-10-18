@@ -23,13 +23,15 @@ endif
 
 CU_FILES += ../test/warningstester.cu
 
-# Thrust includes (thrust/)
+# Thrust includes
 ifdef VULCAN
-INCLUDES += $(VULCAN_INSTALL_DIR)/cuda/include/
+INCLUDES += $(VULCAN_INSTALL_DIR)/cuda/include
 INCLUDES += $(VULCAN_INSTALL_DIR)/cuda/_internal/cudart
+INCLUDES += $(VULCAN_TOOLKIT_BASE)/cub
 else
-INCLUDES += ../../
+INCLUDES += ../..
 INCLUDES += ../../../cuda/tools/cudart
+INCLUDES += ../../../cub
 endif
 
 # Location of generated include file that includes all Thrust public headers
