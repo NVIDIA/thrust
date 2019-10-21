@@ -39,7 +39,7 @@ template <typename Tuple, typename F, std::size_t... Is>
 void tuple_for_each_impl(Tuple&& t, F&& f, index_sequence<Is...>)
 {
   auto l = { (f(std::get<Is>(t)), 0)... };
-  THRUST_UNUSED(l);
+  THRUST_UNUSED_VAR(l);
 }
 
 template <typename Tuple, typename F, std::size_t... Is>
