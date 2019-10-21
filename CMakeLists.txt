@@ -150,7 +150,7 @@ if ("TBB" STREQUAL "${THRUST_DEVICE_SYSTEM}")
 endif ()
 
 if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
-  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 1900)
+  if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 19.00)
     message(FATAL_ERROR "This version of MSVC no longer supported.")
   endif ()
 endif ()
