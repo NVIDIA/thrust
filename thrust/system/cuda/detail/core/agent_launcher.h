@@ -50,7 +50,7 @@ namespace core {
 #ifdef __CUDA_ARCH__
 #if 0
   template <class Agent, class... Args>
-  void __global__ 
+  void __global__
   __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS,Agent::ptx_plan::MIN_BLOCKS)
       _kernel_agent(Args... args)
   {
@@ -164,13 +164,13 @@ namespace core {
     Agent::entry(x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE, shmem);
   }
 #endif
-  
+
   ////////////////////////////////////////////////////////////
 
 
 #if 0
   template <class Agent, class... Args>
-  void __global__ 
+  void __global__
   __launch_bounds__(Agent::ptx_plan::BLOCK_THREADS,Agent::ptx_plan::MIN_BLOCKS)
       _kernel_agent_vshmem(char* vshmem, Args... args)
   {
@@ -397,7 +397,7 @@ namespace core {
                                   MAX_SHMEM_PER_BLOCK> shm1;
 
     template <class Size>
-    CUB_RUNTIME_FUNCTION
+    THRUST_RUNTIME_FUNCTION
     AgentLauncher(AgentPlan    plan_,
                   Size         count_,
                   cudaStream_t stream_,
@@ -417,7 +417,7 @@ namespace core {
     }
 
     template <class Size>
-    CUB_RUNTIME_FUNCTION
+    THRUST_RUNTIME_FUNCTION
     AgentLauncher(AgentPlan    plan_,
                   Size         count_,
                   cudaStream_t stream_,
@@ -436,8 +436,8 @@ namespace core {
     {
       assert(count > 0);
     }
-    
-    CUB_RUNTIME_FUNCTION
+
+    THRUST_RUNTIME_FUNCTION
     AgentLauncher(AgentPlan    plan_,
                   cudaStream_t stream_,
                   char const*  name_,
@@ -455,7 +455,7 @@ namespace core {
       assert(plan.grid_size > 0);
     }
 
-    CUB_RUNTIME_FUNCTION
+    THRUST_RUNTIME_FUNCTION
     AgentLauncher(AgentPlan    plan_,
                   cudaStream_t stream_,
                   char*        vshmem,
@@ -499,22 +499,22 @@ namespace core {
       return get_agent_plan<Agent>(sm_arch<0>::type::ver);
     }
 #endif
-    
-    CUB_RUNTIME_FUNCTION
+
+    THRUST_RUNTIME_FUNCTION
     typename core::get_plan<Agent>::type static get_plan(cudaStream_t , void* d_ptr = 0)
     {
       THRUST_UNUSED_VAR(d_ptr);
       core::cuda_optional<int> ptx_version = core::get_ptx_version();
       return get_agent_plan<Agent>(ptx_version);
     }
-    
+
     THRUST_RUNTIME_FUNCTION
     typename core::get_plan<Agent>::type static get_plan()
     {
       return get_agent_plan<Agent>(lowest_supported_sm_arch::ver);
     }
 
-    CUB_RUNTIME_FUNCTION void sync() const
+    THRUST_RUNTIME_FUNCTION void sync() const
     {
       if (debug_sync)
       {
@@ -543,7 +543,7 @@ namespace core {
     }
 
 
-    
+
     template<class K>
     THRUST_RUNTIME_FUNCTION
     void print_info(K k) const
@@ -705,11 +705,11 @@ namespace core {
 
 #if 0
 
-    // If we are guaranteed to have enough shared memory 
+    // If we are guaranteed to have enough shared memory
     // don't compile other kernel which accepts pointer
     // and save on compilations
     template <class... Args>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, Args... args) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -717,17 +717,17 @@ namespace core {
       launcher::triple_chevron(grid, plan.block_threads, shmem_size, stream)
           .doit(_kernel_agent<Agent, Args...>, args...);
     }
-    
-    // If there is a risk of not having enough shared memory 
+
+    // If there is a risk of not having enough shared memory
     // we compile generic kernel instead.
     // This kernel is likely to be somewhat slower, but it can accomodate
     // both shared and virtualized shared memories.
     // Alternative option is to compile two kernels, one using shared and one
     // using virtualized shared memory. While this can be slightly faster if we
     // do actually have enough shared memory, the compilation time will double.
-    // 
+    //
     template <class... Args>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, Args... args) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -737,7 +737,7 @@ namespace core {
     }
 
     template <class... Args>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(Args... args) const
     {
 #if __THRUST__TEMPLATE_DEBUG
@@ -755,7 +755,7 @@ namespace core {
     }
 #else
     template <class _0>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -765,7 +765,7 @@ namespace core {
           .doit(ptr, vshmem, x0);
     }
     template <class _0, class _1>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -775,7 +775,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1);
     }
     template <class _0, class _1, class _2>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -785,7 +785,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2);
     }
     template <class _0, class _1, class _2, class _3>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -795,7 +795,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3);
     }
     template <class _0, class _1, class _2, class _3, class _4>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -805,7 +805,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -815,7 +815,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -825,7 +825,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -835,7 +835,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -844,7 +844,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -854,7 +854,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -864,7 +864,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -874,7 +874,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -884,7 +884,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -894,7 +894,7 @@ namespace core {
           .doit(ptr, vshmem, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::false_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9,_xA xA,_xB xB,_xC xC,_xD xD,_xE xE) const
     {
       assert((has_shmem && vshmem == NULL) || (!has_shmem && vshmem != NULL && shmem_size == 0));
@@ -909,7 +909,7 @@ namespace core {
     ////////////////////////////////////////////////////////
 
     template <class _0>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -919,7 +919,7 @@ namespace core {
           .doit(ptr, x0);
     }
     template <class _0, class _1>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -929,7 +929,7 @@ namespace core {
           .doit(ptr, x0, x1);
     }
     template <class _0, class _1, class _2>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -939,7 +939,7 @@ namespace core {
           .doit(ptr, x0, x1, x2);
     }
     template <class _0, class _1, class _2, class _3>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -949,7 +949,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3);
     }
     template <class _0, class _1, class _2, class _3, class _4>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -959,7 +959,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -969,7 +969,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -979,7 +979,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -989,7 +989,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -999,7 +999,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -1009,7 +1009,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -1019,7 +1019,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -1029,7 +1029,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -1039,7 +1039,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -1049,7 +1049,7 @@ namespace core {
           .doit(ptr, x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch_impl(thrust::detail::true_type, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
       assert(has_shmem && vshmem == NULL);
@@ -1062,107 +1062,107 @@ namespace core {
     ////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////
-    
+
     template <class _0>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0) const
     {
       launch_impl(has_enough_shmem_t(), x0);
       sync();
     }
     template <class _0, class _1>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1);
       sync();
     }
     template <class _0, class _1, class _2>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2);
       sync();
     }
     template <class _0, class _1, class _2, class _3>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD);
       sync();
     }
     template <class _0, class _1, class _2, class _3, class _4, class _5, class _6, class _7, class _8, class _9, class _xA, class _xB, class _xC, class _xD, class _xE>
-    void CUB_RUNTIME_FUNCTION
+    void THRUST_RUNTIME_FUNCTION
     launch(_0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC, _xD xD, _xE xE) const
     {
       launch_impl(has_enough_shmem_t(), x0, x1, x2, x3, x4, x5, x6, x7, x8, x9, xA, xB, xC, xD, xE);

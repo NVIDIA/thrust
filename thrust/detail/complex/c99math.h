@@ -14,7 +14,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-#pragma once 
+#pragma once
 
 #include <cmath>
 #include <thrust/detail/complex/math_private.h>
@@ -27,7 +27,7 @@ namespace complex
 {
 
 // Define basic arithmetic functions so we can use them without explicit scope
-// keeping the code as close as possible to FreeBSDs for ease of maintenance. 
+// keeping the code as close as possible to FreeBSDs for ease of maintenance.
 // It also provides an easy way to support compilers with missing C99 functions.
 // When possible, just use the names in the global scope.
 // Some platforms define these as macros, others as free functions.
@@ -105,7 +105,7 @@ __host__ __device__ inline int isfinite(double x){
 // sometimes the CUDA toolkit provides these these names as macros,
 // sometimes functions in the global scope
 
-#    if (CUDA_VERSION >= 6500)
+#    if (CUDART_VERSION >= 6500)
 using ::isinf;
 using ::isnan;
 using ::signbit;
@@ -114,7 +114,7 @@ using ::isfinite;
 #    else
 // these names are macros, we don't need to define them
 
-#    endif // CUDA_VERSION
+#    endif // CUDART_VERSION
 
 #  else
 // Some compilers do not provide these in the global scope
@@ -128,7 +128,7 @@ using std::isfinite;
 
 using ::atanh;
 #endif // _MSC_VER
-  
+
 #if defined _MSC_VER
 
 __host__ __device__ inline double copysign(double x, double y){
@@ -159,7 +159,7 @@ inline double log1p(double x){
   }else{
     if(u > 2.0){
       // Use normal log for large arguments
-      return log(u); 
+      return log(u);
     }else{
       return log(u)*(x/(u-1.0));
     }
@@ -173,7 +173,7 @@ inline float log1pf(float x){
   }else{
     if(u > 2.0f){
       // Use normal log for large arguments
-      return logf(u); 
+      return logf(u);
     }else{
       return logf(u)*(x/(u-1.0f));
     }
@@ -202,4 +202,4 @@ inline double hypot(double x, double y){
 } // namespace detail
 
 } // namespace thrust
-      
+

@@ -451,8 +451,8 @@ namespace core {
     return i32value;
   }
 
-  size_t CUB_RUNTIME_FUNCTION
-  inline get_max_shared_memory_per_block()
+  size_t THRUST_RUNTIME_FUNCTION
+  get_max_shared_memory_per_block()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -471,8 +471,8 @@ namespace core {
     return static_cast<size_t>(i32value);
   }
 
-  size_t CUB_RUNTIME_FUNCTION
-  inline virtual_shmem_size(size_t shmem_per_block)
+  size_t THRUST_RUNTIME_FUNCTION
+  virtual_shmem_size(size_t shmem_per_block)
   {
     size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -481,8 +481,8 @@ namespace core {
       return 0;
   }
 
-  size_t CUB_RUNTIME_FUNCTION
-  inline vshmem_size(size_t shmem_per_block, size_t num_blocks)
+  size_t THRUST_RUNTIME_FUNCTION
+  vshmem_size(size_t shmem_per_block, size_t num_blocks)
   {
     size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -603,7 +603,7 @@ namespace core {
     __host__ __device__ operator T const &() const { return value_; }
   };
 
-  inline cuda_optional<int> CUB_RUNTIME_FUNCTION
+  cuda_optional<int> THRUST_RUNTIME_FUNCTION
   get_ptx_version()
   {
     int ptx_version = 0;
@@ -611,7 +611,7 @@ namespace core {
     return cuda_optional<int>(ptx_version, status);
   }
 
-  inline cudaError_t CUB_RUNTIME_FUNCTION
+  cudaError_t THRUST_RUNTIME_FUNCTION
   sync_stream(cudaStream_t stream)
   {
     return cub::SyncStream(stream);

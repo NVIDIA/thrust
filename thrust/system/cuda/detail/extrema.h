@@ -108,7 +108,7 @@ namespace __extrema {
   struct arg_minmax_f
   {
     Predicate predicate;
-    
+
     typedef tuple<InputType, IndexType> pair_type;
     typedef tuple<pair_type, pair_type> two_pairs_type;
 
@@ -345,7 +345,7 @@ namespace __extrema {
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
-    
+
     status = core::alias_storage(ptr,
                                  storage_size,
                                  allocations,
@@ -363,7 +363,7 @@ namespace __extrema {
                           stream,
                           debug_sync);
     cuda_cub::throw_on_error(status, "extrema failed on 2nd step");
-    
+
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "extrema failed to synchronize");
 
@@ -376,7 +376,7 @@ namespace __extrema {
             class Derived,
             class ItemsIt,
             class BinaryPred>
-  ItemsIt CUB_RUNTIME_FUNCTION
+  ItemsIt THRUST_RUNTIME_FUNCTION
   element(execution_policy<Derived> &policy,
           ItemsIt                    first,
           ItemsIt                    last,
