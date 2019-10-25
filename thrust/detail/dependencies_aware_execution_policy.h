@@ -34,14 +34,11 @@ template<template<typename> class ExecutionPolicyCRTPBase>
 struct dependencies_aware_execution_policy
 {
     template<typename ...Dependencies>
-    using execute_with_dependencies_type = thrust::detail::execute_with_dependencies<
+    __host__
+    thrust::detail::execute_with_dependencies<
         ExecutionPolicyCRTPBase,
         Dependencies...
-    >;
-
-    template<typename ...Dependencies>
-    __host__
-    execute_with_dependencies_type<Dependencies...>
+    >
     after(Dependencies&& ...dependencies) const
     {
         return { capture_as_dependency(THRUST_FWD(dependencies))... };
@@ -49,14 +46,20 @@ struct dependencies_aware_execution_policy
 
     template<typename ...Dependencies>
     __host__
-    execute_with_dependencies_type<Dependencies...>
+    thrust::detail::execute_with_dependencies<
+        ExecutionPolicyCRTPBase,
+        Dependencies...
+    >
     after(std::tuple<Dependencies...>& dependencies) const
     {
         return { capture_as_dependency(dependencies) };
     }
     template<typename ...Dependencies>
     __host__
-    execute_with_dependencies_type<Dependencies...>
+    thrust::detail::execute_with_dependencies<
+        ExecutionPolicyCRTPBase,
+        Dependencies...
+    >
     after(std::tuple<Dependencies...>&& dependencies) const
     {
         return { capture_as_dependency(std::move(dependencies)) };
@@ -64,7 +67,10 @@ struct dependencies_aware_execution_policy
 
     template<typename ...Dependencies>
     __host__
-    execute_with_dependencies_type<Dependencies...>
+    thrust::detail::execute_with_dependencies<
+        ExecutionPolicyCRTPBase,
+        Dependencies...
+    >
     rebind_after(Dependencies&& ...dependencies) const
     {
         return { capture_as_dependency(THRUST_FWD(dependencies))... };
@@ -72,14 +78,20 @@ struct dependencies_aware_execution_policy
 
     template<typename ...Dependencies>
     __host__
-    execute_with_dependencies_type<Dependencies...>
+    thrust::detail::execute_with_dependencies<
+        ExecutionPolicyCRTPBase,
+        Dependencies...
+    >
     rebind_after(std::tuple<Dependencies...>& dependencies) const
     {
         return { capture_as_dependency(dependencies) };
     }
     template<typename ...Dependencies>
     __host__
-    execute_with_dependencies_type<Dependencies...>
+    thrust::detail::execute_with_dependencies<
+        ExecutionPolicyCRTPBase,
+        Dependencies...
+    >
     rebind_after(std::tuple<Dependencies...>&& dependencies) const
     {
         return { capture_as_dependency(std::move(dependencies)) };
