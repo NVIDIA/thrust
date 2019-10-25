@@ -160,25 +160,22 @@ $(info #### CXX_STD       : $(CXX_STD))
 
 ifeq ($(OS), win32)
   CREATE_DVS_PACKAGE = $(ZIP) -r built/CUDA-thrust-package.zip bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)
-  APPEND_THRUST_H_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.h
-  APPEND_THRUST_INL_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.inl
-  APPEND_THRUST_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.cuh
-  APPEND_CUB_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip ../cub -9 -i *.cuh
-  APPEND_H_DVS_PACKAGE = $(APPEND_THRUST_H_DVS_PACKAGE)
-  APPEND_INL_DVS_PACKAGE = $(APPEND_THRUST_INL_DVS_PACKAGE)
-  APPEND_CUH_DVS_PACKAGE = $(APPEND_THRUST_CUH_DVS_PACKAGE) $(APPEND_CUB_CUH_DVS_PACKAGE)
+  APPEND_H_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.h
+  APPEND_INL_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.inl
+  APPEND_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.cuh
   MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_H_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE)
 else
-  CREATE_DVS_PACKAGE = tar -cv -f built/CUDA-thrust-package.tar bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)
-  APPEND_THRUST_H_DVS_PACKAGE = find thrust -name "*.h" | xargs tar rvf built/CUDA-thrust-package.tar
-  APPEND_THRUST_INL_DVS_PACKAGE = find thrust -name "*.inl" | xargs tar rvf built/CUDA-thrust-package.tar
-  APPEND_THRUST_CUH_DVS_PACKAGE = find thrust -name "*.cuh" | xargs tar rvf built/CUDA-thrust-package.tar
-  APPEND_CUB_CUH_DVS_PACKAGE = find ../cub -name "*.cuh" | xargs tar rvf built/CUDA-thrust-package.tar
-  APPEND_H_DVS_PACKAGE = $(APPEND_THRUST_H_DVS_PACKAGE)
-  APPEND_INL_DVS_PACKAGE = $(APPEND_THRUST_INL_DVS_PACKAGE)
-  APPEND_CUH_DVS_PACKAGE = $(APPEND_THRUST_CUH_DVS_PACKAGE) $(APPEND_CUB_CUH_DVS_PACKAGE)
-  COMPRESS_DVS_PACKAGE = bzip2 built/CUDA-thrust-package.tar
+  CREATE_DVS_PACKAGE = tar -cvh -f built/CUDA-thrust-package.tar bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)
+  APPEND_H_DVS_PACKAGE = find -L thrust -name "*.h" | xargs tar rvf built/CUDA-thrust-package.tar
+  APPEND_INL_DVS_PACKAGE = find -L thrust -name "*.inl" | xargs tar rvf built/CUDA-thrust-package.tar
+  APPEND_CUH_DVS_PACKAGE = find -L thrust -name "*.cuh" | xargs tar rvf built/CUDA-thrust-package.tar
+  COMPRESS_DVS_PACKAGE = bzip2 --force built/CUDA-thrust-package.tar
   MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_H_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE) && $(COMPRESS_DVS_PACKAGE)
+endif
+
+ifeq ($(OS), win32)
+  COPY_CUB_FOR_PACKAGING = mv cub cub-link && cp -r ../cub/cub cub
+  RESTORE_CUB_LINK = rm -rf cub && mv cub-link cub
 endif
 
 DVS_OPTIONS :=
@@ -196,9 +193,11 @@ pack:
 	cd .. && $(MAKE_DVS_PACKAGE)
 
 dvs:
+	$(COPY_CUB_FOR_PACKAGING)
 	$(MAKE) $(DVS_OPTIONS) -s -C ../cuda $(THRUST_DVS_BUILD)
 	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1
 	cd .. && $(MAKE_DVS_PACKAGE)
+	$(RESTORE_CUB_LINK)
 
 # XXX Deprecated, remove.
 dvs_nightly: dvs
