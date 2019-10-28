@@ -16,19 +16,13 @@
 
 #pragma once
 
-#ifdef _MSC_VER
-  #define THRUST_CPP_VER _MSVC_LANG
-#else
-  #define THRUST_CPP_VER __cplusplus
-#endif
-
-#if   THRUST_CPP_VER < 201103L
+#if   __cplusplus < 201103L
   #define THRUST_CPP03
   #define THRUST_CPP_DIALECT 2003
-#elif THRUST_CPP_VER < 201402L
+#elif __cplusplus < 201402L
   #define THRUST_CPP11
   #define THRUST_CPP_DIALECT 2011
-#elif THRUST_CPP_VER < 201703L
+#elif __cplusplus < 201703L
   #define THRUST_CPP14
   #define THRUST_CPP_DIALECT 2014
 #else
@@ -36,4 +30,3 @@
   #define THRUST_CPP_DIALECT 2017
 #endif
 
-#undef THRUST_CPP_VER
