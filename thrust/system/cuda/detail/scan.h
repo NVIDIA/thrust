@@ -40,9 +40,11 @@
 #include <cub/device/device_scan.cuh>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
+#include <thrust/system/cuda/detail/dispatch.h>
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
+#include <thrust/iterator/iterator_traits.h>
 
 THRUST_BEGIN_NS
 template <typename DerivedPolicy,
@@ -710,15 +712,18 @@ namespace __scan {
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
-    status = doit_step<Inclusive>(NULL,
-                                  storage_size,
-                                  input_it,
-                                  num_items,
-                                  add_init_to_exclusive_scan,
-                                  output_it,
-                                  scan_op,
-                                  stream,
-                                  debug_sync);
+    THRUST_INDEX_TYPE_DISPATCH(status,
+                                doit_step<Inclusive>,
+                                num_items,
+                                (NULL,
+                                storage_size,
+                                input_it,
+                                num_items_fixed,
+                                add_init_to_exclusive_scan,
+                                output_it,
+                                scan_op,
+                                stream,
+                                debug_sync));
     cuda_cub::throw_on_error(status, "scan failed on 1st step");
 
     // Allocate temporary storage.
@@ -726,15 +731,18 @@ namespace __scan {
       tmp(policy, storage_size);
     void *ptr = static_cast<void*>(tmp.data().get());
 
-    status = doit_step<Inclusive>(ptr,
-                                  storage_size,
-                                  input_it,
-                                  num_items,
-                                  add_init_to_exclusive_scan,
-                                  output_it,
-                                  scan_op,
-                                  stream,
-                                  debug_sync);
+    THRUST_INDEX_TYPE_DISPATCH(status,
+                                doit_step<Inclusive>,
+                                num_items,
+                                (ptr,
+                                storage_size,
+                                input_it,
+                                num_items_fixed,
+                                add_init_to_exclusive_scan,
+                                output_it,
+                                scan_op,
+                                stream,
+                                debug_sync));
     cuda_cub::throw_on_error(status, "scan failed on 2nd step");
 
     status = cuda_cub::synchronize(policy);
@@ -798,7 +806,8 @@ inclusive_scan(execution_policy<Derived> &policy,
                OutputIt                   result,
                ScanOp                     scan_op)
 {
-  int num_items = static_cast<int>(thrust::distance(first, last));
+  typedef typename thrust::iterator_traits<InputIt>::difference_type diff_t;
+  diff_t num_items = thrust::distance(first, last);
   return cuda_cub::inclusive_scan_n(policy, first, num_items, result, scan_op);
 }
 
@@ -873,7 +882,8 @@ exclusive_scan(execution_policy<Derived> &policy,
                T                          init,
                ScanOp                   scan_op)
 {
-  int num_items = static_cast<int>(thrust::distance(first, last));
+  typedef typename thrust::iterator_traits<InputIt>::difference_type diff_t;
+  diff_t num_items = thrust::distance(first, last);
   return cuda_cub::exclusive_scan_n(policy, first, num_items, result, init, scan_op);
 }
 
