@@ -48,8 +48,13 @@
 
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <thrust/complex.h>
 #include <thrust/detail/complex/math_private.h>
+#else
+#include "../../complex.h"
+#include "math_private.h"
+#endif
 
 namespace thrust{
 namespace detail{

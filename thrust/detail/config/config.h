@@ -22,6 +22,7 @@
 
 // NOTE: The order of these #includes matters.
 
+#ifndef __CUDACC_RTC__
 #include <thrust/detail/config/simple_defines.h>
 #include <thrust/detail/config/compiler.h>
 #include <thrust/detail/config/cpp_dialect.h>
@@ -35,4 +36,8 @@
 #include <thrust/detail/config/forceinline.h>
 #include <thrust/detail/config/exec_check_disable.h>
 #include <thrust/detail/config/global_workarounds.h>
-
+#else
+#include "compiler.h"
+#include "cpp_dialect.h"
+#include "cpp_compatibility.h"
+#endif

@@ -17,8 +17,13 @@
 
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <thrust/complex.h>
-#include <thrust/detail/type_traits.h>
+#include <thrust/detail/complex/math_private.h>
+#else
+#include "../../complex.h"
+#include "math_private.h"
+#endif
 
 namespace thrust {
 
@@ -47,7 +52,7 @@ pow(const T0& x, const complex<T1>& y)
 {
   typedef typename detail::promoted_numerical_type<T0, T1>::type T;
   // Find `log` by ADL.
-  using std::log;
+  using ::log;
   return exp(log(T(x)) * complex<T>(y));
 }
 

@@ -19,14 +19,27 @@
  *  \brief Complex numbers
  */
 
+#ifndef __CUDACC_RTC__
+#define NVRTC_QUALIFIER __host__ __device__
+#else
+#define NVRTC_QUALIFIER __device__
+#endif
+
 #pragma once
 
+#ifndef __CUDACC_RTC__
+// Can't include system dependencies with NVRTC
 #include <thrust/detail/config.h>
+#include <thrust/detail/type_traits.h>
 
 #include <cmath>
 #include <complex>
 #include <sstream>
-#include <thrust/detail/type_traits.h>
+#else
+#include "detail/type_traits.h"
+#endif
+
+
 
 #if THRUST_CPP_DIALECT >= 2011
 #  define THRUST_STD_COMPLEX_REAL(z) \
@@ -66,75 +79,14 @@ namespace thrust
 namespace detail
 {
   
-template <typename T, std::size_t Align>
+template <typename T, size_t Align>
 struct complex_storage;
-
-#if __cplusplus >= 201103L                                                    \
-  && (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                       \
-  && (THRUST_GCC_VERSION >= 40800)
-  // C++11 implementation, excluding GCC 4.7, which doesn't have `alignas`.
-  template <typename T, std::size_t Align>
-  struct complex_storage
-  {
-    struct alignas(Align) type { T x; T y; };
-  };
-#elif  (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)                    \
-    || (   (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                 \
-        && (THRUST_GCC_VERSION < 40600))
-  // C++03 implementation for MSVC and GCC <= 4.5.
-  // 
-  // We have to implement `aligned_type` with specializations for MSVC
-  // and GCC 4.2 and older because they require literals as arguments to 
-  // their alignment attribute.
-
-  #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
-    // MSVC implementation.
-    #define THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(X)                   \
-      template <typename T>                                                   \
-      struct complex_storage<T, X>                                            \
-      {                                                                       \
-        __declspec(align(X)) struct type { T x; T y; };                       \
-      };                                                                      \
-      /**/
-  #else
-    // GCC <= 4.2 implementation.
-    #define THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(X)                   \
-      template <typename T>                                                   \
-      struct complex_storage<T, X>                                            \
-      {                                                                       \
-        struct type { T x; T y; } __attribute__((aligned(X)));                \
-      };                                                                      \
-      /**/
-  #endif
-
-  // The primary template is a fallback, which doesn't specify any alignment.
-  // It's only used when T is very large and we're using an older compilers
-  // which we have to fully specialize each alignment case.
-  template <typename T, std::size_t Align>
-  struct complex_storage
-  {
-    T x; T y;
-  };
-  
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(1);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(2);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(4);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(8);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(16);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(32);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(64);
-  THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION(128);
-
-  #undef THRUST_DEFINE_COMPLEX_STORAGE_SPECIALIZATION
-#else
   // C++03 implementation for GCC > 4.5, Clang, PGI, ICPC, and xlC.
-  template <typename T, std::size_t Align>
+  template <typename T, size_t Align>
   struct complex_storage
   {
     struct type { T x; T y; } __attribute__((aligned(Align)));
   };
-#endif
-
 } // end namespace detail
 
   /*! \p complex is the Thrust equivalent to <tt>std::complex</tt>. It is
@@ -209,14 +161,14 @@ public:
   template <typename U>
   __host__ __device__
   complex(const complex<U>& z);
-
+#ifndef __CUDACC_RTC__
   /*! This converting copy constructor copies from a <tt>std::complex</tt> with
    *  a type that is convertible to this \p complex's \c value_type.
    *
    *  \param z The \p complex to copy from.
    */
   __host__ THRUST_STD_COMPLEX_DEVICE
-  complex(const std::complex<T>& z);
+  complex(const complex<T>& z);
 
   /*! This converting copy constructor copies from a <tt>std::complex</tt> with
    *  a type that is convertible to this \p complex's \c value_type.
@@ -227,8 +179,8 @@ public:
    */
   template <typename U>
   __host__ THRUST_STD_COMPLEX_DEVICE
-  complex(const std::complex<U>& z);
-
+  complex(const complex<U>& z);
+#endif
 
 
   /* --- Assignment Operators --- */
@@ -268,14 +220,14 @@ public:
   template <typename U>
   __host__ __device__
   complex& operator=(const complex<U>& z);
-
+#ifndef __CUDACC_RTC__
   /*! Assign `z.real()` and `z.imag()` to the real and imaginary parts of this
    *  \p complex respectively.
    *
    *  \param z The \p complex to copy from.
    */
   __host__ THRUST_STD_COMPLEX_DEVICE
-  complex& operator=(const std::complex<T>& z);
+  complex& operator=(const complex<T>& z);
 
   /*! Assign `z.real()` and `z.imag()` to the real and imaginary parts of this
    *  \p complex respectively.
@@ -286,8 +238,8 @@ public:
    */
   template <typename U>
   __host__ THRUST_STD_COMPLEX_DEVICE
-  complex& operator=(const std::complex<U>& z);
-
+  complex& operator=(const complex<U>& z);
+#endif
 
   /* --- Compound Assignment Operators --- */
 
@@ -444,12 +396,12 @@ public:
 
 
   /* --- Casting functions --- */
-
+#ifndef __CUDACC_RTC__
   /*! Casts this \p complex to a <tt>std::complex</tt> of the same type.
    */
   __host__
   operator std::complex<T>() const { return std::complex<T>(real(), imag()); }
-
+#endif
 private:
   typename detail::complex_storage<T, sizeof(T) * 2>::type data;
 };
@@ -488,6 +440,16 @@ T norm(const complex<T>& z);
 template <typename T>
 __host__ __device__
 complex<T> conj(const complex<T>& z);
+
+template <typename T>
+__host__ __device__ inline T real(const complex<T>& z) {
+  return z.real();
+}
+
+template <typename T>
+__host__ __device__ inline T imag(const complex<T>& z) {
+  return z.imag();
+}
 
 /*! Returns a \p complex with the specified magnitude and phase.
  *
@@ -899,7 +861,7 @@ __host__ __device__
 complex<T> atanh(const complex<T>& z);
 
 
-
+#ifndef __CUDACC_RTC__
 /* --- Stream Operators --- */
 
 /*! Writes to an output stream a \p complex number in the form (real, imaginary).
@@ -927,8 +889,7 @@ template <typename T, typename CharT, typename Traits>
 __host__
 std::basic_istream<CharT, Traits>&
 operator>>(std::basic_istream<CharT, Traits>& is, complex<T>& z);
-
-
+#endif
 
 /* --- Equality Operators --- */
 
@@ -940,7 +901,7 @@ operator>>(std::basic_istream<CharT, Traits>& is, complex<T>& z);
 template <typename T0, typename T1>
 __host__ __device__
 bool operator==(const complex<T0>& x, const complex<T1>& y);
-
+#ifndef __CUDACC_RTC__
 /*! Returns true if two \p complex numbers are equal and false otherwise.
  *
  *  \param x The first \p complex.
@@ -949,7 +910,6 @@ bool operator==(const complex<T0>& x, const complex<T1>& y);
 template <typename T0, typename T1>
 __host__ THRUST_STD_COMPLEX_DEVICE
 bool operator==(const complex<T0>& x, const std::complex<T1>& y);
-
 /*! Returns true if two \p complex numbers are equal and false otherwise.
  *
  *  \param x The first \p complex.
@@ -959,6 +919,7 @@ template <typename T0, typename T1>
 __host__ THRUST_STD_COMPLEX_DEVICE
 bool operator==(const std::complex<T0>& x, const complex<T1>& y);
 
+#endif
 /*! Returns true if the imaginary part of the \p complex number is zero and
  *  the real part is equal to the scalar. Returns false otherwise.
  *
@@ -987,7 +948,7 @@ bool operator==(const complex<T0>& x, const T1& y);
 template <typename T0, typename T1>
 __host__ __device__
 bool operator!=(const complex<T0>& x, const complex<T1>& y);
-
+#ifndef __CUDACC_RTC__
 /*! Returns true if two \p complex numbers are different and false otherwise.
  *
  *  \param x The first \p complex.
@@ -1005,7 +966,7 @@ bool operator!=(const complex<T0>& x, const std::complex<T1>& y);
 template <typename T0, typename T1>
 __host__ THRUST_STD_COMPLEX_DEVICE
 bool operator!=(const std::complex<T0>& x, const complex<T1>& y);
-
+#endif
 /*! Returns true if the imaginary part of the \p complex number is not zero or
  *  the real part is different from the scalar. Returns false otherwise.
  *
@@ -1028,7 +989,7 @@ bool operator!=(const complex<T0>& x, const T1& y);
 
 } // end namespace thrust
 
-#include <thrust/detail/complex/complex.inl>
+#include "detail/complex/complex.inl"
 
 #undef THRUST_STD_COMPLEX_REAL
 #undef THRUST_STD_COMPLEX_IMAG

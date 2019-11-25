@@ -16,8 +16,12 @@
  */
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <cmath>
 #include <thrust/detail/complex/math_private.h>
+#else
+#include "math_private.h"
+#endif
 
 namespace thrust
 {

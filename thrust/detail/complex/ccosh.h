@@ -46,9 +46,13 @@
  */
 
 #pragma once
-
+#ifndef __CUDACC_RTC__
 #include <thrust/complex.h>
 #include <thrust/detail/complex/math_private.h>
+#else
+#include "../../complex.h"
+#include "math_private.h"
+#endif
 
 namespace thrust{
 namespace detail{
@@ -185,8 +189,8 @@ __host__ __device__
 inline complex<ValueType> cos(const complex<ValueType>& z){
   const ValueType re = z.real();
   const ValueType im = z.imag();
-  return complex<ValueType>(std::cos(re) * std::cosh(im), 
-			    -std::sin(re) * std::sinh(im));
+  return complex<ValueType>(::cos(re) * ::cosh(im), 
+			    -::sin(re) * ::sinh(im));
 }
   
 template <typename ValueType>
@@ -194,8 +198,8 @@ __host__ __device__
 inline complex<ValueType> cosh(const complex<ValueType>& z){
   const ValueType re = z.real();
   const ValueType im = z.imag();
-  return complex<ValueType>(std::cosh(re) * std::cos(im), 
-			    std::sinh(re) * std::sin(im));
+  return complex<ValueType>(::cosh(re) * ::cos(im), 
+			    ::sinh(re) * ::sin(im));
 }
 
 template <>

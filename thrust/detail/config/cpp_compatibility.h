@@ -16,9 +16,13 @@
 
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <thrust/detail/config/cpp_dialect.h>
 
 #include <cstddef>
+#else
+#include "cpp_dialect.h"
+#endif
 
 #if THRUST_CPP_DIALECT >= 2011
 #  ifndef __has_cpp_attribute

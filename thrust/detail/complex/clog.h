@@ -46,8 +46,13 @@
 
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <thrust/complex.h>
 #include <thrust/detail/complex/math_private.h>
+#else
+#include "../../complex.h"
+#include "math_private.h"
+#endif
 
 namespace thrust{
 namespace detail{
@@ -81,11 +86,11 @@ complex<double> clog(const complex<double>& z){
 
   /* Handle NaNs using the general formula to mix them right. */
   if (x != x || y != y){
-    return (complex<double>(std::log(norm(z)), std::atan2(y, x)));
+    return (complex<double>(log(norm(z)), atan2(y, x)));
   }
 
-  ax = std::abs(x);
-  ay = std::abs(y);
+  ax = ::abs(x);
+  ay = ::abs(y);
   if (ax < ay) {
     t = ax;
     ax = ay;
@@ -103,13 +108,13 @@ complex<double> clog(const complex<double>& z){
   // For high values of ay -> hypotf(DBL_MAX,ay) = inf
   // We expect that for values at or below ay = 5e307 this should not happen
   if (ay > 5e307){
-    return (complex<double>(std::log(hypot(x / e, y / e)) + 1.0, std::atan2(y, x)));
+    return (complex<double>(log(hypot(x / e, y / e)) + 1.0, atan2(y, x)));
   }
   if (ax == 1.) {
     if (ay < 1e-150){
-      return (complex<double>((ay * 0.5) * ay, std::atan2(y, x)));
+      return (complex<double>((ay * 0.5) * ay, atan2(y, x)));
     }
-    return (complex<double>(log1p(ay * ay) * 0.5, std::atan2(y, x)));
+    return (complex<double>(log1p(ay * ay) * 0.5, atan2(y, x)));
   }
 
   /*
@@ -117,7 +122,7 @@ complex<double> clog(const complex<double>& z){
    * edge cases when x or y are 0 or infinite.
    */
   if (ax < 1e-50 || ay < 1e-50 || ax > 1e50 || ay > 1e50){
-    return (complex<double>(std::log(hypot(x, y)), std::atan2(y, x)));
+    return (complex<double>(log(hypot(x, y)), atan2(y, x)));
   }
 
   /* 
@@ -132,7 +137,7 @@ complex<double> clog(const complex<double>& z){
   }
 
   if (ax*ax + ay*ay <= 0.7){
-    return (complex<double>(std::log(ax*ax + ay*ay) * 0.5, std::atan2(y, x)));
+    return (complex<double>(log(ax*ax + ay*ay) * 0.5, atan2(y, x)));
   }
 
   /*
@@ -191,7 +196,7 @@ complex<double> clog(const complex<double>& z){
 template <typename ValueType>
 __host__ __device__
 inline complex<ValueType> log(const complex<ValueType>& z){
-  return complex<ValueType>(std::log(thrust::abs(z)),thrust::arg(z));
+  return complex<ValueType>(log(thrust::abs(z)),thrust::arg(z));
 }
 
 template <>

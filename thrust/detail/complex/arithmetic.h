@@ -15,10 +15,15 @@
  *  limitations under the License.
  */
 
+// Can't include system dependencies with NVRTC
+#ifndef __CUDACC_RTC__
 #include <thrust/complex.h>
 #include <cfloat>
 #include <cmath>
 #include <thrust/detail/complex/c99math.h>
+#else
+#include "../../complex.h"
+#endif
 
 namespace thrust
 {
@@ -118,8 +123,9 @@ operator/(const complex<T0>& x, const complex<T1>& y)
   typedef typename detail::promoted_numerical_type<T0, T1>::type T;
 
   // Find `abs` by ADL.
+#ifndef __CUDACC_RTC__
   using std::abs;
-
+#endif
   T s = abs(y.real()) + abs(y.imag());
 
   T oos = T(1.0) / s;
@@ -249,10 +255,10 @@ template <>
 __host__ __device__
 inline float norm(const complex<float>& z)
 {
-  // Find `abs` and `sqrt` by ADL.
+  // find `abs` and `sqrt` by adl.
+#ifndef __CUDACC_RTC__
   using std::abs;
   using std::sqrt;
-
   if (abs(z.real()) < sqrt(FLT_MIN) && abs(z.imag()) < sqrt(FLT_MIN))
   {
     float a = z.real() * 4.0f;
@@ -260,6 +266,7 @@ inline float norm(const complex<float>& z)
     return (a * a + b * b) / 16.0f;
   } 
 
+#endif
   return z.real() * z.real() + z.imag() * z.imag();
 }
 
@@ -268,9 +275,9 @@ __host__ __device__
 inline double norm(const complex<double>& z)
 {
   // Find `abs` and `sqrt` by ADL.
+#ifndef __CUDACC_RTC__
   using std::abs;
   using std::sqrt;
-
   if (abs(z.real()) < sqrt(DBL_MIN) && abs(z.imag()) < sqrt(DBL_MIN))
   {
     double a = z.real() * 4.0;
@@ -278,6 +285,7 @@ inline double norm(const complex<double>& z)
     return (a * a + b * b) / 16.0;
   } 
 
+#endif
   return z.real() * z.real() + z.imag() * z.imag();
 }
 
@@ -290,8 +298,10 @@ polar(const T0& m, const T1& theta)
   typedef typename detail::promoted_numerical_type<T0, T1>::type T;
 
   // Find `cos` and `sin` by ADL.
+#ifndef __CUDACC_RTC__
   using std::cos;
   using std::sin;
+#endif
 
   return complex<T>(m * cos(theta), m * sin(theta));
 }

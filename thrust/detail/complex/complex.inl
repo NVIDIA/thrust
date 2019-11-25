@@ -15,9 +15,14 @@
  *  limitations under the License.
  */
 
-#include <thrust/complex.h>
 
+#ifndef __CUDACC_RTC__
+#include <thrust/complex.h>
 #include <thrust/type_traits/is_trivially_relocatable.h>
+#else
+#include "../../complex.h"
+
+#endif
 
 namespace thrust
 {
@@ -92,6 +97,7 @@ complex<T>::complex(const complex<U>& z)
 }
 #endif
 
+#ifndef __CUDACC_RTC__
 template <typename T>
 __host__ THRUST_STD_COMPLEX_DEVICE
 complex<T>::complex(const std::complex<T>& z)
@@ -124,7 +130,7 @@ complex<T>::complex(const std::complex<U>& z)
 }
 #endif
 
-
+#endif
 
 /* --- Assignment Operators --- */
 
@@ -158,6 +164,7 @@ complex<T>& complex<T>::operator=(const complex<U>& z)
   return *this;
 }
 
+#ifndef __CUDACC_RTC__
 template <typename T>
 __host__ THRUST_STD_COMPLEX_DEVICE
 complex<T>& complex<T>::operator=(const std::complex<T>& z)
@@ -176,7 +183,7 @@ complex<T>& complex<T>::operator=(const std::complex<U>& z)
   imag(T(THRUST_STD_COMPLEX_IMAG(z)));
   return *this;
 }
-
+#endif
 
 
 /* --- Compound Assignment Operators --- */
@@ -264,19 +271,21 @@ bool operator==(const complex<T0>& x, const complex<T1>& y)
   return x.real() == y.real() && x.imag() == y.imag();
 }
 
+#ifndef __CUDACC_RTC__
 template <typename T0, typename T1>
 __host__ THRUST_STD_COMPLEX_DEVICE
-bool operator==(const complex<T0>& x, const std::complex<T1>& y)
+bool operator==(const complex<T0>& x, const complex<T1>& y)
 {
   return x.real() == THRUST_STD_COMPLEX_REAL(y) && x.imag() == THRUST_STD_COMPLEX_IMAG(y);
 }
 
 template <typename T0, typename T1>
 __host__ THRUST_STD_COMPLEX_DEVICE
-bool operator==(const std::complex<T0>& x, const complex<T1>& y)
+bool operator==(const complex<T0>& x, const complex<T1>& y)
 {
   return THRUST_STD_COMPLEX_REAL(x) == y.real() && THRUST_STD_COMPLEX_IMAG(x) == y.imag();
 }
+#endif
 
 template <typename T0, typename T1>
 __host__ __device__
@@ -299,19 +308,21 @@ bool operator!=(const complex<T0>& x, const complex<T1>& y)
   return !(x == y);
 }
 
+#ifndef __CUDACC_RTC__
 template <typename T0, typename T1>
 __host__ THRUST_STD_COMPLEX_DEVICE
-bool operator!=(const complex<T0>& x, const std::complex<T1>& y)
+bool operator!=(const complex<T0>& x, const complex<T1>& y)
 {
   return !(x == y);
 }
 
 template <typename T0, typename T1>
 __host__ THRUST_STD_COMPLEX_DEVICE
-bool operator!=(const std::complex<T0>& x, const complex<T1>& y)
+bool operator!=(const complex<T0>& x, const complex<T1>& y)
 {
   return !(x == y);
 }
+#endif 
 
 template <typename T0, typename T1>
 __host__ __device__
@@ -327,11 +338,14 @@ bool operator!=(const complex<T0>& x, const T1& y)
   return !(x == y);
 }
 
+#ifndef __CUDACC_RTC__
 template <typename T>
 struct proclaim_trivially_relocatable<complex<T> > : thrust::true_type {};
+#endif
 
 } // end namespace thrust
 
+#ifndef __CUDACC_RTC__
 #include <thrust/detail/complex/arithmetic.h>
 #include <thrust/detail/complex/cproj.h>
 #include <thrust/detail/complex/cexp.h>
@@ -348,6 +362,22 @@ struct proclaim_trivially_relocatable<complex<T> > : thrust::true_type {};
 #include <thrust/detail/complex/csqrt.h>
 #include <thrust/detail/complex/csqrtf.h>
 #include <thrust/detail/complex/catrig.h>
-#include <thrust/detail/complex/catrigf.h>
-#include <thrust/detail/complex/stream.h>
-
+#else
+#include "arithmetic.h"
+#include "cproj.h"
+#include "cexp.h"
+#include "cexpf.h"
+#include "clog.h"
+#include "clogf.h"
+#include "cpow.h"
+#include "ccosh.h"
+#include "ccoshf.h"
+#include "csinh.h"
+#include "csinhf.h"
+#include "ctanh.h"
+#include "ctanhf.h"
+#include "csqrt.h"
+#include "csqrtf.h"
+#include "catrig.h"
+#include "catrigf.h"
+#endif

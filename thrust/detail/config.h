@@ -19,6 +19,10 @@
 
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <thrust/version.h>
-#include <thrust/detail/config/config.h>
+#include <detail/config/config.h>
+#else
+#include "config/config.h"
+#endif
 

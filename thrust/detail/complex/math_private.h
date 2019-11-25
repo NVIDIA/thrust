@@ -31,11 +31,32 @@
  */
 #pragma once
 
-#include <thrust/detail/config.h>
+#ifndef __CUDACC_RTC__
 #include <thrust/complex.h>
+#include <thrust/detail/config.h>
 #include <thrust/detail/cstdint.h>
+#else
+#include "../../complex.h"
+#include "../config.h"
+#include "../cstdint.h"
+#endif
 
 namespace thrust{
+
+#ifdef __CUDACC_RTC__
+const float FLT_MIN = 1.17549435e-38F;
+const float FLT_MAX = 3.40282347e+38F;
+const float FLT_EPSILON = 1.19209290e-07F;
+const int FLT_MAX_EXP = 128;
+const int FLT_MANT_DIG = 24;
+
+const double DBL_MIN = 2.2250738585072014e-308;
+const double DBL_MAX = 1.7976931348623157e+308;
+const double DBL_EPSILON = 2.2204460492503131e-16;
+const int DBL_MAX_EXP = 1024;
+const int DBL_MANT_DIG = 53;
+#endif
+
 namespace detail{
 namespace complex{
 
@@ -133,4 +154,8 @@ void  extract_words(int32_t & ix0,int32_t & ix1, double d){
 } // namespace thrust
 
 
+#ifndef __CUDACC_RTC__
 #include <thrust/detail/complex/c99math.h>
+#else
+#include "c99math.h"
+#endif

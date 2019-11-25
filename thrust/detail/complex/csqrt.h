@@ -49,9 +49,14 @@
 
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <thrust/complex.h>
 #include <thrust/detail/complex/math_private.h>
 #include <cmath>
+#else
+#include "../../complex.h"
+#include "math_private.h"
+#endif
 
 namespace thrust{
 namespace detail{
@@ -140,7 +145,7 @@ complex<double> csqrt(const complex<double>& z){
 template <typename ValueType>
 __host__ __device__
 inline complex<ValueType> sqrt(const complex<ValueType>& z){
-  return thrust::polar(std::sqrt(thrust::abs(z)),thrust::arg(z)/ValueType(2));
+  return thrust::polar(::sqrt(thrust::abs(z)),thrust::arg(z)/ValueType(2));
 }
 
 template <>

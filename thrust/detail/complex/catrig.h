@@ -48,10 +48,15 @@
 
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <thrust/complex.h>
 #include <thrust/detail/complex/math_private.h>
 #include <cfloat>
 #include <cmath>
+#else
+#include "../../complex.h"
+#include "math_private.h"
+#endif
 
 namespace thrust{
 namespace detail{
@@ -732,11 +737,11 @@ inline complex<ValueType> atanh(const complex<ValueType>& z){
   
   ValueType d = ValueType(1.0) - z.real();
   d = imag2 + d * d;
-  complex<ValueType> ret(ValueType(0.25) * (std::log(n) - std::log(d)),0);
+  complex<ValueType> ret(ValueType(0.25) * (::log(n) - ::log(d)),0);
   
   d = ValueType(1.0) -  z.real() * z.real() - imag2;
   
-  ret.imag(ValueType(0.5) * std::atan2(ValueType(2.0) * z.imag(), d));
+  ret.imag(ValueType(0.5) * ::atan2(ValueType(2.0) * z.imag(), d));
   return ret;
 }
   

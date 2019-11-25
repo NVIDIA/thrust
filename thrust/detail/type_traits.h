@@ -22,11 +22,16 @@
 
 #pragma once
 
+#ifndef __CUDACC_RTC__
 #include <thrust/detail/config.h>
 
 #if THRUST_CPP_DIALECT >= 2011
 #  include <type_traits>
 #endif
+#else
+#include "config.h"
+#endif
+
 
 namespace thrust
 {
@@ -331,9 +336,9 @@ template<typename From, typename To>
     typedef char                          yes;
     typedef struct { char two_chars[2]; } no;
 
-    static inline yes   test(To) { return yes(); }
-    static inline no    test(...) { return no(); } 
-    static inline typename remove_reference<From>::type& from() { typename remove_reference<From>::type* ptr = 0; return *ptr; }
+    __host__ __device__ static inline yes   test(To) { return yes(); }
+    __host__ __device__ static inline no    test(...) { return no(); } 
+    __host__ __device__ static inline typename remove_reference<From>::type& from() { typename remove_reference<From>::type* ptr = 0; return *ptr; }
 
   public:
     static const bool value = sizeof(test(from())) == sizeof(yes);
@@ -571,6 +576,8 @@ template<typename T1, typename T2>
       >
 {};
 
+#ifndef __CUDACC_RTC__
+
 #if THRUST_CPP_DIALECT >= 2011
 
 using std::is_base_of;
@@ -601,7 +608,7 @@ template<typename Base, typename Derived>
 
 } // end is_base_of_ns
 
-
+#endif
 template<typename Base, typename Derived>
   struct is_base_of
     : integral_constant<
@@ -609,8 +616,6 @@ template<typename Base, typename Derived>
         is_base_of_ns::impl<Base,Derived>::value
       >
 {};
-
-#endif
 
 template<typename Base, typename Derived, typename Result = void>
   struct enable_if_base_of
@@ -662,6 +667,7 @@ template<typename T>
       >
 {};
 
+#endif
 
 template<typename T1, typename T2, typename Enable = void> struct promoted_numerical_type;
 
@@ -713,5 +719,5 @@ using detail::false_type;
 
 } // end thrust
 
-#include <thrust/detail/type_traits/has_trivial_assign.h>
+//#include <thrust/detail/type_traits/has_trivial_assign.h>
 

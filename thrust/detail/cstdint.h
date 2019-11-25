@@ -47,6 +47,7 @@ typedef unsigned __int64     uint64_t;
 
 #else
 
+#ifndef __CUDACC_RTC__
 typedef ::int8_t   int8_t;
 typedef ::int16_t  int16_t;
 typedef ::int32_t  int32_t;
@@ -55,7 +56,16 @@ typedef ::uint8_t  uint8_t;
 typedef ::uint16_t uint16_t;
 typedef ::uint32_t uint32_t;
 typedef ::uint64_t uint64_t;
-
+#else
+typedef char            int8_t;
+typedef short           int16_t;
+typedef int             int32_t;
+typedef long            int64_t;
+typedef unsigned char   uint8_t;
+typedef unsigned short  uint16_t;
+typedef unsigned int    uint32_t;
+typedef unsigned long   uint64_t;
+#endif
 #endif
 
 
