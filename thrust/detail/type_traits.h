@@ -719,5 +719,7 @@ using detail::false_type;
 
 } // end thrust
 
-//#include <thrust/detail/type_traits/has_trivial_assign.h>
+#ifndef __CUDACC_RTC__
+#include <thrust/detail/type_traits/has_trivial_assign.h>
+#endif
 

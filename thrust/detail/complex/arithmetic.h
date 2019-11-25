@@ -21,6 +21,8 @@
 #include <cfloat>
 #include <cmath>
 #include <thrust/detail/complex/c99math.h>
+
+using abs = std::abs;
 #else
 #include "../../complex.h"
 #endif

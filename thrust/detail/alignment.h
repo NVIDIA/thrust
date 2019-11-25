@@ -23,9 +23,9 @@
 #ifndef __CUDACC_RTC__
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h> // For `integral_constant`.
-
 #include <cstddef> // For `std::size_t` and `std::max_align_t`.
 #endif
+
 #if __cplusplus >= 201103L
     #include <type_traits> // For `std::alignment_of` and `std::aligned_storage`.
 #endif
@@ -62,17 +62,17 @@ namespace detail
     template <typename T>
     struct alignment_of;
 
-    template <typename T, size_t size_diff>
+    template <typename T, ::size_t size_diff>
     struct alignment_of_helper
     {
-        static const size_t value =
-            integral_constant<size_t, size_diff>::value;
+        static const ::size_t value =
+            integral_constant<::size_t, size_diff>::value;
     };
 
     template <typename T>
     struct alignment_of_helper<T, 0>
     {
-        static const size_t value = alignment_of<T>::value;
+        static const ::size_t value = alignment_of<T>::value;
     };
 
     template <typename T>
@@ -86,7 +86,7 @@ namespace detail
         };
 
       public:
-        static const size_t value =
+        static const ::size_t value =
             alignment_of_helper<impl, sizeof(impl) - sizeof(T)>::value;
     };
 #endif
@@ -95,14 +95,14 @@ namespace detail
 /// type whose alignment requirement is a divisor of `Align`.
 ///
 /// The behavior is undefined if `Align` is not a power of 2.
-template <size_t Align>
+template <::size_t Align>
 struct aligned_type;
 
 #if __cplusplus >= 201103L                                                     \
   && (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                        \
   && (THRUST_GCC_VERSION >= 40800)
     // C++11 implementation, excluding GCC 4.7, which doesn't have `alignas`.
-    template <size_t Align>
+    template <::size_t Align>
     struct aligned_type
     {
         struct alignas(Align) type {};
@@ -148,7 +148,7 @@ struct aligned_type;
     #undef THRUST_DEFINE_ALIGNED_TYPE_SPECIALIZATION
 #else
     // C++03 implementation for GCC > 4.5, Clang, PGI, ICPC, and xlC.
-    template <size_t Align>
+    template <::size_t Align>
     struct aligned_type
     {
         struct type {} __attribute__((aligned(Align)));
@@ -163,10 +163,10 @@ struct aligned_type;
 ///
 /// It is an implementation of C++11's \p std::aligned_storage.
 #if __cplusplus >= 201103L
-    template <size_t Len, size_t Align>
+    template <::size_t Len, ::size_t Align>
     using aligned_storage = std::aligned_storage<Len, Align>;
 #else
-    template <size_t Len, size_t Align>
+    template <::size_t Len, ::size_t Align>
     struct aligned_storage
     {
         union type
@@ -189,7 +189,7 @@ struct aligned_type;
   && (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                        \
   && (THRUST_GCC_VERSION >= 40900)
     // GCC 4.7 and 4.8 don't have `std::max_align_t`.
-    using max_align_t = max_align_t;
+    using max_align_t = std::max_align_t;
 #else
     union max_align_t
     {
@@ -221,7 +221,7 @@ T aligned_reinterpret_cast(U u)
 }
 
 __host__ __device__
-inline size_t aligned_storage_size(size_t n, size_t align)
+inline ::size_t aligned_storage_size(::size_t n, ::size_t align)
 {
   return ((n + align - 1) / align) * align;
 }
