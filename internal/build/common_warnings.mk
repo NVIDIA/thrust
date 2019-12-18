@@ -88,6 +88,12 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
             # becoming part of the type system; we don't care.
             CUDACC_FLAGS += -Xcompiler "-Wno-noexcept-type"
           endif
+          ifeq ($(shell if test $(GCC_VERSION) -ge 80; then echo true; fi),true)
+            # GCC 8.x has a new warning that tries to diagnose technical misuses of
+            # memcpy and memmove. We need to resolve it better than this, but for the
+            # time being, we'll downgrade it from an error to a warning.
+            CUDACC_FLAGS += -Xcompiler "-Wno-error=class-memaccess"
+          endif
         else
           $(error CCBIN is not defined.)
         endif
