@@ -97,7 +97,7 @@ struct predicate_to_integral
   
   template <typename T>
   __host__ __device__
-  bool operator()(const T& x)
+  IntegralType operator()(const T& x)
   {
     return pred(x) ? IntegralType(1) : IntegralType(0);
   }
