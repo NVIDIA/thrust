@@ -106,8 +106,11 @@ inline error_category const& event_category()
   return result;
 }
 
+namespace system
+{
 /// Specialization of \p is_error_code_enum for \p event_errc.
 template<> struct is_error_code_enum<event_errc> : true_type {};
+} // end system
 
 /// \return <tt>error_code(static_cast<int>(e), event_category())</tt>
 inline error_code make_error_code(event_errc e)
