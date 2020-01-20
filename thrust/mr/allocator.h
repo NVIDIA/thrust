@@ -234,6 +234,10 @@ public:
     stateless_resource_allocator(const stateless_resource_allocator<U, Upstream> & other)
         : base(other) {}
 
+#if THRUST_CPP_DIALECT >= 2011
+    stateless_resource_allocator & operator=(const stateless_resource_allocator &) = default;
+#endif
+
     /*! Destructor. */
     __host__ __device__
     ~stateless_resource_allocator() {}

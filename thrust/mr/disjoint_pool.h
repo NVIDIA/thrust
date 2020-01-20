@@ -249,6 +249,10 @@ private:
         {
         }
 
+#if THRUST_CPP_DIALECT >= 2011
+        pool & operator=(const pool &) = default;
+#endif
+
         __host__
         ~pool() {}
 

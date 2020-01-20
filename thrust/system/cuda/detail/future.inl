@@ -917,7 +917,7 @@ public:
 
     value_type tmp(async_signal_->extract());
     async_signal_.reset();
-    return std::move(tmp);
+    return tmp;
   }
 
   // For testing only.

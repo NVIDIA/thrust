@@ -68,7 +68,7 @@ template<typename T, typename Allocator = allocator<T> >
    */
 
   public:
-    
+
   /*! \cond
    */
     typedef typename super_t::size_type  size_type;

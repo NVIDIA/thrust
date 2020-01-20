@@ -1,5 +1,6 @@
 #include <thrust/device_vector.h>
 #include <thrust/scan.h>
+#include <thrust/sequence.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/counting_iterator.h>
 
@@ -20,7 +21,7 @@ void scan_matrix_by_rows0(thrust::device_vector<int>& u, int n, int m) {
 
 // We can batch the operation using `thrust::inclusive_scan_by_key`, which
 // scans each group of consecutive equal keys. All we need to do is generate
-// the right key sequence. We want the keys for elements on the same row to 
+// the right key sequence. We want the keys for elements on the same row to
 // be identical.
 
 // So first, we define an unary function object which takes the index of an

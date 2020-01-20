@@ -90,7 +90,7 @@ template<typename T, typename Allocator = allocator<T> >
      *  \param x The other \p tbb::vector to copy.
      */
     vector(const vector &x);
-    
+
   #if __cplusplus >= 201103L
     /*! Move constructor use the move semantic over another \p tbb::vector.
      *  \param x The other \p tbb::vector to move from.

@@ -130,6 +130,10 @@ public:
     __host__
     device_allocator(const device_allocator<U>& other) : base(other) {}
 
+#if THRUST_CPP_DIALECT >= 2011
+    device_allocator & operator=(const device_allocator &) = default;
+#endif
+
     /*! Destructor has no effect. */
     __host__
     ~device_allocator() {}

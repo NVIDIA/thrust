@@ -1,6 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/swap.h>
-#include <thrust/iterator/iterator_traits.h> 
+#include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/retag.h>
 #include <thrust/system/cpp/memory.h>
 
@@ -68,7 +68,7 @@ void TestSwapRangesSimple(void)
     ASSERT_EQUAL(v1[2], 7);
     ASSERT_EQUAL(v1[3], 8);
     ASSERT_EQUAL(v1[4], 9);
-    
+
     ASSERT_EQUAL(v2[0], 0);
     ASSERT_EQUAL(v2[1], 1);
     ASSERT_EQUAL(v2[2], 2);
@@ -88,11 +88,11 @@ void TestSwapRanges(const size_t n)
     thrust::host_vector<T>    h2 = a2;
     thrust::device_vector<T>  d1 = a1;
     thrust::device_vector<T>  d2 = a2;
-  
+
     thrust::swap_ranges(h1.begin(), h1.end(), h2.begin());
     thrust::swap_ranges(d1.begin(), d1.end(), d2.begin());
 
-    ASSERT_EQUAL(h1, a2);  
+    ASSERT_EQUAL(h1, a2);
     ASSERT_EQUAL(d1, a2);
     ASSERT_EQUAL(h2, a1);
     ASSERT_EQUAL(d2, a1);
@@ -146,6 +146,10 @@ struct type_with_swap
   {
     return m_x == other.m_x && m_swapped == other.m_swapped;
   }
+
+#if THRUST_CPP_DIALECT >= 2011
+  type_with_swap & operator=(const type_with_swap &) = default;
+#endif
 
   int m_x;
   bool m_swapped;

@@ -28,8 +28,6 @@
 
 #include <thrust/detail/config.h>
 
-#define THRUST_UNUSED_VAR(expr) do { (void)(expr); } while (0)
-
 #if defined(__CUDACC__)
 #  if !defined(__CUDA_ARCH__) || (__CUDA_ARCH__>= 350 && defined(__CUDACC_RDC__))
 #    define __THRUST_HAS_CUDART__ 1
