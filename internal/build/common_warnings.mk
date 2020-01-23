@@ -7,6 +7,12 @@ ifeq ($(OS),$(filter $(OS),Linux Darwin))
       # template functions, but xlC does. This causes xlC to choke on the
       # OMP backend, which is mostly #ifdef'd out when you aren't using it.
       CUDACC_FLAGS += -Xcompiler "-Wno-unused-parameter"
+
+      # xlC is unreasonable about unused functions in a translation unit
+      # when this warning is enabled; this includes warning on most functions
+      # that are defined as static inline in cuda_fp16.h. Disable this warning
+      # entirely under xlC.
+      CUDACC_FLAGS += -Xcompiler "-Wno-unused-function"
     else # GCC, ICC or Clang AKA the sane ones.
       # XXX Enable -Wcast-align.
       CUDACC_FLAGS += -Xcompiler "-Winit-self -Woverloaded-virtual -Wno-cast-align -Wcast-qual -Wno-long-long -Wno-variadic-macros -Wno-unused-function"
