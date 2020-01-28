@@ -393,7 +393,6 @@ struct experiment_driver
     );
     #endif
 
-/*
     stl_average_walltime = round_to_precision(
         stl_average_walltime, stl_walltime_precision
     );
@@ -417,7 +416,6 @@ struct experiment_driver
         tbb_walltime_uncertainty, tbb_walltime_precision
     );
     #endif
-*/
 
     // Round the average throughput and throughput uncertainty to the
     // significant figure of the throughput uncertainty.
@@ -436,7 +434,6 @@ struct experiment_driver
     );
     #endif
 
-/*
     stl_average_throughput = round_to_precision(
         stl_average_throughput, stl_throughput_precision
     );
@@ -460,7 +457,6 @@ struct experiment_driver
         tbb_throughput_uncertainty, tbb_throughput_precision
     );
     #endif
-*/
 
     std::cout << THRUST_VERSION                // Thrust Version.
       << ","  << test_name                     // Algorithm.
