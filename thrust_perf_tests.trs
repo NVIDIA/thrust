@@ -18,7 +18,7 @@
   # The tests in the testsuite (required).
   "tests" : [
       {
-        "exe" : "{PYTHON} {TR_INSTALL_DIR}/opencl/_tests/GPUConfMgr/GPUConfMgr.py -caseName=set -clock=P0MAX -VULCAN_INSTALL={TR_INSTALL_DIR}",
+        "init" : "{PYTHON} {TR_INSTALL_DIR}/GPUConfMgr/GPUConfMgr.py -caseName=set -clock=P0 -VULCAN_INSTALL={TR_INSTALL_DIR}",
         "attributes" : [ ]
       },
       {
@@ -26,7 +26,7 @@
         "attributes": [ "result=multi" ]
       },
       {
-        "exe" : "{PYTHON} {TR_INSTALL_DIR}/opencl/_tests/GPUConfMgr/GPUConfMgr.py -caseName=reset -clock=P0MAX -VULCAN_INSTALL={TR_INSTALL_DIR}",
+        "fini" : "{PYTHON} {TR_INSTALL_DIR}/GPUConfMgr/GPUConfMgr.py -caseName=reset -clock=P0 -VULCAN_INSTALL={TR_INSTALL_DIR}",
         "attributes" : [ ]
       }
  ]
