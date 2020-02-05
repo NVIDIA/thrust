@@ -1,6 +1,8 @@
 #include <unittest/unittest.h>
 #include <thrust/adjacent_difference.h>
 #include <thrust/execution_policy.h>
+#include <thrust/device_malloc.h>
+#include <thrust/device_free.h>
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2>
