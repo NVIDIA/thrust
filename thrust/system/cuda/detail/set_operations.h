@@ -132,7 +132,7 @@ namespace __set_operations {
     }
     return begin;
   }
-  
+
   template <class It1, class It2, class Size, class Size2, class CompareOp>
   pair<Size, Size> THRUST_DEVICE_FUNCTION
   balanced_path(It1       keys1,
@@ -202,15 +202,13 @@ namespace __set_operations {
             int                      _ITEMS_PER_THREAD = 1,
             cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_LDG,
-            cub::BlockScanAlgorithm  _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS,
-            int                      _MIN_BLOCKS       = 1>
+            cub::BlockScanAlgorithm  _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
   struct PtxPolicy
   {
     enum
     {
       BLOCK_THREADS    = _BLOCK_THREADS,
       ITEMS_PER_THREAD = _ITEMS_PER_THREAD,
-      MIN_BLOCKS       = _MIN_BLOCKS,
       ITEMS_PER_TILE   = _BLOCK_THREADS * _ITEMS_PER_THREAD - 1
     };
 
@@ -221,9 +219,9 @@ namespace __set_operations {
 
   template<class Arch, class T, class U>
   struct Tuning;
-  
+
   namespace mpl = thrust::detail::mpl::math;
-  
+
   template<class T, class U>
   struct Tuning<sm30,T,U>
   {
@@ -324,9 +322,9 @@ namespace __set_operations {
 
     typedef key1_type  key_type;
     typedef value1_type value_type;
-    
+
     typedef cub::ScanTileState<Size> ScanTileState;
-    
+
     template <class Arch>
     struct PtxPlan : Tuning<Arch, key_type, value_type>::type
     {
@@ -498,7 +496,7 @@ namespace __set_operations {
           output[idx] = input[ITEM];
         }
       }
-      
+
       template <class OutputIt, class T, class SharedIt>
       void THRUST_DEVICE_FUNCTION
       scatter(OutputIt output,
@@ -510,7 +508,7 @@ namespace __set_operations {
               int      tile_output_count)
       {
         using core::sync_threadblock;
-        
+
 
 
         int local_scatter_idx = thread_output_prefix - tile_output_prefix;
@@ -578,9 +576,9 @@ namespace __set_operations {
         //
         int num_keys1 = static_cast<int>(keys1_end - keys1_beg);
         int num_keys2 = static_cast<int>(keys2_end - keys2_beg);
-        
-       
-       // load keys into shared memory for further processing 
+
+
+       // load keys into shared memory for further processing
         key_type keys_loc[ITEMS_PER_THREAD];
 
         gmem_to_reg<!IS_LAST_TILE>(keys_loc,
@@ -588,7 +586,7 @@ namespace __set_operations {
                                    keys2_in + keys2_beg,
                                    num_keys1,
                                    num_keys2);
-        
+
         reg_to_shared(&storage.keys_shared[0], keys_loc);
 
         sync_threadblock();
@@ -604,7 +602,7 @@ namespace __set_operations {
                           diag_loc,
                           4,
                           compare_op);
-        
+
         int keys1_beg_loc = partition_loc.first;
         int keys2_beg_loc = partition_loc.second;
 
@@ -628,7 +626,7 @@ namespace __set_operations {
 
         int num_keys1_loc = keys1_end_loc - keys1_beg_loc;
         int num_keys2_loc = keys2_end_loc - keys2_beg_loc;
-        
+
         // perform serial set operation
         //
         int indices[ITEMS_PER_THREAD];
@@ -772,7 +770,7 @@ namespace __set_operations {
             compare_op(compare_op_),
             set_op(set_op_),
             partitions(partitions_),
-            output_count(output_count_) 
+            output_count(output_count_)
       {
         int  tile_idx      = blockIdx.x;
         int  num_tiles     = gridDim.x;
@@ -781,7 +779,7 @@ namespace __set_operations {
         {
           consume_tile<false>(tile_idx);
         }
-        else 
+        else
         {
           consume_tile<true>(tile_idx);
         }
@@ -825,7 +823,7 @@ namespace __set_operations {
            output_count);
     }
   };    // struct SetOpAgent
-  
+
   template <class KeysIt1,
             class KeysIt2,
             class Size,
@@ -867,7 +865,7 @@ namespace __set_operations {
       }
     }
   };    // struct PartitionAgent
-  
+
   template <class ScanTileState,
             class Size>
   struct InitAgent
@@ -939,7 +937,7 @@ namespace __set_operations {
       return active_mask;
     }
   };    // struct serial_set_intersection
-  
+
   // serial_set_symmetric_difference
   // ---------------------
   // emit A if A < B and emit B if B < A.
@@ -984,8 +982,8 @@ namespace __set_operations {
         // The outputs must come from A by definition of set difference.
         output[i]  = pA ? aKey : bKey;
         indices[i] = pA ? aBegin : bBegin;
-        
-        if (aBegin + bBegin < end && pA != pB) 
+
+        if (aBegin + bBegin < end && pA != pB)
           active_mask |= 1 << i;
 
         if (!pB) {aKey = keys[++aBegin]; }
@@ -1039,7 +1037,7 @@ namespace __set_operations {
         // The outputs must come from A by definition of set difference.
         output[i]  = aKey;
         indices[i] = aBegin;
-        
+
         if (aBegin + bBegin < end && pA)
           active_mask |= 1 << i;
 
@@ -1049,7 +1047,7 @@ namespace __set_operations {
       return active_mask;
     }
   };    // struct set_difference
-  
+
   // serial_set_union
   // ----------------
   // emit A if A <= B else emit B
@@ -1093,7 +1091,7 @@ namespace __set_operations {
         // Output A in case of a tie, so check if b < a.
         output[i]  = pB ? bKey : aKey;
         indices[i] = pB ? bBegin : aBegin;
-        
+
         if (aBegin + bBegin < end)
           active_mask |= 1 << i;
 
@@ -1137,7 +1135,7 @@ namespace __set_operations {
       return cudaErrorNotSupported;
 
     cudaError_t status = cudaSuccess;
-    
+
     using core::AgentPlan;
     using core::AgentLauncher;
 
@@ -1156,7 +1154,7 @@ namespace __set_operations {
 
     typedef AgentLauncher<PartitionAgent<KeysIt1, KeysIt2, Size, CompareOp> >
         partition_agent;
-    
+
     typedef typename set_op_agent::ScanTileState ScanTileState;
     typedef AgentLauncher<InitAgent<ScanTileState, Size> > init_agent;
 
@@ -1264,7 +1262,7 @@ namespace __set_operations {
 
     if (num_keys1 + num_keys2 == 0)
       return thrust::make_pair(keys_output, values_output);
-     
+
     size_t       temp_storage_bytes = 0;
     cudaStream_t stream             = cuda_cub::stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
@@ -1328,7 +1326,7 @@ namespace __set_operations {
                                    stream,
                                    debug_sync);
     cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
-    
+
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
 

@@ -49,8 +49,7 @@ namespace __scan_by_key {
             cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_DEFAULT,
             cub::BlockScanAlgorithm  _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS,
-            cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT,
-            int                      _MIN_BLOCKS       = 1>
+            cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT>
   struct PtxPolicy
   {
     enum
@@ -58,7 +57,6 @@ namespace __scan_by_key {
       BLOCK_THREADS    = _BLOCK_THREADS,
       ITEMS_PER_THREAD = _ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = BLOCK_THREADS * ITEMS_PER_THREAD,
-      MIN_BLOCKS       = _MIN_BLOCKS
     };
 
     static const cub::BlockLoadAlgorithm  LOAD_ALGORITHM  = _LOAD_ALGORITHM;
@@ -69,7 +67,7 @@ namespace __scan_by_key {
 
   template <class Arch, class Key, class Value>
   struct Tuning;
-  
+
   template <class Key, class Value>
   struct Tuning<sm30, Key, Value>
   {
@@ -231,7 +229,7 @@ namespace __scan_by_key {
         typename BlockStoreValues::TempStorage store_values;
       };    // union TempStorage
     };      // struct PtxPlan
-    
+
     typedef typename core::specialize_plan_msvc10_war<PtxPlan>::type::type ptx_plan;
 
     typedef typename ptx_plan::KeysLoadIt   KeysLoadIt;
@@ -252,7 +250,7 @@ namespace __scan_by_key {
       ITEMS_PER_THREAD  = ptx_plan::ITEMS_PER_THREAD,
       ITEMS_PER_TILE    = ptx_plan::ITEMS_PER_TILE,
     };
-    
+
     struct impl
     {
       //---------------------------------------------------------------------
@@ -284,7 +282,7 @@ namespace __scan_by_key {
         BlockScan(storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
       }
-      
+
       // Inclusive scan specialization
       //
       THRUST_DEVICE_FUNCTION void
@@ -295,11 +293,11 @@ namespace __scan_by_key {
         BlockScan(storage.scan)
             .InclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
       }
-      
+
       //---------------------------------------------------------------------
       // Block scan utility methods (subsequent tiles)
       //---------------------------------------------------------------------
-      
+
       // Exclusive scan specialization (with prefix from predecessors)
       //
       THRUST_DEVICE_FUNCTION void
@@ -312,7 +310,7 @@ namespace __scan_by_key {
             .ExclusiveScan(scan_items, scan_items, scan_op, prefix_op);
         tile_aggregate = prefix_op.GetBlockAggregate();
       }
-      
+
       // Inclusive scan specialization (with prefix from predecessors)
       //
       THRUST_DEVICE_FUNCTION void
@@ -325,7 +323,7 @@ namespace __scan_by_key {
             .InclusiveScan(scan_items, scan_items, scan_op, prefix_op);
         tile_aggregate = prefix_op.GetBlockAggregate();
       }
-      
+
       //---------------------------------------------------------------------
       // Zip utility methods
       //---------------------------------------------------------------------
@@ -362,7 +360,7 @@ namespace __scan_by_key {
           values[ITEM] = scan_items[ITEM].value;
         }
       }
-      
+
       //---------------------------------------------------------------------
       // Cooperatively scan a device-wide sequence of tiles with other CTAs
       //---------------------------------------------------------------------
@@ -402,7 +400,7 @@ namespace __scan_by_key {
         }
 
         sync_threadblock();
-        
+
         if (IS_LAST_TILE)
         {
           // Fill last element with the first element
@@ -418,7 +416,7 @@ namespace __scan_by_key {
           BlockLoadValues(storage.load_values)
               .Load(values_load_it + tile_base, values);
         }
-        
+
         sync_threadblock();
 
         // first tile
@@ -426,7 +424,7 @@ namespace __scan_by_key {
         {
           BlockDiscontinuityKeys(storage.discontinuity)
             .FlagHeads(segment_flags, keys, inequality_op);
-        
+
           // Zip values and segment_flags
           zip_values_and_flags<IS_LAST_TILE>(num_remaining,
                                              values,
@@ -455,7 +453,7 @@ namespace __scan_by_key {
                          keys,
                          inequality_op,
                          tile_pred_key);
-        
+
           // Zip values and segment_flags
           zip_values_and_flags<IS_LAST_TILE>(num_remaining,
                                              values,
@@ -489,7 +487,7 @@ namespace __scan_by_key {
       //---------------------------------------------------------------------
       // Constructor
       //---------------------------------------------------------------------
-      
+
       // Dequeue and scan tiles of items as part of a dynamic chained scan
       // with Init functor
       template <class AddInitToScan>
@@ -564,14 +562,14 @@ namespace __scan_by_key {
     }
 
   };    // struct ScanByKeyAgent
-  
+
   template <class ScanTileState,
             class Size>
   struct InitAgent
   {
     template <class Arch>
     struct PtxPlan : PtxPolicy<128> {};
-   
+
     typedef core::specialize_plan<PtxPlan> ptx_plan;
 
     //---------------------------------------------------------------------
@@ -585,7 +583,7 @@ namespace __scan_by_key {
       tile_state.InitializeStatus(num_tiles);
     }
   }; // struct InitAgent
-  
+
   template<class T>
   struct DoNothing
   {
@@ -740,7 +738,7 @@ namespace __scan_by_key {
 
     if (num_items == 0)
       return values_result;
-    
+
     cudaError_t status;
     status = doit_step<Inclusive>(NULL,
                                   storage_size,
@@ -754,7 +752,7 @@ namespace __scan_by_key {
                                   stream,
                                   debug_sync);
     cuda_cub::throw_on_error(status, "scan_by_key: failed on 1st step");
-    
+
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
       tmp(policy, storage_size);
@@ -772,7 +770,7 @@ namespace __scan_by_key {
                                   stream,
                                   debug_sync);
     cuda_cub::throw_on_error(status, "scan_by_key: failed on 2nd step");
-    
+
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "scan_by_key: failed to synchronize");
 

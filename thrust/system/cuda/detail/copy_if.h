@@ -69,7 +69,6 @@ namespace __copy_if {
 
   template <int                     _BLOCK_THREADS,
             int                     _ITEMS_PER_THREAD = 1,
-            int                     _MIN_BLOCKS       = 1,
             cub::BlockLoadAlgorithm _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier  _LOAD_MODIFIER    = cub::LOAD_LDG,
             cub::BlockScanAlgorithm _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
@@ -79,7 +78,6 @@ namespace __copy_if {
     {
       BLOCK_THREADS      = _BLOCK_THREADS,
       ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
-      MIN_BLOCKS         = _MIN_BLOCKS,
       ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD,
     };
     static const cub::BlockLoadAlgorithm LOAD_ALGORITHM = _LOAD_ALGORITHM;
@@ -103,7 +101,6 @@ namespace __copy_if {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_LDG,
                       cub::BLOCK_SCAN_WARP_SCANS>
@@ -124,7 +121,6 @@ namespace __copy_if {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_LDG,
                       cub::BLOCK_SCAN_WARP_SCANS>
@@ -144,7 +140,6 @@ namespace __copy_if {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_DEFAULT,
                       cub::BLOCK_SCAN_WARP_SCANS>

@@ -76,8 +76,7 @@ namespace __reduce {
             int                       _VECTOR_LOAD_LENGTH = 1,
             cub::BlockReduceAlgorithm _BLOCK_ALGORITHM    = cub::BLOCK_REDUCE_RAKING,
             cub::CacheLoadModifier    _LOAD_MODIFIER      = cub::LOAD_DEFAULT,
-            cub::GridMappingStrategy  _GRID_MAPPING       = cub::GRID_MAPPING_DYNAMIC,
-            int                       _MIN_BLOCKS         = 1>
+            cub::GridMappingStrategy  _GRID_MAPPING       = cub::GRID_MAPPING_DYNAMIC>
   struct PtxPolicy
   {
     enum
@@ -85,7 +84,6 @@ namespace __reduce {
       BLOCK_THREADS      = _BLOCK_THREADS,
       ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
       VECTOR_LOAD_LENGTH = _VECTOR_LOAD_LENGTH,
-      MIN_BLOCKS         = _MIN_BLOCKS,
       ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD
     };
 

@@ -129,15 +129,13 @@ namespace __merge {
             int                      _ITEMS_PER_THREAD = 1,
             cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_LDG,
-            cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT,
-            int                      _MIN_BLOCKS       = 1>
+            cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT>
   struct PtxPolicy
   {
     enum
     {
       BLOCK_THREADS      = _BLOCK_THREADS,
       ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
-      MIN_BLOCKS         = _MIN_BLOCKS,
       ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD,
     };
 
