@@ -383,7 +383,7 @@ endif ()
 add_library(thrust_testframework STATIC ${THRUST_TESTFRAMEWORK_FILES})
 target_include_directories(
   thrust_testframework
-  PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
+  PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub
   PRIVATE ${PROJECT_SOURCE_DIR}/testing
 )
 
