@@ -43,8 +43,7 @@ namespace cuda_cub {
 namespace __parallel_for {
 
   template <int _BLOCK_THREADS,
-            int _ITEMS_PER_THREAD = 1,
-            int _MIN_BLOCKS       = 1>
+            int _ITEMS_PER_THREAD = 1>
   struct PtxPolicy
   {
     enum
@@ -52,7 +51,6 @@ namespace __parallel_for {
       BLOCK_THREADS    = _BLOCK_THREADS,
       ITEMS_PER_THREAD = _ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = BLOCK_THREADS * ITEMS_PER_THREAD,
-      MIN_BLOCKS       = _MIN_BLOCKS
     };
   };    // struct PtxPolicy
 
@@ -146,7 +144,7 @@ namespace __parallel_for {
   }
 }    // __parallel_for
 
-__thrust_exec_check_disable__ 
+__thrust_exec_check_disable__
 template <class Derived,
           class F,
           class Size>

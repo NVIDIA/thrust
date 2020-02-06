@@ -92,7 +92,7 @@ namespace __binary_search {
     typedef typename iterator_traits<NeedlesIt>::value_type T;
 
     template <class It, class CompareOp>
-    THRUST_DEVICE_FUNCTION bool 
+    THRUST_DEVICE_FUNCTION bool
     operator()(It begin, It end, T const& value, CompareOp comp)
     {
       HaystackIt iter = system::detail::generic::scalar::lower_bound(begin,
@@ -110,7 +110,7 @@ namespace __binary_search {
             class KeysIt2,
             class Size,
             class BinaryPred>
-  THRUST_DEVICE_FUNCTION Size 
+  THRUST_DEVICE_FUNCTION Size
   merge_path(KeysIt1    keys1,
              KeysIt2    keys2,
              Size       keys1_count,
@@ -143,7 +143,7 @@ namespace __binary_search {
   }
 
   template <class It, class T2, class CompareOp, int ITEMS_PER_THREAD>
-  THRUST_DEVICE_FUNCTION void 
+  THRUST_DEVICE_FUNCTION void
   serial_merge(It  keys_shared,
                int keys1_beg,
                int keys2_beg,
@@ -155,7 +155,7 @@ namespace __binary_search {
   {
     int keys1_end = keys1_beg + keys1_count;
     int keys2_end = keys2_beg + keys2_count;
-    
+
     typedef typename iterator_value<It>::type key_type;
 
     key_type key1 = keys_shared[keys1_beg];
@@ -185,7 +185,6 @@ namespace __binary_search {
 
   template <int                      _BLOCK_THREADS,
             int                      _ITEMS_PER_THREAD = 1,
-            int                      _MIN_BLOCKS       = 1,
             cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
             cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_LDG,
             cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT>
@@ -195,19 +194,18 @@ namespace __binary_search {
     {
       BLOCK_THREADS      = _BLOCK_THREADS,
       ITEMS_PER_THREAD   = _ITEMS_PER_THREAD,
-      MIN_BLOCKS         = _MIN_BLOCKS,
-      ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD,
+      ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD
     };
 
     static const cub::BlockLoadAlgorithm  LOAD_ALGORITHM  = _LOAD_ALGORITHM;
     static const cub::CacheLoadModifier   LOAD_MODIFIER   = _LOAD_MODIFIER;
     static const cub::BlockStoreAlgorithm STORE_ALGORITHM = _STORE_ALGORITHM;
   };    // PtxPolicy
-  
+
   template <class Arch, class T>
   struct Tuning;
 
-  template<class T>  
+  template<class T>
   struct Tuning<sm30,T>
   {
     enum
@@ -218,13 +216,12 @@ namespace __binary_search {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_LDG,
                       cub::BLOCK_STORE_TRANSPOSE>
         type;
   };
-  
+
   template<class T>
   struct Tuning<sm52,T>
   {
@@ -238,13 +235,12 @@ namespace __binary_search {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      1,
                       cub::BLOCK_LOAD_WARP_TRANSPOSE,
                       cub::LOAD_LDG,
                       cub::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };
-  
+
   template <class NeedlesIt,
             class HaystackIt,
             class Size,
@@ -429,7 +425,7 @@ namespace __binary_search {
         needle_type needles_loc[ITEMS_PER_THREAD];
         BlockLoadNeedles(storage.load_needles)
             .Load(needles_load_it + tile_base, needles_loc, num_remaining);
-       
+
 #ifdef BS_SIMPLE
 
         result_type results_loc[ITEMS_PER_THREAD];
@@ -499,7 +495,7 @@ namespace __binary_search {
                         needles_loc[ITEM],
                         compare_op);
         }
-        
+
         sync_threadblock();
 
         result_type results_loc[ITEMS_PER_THREAD];
@@ -627,7 +623,7 @@ namespace __binary_search {
               result,
               compare_op,
               search_op);
-    
+
     CUDA_CUB_RET_IF_FAIL(cudaPeekAtLastError());
 
     return status;
@@ -692,7 +688,7 @@ namespace __binary_search {
                        stream,
                        debug_sync);
     cuda_cub::throw_on_error(status, "binary_search: failed on 2nt call");
-    
+
     status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "binary_search: failed to synchronize");
 
