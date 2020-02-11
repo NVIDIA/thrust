@@ -33,4 +33,13 @@ void TestNewDeleteResourceAlignedAllocation()
         }
     }
 }
+
+void TestNewDeleteResourceEmptyAllocation()
+{
+    thrust::mr::new_delete_resource memres;
+    ASSERT_EQUAL(nullptr, memres.do_allocate(0));
+}
+
 DECLARE_UNITTEST(TestNewDeleteResourceAlignedAllocation);
+DECLARE_UNITTEST(TestNewDeleteResourceEmptyAllocation);
+
