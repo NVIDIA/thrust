@@ -43,6 +43,10 @@ public:
 #if __cplusplus >= 201703L
         return ::operator new(bytes, std::align_val_t(alignment));
 #else
+        // don't allocate anything if the caller requested zero bytes
+        if(0 == bytes){
+           return nullptr;
+        }
         // allocate memory for bytes, plus potential alignment correction,
         // plus store of the correction offset
         void * p = ::operator new(bytes + alignment + sizeof(std::size_t));
