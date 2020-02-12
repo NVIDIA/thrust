@@ -6,6 +6,7 @@
 #   A single example or unit test source file generates its own executable
 #   This program is called by a top level Makefile, but can also be used stand-alone for debugging
 #   This program also generates testing.mk, examples.mk and dependencies.mk
+from __future__ import print_function
 import sys
 import shutil as sh
 import os
@@ -31,7 +32,7 @@ def Glob(pattern, directory,exclude='\B'):
 
 
 def generate_test_mk(mk_path, test_path, group, TEST_DIR):
-    print 'Generating makefiles in "'+mk_path+'" for tests in "'+test_path+'"'
+    print('Generating makefiles in "'+mk_path+'" for tests in "'+test_path+'"')
     src_cu  = Glob("*.cu",  test_path, ".*testframework.cu$")
     src_cxx = Glob("*.cpp", test_path)
     src_cu.sort();
@@ -52,7 +53,7 @@ def generate_test_mk(mk_path, test_path, group, TEST_DIR):
     return [tests_all, dependencies_all]
 
 def generate_example_mk(mk_path, example_path, group, EXAMPLE_DIR):
-    print 'Generating makefiles in "'+mk_path+'" for examples in "'+example_path+'"'
+    print('Generating makefiles in "'+mk_path+'" for examples in "'+example_path+'"')
     src_cu  = Glob("*.cu",  example_path)
     src_cxx = Glob("*.cpp", example_path)
     src_cu.sort();
