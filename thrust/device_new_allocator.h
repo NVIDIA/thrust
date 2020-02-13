@@ -139,6 +139,7 @@ template<typename T>
     inline void deallocate(pointer p, size_type cnt)
     {
       // use "::operator delete" rather than keyword delete
+      (void)cnt;
       device_delete(p);
     } // end deallocate()
 
