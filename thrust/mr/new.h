@@ -40,7 +40,7 @@ class new_delete_resource THRUST_FINAL : public memory_resource<>
 public:
     void * do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
     {
-#if __cplusplus >= 201703L
+#if defined(__cpp_aligned_new)
         return ::operator new(bytes, std::align_val_t(alignment));
 #else
         // allocate memory for bytes, plus potential alignment correction,
@@ -61,8 +61,13 @@ public:
 
     void do_deallocate(void * p, std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
     {
-#if __cplusplus >= 201703L
+#if defined(__cpp_aligned_new)
+# if defined(__cpp_sized_deallocation)
         ::operator delete(p, bytes, std::align_val_t(alignment));
+# else
+        (void)bytes;
+        ::operator delete(p, std::align_val_t(alignment));
+# endif
 #else
         (void)alignment;
         char * ptr = static_cast<char *>(p);
