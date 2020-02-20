@@ -4,6 +4,7 @@
 #include <thrust/sort.h>
 #include <thrust/reduce.h>
 #include <thrust/scan.h>
+#include <thrust/copy.h>
 
 #include <algorithm>
 #include <numeric>
@@ -886,6 +887,88 @@ struct copy_tester
   #endif
 };
 
+template <typename T>
+struct copy_if_tester
+{
+  static char const* test_name() { return "copy_if"; }
+
+  struct true_predicate
+{
+  __host__ __device__  bool operator()(const T&){return true;}
+
+};
+
+  struct std_trial : copy_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      std::copy_if(this->input.begin(), this->input.end(), this->output.begin(),true_predicate());
+    }
+  };
+
+  struct thrust_trial : copy_trial_base<thrust::device_vector<T> >
+  {
+    void operator()()
+    {
+      thrust::copy_if(this->input.begin(), this->input.end(), this->input.begin(), true_predicate());
+      #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+        cudaError_t err = cudaDeviceSynchronize();
+        if (err != cudaSuccess)
+          throw thrust::error_code(err, thrust::cuda_category());
+      #endif
+    }
+  };
+
+  #if defined(HAVE_TBB)
+  struct tbb_trial : copy_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      static_assert(false, "tbb_copy_if is not implemented");
+      tbb_copy(this->input, this->output);
+    }
+  };
+  #endif
+};
+
+template <typename T>
+struct unique_tester
+{
+  static char const* test_name() { return "unique"; }
+
+  struct std_trial : copy_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      std::unique(this->input.begin(), this->input.end());
+    }
+  };
+
+  struct thrust_trial : copy_trial_base<thrust::device_vector<T> >
+  {
+    void operator()()
+    {
+      thrust::unique(this->input.begin(), this->input.end());
+      #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+        cudaError_t err = cudaDeviceSynchronize();
+        if (err != cudaSuccess)
+          throw thrust::error_code(err, thrust::cuda_category());
+      #endif
+    }
+  };
+
+  #if defined(HAVE_TBB)
+  struct tbb_trial : copy_trial_base<std::vector<T> >
+  {
+    void operator()()
+    {
+      static_assert(false, "tbb_unique is not implemented");
+      tbb_copy(this->input, this->output);
+    }
+  };
+  #endif
+};
+
 ///////////////////////////////////////////////////////////////////////////////
 
 template <
@@ -992,6 +1075,85 @@ void run_core_primitives_experiments()
   run_core_primitives_experiments_for_type<
     double_meta,  Elements, BaselineTrials, RegularTrials
   >();
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <
+    uint64_t Elements
+  , uint64_t BaselineTrials
+  , uint64_t RegularTrials
+>
+void run_reduced_set_experiments()
+{
+  // Transform
+  experiment_driver<
+    transform_inplace_tester
+    , int_meta
+    , Elements / sizeof(typename int_meta::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_experiment();
+
+  // Copy (TriviallyRelocatable and RandomAccessIterator) 
+  experiment_driver<
+      copy_tester
+    , int_meta
+    , Elements / sizeof(typename int_meta::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_experiment();
+
+  // Copy_if
+  experiment_driver<
+      copy_if_tester
+    , int_meta
+    , Elements / sizeof(typename int_meta::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_experiment();
+
+  // Reduce
+  experiment_driver<
+    reduce_tester
+    , int_meta
+    , Elements / sizeof(typename int_meta::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_experiment();
+
+  // *_scan
+  experiment_driver<
+      inclusive_scan_inplace_tester
+    , int_meta
+    , Elements / sizeof(typename int_meta::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_experiment();
+
+  // Sort (Radix: builtin types and comparisons)	
+  experiment_driver<
+      sort_tester
+    , int_meta
+    , (Elements >> 6) // Sorting is more sensitive to element count than
+                      // memory footprint.
+    , BaselineTrials
+    , RegularTrials
+  >::run_experiment();
+
+  // Sort (Merge: non-builtin types or custom comparisons)	 
+  // Rapids:
+  // operator: https://github.com/rapidsai/cudf/blob/branch-0.13/cpp/include/cudf/table/row_operators.cuh#L312
+  // usage: https://github.com/rapidsai/cudf/blob/branch-0.13/cpp/src/sort/sort.cu#L76
+
+  // Unique
+  experiment_driver<
+    unique_tester
+    , int_meta
+    , Elements / sizeof(typename int_meta::type)
+    , BaselineTrials
+    , RegularTrials
+  >::run_experiment();
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -1193,6 +1355,14 @@ int main(int argc, char** argv)
 
   if (!clp.has("no-header"))
     print_experiment_header();
+
+  // if request Small Efficient Benchmark
+  if(clp.has("seb"))
+  {
+    run_reduced_set_experiments< 1LLU << 26LLU      , 4        , 16      >();
+
+    return 0;
+  }
 
                                           /* Elements |       Trials       */
                                           /*          | Baseline | Regular */
