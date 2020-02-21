@@ -1,4 +1,26 @@
-# Thrust v1.9.6  (CUDA 10.1 Update 2) #
+# Thrust v1.9.8 (CUDA 11.0)
+
+## Summary
+
+Thrust v1.9.8, which is included in the CUDA 11.0 release, removes Thrust's
+  internal derivative of CUB, upstreams all relevant changes too CUB, and adds
+  CUB as a Git submodule.
+It will now be necessary to do `git clone --recursive` when checking out
+  Thrust, and to update the CUB submodule when pulling in new Thrust changes.
+Additionally, CUB is now included as a first class citizen in the CUDA toolkit.
+Thrust v1.9.8 also fixes bugs preventing most Thrust algorithms from working
+  with more than `2^32` elements.
+Now, `reduce`, `*_scan`, and related algorithms (aka most of Thrust) work with
+  large element counts.
+`sort` remains limited to `2^32` elements for now.
+
+# Thrust v1.9.7 (CUDA 10.2)
+
+## Summary
+
+Thrust v1.9.7 is a minor release accompanying the CUDA 10.2 release.
+
+# Thrust v1.9.6 (CUDA 10.1 Update 2)
 
 ## Summary
 
@@ -11,15 +33,16 @@ Thrust v1.9.6 is a minor release accompanying the CUDA 10.1 Update 2 release.
     have `std::is_trivially_copyable`
 - NVBug 200488234 CUDA header files contain unicode characters which leads
     compiling errors on Windows
-- #949, #973, NVBug 2422333, NVBug 2522259, NVBug 2528822 `thrust::detail::aligned_reinterpret_cast`
-    must be annotated with __host__ __device__
+- #949, #973, NVBug 2422333, NVBug 2522259, NVBug 2528822
+  `thrust::detail::aligned_reinterpret_cast` must be annotated with
+  `__host__ __device__`.
 - NVBug 2599629 Missing include in the OpenMP sort implementation
 - NVBug 200513211 Truncation warning in test code under VC142
 
-# Thrust v1.9.5  (CUDA 10.1 Update 1)
+# Thrust v1.9.5 (CUDA 10.1 Update 1)
 
 ## Summary
- 
+
 Thrust 1.9.5 is a minor release accompanying the CUDA 10.1 Update 1 release.
 
 ## Bug Fixes
@@ -80,7 +103,7 @@ Use the new asynchronous Thrust algorithms for non-blocking behavior.
         system and are C++11 only.
 - `exec.after(f, g, ...)`, a new execution policy method that takes a set of
     `thrust::event`/`thrust::future`s and returns an execution policy that
-    operations on that execution policy should depend upon. 
+    operations on that execution policy should depend upon.
 - New logic and mindset for the type requirements for cross-system sequence
     copies (currently only used by `thrust::async::copy`), based on:
   - `thrust::is_contiguous_iterator` and `THRUST_PROCLAIM_CONTIGUOUS_ITERATOR`
@@ -125,7 +148,7 @@ Use the new asynchronous Thrust algorithms for non-blocking behavior.
       accessed on the host (e.g.  device memory).
   - System-specific allocators were rewritten to use the new memory resource
       framework.
-  - New `thrust::device_memory_resource` for allocating device memory.    
+  - New `thrust::device_memory_resource` for allocating device memory.
   - New `thrust::universal_memory_resource` for allocating memory that can be
       accessed from both the host and device (e.g. `cudaMallocManaged`).
   - New `thrust::universal_host_pinned_memory_resource` for allocating memory
@@ -209,7 +232,7 @@ Use the new asynchronous Thrust algorithms for non-blocking behavior.
   - `THRUST_RETOF`, expands to a decltype computing the return type of an
       invocable.
 - New CMake build system.
-   
+
 ## New Examples
 
 - `mr_basic` demonstrates how to use the new memory resource allocator system.
@@ -241,7 +264,7 @@ Use the new asynchronous Thrust algorithms for non-blocking behavior.
       of values used and catch more corner cases.
   - New `unittest::truncate_to_max_representable` utility for avoiding the
       generation of ranges that cannot be represented by the underlying element
-      type in generic unit test code. 
+      type in generic unit test code.
   - The test driver now synchronizes with CUDA devices and check for errors
       after each test, when switching devices, and after each raw kernel launch.
   - The `warningtester` uber header is now compiled with NVCC to avoid needing
@@ -277,7 +300,7 @@ Use the new asynchronous Thrust algorithms for non-blocking behavior.
     `thrust::counting_iterator` perform proper truncation.
 - NVBug 2455952: Refactor questionable `thrust::copy_if` unit tests.
 
-# Thrust 1.9.3 (CUDA 10.0)     
+# Thrust 1.9.3 (CUDA 10.0)
 
 ## Summary
 
@@ -297,7 +320,7 @@ Thrust 1.9.3 unifies and integrates CUDA Thrust and GitHub Thrust.
 - #899: Make `thrust::cuda::experimental::pinned_allocator`'s comparison
     operators `const`.
 - NVBug 2092152: Remove all includes of `<cuda.h>`.
-- #911: Fix default comparator element type for `thrust::merge_by_key`. 
+- #911: Fix default comparator element type for `thrust::merge_by_key`.
 
 ## Acknowledgments
 
@@ -305,7 +328,7 @@ Thrust 1.9.3 unifies and integrates CUDA Thrust and GitHub Thrust.
 - Thanks to Francisco Facioni for contributing optimizations for
     `thrust::min/max_element`.
 
-# Thrust 1.9.2 (CUDA 9.2)      
+# Thrust 1.9.2 (CUDA 9.2)
 
 ## Summary
 
@@ -330,11 +353,11 @@ Additionally, the unit test suite and framework was enhanced to increase
   - `thrust::aligned_storage_size`, which computes the amount of storage needed
       for an object of a particular size and alignment.
   - `thrust::alignment_of`, a C++03 implementation of C++11's
-      `std::alignment_of`. 
+      `std::alignment_of`.
   - `thrust::aligned_storage`, a C++03 implementation of C++11's
-      `std::aligned_storage`. 
+      `std::aligned_storage`.
   - `thrust::max_align_t`, a C++03 implementation of C++11's
-      `std::max_align_t`. 
+      `std::max_align_t`.
 
 ## Bug Fixes
 - NVBug 200385527, NVBug 200385119, NVBug 200385113, NVBug 200349350, NVBug
@@ -344,7 +367,7 @@ Additionally, the unit test suite and framework was enhanced to increase
     overlooked but `deallocate` to be called with GCC <= 4.3.
 - NVBug 1777043: Fixed `thrust::complex` to work with `thrust::sequence`.
 
-# Thrust 1.9.1 (CUDA 9.1)      
+# Thrust 1.9.1 (CUDA 9.1)
 
 ## Summary
 
@@ -359,7 +382,7 @@ for `thrust::reduce` based on CUB.
 - NVBug 1904217: Allow callables that take non-const refs to be used with
     `thrust::reduce` and `thrust::*_scan`.
 
-# Thrust 1.9.0 (CUDA 9.0)      
+# Thrust 1.9.0 (CUDA 9.0)
 
 ## Summary
 
@@ -377,7 +400,7 @@ This brings a substantial performance improvement to the CUDA backend across
 
 - New CUDA backend based on CUB which delivers substantially higher performance.
 - `thrust::transform_output_iterator`, a fancy iterator that applies a function
-    to the output before storing the result. 
+    to the output before storing the result.
 
 ## New Examples
 
@@ -388,7 +411,7 @@ This brings a substantial performance improvement to the CUDA backend across
 
 - When C++11 is enabled, functors do not have to inherit from
     `thrust::(unary|binary)_function` anymore to be used with
-    `thrust::transform_iterator`. 
+    `thrust::transform_iterator`.
 - Added C++11 only move constructors and move assignment operators for
     `thrust::detail::vector_base`-based classes, e.g. `thrust::host_vector`,
     `thrust::device_vector`, and friends.
@@ -402,12 +425,12 @@ This brings a substantial performance improvement to the CUDA backend across
 - Thanks to Manuel Schiller for contributing a C++11 based enhancement
     regarding the deduction of functor return types, improving the performance
     of `thrust::unique` and implementing `thrust::transform_output_iterator`.
-- Thanks to Thibault Notargiacomo for the implementation of move semantics for 
+- Thanks to Thibault Notargiacomo for the implementation of move semantics for
     the `thrust::vector_base`-based classes.
 - Thanks to Duane Merrill for developing CUB and helping to integrate it into
     Thrust's backend.
 
-# Thrust 1.8.3 (CUDA 8.0)      
+# Thrust 1.8.3 (CUDA 8.0)
 
 Thrust 1.8.3 is a small bug fix release.
 
@@ -418,12 +441,12 @@ Thrust 1.8.3 is a small bug fix release.
 
 ## Bug Fixes
 
-- `thrust::(min|max|minmax)_element` can now accept raw device pointers when 
+- `thrust::(min|max|minmax)_element` can now accept raw device pointers when
     an explicit device execution policy is used.
 - `thrust::clear` operations on vector types no longer requires the element
     type to have a default constructor.
 
-# Thrust 1.8.2 (CUDA 7.5)      
+# Thrust 1.8.2 (CUDA 7.5)
 
 Thrust 1.8.2 is a small bug fix release.
 
@@ -442,7 +465,7 @@ Thrust 1.8.2 is a small bug fix release.
 - #628: `thrust::reduce_by_key` for the CUDA backend fails for Compute
     Capability 5.0 devices.
 
-# Thrust 1.8.1 (CUDA 7.0)      
+# Thrust 1.8.1 (CUDA 7.0)
 
 Thrust 1.8.1 is a small bug fix release.
 
@@ -456,7 +479,7 @@ Thrust 1.8.1 is a small bug fix release.
 - #628: `thrust::reduce_by_key` for the CUDA backend fails for Compute
     Capability 5.0 devices.
 
-# Thrust 1.8.0            
+# Thrust 1.8.0
 
 Summary
 - Thrust 1.8.0 introduces support for algorithm invocation from CUDA __device__ code, support for CUDA streams,
@@ -488,7 +511,7 @@ Summary
 
 - Execution Policies
       CUDA Streams
-        The thrust::cuda::par.on(stream) syntax allows users to request that CUDA __global__ functions launched during algorithm 
+        The thrust::cuda::par.on(stream) syntax allows users to request that CUDA __global__ functions launched during algorithm
         execution should occur on a given stream:
 
         // execute for_each on stream s
@@ -502,7 +525,7 @@ Summary
 
         // execute for_each sequentially in this thread
         thrust::for_each(thrust::seq, begin, end, my_functor);
-        
+
 - Other
       The new thrust::complex template provides complex number support.
 
@@ -542,7 +565,7 @@ Acknowledgments
 - Thanks to Duane Merrill for contributing a faster CUDA radix sort implementation.
 - Thanks to Filipe Maia for contributing the implementation of thrust::complex.
 
-# Thrust 1.7.2 (CUDA 6.5)      
+# Thrust 1.7.2 (CUDA 6.5)
 
 Summary
 - Small bug fixes
@@ -550,7 +573,7 @@ Summary
 ## Bug Fixes
 - Avoid use of std::min in generic find implementation
 
-# Thrust 1.7.1 (CUDA 6.0)      
+# Thrust 1.7.1 (CUDA 6.0)
 
 Summary
 - Small bug fixes
@@ -560,7 +583,7 @@ Summary
 - Eliminate unused variable warning in CUDA reduce_by_key implementation
 - Avoid deriving function objects from std::unary_function and std::binary_function
 
-# Thrust 1.7.0 (CUDA 5.5)      
+# Thrust 1.7.0 (CUDA 5.5)
 
 Summary
 - Thrust 1.7.0 introduces a new interface for controlling algorithm execution as
@@ -629,7 +652,7 @@ Summary
 ## Other Enhancements
 - Authors of custom backend systems may manipulate arbitrary state during algorithm dispatch by incorporating it into their execution_policy parameter.
 - Users may control the allocation of temporary storage during algorithm execution by passing standard allocators as parameters via execution policies such as thrust::device.
-- THRUST_DEVICE_SYSTEM_CPP has been added as a compile-time target for the device backend. 
+- THRUST_DEVICE_SYSTEM_CPP has been added as a compile-time target for the device backend.
 - CUDA merge performance is 2-15x faster.
 - CUDA comparison sort performance is 1.3-4x faster.
 - CUDA set operation performance is 1.5-15x faster.
@@ -662,7 +685,7 @@ Acknowledgments
 - Thanks to Sean Baxter for contributing a faster set operation implementation for CUDA.
 - Thanks to Cliff Woolley for contributing a correct occupancy calculation algorithm.
 
-# Thrust 1.6.0            
+# Thrust 1.6.0
 
 Summary
 - Thrust v1.6.0 provides an interface for customization and extension and a new
@@ -684,7 +707,7 @@ Summary
 - thrust::device_space_tag has been renamed thrust::device_system_tag
 - thrust::any_space_tag has been renamed thrust::any_system_tag
 - thrust::iterator_space has been renamed thrust::iterator_system
-    
+
 
 ## New Features
 - Backend Systems
@@ -716,9 +739,9 @@ Summary
 - #469 min_element and max_element algorithms no longer require a const comparison operator
 
 ## Known Issues
-- cudafe++.exe may crash when parsing TBB headers on Windows. 
+- cudafe++.exe may crash when parsing TBB headers on Windows.
 
-# Thrust 1.5.3 (CUDA 5.0)      
+# Thrust 1.5.3 (CUDA 5.0)
 
 Summary
 - Small bug fixes
@@ -726,7 +749,7 @@ Summary
 ## Bug Fixes
 - Avoid warnings about potential race due to __shared__ non-POD variable
 
-# Thrust 1.5.2 (CUDA 4.2)      
+# Thrust 1.5.2 (CUDA 4.2)
 
 Summary
 - Small bug fixes
@@ -734,7 +757,7 @@ Summary
 ## Bug Fixes
 - Fixed warning about C-style initialization of structures
 
-# Thrust 1.5.1 (CUDA 4.1)      
+# Thrust 1.5.1 (CUDA 4.1)
 
 Summary
 - Small bug fixes
@@ -742,7 +765,7 @@ Summary
 ## Bug Fixes
 - Sorting data referenced by permutation_iterators on CUDA produces invalid results
 
-# Thrust 1.5.0            
+# Thrust 1.5.0
 
 Summary
 - Thrust v1.5.0 provides introduces new programmer productivity and performance
@@ -800,7 +823,7 @@ Acknowledgments
 - Thanks to Manjunath Kudlur for contributing his Carbon library, from which the lambda functionality is derived.
 - Thanks to Jean-Francois Bastien for suggesting a fix for issue 303.
 
-# Thrust 1.4.0 (CUDA 4.0)      
+# Thrust 1.4.0 (CUDA 4.0)
 
 Summary
 - Thrust v1.4.0 provides support for CUDA 4.0 in addition to many feature
@@ -874,17 +897,17 @@ Acknowledgments
 - Thanks to Duane Merrill for continued help with sort.
 - Thanks to Nathan Whitehead for help with CUDA Toolkit integration.
 
-# Thrust 1.3.0 (CUDA 3.2)      
+# Thrust 1.3.0 (CUDA 3.2)
 
 Summary
 - Thrust v1.3.0 provides support for CUDA 3.2 in addition to many feature
 - and performance enhancements.
-    
-- Performance of the sort and sort_by_key algorithms is improved by as much 
+
+- Performance of the sort and sort_by_key algorithms is improved by as much
 - as 3x in certain situations.  The performance of stream compaction algorithms,
-- such as copy_if, is improved by as much as 2x.  Reduction performance is 
+- such as copy_if, is improved by as much as 2x.  Reduction performance is
 - also improved, particularly for small input sizes.
-    
+
 - CUDA errors are now converted to runtime exceptions using the system_error
 - interface.  Combined with a debug mode, also new in v1.3, runtime errors
 - can be located with greater precision.
@@ -975,7 +998,7 @@ Acknowledgments
 - Thanks to Andrew Corrigan, Cliff Wooley, David Coeurjolly, Janick Martinez Esturo, John Bowers, Maxim Naumov, Michael Garland, and Ryuta Suzuki for bug reports
 - Thanks to Cliff Woolley for help with testing
 
-# Thrust 1.2.1 (CUDA 3.1)      
+# Thrust 1.2.1 (CUDA 3.1)
 
 Summary
 - Small fixes for compatibility with CUDA 3.1
@@ -988,7 +1011,7 @@ Summary
 - default_random_engine::discard is not accelerated with nvcc 2.3
 - nvcc 3.1 may fail to compile code using types derived from thrust::subtract_with_carry_engine, such as thrust::ranlux24 & thrust::ranlux48.
 
-# Thrust 1.2.0            
+# Thrust 1.2.0
 
 Summary
 - Thrust v1.2 introduces support for compilation to multicore CPUs
@@ -1102,12 +1125,12 @@ Acknowledgments
    Thanks to Tom Bradley for contributing an implementation of normal_distribution
    Thanks to Joseph Rhoads for contributing the example summary_statistics
 
-# Thrust 1.1.1            
+# Thrust 1.1.1
 
 Summary
 - Small fixes for compatibility with CUDA 2.3a and Mac OSX Snow Leopard.
 
-# Thrust 1.1.0            
+# Thrust 1.1.0
 
 Summary
 - Thrust v1.1 introduces fancy iterators, binary search functions, and
@@ -1159,7 +1182,7 @@ Summary
 - added more methods to host_vector & device_vector (issue #4)
 - added variant of remove_if with a stencil argument (issue #29)
 - scan and reduce use cudaFuncGetAttributes to determine grid size
-- exceptions are reported when temporary device arrays cannot be allocated 
+- exceptions are reported when temporary device arrays cannot be allocated
 
 ## Bug Fixes
      #5 make vector work for larger data types
@@ -1177,7 +1200,7 @@ Summary
     `thrust::exclusive_scan`, and `thrust::exclusive_scan_by_key` may fail when
     used with large types with the CUDA 3.1 driver.
 
-# Thrust 1.0.0            
+# Thrust 1.0.0
 
 ## Breaking Changes
 - Rename top level namespace `komrade` to `thrust`.

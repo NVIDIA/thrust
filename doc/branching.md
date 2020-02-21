@@ -8,11 +8,12 @@ is a living document that will evolve as our process evolves.
 Thrust has historically had its own versioning system, independent of the versioning scheme of the CUDA Toolkit.
 Today, Thrust is released with the CUDA Toolkit, but we currently still maintain the double versioning scheme.
 
-The following is a mapping from Thrust versions to CUDA Toolkit versions and vice versa. Note that some Thrust
-versions don't directly map to any CUDA Toolkit version.
+The following is a mapping from Thrust versions to CUDA Toolkit versions and vice versa. Note that some Thrust versions don't directly map to any CUDA Toolkit version.
 
 | Thrust version    | CUDA version  |
 | ----------------- | ------------- |
+| 1.9.8             | 11.0 EA       |
+| 1.9.7             | 10.2          |
 | 1.9.6             | 10.1 Update 2 |
 | 1.9.5             | 10.1 Update 1 |
 | 1.9.4             | 10.1          |
