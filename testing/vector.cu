@@ -52,24 +52,27 @@ DECLARE_VECTOR_UNITTEST(TestVectorFrontBack);
 template <class Vector>
 void TestVectorData(void)
 {
+    typedef typename Vector::pointer PointerT;
+    typedef typename Vector::const_pointer PointerConstT;
+
     Vector v(3);
     v[0] = 0; v[1] = 1; v[2] = 2;
 
     ASSERT_EQUAL(0,          *v.data());
     ASSERT_EQUAL(1,          *(v.data() + 1));
     ASSERT_EQUAL(2,          *(v.data() + 2));
-    ASSERT_EQUAL(&v.front(),  v.data());
-    ASSERT_EQUAL(&*v.begin(), v.data());
-    ASSERT_EQUAL(&v[0],       v.data());
+    ASSERT_EQUAL(PointerT(&v.front()),  v.data());
+    ASSERT_EQUAL(PointerT(&*v.begin()), v.data());
+    ASSERT_EQUAL(PointerT(&v[0]),       v.data());
 
     const Vector &c_v = v;
 
     ASSERT_EQUAL(0,            *c_v.data());
     ASSERT_EQUAL(1,            *(c_v.data() + 1));
     ASSERT_EQUAL(2,            *(c_v.data() + 2));
-    ASSERT_EQUAL(&c_v.front(),  c_v.data());
-    ASSERT_EQUAL(&*c_v.begin(), c_v.data());
-    ASSERT_EQUAL(&c_v[0],       c_v.data());
+    ASSERT_EQUAL(PointerConstT(&c_v.front()),  c_v.data());
+    ASSERT_EQUAL(PointerConstT(&*c_v.begin()), c_v.data());
+    ASSERT_EQUAL(PointerConstT(&c_v[0]),       c_v.data());
 }
 DECLARE_VECTOR_UNITTEST(TestVectorData);
 
