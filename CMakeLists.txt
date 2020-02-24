@@ -67,7 +67,13 @@ add_definitions(-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_${THRUST_DEVICE_SYST
 set(CMAKE_CXX_STANDARD 11 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# Ignore when building thrust itself on deprecated C++ standards
+add_definitions(-DCUB_IGNORE_DEPRECATED_CPP_DIALECT)
+add_definitions(-DTHRUST_IGNORE_DEPRECATED_CPP_DIALECT)
+
 message("-- C++ Standard version: ${CMAKE_CXX_STANDARD}")
+
+set(CUB_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/dependencies/cub")
 
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
@@ -355,7 +361,7 @@ endforeach ()
 add_library(header-test OBJECT ${THRUST_HEADER_TEST_SOURCES})
 target_include_directories(
   header-test
-  PUBLIC ${PROJECT_SOURCE_DIR}
+  PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
 )
 
 include(CTest)
@@ -383,7 +389,7 @@ endif ()
 add_library(thrust_testframework STATIC ${THRUST_TESTFRAMEWORK_FILES})
 target_include_directories(
   thrust_testframework
-  PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub
+  PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
   PRIVATE ${PROJECT_SOURCE_DIR}/testing
 )
 
@@ -491,7 +497,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
 
   target_include_directories(
     ${THRUST_TEST}
-    PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
+    PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
     PRIVATE ${PROJECT_SOURCE_DIR}/testing
   )
 
@@ -518,7 +524,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
 
     target_include_directories(
       ${THRUST_TEST_RDC}
-      PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
+      PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
       PRIVATE ${PROJECT_SOURCE_DIR}/testing
     )
 
@@ -617,7 +623,7 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
   target_include_directories(
     ${THRUST_EXAMPLE}
-    PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
+    PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
     PRIVATE ${PROJECT_SOURCE_DIR}/examples
   )
 
@@ -640,7 +646,7 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
     target_include_directories(
       ${THRUST_EXAMPLE_RDC}
-      PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub/cub
+      PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
       PRIVATE ${PROJECT_SOURCE_DIR}/examples
     )
 

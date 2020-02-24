@@ -181,14 +181,4 @@
   THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_END             \
   /**/
 
-// TODO we should move the definition of THRUST_DEPRECATED out of this logic
-#if   THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  #define THRUST_DEPRECATED __declspec(deprecated)
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
-  #define THRUST_DEPRECATED __attribute__((deprecated))
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
-  #define THRUST_DEPRECATED __attribute__((deprecated))
-#else
-  #define THRUST_DEPRECATED
-#endif
 
