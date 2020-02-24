@@ -1,9 +1,10 @@
+#include <thrust/detail/config.h>
 #include <thrust/device_vector.h>
 #include <thrust/reduce.h>
 #include <thrust/system/cuda/execution_policy.h>
 #include <cassert>
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 #include <future>
 #endif
 
@@ -52,7 +53,7 @@ int main()
   // reset the result
   result[0] = 0;
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   // method 2: use std::async to create asynchrony
 
   // copy all the algorithm parameters

@@ -210,12 +210,27 @@ void test_aligned_type()
 DECLARE_UNITTEST(test_aligned_type);
 
 template <std::size_t Len, std::size_t Align>
-void test_aligned_storage_instantiation()
+void test_aligned_storage_instantiation(thrust::detail::true_type /* Align is valid */)
 {
     typedef typename thrust::detail::aligned_storage<Len, Align>::type type;
     ASSERT_GEQUAL(sizeof(type), Len);
     ASSERT_EQUAL(THRUST_ALIGNOF(type), Align);
     ASSERT_EQUAL(thrust::detail::alignment_of<type>::value, Align);
+}
+
+template <std::size_t Len, std::size_t Align>
+void test_aligned_storage_instantiation(thrust::detail::false_type /* Align is invalid */)
+{
+  // no-op -- alignment is > max_align_t and MSVC complains loudly.
+}
+
+template <std::size_t Len, std::size_t Align>
+void test_aligned_storage_instantiation()
+{
+  typedef thrust::detail::integral_constant<
+      bool, Align <= THRUST_ALIGNOF(thrust::detail::max_align_t)>
+      ValidAlign;
+  test_aligned_storage_instantiation<Len, Align>(ValidAlign());
 }
 
 template <std::size_t Len>

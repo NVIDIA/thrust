@@ -1,6 +1,9 @@
 #include <unittest/unittest.h>
+
+#include <thrust/detail/config.h>
 #include <thrust/sequence.h>
 #include <thrust/device_malloc_allocator.h>
+
 #include <vector>
 #include <list>
 #include <limits>
@@ -742,7 +745,7 @@ void TestVectorReversed(void)
 }
 DECLARE_VECTOR_UNITTEST(TestVectorReversed);
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   template <class Vector>
   void TestVectorMove(void)
   {

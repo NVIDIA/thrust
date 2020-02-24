@@ -73,9 +73,6 @@
  */
 #define THRUST_PATCH_NUMBER 0
 
-
-// Declare these namespaces here for the purpose of Doxygenating them
-
 /*! \namespace thrust
  *  \brief \p thrust is the top-level namespace which contains all Thrust
  *         functions and types.
@@ -84,12 +81,3 @@ namespace thrust
 {
 
 }
-
-#ifndef THRUST_BEGIN_NS
-#define THRUST_BEGIN_NS namespace thrust {
-#endif
-
-#ifndef THRUST_END_NS
-#define THRUST_END_NS }
-#endif
-

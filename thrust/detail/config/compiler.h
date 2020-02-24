@@ -37,6 +37,8 @@
 // XXX we should move the definition of THRUST_DEPRECATED out of this logic
 #if   defined(_MSC_VER)
 #define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_MSVC
+#define THRUST_MSVC_VERSION _MSC_VER
+#define THRUST_MSVC_VERSION_FULL _MSC_FULL_VER
 #elif defined(__clang__)
 #define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_CLANG
 #define THRUST_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
@@ -181,14 +183,4 @@
   THRUST_DISABLE_CLANG_AND_GCC_INITIALIZER_REORDERING_WARNING_END             \
   /**/
 
-// TODO we should move the definition of THRUST_DEPRECATED out of this logic
-#if   THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  #define THRUST_DEPRECATED __declspec(deprecated)
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
-  #define THRUST_DEPRECATED __attribute__((deprecated))
-#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
-  #define THRUST_DEPRECATED __attribute__((deprecated))
-#else
-  #define THRUST_DEPRECATED
-#endif
 

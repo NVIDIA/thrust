@@ -64,10 +64,12 @@ endif ()
 add_definitions(-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_${THRUST_DEVICE_SYSTEM})
 
 # Please note this also sets the default for the CUDA C++ version; see the comment below.
-set(CMAKE_CXX_STANDARD 11 CACHE STRING "The C++ version to be used.")
+set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 message("-- C++ Standard version: ${CMAKE_CXX_STANDARD}")
+
+set(CUB_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/dependencies/cub")
 
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
@@ -177,6 +179,19 @@ if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
   # Disable warning about applying unary operator- to unsigned type.
   append_option_if_available("/wd4146" THRUST_CXX_WARNINGS)
 
+  # MSVC STL assumes that `allocator_traits`'s allocator will use raw pointers,
+  # and the `__DECLSPEC_ALLOCATOR` macro causes issues with thrust's universal
+  # allocators:
+  #   warning C4494: 'std::allocator_traits<_Alloc>::allocate' :
+  #      Ignoring __declspec(allocator) because the function return type is not
+  #      a pointer or reference
+  # See https://github.com/microsoft/STL/issues/696
+  append_option_if_available("/wd4494" THRUST_CXX_WARNINGS)
+
+  # Some of the async tests require /bigobj to fit all their sections into the
+  # object files:
+  append_option_if_available("/bigobj" THRUST_CXX_WARNINGS)
+
   set(THRUST_TREAT_FILE_AS_CXX "/TP")
 else ()
   append_option_if_available("-Werror" THRUST_CXX_WARNINGS)
@@ -243,6 +258,8 @@ if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   foreach (CXX_OPTION IN LISTS THRUST_CXX_WARNINGS)
     set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler=${CXX_OPTION}")
   endforeach ()
+  set(CMAKE_CUDA_FLAGS
+    "${CMAKE_CUDA_FLAGS} -Werror all-warnings -Xcudafe --display_error_number")
 endif ()
 
 # For every public header, build a translation unit containing `#include <header>`
@@ -355,7 +372,7 @@ endforeach ()
 add_library(header-test OBJECT ${THRUST_HEADER_TEST_SOURCES})
 target_include_directories(
   header-test
-  PUBLIC ${PROJECT_SOURCE_DIR}
+  PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
 )
 
 include(CTest)
@@ -383,7 +400,7 @@ endif ()
 add_library(thrust_testframework STATIC ${THRUST_TESTFRAMEWORK_FILES})
 target_include_directories(
   thrust_testframework
-  PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub
+  PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
   PRIVATE ${PROJECT_SOURCE_DIR}/testing
 )
 
@@ -491,7 +508,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
 
   target_include_directories(
     ${THRUST_TEST}
-    PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub
+    PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
     PRIVATE ${PROJECT_SOURCE_DIR}/testing
   )
 
@@ -518,7 +535,7 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
 
     target_include_directories(
       ${THRUST_TEST_RDC}
-      PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub
+      PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
       PRIVATE ${PROJECT_SOURCE_DIR}/testing
     )
 
@@ -617,7 +634,7 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
   target_include_directories(
     ${THRUST_EXAMPLE}
-    PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub
+    PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
     PRIVATE ${PROJECT_SOURCE_DIR}/examples
   )
 
@@ -640,7 +657,7 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
     target_include_directories(
       ${THRUST_EXAMPLE_RDC}
-      PUBLIC ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/dependencies/cub
+      PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
       PRIVATE ${PROJECT_SOURCE_DIR}/examples
     )
 

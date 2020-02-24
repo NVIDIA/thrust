@@ -69,7 +69,7 @@ namespace detail
 template <typename T, std::size_t Align>
 struct complex_storage;
 
-#if __cplusplus >= 201103L                                                    \
+#if THRUST_CPP_DIALECT >= 2011                                                    \
   && (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC)                       \
   && (THRUST_GCC_VERSION >= 40800)
   // C++11 implementation, excluding GCC 4.7, which doesn't have `alignas`.

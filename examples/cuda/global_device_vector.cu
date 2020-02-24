@@ -1,3 +1,4 @@
+#include <thrust/detail/config.h>
 #include <thrust/device_vector.h>
 
 // If you create a global `thrust::device_vector` with the default allocator,
@@ -20,7 +21,7 @@ typedef thrust::system::cuda::detail::cuda_memory_resource<
   thrust::cuda::pointer<void>
 > device_ignore_shutdown_memory_resource;
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   template <typename T>
   using device_ignore_shutdown_allocator = 
     thrust::mr::stateless_resource_allocator<

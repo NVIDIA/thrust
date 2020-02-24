@@ -189,7 +189,7 @@ public:
         return std::move(dependencies);
     }
 
-    typename std::remove_reference<Allocator>::type&
+    typename std::add_lvalue_reference<Allocator>::type
     __host__
     get_allocator()
     {

@@ -25,7 +25,8 @@
 #include <thrust/type_traits/remove_cvref.h>
 #include <thrust/system/detail/generic/select_system.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace detail
 {
@@ -78,7 +79,7 @@ THRUST_INLINE_CONSTANT select_system_detail::select_system_fn select_system{};
 
 } // detail
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_CPP_DIALECT >= 2011
 

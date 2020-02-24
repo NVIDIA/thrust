@@ -44,7 +44,8 @@
 #  define BS_SIMPLE
 #endif
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 namespace __binary_search {
@@ -774,7 +775,7 @@ lower_bound(execution_policy<Derived>& policy,
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 #endif
 
 #endif

@@ -30,7 +30,8 @@
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/detail/copy_if.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 // in-place
@@ -128,5 +129,5 @@ remove_copy(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 #endif

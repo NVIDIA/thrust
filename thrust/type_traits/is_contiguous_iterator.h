@@ -28,7 +28,7 @@
 
 #include <iterator>
 
-#if defined(_MSC_VER) && _MSC_VER < 1916 // MSVC 2017 version 15.9
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC && _MSC_VER < 1916 // MSVC 2017 version 15.9
   #include <vector>
   #include <string>
   #include <array>
@@ -38,7 +38,8 @@
   #endif
 #endif
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace detail
 {
@@ -84,10 +85,10 @@ struct proclaim_contiguous_iterator : false_type {};
 /// <a href="https://en.cppreference.com/w/cpp/named_req/ContiguousIterator">ContiguousIterator</a>
 /// by specializing `thrust::proclaim_contiguous_iterator`.
 #define THRUST_PROCLAIM_CONTIGUOUS_ITERATOR(Iterator)                         \
-  THRUST_BEGIN_NS                                                             \
+  namespace thrust {                                                          \
   template <>                                                                 \
   struct proclaim_contiguous_iterator<Iterator> : ::thrust::true_type {};     \
-  THRUST_END_NS                                                               \
+  } /* end namespace thrust */                                                \
   /**/
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -180,5 +181,5 @@ struct is_contiguous_iterator_impl
 
 } // namespace detail
 
-THRUST_END_NS
+} // end namespace thrust
 

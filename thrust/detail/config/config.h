@@ -26,6 +26,7 @@
 #include <thrust/detail/config/compiler.h>
 #include <thrust/detail/config/cpp_dialect.h>
 #include <thrust/detail/config/cpp_compatibility.h>
+#include <thrust/detail/config/deprecated.h>
 // host_system.h & device_system.h must be #included as early as possible
 // because other config headers depend on it
 #include <thrust/detail/config/host_system.h>

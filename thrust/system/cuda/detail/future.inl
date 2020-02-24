@@ -32,7 +32,8 @@
 #include <type_traits>
 #include <memory>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 // Forward declaration.
 struct new_stream_t;
@@ -1362,7 +1363,7 @@ THRUST_DECLTYPE_RETURNS(std::move(dependency))
 
 }} // namespace system::cuda
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif 
 

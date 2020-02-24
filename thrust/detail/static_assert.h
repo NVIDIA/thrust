@@ -29,7 +29,8 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/preprocessor.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace detail
 {
@@ -86,6 +87,6 @@ template <int x> struct static_assert_test {};
 
 } // namespace detail
 
-THRUST_END_NS
+} // end namespace thrust
 
 

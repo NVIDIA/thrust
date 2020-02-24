@@ -164,7 +164,7 @@ template<class Alloc, class U, bool = has_rebind<Alloc, U>::value>
     typedef typename Alloc::template rebind<U>::other type;
 };
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 template<template<typename, typename...> class Alloc,
          typename T, typename... Args, typename U>
   struct rebind_alloc<Alloc<T, Args...>, U, true>

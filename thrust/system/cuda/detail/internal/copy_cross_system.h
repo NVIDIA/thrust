@@ -40,7 +40,8 @@
 #include <thrust/detail/temporary_array.h>
 #include <thrust/type_traits/is_trivially_relocatable.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 namespace __copy {
@@ -238,4 +239,4 @@ namespace __copy {
 }    // namespace __copy
 
 } // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust

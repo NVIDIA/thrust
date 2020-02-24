@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/detail/contiguous_storage.h>
 #include <thrust/detail/swap.h>
 #include <thrust/detail/allocator/allocator_traits.h>
@@ -384,7 +385,7 @@ __host__ __device__
   propagate_allocator_dispatch(c, other);
 } // end contiguous_storage::propagate_allocator()
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -519,7 +520,7 @@ __host__ __device__
 {
 } // end contiguous_storage::propagate_allocator()
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 __thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__

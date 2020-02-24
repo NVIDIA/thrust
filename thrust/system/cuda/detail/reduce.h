@@ -46,7 +46,8 @@
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 // forward declare generic reduce
 // to circumvent circular dependency
@@ -1067,7 +1068,7 @@ reduce(execution_policy<Derived> &policy,
 
 } // namespace cuda_cub
 
-THRUST_END_NS
+} // end namespace thrust
 
 #include <thrust/memory.h>
 #include <thrust/reduce.h>

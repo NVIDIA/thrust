@@ -23,7 +23,8 @@
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/iterator/iterator_traits.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 
@@ -92,6 +93,6 @@ inline __host__ __device__
 
 
 } // end cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 
 #endif

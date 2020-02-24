@@ -2063,8 +2063,6 @@ PREDEFINED             = THRUST_NOEXCEPT=noexcept \
                          "THRUST_MR_DEFAULT_ALIGNMENT=alignof(max_align_t)" \
                          "THRUST_FINAL=final" \
                          "THRUST_OVERRIDE=" \
-                         "THRUST_BEGIN_NS=namespace thrust {" \
-                         "THRUST_END_NS=}" \
                          "cuda_cub=system::cuda"
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this

@@ -32,7 +32,8 @@
 
 #include <thrust/system/cuda/detail/mismatch.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 template <class Derived,
@@ -69,5 +70,5 @@ equal(execution_policy<Derived>& policy,
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 #endif

@@ -24,7 +24,8 @@
 #include <thrust/system/cuda/detail/copy.h>
 
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 
@@ -97,5 +98,5 @@ inline __host__ __device__
 
 
 } // end cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 #endif

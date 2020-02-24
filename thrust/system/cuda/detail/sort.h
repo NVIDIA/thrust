@@ -46,7 +46,8 @@
 #include <thrust/detail/alignment.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 namespace __merge_sort {
@@ -1743,5 +1744,5 @@ stable_sort_by_key(
 
 
 }    // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 #endif

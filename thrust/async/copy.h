@@ -33,7 +33,8 @@
 
 #include <thrust/event.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace async
 {
@@ -140,7 +141,7 @@ THRUST_INLINE_CONSTANT copy_detail::copy_fn copy{};
 
 } // namespace async
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif
 

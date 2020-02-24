@@ -38,7 +38,8 @@
 #endif
 
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 template <class Derived>
@@ -145,5 +146,5 @@ namespace cuda {
 using thrust::cuda_cub::par;
 } // namespace cuda
 
-THRUST_END_NS
+} // end namespace thrust
 

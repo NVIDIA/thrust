@@ -30,7 +30,8 @@
 
 #include <thrust/memory/detail/host_system_resource.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace system
 {
@@ -106,5 +107,5 @@ typedef detail::pinned_memory_resource universal_host_pinned_memory_resource;
 } // end cuda
 } // end system
 
-THRUST_END_NS
+} // end namespace thrust
 

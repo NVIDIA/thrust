@@ -35,7 +35,8 @@
 
 #include <thrust/event.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace async
 {
@@ -199,9 +200,10 @@ struct sort_fn final
   , typename ForwardIt, typename Sentinel
   >
   __host__ 
-  static auto call(
+  static auto call3(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
+  , thrust::true_type
   )
   THRUST_DECLTYPE_RETURNS(
     sort_fn::call(
@@ -215,16 +217,28 @@ struct sort_fn final
 
   template <typename ForwardIt, typename Sentinel, typename StrictWeakOrdering>
   __host__ 
-  static auto call(ForwardIt&& first, Sentinel&& last, StrictWeakOrdering&& comp) 
-  THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(
-    (negation<is_execution_policy<remove_cvref_t<ForwardIt>>>::value)
-  , sort_fn::call(
+  static auto call3(ForwardIt&& first, Sentinel&& last,
+                    StrictWeakOrdering&& comp,
+                    thrust::false_type)
+  THRUST_DECLTYPE_RETURNS(
+    sort_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
       )
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(comp)
     )
+  )
+
+  // MSVC WAR: MSVC gets angsty and eats all available RAM when we try to detect
+  // if T1 is an execution_policy by using SFINAE. Switching to a static
+  // dispatch pattern to prevent this.
+  template <typename T1, typename T2, typename T3>
+  __host__
+  static auto call(T1&& t1, T2&& t2, T3&& t3)
+  THRUST_DECLTYPE_RETURNS(
+    sort_fn::call3(THRUST_FWD(t1), THRUST_FWD(t2), THRUST_FWD(t3),
+                   thrust::is_execution_policy<thrust::remove_cvref_t<T1>>{})
   )
 
   template <typename ForwardIt, typename Sentinel>
@@ -256,7 +270,7 @@ THRUST_INLINE_CONSTANT sort_detail::sort_fn sort{};
 
 } // namespace async
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif
 

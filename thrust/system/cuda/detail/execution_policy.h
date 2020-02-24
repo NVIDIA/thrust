@@ -38,7 +38,8 @@
   #include <thrust/detail/dependencies_aware_execution_policy.h>
 #endif
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace cuda_cub
 {
@@ -94,5 +95,5 @@ using thrust::cuda_cub::execution_policy;
 
 } // namespace cuda
 
-THRUST_END_NS
+} // end namespace thrust
 

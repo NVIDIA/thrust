@@ -26,6 +26,7 @@
 #include <thrust/iterator/reverse_iterator.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/detail/config.h>
 #include <thrust/detail/contiguous_storage.h>
 #include <vector>
 
@@ -106,7 +107,7 @@ template<typename T, typename Alloc>
      */
     vector_base(const vector_base &v, const Alloc &alloc);
 
-  #if __cplusplus >= 201103L
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move constructor moves from another vector_base.
      *  \param v The vector_base to move.
      */
@@ -123,7 +124,7 @@ template<typename T, typename Alloc>
      */
     vector_base &operator=(const vector_base &v);
 
-  #if __cplusplus >= 201103L
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move assign operator moves from another vector_base.
      *  \param v The vector_base to move.
      */

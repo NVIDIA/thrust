@@ -22,7 +22,8 @@
   #include <type_traits>
 #endif
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace detail
 {
@@ -123,10 +124,10 @@ struct proclaim_trivially_relocatable : false_type {};
 /// Declares that the type \c T is \a TriviallyRelocatable by specializing
 /// `thrust::proclaim_trivially_relocatable`.
 #define THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE(T)                              \
-  THRUST_BEGIN_NS                                                             \
+  namespace thrust {                                                          \
   template <>                                                                 \
   struct proclaim_trivially_relocatable<T> : ::thrust::true_type {};          \
-  THRUST_END_NS                                                               \
+  } /* end namespace thrust */                                                \
   /**/
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -185,7 +186,7 @@ struct is_trivially_relocatable_impl<T[N]> : is_trivially_relocatable_impl<T> {}
 
 } // namespace detail
 
-THRUST_END_NS
+} // end namespace thrust
 
 #if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
 

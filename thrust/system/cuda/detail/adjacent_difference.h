@@ -43,7 +43,8 @@
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 template <typename DerivedPolicy, typename InputIterator, typename OutputIterator, typename BinaryFunction>
 __host__ __device__ OutputIterator
@@ -530,7 +531,7 @@ adjacent_difference(execution_policy<Derived> &policy,
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 
 //
 #include <thrust/memory.h>

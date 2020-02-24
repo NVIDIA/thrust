@@ -19,7 +19,8 @@
 
 #include <type_traits>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 #if THRUST_CPP_DIALECT >= 2017
 
@@ -172,7 +173,7 @@ constexpr bool negation_value_v = negation_value<B>::value;
 template <bool B>
 struct negation_value : std::integral_constant<bool, !B> {};
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_CPP_DIALECT >= 2011
 

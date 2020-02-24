@@ -96,7 +96,7 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector(const vector &x);
 
-  #if __cplusplus >= 201103L
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move constructor moves another \p omp::vector.
      *  \param x The other \p omp::vector to move from.
      */
@@ -130,7 +130,7 @@ template<typename T, typename Allocator = allocator<T> >
     */
    vector &operator=(const vector &x);
 
-  #if __cplusplus >= 201103L
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move assignment operator moves another \p omp::vector.
      *  \param x The other \p omp::vector to move.
      *  \return <tt>*this</tt>

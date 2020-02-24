@@ -32,7 +32,8 @@
 #include <thrust/device_allocator.h>
 #include <thrust/detail/type_deduction.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -53,6 +54,6 @@ auto device_make_unique(Args&&... args)
 
 ///////////////////////////////////////////////////////////////////////////////
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_CPP_DIALECT >= 2011
