@@ -1,4 +1,5 @@
 #include <unittest/unittest.h>
+#include <thrust/detail/config.h>
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/system/cpp/vector.h>
 #include <memory>
@@ -202,7 +203,7 @@ void TestAllocatorTraitsRebind()
 }
 DECLARE_UNITTEST(TestAllocatorTraitsRebind);
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 void TestAllocatorTraitsRebindCpp11()
 {
   ASSERT_EQUAL(
@@ -250,5 +251,5 @@ void TestAllocatorTraitsRebindCpp11()
   );
 }
 DECLARE_UNITTEST(TestAllocatorTraitsRebindCpp11);
-#endif
+#endif // C++11
 

@@ -20,7 +20,8 @@
 
 #include <thrust/system/cuda/detail/util.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 namespace alignment_of_detail {
 
@@ -245,4 +246,4 @@ struct aligned_storage
 
 }    // end cuda_
 
-THRUST_END_NS
+} // end namespace thrust

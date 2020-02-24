@@ -211,6 +211,12 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
     __host__ __device__
     explicit operator bool() const;
     #endif
+
+    __host__ __device__
+    static derived_type pointer_to(typename thrust::detail::pointer_traits_detail::pointer_to_param<Element>::type r)
+    {
+      return thrust::detail::pointer_traits<derived_type>::pointer_to(r);
+    }
 }; // end pointer
 
 // Output stream operator

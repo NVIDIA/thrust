@@ -23,7 +23,8 @@
 #include <cstdint>
 #include <utility>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 #if THRUST_CPP_DIALECT >= 2014
 
@@ -255,7 +256,7 @@ struct integer_sequence_push_back_impl<T, I0, integer_sequence<T, Is...> >
 
 } // namespace detail
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_CPP_DIALECT >= 2011
 

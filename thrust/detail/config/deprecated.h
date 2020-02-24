@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2018-2020 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,24 +14,20 @@
  *  limitations under the License.
  */
 
+/*! \file deprecated.h
+ *  \brief Defines the THRUST_DEPRECATED macro
+ */
 
 #pragma once
 
-//functions to support blocking
+#include <thrust/detail/config/compiler.h>
 
-namespace thrust
-{
-
-namespace detail
-{
-
-namespace util
-{
-
-
-} // end namespace util
-
-} // end namespace detail
-
-} // end namespace thrust
-
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#  define THRUST_DEPRECATED __declspec(deprecated)
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
+#  define THRUST_DEPRECATED __attribute__((deprecated))
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
+#  define THRUST_DEPRECATED __attribute__((deprecated))
+#else
+#  define THRUST_DEPRECATED
+#endif

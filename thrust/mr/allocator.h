@@ -170,12 +170,12 @@ bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRU
     return !(lhs == rhs);
 }
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 
 template<typename T, typename Pointer>
 using polymorphic_allocator = allocator<T, polymorphic_adaptor_resource<Pointer> >;
 
-#else
+#else // C++11
 
 template<typename T, typename Pointer>
 class polymorphic_allocator : public allocator<T, polymorphic_adaptor_resource<Pointer> >
@@ -190,7 +190,7 @@ public:
     }
 };
 
-#endif
+#endif // C++11
 
 /*! A helper allocator class that uses global instances of a given upstream memory resource. Requires the memory resource
  *      to be default constructible.

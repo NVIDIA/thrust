@@ -46,7 +46,8 @@
 #include <thrust/distance.h>
 #include <thrust/iterator/iterator_traits.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 template <typename DerivedPolicy,
           typename InputIterator,
           typename OutputIterator,
@@ -70,9 +71,10 @@ exclusive_scan(const thrust::detail::execution_policy_base<DerivedPolicy> &exec,
                OutputIterator                                              result,
                T                                                           init,
                AssociativeOperator                                         binary_op);
-THRUST_END_NS
+} // end namespace thrust
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 namespace __scan {
@@ -919,7 +921,7 @@ exclusive_scan(execution_policy<Derived> &policy,
 };
 
 } // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 
 #include <thrust/scan.h>
 

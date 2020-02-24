@@ -9,10 +9,11 @@
 
 #include <thrust/detail/type_traits.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 template <typename T>
 struct numeric_limits : std::numeric_limits<T> {};
 
-THRUST_END_NS
+} // end namespace thrust
 

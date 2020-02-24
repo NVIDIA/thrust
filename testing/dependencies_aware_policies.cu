@@ -1,5 +1,6 @@
 #include <unittest/unittest.h>
 
+#include <thrust/detail/config.h>
 #include <thrust/detail/seq.h>
 #include <thrust/system/cpp/detail/par.h>
 #include <thrust/system/omp/detail/par.h>
@@ -9,7 +10,7 @@
 #  include <thrust/system/cuda/detail/par.h>
 #endif
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 
 template<typename T>
 struct test_allocator_t
@@ -178,11 +179,11 @@ SimpleUnitTest<
     >
 > TestDependencyAttachmentInstance;
 
-#else
+#else // C++11
 
 void TestDummy()
 {
 }
 DECLARE_UNITTEST(TestDummy);
 
-#endif
+#endif // C++11

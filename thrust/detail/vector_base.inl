@@ -19,6 +19,7 @@
  *  \brief Inline file for vector_base.h.
  */
 
+#include <thrust/detail/config.h>
 #include <thrust/detail/vector_base.h>
 #include <thrust/detail/copy.h>
 #include <thrust/detail/overlapped_copy.h>
@@ -110,7 +111,7 @@ template<typename T, typename Alloc>
   range_init(v.begin(), v.end());
 } // end vector_base::vector_base()
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::vector_base(vector_base &&v)
@@ -139,7 +140,7 @@ template<typename T, typename Alloc>
   return *this;
 } // end vector_base::operator=()
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   template<typename T, typename Alloc>
     vector_base<T,Alloc> &
       vector_base<T,Alloc>

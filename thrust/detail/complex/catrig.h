@@ -48,6 +48,7 @@
 
 #pragma once
 
+#include <thrust/detail/config.h>
 #include <thrust/complex.h>
 #include <thrust/detail/complex/math_private.h>
 #include <cfloat>
@@ -588,7 +589,7 @@ inline double real_part_reciprocal(double x, double y)
  * Re(catanh(z)) = x/|z|^2 + O(x/z^4)
  *    as z -> infinity, uniformly in x
  */
-#if __cplusplus >= 201103L || !defined _MSC_VER
+#if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 __host__ __device__ inline
 complex<double> catanh(complex<double> z)
 {
@@ -601,7 +602,12 @@ complex<double> catanh(complex<double> z)
   y = z.imag();
   ax = fabs(x);
   ay = fabs(y);
-  
+
+  // MSVC needs to pull this in from the std namespace
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+  using std::atanh;
+#endif
+
   /* This helps handle many cases. */
   if (y == 0 && ax <= 1)
     return (complex<double>(atanh(x), y));
@@ -752,7 +758,7 @@ inline complex<double> asin(const complex<double>& z){
   return detail::complex::casin(z);
 }
   
-#if __cplusplus >= 201103L || !defined _MSC_VER
+#if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 template <>
 __host__ __device__
 inline complex<double> atan(const complex<double>& z){
@@ -773,7 +779,7 @@ inline complex<double> asinh(const complex<double>& z){
   return detail::complex::casinh(z);
 }
   
-#if __cplusplus >= 201103L || !defined _MSC_VER
+#if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 template <>
 __host__ __device__
 inline complex<double> atanh(const complex<double>& z){

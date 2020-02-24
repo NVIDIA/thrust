@@ -33,7 +33,8 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace cuda_cub {
 
@@ -89,5 +90,5 @@ inner_product(execution_policy<Derived> &policy,
 
 }    // namespace cuda_cub
 
-THRUST_END_NS
+} // end namespace thrust
 #endif

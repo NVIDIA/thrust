@@ -4,6 +4,7 @@
 #include <thrust/sort.h>
 #include <thrust/reduce.h>
 #include <thrust/scan.h>
+#include <thrust/detail/config.h>
 
 #if THRUST_CPP_DIALECT >= 2011
 #include <thrust/random.h>
@@ -49,7 +50,7 @@
 
 // We don't use THRUST_NOEXCEPT because it's new, and we want this benchmark to
 // be backwards-compatible to older versions of Thrust.
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
   #define NOEXCEPT noexcept
 #else
   #define NOEXCEPT throw()

@@ -34,7 +34,8 @@
 #include <thrust/system/cuda/detail/reduce.h>
 #include <thrust/distance.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 template <class Derived,
@@ -75,5 +76,5 @@ count(execution_policy<Derived> &policy,
 }
 
 } // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 #endif

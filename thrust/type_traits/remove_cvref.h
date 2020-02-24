@@ -19,7 +19,8 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/type_traits.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 #if THRUST_CPP_DIALECT >= 2020
 
@@ -43,5 +44,5 @@ using remove_cvref_t = typename remove_cvref<T>::type;
 
 #endif // THRUST_CPP_DIALECT >= 2020
 
-THRUST_END_NS
+} // end namespace thrust
 

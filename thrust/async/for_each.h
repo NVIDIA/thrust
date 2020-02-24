@@ -33,7 +33,8 @@
 
 #include <thrust/event.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace async
 {
@@ -113,7 +114,7 @@ THRUST_INLINE_CONSTANT for_each_detail::for_each_fn for_each{};
 
 } // namespace async
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif
 

@@ -42,7 +42,8 @@
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace cuda_cub {
 
@@ -1993,5 +1994,5 @@ set_union_by_key(execution_policy<Derived> &policy,
 }
 
 }    // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 #endif

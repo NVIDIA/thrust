@@ -49,17 +49,14 @@ namespace detail
      // to the C++14 operator(), but we'd like standard traits to interoperate
      // with our version when tag dispatching.
      #if THRUST_CPP_DIALECT >= 2011
-     constexpr integral_constant() = default;
+     integral_constant() = default;
 
-     constexpr integral_constant(integral_constant const&) = default;
+     integral_constant(integral_constant const&) = default;
 
-     #if THRUST_CPP_DIALECT >= 2014
-     constexpr // In C++11, constexpr makes member functions const.
-     #endif
      integral_constant& operator=(integral_constant const&) = default;
 
      constexpr __host__ __device__
-     integral_constant(std::integral_constant<T, v>) {}
+     integral_constant(std::integral_constant<T, v>) noexcept {}
      #endif
 
      THRUST_CONSTEXPR __host__ __device__ operator value_type() const THRUST_NOEXCEPT { return value; }

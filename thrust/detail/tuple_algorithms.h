@@ -26,7 +26,8 @@
 
 #include <tuple>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 template <typename Tuple, std::size_t... Is>
 auto tuple_subset(Tuple&& t, index_sequence<Is...>)
@@ -104,7 +105,7 @@ THRUST_DECLTYPE_RETURNS(
   )
 );
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_CPP_DIALECT >= 2011
 

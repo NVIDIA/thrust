@@ -29,7 +29,8 @@
 #include <thrust/system/detail/bad_alloc.h>
 
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 #ifdef THRUST_CACHING_DEVICE_MALLOC
@@ -99,4 +100,4 @@ void free(execution_policy<DerivedPolicy> &, Pointer ptr)
 } // end free()
 
 }    // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust

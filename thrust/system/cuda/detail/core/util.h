@@ -36,7 +36,8 @@
 #include <cub/block/block_store.cuh>
 #include <cub/block/block_scan.cuh>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace cuda_cub {
 namespace core {
@@ -766,4 +767,4 @@ using core::sm35;
 using core::sm30;
 } // namespace cuda_
 
-THRUST_END_NS
+} // end namespace thrust

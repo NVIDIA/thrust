@@ -54,7 +54,8 @@
 
 #include <type_traits>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace system { namespace cuda { namespace detail
 {
@@ -518,7 +519,7 @@ THRUST_DECLTYPE_RETURNS(
 
 } // cuda_cub
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

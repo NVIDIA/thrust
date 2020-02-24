@@ -50,7 +50,8 @@
 
 #include <type_traits>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace system { namespace cuda { namespace detail
 {
@@ -74,7 +75,7 @@ auto async_reduce_n(
 
   using pointer
     = typename thrust::detail::allocator_traits<decltype(device_alloc)>::
-      rebind_traits<U>::pointer;
+      template rebind_traits<U>::pointer;
 
   unique_eager_future_promise_pair<U, pointer> fp;
 
@@ -346,7 +347,7 @@ THRUST_DECLTYPE_RETURNS(
 
 } // cuda_cub
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

@@ -91,7 +91,7 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector(const vector &x);
 
-  #if __cplusplus >= 201103L
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move constructor use the move semantic over another \p tbb::vector.
      *  \param x The other \p tbb::vector to move from.
      */
@@ -125,7 +125,7 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector &operator=(const vector &x);
 
-  #if __cplusplus >= 201103L
+  #if THRUST_CPP_DIALECT >= 2011
     /*! Move assignment operator use move semantic over another \p tbb::vector.
      *  \param x The other \p tbb::vector to move from.
      *  \return <tt>*this</tt>

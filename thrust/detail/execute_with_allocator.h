@@ -78,7 +78,7 @@ return_temporary_buffer(
   alloc_traits::deallocate(system.get_allocator(), to_ptr, 0);
 }
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 
 template <
     typename T,

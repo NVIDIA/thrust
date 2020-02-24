@@ -18,7 +18,8 @@
 #include <utility>
 #include <memory>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 // wg21.link/p0316r0
 
@@ -437,7 +438,7 @@ uninitialized_allocate_unique_n(
 
 ///////////////////////////////////////////////////////////////////////////////
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_CPP_DIALECT >= 2011
 

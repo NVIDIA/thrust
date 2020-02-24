@@ -117,5 +117,16 @@ else ifeq ($(OS),win32)
 
   # Disable warning about applying unary - to unsigned type.
   CUDACC_FLAGS += -Xcompiler "/wd4146"
+
+  # Warning about declspec(allocator) on inappropriate function types
+  CUDACC_FLAGS += -Xcompiler "/wd4494"
+
+  # Allow tests to have lots and lots of sections in each translation unit:
+  CUDACC_FLAGS += -Xcompiler "/bigobj"
 endif
 
+# Promote all NVCC warnings into errors
+CUDACC_FLAGS += -Werror all-warnings
+
+# Print warning numbers with cudafe diagnostics
+CUDACC_FLAGS += -Xcudafe --display_error_number

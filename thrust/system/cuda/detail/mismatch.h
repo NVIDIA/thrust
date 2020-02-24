@@ -33,7 +33,8 @@
 #include <thrust/pair.h>
 #include <thrust/distance.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 template <class Derived,
@@ -56,11 +57,12 @@ mismatch(execution_policy<Derived>& policy,
          InputIt1                   last1,
          InputIt2                   first2);
 } // namespace cuda_
-THRUST_END_NS
+} // end namespace thrust
 
 #include <thrust/system/cuda/detail/find.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 template <class Derived,
@@ -111,5 +113,5 @@ mismatch(execution_policy<Derived>& policy,
 
 
 } // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 #endif

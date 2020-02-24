@@ -28,7 +28,11 @@
 #if defined(__CUDACC__) && !defined(__NVCOMPILER_CUDA__) && \
     !(defined(__CUDA__) && defined(__clang__))
 
-#define __thrust_exec_check_disable__ #pragma nv_exec_check_disable
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#define __thrust_exec_check_disable__ __pragma("nv_exec_check_disable")
+#else // MSVC
+#define __thrust_exec_check_disable__ _Pragma("nv_exec_check_disable")
+#endif // MSVC
 
 #else
 

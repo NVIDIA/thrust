@@ -38,7 +38,8 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 namespace cuda_cub {
 
 namespace __scan_by_key {
@@ -996,7 +997,7 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-THRUST_END_NS
+} // end namespace thrust
 
 #include <thrust/scan.h>
 

@@ -54,7 +54,8 @@
 
 #include <type_traits>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace system { namespace cuda { namespace detail
 {
@@ -228,6 +229,10 @@ auto async_copy_n(
 template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt
+  // MSVC2015 WAR: doesn't like decltype(...)::value in superclass definition
+, typename IsH2DCopy = decltype(is_host_to_device_copy(
+    std::declval<FromPolicy const&>()
+  , std::declval<ToPolicy const&>()))
 >
 struct is_buffered_trivially_relocatable_host_to_device_copy
   : thrust::integral_constant<
@@ -238,12 +243,7 @@ struct is_buffered_trivially_relocatable_host_to_device_copy
             typename iterator_traits<ForwardIt>::value_type
           , typename iterator_traits<OutputIt>::value_type
           >::value
-      && decltype(
-           is_host_to_device_copy(
-             std::declval<FromPolicy const&>()
-           , std::declval<ToPolicy const&>()
-           )
-         )::value
+      && IsH2DCopy::value
     >
 {};
 
@@ -333,6 +333,10 @@ auto async_copy_n(
 template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt
+  // MSVC2015 WAR: doesn't like decltype(...)::value in superclass definition
+, typename IsD2HCopy = decltype(is_device_to_host_copy(
+    std::declval<FromPolicy const&>()
+  , std::declval<ToPolicy const&>()))
 >
 struct is_buffered_trivially_relocatable_device_to_host_copy
   : thrust::integral_constant<
@@ -343,12 +347,7 @@ struct is_buffered_trivially_relocatable_device_to_host_copy
             typename iterator_traits<ForwardIt>::value_type
           , typename iterator_traits<OutputIt>::value_type
           >::value
-      && decltype(
-           is_device_to_host_copy(
-             std::declval<FromPolicy const&>()
-           , std::declval<ToPolicy const&>()
-           )
-         )::value
+      && IsD2HCopy::value
     >
 {};
 
@@ -541,7 +540,7 @@ THRUST_DECLTYPE_RETURNS(
 
 } // cuda_cub
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

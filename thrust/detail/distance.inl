@@ -27,6 +27,7 @@ namespace thrust
 {
 
 
+__thrust_exec_check_disable__
 template<typename InputIterator>
 inline __host__ __device__
   typename thrust::iterator_traits<InputIterator>::difference_type

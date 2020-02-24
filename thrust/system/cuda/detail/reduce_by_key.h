@@ -47,7 +47,8 @@
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 template <typename DerivedPolicy,
           typename InputIterator1,
@@ -1159,7 +1160,7 @@ reduce_by_key(execution_policy<Derived> &policy,
 
 } // namespace cuda_
 
-THRUST_END_NS
+} // end namespace thrust
 
 #include <thrust/memory.h>
 #include <thrust/reduce.h>

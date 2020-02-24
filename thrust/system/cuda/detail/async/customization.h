@@ -49,7 +49,8 @@
 #include <thrust/mr/sync_pool.h>
 #include <thrust/per_device_resource.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 namespace system { namespace cuda { namespace detail
 {
@@ -120,7 +121,7 @@ THRUST_DECLTYPE_RETURNS(
 
 }}} // namespace system::cuda::detail
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 

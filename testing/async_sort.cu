@@ -1,6 +1,8 @@
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+// Disabled on MSVC for GH issue #1098
+#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC) && \
+  THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 
 #include <unittest/unittest.h>
 

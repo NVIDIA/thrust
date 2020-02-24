@@ -21,7 +21,8 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/detail/execution_policy.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 /// Unary metafunction that is \c true if \c T is an \a ExecutionPolicy and
 /// \c false otherwise.
@@ -44,6 +45,6 @@ template <typename T>
 constexpr bool is_execution_policy_v = is_execution_policy<T>::value;
 #endif
 
-THRUST_END_NS
+} // end namespace thrust
 
 

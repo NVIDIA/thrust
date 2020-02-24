@@ -1,8 +1,10 @@
 #include <unittest/unittest.h>
+
+#include <thrust/detail/config.h>
 #include <thrust/mr/disjoint_pool.h>
 #include <thrust/mr/new.h>
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 #include <thrust/mr/disjoint_sync_pool.h>
 #endif
 
@@ -177,7 +179,7 @@ void TestDisjointUnsynchronizedPool()
 }
 DECLARE_UNITTEST(TestDisjointUnsynchronizedPool);
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 void TestDisjointSynchronizedPool()
 {
     TestDisjointPool<thrust::mr::disjoint_synchronized_pool_resource>();
@@ -260,7 +262,7 @@ void TestDisjointUnsynchronizedPoolCachingOversized()
 }
 DECLARE_UNITTEST(TestDisjointUnsynchronizedPoolCachingOversized);
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 void TestDisjointSynchronizedPoolCachingOversized()
 {
     TestDisjointPoolCachingOversized<thrust::mr::disjoint_synchronized_pool_resource>();
@@ -285,7 +287,7 @@ void TestUnsynchronizedDisjointGlobalPool()
 }
 DECLARE_UNITTEST(TestUnsynchronizedDisjointGlobalPool);
 
-#if __cplusplus >= 201103L
+#if THRUST_CPP_DIALECT >= 2011
 void TestSynchronizedDisjointGlobalPool()
 {
     TestDisjointGlobalPool<thrust::mr::disjoint_synchronized_pool_resource>();

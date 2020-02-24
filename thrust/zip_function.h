@@ -17,7 +17,8 @@
 #include <thrust/type_traits/integer_sequence.h>
 #include <thrust/detail/type_deduction.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 /*! \addtogroup function_objects Function Objects
  *  \{
@@ -205,6 +206,6 @@ auto make_zip_function(Function&& fun) -> zip_function<typename std::decay<Funct
 /*! \} // end function_objects
  */
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif

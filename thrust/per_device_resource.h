@@ -28,7 +28,8 @@
 #include <thrust/detail/execution_policy.h>
 #include <thrust/mr/allocator.h>
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 
 /*! Returns a global instance of \p MR for the current device of the provided system.
  *
@@ -98,6 +99,6 @@ public:
 };
 
 
-THRUST_END_NS
+} // end namespace thrust
 
 #endif // THRUST_CPP_DIALECT >= 2011

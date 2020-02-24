@@ -30,7 +30,7 @@
 #include <type_traits>
 #include <utility>
 
-#if (defined(_MSC_VER) && _MSC_VER == 1900)
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC && _MSC_VER == 1900)
 #define THRUST_OPTIONAL_MSVC2015
 #endif
 
@@ -68,7 +68,8 @@
      !defined(__clang__))
 #ifndef THRUST_GCC_LESS_8_TRIVIALLY_COPY_CONSTRUCTIBLE_MUTEX
 #define THRUST_GCC_LESS_8_TRIVIALLY_COPY_CONSTRUCTIBLE_MUTEX
-THRUST_BEGIN_NS
+namespace thrust
+{
   namespace detail {
       template<class T>
       struct is_trivially_copy_constructible : std::is_trivially_copy_constructible<T>{};
@@ -78,7 +79,7 @@ THRUST_BEGIN_NS
           : std::is_trivially_copy_constructible<T>{};
 #endif      
   }
-THRUST_END_NS
+} // end namespace thrust
 #endif
 
 #define THRUST_OPTIONAL_IS_TRIVIALLY_COPY_CONSTRUCTIBLE(T)                                     \
@@ -94,12 +95,12 @@ THRUST_END_NS
 #define THRUST_OPTIONAL_IS_TRIVIALLY_DESTRUCTIBLE(T) std::is_trivially_destructible<T>::value
 #endif
 
-#if __cplusplus > 201103L
+#if THRUST_CPP_DIALECT > 2011
 #define THRUST_OPTIONAL_CPP14
 #endif
 
 // constexpr implies const in C++11, not C++14
-#if (__cplusplus == 201103L || defined(THRUST_OPTIONAL_MSVC2015) ||                \
+#if (THRUST_CPP_DIALECT == 2011 || defined(THRUST_OPTIONAL_MSVC2015) ||                \
      defined(THRUST_OPTIONAL_GCC49))
 /// \exclude
 #define THRUST_OPTIONAL_CPP11_CONSTEXPR
@@ -108,7 +109,8 @@ THRUST_END_NS
 #define THRUST_OPTIONAL_CPP11_CONSTEXPR constexpr
 #endif
 
-THRUST_BEGIN_NS
+namespace thrust
+{
 #ifndef THRUST_MONOSTATE_INPLACE_MUTEX
 #define THRUST_MONOSTATE_INPLACE_MUTEX
 /// \brief Used to represent an optional with no data; essentially a bool
@@ -145,7 +147,7 @@ template <class B, class... Bs>
 struct conjunction<B, Bs...>
     : std::conditional<bool(B::value), conjunction<Bs...>, B>::type {};
 
-#if defined(_LIBCPP_VERSION) && __cplusplus == 201103L
+#if defined(_LIBCPP_VERSION) && THRUST_CPP_DIALECT == 2011
 #define THRUST_OPTIONAL_LIBCXX_MEM_FN_WORKAROUND
 #endif
 
@@ -288,7 +290,7 @@ using enable_assign_from_other = detail::enable_if_t<
     !std::is_assignable<T &, const optional<U> &>::value &&
     !std::is_assignable<T &, const optional<U> &&>::value>;
 
-#ifdef _MSC_VER
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 // TODO make a version which works with MSVC
 template <class T, class U = T> struct is_swappable : std::true_type {};
 
@@ -1997,7 +1999,7 @@ inline constexpr optional<T> make_optional(std::initializer_list<U> il,
   return optional<T>(in_place, il, std::forward<Args>(args)...);
 }
 
-#if __cplusplus >= 201703L
+#if THRUST_CPP_DIALECT >= 2017
 template <class T> optional(T)->optional<T>;
 #endif
 
@@ -2827,7 +2829,7 @@ private:
   T *m_value;
 };
 
-THRUST_END_NS
+} // end namespace thrust
 
 namespace std {
 // TODO SFINAE
