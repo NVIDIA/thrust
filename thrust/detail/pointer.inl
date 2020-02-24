@@ -16,6 +16,7 @@
 
 #include <thrust/detail/config.h>
 #include <thrust/detail/pointer.h>
+#include <thrust/detail/type_traits.h>
 
 
 namespace thrust
@@ -109,14 +110,43 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
   return static_cast<derived_type&>(*this);
 } // end pointer::operator=
 
+namespace detail
+{
+
+// Implementation for dereference() when Reference is Element&,
+// e.g. cuda's managed_memory_pointer
+template <typename Reference, typename Derived>
+__host__ __device__
+Reference pointer_dereference_impl(const Derived& ptr,
+                                   thrust::detail::true_type /* is_cpp_ref */)
+{
+  return *ptr.get();
+}
+
+// Implementation for pointers with proxy references:
+template <typename Reference, typename Derived>
+__host__ __device__
+Reference pointer_dereference_impl(const Derived& ptr,
+                                   thrust::detail::false_type /* is_cpp_ref */)
+{
+  return Reference(ptr);
+}
+
+} // namespace detail
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   typename pointer<Element,Tag,Reference,Derived>::super_t::reference
-    pointer<Element,Tag,Reference,Derived>
-      ::dereference() const
+  pointer<Element,Tag,Reference,Derived>
+    ::dereference() const
 {
-  return typename super_t::reference(static_cast<const derived_type&>(*this));
+  // Need to handle cpp refs and fancy refs differently:
+  typedef typename super_t::reference RefT;
+  typedef typename thrust::detail::is_reference<RefT>::type IsCppRef;
+
+  const derived_type& derivedPtr = static_cast<const derived_type&>(*this);
+
+  return detail::pointer_dereference_impl<RefT>(derivedPtr, IsCppRef());
 } // end pointer::dereference
 
 

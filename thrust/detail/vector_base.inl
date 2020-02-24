@@ -540,7 +540,7 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::data(void)
 {
-  return &front();
+  return pointer(&front());
 } // end vector_base::data()
 
 template<typename T, typename Alloc>
@@ -548,7 +548,7 @@ template<typename T, typename Alloc>
     vector_base<T,Alloc>
       ::data(void) const
 {
-  return &front();
+  return const_pointer(&front());
 } // end vector_base::data()
 
 template<typename T, typename Alloc>

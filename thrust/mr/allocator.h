@@ -22,6 +22,7 @@
 
 #include <limits>
 
+#include <thrust/detail/config/exec_check_disable.h>
 #include <thrust/detail/type_traits/pointer_traits.h>
 
 #include <thrust/mr/detail/config.h>
@@ -93,6 +94,7 @@ public:
      *
      *  \returns the maximum value of \p std::size_t, divided by the size of \p T.
      */
+    __thrust_exec_check_disable__
     __host__ __device__
     size_type max_size() const
     {
