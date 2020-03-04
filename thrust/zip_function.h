@@ -13,6 +13,7 @@
 
 #if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 
+#include <thrust/tuple.h>
 #include <thrust/type_traits/integer_sequence.h>
 #include <thrust/detail/type_deduction.h>
 
