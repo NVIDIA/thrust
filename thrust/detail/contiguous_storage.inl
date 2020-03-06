@@ -186,6 +186,7 @@ __host__ __device__
   return m_begin[n];
 } // end contiguous_storage::operator[]()
 
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   typename contiguous_storage<T,Alloc>::allocator_type
@@ -340,6 +341,7 @@ __host__ __device__
   destroy_on_allocator_mismatch_dispatch(c, other, first, last);
 } // end contiguous_storage::destroy_on_allocator_mismatch
 
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -448,6 +450,7 @@ __host__ __device__
   return false;
 } // end contiguous_storage::is_allocator_not_equal_dispatch()
 
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   bool contiguous_storage<T,Alloc>
@@ -456,6 +459,7 @@ __host__ __device__
   return m_allocator != other;
 } // end contiguous_storage::is_allocator_not_equal_dispatch()
 
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -474,6 +478,7 @@ __host__ __device__
 {
 } // end contiguous_storage::deallocate_on_allocator_mismatch()
 
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -494,6 +499,7 @@ __host__ __device__
 {
 } // end contiguous_storage::destroy_on_allocator_mismatch()
 
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -510,6 +516,7 @@ __host__ __device__
 } // end contiguous_storage::propagate_allocator()
 
 #if __cplusplus >= 201103L
+__thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>

@@ -68,14 +68,12 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
 
     /*! This constructor creates an empty \p device_vector.
      */
-    __host__
     device_vector(void)
       :Parent() {}
 
     /*! This constructor creates an empty \p device_vector.
      *  \param alloc The allocator to use by this device_vector.
      */
-    __host__
     device_vector(const Alloc &alloc)
       :Parent(alloc) {}
 
@@ -83,14 +81,12 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      */
     //  Define an empty destructor to explicitly specify
     //  its execution space qualifier, as a workaround for nvcc warning
-    __host__
     ~device_vector(void) {}
 
     /*! This constructor creates a \p device_vector with the given
      *  size.
      *  \param n The number of elements to initially create.
      */
-    __host__
     explicit device_vector(size_type n)
       :Parent(n) {}
 
@@ -99,7 +95,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param n The number of elements to initially create.
      *  \param alloc The allocator to use by this device_vector.
      */
-    __host__
     explicit device_vector(size_type n, const Alloc &alloc)
       :Parent(n,alloc) {}
 
@@ -108,7 +103,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param n The number of elements to initially create.
      *  \param value An element to copy.
      */
-    __host__
     explicit device_vector(size_type n, const value_type &value)
       :Parent(n,value) {}
 
@@ -118,14 +112,12 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param value An element to copy.
      *  \param alloc The allocator to use by this device_vector.
      */
-    __host__
     explicit device_vector(size_type n, const value_type &value, const Alloc &alloc)
       :Parent(n,value,alloc) {}
 
     /*! Copy constructor copies from an exemplar \p device_vector.
      *  \param v The \p device_vector to copy.
      */
-    __host__
     device_vector(const device_vector &v)
       :Parent(v) {}
 
@@ -133,7 +125,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param v The \p device_vector to copy.
      *  \param alloc The allocator to use by this device_vector.
      */
-    __host__
     device_vector(const device_vector &v, const Alloc &alloc)
       :Parent(v,alloc) {}
 
@@ -141,7 +132,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     /*! Move constructor moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
-    __host__
     device_vector(device_vector &&v)
       :Parent(std::move(v)) {}
 
@@ -149,7 +139,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param v The device_vector to move.
      *  \param alloc The allocator to use by this device_vector.
      */
-    __host__
     device_vector(device_vector &&v, const Alloc &alloc)
       :Parent(std::move(v), alloc) {}
   #endif // THRUST_CPP_DIALECT >= 2011
@@ -157,7 +146,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     /*! Copy assign operator copies another \p device_vector with the same type.
      *  \param v The \p device_vector to copy.
      */
-    __host__
     device_vector &operator=(const device_vector &v)
     { Parent::operator=(v); return *this; }
 
@@ -165,7 +153,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
     /*! Move assign operator moves from another \p device_vector.
      *  \param v The device_vector to move.
      */
-     __host__
      device_vector &operator=(device_vector &&v)
      { Parent::operator=(std::move(v)); return *this; }
   #endif // THRUST_CPP_DIALECT >= 2011
@@ -174,16 +161,13 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__ explicit
-    __device__
-    device_vector(const device_vector<OtherT,OtherAlloc> &v)
+    explicit device_vector(const device_vector<OtherT,OtherAlloc> &v)
       :Parent(v) {}
 
     /*! Assign operator copies from an exemplar \p device_vector with different type.
      *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
     device_vector &operator=(const device_vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this; }
 
@@ -191,7 +175,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param v The <tt>std::vector</tt> to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
     device_vector(const std::vector<OtherT,OtherAlloc> &v)
       :Parent(v) {}
 
@@ -199,7 +182,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param v The <tt>std::vector</tt> to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
     device_vector &operator=(const std::vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this;}
 
@@ -207,14 +189,12 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param v The \p host_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
     device_vector(const host_vector<OtherT,OtherAlloc> &v);
 
     /*! Assign operator copies from an examplar \p host_vector.
      *  \param v The \p host_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
-    __host__
     device_vector &operator=(const host_vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this; }
 
@@ -223,7 +203,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param last The end of the range.
      */
     template<typename InputIterator>
-    __host__
     device_vector(InputIterator first, InputIterator last)
       :Parent(first,last) {}
 
@@ -233,7 +212,6 @@ template<typename T, typename Alloc = thrust::device_allocator<T> >
      *  \param alloc The allocator to use by this device_vector.
      */
     template<typename InputIterator>
-    __host__
     device_vector(InputIterator first, InputIterator last, const Alloc &alloc)
       :Parent(first,last,alloc) {}
 

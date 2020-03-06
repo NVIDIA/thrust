@@ -87,6 +87,7 @@ template<typename Alloc, typename T>
   a.construct(p);
 }
 
+__thrust_exec_check_disable__
 template<typename Alloc, typename T>
   inline __host__ __device__
     typename disable_if<
