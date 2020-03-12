@@ -648,3 +648,27 @@ void TestExclusiveScanWithBigIndexes()
 
 DECLARE_UNITTEST(TestExclusiveScanWithBigIndexes);
 
+#if THRUST_CPP_DIALECT >= 2011
+
+struct Int {
+    int i{};
+    __host__ __device__ explicit Int(int num) : i(num) {}
+    __host__ __device__ Int() : i{} {}
+    __host__ __device__ Int operator+(Int const& o) const { return Int{this->i + o.i}; }
+};
+
+void TestInclusiveScanWithUserDefinedType()
+{
+    thrust::device_vector<Int> vec(5, Int{1});
+
+    thrust::inclusive_scan(
+        thrust::device,
+        vec.cbegin(),
+        vec.cend(),
+        vec.begin());
+
+    ASSERT_EQUAL(static_cast<Int>(vec.back()).i, 5);
+}
+DECLARE_UNITTEST(TestInclusiveScanWithUserDefinedType);
+
+#endif // c++11
