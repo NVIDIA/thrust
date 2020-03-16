@@ -29,6 +29,10 @@
 
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+
+#include <thrust/advance.h>
+#include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/distance.h>
 #include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/transform.h>
@@ -39,22 +43,59 @@ namespace cuda_cub {
 
 namespace __copy {
 
-  template <class Derived,
-            class InputIt,
-            class OutputIt>
-  OutputIt THRUST_RUNTIME_FUNCTION
-  device_to_device(execution_policy<Derived>& policy,
-                   InputIt                    first,
-                   InputIt                    last,
-                   OutputIt                   result)
-  {
-    typedef typename thrust::iterator_traits<InputIt>::value_type InputTy;
-    return cuda_cub::transform(policy,
-                            first,
-                            last,
-                            result,
-                            thrust::identity<InputTy>());
-  }
+template <typename Derived, typename InputIt, typename OutputIt>
+OutputIt THRUST_RUNTIME_FUNCTION
+device_to_device(execution_policy<Derived>& policy,
+                 InputIt first,
+                 InputIt last,
+                 OutputIt result,
+                 thrust::false_type /* is trivial */)
+{
+  typedef typename thrust::iterator_traits<InputIt>::value_type InputTy;
+  return cuda_cub::transform(policy,
+                             first,
+                             last,
+                             result,
+                             thrust::identity<InputTy>());
+}
+
+template <typename Derived, typename InputIt, typename OutputIt>
+OutputIt THRUST_RUNTIME_FUNCTION
+device_to_device(execution_policy<Derived>& policy,
+                 InputIt first,
+                 InputIt last,
+                 OutputIt result,
+                 thrust::true_type /* is trivial */)
+{
+  typedef typename thrust::iterator_traits<InputIt>::difference_type diff_t;
+  const diff_t size = std::distance(first, last);
+  const cudaError_t status = thrust::cuda_cub::trivial_copy_device_to_device(
+    policy,
+    thrust::raw_pointer_cast(&*result),
+    thrust::raw_pointer_cast(&*first),
+    size);
+  thrust::cuda_cub::throw_on_error(status);
+  thrust::advance(result, size);
+  return result;
+}
+
+template <class Derived, class InputIt, class OutputIt>
+OutputIt THRUST_RUNTIME_FUNCTION
+device_to_device(execution_policy<Derived>& policy,
+                 InputIt first,
+                 InputIt last,
+                 OutputIt result)
+{
+  typedef
+    typename thrust::is_indirectly_trivially_relocatable_to<InputIt,
+                                                            OutputIt>::type
+      is_trivial;
+  return cuda_cub::__copy::device_to_device(policy,
+                                            first,
+                                            last,
+                                            result,
+                                            is_trivial());
+}
 
 }    // namespace __copy
 
