@@ -100,13 +100,13 @@ public:
 
   /*! No-argument constructor has no effect.
    */
-  __host__ __device__
+  __host__
   inline allocator() {}
 
   /*! Copy constructor has no effect.
    */
   __host__ __device__
- inline allocator(const allocator & other) : base(other) {}
+  inline allocator(const allocator & other) : base(other) {}
 
   /*! Constructor from other \p allocator has no effect.
    */
