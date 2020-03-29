@@ -61,11 +61,17 @@ inline __host__ __device__
     }
   };
 
-#ifndef __CUDA_ARCH__
-  return war_nvbugs_881631::host_path(exec, ptr);
-#else
-  return war_nvbugs_881631::device_path(exec, ptr);
-#endif // __CUDA_ARCH__
+  result_type result;
+  if (THRUST_IS_HOST_CODE) {
+    #if THRUST_INCLUDE_HOST_CODE
+      result = war_nvbugs_881631::host_path(exec, ptr);
+    #endif
+  } else {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      result = war_nvbugs_881631::device_path(exec, ptr);
+    #endif
+  }
+  return result;
 } // end get_value_msvc2005_war()
 
 

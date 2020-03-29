@@ -47,7 +47,7 @@ namespace cuda_cub {
 namespace core {
 
 
-#ifdef __CUDA_ARCH__
+#if defined(__CUDA_ARCH__) || defined(__NVCOMPILER_CUDA__)
 #if 0
   template <class Agent, class... Args>
   void __global__
@@ -518,11 +518,15 @@ namespace core {
     {
       if (debug_sync)
       {
-#ifdef __CUDA_ARCH__
-        cudaDeviceSynchronize();
-#else
-        cudaStreamSynchronize(stream);
-#endif
+        if (THRUST_IS_DEVICE_CODE) {
+          #if THRUST_INCLUDE_DEVICE_CODE
+            cudaDeviceSynchronize();
+          #endif
+        } else {
+          #if THRUST_INCLUDE_HOST_CODE
+            cudaStreamSynchronize(stream);
+          #endif
+        }
       }
     }
 

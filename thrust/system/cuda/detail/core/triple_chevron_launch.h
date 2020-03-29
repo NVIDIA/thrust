@@ -834,10 +834,14 @@ namespace launcher {
     }
 
 
-#ifdef __CUDA_ARCH__
-#define THRUST_TRIPLE_LAUNCHER_HOSTDEVICE doit_device
+#if defined(__NVCOMPILER_CUDA__)
+#  define THRUST_TRIPLE_LAUNCHER_HOSTDEVICE(...) \
+      (__builtin_is_device_code() ?              \
+          doit_device(__VA_ARGS__) : doit_host(__VA_ARGS__))
+#elif defined(__CUDA_ARCH__)
+#  define THRUST_TRIPLE_LAUNCHER_HOSTDEVICE doit_device
 #else
-#define THRUST_TRIPLE_LAUNCHER_HOSTDEVICE doit_host
+#  define THRUST_TRIPLE_LAUNCHER_HOSTDEVICE doit_host
 #endif
 
 #if 0

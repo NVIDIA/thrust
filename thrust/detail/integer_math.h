@@ -32,22 +32,27 @@ template <typename Integer>
 __host__ __device__ __thrust_forceinline__
 Integer clz(Integer x)
 {
-#if __CUDA_ARCH__
-  return ::__clz(x);
-#else
-  int num_bits = 8 * sizeof(Integer);
-  int num_bits_minus_one = num_bits - 1;
-
-  for (int i = num_bits_minus_one; i >= 0; --i)
-  {
-    if ((Integer(1) << i) & x)
-    {
-      return num_bits_minus_one - i;
-    }
+  Integer result;
+  if (THRUST_IS_DEVICE_CODE) {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      result = ::__clz(x);
+    #endif
+  } else {
+    #if THRUST_INCLUDE_HOST_CODE
+      int num_bits = 8 * sizeof(Integer);
+      int num_bits_minus_one = num_bits - 1;
+      result = num_bits;
+      for (int i = num_bits_minus_one; i >= 0; --i)
+      {
+        if ((Integer(1) << i) & x)
+        {
+          result = num_bits_minus_one - i;
+          break;
+        }
+      }
+    #endif
   }
-
-  return num_bits;
-#endif
+  return result;
 }
 
 template <typename Integer>

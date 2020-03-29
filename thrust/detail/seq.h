@@ -31,7 +31,7 @@ struct seq_t : thrust::system::detail::sequential::execution_policy<seq_t>,
     thrust::system::detail::sequential::execution_policy>
 {
   __host__ __device__
-  seq_t() : thrust::system::detail::sequential::execution_policy<seq_t>() {}
+  THRUST_CONSTEXPR seq_t() : thrust::system::detail::sequential::execution_policy<seq_t>() {}
 
   // allow any execution_policy to convert to seq_t
   template<typename DerivedPolicy>
@@ -45,11 +45,7 @@ struct seq_t : thrust::system::detail::sequential::execution_policy<seq_t>,
 } // end detail
 
 
-#ifdef __CUDA_ARCH__
-static const __device__ detail::seq_t seq;
-#else
-static const detail::seq_t seq;
-#endif
+THRUST_INLINE_CONSTANT detail::seq_t seq;
 
 
 } // end thrust
