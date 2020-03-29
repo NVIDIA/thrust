@@ -49,13 +49,13 @@
 // FIXME: Combine THRUST_INLINE_CONSTANT and
 // THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT into one macro when NVCC properly
 // supports `constexpr` globals in host and device code.
-#ifdef __CUDA_ARCH__
+#if defined(__CUDA_ARCH__) || defined(__NVCOMPILER_CUDA__)
 // FIXME: Add this when NVCC supports inline variables.
 //#  if   THRUST_CPP_DIALECT >= 2017
 //#    define THRUST_INLINE_CONSTANT                 inline constexpr
 //#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
 #  if THRUST_CPP_DIALECT >= 2011
-#    define THRUST_INLINE_CONSTANT                 static constexpr
+#    define THRUST_INLINE_CONSTANT                 static const __device__
 #    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
 #  else
 #    define THRUST_INLINE_CONSTANT                 static const __device__
@@ -73,5 +73,22 @@
 #    define THRUST_INLINE_CONSTANT                 static const
 #    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
 #  endif
+#endif
+
+#if defined(__NVCOMPILER_CUDA__)
+#  define THRUST_IS_DEVICE_CODE __builtin_is_device_code()
+#  define THRUST_IS_HOST_CODE (!__builtin_is_device_code())
+#  define THRUST_INCLUDE_DEVICE_CODE 1
+#  define THRUST_INCLUDE_HOST_CODE 1
+#elif defined(__CUDA_ARCH__)
+#  define THRUST_IS_DEVICE_CODE 1
+#  define THRUST_IS_HOST_CODE 0
+#  define THRUST_INCLUDE_DEVICE_CODE 1
+#  define THRUST_INCLUDE_HOST_CODE 0
+#else
+#  define THRUST_IS_DEVICE_CODE 0
+#  define THRUST_IS_HOST_CODE 1
+#  define THRUST_INCLUDE_DEVICE_CODE 0
+#  define THRUST_INCLUDE_HOST_CODE 1
 #endif
 

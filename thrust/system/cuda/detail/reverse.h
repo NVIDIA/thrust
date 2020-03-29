@@ -85,7 +85,7 @@ reverse(execution_policy<Derived> &policy,
   // find the midpoint of [first,last)
   difference_type N = thrust::distance(first, last);
   ItemsIt mid(first);
-  advance(mid, N / 2);
+  thrust::advance(mid, N / 2);
 
   cuda_cub::swap_ranges(policy, first, mid, make_reverse_iterator(last));
 }

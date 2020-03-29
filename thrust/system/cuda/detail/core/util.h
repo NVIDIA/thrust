@@ -41,16 +41,28 @@ THRUST_BEGIN_NS
 namespace cuda_cub {
 namespace core {
 
-#if (__CUDA_ARCH__ >= 600)
-#  define THRUST_TUNING_ARCH sm60
-#elif (__CUDA_ARCH__ >= 520)
-#  define THRUST_TUNING_ARCH sm52
-#elif (__CUDA_ARCH__ >= 350)
-#  define THRUST_TUNING_ARCH sm35
-#elif (__CUDA_ARCH__ >= 300)
-#  define THRUST_TUNING_ARCH sm30
-#elif !defined (__CUDA_ARCH__)
-#  define THRUST_TUNING_ARCH sm30
+#ifdef __NVCOMPILER_CUDA__
+#  if (__NVCOMPILER_CUDA_ARCH__ >= 600)
+#    define THRUST_TUNING_ARCH sm60
+#  elif (__NVCOMPILER_CUDA_ARCH__ >= 520)
+#    define THRUST_TUNING_ARCH sm52
+#  elif (__NVCOMPILER_CUDA_ARCH__ >= 350)
+#    define THRUST_TUNING_ARCH sm35
+#  else
+#    define THRUST_TUNING_ARCH sm30
+#  endif
+#else
+#  if (__CUDA_ARCH__ >= 600)
+#    define THRUST_TUNING_ARCH sm60
+#  elif (__CUDA_ARCH__ >= 520)
+#    define THRUST_TUNING_ARCH sm52
+#  elif (__CUDA_ARCH__ >= 350)
+#    define THRUST_TUNING_ARCH sm35
+#  elif (__CUDA_ARCH__ >= 300)
+#    define THRUST_TUNING_ARCH sm30
+#  elif !defined (__CUDA_ARCH__)
+#    define THRUST_TUNING_ARCH sm30
+#  endif
 #endif
 
   // Typelist - a container of types, supports up to 10 types
@@ -341,14 +353,30 @@ namespace core {
     typename get_plan<Agent>::type THRUST_RUNTIME_FUNCTION
     get_agent_plan(int ptx_version)
     {
-#if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
-      typedef typename get_plan<Agent>::type Plan;
-      THRUST_UNUSED_VAR(ptx_version);
-      // We're on device, use default policy
-      return Plan(typename Agent::ptx_plan());
-#else
-      return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
-#endif
+      // Use one path, with Agent::ptx_plan, for device code where device-side
+      // kernel launches are supported. The other path, with
+      // get_agent_plan_impl::get(version), is for host code and for device
+      // code without device-side kernel launches. NVCC and Feta check for
+      // these situations differently.
+      #ifdef __NVCOMPILER_CUDA__
+        #ifdef __THRUST_HAS_CUDART__
+          if (CUB_IS_DEVICE_CODE) {
+            return typename get_plan<Agent>::type(typename Agent::ptx_plan());
+          } else
+        #endif
+        {
+          return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
+        }
+      #else
+        #if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
+          typedef typename get_plan<Agent>::type Plan;
+          THRUST_UNUSED_VAR(ptx_version);
+          // We're on device, use default policy
+          return Plan(typename Agent::ptx_plan());
+        #else
+          return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
+        #endif
+      #endif
     }
 
 // XXX keep this dead-code for now as a gentle reminder

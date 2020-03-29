@@ -40,12 +40,18 @@ __host__ __device__
                     std::ptrdiff_t n,
                     T *result)
 {
-#ifndef __CUDA_ARCH__
-  std::memmove(result, first, n * sizeof(T));
-  return result + n;
-#else
-  return thrust::system::detail::sequential::general_copy_n(first, n, result);
-#endif
+  T* return_value = NULL;
+  if (THRUST_IS_HOST_CODE) {
+    #if THRUST_INCLUDE_HOST_CODE
+      std::memmove(result, first, n * sizeof(T));
+      return_value = result + n;
+    #endif
+  } else {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      return_value = thrust::system::detail::sequential::general_copy_n(first, n, result);
+    #endif
+  }
+  return return_value;
 } // end trivial_copy_n()
 
 

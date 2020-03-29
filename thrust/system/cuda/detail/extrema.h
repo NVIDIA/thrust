@@ -127,8 +127,8 @@ namespace __extrema {
       pair_type const &lhs_min = get<0>(lhs);
       pair_type const &rhs_max = get<1>(rhs);
       pair_type const &lhs_max = get<1>(lhs);
-      return make_tuple(arg_min_t(predicate)(lhs_min, rhs_min),
-                        arg_max_t(predicate)(lhs_max, rhs_max));
+      return thrust::make_tuple(arg_min_t(predicate)(lhs_min, rhs_min),
+                                arg_max_t(predicate)(lhs_max, rhs_max));
     }
 
     struct duplicate_tuple
@@ -385,7 +385,7 @@ namespace __extrema {
     typedef tuple<ItemsIt, counting_iterator_t<IndexType> > iterator_tuple;
     typedef zip_iterator<iterator_tuple> zip_iterator;
 
-    iterator_tuple iter_tuple = make_tuple(first, counting_iterator_t<IndexType>(0));
+    iterator_tuple iter_tuple = thrust::make_tuple(first, counting_iterator_t<IndexType>(0));
 
 
     typedef ArgFunctor<InputType, IndexType, BinaryPred> arg_min_t;
@@ -518,7 +518,7 @@ minmax_element(execution_policy<Derived> &policy,
     typedef tuple<ItemsIt, counting_iterator_t<IndexType> > iterator_tuple;
     typedef zip_iterator<iterator_tuple> zip_iterator;
 
-    iterator_tuple iter_tuple = make_tuple(first, counting_iterator_t<IndexType>(0));
+    iterator_tuple iter_tuple = thrust::make_tuple(first, counting_iterator_t<IndexType>(0));
 
 
     typedef __extrema::arg_minmax_f<InputType, IndexType, BinaryPred> arg_minmax_t;

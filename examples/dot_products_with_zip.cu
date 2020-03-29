@@ -6,9 +6,9 @@
 #include <thrust/random.h>
 
 
-// This example shows how thrust::zip_iterator can be used to create a 
-// 'virtual' array of structures.  In this case the structure is a 3d 
-// vector type (Float3) whose (x,y,z) components will be stored in 
+// This example shows how thrust::zip_iterator can be used to create a
+// 'virtual' array of structures.  In this case the structure is a 3d
+// vector type (Float3) whose (x,y,z) components will be stored in
 // three separate float arrays.  The zip_iterator "zips" these arrays
 // into a single virtual Float3 array.
 
@@ -54,17 +54,17 @@ int main(void)
     // We'll store the components of the 3d vectors in separate arrays. One set of
     // arrays will store the 'A' vectors and another set will store the 'B' vectors.
 
-    // This 'structure of arrays' (SoA) approach is usually more efficient than the 
+    // This 'structure of arrays' (SoA) approach is usually more efficient than the
     // 'array of structures' (AoS) approach.  The primary reason is that structures,
     // like Float3, don't always obey the memory coalescing rules, so they are not
     // efficiently transferred to and from memory.  Another reason to prefer SoA to
     // AoS is that we don't aways want to process all members of the structure.  For
-    // example, if we only need to look at first element of the structure then it 
+    // example, if we only need to look at first element of the structure then it
     // is wasteful to load the entire structure from memory.  With the SoA approach,
     // we can chose which elements of the structure we wish to read.
 
     thrust::device_vector<float> A0 = random_vector(N);  // x components of the 'A' vectors
-    thrust::device_vector<float> A1 = random_vector(N);  // y components of the 'A' vectors 
+    thrust::device_vector<float> A1 = random_vector(N);  // y components of the 'A' vectors
     thrust::device_vector<float> A2 = random_vector(N);  // z components of the 'A' vectors
 
     thrust::device_vector<float> B0 = random_vector(N);  // x components of the 'B' vectors
@@ -78,7 +78,7 @@ int main(void)
     // We'll now illustrate two ways to use zip_iterator to compute the dot
     // products.  The first method is verbose but shows how the parts fit together.
     // The second method hides these details and is more concise.
-   
+
 
     // METHOD #1
     // Defining a zip_iterator type can be a little cumbersome ...
@@ -87,24 +87,24 @@ int main(void)
     typedef thrust::zip_iterator<FloatIteratorTuple>                   Float3Iterator;
 
     // Now we'll create some zip_iterators for A and B
-    Float3Iterator A_first = thrust::make_zip_iterator(make_tuple(A0.begin(), A1.begin(), A2.begin()));
-    Float3Iterator A_last  = thrust::make_zip_iterator(make_tuple(A0.end(),   A1.end(),   A2.end()));
-    Float3Iterator B_first = thrust::make_zip_iterator(make_tuple(B0.begin(), B1.begin(), B2.begin()));
-                            
+    Float3Iterator A_first = thrust::make_zip_iterator(thrust::make_tuple(A0.begin(), A1.begin(), A2.begin()));
+    Float3Iterator A_last  = thrust::make_zip_iterator(thrust::make_tuple(A0.end(),   A1.end(),   A2.end()));
+    Float3Iterator B_first = thrust::make_zip_iterator(thrust::make_tuple(B0.begin(), B1.begin(), B2.begin()));
+
     // Finally, we pass the zip_iterators into transform() as if they
     // were 'normal' iterators for a device_vector<Float3>.
     thrust::transform(A_first, A_last, B_first, result.begin(), DotProduct());
 
 
     // METHOD #2
-    // Alternatively, we can avoid creating variables for X_first, X_last, 
+    // Alternatively, we can avoid creating variables for X_first, X_last,
     // and Y_first and invoke transform() directly.
-    thrust::transform( thrust::make_zip_iterator(make_tuple(A0.begin(), A1.begin(), A2.begin())),
-                       thrust::make_zip_iterator(make_tuple(A0.end(),   A1.end(),   A2.end())),
-                       thrust::make_zip_iterator(make_tuple(B0.begin(), B1.begin(), B2.begin())),
+    thrust::transform( thrust::make_zip_iterator(thrust::make_tuple(A0.begin(), A1.begin(), A2.begin())),
+                       thrust::make_zip_iterator(thrust::make_tuple(A0.end(),   A1.end(),   A2.end())),
+                       thrust::make_zip_iterator(thrust::make_tuple(B0.begin(), B1.begin(), B2.begin())),
                        result.begin(),
                        DotProduct() );
-    
+
 
 
     // Finally, we'll print a few results
@@ -126,8 +126,8 @@ int main(void)
         std::cout << "(" << thrust::get<0>(b) << "," << thrust::get<1>(b) << "," << thrust::get<2>(b) << ")";
         std::cout << " = ";
         std::cout << dot << std::endl;
-    }   
+    }
 
     return 0;
 }
- 
+
