@@ -71,3 +71,10 @@
 #define THRUST_CUB_NS_PREFIX namespace thrust {   namespace cuda_cub {
 #define THRUST_CUB_NS_POSTFIX }  }
 
+#ifndef THRUST_IGNORE_CUB_VERSION_CHECK
+#include <thrust/version.h>
+#include <cub/version.cuh>
+#if THRUST_VERSION != CUB_VERSION
+#error The version of CUB in your include path is not compatible with this release of Thrust. Define THRUST_IGNORE_CUB_VERSION_CHECK to ignore this.
+#endif
+#endif
