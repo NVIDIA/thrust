@@ -122,3 +122,6 @@ else ifeq ($(OS),win32)
   CUDACC_FLAGS += -Xcompiler "/wd4146"
 endif
 
+# Promote all NVCC warnings into errors
+CUDACC_FLAGS += -Werror all-warnings
+

@@ -240,6 +240,7 @@ foreach (CXX_OPTION IN LISTS THRUST_CXX_WARNINGS)
 endforeach ()
 
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Werror all-warnings")
   foreach (CXX_OPTION IN LISTS THRUST_CXX_WARNINGS)
     set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler=${CXX_OPTION}")
   endforeach ()
