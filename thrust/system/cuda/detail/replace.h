@@ -64,14 +64,14 @@ namespace cuda_cub {
 
       template<class T>
       OutputType THRUST_DEVICE_FUNCTION
-      operator()(T const &x) const
+      operator()(T const &x)
       {
         return pred(x) ? new_value : x;
       }
 
       template<class T, class P>
       OutputType THRUST_DEVICE_FUNCTION
-      operator()(T const &x, P const& y) const
+      operator()(T const &x, P const& y)
       {
         return pred(y) ? new_value : x;
       }
