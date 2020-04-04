@@ -1,32 +1,16 @@
-# Copyright 1993-2010 NVIDIA Corporation.  All rights reserved.
+# Copyright 2010-2020 NVIDIA Corporation.
 #
-# NOTICE TO USER:
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
 #
-# This source code is subject to NVIDIA ownership rights under U.S. and
-# international Copyright laws.
+#		http://www.apache.org/licenses/LICENSE-2.0
 #
-# This software and the information contained herein is being provided
-# under the terms and conditions of a Source Code License Agreement.
-#
-# NVIDIA MAKES NO REPRESENTATION ABOUT THE SUITABILITY OF THIS SOURCE
-# CODE FOR ANY PURPOSE.  IT IS PROVIDED "AS IS" WITHOUT EXPRESS OR
-# IMPLIED WARRANTY OF ANY KIND.  NVIDIA DISCLAIMS ALL WARRANTIES WITH
-# REGARD TO THIS SOURCE CODE, INCLUDING ALL IMPLIED WARRANTIES OF
-# MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE.
-# IN NO EVENT SHALL NVIDIA BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL,
-# OR CONSEQUENTIAL DAMAGES, OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS
-# OF USE, DATA OR PROFITS,  WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE
-# OR OTHER TORTIOUS ACTION,  ARISING OUT OF OR IN CONNECTION WITH THE USE
-# OR PERFORMANCE OF THIS SOURCE CODE.
-#
-# U.S. Government End Users.   This source code is a "commercial item" as
-# that term is defined at  48 C.F.R. 2.101 (OCT 1995), consisting  of
-# "commercial computer  software"  and "commercial computer software
-# documentation" as such terms are  used in 48 C.F.R. 12.212 (SEPT 1995)
-# and is provided to the U.S. Government only as a commercial end item.
-# Consistent with 48 C.F.R.12.212 and 48 C.F.R. 227.7202-1 through
-# 227.7202-4 (JUNE 1995), all U.S. Government End Users acquire the
-# source code with only those rights set forth herein.
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
 # Makefile for building Thrust unit test driver
 
@@ -176,6 +160,7 @@ endif
 ifeq ($(OS), win32)
   COPY_CUB_FOR_PACKAGING = mv cub cub-link && cp -r ../cub/cub cub
   RESTORE_CUB_LINK = rm -rf cub && mv cub-link cub
+  RESTORE_CUB_LINK_ON_FAILURE = || $(RESTORE_CUB_LINK)
 endif
 
 DVS_OPTIONS :=
@@ -194,9 +179,9 @@ pack:
 
 dvs:
 	$(COPY_CUB_FOR_PACKAGING)
-	$(MAKE) $(DVS_OPTIONS) -s -C ../cuda $(THRUST_DVS_BUILD)
-	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1
-	cd .. && $(MAKE_DVS_PACKAGE)
+	$(MAKE) $(DVS_OPTIONS) -s -C ../cuda $(THRUST_DVS_BUILD) $(RESTORE_CUB_LINK_ON_FAILURE)
+	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1 $(RESTORE_CUB_LINK_ON_FAILURE)
+	cd .. && $(MAKE_DVS_PACKAGE) $(RESTORE_CUB_LINK_ON_FAILURE)
 	$(RESTORE_CUB_LINK)
 
 # XXX Deprecated, remove.
