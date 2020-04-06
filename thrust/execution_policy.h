@@ -27,6 +27,8 @@
 
 //! \cond
 
+//! \cond
+
 // #include the host system's execution_policy header
 #define __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_HOST_SYSTEM_ROOT/execution_policy.h>
 #include __THRUST_HOST_SYSTEM_EXECUTION_POLICY_HEADER
@@ -36,6 +38,8 @@
 #define __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER <__THRUST_DEVICE_SYSTEM_ROOT/execution_policy.h>
 #include __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
 #undef __THRUST_DEVICE_SYSTEM_EXECUTION_POLICY_HEADER
+
+//! \endcond
 
 //! \endcond
 
@@ -344,11 +348,7 @@ static const detail::host_t host;
  *  \see host_execution_policy
  *  \see thrust::device
  */
-#ifdef __CUDA_ARCH__
-static const __device__ detail::device_t device;
-#else
-static const detail::device_t device;
-#endif
+THRUST_INLINE_CONSTANT detail::device_t device;
 
 
 // define seq for the purpose of Doxygenating it

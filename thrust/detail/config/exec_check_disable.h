@@ -22,7 +22,11 @@
 
 #include <thrust/detail/config.h>
 
-#if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
+/* pragma nv_exec_check_disable only works with NVCC, not with PGI or Clang.
+   Having a macro expand to a #pragma (rather than _Pragma) only works with
+   NVCC's compilation model, not with other compilers. */
+#if defined(__CUDACC__) && !defined(__PGI_CUDA__) && \
+    !(defined(__CUDA__) && defined(__clang__))
 
 #define __thrust_exec_check_disable__ #pragma nv_exec_check_disable
 

@@ -73,17 +73,25 @@ private:
   cudaError_t
   synchronize_stream(execute_on_stream_base &exec)
   {
-    #if   !__CUDA_ARCH__
-      cudaStreamSynchronize(exec.stream);
-      return cudaGetLastError();
-    #elif __THRUST_HAS_CUDART__
-      THRUST_UNUSED_VAR(exec);
-      cudaDeviceSynchronize();
-      return cudaGetLastError();
-    #else
-      THRUST_UNUSED_VAR(exec);
-      return cudaSuccess;
-    #endif
+    cudaError_t result;
+    if (THRUST_IS_HOST_CODE) {
+      #if THRUST_INCLUDE_HOST_CODE
+        cudaStreamSynchronize(exec.stream);
+        result = cudaGetLastError();
+      #endif
+    } else {
+      #if THRUST_INCLUDE_DEVICE_CODE
+        #if __THRUST_HAS_CUDART__
+          THRUST_UNUSED_VAR(exec);
+          cudaDeviceSynchronize();
+          result = cudaGetLastError();
+        #else
+          THRUST_UNUSED_VAR(exec);
+          result = cudaSuccess;
+        #endif
+      #endif
+    }
+    return result;
   }
 };
 
@@ -109,7 +117,7 @@ struct par_t : execution_policy<par_t>,
   typedef execution_policy<par_t> base_t;
 
   __host__ __device__
-  par_t() : base_t() {}
+  THRUST_CONSTEXPR par_t() : base_t() {}
 
   typedef execute_on_stream stream_attachment_type;
 
@@ -121,11 +129,7 @@ struct par_t : execution_policy<par_t>,
   }
 };
 
-#ifdef __CUDA_ARCH__
-static const __device__ par_t par;
-#else
-static const par_t par;
-#endif
+THRUST_INLINE_CONSTANT par_t par;
 }    // namespace cuda_
 
 namespace system {
