@@ -1,4 +1,5 @@
 USE_NEW_PROJECT_MK := 1
+
 EXECUTABLE        := warningstester
 PROJ_DIR          := internal/build
 #GENCODE           :=
@@ -38,7 +39,7 @@ endif
 GENERATED_SOURCES = $(BUILT_CWD)
 CUDACC_FLAGS += -I$(GENERATED_SOURCES)
 
-include $(ROOTDIR)/thrust/internal/build/common_warnings.mk
+include $(ROOTDIR)/thrust/internal/build/common_compiler.mk
 
 ifdef VULCAN_TOOLKIT_BASE
 include $(VULCAN_TOOLKIT_BASE)/build/common.mk

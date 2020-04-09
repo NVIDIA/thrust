@@ -1,8 +1,6 @@
 # Generic project mk that is included by unit tests mk
-#  TEST_NAME  : the name of the test
-#  TEST_SRC   : path to the source code relative to thrust
-EXECUTABLE        := $(TEST_NAME)
-BUILD_SRC         := $(ROOTDIR)/thrust/$(TEST_SRC)
+EXECUTABLE := $(TEST_NAME)
+BUILD_SRC  := $(ROOTDIR)/thrust/$(TEST_SRC)
 
 ifdef VULCAN
   INCLUDES_ABSPATH += $(VULCAN_TOOLKIT_BASE)/thrust/testing

@@ -4,7 +4,7 @@ ifeq ($(OS),Linux)
   LIBRARIES += m
 endif
 
-include $(ROOTDIR)/thrust/internal/build/common_warnings.mk
+include $(ROOTDIR)/thrust/internal/build/common_compiler.mk
 
 # Add /bigobj to Windows build flag to workaround building Thrust with debug
 ifeq ($(OS),win32)
