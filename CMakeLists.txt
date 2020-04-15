@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 
-project(Thrust CXX)
+project(Thrust NONE)
 
 set(THRUST_SOURCE ${CMAKE_SOURCE_DIR})
 include(cmake/common_variables.cmake)
@@ -72,14 +72,48 @@ message("-- C++ Standard version: ${CMAKE_CXX_STANDARD}")
 set(CUB_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/dependencies/cub")
 
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-  if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
-    unset(CMAKE_CUDA_HOST_COMPILER CACHE)
-    message(FATAL_ERROR "Thrust tests and examples require the C++ compiler"
-        " and the CUDA host compiler to be the same; to set this compiler, please"
-        " use the CMAKE_CXX_COMPILER variable, not the CMAKE_CUDA_HOST_COMPILER"
-        " variable.")
+  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    if (NOT "${CMAKE_CXX_COMPILER}" STREQUAL "")
+      unset(CMAKE_CXX_COMPILER CACHE)
+      message(FATAL_ERROR "You are using Feta as your CUDA C++ compiler, but have"
+          " specified a different ISO C++ compiler; Feta acts as both, so please"
+          " unset the CMAKE_CXX_COMPILER variable.")
+    endif ()
+    if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
+      unset(CMAKE_CUDA_HOST_COMPILER CACHE)
+      message(FATAL_ERROR "You are using Feta as your CUDA C++ compiler, but have"
+          " specified a different host ISO C++ compiler; Feta acts as both, so"
+          " please unset the CMAKE_CUDA_HOST_COMPILER variable.")
+    endif ()
+    set(CMAKE_CXX_COMPILER ${CMAKE_CUDA_COMPILER})
   endif ()
-  set(CMAKE_CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
+
+  enable_language(CXX)
+
+  # We don't set CMAKE_CUDA_HOST_COMPILER for Feta; if we do, CMake tries to
+  # pass `-ccbin ${CMAKE_CUDA_HOST_COMPILER}` to Feta, which it doesn't
+  # understand.
+  if (NOT "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
+      unset(CMAKE_CUDA_HOST_COMPILER CACHE)
+      message(FATAL_ERROR "Thrust tests and examples require the C++ compiler"
+          " and the CUDA host compiler to be the same; to set this compiler, please"
+          " use the CMAKE_CXX_COMPILER variable, not the CMAKE_CUDA_HOST_COMPILER"
+          " variable.")
+    endif ()
+    set(CMAKE_CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
+  endif ()
+
+  # Temporary hacks to make Feta work; this requires you to define
+  # `CMAKE_CUDA_COMPILER_ID=Feta` and `CMAKE_CUDA_COMPILER_FORCED`.
+  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -stdpar")
+
+    set(CMAKE_CUDA_HOST_LINK_LAUNCHER ${CMAKE_CUDA_COMPILER})
+
+    set(CMAKE_CUDA_LINK_EXECUTABLE
+        "<CMAKE_CUDA_HOST_LINK_LAUNCHER> ${CMAKE_CUDA_FLAGS} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
+  endif ()
 
   enable_language(CUDA)
 
@@ -99,7 +133,13 @@ if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   set(THRUST_HIGHEST_COMPUTE_ARCH 75)
   set(THRUST_KNOWN_COMPUTE_ARCHS 30 32 35 50 52 53 60 61 62 70 72 75)
 
-  option(THRUST_DISABLE_ARCH_BY_DEFAULT "If ON, then all CUDA architectures are disabled on the initial CMake run." OFF)
+  set(OPTION_INIT OFF)
+  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    set(OPTION_INIT ON)
+  endif ()
+  option(THRUST_DISABLE_ARCH_BY_DEFAULT "If ON, then all CUDA architectures are disabled on the initial CMake run."
+    ${OPTION_INIT})
+
   set(OPTION_INIT ON)
   if (THRUST_DISABLE_ARCH_BY_DEFAULT)
     set(OPTION_INIT OFF)
@@ -109,22 +149,60 @@ if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
     message(FATAL_ERROR "When changing the highest compute version, don't forget to add it to the list!")
   endif ()
 
+  set(NUMBER_OF_ARCHS_ENABLED 0)
   foreach (COMPUTE_ARCH IN LISTS THRUST_KNOWN_COMPUTE_ARCHS)
     option(THRUST_ENABLE_COMPUTE_${COMPUTE_ARCH} "Enable code generation for tests for sm_${COMPUTE_ARCH}" ${OPTION_INIT})
     if (THRUST_ENABLE_COMPUTE_${COMPUTE_ARCH})
-      set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${COMPUTE_ARCH},code=sm_${COMPUTE_ARCH}")
+      math(EXPR NUMBER_OF_ARCHS_ENABLED "${NUMBER_OF_ARCHS_ENABLED}+1")
+      if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+        if (NOT ${NUMBER_OF_ARCHS_ENABLED} EQUAL 1)
+          message(FATAL_ERROR "Feta does not support compilation for multiple device architectures at once.")
+        endif ()
+        set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gpu=cc${COMPUTE_ARCH}")
+      else ()
+        set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${COMPUTE_ARCH},code=sm_${COMPUTE_ARCH}")
+      endif ()
       set(COMPUTE_MESSAGE "${COMPUTE_MESSAGE} sm_${COMPUTE_ARCH}")
     endif ()
   endforeach ()
 
-  option(THRUST_ENABLE_COMPUTE_FUTURE "Enable code generation for tests for compute_${THRUST_HIGHEST_COMPUTE_ARCH}" ${OPTION_INIT})
-  if (THRUST_ENABLE_COMPUTE_FUTURE)
-    set(CMAKE_CUDA_FLAGS
-      "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${THRUST_HIGHEST_COMPUTE_ARCH},code=compute_${THRUST_HIGHEST_COMPUTE_ARCH}")
-    set(COMPUTE_MESSAGE "${COMPUTE_MESSAGE} compute_${THRUST_HIGHEST_COMPUTE_ARCH}")
+  if (NOT "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    option(THRUST_ENABLE_COMPUTE_FUTURE "Enable code generation for tests for compute_${THRUST_HIGHEST_COMPUTE_ARCH}" ${OPTION_INIT})
+    if (THRUST_ENABLE_COMPUTE_FUTURE)
+      set(CMAKE_CUDA_FLAGS
+        "${CMAKE_CUDA_FLAGS} -gencode arch=compute_${THRUST_HIGHEST_COMPUTE_ARCH},code=compute_${THRUST_HIGHEST_COMPUTE_ARCH}")
+      set(COMPUTE_MESSAGE "${COMPUTE_MESSAGE} compute_${THRUST_HIGHEST_COMPUTE_ARCH}")
+    endif ()
   endif ()
 
+  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    # Today:
+    # * NVCC accepts CUDA C++ in .cu files but not .cpp files.
+    # * Feta accepts CUDA C++ in .cpp files but not .cu files.
+    # TODO: This won't be necessary in the future.
+    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -cppsuffix=cu")
+    set(THRUST_TREAT_FILE_AS_CXX "")
+  endif ()
+
+  # RDC is off by default in NVCC and on by default in Feta. Turning off RDC
+  # isn't currently supported by Feta. So, we default to RDC off for NVCC and
+  # RDC on for Feta.
+  set(OPTION_INIT OFF)
+  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    set(OPTION_INIT ON)
+  endif ()
+
+  option(THRUST_ENABLE_TESTS_WITH_RDC
+    "Build all Thrust tests with RDC; tests that require RDC are not affected by this option."
+    ${OPTION_INIT})
+
+  option(THRUST_ENABLE_EXAMPLES_WITH_RDC
+    "Build all Thrust examples with RDC; examples which require RDC are not affected by this option."
+    ${OPTION_INIT})
+
   message("-- Enabled CUDA architectures:${COMPUTE_MESSAGE}")
+else ()
+  enable_language(CXX)
 endif ()
 
 if ("OMP" STREQUAL "${THRUST_DEVICE_SYSTEM}")
@@ -255,11 +333,13 @@ foreach (CXX_OPTION IN LISTS THRUST_CXX_WARNINGS)
 endforeach ()
 
 if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-  foreach (CXX_OPTION IN LISTS THRUST_CXX_WARNINGS)
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler=${CXX_OPTION}")
-  endforeach ()
-  set(CMAKE_CUDA_FLAGS
-    "${CMAKE_CUDA_FLAGS} -Werror all-warnings -Xcudafe --display_error_number")
+  if ("NVIDIA" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    foreach (CXX_OPTION IN LISTS THRUST_CXX_WARNINGS)
+      set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -Xcompiler=${CXX_OPTION}")
+    endforeach ()
+    set(CMAKE_CUDA_FLAGS
+      "${CMAKE_CUDA_FLAGS} -Werror all-warnings -Xcudafe --display_error_number")
+  endif ()
 endif ()
 
 # For every public header, build a translation unit containing `#include <header>`
@@ -380,8 +460,6 @@ enable_testing()
 
 # Handle tests.
 
-option(THRUST_ENABLE_TESTS_WITH_RDC "Also build all tests with RDC." OFF)
-
 set(THRUST_TEST_RUN_ARGUMENTS
   -DTHRUST_SOURCE=${CMAKE_SOURCE_DIR}
   -P "${CMAKE_SOURCE_DIR}/cmake/run_test.cmake")
@@ -403,6 +481,11 @@ target_include_directories(
   PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
   PRIVATE ${PROJECT_SOURCE_DIR}/testing
 )
+
+if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+  set_target_properties(thrust_testframework
+    PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS OFF)
+endif ()
 
 list(APPEND THRUST_TEST_GLOBS testing/*.cu)
 list(APPEND THRUST_TEST_GLOBS testing/*.cpp)
@@ -456,14 +539,9 @@ set(THRUST_PARTIALLY_IMPLEMENTED
   ${THRUST_PARTIALLY_IMPLEMENTED_OMP}
 )
 
-if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-  if (14 EQUAL ${CMAKE_CXX_STANDARD})
-    # Temporarily disable until NVBug 2492786 is fixed.
-    list(APPEND THRUST_PARTIALLY_IMPLEMENTED tuple_algorithms)
-  endif()
-endif ()
-
 list(REMOVE_DUPLICATES THRUST_PARTIALLY_IMPLEMENTED)
+
+# Handle tests.
 
 foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
   # TODO: Per-test flags.
@@ -516,49 +594,36 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
     thrust_testframework
     ${THRUST_ADDITIONAL_LIBRARIES})
 
+  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    set_target_properties(${THRUST_TEST}
+      PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS OFF)
+  endif ()
+
+  # All the CUDA-specific ones will test device-side launch (aka calling parallel
+  # algorithms from device code), which requires the CUDA device-side runtime,
+  # which requires RDC, so these always need to be built with RDC.
+  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND
+      (THRUST_ENABLE_TESTS_WITH_RDC OR "${THRUST_TEST_CATEGORY}" STREQUAL "cuda"))
+    if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+      set_target_properties(${THRUST_TEST}
+        PROPERTIES COMPILE_FLAGS "-gpu=rdc")
+    else ()
+      set_target_properties(${THRUST_TEST}
+        PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+    endif ()
+  endif ()
+
   if (THRUST_TEST_ADD_TO_CTEST)
     add_test(NAME ${THRUST_TEST}
       COMMAND ${CMAKE_COMMAND}
         -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_TEST}>
         ${THRUST_TEST_RUN_ARGUMENTS})
   endif ()
-
-  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND THRUST_ENABLE_TESTS_WITH_RDC)
-    set(THRUST_TEST_RDC "thrust.test.${THRUST_TEST_CATEGORY}rdc.${THRUST_TEST_NAME}")
-
-    add_executable(
-      ${THRUST_TEST_RDC}
-      ${THRUST_TEST_CREATION_ADDITIONAL}
-      # THRUST_TEST_CREATION_ADDITIONAL is actually a CMake keyword (sometimes).
-      ${PROJECT_SOURCE_DIR}/testing/${THRUST_TEST_SOURCE}
-    )
-
-    target_include_directories(
-      ${THRUST_TEST_RDC}
-      PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
-      PRIVATE ${PROJECT_SOURCE_DIR}/testing
-    )
-
-    target_link_libraries(${THRUST_TEST_RDC}
-      thrust_testframework
-      ${THRUST_ADDITIONAL_LIBRARIES})
-
-    set_target_properties(${THRUST_TEST_RDC}
-      PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-
-    if (THRUST_TEST_ADD_TO_CTEST)
-      add_test(NAME ${THRUST_TEST_RDC}
-        COMMAND ${CMAKE_COMMAND}
-          -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_TEST_RDC}>
-          ${THRUST_TEST_RUN_ARGUMENTS})
-    endif ()
-  endif ()
 endforeach ()
 
 # Handle examples.
 
 option(THRUST_EXAMPLE_FILECHECK_PATH "Path to the LLVM FileCheck utility." "")
-option(THRUST_ENABLE_EXAMPLES_WITH_RDC "Also build all examples with RDC." OFF)
 
 set(THRUST_EXAMPLE_FILECHECK_ENABLED OFF)
 if (NOT "" STREQUAL "${THRUST_EXAMPLE_FILECHECK_PATH}")
@@ -641,37 +706,25 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
   target_link_libraries(${THRUST_EXAMPLE}
     ${THRUST_ADDITIONAL_LIBRARIES})
 
+  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+    set_target_properties(${THRUST_EXAMPLE}
+      PROPERTIES CUDA_RESOLVE_DEVICE_SYMBOLS OFF)
+  endif ()
+
+  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND THRUST_ENABLE_EXAMPLES_WITH_RDC)
+    if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+      set_target_properties(${THRUST_EXAMPLE}
+        PROPERTIES COMPILE_FLAGS "-gpu=rdc")
+    else ()
+      set_target_properties(${THRUST_EXAMPLE}
+        PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
+    endif ()
+  endif ()
+
   add_test(NAME ${THRUST_EXAMPLE}
     COMMAND ${CMAKE_COMMAND}
       -DTHRUST_EXAMPLE=${THRUST_EXAMPLE}
       -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_EXAMPLE}>
       ${THRUST_EXAMPLE_RUN_ARGUMENTS})
-
-  if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND THRUST_ENABLE_EXAMPLES_WITH_RDC)
-    set(THRUST_EXAMPLE_RDC "thrust.example.${THRUST_EXAMPLE_CATEGORY}rdc.${THRUST_EXAMPLE_NAME}")
-
-    add_executable(
-      ${THRUST_EXAMPLE_RDC}
-      ${PROJECT_SOURCE_DIR}/examples/${THRUST_EXAMPLE_SOURCE}
-    )
-
-    target_include_directories(
-      ${THRUST_EXAMPLE_RDC}
-      PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
-      PRIVATE ${PROJECT_SOURCE_DIR}/examples
-    )
-
-    target_link_libraries(${THRUST_EXAMPLE_RDC}
-      ${THRUST_ADDITIONAL_LIBRARIES})
-
-    set_target_properties(${THRUST_EXAMPLE_RDC}
-      PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
-
-    add_test(NAME ${THRUST_EXAMPLE_RDC}
-      COMMAND ${CMAKE_COMMAND}
-        -DTHRUST_EXAMPLE=${THRUST_EXAMPLE}
-        -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_EXAMPLE_RDC}>
-        ${THRUST_EXAMPLE_RUN_ARGUMENTS})
-  endif ()
 endforeach ()
 
