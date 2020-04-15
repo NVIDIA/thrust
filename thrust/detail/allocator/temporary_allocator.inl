@@ -51,7 +51,7 @@ __host__ __device__
         throw thrust::system::detail::bad_alloc("temporary_buffer::allocate: get_temporary_buffer failed");
       #endif
     } else {
-      #if THRUST_INCLUDE_DEVICE_CODE
+      #if THRUST_INCLUDE_DEVICE_CODE && THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
         thrust::system::cuda::detail::terminate_with_message("temporary_buffer::allocate: get_temporary_buffer failed");
       #endif
     }
