@@ -36,7 +36,7 @@ namespace random
 namespace detail
 {
 
-// this version samples the normal distribution directly 
+// this version samples the normal distribution directly
 // and uses the non-standard math function erfcinv
 template<typename RealType>
   class normal_distribution_nvcc
@@ -54,7 +54,7 @@ template<typename RealType>
       const RealType S2 = S1 / 2;
 
       RealType S3 = static_cast<RealType>(-1.4142135623730950488016887242097); // -sqrt(2)
-      
+
       // Get the integer value
       uint_type u = urng() - UniformRandomNumberGenerator::min;
 
@@ -77,7 +77,7 @@ template<typename RealType>
     void reset() {}
 };
 
-// this version samples the normal distribution using 
+// this version samples the normal distribution using
 // Marsaglia's "polar method"
 template<typename RealType>
   class normal_distribution_portable
@@ -136,7 +136,7 @@ template<typename RealType>
 template<typename RealType>
   struct normal_distribution_base
 {
-#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
+#if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC && !defined(__NVCOMPILER_CUDA__)
   typedef normal_distribution_nvcc<RealType> type;
 #else
   typedef normal_distribution_portable<RealType> type;
