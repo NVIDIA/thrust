@@ -155,11 +155,7 @@ else
   MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_H_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE) && $(COMPRESS_DVS_PACKAGE)
 endif
 
-ifeq ($(OS), win32)
-  COPY_CUB_FOR_PACKAGING = mv cub cub-link && cp -r ../cub/cub cub
-  RESTORE_CUB_LINK = rm -rf cub && mv cub-link cub
-  RESTORE_CUB_LINK_ON_FAILURE = || $(RESTORE_CUB_LINK)
-endif
+COPY_CUB_FOR_PACKAGING = rm -rf cub && cp -r ../cub/cub cub
 
 DVS_OPTIONS :=
 
@@ -173,17 +169,13 @@ endif
 THRUST_DVS_BUILD = release
 
 pack:
+	$(COPY_CUB_FOR_PACKAGING)
 	cd .. && $(MAKE_DVS_PACKAGE)
 
 dvs:
 	$(COPY_CUB_FOR_PACKAGING)
-	$(MAKE) $(DVS_OPTIONS) -s -C ../cuda $(THRUST_DVS_BUILD) $(RESTORE_CUB_LINK_ON_FAILURE)
-	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1 $(RESTORE_CUB_LINK_ON_FAILURE)
-	cd .. && $(MAKE_DVS_PACKAGE) $(RESTORE_CUB_LINK_ON_FAILURE)
-	$(RESTORE_CUB_LINK)
-
-# XXX Deprecated, remove.
-dvs_nightly: dvs
+	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1
+	cd .. && $(MAKE_DVS_PACKAGE)
 
 dvs_release:
 	$(MAKE) dvs THRUST_DVS_BUILD=release
