@@ -31,6 +31,7 @@
 #include <thrust/for_each.h>
 #include <thrust/detail/function.h>
 #include <thrust/system/detail/generic/scalar/binary_search.h>
+#include <thrust/system/detail/generic/select_system.h>
 
 #include <thrust/detail/temporary_array.h>
 #include <thrust/detail/type_traits.h>
@@ -150,19 +151,34 @@ OutputType binary_search(thrust::execution_policy<DerivedPolicy> &exec,
                          BinarySearchFunction func)
 {
   // use the vectorized path to implement the scalar version
-  
+
   // allocate device buffers for value and output
   thrust::detail::temporary_array<T,DerivedPolicy>          d_value(exec,1);
   thrust::detail::temporary_array<OutputType,DerivedPolicy> d_output(exec,1);
-  
-  // copy value to device
-  d_value[0] = value;
-  
+
+  { // copy value to device
+    typedef typename thrust::iterator_system<const T*>::type value_in_system_t;
+    value_in_system_t value_in_system;
+    using thrust::system::detail::generic::select_system;
+    thrust::copy_n(select_system(thrust::detail::derived_cast(thrust::detail::strip_const(value_in_system)),
+                                 thrust::detail::derived_cast(thrust::detail::strip_const(exec))),
+                   &value, 1, d_value.begin());
+  }
+
   // perform the query
   thrust::system::detail::generic::detail::binary_search(exec, begin, end, d_value.begin(), d_value.end(), d_output.begin(), comp, func);
-  
-  // copy result to host and return
-  return d_output[0];
+
+  OutputType output;
+  { // copy result to host and return
+    typedef typename thrust::iterator_system<OutputType*>::type result_out_system_t;
+    result_out_system_t result_out_system;
+    using thrust::system::detail::generic::select_system;
+    thrust::copy_n(select_system(thrust::detail::derived_cast(thrust::detail::strip_const(exec)),
+                                 thrust::detail::derived_cast(thrust::detail::strip_const(result_out_system))),
+                   d_output.begin(), 1, &output);
+  }
+
+  return output;
 }
 
 
