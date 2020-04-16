@@ -37,10 +37,6 @@ else
   include ../build/config/DetectOS.mk
 endif
 
-ifeq ($(OS),win32)
-  export I_AM_SLOPPY := 1
-endif
-
 TMP_DIR      := built
 TMP_PREFIX   := $(ROOTDIR)
 TMP_ARCH     := $(ARCH)_$(PROFILE)_agnostic
