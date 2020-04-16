@@ -1,5 +1,7 @@
 USE_NEW_PROJECT_MK := 1
 
+CCCL_ENABLE_DEPRECATIONS := 1
+
 ifeq ($(OS),Linux)
   LIBRARIES += m
 endif
