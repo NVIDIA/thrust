@@ -6,7 +6,9 @@
 #include <thrust/scan.h>
 
 #if THRUST_CPP_DIALECT >= 2011
+#include <thrust/random.h>
 #include <thrust/shuffle.h>
+
 #include <random>
 #endif
 
@@ -701,7 +703,6 @@ template <typename Container, typename TrialKind = regular_trial>
 struct shuffle_trial_base : trial_base<TrialKind>
 {
   Container input;
-  std::default_random_engine g;
 
   void setup(uint64_t elements)
   {
@@ -915,6 +916,7 @@ struct shuffle_tester
 
   struct std_trial : shuffle_trial_base<std::vector<T>, baseline_trial>
   {
+    std::default_random_engine g;
     void operator()()
     {
       std::shuffle(this->input.begin(), this->input.end(), this->g);
@@ -923,6 +925,7 @@ struct shuffle_tester
 
   struct thrust_trial : shuffle_trial_base<thrust::device_vector<T> >
   {
+    thrust::default_random_engine g;
     void operator()()
     {
       thrust::shuffle(this->input.begin(), this->input.end(), this->g);
