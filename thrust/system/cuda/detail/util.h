@@ -245,6 +245,10 @@ struct transform_input_iterator_t
   transform_input_iterator_t(InputIt input, UnaryOp op)
       : input(input), op(op) {}
 
+#if THRUST_CPP_DIALECT >= 2011
+  transform_input_iterator_t(const self_t &) = default;
+#endif
+
   // UnaryOp might not be copy assignable, such as when it is a lambda.  Define
   // an explicit copy assignment operator that doesn't try to assign it.
   self_t& operator=(const self_t& o)
@@ -370,6 +374,10 @@ struct transform_pair_of_input_iterators_t
                                       InputIt2 input2_,
                                       BinaryOp op_)
       : input1(input1_), input2(input2_), op(op_) {}
+
+#if THRUST_CPP_DIALECT >= 2011
+  transform_pair_of_input_iterators_t(const self_t &) = default;
+#endif
 
   // BinaryOp might not be copy assignable, such as when it is a lambda.
   // Define an explicit copy assignment operator that doesn't try to assign it.
