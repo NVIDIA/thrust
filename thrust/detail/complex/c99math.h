@@ -126,9 +126,9 @@ using std::isnan;
 using std::signbit;
 using std::isfinite;
 #  endif // __CUDACC__
+#endif // _MSC_VER
 
 using ::atanh;
-#endif // _MSC_VER
 
 #if defined _MSC_VER
 

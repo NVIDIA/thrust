@@ -603,11 +603,6 @@ complex<double> catanh(complex<double> z)
   ax = fabs(x);
   ay = fabs(y);
 
-  // MSVC needs to pull this in from the std namespace
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-  using std::atanh;
-#endif
-
   /* This helps handle many cases. */
   if (y == 0 && ax <= 1)
     return (complex<double>(atanh(x), y));
