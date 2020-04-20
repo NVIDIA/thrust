@@ -189,8 +189,8 @@ public:
         return std::move(dependencies);
     }
 
-    typename std::add_lvalue_reference<Allocator>::type
     __host__
+    typename std::add_lvalue_reference<Allocator>::type
     get_allocator()
     {
         return alloc;
