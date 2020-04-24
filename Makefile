@@ -174,6 +174,12 @@ pack:
 
 dvs:
 	$(COPY_CUB_FOR_PACKAGING)
+# Build the CUDA Runtime in GVS, because GVS has no CUDA Runtime component.
+# This is a temporary workaround until the Tegra team adds a CUDA Runtime
+# component, which they have promised to do.
+ifdef GVS
+	$(MAKE) $(DVS_OPTIONS) -s -C ../cuda $(THRUST_DVS_BUILD)
+endif
 	$(MAKE) $(DVS_OPTIONS) $(THRUST_DVS_BUILD) THRUST_DVS=1
 	cd .. && $(MAKE_DVS_PACKAGE)
 
