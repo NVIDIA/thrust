@@ -1,8 +1,8 @@
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.10)
 
 project(Thrust NONE)
 
-set(THRUST_SOURCE ${CMAKE_SOURCE_DIR})
+set(THRUST_SOURCE "${CMAKE_SOURCE_DIR}")
 include(cmake/common_variables.cmake)
 
 if ("" STREQUAL "${CMAKE_BUILD_TYPE}")
@@ -18,103 +18,89 @@ if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.12)
   set(CMAKE_CONFIGURE_DEPENDS CONFIGURE_DEPENDS)
 endif ()
 
-list(INSERT CMAKE_MODULE_PATH 0 ${PROJECT_SOURCE_DIR}/cmake)
+list(INSERT CMAKE_MODULE_PATH 0 "${PROJECT_SOURCE_DIR}/cmake")
 include(AppendOptionIfAvailable)
-
-file(READ "thrust/version.h" THRUST_VERSION_HEADER)
-string(REGEX MATCH "THRUST_VERSION ([0-9]+)" DUMMY ${THRUST_VERSION_HEADER})
-set(THRUST_VERSION ${CMAKE_MATCH_1})
-math(EXPR THRUST_VERSION_MAJOR "(${THRUST_VERSION} / 100000)")
-math(EXPR THRUST_VERSION_MINOR "(${THRUST_VERSION} / 100) % 1000")
-math(EXPR THRUST_VERSION_PATCH "${THRUST_VERSION} % 100")
-set(
-  THRUST_VERSION_STR
-  "${THRUST_VERSION_MAJOR}.${THRUST_VERSION_MINOR}.${THRUST_VERSION_PATCH}"
-)
-message(STATUS "Thrust Version: ${THRUST_VERSION_STR}")
-
-set(THRUST_HOST_SYSTEM_OPTIONS CPP OMP TBB)
-set(THRUST_HOST_SYSTEM CPP CACHE STRING "The device backend to target.")
-set_property(
-  CACHE THRUST_HOST_SYSTEM
-  PROPERTY STRINGS ${THRUST_HOST_SYSTEM_OPTIONS}
-)
-if (NOT THRUST_HOST_SYSTEM IN_LIST THRUST_HOST_SYSTEM_OPTIONS)
-  message(
-    FATAL_ERROR
-    "THRUST_HOST_SYSTEM must be one of ${THRUST_HOST_SYSTEM_OPTIONS}"
-  )
-endif ()
-
-add_definitions(-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_${THRUST_HOST_SYSTEM})
-
-set(THRUST_DEVICE_SYSTEM_OPTIONS CUDA CPP OMP TBB)
-set(THRUST_DEVICE_SYSTEM CUDA CACHE STRING "The device backend to target.")
-set_property(
-  CACHE THRUST_DEVICE_SYSTEM
-  PROPERTY STRINGS ${THRUST_DEVICE_SYSTEM_OPTIONS}
-)
-if (NOT THRUST_DEVICE_SYSTEM IN_LIST THRUST_DEVICE_SYSTEM_OPTIONS)
-  message(
-    FATAL_ERROR
-    "THRUST_DEVICE_SYSTEM must be one of ${THRUST_DEVICE_SYSTEM_OPTIONS}"
-  )
-endif ()
-
-add_definitions(-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_${THRUST_DEVICE_SYSTEM})
 
 # Please note this also sets the default for the CUDA C++ version; see the comment below.
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-message("-- C++ Standard version: ${CMAKE_CXX_STANDARD}")
+message(STATUS "C++ Standard version: ${CMAKE_CXX_STANDARD}")
 
-set(CUB_INCLUDE_DIR "${PROJECT_SOURCE_DIR}/dependencies/cub")
-
-if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
-    if (NOT "${CMAKE_CXX_COMPILER}" STREQUAL "")
-      unset(CMAKE_CXX_COMPILER CACHE)
-      message(FATAL_ERROR "You are using Feta as your CUDA C++ compiler, but have"
-          " specified a different ISO C++ compiler; Feta acts as both, so please"
-          " unset the CMAKE_CXX_COMPILER variable.")
-    endif ()
-    if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
-      unset(CMAKE_CUDA_HOST_COMPILER CACHE)
-      message(FATAL_ERROR "You are using Feta as your CUDA C++ compiler, but have"
-          " specified a different host ISO C++ compiler; Feta acts as both, so"
-          " please unset the CMAKE_CUDA_HOST_COMPILER variable.")
-    endif ()
-    set(CMAKE_CXX_COMPILER ${CMAKE_CUDA_COMPILER})
+# Temporary hacks to make Feta work; this requires you to define
+# `CMAKE_CUDA_COMPILER_ID=Feta` and `CMAKE_CUDA_COMPILER_FORCED`.
+if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+  # If using Feta, don't set CXX compiler
+  if (NOT "${CMAKE_CXX_COMPILER}" STREQUAL "")
+    unset(CMAKE_CXX_COMPILER CACHE)
+    message(FATAL_ERROR "You are using Feta as your CUDA C++ compiler, but have"
+      " specified a different ISO C++ compiler; Feta acts as both, so please"
+      " unset the CMAKE_CXX_COMPILER variable.")
   endif ()
-
-  enable_language(CXX)
 
   # We don't set CMAKE_CUDA_HOST_COMPILER for Feta; if we do, CMake tries to
   # pass `-ccbin ${CMAKE_CUDA_HOST_COMPILER}` to Feta, which it doesn't
   # understand.
-  if (NOT "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
-    if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
-      unset(CMAKE_CUDA_HOST_COMPILER CACHE)
-      message(FATAL_ERROR "Thrust tests and examples require the C++ compiler"
-          " and the CUDA host compiler to be the same; to set this compiler, please"
-          " use the CMAKE_CXX_COMPILER variable, not the CMAKE_CUDA_HOST_COMPILER"
-          " variable.")
-    endif ()
-    set(CMAKE_CUDA_HOST_COMPILER ${CMAKE_CXX_COMPILER})
+  if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
+    unset(CMAKE_CUDA_HOST_COMPILER CACHE)
+    message(FATAL_ERROR "You are using Feta as your CUDA C++ compiler, but have"
+      " specified a different host ISO C++ compiler; Feta acts as both, so"
+      " please unset the CMAKE_CUDA_HOST_COMPILER variable.")
   endif ()
 
-  # Temporary hacks to make Feta work; this requires you to define
-  # `CMAKE_CUDA_COMPILER_ID=Feta` and `CMAKE_CUDA_COMPILER_FORCED`.
-  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
-    set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -stdpar")
+  set(CMAKE_CXX_COMPILER "${CMAKE_CUDA_COMPILER}")
+  set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -stdpar")
+  set(CMAKE_CUDA_HOST_LINK_LAUNCHER "${CMAKE_CUDA_COMPILER}")
+  set(CMAKE_CUDA_LINK_EXECUTABLE
+      "<CMAKE_CUDA_HOST_LINK_LAUNCHER> ${CMAKE_CUDA_FLAGS} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
+endif ()
 
-    set(CMAKE_CUDA_HOST_LINK_LAUNCHER ${CMAKE_CUDA_COMPILER})
+enable_language(CXX)
 
-    set(CMAKE_CUDA_LINK_EXECUTABLE
-        "<CMAKE_CUDA_HOST_LINK_LAUNCHER> ${CMAKE_CUDA_FLAGS} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
+# We don't set CMAKE_CUDA_HOST_COMPILER for Feta; if we do, CMake tries to
+# pass `-ccbin ${CMAKE_CUDA_HOST_COMPILER}` to Feta, which it doesn't
+# understand.
+if (NOT "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+  if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
+    unset(CMAKE_CUDA_HOST_COMPILER CACHE)
+    message(FATAL_ERROR "Thrust tests and examples require the C++ compiler"
+      " and the CUDA host compiler to be the same; to set this compiler, please"
+      " use the CMAKE_CXX_COMPILER variable, not the CMAKE_CUDA_HOST_COMPILER"
+      " variable.")
   endif ()
+  set(CMAKE_CUDA_HOST_COMPILER "${CMAKE_CXX_COMPILER}")
+endif ()
 
+set(THRUST_TARGET_FLAGS)
+macro(add_flag_option flag docstring default)
+  set(opt "THRUST_${flag}")
+  option(${opt} "${docstring}" "${default}")
+  mark_as_advanced(${opt})
+  if (${${opt}})
+    list(APPEND THRUST_TARGET_FLAGS ${flag})
+  endif()
+endmacro()
+add_flag_option(IGNORE_DEPRECATED_CPP_DIALECT "Don't warn about any deprecated C++ standards and compilers." OFF)
+add_flag_option(IGNORE_DEPRECATED_CPP_11 "Don't warn about deprecated C++11." OFF)
+add_flag_option(IGNORE_DEPRECATED_COMPILER "Don't warn about deprecated COMPILERS." OFF)
+add_flag_option(IGNORE_CUB_VERSION_CHECK "Don't warn about mismatched CUB versions." OFF)
+
+# Use our find_package config to assemble the Thrust library components we need:
+find_package(Thrust REQUIRED CONFIG
+  NO_DEFAULT_PATH # Only check the explicit HINTS below:
+  HINTS
+    "${CMAKE_CURRENT_LIST_DIR}"
+)
+thrust_create_target(Thrust FROM_OPTIONS ${THRUST_TARGET_FLAGS})
+thrust_debug_target(Thrust "${THRUST_VERSION}")
+
+thrust_update_system_found_flags()
+message(STATUS "CPP system found? ${THRUST_CPP_FOUND}")
+message(STATUS "CUDA system found? ${THRUST_CUDA_FOUND}")
+message(STATUS "TBB system found? ${THRUST_TBB_FOUND}")
+message(STATUS "OMP system found? ${THRUST_OMP_FOUND}")
+
+if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
   enable_language(CUDA)
 
   # Force CUDA C++ standard to be the same as the C++ standard used.
@@ -201,29 +187,9 @@ if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}")
     ${OPTION_INIT})
 
   message("-- Enabled CUDA architectures:${COMPUTE_MESSAGE}")
-else ()
-  enable_language(CXX)
-endif ()
-
-if ("OMP" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-  find_package(OpenMP REQUIRED)
-  if (OPENMP_FOUND)
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
-  endif()
 endif ()
 
 if ("TBB" STREQUAL "${THRUST_DEVICE_SYSTEM}")
-  find_package(PkgConfig REQUIRED)
-  pkg_check_modules(TBB tbb REQUIRED)
-  if (TBB_FOUND)
-    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${TDD_CFLAGS}")
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TDD_CFLAGS}")
-    set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${TBB_LD_FLAGS}")
-    set (THRUST_ADDITIONAL_LIBRARIES "${TBB_LIBRARIES}")
-  endif ()
-
   # There's a ton of these in the TBB backend, even though the code is correct.
   # TODO: silence these warnings in code instead
   append_option_if_available("-Wno-unused-parameter" THRUST_CXX_WARNINGS)
@@ -450,10 +416,7 @@ foreach (THRUST_HEADER IN LISTS THRUST_HEADERS)
 endforeach ()
 
 add_library(header-test OBJECT ${THRUST_HEADER_TEST_SOURCES})
-target_include_directories(
-  header-test
-  PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
-)
+target_link_libraries(header-test PUBLIC Thrust)
 
 include(CTest)
 enable_testing()
@@ -476,9 +439,9 @@ else ()
 endif ()
 
 add_library(thrust_testframework STATIC ${THRUST_TESTFRAMEWORK_FILES})
+target_link_libraries(thrust_testframework PUBLIC Thrust)
 target_include_directories(
   thrust_testframework
-  PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
   PRIVATE ${PROJECT_SOURCE_DIR}/testing
 )
 
@@ -586,13 +549,10 @@ foreach (THRUST_TEST_SOURCE IN LISTS THRUST_TESTS)
 
   target_include_directories(
     ${THRUST_TEST}
-    PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
     PRIVATE ${PROJECT_SOURCE_DIR}/testing
   )
 
-  target_link_libraries(${THRUST_TEST}
-    thrust_testframework
-    ${THRUST_ADDITIONAL_LIBRARIES})
+  target_link_libraries(${THRUST_TEST} thrust_testframework)
 
   if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
     set_target_properties(${THRUST_TEST}
@@ -699,12 +659,10 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
 
   target_include_directories(
     ${THRUST_EXAMPLE}
-    PUBLIC ${PROJECT_SOURCE_DIR} ${CUB_INCLUDE_DIR}
     PRIVATE ${PROJECT_SOURCE_DIR}/examples
   )
 
-  target_link_libraries(${THRUST_EXAMPLE}
-    ${THRUST_ADDITIONAL_LIBRARIES})
+  target_link_libraries(${THRUST_EXAMPLE} Thrust)
 
   if ("CUDA" STREQUAL "${THRUST_DEVICE_SYSTEM}" AND "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
     set_target_properties(${THRUST_EXAMPLE}
@@ -727,4 +685,3 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
       -DTHRUST_BINARY=$<TARGET_FILE:${THRUST_EXAMPLE}>
       ${THRUST_EXAMPLE_RUN_ARGUMENTS})
 endforeach ()
-
