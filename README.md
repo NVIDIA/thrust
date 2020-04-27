@@ -71,8 +71,14 @@ int main(void)
 
 Refer to the [Quick Start Guide](http://github.com/thrust/thrust/wiki/Quick-Start-Guide) page for further information and examples.
 
+CMake Support
+-------------
+
+Thrust provides CMake configuration files that make it easy to include Thrust
+from other CMake projects. See the [CMake README](thrust/cmake/README.md)
+for details.
+
 Development process
 -------------------
 
 For information on development process and branching, see [this document](doc/branching.md).
-
