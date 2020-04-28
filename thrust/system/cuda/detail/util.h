@@ -43,7 +43,11 @@ inline __host__ __device__
 cudaStream_t
 default_stream()
 {
+#ifdef CUDA_API_PER_THREAD_DEFAULT_STREAM
+  return cudaStreamPerThread;
+#else
   return cudaStreamLegacy;
+#endif
 }
 
 // Fallback implementation of the customization point.
