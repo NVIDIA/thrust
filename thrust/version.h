@@ -47,7 +47,7 @@
  *         <tt>THRUST_VERSION / 100 % 1000</tt> is the minor version.
  *         <tt>THRUST_VERSION / 100000</tt> is the major version.
  */
-#define THRUST_VERSION 100909
+#define THRUST_VERSION 100910
 
 /*! \def THRUST_MAJOR_VERSION
  *  \brief The preprocessor macro \p THRUST_MAJOR_VERSION encodes the
