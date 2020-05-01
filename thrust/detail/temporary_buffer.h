@@ -29,8 +29,6 @@ namespace thrust
 {
 namespace detail
 {
-namespace get_temporary_buffer_detail
-{
 
 
 template<typename T, typename DerivedPolicy, typename Pair>
@@ -46,7 +44,6 @@ __host__ __device__
 } // end down_cast_pair()
 
 
-} // end get_temporary_buffer_detail
 } // end detail
 
 
@@ -59,19 +56,19 @@ __host__ __device__
   using thrust::detail::get_temporary_buffer; // execute_with_allocator
   using thrust::system::detail::generic::get_temporary_buffer;
 
-  return thrust::detail::get_temporary_buffer_detail::down_cast_pair<T,DerivedPolicy>(get_temporary_buffer<T>(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), n));
+  return thrust::detail::down_cast_pair<T,DerivedPolicy>(get_temporary_buffer<T>(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), n));
 } // end get_temporary_buffer()
 
 
 __thrust_exec_check_disable__
 template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
-  void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer p)
+  void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &exec, Pointer p, std::ptrdiff_t n)
 {
   using thrust::detail::return_temporary_buffer; // execute_with_allocator
   using thrust::system::detail::generic::return_temporary_buffer;
 
-  return return_temporary_buffer(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), p);
+  return return_temporary_buffer(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), p, n);
 } // end return_temporary_buffer()
 
 

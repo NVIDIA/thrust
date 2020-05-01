@@ -10,13 +10,16 @@
 #include <map>
 #include <cassert>
 
-// This example demonstrates how to intercept calls to get_temporary_buffer
-// and return_temporary_buffer to control how Thrust allocates temporary storage
-// during algorithms such as thrust::sort. The idea will be to create a simple
-// cache of allocations to search when temporary storage is requested. If a hit
-// is found in the cache, we quickly return the cached allocation instead of
-// resorting to the more expensive thrust::cuda::malloc.
-//
+// This example demonstrates how to control how Thrust allocates temporary
+// storage during algorithms such as thrust::sort. The idea will be to create a
+// simple cache of allocations to search when temporary storage is requested.
+// If a hit is found in the cache, we quickly return the cached allocation
+// instead of resorting to the more expensive thrust::cuda::malloc.
+
+// Note: Thrust now has its own caching allocator layer; if you just need a
+// caching allocator, you ought to use that. This example is still useful
+// as a demonstration of how to use a Thrust custom allocator.
+
 // Note: this implementation cached_allocator is not thread-safe. If multiple
 // (host) threads use the same cached_allocator then they should gain exclusive
 // access to the allocator before accessing its methods.

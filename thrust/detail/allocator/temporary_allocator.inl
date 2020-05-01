@@ -64,9 +64,9 @@ __host__ __device__
 template<typename T, typename System>
 __host__ __device__
   void temporary_allocator<T,System>
-    ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type)
+    ::deallocate(typename temporary_allocator<T,System>::pointer p, typename temporary_allocator<T,System>::size_type n)
 {
-  return thrust::return_temporary_buffer(system(), p);
+  return thrust::return_temporary_buffer(system(), p, n);
 } // end temporary_allocator
 
 

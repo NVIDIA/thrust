@@ -46,7 +46,7 @@ namespace mr
  *  \param bookkeeper the second argument to the constructor, if invoked
  */
 template<typename Upstream, typename Bookkeeper>
-__host__ __device__
+__host__
 thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper> & tls_disjoint_pool(
     Upstream * upstream = NULL,
     Bookkeeper * bookkeeper = NULL)
