@@ -59,7 +59,7 @@ async_copy(
   , "this algorithm is not implemented for the specified system"
   );
   return {};
-} 
+}
 
 } // namespace unimplemented
 
@@ -79,7 +79,7 @@ struct copy_fn final
     thrust::detail::execution_policy_base<FromPolicy> const& from_exec
   , thrust::detail::execution_policy_base<ToPolicy> const&   to_exec
   , ForwardIt&& first, Sentinel&& last
-  , OutputIt&& output 
+  , OutputIt&& output
   )
   // ADL dispatch.
   THRUST_DECLTYPE_RETURNS(
@@ -99,21 +99,26 @@ struct copy_fn final
   static auto call(
     thrust::detail::execution_policy_base<DerivedPolicy> const& exec
   , ForwardIt&& first, Sentinel&& last
-  , OutputIt&& output 
-  ) 
-  // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
-    async_copy(
+  , OutputIt&& output
+  )
+//  THRUST_DECLTYPE_RETURNS(
+  { return
+    copy_fn::call(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
-    , thrust::detail::derived_cast(thrust::detail::strip_const(exec))
+      // Synthesize a suitable new execution policy, because we don't want to
+      // try and extract twice from the one we were passed.
+    , typename remove_cvref_t<
+        decltype(thrust::detail::derived_cast(thrust::detail::strip_const(exec)))
+      >::tag_type{}
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(output)
     )
-  )
+    ; }
+//  )
 
   template <typename ForwardIt, typename Sentinel, typename OutputIt>
   __host__
-  static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output) 
+  static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output)
   THRUST_DECLTYPE_RETURNS(
     copy_fn::call(
       thrust::detail::select_system(
