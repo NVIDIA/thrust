@@ -19,13 +19,14 @@ const test_allocator_t<int> const_test_allocator = test_allocator_t<int>();
 
 struct test_memory_resource_t THRUST_FINAL : thrust::mr::memory_resource<>
 {
-    void * do_allocate(std::size_t, std::size_t) THRUST_OVERRIDE
+    void * do_allocate(std::size_t size, std::size_t) THRUST_OVERRIDE
     {
-        return NULL;
+        return reinterpret_cast<void *>(size);
     }
 
-    void do_deallocate(void *, std::size_t, std::size_t) THRUST_OVERRIDE
+    void do_deallocate(void * ptr, std::size_t size, std::size_t) THRUST_OVERRIDE
     {
+        ASSERT_EQUAL(ptr, reinterpret_cast<void *>(size));
     }
 } test_memory_resource;
 
@@ -83,7 +84,8 @@ struct TestAllocatorAttachment
             get_temporary_buffer<int>(
                 policy,
                 123
-            ).first
+            ).first,
+            123
         );
     }
 
@@ -106,8 +108,9 @@ struct TestAllocatorAttachment
         test_temporary_allocation_valid(policy(std::allocator<int>()));
         test_temporary_allocation_valid(policy(alloc));
         test_temporary_allocation_valid(policy(const_alloc));
+        test_temporary_allocation_valid(policy(&test_memory_resource));
 
-        #if THRUST_CPP_DIALECT >= 2011 
+        #if THRUST_CPP_DIALECT >= 2011
         test_temporary_allocation_valid(policy(std::allocator<int>()).after(1));
         test_temporary_allocation_valid(policy(alloc).after(1));
         test_temporary_allocation_valid(policy(const_alloc).after(1));

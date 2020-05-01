@@ -47,10 +47,33 @@ __host__ __device__
 } // end get_temporary_buffer()
 
 
+__thrust_exec_check_disable__
+template<typename DerivedPolicy, typename Pointer>
+__host__ __device__
+  void return_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, Pointer p, std::ptrdiff_t)
+{
+  // If we are here, no user customization of the three-argument signature with
+  // a size parameter of `return_temporary_buffer` was found. There may be an
+  // old two-argument signature `return_temporary_buffer` though, so we make
+  // another ADL call to try and find one.
+  //
+  // The interface layer downcast and then did ADL dispatch - there were no
+  // matches for DerivedPolicy (aka no one customized the three-argument
+  // signature), so this overload got found an implicit upcast to
+  // `execution_policy<DerivedPolicy>` was done. Now, we're looking for a
+  // customization of the two-argument signature so we need to downcast again.
+  return_temporary_buffer(thrust::detail::derived_cast(thrust::detail::strip_const(exec)), p);
+} // end return_temporary_buffer()
+
+
+__thrust_exec_check_disable__
 template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
   void return_temporary_buffer(thrust::execution_policy<DerivedPolicy> &exec, Pointer p)
 {
+  // If we are here, no user customization of either the old two-argument
+  // signature or the new three-argument signature with a size parameter of
+  // `return_temporary_buffer` was found.
   thrust::free(exec, p);
 } // end return_temporary_buffer()
 

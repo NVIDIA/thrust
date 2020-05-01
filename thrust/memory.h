@@ -486,7 +486,7 @@ void free(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Po
  */
 template<typename DerivedPolicy, typename Pointer>
 __host__ __device__
-void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer p);
+void return_temporary_buffer(const thrust::detail::execution_policy_base<DerivedPolicy> &system, Pointer p, std::ptrdiff_t n);
 
 
 /*! \} deallocation_functions

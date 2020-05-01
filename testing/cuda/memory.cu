@@ -43,9 +43,9 @@ __global__ void get_temporary_buffer_kernel(size_t n, Iterator result)
 
 
 template<typename Pointer>
-__global__ void return_temporary_buffer_kernel(Pointer ptr)
+__global__ void return_temporary_buffer_kernel(Pointer ptr, std::ptrdiff_t n)
 {
-  thrust::return_temporary_buffer(thrust::seq, ptr);
+  thrust::return_temporary_buffer(thrust::seq, ptr, n);
 }
 
 
@@ -74,7 +74,7 @@ void TestGetTemporaryBufferDeviceSeq()
 
     ASSERT_EQUAL(true, thrust::all_of(thrust::device, ptr_and_sz.first, ptr_and_sz.first + n, thrust::placeholders::_1 == ref_val));
 
-    return_temporary_buffer_kernel<<<1,1>>>(ptr_and_sz.first);
+    return_temporary_buffer_kernel<<<1,1>>>(ptr_and_sz.first, ptr_and_sz.second);
     cudaError_t const err = cudaDeviceSynchronize();
     ASSERT_EQUAL(cudaSuccess, err);
   }
