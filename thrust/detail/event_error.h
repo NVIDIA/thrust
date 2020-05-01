@@ -65,7 +65,7 @@ struct event_error_category : error_category
         return "no_state: an operation that requires an event or future to have "
                "a stream or content has been performed on a event or future "
                "without either, e.g. a moved-from or default constructed event "
-               "or future (anevent or future may have been consumed more than "
+               "or future (an event or future may have been consumed more than "
                "once)";
       }
       case event_errc::no_content:
@@ -94,13 +94,13 @@ struct event_error_category : error_category
 
     return system_category().default_error_condition(ev);
   }
-}; 
+};
 
 /// Obtains a reference to the static error category object for the errors
 /// related to futures and promises. The object is required to override the
-/// virtual function error_category::name() to return a pointer to the string 
-/// "event". It is used to identify error codes provided in the 
-/// exceptions of type event_error. 
+/// virtual function error_category::name() to return a pointer to the string
+/// "event". It is used to identify error codes provided in the
+/// exceptions of type event_error.
 inline error_category const& event_category()
 {
   static const event_error_category result;
@@ -123,7 +123,7 @@ inline error_code make_error_code(event_errc e)
 inline error_condition make_error_condition(event_errc e)
 {
   return error_condition(static_cast<int>(e), event_category());
-} 
+}
 
 struct event_error : std::logic_error
 {

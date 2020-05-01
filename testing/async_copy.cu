@@ -101,7 +101,7 @@ struct test_async_copy_device_to_host
     void operator()(std::size_t n)
     {
       thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
-      thrust::device_vector<T> h1(n);
+      thrust::host_vector<T>   h1(n);
       thrust::device_vector<T> d0(n);
 
       thrust::copy(h0.begin(), h0.end(), d0.begin());
@@ -315,6 +315,84 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   test_async_copy_roundtrip
 , BuiltinNumericTypes
 , test_async_copy_trivially_relocatable_elements_roundtrip
+);
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+struct test_async_copy_after
+{
+  __host__
+  void operator()(std::size_t n)
+  {
+    thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
+    thrust::host_vector<T>   h1(n);
+    thrust::device_vector<T> d0(n);
+    thrust::device_vector<T> d1(n);
+    thrust::device_vector<T> d2(n);
+
+    auto e0 = thrust::async::copy(
+      h0.begin(), h0.end(), d0.begin()
+    );
+
+    ASSERT_EQUAL(true, e0.valid_stream());
+
+    auto const e0_stream = e0.stream().native_handle();
+
+    auto e1 = thrust::async::copy(
+      thrust::device.after(e0), d0.begin(), d0.end(), d1.begin()
+    );
+
+    // Verify that double consumption of a future produces an exception.
+    ASSERT_THROWS_EQUAL(
+      auto x = thrust::async::copy(
+        thrust::device.after(e0), d0.begin(), d0.end(), d1.begin()
+      );
+      THRUST_UNUSED_VAR(x)
+    , thrust::event_error
+    , thrust::event_error(thrust::event_errc::no_state)
+    );
+
+    ASSERT_EQUAL_QUIET(e0_stream, e1.stream().native_handle());
+
+    auto after_policy2 = thrust::device.after(e1);
+
+    auto e2 = thrust::async::copy(
+      thrust::host, after_policy2
+    , h0.begin(), h0.end(), d2.begin()
+    );
+
+    // Verify that double consumption of a policy produces an exception.
+    ASSERT_THROWS_EQUAL(
+      auto x = thrust::async::copy(
+        thrust::host, after_policy2
+      , h0.begin(), h0.end(), d2.begin()
+      );
+      THRUST_UNUSED_VAR(x)
+    , thrust::event_error
+    , thrust::event_error(thrust::event_errc::no_state)
+    );
+
+    ASSERT_EQUAL_QUIET(e0_stream, e2.stream().native_handle());
+
+    auto e3 = thrust::async::copy(
+      thrust::device.after(e2), thrust::host
+    , d1.begin(), d1.end(), h1.begin()
+    );
+
+    ASSERT_EQUAL_QUIET(e0_stream, e3.stream().native_handle());
+
+    TEST_EVENT_WAIT(e3);
+
+    ASSERT_EQUAL(h0, h1);
+    ASSERT_EQUAL(h0, d0);
+    ASSERT_EQUAL(h0, d1);
+    ASSERT_EQUAL(h0, d2);
+  }
+};
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES(
+  test_async_copy_after
+, BuiltinNumericTypes
 );
 
 ///////////////////////////////////////////////////////////////////////////////

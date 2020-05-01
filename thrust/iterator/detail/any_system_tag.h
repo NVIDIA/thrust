@@ -30,8 +30,5 @@ struct any_system_tag
   template<typename T> operator T () const {return T();}
 };
 
-// TODO remove this in 1.7.0
-typedef THRUST_DEPRECATED any_system_tag any_space_tag;
-
 } // end thrust
 
