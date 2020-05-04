@@ -2,6 +2,7 @@
 
 #if THRUST_CPP_DIALECT >= 2011
 #include <thrust/random.h>
+#include <thrust/sequence.h>
 #include <thrust/shuffle.h>
 #include <thrust/sort.h>
 #include <unittest/unittest.h>

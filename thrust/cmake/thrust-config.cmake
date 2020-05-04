@@ -551,6 +551,16 @@ macro(_thrust_find_TBB required)
   endif()
 endmacro()
 
+# Wrap the OpenMP flags for CUDA targets
+function(thrust_fixup_omp_target omp_target)
+  get_target_property(opts ${omp_target} INTERFACE_COMPILE_OPTIONS)
+  if (opts MATCHES "\\$<\\$<COMPILE_LANGUAGE:CXX>:([^>]*)>")
+    target_compile_options(${omp_target} INTERFACE
+      $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=${CMAKE_MATCH_1}>
+    )
+  endif()
+endfunction()
+
 # This must be a macro instead of a function to ensure that backends passed to
 # find_package(Thrust COMPONENTS [...]) have their full configuration loaded
 # into the current scope. This provides at least some remedy for CMake issue
@@ -568,6 +578,7 @@ macro(_thrust_find_OMP required)
     )
 
     if (TARGET OpenMP::OpenMP_CXX)
+      thrust_fixup_omp_target(OpenMP::OpenMP_CXX)
       thrust_set_OMP_target(OpenMP::OpenMP_CXX)
     else()
       thrust_debug("OpenMP::OpenMP_CXX not found!" internal)
