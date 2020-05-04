@@ -4,10 +4,10 @@
 #include <thrust/extrema.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/random.h>
-#include <iostream>
 
+#include <iostream>
 #include <iomanip>
-#include <stdio.h>
+#include <fstream>
 #include <cmath>
 
 #include "include/timer.h"
@@ -135,21 +135,26 @@ void generate_random_sites(thrust::host_vector<int> &t, int Nb, int m, int n)
 //Export the tab to PGM image format
 void vector_to_pgm(thrust::host_vector<int> &t, int m, int n, const char *out)
 {
-    FILE *f;
+    assert(static_cast<int>(t.size()) == m * n &&
+           "Vector size does not match image dims.");
 
-    f=fopen(out,"w+t");
-    fprintf(f,"P2\n");
-    fprintf(f,"%d %d\n 253\n",m,n);
+    std::fstream f(out, std::fstream::out);
+    f << "P2\n";
+    f << m << " " << n << "\n";
+    f << "253\n";
 
-    for(int j = 0; j < n ; j++)
+    //Hash function to map values to [0,255]
+    auto to_grey_level = [](int in_value) -> int
     {
-        for(int i = 0; i < m ; i++)
-        {
-            fprintf(f,"%d ",(int)(71*t[j*m+i])%253); //Hash function to map values to [0,255]
-        }
+        return (71 * in_value) % 253;
+    };
+
+    for (int value : t)
+    {
+      f << to_grey_level(value) << " ";
     }
-    fprintf(f,"\n");
-    fclose(f);
+    f << "\n";
+    f.close();
 }
 
 /************Main Jfa loop********************/

@@ -236,6 +236,9 @@ if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
   # object files:
   append_option_if_available("/bigobj" THRUST_CXX_WARNINGS)
 
+  # "Oh right, this is Visual Studio."
+  add_compile_definitions("NOMINMAX")
+
   set(THRUST_TREAT_FILE_AS_CXX "/TP")
 else ()
   append_option_if_available("-Werror" THRUST_CXX_WARNINGS)
@@ -678,6 +681,13 @@ foreach (THRUST_EXAMPLE_SOURCE IN LISTS THRUST_EXAMPLES)
         PROPERTIES CUDA_SEPARABLE_COMPILATION ON)
     endif ()
   endif ()
+
+  if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
+    # Some examples use unsafe APIs (e.g. fopen) that MSVC will complain about
+    # unless this is set:
+    set_target_properties(${THRUST_EXAMPLE}
+      PROPERTIES COMPILE_DEFINITIONS "_CRT_SECURE_NO_WARNINGS")
+  endif()
 
   add_test(NAME ${THRUST_EXAMPLE}
     COMMAND ${CMAKE_COMMAND}

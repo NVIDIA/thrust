@@ -16,6 +16,7 @@
 
 #pragma once
 
+#include <thrust/advance.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/iterator/iterator_facade.h>
 #include <thrust/iterator/iterator_categories.h>
@@ -45,12 +46,12 @@ class advance_iterator
 public:
   inline __host__ __device__
   advance_iterator(DiffType step) : m_step(step) {}
-  
+
   __thrust_exec_check_disable__
   template<typename Iterator>
   inline __host__ __device__
   void operator()(Iterator& it) const
-  { it += m_step; }
+  { thrust::advance(it, m_step); }
 
 private:
   DiffType m_step;

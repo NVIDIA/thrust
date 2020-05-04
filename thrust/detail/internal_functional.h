@@ -23,6 +23,7 @@
 
 #include <thrust/tuple.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/static_assert.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <thrust/detail/raw_reference_cast.h>

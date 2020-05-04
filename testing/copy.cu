@@ -724,6 +724,8 @@ struct only_set_when_expected_it
     __host__ __device__ only_set_when_expected_it operator*() const { return *this; }
     template<typename Difference>
     __host__ __device__ only_set_when_expected_it operator+(Difference) const { return *this; }
+    template<typename Difference>
+    __host__ __device__ only_set_when_expected_it operator+=(Difference) const { return *this; }
     template<typename Index>
     __host__ __device__ only_set_when_expected_it operator[](Index) const { return *this; }
 
@@ -739,11 +741,20 @@ struct only_set_when_expected_it
 
 namespace thrust
 {
+namespace detail
+{
+// We need this type to pass as a non-const ref for unary_transform_functor
+// to compile:
+template <>
+struct is_non_const_reference<only_set_when_expected_it> : thrust::true_type {};
+}
+
 template<>
 struct iterator_traits<only_set_when_expected_it>
 {
     typedef long long value_type;
     typedef only_set_when_expected_it reference;
+    typedef thrust::random_access_device_iterator_tag iterator_category;
 };
 }
 
