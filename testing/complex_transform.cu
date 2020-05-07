@@ -235,15 +235,6 @@ struct TestComplexArithmeticTransform
     thrust::device_vector<type> d_p1 = h_p1;
     thrust::device_vector<type> d_p2 = h_p2;
     thrust::device_vector<type> d_result(n);
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
-    {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
-      {
-        KNOWN_FAILURE;
-      } // end if
-    } // end if
-#endif
 
     thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_result.begin(), basic_arithmetic_functor());
     thrust::transform(d_p1.begin(), d_p1.end(), d_p2.begin(), d_result.begin(), basic_arithmetic_functor());    
@@ -263,16 +254,6 @@ struct TestComplexPlaneTransform
 
     thrust::device_vector<type> d_p1 = h_p1;
     thrust::device_vector<type> d_result(n);
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
-    {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
-      {
-        KNOWN_FAILURE;
-      } // end if
-    } // end if
-#endif
 
     thrust::transform(h_p1.begin(), h_p1.end(), h_result.begin(), complex_plane_functor());
     thrust::transform(d_p1.begin(), d_p1.end(), d_result.begin(), complex_plane_functor());    
@@ -295,16 +276,6 @@ struct TestComplexPowerTransform
     thrust::device_vector<type> d_p1 = h_p1;
     thrust::device_vector<type> d_p2 = h_p2;
     thrust::device_vector<type> d_result(n);
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
-    {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
-      {
-        KNOWN_FAILURE;
-      } // end if
-    } // end if
-#endif
 
     thrust::transform(h_p1.begin(), h_p1.end(), h_p2.begin(), h_result.begin(), pow_functor());
     thrust::transform(d_p1.begin(), d_p1.end(), d_p2.begin(), d_result.begin(), pow_functor());    
@@ -330,16 +301,6 @@ struct TestComplexExponentialTransform
 
     thrust::device_vector<type> d_p1 = h_p1;
     thrust::device_vector<type> d_result(n);
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
-    {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
-      {
-        KNOWN_FAILURE;
-      } // end if
-    } // end if
-#endif
 
     thrust::transform(h_p1.begin(), h_p1.end(), h_result.begin(), exp_functor());
     thrust::transform(d_p1.begin(), d_p1.end(), d_result.begin(), exp_functor());    
@@ -368,15 +329,6 @@ struct TestComplexTrigonometricTransform
     thrust::device_vector<type> d_p1 = h_p1;
     thrust::device_vector<type> d_result(n);
 
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
-    {
-      if(sizeof(T) == sizeof(double) && driver->current_device_architecture() < 200)
-      {
-        KNOWN_FAILURE;
-      } // end if
-    } // end if
-#endif
 
     thrust::transform(h_p1.begin(), h_p1.end(), h_result.begin(), sin_functor());
     thrust::transform(d_p1.begin(), d_p1.end(), d_result.begin(), sin_functor());    
@@ -402,7 +354,6 @@ struct TestComplexTrigonometricTransform
     thrust::transform(h_p1.begin(), h_p1.end(), h_result.begin(), tanh_functor());
     thrust::transform(d_p1.begin(), d_p1.end(), d_result.begin(), tanh_functor());    
     ASSERT_ALMOST_EQUAL(h_result, d_result);
-
 
 
     thrust::transform(h_p1.begin(), h_p1.end(), h_result.begin(), asin_functor());

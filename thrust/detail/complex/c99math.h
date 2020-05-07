@@ -101,25 +101,15 @@ __host__ __device__ inline int isfinite(double x){
 
 #else
 
-#  if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__))
-
-// sometimes the CUDA toolkit provides these these names as macros,
-// sometimes functions in the global scope
-
-#    if (CUDART_VERSION >= 6500)
+#  if defined(__CUDACC__) && !(defined(__CUDA__) && defined(__clang__)) && !defined(__NVCOMPILER_CUDA__)
+// NVCC implements at least some signature of these as functions not macros.
 using ::isinf;
 using ::isnan;
 using ::signbit;
 using ::isfinite;
-
-#    else
-// these names are macros, we don't need to define them
-
-#    endif // CUDART_VERSION
-
 #  else
-// Some compilers do not provide these in the global scope
-// they are in std:: instead
+// Some compilers do not provide these in the global scope, because they are
+// supposed to be macros. The versions in `std` are supposed to be functions.
 // Since we're not compiling with nvcc, it's safe to use the functions in std::
 using std::isinf;
 using std::isnan;
