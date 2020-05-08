@@ -25,12 +25,6 @@
 
 namespace thrust
 {
-namespace detail
-{
-
-template<typename> struct is_wrapped_reference;
-
-}
 
 // the base type for all of thrust's system-annotated references.
 // for reasonable reference-like semantics, derived types must reimplement the following:
@@ -49,12 +43,11 @@ template<typename Element, typename Pointer, typename Derived>
       thrust::detail::identity_<Derived>
     >::type derived_type;
 
+  public:
     // hint for is_wrapped_reference lets it know that this type (or a derived type)
     // is a wrapped reference
     struct wrapped_reference_hint {};
-    template<typename> friend struct thrust::detail::is_wrapped_reference;
 
-  public:
     typedef Pointer                                              pointer;
     typedef typename thrust::detail::remove_const<Element>::type value_type;
 

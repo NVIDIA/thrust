@@ -17,16 +17,21 @@
 #pragma once
 
 #include <thrust/detail/type_traits.h>
+#include <thrust/type_traits/void_t.h>
 
-#define __THRUST_DEFINE_HAS_NESTED_TYPE(trait_name, nested_type_name) \
-template<typename T> \
-  struct trait_name  \
-{                    \
-  typedef char yes_type; \
-  typedef int  no_type;  \
-  template<typename S> static yes_type test(typename S::nested_type_name *); \
-  template<typename S> static no_type  test(...); \
-  static bool const value = sizeof(test<T>(0)) == sizeof(yes_type);\
-  typedef thrust::detail::integral_constant<bool, value> type;\
-};
-
+#define __THRUST_DEFINE_HAS_NESTED_TYPE(trait_name, nested_type_name)            \
+  namespace trait_name##_detail                                                \
+  {                                                                            \
+    template <typename T, typename = thrust::void_t<> >                        \
+    struct impl : thrust::false_type                                           \
+    {};                                                                        \
+                                                                               \
+    template <typename T>                                                      \
+    struct impl<T, thrust::void_t<typename T::nested_type_name> >              \
+        : thrust::true_type                                                    \
+    {};                                                                        \
+  } /* namespace trait_name_detail */                                          \
+                                                                               \
+  template <typename T>                                                        \
+  struct trait_name : trait_name##_detail::impl<T>                             \
+  {};
