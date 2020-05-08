@@ -1,0 +1,13 @@
+C:\PROGRA~1\NVIDIA~2\CUDA\v10.2\bin\nvcc.exe ^
+  -DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_CUDA ^
+  -DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_CPP ^
+  -I.\ -Idependencies\cub ^
+  -ftemplate-backtrace-limit 64 ^
+  -gencode arch=compute_75,code=sm_75 ^
+  -Xcompiler=/WX -Xcompiler=/wd4244 -Xcompiler=/wd4267 -Xcompiler=/wd4800 ^
+  -Xcompiler=/wd4146 -Xcompiler=/wd4494 -Xcompiler=/bigobj ^
+  -Werror all-warnings -Xcudafe --display_error_number ^
+  -Xcompiler="-MD -O2 -Ob2" ^
+  -DNDEBUG ^
+  -x cu ^
+  -c repro-1090.cu
