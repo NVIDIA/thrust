@@ -12,7 +12,7 @@
 namespace unittest
 {
 
-#ifdef __GNUC__
+#if __GNUC__ && !__NVCOMPILER_CUDA__
 inline std::string demangle(const char* name)
 {
   int status = 0;
