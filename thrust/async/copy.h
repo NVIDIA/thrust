@@ -101,8 +101,7 @@ struct copy_fn final
   , ForwardIt&& first, Sentinel&& last
   , OutputIt&& output
   )
-//  THRUST_DECLTYPE_RETURNS(
-  { return
+  THRUST_DECLTYPE_RETURNS(
     copy_fn::call(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
       // Synthesize a suitable new execution policy, because we don't want to
@@ -113,8 +112,7 @@ struct copy_fn final
     , THRUST_FWD(first), THRUST_FWD(last)
     , THRUST_FWD(output)
     )
-    ; }
-//  )
+  )
 
   template <typename ForwardIt, typename Sentinel, typename OutputIt>
   __host__
