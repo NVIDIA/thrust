@@ -285,10 +285,13 @@ inline std::string base_class_name(const std::string& name)
   // if the name begins with "class ", chop it off
   chop_prefix(result, "class ");
 
-  // chop everything including and after first "<"
-  return result.replace(result.find_first_of("<"),
-                        result.size(),
-                        "");
+  const std::size_t first_lt = result.find_first_of("<");
+
+  if (first_lt < result.size())
+      // chop everything including and after first "<"
+      return result.replace(first_lt, result.size(), "");
+  else
+      return result;
 }
 
 enum TestStatus { Pass = 0, Failure = 1, KnownFailure = 2, Error = 3, UnknownException = 4};
@@ -524,7 +527,7 @@ template<template <typename> class TestName, typename TypeList>
     {
         std::vector<size_t> sizes = get_test_sizes();
         for(size_t i = 0; i != sizes.size(); ++i)
-        {                                                 
+        {
             // get the first type in the list
             typedef typename unittest::get_type<TypeList,0>::type first_type;
 
@@ -532,7 +535,7 @@ template<template <typename> class TestName, typename TypeList>
 
             // loop over the types
             loop(sizes[i]);
-        }                                                 
+        }
     }
 }; // end VariableUnitTest
 
@@ -544,7 +547,7 @@ template<template <typename> class TestName,
     : public UnitTest
 {
   VectorUnitTest()
-    : UnitTest((base_class_name(unittest::type_name<TestName< Vector<int, Alloc<int> > > >()) + "<" + 
+    : UnitTest((base_class_name(unittest::type_name<TestName< Vector<int, Alloc<int> > > >()) + "<" +
                 base_class_name(unittest::type_name<Vector<int, Alloc<int> > >()) + ">").c_str())
   { }
 
