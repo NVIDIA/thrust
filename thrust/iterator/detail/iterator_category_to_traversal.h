@@ -32,9 +32,6 @@ namespace detail
 template <typename> struct is_iterator_system;
 template <typename> struct is_iterator_traversal;
 
-// make type_traits easy to access
-using namespace thrust::detail;
-
 template <typename Category>
   struct host_system_category_to_traversal
     : eval_if<
