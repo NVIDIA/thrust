@@ -25,6 +25,7 @@ namespace thrust
 {
 namespace detail
 {
+inline
 thrust::mr::allocator<
     char,
     thrust::mr::disjoint_unsynchronized_pool_resource<
