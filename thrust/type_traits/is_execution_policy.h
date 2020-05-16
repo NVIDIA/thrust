@@ -27,15 +27,8 @@ namespace thrust
 /// Unary metafunction that is \c true if \c T is an \a ExecutionPolicy and
 /// \c false otherwise.
 template <typename T>
-#if THRUST_CPP_DIALECT >= 2011
 using is_execution_policy =
-#else
-struct is_execution_policy :
-#endif
   detail::is_base_of<detail::execution_policy_marker, T>
-#if THRUST_CPP_DIALECT < 2011
-{}
-#endif
 ;
 
 /// <CODE>constexpr bool</CODE> that is \c true if \c T is an \a ExecutionPolicy

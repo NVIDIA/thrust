@@ -17,9 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #include <tuple>
 
@@ -101,5 +98,4 @@ struct dependencies_aware_execution_policy
 } // end detail
 } // end thrust
 
-#endif // THRUST_CPP_DIALECT >= 2011
 

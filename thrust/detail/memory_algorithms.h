@@ -103,7 +103,6 @@ ForwardIt destroy_n(Allocator const& alloc, ForwardIt first, Size n)
   return first;
 }
 
-#if THRUST_CPP_DIALECT >= 2011
 template <typename ForwardIt, typename... Args>
 __host__ __device__
 void uninitialized_construct(
@@ -202,7 +201,6 @@ void uninitialized_construct_n_with_allocator(
   }
   #endif
 }
-#endif
 
 ///////////////////////////////////////////////////////////////////////////////
 

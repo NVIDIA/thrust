@@ -182,9 +182,7 @@ template<typename Incrementable,
     __host__ __device__
     explicit counting_iterator(Incrementable x):super_t(x){}
 
-#if THRUST_CPP_DIALECT >= 2011
     counting_iterator & operator=(const counting_iterator &) = default;
-#endif
 
     /*! \cond
      */

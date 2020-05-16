@@ -15,7 +15,7 @@
  */
 
 /*! \file void_t.h
- *  \brief C++17's `void_t`. 
+ *  \brief C++17's `void_t`.
  */
 
 #pragma once
@@ -29,35 +29,12 @@
 namespace thrust
 {
 
-#if THRUST_CPP_DIALECT >= 2011
-
-template <typename...> struct voider { using type = void; };
-
 #if THRUST_CPP_DIALECT >= 2017
 using std::void_t;
 #else
+template <typename...> struct voider { using type = void; };
+
 template <typename... Ts> using void_t = typename voider<Ts...>::type;
-#endif
-
-#else // Older than C++11.
-
-template <
-  typename = void
-, typename = void
-, typename = void
-, typename = void
-, typename = void
-, typename = void
-, typename = void
-, typename = void
-, typename = void
-, typename = void
->
-struct voider
-{
-  typedef void type;
-};
-
 #endif
 
 } // end namespace thrust

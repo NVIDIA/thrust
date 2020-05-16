@@ -54,13 +54,7 @@
 #define THRUST_DEVICE_FUNCTION __device__ __forceinline__
 #define THRUST_HOST_FUNCTION __host__     __forceinline__
 #define THRUST_FUNCTION __host__ __device__ __forceinline__
-#if 0
-#define THRUST_ARGS(...) __VA_ARGS__
-#define THRUST_STRIP_PARENS(X) X
-#define THRUST_AGENT_ENTRY(ARGS) THRUST_FUNCTION static void entry(THRUST_STRIP_PARENS(THRUST_ARGS ARGS))
-#else
 #define THRUST_AGENT_ENTRY(...) THRUST_AGENT_ENTRY_INLINE_ATTR __device__ static void entry(__VA_ARGS__)
-#endif
 
 #ifdef THRUST_DEBUG_SYNC
 #define THRUST_DEBUG_SYNC_FLAG true

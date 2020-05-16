@@ -18,10 +18,7 @@
 #include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/detail/type_traits/is_call_possible.h>
 #include <thrust/detail/integer_traits.h>
-
-#if THRUST_CPP_DIALECT >= 2011
-  #include <thrust/detail/type_deduction.h>
-#endif
+#include <thrust/detail/type_deduction.h>
 
 #include <new>
 
@@ -128,8 +125,6 @@ template<typename Alloc, typename T, typename Arg1>
   ::new(static_cast<void*>(p)) T(arg1);
 }
 
-#if THRUST_CPP_DIALECT >= 2011
-
 __THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_constructN_impl, construct)
 
 template<typename Alloc, typename T, typename... Args>
@@ -158,8 +153,6 @@ template<typename Alloc, typename T, typename... Args>
 {
   ::new(static_cast<void*>(p)) T(THRUST_FWD(args)...);
 }
-
-#endif
 
 __THRUST_DEFINE_IS_CALL_POSSIBLE(has_member_destroy_impl, destroy)
 
@@ -264,7 +257,7 @@ __host__ __device__
   struct workaround_warnings
   {
     __thrust_exec_check_disable__
-    static __host__ __device__ 
+    static __host__ __device__
     typename allocator_traits<Alloc>::pointer
       allocate(Alloc &a, typename allocator_traits<Alloc>::size_type n)
     {
@@ -320,8 +313,6 @@ template<typename Alloc>
   return allocator_traits_detail::construct(a,p,arg1);
 }
 
-#if THRUST_CPP_DIALECT >= 2011
-
 template<typename Alloc>
   template<typename T, typename... Args>
   __host__ __device__
@@ -330,8 +321,6 @@ template<typename Alloc>
 {
   return allocator_traits_detail::construct(a, p, THRUST_FWD(args)...);
 }
-
-#endif
 
 template<typename Alloc>
   template<typename T>

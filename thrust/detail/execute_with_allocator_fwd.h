@@ -20,9 +20,7 @@
 
 #include <thrust/detail/type_traits.h>
 
-#if THRUST_CPP_DIALECT >= 2011
-  #include <thrust/detail/execute_with_dependencies.h>
-#endif
+#include <thrust/detail/execute_with_dependencies.h>
 
 namespace thrust
 {
@@ -52,7 +50,6 @@ public:
 
   typename remove_reference<Allocator>::type& get_allocator() { return alloc; }
 
-#if THRUST_CPP_DIALECT >= 2011
   template<typename ...Dependencies>
   __host__
   execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
@@ -98,7 +95,6 @@ public:
   {
       return { alloc, capture_as_dependency(std::move(dependencies)) };
   }
-#endif
 };
 
 }} // namespace thrust::detail

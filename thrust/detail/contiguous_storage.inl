@@ -385,7 +385,6 @@ __host__ __device__
   propagate_allocator_dispatch(c, other);
 } // end contiguous_storage::propagate_allocator()
 
-#if THRUST_CPP_DIALECT >= 2011
 template<typename T, typename Alloc>
 __host__ __device__
   void contiguous_storage<T,Alloc>
@@ -417,7 +416,6 @@ __host__ __device__
 
   return *this;
 } // end contiguous_storage::propagate_allocator()
-#endif
 
 template<typename T, typename Alloc>
 __host__ __device__
@@ -520,7 +518,6 @@ __host__ __device__
 {
 } // end contiguous_storage::propagate_allocator()
 
-#if THRUST_CPP_DIALECT >= 2011
 __thrust_exec_check_disable__
 template<typename T, typename Alloc>
 __host__ __device__
@@ -536,7 +533,6 @@ __host__ __device__
     ::propagate_allocator_dispatch(false_type, contiguous_storage &)
 {
 } // end contiguous_storage::propagate_allocator()
-#endif
 
 } // end detail
 

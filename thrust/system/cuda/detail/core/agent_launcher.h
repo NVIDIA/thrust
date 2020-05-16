@@ -33,14 +33,6 @@
 #include <thrust/system/cuda/detail/core/util.h>
 #include <cassert>
 
-#if 0
-#define __THRUST__TEMPLATE_DEBUG
-#endif
-
-#if __THRUST__TEMPLATE_DEBUG
-template<int...> class ID_impl;
-template<int... I> class Foo { ID_impl<I...> t;};
-#endif
 
 namespace thrust
 {
@@ -475,32 +467,6 @@ namespace core {
       assert(plan.grid_size > 0);
     }
 
-#if 0
-    THRUST_RUNTIME_FUNCTION
-    AgentPlan static get_plan(cudaStream_t s, void* d_ptr = 0)
-    {
-      // in separable compilation mode, we have no choice
-      // but to call kernel to get agent_plan
-      // otherwise the risk is something may fail
-      // if user mix & match ptx versions in a separably compiled function
-      // http://nvbugs/1772071
-      // XXX may be it is too string of a requirements, consider relaxing it in
-      // the future
-#ifdef __CUDACC_RDC__
-      return core::get_agent_plan<Agent>(s, d_ptr);
-#else
-      core::cuda_optional<int> ptx_version = core::get_ptx_version();
-      //CUDA_CUB_RET_IF_FAIL(ptx_version.status());
-      return get_agent_plan<Agent>(ptx_version);
-#endif
-    }
-    THRUST_RUNTIME_FUNCTION
-    AgentPlan static get_plan_default()
-    {
-      return get_agent_plan<Agent>(sm_arch<0>::type::ver);
-    }
-#endif
-
     THRUST_RUNTIME_FUNCTION
     typename core::get_plan<Agent>::type static get_plan(cudaStream_t , void* d_ptr = 0)
     {
@@ -745,16 +711,6 @@ namespace core {
     void THRUST_RUNTIME_FUNCTION
     launch(Args... args) const
     {
-#if __THRUST__TEMPLATE_DEBUG
-#ifdef __CUDA_ARCH__
-      typedef typename Foo<
-        shm1::v1,
-        shm1::v2,
-        shm1::v3,
-        shm1::v4,
-        shm1::v5>::t tt;
-#endif
-#endif
       launch_impl(has_enough_shmem_t(),args...);
       sync();
     }

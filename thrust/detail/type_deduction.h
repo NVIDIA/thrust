@@ -8,9 +8,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #include <thrust/detail/preprocessor.h>
 
@@ -59,7 +56,7 @@
 
 /// \def THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(condition, ...)
 /// \brief Expands to a function definition, including a trailing returning
-///        type, that returns the expression \c __VA_ARGS__. It shall only 
+///        type, that returns the expression \c __VA_ARGS__. It shall only
 ///        participate in overload resolution if \c condition is \c true.
 ///
 #define THRUST_DECLTYPE_RETURNS_WITH_SFINAE_CONDITION(condition, ...)         \
@@ -69,6 +66,4 @@
   /**/
 
 ///////////////////////////////////////////////////////////////////////////////
-
-#endif // THRUST_CPP_DIALECT >= 2011
 

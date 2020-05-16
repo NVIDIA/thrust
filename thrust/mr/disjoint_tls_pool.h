@@ -20,10 +20,6 @@
 
 #pragma once
 
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
-
 #include <thrust/mr/disjoint_pool.h>
 
 namespace thrust
@@ -65,5 +61,4 @@ thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper> & tls_di
 } // end mr
 } // end thrust
 
-#endif // THRUST_CPP_DIALECT >= 2011
 

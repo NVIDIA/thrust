@@ -17,21 +17,6 @@
 namespace thrust
 {
 
-// XXX WAR an issue with MSVC 2005 (cl v14.00) incorrectly implementing
-//     pointer_raw_pointer for pointer by specializing it here
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
-namespace detail
-{
-
-template<typename T>
-  struct pointer_raw_pointer< thrust::cpp::pointer<T> >
-{
-  typedef typename thrust::cpp::pointer<T>::raw_pointer type;
-}; // end pointer_raw_pointer
-
-} // end detail
-#endif
-
 namespace system
 {
 namespace cpp

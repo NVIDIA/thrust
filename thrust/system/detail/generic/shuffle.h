@@ -22,9 +22,6 @@
 
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #include <thrust/system/detail/generic/tag.h>
 
@@ -51,4 +48,3 @@ __host__ __device__ void shuffle_copy(
 
 #include <thrust/system/detail/generic/shuffle.inl>
 
-#endif

@@ -56,10 +56,10 @@
 
 namespace thrust{
 namespace detail{
-namespace complex{		      	
+namespace complex{
 
 using thrust::complex;
-  
+
 __host__ __device__ inline
       complex<float> clog_for_large_values(complex<float> z);
 
@@ -98,7 +98,7 @@ f(float a, float b, float hypot_a_b)
  * If returning sqrt_A2my2 has potential to result in an underflow, it is
  * rescaled, and new_y is similarly rescaled.
  */
-__host__ __device__ 
+__host__ __device__
 inline void
 do_hard_work(float x, float y, float *rx, int *B_is_usable, float *B,
 	     float *sqrt_A2my2, float *new_y)
@@ -387,7 +387,6 @@ inline float real_part_reciprocal(float x, float y)
   return (x / (x * x + y * y) * scale);
 }
 
-#if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 __host__ __device__ inline
 complex<float> catanhf(complex<float> z)
 {
@@ -449,7 +448,6 @@ complex<float>catanf(complex<float> z){
   complex<float> w = catanhf(complex<float>(z.imag(), z.real()));
   return (complex<float>(w.imag(), w.real()));
 }
-#endif
 
 } // namespace complex
 
@@ -468,13 +466,11 @@ inline complex<float> asin(const complex<float>& z){
   return detail::complex::casinf(z);
 }
 
-#if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 template <>
 __host__ __device__
 inline complex<float> atan(const complex<float>& z){
   return detail::complex::catanf(z);
 }
-#endif
 
 template <>
 __host__ __device__
@@ -489,12 +485,10 @@ inline complex<float> asinh(const complex<float>& z){
   return detail::complex::casinhf(z);
 }
 
-#if THRUST_CPP_DIALECT >= 2011 || THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
 template <>
 __host__ __device__
 inline complex<float> atanh(const complex<float>& z){
   return detail::complex::catanhf(z);
 }
-#endif
 
 } // namespace thrust

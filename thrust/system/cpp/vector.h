@@ -96,12 +96,10 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector(const vector &x);
 
-  #if THRUST_CPP_DIALECT >= 2011
     /*! Move constructor moves from over another \p cpp::vector.
      *  \param x The other \p cpp::vector to move from.
      */
     vector(vector &&x);
-  #endif
 
     /*! This constructor copies from another Thrust vector-like object.
      *  \param x The other object to copy from.
@@ -130,13 +128,11 @@ template<typename T, typename Allocator = allocator<T> >
      */
     vector &operator=(const vector &x);
 
-  #if THRUST_CPP_DIALECT >= 2011
     /*! Move assignment operator moves from another \p cpp::vector.
      *  \param x The other \p cpp::vector to move from.
      *  \return <tt>*this</tt>
      */
-     vector &operator=(vector &&x);
-  #endif
+    vector &operator=(vector &&x);
 
     /*! Assignment operator assigns from a \c std::vector.
      *  \param x The \c std::vector to assign from.

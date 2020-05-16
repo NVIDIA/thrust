@@ -49,7 +49,7 @@ namespace thrust
  *  type ensures type safety when dispatching standard algorithms on ranges resident in memory.
  *
  *  \p pointer generalizes \p device_ptr by relaxing the backend system associated with the \p pointer.
- *  Instead of the backend system specified by \p THRUST_DEFAULT_DEVICE_BACKEND, \p pointer's
+ *  Instead of the backend system specified by \p = default;_DEVICE_BACKEND, \p pointer's
  *  system is given by its second template parameter, \p Tag. For the purpose of Thrust dispatch,
  *  <tt>device_ptr<Element></tt> and <tt>pointer<Element,device_system_tag></tt> are considered equivalent.
  *
@@ -82,7 +82,7 @@ template<typename Element, typename Tag, typename Reference = thrust::use_defaul
     /*! The type of the raw pointer
      */
     typedef typename super_t::base_type raw_pointer;
-    
+
     /*! \p pointer's default constructor initializes its encapsulated pointer to \c 0
      */
     __host__ __device__
@@ -176,13 +176,13 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
     /*! This copy constructor accepts a const reference to another
      *  \p reference of related type. After this \p reference is constructed,
      *  it shall refer to the same object as \p other.
-     *  
+     *
      *  \param other A \p reference to copy from.
      *  \tparam OtherElement the element type of the other \p reference.
      *  \tparam OtherPointer the pointer type of the other \p reference.
      *  \tparam OtherDerived the derived type of the other \p reference.
      *
-     *  \note This constructor is templated primarily to allow initialization of 
+     *  \note This constructor is templated primarily to allow initialization of
      *  <tt>reference<const T,...></tt> from <tt>reference<T,...></tt>.
      */
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
@@ -233,7 +233,7 @@ template<typename Element, typename Pointer, typename Derived = thrust::use_defa
 
     /*! Conversion operator converts this \p reference to \p value_type by
      *  returning a copy of the referent object.
-     *  
+     *
      *  \return A copy of the referent object.
      */
     __host__ __device__

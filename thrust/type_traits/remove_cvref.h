@@ -37,10 +37,8 @@ struct remove_cvref
   >::type type;
 };
 
-#if THRUST_CPP_DIALECT >= 2011
 template <typename T>
 using remove_cvref_t = typename remove_cvref<T>::type;
-#endif
 
 #endif // THRUST_CPP_DIALECT >= 2020
 

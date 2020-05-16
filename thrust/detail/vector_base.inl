@@ -111,16 +111,14 @@ template<typename T, typename Alloc>
   range_init(v.begin(), v.end());
 } // end vector_base::vector_base()
 
-#if THRUST_CPP_DIALECT >= 2011
-  template<typename T, typename Alloc>
-    vector_base<T,Alloc>
-      ::vector_base(vector_base &&v)
-        :m_storage(copy_allocator_t(), v.m_storage),
-         m_size(0)
-  {
-    *this = std::move(v);
-  } //end vector_base::vector_base()
-#endif
+template<typename T, typename Alloc>
+  vector_base<T,Alloc>
+    ::vector_base(vector_base &&v)
+      :m_storage(copy_allocator_t(), v.m_storage),
+       m_size(0)
+{
+  *this = std::move(v);
+} //end vector_base::vector_base()
 
 template<typename T, typename Alloc>
   vector_base<T,Alloc> &
@@ -140,22 +138,20 @@ template<typename T, typename Alloc>
   return *this;
 } // end vector_base::operator=()
 
-#if THRUST_CPP_DIALECT >= 2011
-  template<typename T, typename Alloc>
-    vector_base<T,Alloc> &
-      vector_base<T,Alloc>
-        ::operator=(vector_base &&v)
-  {
-    m_storage.destroy(begin(), end());
-    m_storage = std::move(v.m_storage);
-    m_size = std::move(v.m_size);
+template<typename T, typename Alloc>
+  vector_base<T,Alloc> &
+    vector_base<T,Alloc>
+      ::operator=(vector_base &&v)
+{
+  m_storage.destroy(begin(), end());
+  m_storage = std::move(v.m_storage);
+  m_size = std::move(v.m_size);
 
-    v.m_storage = contiguous_storage<T,Alloc>(copy_allocator_t(), m_storage);
-    v.m_size = 0;
+  v.m_storage = contiguous_storage<T,Alloc>(copy_allocator_t(), m_storage);
+  v.m_size = 0;
 
-    return *this;
-  } // end vector_base::operator=()
-#endif
+  return *this;
+} // end vector_base::operator=()
 
 template<typename T, typename Alloc>
   template<typename OtherT, typename OtherAlloc>

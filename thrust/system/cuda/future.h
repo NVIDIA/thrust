@@ -6,10 +6,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
 
 #include <thrust/system/cuda/pointer.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
@@ -54,14 +50,14 @@ using thrust::system::cuda::when_all;
 } // namespace cuda
 
 template <typename DerivedPolicy>
-__host__ 
+__host__
 thrust::cuda::unique_eager_event
 unique_eager_event_type(
   thrust::cuda::execution_policy<DerivedPolicy> const&
 ) noexcept;
 
 template <typename T, typename DerivedPolicy>
-__host__ 
+__host__
 thrust::cuda::unique_eager_future<T>
 unique_eager_future_type(
   thrust::cuda::execution_policy<DerivedPolicy> const&
@@ -70,6 +66,4 @@ unique_eager_future_type(
 } // end namespace thrust
 
 #include <thrust/system/cuda/detail/future.inl>
-
-#endif
 

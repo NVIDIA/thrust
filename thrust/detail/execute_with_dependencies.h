@@ -17,9 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #include <thrust/detail/type_deduction.h>
 #include <thrust/type_traits/remove_cvref.h>
@@ -96,7 +93,7 @@ public:
 
     std::tuple<remove_cvref_t<Dependencies>...>
     __host__
-    extract_dependencies() 
+    extract_dependencies()
     {
         return std::move(dependencies);
     }
@@ -184,7 +181,7 @@ public:
 
     std::tuple<remove_cvref_t<Dependencies>...>
     __host__
-    extract_dependencies() 
+    extract_dependencies()
     {
         return std::move(dependencies);
     }
@@ -263,5 +260,4 @@ extract_dependencies(System &&)
 } // end detail
 } // end thrust
 
-#endif // THRUST_CPP_DIALECT >= 2011
 

@@ -51,13 +51,11 @@ template<typename T, typename Allocator>
       : super_t(x)
   {}
 
-#if THRUST_CPP_DIALECT >= 2011
-  template<typename T, typename Allocator>
-    vector<T,Allocator>
-      ::vector(vector &&x)
-        : super_t(std::move(x))
-  {}
-#endif
+template<typename T, typename Allocator>
+  vector<T,Allocator>
+    ::vector(vector &&x)
+      : super_t(std::move(x))
+{}
 
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
@@ -89,16 +87,14 @@ template<typename T, typename Allocator>
   return *this;
 }
 
-#if THRUST_CPP_DIALECT >= 2011
-  template<typename T, typename Allocator>
-    vector<T,Allocator> &
-      vector<T,Allocator>
-        ::operator=(vector &&x)
-  {
-    super_t::operator=(std::move(x));
-    return *this;
-  }
-#endif
+template<typename T, typename Allocator>
+  vector<T,Allocator> &
+    vector<T,Allocator>
+      ::operator=(vector &&x)
+{
+  super_t::operator=(std::move(x));
+  return *this;
+}
 
 template<typename T, typename Allocator>
   template<typename OtherT, typename OtherAllocator>
@@ -119,7 +115,7 @@ template<typename T, typename Allocator>
   super_t::operator=(x);
   return *this;
 }
-    
+
 } // end tbb
 } // end system
 } // end thrust

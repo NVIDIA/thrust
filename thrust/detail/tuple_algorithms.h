@@ -17,9 +17,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #include <thrust/detail/type_deduction.h>
 #include <thrust/type_traits/integer_sequence.h>
@@ -106,6 +103,4 @@ THRUST_DECLTYPE_RETURNS(
 );
 
 } // end namespace thrust
-
-#endif // THRUST_CPP_DIALECT >= 2011
 

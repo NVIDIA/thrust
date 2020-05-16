@@ -61,9 +61,7 @@ template<typename Element, typename Pointer, typename Derived>
     __host__ __device__
     explicit reference(const pointer &ptr);
 
-#if THRUST_CPP_DIALECT >= 2011
     reference(const reference &) = default;
-#endif
 
     template<typename OtherElement, typename OtherPointer, typename OtherDerived>
     __host__ __device__

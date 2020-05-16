@@ -24,13 +24,6 @@
 
 #include <thrust/system/detail/sequential/per_device_resource.h>
 
-#if 0
-#include <thrust/system/cpp/detail/per_device_resource.h>
-#include <thrust/system/cuda/detail/per_device_resource.h>
-#include <thrust/system/omp/detail/per_device_resource.h>
-#include <thrust/system/tbb/detail/per_device_resource.h>
-#endif
-
 #define __THRUST_HOST_SYSTEM_PER_DEVICE_RESOURCE_HEADER <__THRUST_HOST_SYSTEM_ROOT/detail/per_device_resource.h>
 #include __THRUST_HOST_SYSTEM_PER_DEVICE_RESOURCE_HEADER
 #undef __THRUST_HOST_SYSTEM_PER_DEVICE_RESOURCE_HEADER

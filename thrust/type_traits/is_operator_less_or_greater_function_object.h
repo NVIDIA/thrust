@@ -44,15 +44,8 @@ struct is_operator_greater_function_object_impl;
 /// Unary metafunction returns \c true_type if \c FunctionObject is equivalent
 /// to \c operator<, and \c false_type otherwise.
 template <typename FunctionObject>
-#if THRUST_CPP_DIALECT >= 2011
 using is_operator_less_function_object =
-#else
-struct is_operator_less_function_object :
-#endif
   detail::is_operator_less_function_object_impl<FunctionObject>
-#if THRUST_CPP_DIALECT < 2011
-{}
-#endif
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
@@ -66,15 +59,8 @@ constexpr bool is_operator_less_function_object_v
 /// Unary metafunction returns \c true_type if \c FunctionObject is equivalent
 /// to \c operator>, and \c false_type otherwise.
 template <typename FunctionObject>
-#if THRUST_CPP_DIALECT >= 2011
 using is_operator_greater_function_object =
-#else
-struct is_operator_greater_function_object :
-#endif
   detail::is_operator_greater_function_object_impl<FunctionObject>
-#if THRUST_CPP_DIALECT < 2011
-{}
-#endif
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
@@ -88,19 +74,12 @@ constexpr bool is_operator_greater_function_object_v
 /// Unary metafunction returns \c true_type if \c FunctionObject is equivalent
 /// to either \c operator<, and \c false_type otherwise.
 template <typename FunctionObject>
-#if THRUST_CPP_DIALECT >= 2011
 using is_operator_less_or_greater_function_object =
-#else
-struct is_operator_less_or_greater_function_object :
-#endif
   integral_constant<
-    bool 
+    bool
   ,    detail::is_operator_less_function_object_impl<FunctionObject>::value
     || detail::is_operator_greater_function_object_impl<FunctionObject>::value
   >
-#if THRUST_CPP_DIALECT < 2011
-{}
-#endif
 ;
 
 #if THRUST_CPP_DIALECT >= 2014

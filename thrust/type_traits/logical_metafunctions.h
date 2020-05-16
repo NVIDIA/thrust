@@ -13,9 +13,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #include <type_traits>
 
@@ -24,7 +21,7 @@ namespace thrust
 
 #if THRUST_CPP_DIALECT >= 2017
 
-/// An \c integral_constant whose value is <code>(... && Ts::value)</code>. 
+/// An \c integral_constant whose value is <code>(... && Ts::value)</code>.
 template <typename... Ts>
 using conjunction = std::conjunction<Ts...>;
 
@@ -32,7 +29,7 @@ using conjunction = std::conjunction<Ts...>;
 template <typename... Ts>
 constexpr bool conjunction_v = conjunction<Ts...>::value;
 
-/// An \c integral_constant whose value is <code>(... || Ts::value)</code>. 
+/// An \c integral_constant whose value is <code>(... || Ts::value)</code>.
 template <typename... Ts>
 using disjunction = std::disjunction<Ts...>;
 
@@ -40,7 +37,7 @@ using disjunction = std::disjunction<Ts...>;
 template <typename... Ts>
 constexpr bool disjunction_v = disjunction<Ts...>::value;
 
-/// An \c integral_constant whose value is <code>!Ts::value</code>. 
+/// An \c integral_constant whose value is <code>!Ts::value</code>.
 template <typename T>
 using negation = std::negation<T>;
 
@@ -52,7 +49,7 @@ constexpr bool negation_v = negation<T>::value;
 
 #else // Older than C++17.
 
-/// An \c integral_constant whose value is <code>(... && Ts::value)</code>. 
+/// An \c integral_constant whose value is <code>(... && Ts::value)</code>.
 template <typename... Ts>
 struct conjunction;
 
@@ -77,7 +74,7 @@ struct conjunction<T0, T1, T2, TN...>
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/// An \c integral_constant whose value is <code>(... || Ts::value)</code>. 
+/// An \c integral_constant whose value is <code>(... || Ts::value)</code>.
 template <typename... Ts>
 struct disjunction;
 
@@ -99,7 +96,7 @@ struct disjunction<T0, TN...>
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/// An \c integral_constant whose value is <code>!T::value</code>. 
+/// An \c integral_constant whose value is <code>!T::value</code>.
 template <typename T>
 struct negation;
 
@@ -116,7 +113,7 @@ struct negation : std::integral_constant<bool, !T::value> {};
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/// An \c integral_constant whose value is <code>(... && Bs)</code>. 
+/// An \c integral_constant whose value is <code>(... && Bs)</code>.
 template <bool... Bs>
 struct conjunction_value;
 
@@ -138,7 +135,7 @@ struct conjunction_value<B0, BN...>
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/// An \c integral_constant whose value is <code>(... || Bs)</code>. 
+/// An \c integral_constant whose value is <code>(... || Bs)</code>.
 template <bool... Bs>
 struct disjunction_value;
 
@@ -160,7 +157,7 @@ struct disjunction_value<B0, BN...>
 
 ///////////////////////////////////////////////////////////////////////////////
 
-/// An \c integral_constant whose value is <code>!B</code>. 
+/// An \c integral_constant whose value is <code>!B</code>.
 template <bool B>
 struct negation_value;
 
@@ -174,6 +171,4 @@ template <bool B>
 struct negation_value : std::integral_constant<bool, !B> {};
 
 } // end namespace thrust
-
-#endif // THRUST_CPP_DIALECT >= 2011
 

@@ -51,29 +51,6 @@ struct cvt_to_seq_impl
   }
 };    // cvt_to_seq_impl
 
-#if 0
-template <class Allocator>
-struct cvt_to_seq_impl<
-    thrust::detail::execute_with_allocator<Allocator,
-                                           execute_on_stream_base> >
-{
-  typedef thrust::detail::execute_with_allocator<Allocator,
-                                                 execute_on_stream_base>
-      Policy;
-  typedef thrust::detail::execute_with_allocator<
-      Allocator,
-      thrust::system::detail::sequential::execution_policy>
-      seq_t;
-
-
-  static seq_t __host__ __device__
-  doit(Policy& policy)
-  {
-    return seq_t(policy.m_alloc);
-  }
-};    // specialization of struct cvt_to_seq_impl
-#endif
-
 template <class Policy>
 typename cvt_to_seq_impl<Policy>::seq_t __host__ __device__
 cvt_to_seq(Policy& policy)

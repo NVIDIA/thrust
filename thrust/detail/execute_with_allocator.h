@@ -84,8 +84,6 @@ return_temporary_buffer(
   alloc_traits::deallocate(system.get_allocator(), to_ptr, num_elements);
 }
 
-#if THRUST_CPP_DIALECT >= 2011
-
 template <
     typename T,
     template <typename> class BaseSystem,
@@ -141,8 +139,6 @@ return_temporary_buffer(
   pointer to_ptr = thrust::reinterpret_pointer_cast<pointer>(p);
   alloc_traits::deallocate(system.get_allocator(), to_ptr, num_elements);
 }
-
-#endif
 
 }} // namespace thrust::detail
 

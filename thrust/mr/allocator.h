@@ -157,7 +157,7 @@ private:
 /*! Compares the allocators for equality by comparing the underlying memory resources. */
 template<typename T, typename MR>
 __host__ __device__
-bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRUST_NOEXCEPT
+bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) noexcept
 {
     return *lhs.resource() == *rhs.resource();
 }
@@ -165,32 +165,13 @@ bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRU
 /*! Compares the allocators for inequality by comparing the underlying memory resources. */
 template<typename T, typename MR>
 __host__ __device__
-bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRUST_NOEXCEPT
+bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) noexcept
 {
     return !(lhs == rhs);
 }
 
-#if THRUST_CPP_DIALECT >= 2011
-
 template<typename T, typename Pointer>
 using polymorphic_allocator = allocator<T, polymorphic_adaptor_resource<Pointer> >;
-
-#else // C++11
-
-template<typename T, typename Pointer>
-class polymorphic_allocator : public allocator<T, polymorphic_adaptor_resource<Pointer> >
-{
-    typedef allocator<T, polymorphic_adaptor_resource<Pointer> > base;
-
-public:
-    /*! Initializes the base class with the parameter \p resource.
-     */
-    polymorphic_allocator(polymorphic_adaptor_resource<Pointer>  * resource) : base(resource)
-    {
-    }
-};
-
-#endif // C++11
 
 /*! A helper allocator class that uses global instances of a given upstream memory resource. Requires the memory resource
  *      to be default constructible.
@@ -236,9 +217,7 @@ public:
     stateless_resource_allocator(const stateless_resource_allocator<U, Upstream> & other)
         : base(other) {}
 
-#if THRUST_CPP_DIALECT >= 2011
     stateless_resource_allocator & operator=(const stateless_resource_allocator &) = default;
-#endif
 
     /*! Destructor. */
     __host__ __device__

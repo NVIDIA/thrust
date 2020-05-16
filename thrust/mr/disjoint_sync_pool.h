@@ -20,10 +20,6 @@
 
 #pragma once
 
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
-
 #include <mutex>
 
 #include <thrust/mr/disjoint_pool.h>
@@ -92,13 +88,13 @@ public:
         upstream_pool.release();
     }
 
-    THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         lock_t lock(mtx);
         return upstream_pool.do_allocate(bytes, alignment);
     }
 
-    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         lock_t lock(mtx);
         upstream_pool.do_deallocate(p, n, alignment);
@@ -114,6 +110,4 @@ private:
 
 } // end mr
 } // end thrust
-
-#endif // THRUST_CPP_DIALECT >= 2011
 

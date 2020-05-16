@@ -54,15 +54,8 @@ struct is_contiguous_iterator_impl;
 /// e.g. it points to elements that are contiguous in memory, and \c false_type
 /// otherwise.
 template <typename Iterator>
-#if THRUST_CPP_DIALECT >= 2011
 using is_contiguous_iterator =
-#else
-struct is_contiguous_iterator :
-#endif
   detail::is_contiguous_iterator_impl<Iterator>
-#if THRUST_CPP_DIALECT < 2011
-{}
-#endif
 ;
 
 #if THRUST_CPP_DIALECT >= 2014

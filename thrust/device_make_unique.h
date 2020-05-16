@@ -22,9 +22,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #include <thrust/allocate_unique.h>
 #include <thrust/device_new.h>
@@ -44,7 +41,7 @@ auto device_make_unique(Args&&... args)
     uninitialized_allocate_unique<T>(device_allocator<T>{})
   )
 {
-  // FIXME: This is crude - we construct an unnecessary T on the host for 
+  // FIXME: This is crude - we construct an unnecessary T on the host for
   // `device_new`. We need a proper dispatched `construct` algorithm to
   // do this properly.
   auto p = uninitialized_allocate_unique<T>(device_allocator<T>{});
@@ -56,4 +53,3 @@ auto device_make_unique(Args&&... args)
 
 } // end namespace thrust
 
-#endif // THRUST_CPP_DIALECT >= 2011

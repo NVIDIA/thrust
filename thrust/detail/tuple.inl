@@ -169,7 +169,7 @@ struct get_class
     // XXX we may not need to deal with this for any compiler we care about -jph
     //return get_class<N-1>::BOOST_NESTED_TEMPLATE get<RET>(t.tail);
     return get_class<N-1>::template get<RET>(t.tail);
-    
+
     // gcc 4.3 couldn't compile this:
     //return get_class<N-1>::get<RET>(t.tail);
   }
@@ -309,9 +309,7 @@ template <class HT, class TT>
   inline __host__ __device__
   cons( const cons<HT2, TT2>& u ) : head(u.head), tail(u.tail) {}
 
-#if THRUST_CPP_DIALECT >= 2011
   cons(const cons &) = default;
-#endif
 
   __thrust_exec_check_disable__
   template <class HT2, class TT2>
@@ -416,9 +414,7 @@ template <class HT>
   inline __host__ __device__
   cons( const cons<HT2, null_type>& u ) : head(u.head) {}
 
-#if THRUST_CPP_DIALECT >= 2011
   cons(const cons &) = default;
-#endif
 
   __thrust_exec_check_disable__
   template <class HT2>
@@ -598,7 +594,7 @@ inline typename access_traits<
 get(detail::cons<HT, TT>& c)
 {
   //return detail::get_class<N>::BOOST_NESTED_TEMPLATE
-  
+
   // gcc 4.3 couldn't compile this:
   //return detail::get_class<N>::
 

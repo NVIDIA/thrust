@@ -32,11 +32,7 @@
 #include <thrust/system/cuda/detail/util.h>
 
 #include <thrust/detail/allocator_aware_execution_policy.h>
-
-#if THRUST_CPP_DIALECT >= 2011
-#  include <thrust/detail/dependencies_aware_execution_policy.h>
-#endif
-
+#include <thrust/detail/dependencies_aware_execution_policy.h>
 
 namespace thrust
 {
@@ -107,18 +103,17 @@ struct execute_on_stream : execute_on_stream_base<execute_on_stream>
 };
 
 
-struct par_t : execution_policy<par_t>,
-  thrust::detail::allocator_aware_execution_policy<
+struct par_t :
+  execution_policy<par_t>
+, thrust::detail::allocator_aware_execution_policy<
     execute_on_stream_base>
-#if THRUST_CPP_DIALECT >= 2011
 , thrust::detail::dependencies_aware_execution_policy<
     execute_on_stream_base>
-#endif
 {
   typedef execution_policy<par_t> base_t;
 
   __host__ __device__
-  THRUST_CONSTEXPR par_t() : base_t() {}
+  constexpr par_t() : base_t() {}
 
   typedef execute_on_stream stream_attachment_type;
 

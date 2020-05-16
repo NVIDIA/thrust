@@ -114,12 +114,10 @@ public:
   __host__ __device__
   pointer() : super_t() {}
 
-  #if THRUST_CPP_DIALECT >= 2011
   // NOTE: This is needed so that Thrust smart pointers can be used in
   // `std::unique_ptr`.
   __host__ __device__
   pointer(decltype(nullptr)) : super_t(nullptr) {}
-  #endif
 
   /*! This constructor allows construction of a <tt>pointer<const T></tt> from a <tt>T*</tt>.
    *
@@ -180,7 +178,6 @@ public:
     return super_t::operator=(other);
   }
 
-  #if THRUST_CPP_DIALECT >= 2011
   // NOTE: This is needed so that Thrust smart pointers can be used in
   // `std::unique_ptr`.
   __host__ __device__
@@ -189,7 +186,6 @@ public:
     super_t::operator=(nullptr);
     return *this;
   }
-  #endif
 };    // struct pointer
 
 /*! \p reference is a wrapped reference to an object stored in memory available to the \p cuda system.

@@ -7,9 +7,7 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011
-#  include <memory>
-#endif
+#include <memory>
 
 namespace thrust
 {
@@ -20,7 +18,7 @@ namespace thrust
  */
 template <typename T>
 __host__ __device__
-T* addressof(T& arg) 
+T* addressof(T& arg)
 {
   return reinterpret_cast<T*>(
     &const_cast<char&>(reinterpret_cast<const volatile char&>(arg))

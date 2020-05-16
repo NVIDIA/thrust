@@ -50,7 +50,7 @@ template<>
 // tag's definition comes before the generic definition of execution_policy
 struct tag : execution_policy<tag>
 {
-  __host__ __device__ THRUST_CONSTEXPR tag() {}
+  __host__ __device__ constexpr tag() {}
 };
 
 // allow conversion to tag when it is not a successor

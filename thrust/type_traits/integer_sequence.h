@@ -14,9 +14,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #include <type_traits>
 #include <utility>
@@ -167,11 +164,11 @@ template <typename T, std::size_t N>
 struct make_reversed_integer_sequence_impl;
 
 // Add a new element to the front of an integer_sequence<>.
-template <typename T, T I, typename Sequence> 
+template <typename T, T I, typename Sequence>
 struct integer_sequence_push_front_impl;
 
 // Add a new element to the back of an integer_sequence<>.
-template <typename T, T I, typename Sequence> 
+template <typename T, T I, typename Sequence>
 struct integer_sequence_push_back_impl;
 
 }
@@ -189,12 +186,12 @@ using make_reversed_index_sequence =
   make_reversed_integer_sequence<std::size_t, N>;
 
 // Add a new element to the front of an integer_sequence<>.
-template <typename T, T I, typename Sequence> 
+template <typename T, T I, typename Sequence>
 using integer_sequence_push_front =
   typename detail::integer_sequence_push_front_impl<T, I, Sequence>::type;
 
 // Add a new element to the back of an integer_sequence<>.
-template <typename T, T I, typename Sequence> 
+template <typename T, T I, typename Sequence>
 using integer_sequence_push_back =
   typename detail::integer_sequence_push_back_impl<T, I, Sequence>::type;
 
@@ -238,7 +235,7 @@ struct make_reversed_integer_sequence_impl<T, 1>
 
 ///////////////////////////////////////////////////////////////////////////////
 
-template <typename T, T I0, T... Is> 
+template <typename T, T I0, T... Is>
 struct integer_sequence_push_front_impl<T, I0, integer_sequence<T, Is...> >
 {
   using type = integer_sequence<T, I0, Is...>;
@@ -246,7 +243,7 @@ struct integer_sequence_push_front_impl<T, I0, integer_sequence<T, Is...> >
 
 ///////////////////////////////////////////////////////////////////////////////
 
-template <typename T, T I0, T... Is> 
+template <typename T, T I0, T... Is>
 struct integer_sequence_push_back_impl<T, I0, integer_sequence<T, Is...> >
 {
   using type = integer_sequence<T, Is..., I0>;
@@ -257,6 +254,4 @@ struct integer_sequence_push_back_impl<T, I0, integer_sequence<T, Is...> >
 } // namespace detail
 
 } // end namespace thrust
-
-#endif // THRUST_CPP_DIALECT >= 2011
 

@@ -105,7 +105,7 @@ template <typename T1, typename T2>
   pair(const std::pair<U1,U2> &p);
 
   /*! \p swap swaps the elements of two <tt>pair</tt>s.
-   *  
+   *
    *  \param p The other <tt>pair</tt> with which to swap.
    */
   inline __host__ __device__
@@ -118,7 +118,7 @@ template <typename T1, typename T2>
  *  \param x The first \p pair to compare.
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>x.first == y.first && x.second == y.second</tt>.
- *  
+ *
  *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
  */
@@ -249,11 +249,10 @@ template<typename Pair> struct tuple_size;
  *
  *  \tparam N This parameter selects the member of interest.
  */
-// XXX comment out these prototypes as a WAR to a problem on MSVC 2005
-//template<unsigned int N, typename T1, typename T2>
-//  inline __host__ __device__
-//    typename tuple_element<N, pair<T1,T2> >::type &
-//      get(pair<T1,T2> &p);
+template<unsigned int N, typename T1, typename T2>
+  inline __host__ __device__
+    typename tuple_element<N, pair<T1,T2> >::type &
+      get(pair<T1,T2> &p);
 
 
 /*! This convenience function returns a const reference to either the
@@ -265,11 +264,10 @@ template<typename Pair> struct tuple_size;
  *
  *  \tparam i This parameter selects the member of interest.
  */
-// XXX comment out these prototypes as a WAR to a problem on MSVC 2005
-//template<int N, typename T1, typename T2>
-//  inline __host__ __device__
-//    const typename tuple_element<N, pair<T1,T2> >::type &
-//      get(const pair<T1,T2> &p);
+template<int N, typename T1, typename T2>
+  inline __host__ __device__
+    const typename tuple_element<N, pair<T1,T2> >::type &
+      get(const pair<T1,T2> &p);
 
 /*! \} // pair
  */

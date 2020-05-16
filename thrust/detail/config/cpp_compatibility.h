@@ -20,29 +20,13 @@
 
 #include <cstddef>
 
-#if THRUST_CPP_DIALECT >= 2011
-#  ifndef __has_cpp_attribute
-#    define __has_cpp_attribute(X) 0
-#  endif
-
-#  if __has_cpp_attribute(nodiscard)
-#    define THRUST_NODISCARD [[nodiscard]]
-#  endif
-
-#  define THRUST_CONSTEXPR constexpr
-#  define THRUST_OVERRIDE override
-#  define THRUST_DEFAULT = default;
-#  define THRUST_NOEXCEPT noexcept
-#  define THRUST_FINAL final
-#else
-#  define THRUST_CONSTEXPR
-#  define THRUST_OVERRIDE
-#  define THRUST_DEFAULT {}
-#  define THRUST_NOEXCEPT throw()
-#  define THRUST_FINAL
+#ifndef __has_cpp_attribute
+#  define __has_cpp_attribute(X) 0
 #endif
 
-#ifndef THRUST_NODISCARD
+#if __has_cpp_attribute(nodiscard)
+#  define THRUST_NODISCARD [[nodiscard]]
+#else
 #  define THRUST_NODISCARD
 #endif
 
@@ -51,28 +35,16 @@
 // supports `constexpr` globals in host and device code.
 #if defined(__CUDA_ARCH__) || defined(__NVCOMPILER_CUDA__)
 // FIXME: Add this when NVCC supports inline variables.
-//#  if   THRUST_CPP_DIALECT >= 2017
-//#    define THRUST_INLINE_CONSTANT                 inline constexpr
-//#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
-#  if THRUST_CPP_DIALECT >= 2011
-#    define THRUST_INLINE_CONSTANT                 static const __device__
-#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
-#  else
-#    define THRUST_INLINE_CONSTANT                 static const __device__
-#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
-#  endif
+//#  define THRUST_INLINE_CONSTANT                 inline constexpr
+//#  define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
+#  define THRUST_INLINE_CONSTANT                 static const __device__
+#  define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
 #else
 // FIXME: Add this when NVCC supports inline variables.
-//#  if   THRUST_CPP_DIALECT >= 2017
-//#    define THRUST_INLINE_CONSTANT                 inline constexpr
-//#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
-#  if THRUST_CPP_DIALECT >= 2011
-#    define THRUST_INLINE_CONSTANT                 static constexpr
-#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
-#  else
-#    define THRUST_INLINE_CONSTANT                 static const
-#    define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static const
-#  endif
+//#  define THRUST_INLINE_CONSTANT                 inline constexpr
+//#  define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT inline constexpr
+#  define THRUST_INLINE_CONSTANT                 static constexpr
+#  define THRUST_INLINE_INTEGRAL_MEMBER_CONSTANT static constexpr
 #endif
 
 #if defined(__NVCOMPILER_CUDA__)

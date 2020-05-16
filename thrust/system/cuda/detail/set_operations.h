@@ -643,10 +643,6 @@ namespace __set_operations {
                                         compare_op,
                                         set_op);
         sync_threadblock();
-#if 0
-        if (ITEMS_PER_THREAD*threadIdx.x >= num_keys1 + num_keys2)
-          active_mask = 0;
-#endif
 
         // look-back scan over thread_output_count
         // to compute global thread_output_base and tile_otput_count;

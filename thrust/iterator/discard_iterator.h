@@ -116,9 +116,7 @@ template<typename System = use_default>
     discard_iterator(discard_iterator const &rhs)
       : super_t(rhs.base()) {}
 
-#if THRUST_CPP_DIALECT >= 2011
     discard_iterator & operator=(const discard_iterator &) = default;
-#endif
 
     /*! This constructor receives an optional index specifying the position of this
      *  \p discard_iterator in a range.

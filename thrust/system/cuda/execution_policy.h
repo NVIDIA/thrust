@@ -74,7 +74,6 @@
 
 // stubs passed
 // ----------------
-#include <thrust/system/cuda/detail/binary_search.h>
 #include <thrust/system/cuda/detail/merge.h>
 #include <thrust/system/cuda/detail/scan_by_key.h>
 #include <thrust/system/cuda/detail/set_operations.h>

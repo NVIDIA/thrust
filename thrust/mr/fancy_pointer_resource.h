@@ -27,7 +27,7 @@ namespace mr
 {
 
 template<typename Upstream, typename Pointer>
-class fancy_pointer_resource THRUST_FINAL : public memory_resource<Pointer>, private validator<Upstream>
+class fancy_pointer_resource final : public memory_resource<Pointer>, private validator<Upstream>
 {
 public:
     fancy_pointer_resource() : m_upstream(get_global_resource<Upstream>())
@@ -39,12 +39,12 @@ public:
     }
 
     THRUST_NODISCARD
-    virtual Pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    virtual Pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         return static_cast<Pointer>(m_upstream->do_allocate(bytes, alignment));
     }
 
-    virtual void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) THRUST_OVERRIDE
+    virtual void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) override
     {
         return m_upstream->do_deallocate(
             static_cast<typename Upstream::pointer>(

@@ -249,9 +249,7 @@ struct transform_input_iterator_t
   transform_input_iterator_t(InputIt input, UnaryOp op)
       : input(input), op(op) {}
 
-#if THRUST_CPP_DIALECT >= 2011
   transform_input_iterator_t(const self_t &) = default;
-#endif
 
   // UnaryOp might not be copy assignable, such as when it is a lambda.  Define
   // an explicit copy assignment operator that doesn't try to assign it.
@@ -327,14 +325,6 @@ struct transform_input_iterator_t
     return op(input[n]);
   }
 
-#if 0
-    /// Structure dereference
-    __host__ __device__ __forceinline__ pointer operator->()
-    {
-        return &op(*input_itr);
-    }
-#endif
-
   /// Equal to
   __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
   {
@@ -346,14 +336,6 @@ struct transform_input_iterator_t
   {
     return (input != rhs.input);
   }
-
-#if 0
-    /// ostream operator
-    friend std::ostream& operator<<(std::ostream& os, const self& itr)
-    {
-        return os;
-    }
-#endif
 };    // struct transform_input_iterarot_t
 
 template <class ValueType,
@@ -379,9 +361,7 @@ struct transform_pair_of_input_iterators_t
                                       BinaryOp op_)
       : input1(input1_), input2(input2_), op(op_) {}
 
-#if THRUST_CPP_DIALECT >= 2011
   transform_pair_of_input_iterators_t(const self_t &) = default;
-#endif
 
   // BinaryOp might not be copy assignable, such as when it is a lambda.
   // Define an explicit copy assignment operator that doesn't try to assign it.

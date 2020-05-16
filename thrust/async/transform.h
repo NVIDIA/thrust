@@ -21,11 +21,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
-
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/select_system.h>
 #include <thrust/type_traits/remove_cvref.h>
@@ -130,6 +125,4 @@ THRUST_INLINE_CONSTANT transform_detail::transform_fn transform{};
 } // namespace async
 
 } // end namespace thrust
-
-#endif
 

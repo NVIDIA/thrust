@@ -18,9 +18,7 @@
 #include <thrust/detail/type_traits.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
 
-#if THRUST_CPP_DIALECT >= 2011
-  #include <type_traits>
-#endif
+#include <type_traits>
 
 namespace thrust
 {
@@ -33,20 +31,11 @@ struct is_trivially_relocatable_impl;
 
 } // namespace detail
 
-/// Unary metafunction returns \c true_type if \c T is \a TriviallyRelocatable, 
+/// Unary metafunction returns \c true_type if \c T is \a TriviallyRelocatable,
 /// e.g. can be bitwise copied (with a facility like \c memcpy), and
 /// \c false_type otherwise.
 template <typename T>
-#if THRUST_CPP_DIALECT >= 2011
-using is_trivially_relocatable =
-#else
-struct is_trivially_relocatable :
-#endif
-  detail::is_trivially_relocatable_impl<T>
-#if THRUST_CPP_DIALECT < 2011
-{}
-#endif
-;
+using is_trivially_relocatable = detail::is_trivially_relocatable_impl<T>;
 
 #if THRUST_CPP_DIALECT >= 2014
 /// <code>constexpr bool</code> that is \c true if \c T is
@@ -60,22 +49,15 @@ constexpr bool is_trivially_relocatable_v = is_trivially_relocatable<T>::value;
 /// to \c To, e.g. can be bitwise copied (with a facility like \c memcpy), and
 /// \c false_type otherwise.
 template <typename From, typename To>
-#if THRUST_CPP_DIALECT >= 2011
 using is_trivially_relocatable_to =
-#else
-struct is_trivially_relocatable_to :
-#endif
   integral_constant<
     bool
   , detail::is_same<From, To>::value && is_trivially_relocatable<To>::value
   >
-#if THRUST_CPP_DIALECT < 2011
-{}
-#endif
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
-/// <code>constexpr bool</code> that is \c true if \c From is 
+/// <code>constexpr bool</code> that is \c true if \c From is
 /// \a TriviallyRelocatable to \c To, e.g. can be copied bitwise (with a
 /// facility like \c memcpy), and \c false otherwise.
 template <typename From, typename To>
@@ -87,11 +69,7 @@ constexpr bool is_trivially_relocatable_to_v
 /// \c FromIterator is \a TriviallyRelocatable to the element type of
 /// \c ToIterator, and \c false_type otherwise.
 template <typename FromIterator, typename ToIterator>
-#if THRUST_CPP_DIALECT >= 2011
 using is_indirectly_trivially_relocatable_to =
-#else
-struct is_indirectly_trivially_relocatable_to :
-#endif
   integral_constant<
     bool
   ,    is_contiguous_iterator<FromIterator>::value
@@ -101,9 +79,6 @@ struct is_indirectly_trivially_relocatable_to :
          typename thrust::iterator_traits<ToIterator>::value_type
        >::value
   >
-#if THRUST_CPP_DIALECT < 2011
-{}
-#endif
 ;
 
 #if THRUST_CPP_DIALECT >= 2014
@@ -156,14 +131,10 @@ template <typename T>
 struct is_trivially_copyable_impl
     : integral_constant<
         bool,
-        #if THRUST_CPP_DIALECT >= 2011
-            #if defined(__GLIBCXX__) && __has_feature(is_trivially_copyable)
-                __is_trivially_copyable(T)
-            #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC && THRUST_GCC_VERSION >= 50000
-                std::is_trivially_copyable<T>::value
-            #else
-                has_trivial_assign<T>::value
-            #endif
+        #if defined(__GLIBCXX__) && __has_feature(is_trivially_copyable)
+            __is_trivially_copyable(T)
+        #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC && THRUST_GCC_VERSION >= 50000
+            std::is_trivially_copyable<T>::value
         #else
             has_trivial_assign<T>::value
         #endif

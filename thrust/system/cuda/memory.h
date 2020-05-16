@@ -115,9 +115,7 @@ public:
   __host__ __device__
   inline allocator(const allocator<U> & other) : base(other) {}
 
-#if THRUST_CPP_DIALECT >= 2011
   allocator & operator=(const allocator &) = default;
-#endif
 
   /*! Destructor has no effect.
    */

@@ -63,7 +63,7 @@ namespace mr
  *  \tparam Upstream the type of memory resources that will be used for allocating memory blocks
  */
 template<typename Upstream>
-class unsynchronized_pool_resource THRUST_FINAL
+class unsynchronized_pool_resource final
     : public memory_resource<typename Upstream::pointer>,
         private validator<Upstream>
 {
@@ -250,7 +250,7 @@ public:
         m_cached_oversized = oversized_block_descriptor_ptr();
     }
 
-    THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    THRUST_NODISCARD virtual void_ptr do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         bytes = (std::max)(bytes, m_options.smallest_block_size);
         assert(detail::is_power_of_2(alignment));
@@ -423,7 +423,7 @@ public:
         );
     }
 
-    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    virtual void do_deallocate(void_ptr p, std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         n = (std::max)(n, m_options.smallest_block_size);
         assert(detail::is_power_of_2(alignment));

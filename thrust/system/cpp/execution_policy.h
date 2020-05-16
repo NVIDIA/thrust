@@ -104,7 +104,7 @@ struct execution_policy : thrust::execution_policy<DerivedPolicy>
 struct tag : thrust::system::cpp::execution_policy<tag> { unspecified };
 
 
-/*! 
+/*!
  *  \p thrust::system::cpp::par is the parallel execution policy associated with Thrust's standard
  *  C++ backend system.
  *

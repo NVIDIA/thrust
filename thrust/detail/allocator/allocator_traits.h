@@ -164,7 +164,6 @@ template<class Alloc, class U, bool = has_rebind<Alloc, U>::value>
     typedef typename Alloc::template rebind<U>::other type;
 };
 
-#if THRUST_CPP_DIALECT >= 2011
 template<template<typename, typename...> class Alloc,
          typename T, typename... Args, typename U>
   struct rebind_alloc<Alloc<T, Args...>, U, true>
@@ -178,61 +177,6 @@ template<template<typename, typename...> class Alloc,
 {
     typedef Alloc<U, Args...> type;
 };
-#else // C++03
-template <template <typename> class Alloc, typename T, typename U>
-  struct rebind_alloc<Alloc<T>, U, true>
-{
-    typedef typename Alloc<T>::template rebind<U>::other type;
-};
-
-template <template <typename> class Alloc, typename T, typename U>
-  struct rebind_alloc<Alloc<T>, U, false>
-{
-    typedef Alloc<U> type;
-};
-
-template<template<typename, typename> class Alloc,
-         typename T, typename A0, typename U>
-  struct rebind_alloc<Alloc<T, A0>, U, true>
-{
-    typedef typename Alloc<T, A0>::template rebind<U>::other type;
-};
-
-template<template<typename, typename> class Alloc,
-         typename T, typename A0, typename U>
-  struct rebind_alloc<Alloc<T, A0>, U, false>
-{
-    typedef Alloc<U, A0> type;
-};
-
-template<template<typename, typename, typename> class Alloc,
-         typename T, typename A0, typename A1, typename U>
-  struct rebind_alloc<Alloc<T, A0, A1>, U, true>
-{
-    typedef typename Alloc<T, A0, A1>::template rebind<U>::other type;
-};
-
-template<template<typename, typename, typename> class Alloc,
-         typename T, typename A0, typename A1, typename U>
-  struct rebind_alloc<Alloc<T, A0, A1>, U, false>
-{
-    typedef Alloc<U, A0, A1> type;
-};
-
-template<template<typename, typename, typename, typename> class Alloc,
-         typename T, typename A0, typename A1, typename A2, typename U>
-  struct rebind_alloc<Alloc<T, A0, A1, A2>, U, true>
-{
-    typedef typename Alloc<T, A0, A1, A2>::template rebind<U>::other type;
-};
-
-template<template<typename, typename, typename, typename> class Alloc,
-         typename T, typename A0, typename A1, typename A2, typename U>
-  struct rebind_alloc<Alloc<T, A0, A1, A2>, U, false>
-{
-    typedef Alloc<U, A0, A1, A2> type;
-};
-#endif
 
 } // end allocator_traits_detail
 
@@ -322,7 +266,6 @@ template<typename Alloc>
   // XXX rebind and rebind_traits are alias templates
   //     and so are omitted while c++11 is unavailable
 
-#if THRUST_CPP_DIALECT >= 2011
   template <typename U>
   using rebind_alloc =
     typename allocator_traits_detail::rebind_alloc<allocator_type, U>::type;
@@ -333,19 +276,6 @@ template<typename Alloc>
   // We define this nested type alias for compatibility with the C++03-style
   // rebind_* mechanisms.
   using other = allocator_traits;
-#else
-  template <typename U>
-  struct rebind_alloc
-  {
-    typedef typename
-      allocator_traits_detail::rebind_alloc<allocator_type, U>::type other;
-  };
-  template <typename U>
-  struct rebind_traits
-  {
-    typedef allocator_traits<typename rebind_alloc<U>::other> other;
-  };
-#endif
 
   inline __host__ __device__
   static pointer allocate(allocator_type &a, size_type n);
@@ -360,14 +290,12 @@ template<typename Alloc>
 
   template<typename T>
   inline __host__ __device__ static void construct(allocator_type &a, T *p);
-  
+
   template<typename T, typename Arg1>
   inline __host__ __device__ static void construct(allocator_type &a, T *p, const Arg1 &arg1);
 
-#if THRUST_CPP_DIALECT >= 2011
   template<typename T, typename... Args>
   inline __host__ __device__ static void construct(allocator_type &a, T *p, Args&&... args);
-#endif
 
   template<typename T>
   inline __host__ __device__ static void destroy(allocator_type &a, T *p);

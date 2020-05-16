@@ -28,9 +28,6 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
@@ -66,8 +63,6 @@ MR * get_per_device_resource(execution_policy<DerivedPolicy>&)
 }
 
 } // end namespace thrust
-
-#endif
 
 #endif
 

@@ -20,10 +20,6 @@
 
 #pragma once
 
-#include <thrust/detail/cpp11_required.h>
-
-#if THRUST_CPP_DIALECT >= 2011
-
 #include <thrust/mr/pool.h>
 
 namespace thrust
@@ -59,6 +55,4 @@ thrust::mr::unsynchronized_pool_resource<Upstream> & tls_pool(Upstream * upstrea
 
 } // end mr
 } // end thrust
-
-#endif // THRUST_CPP_DIALECT >= 2011
 
