@@ -44,7 +44,7 @@ int main(void)
   return 0;
 }
 ```
-  
+
 This code sample computes the sum of 100 random numbers in parallel:
 
 ```c++
@@ -81,4 +81,4 @@ for details.
 Development process
 -------------------
 
-For information on development process and branching, see [this document](doc/branching.md).
+For information on development process, see [this document](doc/development_model.md).
