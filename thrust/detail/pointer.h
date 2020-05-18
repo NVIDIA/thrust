@@ -238,7 +238,6 @@ bool operator!=(decltype(nullptr), pointer<Element, Tag, Reference, Derived> p);
 template <typename Element, typename Tag, typename Reference, typename Derived>
 __host__ __device__
 bool operator!=(pointer<Element, Tag, Reference, Derived> p, decltype(nullptr));
-#endif
 
 } // end thrust
 

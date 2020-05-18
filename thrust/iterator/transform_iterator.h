@@ -204,8 +204,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
   public:
     /*! Null constructor does nothing.
      */
-    __host__ __device__
-    transform_iterator() = default
+    transform_iterator() = default;
 
     transform_iterator(transform_iterator const&) = default;
 
