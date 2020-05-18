@@ -3,6 +3,6 @@ thrust/system/cuda/detail/.gitignore
 *.log
 .p4config
 run
-build
+build*
 doc/html
 discrete_voronoi.pgm
