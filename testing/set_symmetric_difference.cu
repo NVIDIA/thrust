@@ -3,7 +3,7 @@
 #include <thrust/functional.h>
 #include <thrust/sort.h>
 #include <thrust/extrema.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 
 
 template<typename InputIterator1,

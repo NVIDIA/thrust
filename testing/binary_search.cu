@@ -1,6 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/binary_search.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 
 #include <thrust/sequence.h>
 #include <thrust/sort.h>

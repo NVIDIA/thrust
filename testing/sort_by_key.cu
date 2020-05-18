@@ -1,7 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/sort.h>
 #include <thrust/functional.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 
 
 template<typename RandomAccessIterator1,

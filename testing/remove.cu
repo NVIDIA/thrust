@@ -5,7 +5,7 @@
 #include <stdexcept>
 #include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/zip_iterator.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 
 
 template<typename T>

@@ -2,7 +2,7 @@
 #include <thrust/reduce.h>
 #include <thrust/iterator/counting_iterator.h>
 #include <thrust/iterator/constant_iterator.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 #include <limits>
 
 template<typename T>

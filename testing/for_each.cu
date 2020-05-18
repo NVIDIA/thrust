@@ -2,7 +2,7 @@
 #include <thrust/for_each.h>
 #include <thrust/device_ptr.h>
 #include <thrust/iterator/counting_iterator.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
 #include <algorithm>

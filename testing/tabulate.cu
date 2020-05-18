@@ -2,7 +2,7 @@
 #include <thrust/tabulate.h>
 #include <thrust/functional.h>
 #include <thrust/iterator/discard_iterator.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 
 
 template<typename ForwardIterator, typename UnaryOperation>

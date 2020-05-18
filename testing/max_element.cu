@@ -1,6 +1,6 @@
 #include <unittest/unittest.h>
 #include <thrust/extrema.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/functional.h>
 

@@ -1,7 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/adjacent_difference.h>
 #include <thrust/iterator/discard_iterator.h>
-#include <thrust/iterator/retag.h>
+#include <thrust/iterator/detail/retag.h>
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
 
