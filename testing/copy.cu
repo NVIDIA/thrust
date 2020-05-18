@@ -1,6 +1,8 @@
 #include <unittest/unittest.h>
 #include <thrust/copy.h>
 
+#include <array>
+#include <algorithm>
 #include <list>
 #include <iterator>
 #include <thrust/sequence.h>
@@ -429,6 +431,100 @@ void TestCopyIfStencil(const size_t n)
 }
 DECLARE_INTEGRAL_VARIABLE_UNITTEST(TestCopyIfStencil);
 
+namespace
+{
+
+struct object_with_non_trivial_ctor
+{
+  // This struct will only properly assign if its `magic` member is
+  // set to this certain number.
+  static constexpr int MAGIC = 923390;
+
+  int field;
+  int magic;
+
+  __host__ __device__ object_with_non_trivial_ctor()
+  {
+    magic = MAGIC;
+    field = 0;
+  }
+  __host__ __device__ object_with_non_trivial_ctor(int f)
+  {
+    magic = MAGIC;
+    field = f;
+  }
+
+  object_with_non_trivial_ctor(const object_with_non_trivial_ctor& x) = default;
+
+  // This non-trivial assignment requires that `this` points to initialized
+  // memory
+  __host__ __device__ object_with_non_trivial_ctor&
+  operator=(const object_with_non_trivial_ctor& x)
+  {
+    // To really copy over x's field value, require we have magic value set.
+    // If copy_if copies to uninitialized bits, the field will rarely be 923390.
+    if (magic == MAGIC)
+    {
+      field = x.field;
+    }
+    return *this;
+  }
+};
+
+struct always_true
+{
+  __host__ __device__
+  bool operator()(const object_with_non_trivial_ctor&)
+  {
+    return true;
+  };
+};
+
+} // end anon namespace
+
+void TestCopyIfNonTrivial()
+{
+  // Attempting to copy an object_with_non_trivial_ctor into uninitialized
+  // memory will fail:
+  {
+    static constexpr size_t BufferAlign = alignof(object_with_non_trivial_ctor);
+    static constexpr size_t BufferSize = sizeof(object_with_non_trivial_ctor);
+    alignas(BufferAlign) std::array<unsigned char, BufferSize> buffer;
+
+    // Fill buffer with 0s to prevent warnings about uninitialized reads while
+    // ensure that the 'magic number' mechanism works as intended:
+    std::fill(buffer.begin(), buffer.end(), 0);
+
+    object_with_non_trivial_ctor initialized;
+    object_with_non_trivial_ctor *uninitialized =
+      reinterpret_cast<object_with_non_trivial_ctor*>(buffer.data());
+
+    object_with_non_trivial_ctor source(42);
+    initialized = source;
+    *uninitialized = source;
+
+    ASSERT_EQUAL(42, initialized.field);
+    ASSERT_NOT_EQUAL(42, uninitialized->field);
+  }
+
+  // This test ensures that we use placement new instead of assigning
+  // to uninitialized memory. See Thrust Github issue #1153.
+  thrust::device_vector<object_with_non_trivial_ctor> a(10, object_with_non_trivial_ctor(99));
+  thrust::device_vector<object_with_non_trivial_ctor> b(10);
+
+  thrust::copy_if(a.begin(), a.end(), b.begin(), always_true());
+
+  for (int i = 0; i < 10; i++)
+  {
+    object_with_non_trivial_ctor ha(a[i]);
+    object_with_non_trivial_ctor hb(b[i]);
+    int ia = ha.field;
+    int ib = hb.field;
+
+    ASSERT_EQUAL(ia, ib);
+  }
+}
+DECLARE_UNITTEST(TestCopyIfNonTrivial);
 
 template <typename Vector>
 void TestCopyCountingIterator(void)

@@ -255,7 +255,7 @@ namespace __copy_if {
                                      num_selections_prefix;
           if (selection_flags[ITEM])
           {
-            storage.raw_exchange[local_scatter_offset] = items[ITEM];
+            new (&storage.raw_exchange[local_scatter_offset]) item_type(items[ITEM]);
           }
         }
 
