@@ -67,7 +67,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -150,7 +149,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   thrust::cuda::execution_policy<FromPolicy>& from_exec
 , thrust::cuda::execution_policy<ToPolicy>&   to_exec
@@ -194,7 +192,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -254,7 +251,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy&                               from_exec
 , thrust::cuda::execution_policy<ToPolicy>& to_exec
@@ -358,7 +354,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   thrust::cuda::execution_policy<FromPolicy>& from_exec
 , ToPolicy&                                   to_exec
@@ -440,7 +435,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename OutputIt, typename Size
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy_n(
   FromPolicy& from_exec
 , ToPolicy&   to_exec
@@ -486,7 +480,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy(
   thrust::cuda::execution_policy<FromPolicy>&         from_exec
 , thrust::cpp::execution_policy<ToPolicy>&            to_exec
@@ -505,7 +498,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy(
   thrust::cpp::execution_policy<FromPolicy>& from_exec
 , thrust::cuda::execution_policy<ToPolicy>&  to_exec
@@ -524,7 +516,6 @@ template <
   typename FromPolicy, typename ToPolicy
 , typename ForwardIt, typename Sentinel, typename OutputIt
 >
-THRUST_RUNTIME_FUNCTION
 auto async_copy(
   thrust::cuda::execution_policy<FromPolicy>& from_exec
 , thrust::cuda::execution_policy<ToPolicy>&   to_exec

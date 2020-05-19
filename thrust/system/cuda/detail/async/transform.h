@@ -78,7 +78,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename OutputIt, typename UnaryOperation
 >
-THRUST_RUNTIME_FUNCTION
 auto async_transform_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -142,7 +141,6 @@ template <
 , typename ForwardIt, typename Sentinel, typename OutputIt
 , typename UnaryOperation
 >
-THRUST_RUNTIME_FUNCTION
 auto async_transform(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
