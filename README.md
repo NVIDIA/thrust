@@ -115,15 +115,46 @@ See the [changelog](CHANGELOG.md) for details about specific releases.
 | 1.1.0             |                                |
 | 1.0.0             |                                |
 
-CMake Support
--------------
+Adding Thrust To A CMake Project
+--------------------------------
 
-Thrust provides CMake configuration files that make it easy to include Thrust
+Since Thrust is a header library, there is no need to build or install Thrust
+to use it. The `thrust` directory contains a complete, ready-to-use Thrust
+package upon checkout.
+
+We provide CMake configuration files that make it easy to include Thrust
 from other CMake projects. See the [CMake README](thrust/cmake/README.md)
 for details.
 
 Development Process
 -------------------
 
-For information on development process, see [this document](DEVELOPMENT_MODEL.md).
+Thrust uses the [CMake build system](https://cmake.org/) to build unit tests,
+examples, and header tests. To build Thrust as a developer, the following
+recipe should be followed:
 
+```
+# Clone Thrust and CUB repos recursively:
+git clone --recursive https://github.com/thrust/thrust.git
+cd thrust
+
+# Create build directory:
+mkdir build
+cd build
+
+# Configure -- use one of the following:
+cmake ..   # Command line interface.
+ccmake ..  # ncurses GUI (Linux only)
+cmake-gui  # Graphical UI, set source/build directories in the app
+
+# Build:
+cmake --build . -j <num jobs>   # invokes make (or ninja, etc)
+
+# Run tests and examples:
+ctest
+```
+
+By default, a serial `CPP` host system, `CUDA` accelerated device system, and
+C++14 standard are used. This can be changed in CMake. More information on
+configuring your Thrust build and creating a pull request can be found in
+[CONTRIBUTING.md](CONTRIBUTING.md).
