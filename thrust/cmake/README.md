@@ -4,7 +4,7 @@ Thrust provides configuration files that simplify using Thrust
 from other CMake projects. Requirements:
 
 - Thrust >= 1.9.10
-- CMake >= 3.10
+- CMake >= 3.15
 
 See the [Fixing Legacy FindThrust.cmake](#fixing-legacy-findthrustcmake)
 section for solutions that work on older Thrust versions.

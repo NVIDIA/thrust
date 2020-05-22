@@ -74,6 +74,8 @@
 # thrust_debug_internal_targets()
 # thrust_debug_target(TargetName "${THRUST_VERSION}")
 
+cmake_minimum_required(VERSION 3.15)
+
 ################################################################################
 # User variables and APIs. Users can rely on these:
 #
@@ -556,7 +558,7 @@ function(thrust_fixup_omp_target omp_target)
   get_target_property(opts ${omp_target} INTERFACE_COMPILE_OPTIONS)
   if (opts MATCHES "\\$<\\$<COMPILE_LANGUAGE:CXX>:([^>]*)>")
     target_compile_options(${omp_target} INTERFACE
-      $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=${CMAKE_MATCH_1}>
+      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=${CMAKE_MATCH_1}>
     )
   endif()
 endfunction()
@@ -569,8 +571,6 @@ endfunction()
 macro(_thrust_find_OMP required)
   if (NOT TARGET Thrust::OMP)
     thrust_debug("Searching for OMP ${required}" internal)
-    # CMake 3.10 is required for the updated FindOpenMP that provides targets.
-    cmake_minimum_required(VERSION 3.10)
     find_package(OpenMP
       ${_THRUST_QUIET_FLAG}
       ${_THRUST_REQUIRED_FLAG_OMP}
@@ -626,6 +626,9 @@ if (NOT TARGET Thrust::Thrust)
   _thrust_declare_interface_alias(Thrust::Thrust _Thrust_Thrust)
   # Strip out the 'thrust/cmake/' from '[thrust_include_path]/thrust/cmake/':
   get_filename_component(_THRUST_INCLUDE_DIR "../.." ABSOLUTE BASE_DIR "${_THRUST_CMAKE_DIR}")
+  set(_THRUST_INCLUDE_DIR "${_THRUST_INCLUDE_DIR}"
+    CACHE INTERNAL "Location of thrust headers."
+  )
   target_include_directories(_Thrust_Thrust INTERFACE "${_THRUST_INCLUDE_DIR}")
   thrust_debug_target(Thrust::Thrust "${THRUST_VERSION}" internal)
 endif()
