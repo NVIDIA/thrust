@@ -1,1 +1,0 @@
-set(THRUST_FILECHECK_DATA_PATH "${THRUST_SOURCE}/internal/test")
