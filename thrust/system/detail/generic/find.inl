@@ -45,8 +45,9 @@ InputIterator find(thrust::execution_policy<DerivedPolicy> &exec,
                    InputIterator last,
                    const T& value)
 {
-  // XXX consider a placeholder expression here
-  return thrust::find_if(exec, first, last, thrust::detail::equal_to_value<T>(value));
+  using thrust::placeholders::_1;
+
+  return thrust::find_if(exec, first, last, _1 == value);
 } // end find()
 
 
