@@ -205,10 +205,12 @@ find(execution_policy<Derived> &policy,
      InputIt                    last,
      T const& value)
 {
+  using thrust::placeholders::_1;
+
   return cuda_cub::find_if(policy,
                         first,
                         last,
-                        thrust::detail::equal_to_value<T>(value));
+                        _1 == value);
 }
 
 

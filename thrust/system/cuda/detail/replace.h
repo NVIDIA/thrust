@@ -90,12 +90,14 @@ replace(execution_policy<Derived> &policy,
         T const &                  old_value,
         T const &                  new_value)
 {
+  using thrust::placeholders::_1;
+
   cuda_cub::transform_if(policy,
                       first,
                       last,
                       first,
                       __replace::constant_f<T>(new_value),
-                      thrust::detail::equal_to_value<T>(old_value));
+                      _1 == old_value);
 }
 
 template <class Derived,

@@ -74,8 +74,9 @@ remove(execution_policy<Derived> &policy,
        InputIt                    last,
        const T &                  value)
 {
-  thrust::detail::equal_to_value<T> pred(value);
-  return cuda_cub::remove_if(policy, first, last, pred);
+  using thrust::placeholders::_1;
+
+  return cuda_cub::remove_if(policy, first, last, _1 == value);
 }
 
 // copy
