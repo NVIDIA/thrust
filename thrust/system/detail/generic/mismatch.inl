@@ -38,10 +38,9 @@ __host__ __device__
              InputIterator1 last1,
              InputIterator2 first2)
 {
-  typedef typename thrust::iterator_value<InputIterator1>::type InputType1;
-  
-  // XXX use a placeholder expression here
-  return thrust::mismatch(exec, first1, last1, first2, thrust::detail::equal_to<InputType1>());
+  using namespace thrust::placeholders;
+
+  return thrust::mismatch(exec, first1, last1, first2, _1 == _2);
 } // end mismatch()
 
 
