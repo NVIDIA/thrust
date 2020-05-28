@@ -84,8 +84,9 @@ __host__ __device__
                 T init,
                 T step)
 {
-  // XXX TODO use a placeholder expression here
-  thrust::tabulate(exec, first, last, sequence_detail::sequence_functor<T>(init, step));
+  using thrust::placeholders::_1;
+
+  thrust::tabulate(exec, first, last, init + step * _1);
 } // end sequence()
 
 
