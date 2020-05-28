@@ -48,27 +48,8 @@ __host__ __device__
                                           UnaryFunction unary_op,
                                           BinaryFunction binary_op)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if UnaryFunction is AdaptableUnaryFunction
-  //   TemporaryType = AdaptableUnaryFunction::result_type
-  // else if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
-  //
-  // XXX upon c++0x, TemporaryType needs to be:
-  // result_of_adaptable_function<UnaryFunction>::type
-
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::has_result_type<UnaryFunction>::value,
-    thrust::detail::result_type<UnaryFunction>,
-    thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
-    >
-  >::type ValueType;
+  // Use the input iterator's value type per https://wg21.link/P0571
+  using ValueType = typename thrust::iterator_value<InputIterator>::type;
 
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
@@ -81,7 +62,7 @@ template<typename ExecutionPolicy,
          typename InputIterator,
          typename OutputIterator,
          typename UnaryFunction,
-         typename T,
+         typename InitialValueType,
          typename AssociativeOperator>
 __host__ __device__
   OutputIterator transform_exclusive_scan(thrust::execution_policy<ExecutionPolicy> &exec,
@@ -89,30 +70,11 @@ __host__ __device__
                                           InputIterator last,
                                           OutputIterator result,
                                           UnaryFunction unary_op,
-                                          T init,
+                                          InitialValueType init,
                                           AssociativeOperator binary_op)
 {
-  // the pseudocode for deducing the type of the temporary used below:
-  // 
-  // if UnaryFunction is AdaptableUnaryFunction
-  //   TemporaryType = AdaptableUnaryFunction::result_type
-  // else if OutputIterator is a "pure" output iterator
-  //   TemporaryType = InputIterator::value_type
-  // else
-  //   TemporaryType = OutputIterator::value_type
-  //
-  // XXX upon c++0x, TemporaryType needs to be:
-  // result_of_adaptable_function<UnaryFunction>::type
-
-  typedef typename thrust::detail::eval_if<
-    thrust::detail::has_result_type<UnaryFunction>::value,
-    thrust::detail::result_type<UnaryFunction>,
-    thrust::detail::eval_if<
-      thrust::detail::is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
-    >
-  >::type ValueType;
+  // Use the initial value type per https://wg21.link/P0571
+  using ValueType = InitialValueType;
 
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);

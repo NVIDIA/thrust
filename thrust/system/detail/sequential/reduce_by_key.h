@@ -19,7 +19,6 @@
 #include <thrust/detail/config.h>
 #include <thrust/pair.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <thrust/detail/type_traits/algorithm/intermediate_type_from_function_and_iterators.h>
 #include <thrust/system/detail/sequential/execution_policy.h>
 
 namespace thrust
@@ -54,11 +53,8 @@ __host__ __device__
   typedef typename thrust::iterator_traits<InputIterator1>::value_type  InputKeyType;
   typedef typename thrust::iterator_traits<InputIterator2>::value_type  InputValueType;
 
-  typedef typename thrust::detail::intermediate_type_from_function_and_iterators<
-    InputIterator2,
-    OutputIterator2,
-    BinaryFunction
-  >::type TemporaryType;
+  // Use the input iterator's value type per https://wg21.link/P0571
+  using TemporaryType = typename thrust::iterator_value<InputIterator2>::type;
 
   if(keys_first != keys_last)
   {

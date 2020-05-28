@@ -139,6 +139,41 @@ struct binary_function
  *  \{
  */
 
+#define THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(func, impl)                   \
+  template <>                                                                  \
+  struct func<void>                                                            \
+  {                                                                            \
+    using is_transparent = void;                                               \
+    __thrust_exec_check_disable__                                              \
+    template <typename T>                                                      \
+    __host__ __device__                                                        \
+    constexpr auto operator()(T&& x) const                                     \
+      noexcept(noexcept(impl)) -> decltype(impl)                               \
+    {                                                                          \
+      return impl;                                                             \
+    }                                                                          \
+  }
+
+#define THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION(func, impl)                  \
+  template <>                                                                  \
+  struct func<void>                                                            \
+  {                                                                            \
+    using is_transparent = void;                                               \
+    __thrust_exec_check_disable__                                              \
+    template <typename T1, typename T2>                                        \
+    __host__ __device__                                                        \
+    constexpr auto operator()(T1&& t1, T2&& t2) const                          \
+      noexcept(noexcept(impl)) -> decltype(impl)                               \
+    {                                                                          \
+      return impl;                                                             \
+    }                                                                          \
+  }
+
+#define THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(func, op)                 \
+  THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION(                                   \
+    func, THRUST_FWD(t1) op THRUST_FWD(t2))
+
+
 /*! \p plus is a function object. Specifically, it is an Adaptable Binary Function.
  *  If \c f is an object of class <tt>plus<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x+y</tt>.
@@ -172,7 +207,7 @@ struct binary_function
  *  \see http://www.sgi.com/tech/stl/plus.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct plus
 {
   /*! \typedef first_argument_type
@@ -193,8 +228,14 @@ struct plus
   /*! Function call operator. The return value is <tt>lhs + rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs + rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs + rhs;
+  }
 }; // end plus
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(plus, +);
 
 /*! \p minus is a function object. Specifically, it is an Adaptable Binary Function.
  *  If \c f is an object of class <tt>minus<T></tt>, and \c x and \c y are objects
@@ -229,7 +270,7 @@ struct plus
  *  \see http://www.sgi.com/tech/stl/minus.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct minus
 {
   /*! \typedef first_argument_type
@@ -250,8 +291,14 @@ struct minus
   /*! Function call operator. The return value is <tt>lhs - rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs - rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs - rhs;
+  }
 }; // end minus
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(minus, -);
 
 /*! \p multiplies is a function object. Specifically, it is an Adaptable Binary Function.
  *  If \c f is an object of class <tt>multiplies<T></tt>, and \c x and \c y are objects
@@ -286,7 +333,7 @@ struct minus
  *  \see http://www.sgi.com/tech/stl/multiplies.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct multiplies
 {
   /*! \typedef first_argument_type
@@ -307,8 +354,14 @@ struct multiplies
   /*! Function call operator. The return value is <tt>lhs * rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs * rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs * rhs;
+  }
 }; // end multiplies
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(multiplies, *);
 
 /*! \p divides is a function object. Specifically, it is an Adaptable Binary Function.
  *  If \c f is an object of class <tt>divides<T></tt>, and \c x and \c y are objects
@@ -343,7 +396,7 @@ struct multiplies
  *  \see http://www.sgi.com/tech/stl/divides.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct divides
 {
   /*! \typedef first_argument_type
@@ -364,8 +417,14 @@ struct divides
   /*! Function call operator. The return value is <tt>lhs / rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs / rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs / rhs;
+  }
 }; // end divides
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(divides, /);
 
 /*! \p modulus is a function object. Specifically, it is an Adaptable Binary Function.
  *  If \c f is an object of class <tt>modulus<T></tt>, and \c x and \c y are objects
@@ -400,7 +459,7 @@ struct divides
  *  \see http://www.sgi.com/tech/stl/modulus.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct modulus
 {
   /*! \typedef first_argument_type
@@ -421,8 +480,14 @@ struct modulus
   /*! Function call operator. The return value is <tt>lhs % rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs % rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs % rhs;
+  }
 }; // end modulus
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(modulus, %);
 
 /*! \p negate is a function object. Specifically, it is an Adaptable Unary Function.
  *  If \c f is an object of class <tt>negate<T></tt>, and \c x is an object
@@ -454,7 +519,7 @@ struct modulus
  *  \see http://www.sgi.com/tech/stl/negate.html
  *  \see unary_function
  */
-template<typename T>
+template<typename T = void>
 struct negate
 {
   /*! \typedef argument_type
@@ -470,8 +535,14 @@ struct negate
   /*! Function call operator. The return value is <tt>-x</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &x) const {return -x;}
+  __host__ __device__
+  constexpr T operator()(const T &x) const
+  {
+    return -x;
+  }
 }; // end negate
+
+THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(negate, -THRUST_FWD(x));
 
 /*! \p square is a function object. Specifically, it is an Adaptable Unary Function.
  *  If \c f is an object of class <tt>square<T></tt>, and \c x is an object
@@ -502,7 +573,7 @@ struct negate
  *
  *  \see unary_function
  */
-template<typename T>
+template<typename T = void>
 struct square
 {
   /*! \typedef argument_type
@@ -518,8 +589,14 @@ struct square
   /*! Function call operator. The return value is <tt>x*x</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &x) const {return x*x;}
+  __host__ __device__
+  constexpr T operator()(const T &x) const
+  {
+    return x*x;
+  }
 }; // end square
+
+THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(square, x*x);
 
 /*! \}
  */
@@ -540,7 +617,7 @@ struct square
  *  \see http://www.sgi.com/tech/stl/equal_to.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct equal_to
 {
   /*! \typedef first_argument_type
@@ -561,8 +638,14 @@ struct equal_to
   /*! Function call operator. The return value is <tt>lhs == rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs == rhs;}
+  __host__ __device__
+  constexpr bool operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs == rhs;
+  }
 }; // end equal_to
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(equal_to, ==);
 
 /*! \p not_equal_to is a function object. Specifically, it is an Adaptable Binary
  *  Predicate, which means it is a function object that tests the truth or falsehood
@@ -575,7 +658,7 @@ struct equal_to
  *  \see http://www.sgi.com/tech/stl/not_equal_to.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct not_equal_to
 {
   /*! \typedef first_argument_type
@@ -596,8 +679,14 @@ struct not_equal_to
   /*! Function call operator. The return value is <tt>lhs != rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs != rhs;}
+  __host__ __device__
+  constexpr bool operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs != rhs;
+  }
 }; // end not_equal_to
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(not_equal_to, !=);
 
 /*! \p greater is a function object. Specifically, it is an Adaptable Binary
  *  Predicate, which means it is a function object that tests the truth or falsehood
@@ -610,7 +699,7 @@ struct not_equal_to
  *  \see http://www.sgi.com/tech/stl/greater.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct greater
 {
   /*! \typedef first_argument_type
@@ -631,8 +720,14 @@ struct greater
   /*! Function call operator. The return value is <tt>lhs > rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs > rhs;}
+  __host__ __device__
+  constexpr bool operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs > rhs;
+  }
 }; // end greater
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(greater, >);
 
 /*! \p less is a function object. Specifically, it is an Adaptable Binary
  *  Predicate, which means it is a function object that tests the truth or falsehood
@@ -645,7 +740,7 @@ struct greater
  *  \see http://www.sgi.com/tech/stl/less.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct less
 {
   /*! \typedef first_argument_type
@@ -666,8 +761,14 @@ struct less
   /*! Function call operator. The return value is <tt>lhs < rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs < rhs;}
+  __host__ __device__
+  constexpr bool operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs < rhs;
+  }
 }; // end less
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(less, <);
 
 /*! \p greater_equal is a function object. Specifically, it is an Adaptable Binary
  *  Predicate, which means it is a function object that tests the truth or falsehood
@@ -680,7 +781,7 @@ struct less
  *  \see http://www.sgi.com/tech/stl/greater_equal.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct greater_equal
 {
   /*! \typedef first_argument_type
@@ -701,8 +802,14 @@ struct greater_equal
   /*! Function call operator. The return value is <tt>lhs >= rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs >= rhs;}
+  __host__ __device__
+  constexpr bool operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs >= rhs;
+  }
 }; // end greater_equal
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(greater_equal, >=);
 
 /*! \p less_equal is a function object. Specifically, it is an Adaptable Binary
  *  Predicate, which means it is a function object that tests the truth or falsehood
@@ -715,7 +822,7 @@ struct greater_equal
  *  \see http://www.sgi.com/tech/stl/less_equal.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct less_equal
 {
   /*! \typedef first_argument_type
@@ -736,8 +843,14 @@ struct less_equal
   /*! Function call operator. The return value is <tt>lhs <= rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs <= rhs;}
+  __host__ __device__
+  constexpr bool operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs <= rhs;
+  }
 }; // end less_equal
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(less_equal, <=);
 
 /*! \}
  */
@@ -759,7 +872,7 @@ struct less_equal
  *  \see http://www.sgi.com/tech/stl/logical_and.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct logical_and
 {
   /*! \typedef first_argument_type
@@ -780,8 +893,14 @@ struct logical_and
   /*! Function call operator. The return value is <tt>lhs && rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs && rhs;}
+  __host__ __device__
+  constexpr bool operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs && rhs;
+  }
 }; // end logical_and
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(logical_and, &&);
 
 /*! \p logical_or is a function object. Specifically, it is an Adaptable Binary Predicate,
  *  which means it is a function object that tests the truth or falsehood of some condition.
@@ -794,7 +913,7 @@ struct logical_and
  *  \see http://www.sgi.com/tech/stl/logical_or.html
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct logical_or
 {
   /*! \typedef first_argument_type
@@ -815,8 +934,14 @@ struct logical_or
   /*! Function call operator. The return value is <tt>lhs || rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &lhs, const T &rhs) const {return lhs || rhs;}
+  __host__ __device__
+  constexpr bool operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs || rhs;
+  }
 }; // end logical_or
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(logical_or, ||);
 
 /*! \p logical_not is a function object. Specifically, it is an Adaptable Predicate,
  *  which means it is a function object that tests the truth or falsehood of some condition.
@@ -843,7 +968,7 @@ struct logical_or
  *  \see http://www.sgi.com/tech/stl/logical_not.html
  *  \see unary_function
  */
-template<typename T>
+template<typename T = void>
 struct logical_not
 {
   /*! \typedef first_argument_type
@@ -864,8 +989,14 @@ struct logical_not
   /*! Function call operator. The return value is <tt>!x</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ bool operator()(const T &x) const {return !x;}
+  __host__ __device__
+  constexpr bool operator()(const T &x) const
+  {
+    return !x;
+  }
 }; // end logical_not
+
+THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(logical_not, !THRUST_FWD(x));
 
 /*! \}
  */
@@ -907,7 +1038,7 @@ struct logical_not
  *
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct bit_and
 {
   /*! \typedef first_argument_type
@@ -928,8 +1059,14 @@ struct bit_and
   /*! Function call operator. The return value is <tt>lhs & rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs & rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs & rhs;
+  }
 }; // end bit_and
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(bit_and, &);
 
 /*! \p bit_or is a function object. Specifically, it is an Adaptable Binary Function.
  *  If \c f is an object of class <tt>bit_and<T></tt>, and \c x and \c y are objects
@@ -963,7 +1100,7 @@ struct bit_and
  *
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct bit_or
 {
   /*! \typedef first_argument_type
@@ -984,8 +1121,14 @@ struct bit_or
   /*! Function call operator. The return value is <tt>lhs | rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs | rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs | rhs;
+  }
 }; // end bit_or
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(bit_or, |);
 
 /*! \p bit_xor is a function object. Specifically, it is an Adaptable Binary Function.
  *  If \c f is an object of class <tt>bit_and<T></tt>, and \c x and \c y are objects
@@ -1019,7 +1162,7 @@ struct bit_or
  *
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct bit_xor
 {
   /*! \typedef first_argument_type
@@ -1040,8 +1183,14 @@ struct bit_xor
   /*! Function call operator. The return value is <tt>lhs ^ rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs ^ rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs ^ rhs;
+  }
 }; // end bit_xor
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(bit_xor, ^);
 
 /*! \}
  */
@@ -1071,7 +1220,7 @@ struct bit_xor
  *  \see http://www.sgi.com/tech/stl/identity.html
  *  \see unary_function
  */
-template<typename T>
+template<typename T = void>
 struct identity
 {
   /*! \typedef argument_type
@@ -1087,8 +1236,14 @@ struct identity
   /*! Function call operator. The return value is <tt>x</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ const T &operator()(const T &x) const {return x;}
+  __host__ __device__
+  constexpr const T &operator()(const T &x) const
+  {
+    return x;
+  }
 }; // end identity
+
+THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(identity, THRUST_FWD(x));
 
 /*! \p maximum is a function object that takes two arguments and returns the greater
  *  of the two. Specifically, it is an Adaptable Binary Function. If \c f is an
@@ -1114,7 +1269,7 @@ struct identity
  *  \see min
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct maximum
 {
   /*! \typedef first_argument_type
@@ -1135,8 +1290,16 @@ struct maximum
   /*! Function call operator. The return value is <tt>rhs < lhs ? lhs : rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? rhs : lhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs < rhs ? rhs : lhs;
+  }
 }; // end maximum
+
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION(maximum,
+                                          t1 < t2 ? THRUST_FWD(t2)
+                                                  : THRUST_FWD(t1));
 
 /*! \p minimum is a function object that takes two arguments and returns the lesser
  *  of the two. Specifically, it is an Adaptable Binary Function. If \c f is an
@@ -1162,7 +1325,7 @@ struct maximum
  *  \see max
  *  \see binary_function
  */
-template<typename T>
+template<typename T = void>
 struct minimum
 {
   /*! \typedef first_argument_type
@@ -1183,10 +1346,18 @@ struct minimum
   /*! Function call operator. The return value is <tt>lhs < rhs ? lhs : rhs</tt>.
    */
   __thrust_exec_check_disable__
-  __host__ __device__ T operator()(const T &lhs, const T &rhs) const {return lhs < rhs ? lhs : rhs;}
+  __host__ __device__
+  constexpr T operator()(const T &lhs, const T &rhs) const
+  {
+    return lhs < rhs ? lhs : rhs;
+  }
 }; // end minimum
 
-/*! \p project1st is a function object that takes two arguments and returns 
+THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION(minimum,
+                                          t1 < t2 ? THRUST_FWD(t1)
+                                                  : THRUST_FWD(t2));
+
+/*! \p project1st is a function object that takes two arguments and returns
  *  its first argument; the second argument is unused. It is essentially a
  *  generalization of identity to the case of a Binary Function.
  *
@@ -1204,7 +1375,7 @@ struct minimum
  *  \see project2nd
  *  \see binary_function
  */
-template<typename T1, typename T2>
+template<typename T1 = void, typename T2 = void>
 struct project1st
 {
   /*! \typedef first_argument_type
@@ -1224,10 +1395,28 @@ struct project1st
 
   /*! Function call operator. The return value is <tt>lhs</tt>.
    */
-  __host__ __device__ const T1 &operator()(const T1 &lhs, const T2 & /*rhs*/) const {return lhs;}
+  __host__ __device__
+  constexpr const T1 &operator()(const T1 &lhs, const T2 & /*rhs*/) const
+  {
+    return lhs;
+  }
 }; // end project1st
 
-/*! \p project2nd is a function object that takes two arguments and returns 
+template <>
+struct project1st<void, void>
+{
+  using is_transparent = void;
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&&) const
+    noexcept(noexcept(THRUST_FWD(t1))) -> decltype(THRUST_FWD(t1))
+  {
+    return THRUST_FWD(t1);
+  }
+};
+
+/*! \p project2nd is a function object that takes two arguments and returns
  *  its second argument; the first argument is unused. It is essentially a
  *  generalization of identity to the case of a Binary Function.
  *
@@ -1245,7 +1434,7 @@ struct project1st
  *  \see project1st
  *  \see binary_function
  */
-template<typename T1, typename T2>
+template<typename T1 = void, typename T2 = void>
 struct project2nd
 {
   /*! \typedef first_argument_type
@@ -1265,12 +1454,29 @@ struct project2nd
 
   /*! Function call operator. The return value is <tt>rhs</tt>.
    */
-  __host__ __device__ const T2 &operator()(const T1 &/*lhs*/, const T2 &rhs) const {return rhs;}
+  __host__ __device__
+  constexpr const T2 &operator()(const T1 &/*lhs*/, const T2 &rhs) const
+  {
+    return rhs;
+  }
 }; // end project2nd
+
+template <>
+struct project2nd<void, void>
+{
+  using is_transparent = void;
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&&, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t2))) -> decltype(THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t2);
+  }
+};
 
 /*! \}
  */
-
 
 // odds and ends
 
@@ -1502,6 +1708,9 @@ THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder<9>::type _10;
 /*! \} // placeholder_objects
  */
 
+#undef THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION
+#undef THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION
+#undef THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP
 
 } // end thrust
 
