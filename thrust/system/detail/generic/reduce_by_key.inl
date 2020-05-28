@@ -91,27 +91,8 @@ __host__ __device__
 
     typedef unsigned int FlagType;  // TODO use difference_type
 
-    // the pseudocode for deducing the type of the temporary used below:
-    // 
-    // if BinaryFunction is AdaptableBinaryFunction
-    //   TemporaryType = AdaptableBinaryFunction::result_type
-    // else if OutputIterator2 is a "pure" output iterator
-    //   TemporaryType = InputIterator2::value_type
-    // else
-    //   TemporaryType = OutputIterator2::value_type
-    //
-    // XXX upon c++0x, TemporaryType needs to be:
-    // result_of_adaptable_function<BinaryFunction>::type
-
-    typedef typename thrust::detail::eval_if<
-      thrust::detail::has_result_type<BinaryFunction>::value,
-      thrust::detail::result_type<BinaryFunction>,
-      thrust::detail::eval_if<
-        thrust::detail::is_output_iterator<OutputIterator2>::value,
-        thrust::iterator_value<InputIterator2>,
-        thrust::iterator_value<OutputIterator2>
-      >
-    >::type ValueType;
+    // Use the input iterator's value type per https://wg21.link/P0571
+    using ValueType = typename thrust::iterator_value<InputIterator2>::type;
 
     if (keys_first == keys_last)
         return thrust::make_pair(keys_output, values_output);

@@ -208,18 +208,10 @@ template<typename InputIterator,
   
   using namespace thrust::detail;
 
-  typedef typename eval_if<
-    has_result_type<BinaryFunction>::value,
-    result_type<BinaryFunction>,
-    eval_if<
-      is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
-    >
-  >::type ValueType;
-  
-  typedef typename thrust::iterator_difference<InputIterator>::type Size; 
-  
+  // Use the input iterator's value type per https://wg21.link/P0571
+  using ValueType = typename thrust::iterator_value<InputIterator>::type;
+
+  using Size = typename thrust::iterator_difference<InputIterator>::type;
   Size n = thrust::distance(first, last);
 
   if (n != 0)
@@ -237,13 +229,13 @@ template<typename InputIterator,
 
 template<typename InputIterator,
          typename OutputIterator,
-         typename T,
+         typename InitialValueType,
          typename BinaryFunction>
   OutputIterator exclusive_scan(tag,
                                 InputIterator first,
                                 InputIterator last,
                                 OutputIterator result,
-                                T init,
+                                InitialValueType init,
                                 BinaryFunction binary_op)
 {
   // the pseudocode for deducing the type of the temporary used below:
@@ -260,18 +252,10 @@ template<typename InputIterator,
 
   using namespace thrust::detail;
 
-  typedef typename eval_if<
-    has_result_type<BinaryFunction>::value,
-    result_type<BinaryFunction>,
-    eval_if<
-      is_output_iterator<OutputIterator>::value,
-      thrust::iterator_value<InputIterator>,
-      thrust::iterator_value<OutputIterator>
-    >
-  >::type ValueType;
+  // Use the initial value type per https://wg21.link/P0571
+  using ValueType = InitialValueType;
 
-  typedef typename thrust::iterator_difference<InputIterator>::type Size; 
-  
+  using Size = typename thrust::iterator_difference<InputIterator>::type;
   Size n = thrust::distance(first, last);
 
   if (n != 0)
