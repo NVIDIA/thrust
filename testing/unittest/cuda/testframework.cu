@@ -2,6 +2,7 @@
 #include <unittest/cuda/testframework.h>
 #include <thrust/system/cuda/memory.h>
 #include <cuda_runtime.h>
+#include <numeric>
 
 __global__ void dummy_kernel() {}
 
@@ -80,9 +81,7 @@ std::vector<int> CUDATestDriver::target_devices(const ArgumentMap &kwargs)
     cudaGetDeviceCount(&count);
     
     result.resize(count);
-    // XXX iota is not available in c++03
-    for(int i = 0; i < count; ++i)
-      result[i] = i;
+    std::iota(result.begin(), result.end(), 0);
   }
   else
   {
