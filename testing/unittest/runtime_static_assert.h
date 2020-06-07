@@ -72,6 +72,9 @@ namespace unittest
 
     namespace detail
     {
+#ifdef __clang__
+        __attribute__((used))
+#endif
         __device__ static static_assert_exception* device_exception = NULL;
     }
 
