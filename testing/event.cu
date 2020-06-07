@@ -58,8 +58,6 @@ void test_event_new_stream()
 {
   auto e0 = thrust::device_event(thrust::new_stream);
 
-  auto e0_stream = e0.stream().native_handle();
-
   ASSERT_EQUAL(true, e0.valid_stream());
 
   ASSERT_NOT_EQUAL_QUIET(nullptr, e0.stream().native_handle());    
