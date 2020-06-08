@@ -923,10 +923,11 @@ namespace __set_operations {
 #pragma unroll
       for (int i = 0; i < ITEMS_PER_THREAD; ++i)
       {
+        if(bBegin==bEnd || aBegin==aEnd) break;
         bool pA = compare_op(aKey, bKey);
         bool pB = compare_op(bKey, aKey);
 
-        // The outputs must come from A by definition of set interection.
+        // The outputs must come from A by definition of set intersection.
         output[i]  = aKey;
         indices[i] = aBegin;
 
