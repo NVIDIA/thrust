@@ -327,14 +327,6 @@ struct transform_input_iterator_t
     return op(input[n]);
   }
 
-#if 0
-    /// Structure dereference
-    __host__ __device__ __forceinline__ pointer operator->()
-    {
-        return &op(*input_itr);
-    }
-#endif
-
   /// Equal to
   __host__ __device__ __forceinline__ bool operator==(const self_t &rhs) const
   {
@@ -346,14 +338,6 @@ struct transform_input_iterator_t
   {
     return (input != rhs.input);
   }
-
-#if 0
-    /// ostream operator
-    friend std::ostream& operator<<(std::ostream& os, const self& itr)
-    {
-        return os;
-    }
-#endif
 };    // struct transform_input_iterarot_t
 
 template <class ValueType,
