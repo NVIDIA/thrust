@@ -241,6 +241,8 @@ class integer_traits<custom_numeric>
 
 }} // namespace thrust::detail
 
+typedef unittest::type_list<int> SingleArbitraryType;
+
 typedef unittest::type_list<char,
                             signed char,
                             unsigned char,

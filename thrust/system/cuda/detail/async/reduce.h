@@ -117,8 +117,11 @@ auto async_reduce_n(
 
   cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
 
+  printf("stream: %x\n", user_raw_stream);
+
   if (thrust::cuda_cub::default_stream() != user_raw_stream)
   {
+    printf("user provided stream\n");
     fp = make_dependent_future<U, pointer>(
       [] (decltype(content) const& c)
       {
@@ -141,6 +144,7 @@ auto async_reduce_n(
   }
   else
   {
+    printf("no user provided stream\n");
     fp = make_dependent_future<U, pointer>(
       [] (decltype(content) const& c)
       {

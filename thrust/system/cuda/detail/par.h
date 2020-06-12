@@ -55,11 +55,11 @@ public:
 
   THRUST_RUNTIME_FUNCTION
   Derived
-  on(cudaStream_t const &s) const
+  on(cudaStream_t const &s) /*const*/
   {
-    Derived result = derived_cast(*this);
-    result.stream  = s;
-    return result;
+    //Derived result = derived_cast(*this);
+    /*result.*/stream  = s;
+    return derived_cast(*this);
   }
 
 private:
@@ -67,6 +67,7 @@ private:
   cudaStream_t
   get_stream(const execute_on_stream_base &exec)
   {
+    printf("called get_stream on execute_on_stream\n");
     return exec.stream;
   }
 
@@ -96,7 +97,13 @@ private:
   }
 };
 
-struct execute_on_stream : execute_on_stream_base<execute_on_stream>
+struct execute_on_stream : execute_on_stream_base<execute_on_stream>,
+  thrust::detail::allocator_aware_execution_policy<
+    execute_on_stream_base>
+#if THRUST_CPP_DIALECT >= 2011
+, thrust::detail::dependencies_aware_execution_policy<
+    execute_on_stream_base>
+#endif
 {
   typedef execute_on_stream_base<execute_on_stream> base_t;
 

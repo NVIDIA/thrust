@@ -6,8 +6,8 @@
 #include <thrust/sequence.h>
 #include <thrust/copy.h>
 #include <thrust/gather.h>
-   
-struct greater_than_5 
+
+struct greater_than_5
 {
   template <typename T>
   __host__ __device__
@@ -16,7 +16,7 @@ struct greater_than_5
     return abs(val) > 5;
   }
 };
- 
+
 int main()
 {
   typedef thrust::complex<float> T;
@@ -25,8 +25,8 @@ int main()
   thrust::sequence(d.begin(), d.end());
   thrust::device_vector<T> r(10);
 
-  thrust::counting_iterator<int> c_begin(0); 
-  thrust::counting_iterator<int> c_end(c_begin + 10); 
+  thrust::counting_iterator<int> c_begin(0);
+  thrust::counting_iterator<int> c_end(c_begin + 10);
 
   thrust::device_vector<int> idxs(10);
 
@@ -38,3 +38,4 @@ int main()
   , greater_than_5{}
   );
 }
+

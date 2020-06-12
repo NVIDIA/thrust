@@ -56,6 +56,7 @@ __host__ __device__
 cudaStream_t
 get_stream(execution_policy<Derived> &)
 {
+  printf("called get_stream fallback\n");
   return default_stream();
 }
 

@@ -785,12 +785,14 @@ struct test_async_reduce_after
     );
 
     ASSERT_EQUAL(true, f0.valid_stream());
- 
+
     auto const f0_stream = f0.stream().native_handle();
 
     auto f1 = thrust::async::reduce(
       thrust::device.after(f0), d0.begin(), d0.end()
     );
+
+    ASSERT_EQUAL_QUIET(f0_stream, f1.stream().native_handle());
 
     // Verify that double consumption of a future produces an exception.
     ASSERT_THROWS_EQUAL(
@@ -802,13 +804,13 @@ struct test_async_reduce_after
     , thrust::event_error(thrust::event_errc::no_state)
     );
 
-    ASSERT_EQUAL_QUIET(f0_stream, f1.stream().native_handle());
-
     auto after_policy2 = thrust::device.after(f1);
 
     auto f2 = thrust::async::reduce(
       after_policy2, d0.begin(), d0.end()
     );
+
+    ASSERT_EQUAL_QUIET(f0_stream, f2.stream().native_handle());
 
     // Verify that double consumption of a policy produces an exception.
     ASSERT_THROWS_EQUAL(
@@ -819,8 +821,6 @@ struct test_async_reduce_after
     , thrust::event_error
     , thrust::event_error(thrust::event_errc::no_state)
     );
-
-    ASSERT_EQUAL_QUIET(f0_stream, f2.stream().native_handle());
 
     // This potentially runs concurrently with the copies.
     T const r0 = thrust::reduce(h0.begin(), h0.end());
@@ -863,6 +863,8 @@ struct test_async_reduce_on_then_after
       thrust::device.after(f0), d0.begin(), d0.end()
     );
 
+    ASSERT_EQUAL_QUIET(stream, f1.stream().native_handle());
+
     // Verify that double consumption of a future produces an exception.
     ASSERT_THROWS_EQUAL(
       auto x = thrust::async::reduce(
@@ -873,13 +875,13 @@ struct test_async_reduce_on_then_after
     , thrust::event_error(thrust::event_errc::no_state)
     );
 
-    ASSERT_EQUAL_QUIET(stream, f1.stream().native_handle());
-
     auto after_policy2 = thrust::device.after(f1);
 
     auto f2 = thrust::async::reduce(
       after_policy2, d0.begin(), d0.end()
     );
+
+    ASSERT_EQUAL_QUIET(stream, f2.stream().native_handle());
 
     // Verify that double consumption of a policy produces an exception.
     ASSERT_THROWS_EQUAL(
@@ -890,8 +892,6 @@ struct test_async_reduce_on_then_after
     , thrust::event_error
     , thrust::event_error(thrust::event_errc::no_state)
     );
-
-    ASSERT_EQUAL_QUIET(stream, f2.stream().native_handle());
 
     // This potentially runs concurrently with the copies.
     T const r0 = thrust::reduce(h0.begin(), h0.end());
@@ -908,6 +908,77 @@ struct test_async_reduce_on_then_after
 DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES(
   test_async_reduce_on_then_after
 , NumericTypes
+);
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+struct test_async_reduce_on_after
+{
+  __host__
+  void operator()(std::size_t n)
+  {
+    thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
+    thrust::device_vector<T> d0(h0);
+
+    ASSERT_EQUAL(h0, d0);
+
+    cudaStream_t stream;
+    thrust::cuda_cub::throw_on_error(
+      cudaStreamCreateWithFlags(&stream, cudaStreamNonBlocking)
+    );
+
+    auto f0 = thrust::async::reduce(d0.begin(), d0.end());
+
+    auto f1 = thrust::async::reduce(
+      thrust::device.on(stream).after(f0), d0.begin(), d0.end()
+    );
+
+    ASSERT_EQUAL_QUIET(stream, f1.stream().native_handle());
+
+    // Verify that double consumption of a future produces an exception.
+    ASSERT_THROWS_EQUAL(
+      auto x = thrust::async::reduce(
+        thrust::device.on(stream).after(f0), d0.begin(), d0.end()
+      );
+      THRUST_UNUSED_VAR(x)
+    , thrust::event_error
+    , thrust::event_error(thrust::event_errc::no_state)
+    );
+
+    auto after_policy2 = thrust::device.after(f1);
+
+    auto f2 = thrust::async::reduce(
+      after_policy2, d0.begin(), d0.end()
+    );
+
+    ASSERT_EQUAL_QUIET(stream, f2.stream().native_handle());
+
+    // Verify that double consumption of a policy produces an exception.
+    ASSERT_THROWS_EQUAL(
+      auto x = thrust::async::reduce(
+        after_policy2, d0.begin(), d0.end()
+      );
+      THRUST_UNUSED_VAR(x)
+    , thrust::event_error
+    , thrust::event_error(thrust::event_errc::no_state)
+    );
+
+    // This potentially runs concurrently with the copies.
+    T const r0 = thrust::reduce(h0.begin(), h0.end());
+
+    T const r1 = TEST_FUTURE_VALUE_RETRIEVAL(f2);
+
+    ASSERT_EQUAL(r0, r1);
+
+    thrust::cuda_cub::throw_on_error(
+      cudaStreamDestroy(stream)
+    );
+  }
+};
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES(
+  test_async_reduce_on_after
+, SingleArbitraryType
 );
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -945,6 +1016,8 @@ struct test_async_reduce_allocator_on_then_after
     , d0.begin(), d0.end()
     );
 
+    ASSERT_EQUAL_QUIET(stream0, f1.stream().native_handle());
+
     ASSERT_THROWS_EQUAL(
       auto x = thrust::async::reduce(
         thrust::device(thrust::device_allocator<void>{}).after(f0)
@@ -955,12 +1028,12 @@ struct test_async_reduce_allocator_on_then_after
     , thrust::event_error(thrust::event_errc::no_state)
     );
 
-    ASSERT_EQUAL_QUIET(stream0, f1.stream().native_handle());
-
     auto f2 = thrust::async::reduce(
       thrust::device(thrust::device_allocator<void>{}).on(stream1).after(f1)
     , d0.begin(), d0.end()
     );
+
+    ASSERT_EQUAL_QUIET(stream1, f2.stream().native_handle());
 
     ASSERT_THROWS_EQUAL(
       auto x = thrust::async::reduce(
@@ -971,11 +1044,6 @@ struct test_async_reduce_allocator_on_then_after
     , thrust::event_error
     , thrust::event_error(thrust::event_errc::no_state)
     );
-
-    KNOWN_FAILURE;
-    // FIXME: The below fails because you can't combine allocator attachment,
-    // `.on`, and `.after`.
-    ASSERT_EQUAL_QUIET(stream1, f2.stream().native_handle());
 
     // This potentially runs concurrently with the copies.
     T const r0 = thrust::reduce(h0.begin(), h0.end());

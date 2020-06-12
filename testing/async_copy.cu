@@ -343,6 +343,8 @@ struct test_async_copy_after
       thrust::device.after(e0), d0.begin(), d0.end(), d1.begin()
     );
 
+    ASSERT_EQUAL_QUIET(e0_stream, e1.stream().native_handle());
+
     // Verify that double consumption of a future produces an exception.
     ASSERT_THROWS_EQUAL(
       auto x = thrust::async::copy(
@@ -353,14 +355,14 @@ struct test_async_copy_after
     , thrust::event_error(thrust::event_errc::no_state)
     );
 
-    ASSERT_EQUAL_QUIET(e0_stream, e1.stream().native_handle());
-
     auto after_policy2 = thrust::device.after(e1);
 
     auto e2 = thrust::async::copy(
       thrust::host, after_policy2
     , h0.begin(), h0.end(), d2.begin()
     );
+
+    ASSERT_EQUAL_QUIET(e0_stream, e2.stream().native_handle());
 
     // Verify that double consumption of a policy produces an exception.
     ASSERT_THROWS_EQUAL(
@@ -372,8 +374,6 @@ struct test_async_copy_after
     , thrust::event_error
     , thrust::event_error(thrust::event_errc::no_state)
     );
-
-    ASSERT_EQUAL_QUIET(e0_stream, e2.stream().native_handle());
 
     auto e3 = thrust::async::copy(
       thrust::device.after(e2), thrust::host
