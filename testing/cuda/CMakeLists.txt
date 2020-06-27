@@ -5,7 +5,7 @@ file(GLOB test_srcs
 )
 
 # These tests always build with RDC, so make sure that the sm_XX flags are
-# compatible. See note in ThrustCUDAConfig.cmake.
+# compatible. See note in ThrustCudaConfig.cmake.
 set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_RDC}")
 
 foreach(thrust_target IN LISTS THRUST_TARGETS)

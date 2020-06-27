@@ -144,7 +144,7 @@ function(_thrust_add_target_to_target_list target_name host device dialect prefi
 
   set(label "${host}.${device}.cpp${dialect}")
   string(TOLOWER "${label}" label)
-  message(STATUS "Enabling configuration: ${label}")
+  message(STATUS "Enabling Thrust configuration: ${label}")
 endfunction()
 
 function(_thrust_build_target_list_multiconfig)
@@ -194,16 +194,24 @@ function(_thrust_build_target_list_multiconfig)
           _thrust_add_target_to_target_list(${target_name}
             ${host} ${device} ${dialect} ${prefix}
           )
+
+          # Create a meta target for all targets in this configuration:
+          add_custom_target(${prefix}.all)
+          add_dependencies(thrust.all ${prefix}.all)
         endif()
       endforeach() # dialects
     endforeach() # devices
   endforeach() # hosts
 
   list(LENGTH THRUST_TARGETS count)
-  message(STATUS "${count} unique host.device.dialect configurations generated")
+  message(STATUS "${count} unique thrust.host.device.dialect configurations generated")
 endfunction()
 
 function(_thrust_build_target_list_singleconfig)
+  find_package(Thrust REQUIRED CONFIG
+    NO_DEFAULT_PATH # Only check the explicit path in HINTS:
+    HINTS "${Thrust_SOURCE_DIR}"
+  )
   thrust_create_target(thrust FROM_OPTIONS ${THRUST_TARGET_FLAGS})
   thrust_debug_target(thrust "${THRUST_VERSION}")
 
@@ -237,18 +245,22 @@ function(thrust_build_target_list)
   endmacro()
   add_flag_option(IGNORE_DEPRECATED_CPP_DIALECT "Don't warn about any deprecated C++ standards and compilers." OFF)
   add_flag_option(IGNORE_DEPRECATED_CPP_11 "Don't warn about deprecated C++11." OFF)
-  add_flag_option(IGNORE_DEPRECATED_COMPILER "Don't warn about deprecated COMPILERS." OFF)
+  add_flag_option(IGNORE_DEPRECATED_COMPILER "Don't warn about deprecated compilers." OFF)
   add_flag_option(IGNORE_CUB_VERSION_CHECK "Don't warn about mismatched CUB versions." OFF)
+
+  # Top level meta-target. Makes it easier to just build thrust targets when
+  # building both CUB and Thrust. Add all project files here so IDEs will be
+  # aware of them. This will not generate build rules.
+  file(GLOB_RECURSE all_sources
+    RELATIVE "${CMAKE_CURRENT_LIST_DIR}"
+    "${Thrust_SOURCE_DIR}/thrust/*.h"
+    "${Thrust_SOURCE_DIR}/thrust/*.inl"
+  )
+  add_custom_target(thrust.all SOURCES ${all_sources})
 
   if (THRUST_ENABLE_MULTICONFIG)
     _thrust_build_target_list_multiconfig()
   else()
     _thrust_build_target_list_singleconfig()
   endif()
-
-  # Create meta targets for each config:
-  foreach(thrust_target IN LISTS THRUST_TARGETS)
-    thrust_get_target_property(config_prefix ${thrust_target} PREFIX)
-    add_custom_target(${config_prefix}.all)
-  endforeach()
 endfunction()
