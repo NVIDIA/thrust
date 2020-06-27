@@ -1,6 +1,6 @@
 enable_language(CUDA)
 
-set(THRUST_KNOWN_COMPUTE_ARCHS 35 50 52 53 60 61 62 70 72 75 80)
+set(THRUST_KNOWN_COMPUTE_ARCHS 35 37 50 52 53 60 61 62 70 72 75 80)
 
 # Split CUDA_FLAGS into 3 parts:
 #
@@ -95,7 +95,7 @@ if (NOT "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   endif()
 endif()
 
-message(STATUS "Enabled CUDA architectures:${COMPUTE_MESSAGE}")
+message(STATUS "Thrust: Enabled CUDA architectures:${COMPUTE_MESSAGE}")
 
 # RDC is off by default in NVCC and on by default in Feta. Turning off RDC
 # isn't currently supported by Feta. So, we default to RDC off for NVCC and

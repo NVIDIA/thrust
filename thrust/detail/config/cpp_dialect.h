@@ -33,6 +33,20 @@
 //   Ignore deprecation warnings when using deprecated compilers. Compiling
 //   with C++03 and C++11 will still issue warnings.
 
+// Check for the CUB opt-outs as well:
+#if !defined(THRUST_IGNORE_DEPRECATED_CPP_DIALECT) && \
+     defined(CUB_IGNORE_DEPRECATED_CPP_DIALECT)
+#  define    THRUST_IGNORE_DEPRECATED_CPP_DIALECT
+#endif
+#if !defined(THRUST_IGNORE_DEPRECATED_CPP_11) && \
+     defined(CUB_IGNORE_DEPRECATED_CPP_11)
+#  define    THRUST_IGNORE_DEPRECATED_CPP_11
+#endif
+#if !defined(THRUST_IGNORE_DEPRECATED_COMPILER) && \
+     defined(CUB_IGNORE_DEPRECATED_COMPILER)
+#  define    THRUST_IGNORE_DEPRECATED_COMPILER
+#endif
+
 #ifdef THRUST_IGNORE_DEPRECATED_CPP_DIALECT
 #  define THRUST_IGNORE_DEPRECATED_CPP_11
 #  define THRUST_IGNORE_DEPRECATED_COMPILER

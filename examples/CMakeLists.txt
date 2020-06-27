@@ -51,7 +51,7 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   add_dependencies(${config_prefix}.all ${config_meta_target})
 endforeach()
 
-# Update flags to reflect RDC options. See note in ThrustCUDAConfig.cmake --
+# Update flags to reflect RDC options. See note in ThrustCudaConfig.cmake --
 # these flag variables behave unintuitively:
 if (THRUST_ENABLE_EXAMPLES_WITH_RDC)
   set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_RDC}")
@@ -61,7 +61,7 @@ endif()
 
 ## thrust_add_example
 #
-# Add a example executable and register it with ctest.
+# Add an example executable and register it with ctest.
 #
 # target_name_var: Variable name to overwrite with the name of the example
 #   target. Useful for post-processing target information per-backend.
@@ -89,7 +89,7 @@ function(thrust_add_example target_name_var example_name example_src thrust_targ
 
   # Related target names:
   set(config_meta_target ${config_prefix}.examples)
-  set(example_meta_target thrust.meta.example.${example_name})
+  set(example_meta_target thrust.all.example.${example_name})
 
   add_executable(${example_target} "${real_example_src}")
   target_link_libraries(${example_target} ${thrust_target})
@@ -99,7 +99,7 @@ function(thrust_add_example target_name_var example_name example_src thrust_targ
   # Add to the active configuration's meta target
   add_dependencies(${config_meta_target} ${example_target})
 
-  # Meta target that builds tests with this name for all configurations:
+  # Meta target that builds examples with this name for all configurations:
   if (NOT TARGET ${example_meta_target})
     add_custom_target(${example_meta_target})
   endif()

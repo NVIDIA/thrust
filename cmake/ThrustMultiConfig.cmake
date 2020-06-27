@@ -111,10 +111,5 @@ function(thrust_configure_multiconfig)
       PROPERTY STRINGS
       ${THRUST_CPP_DIALECT_OPTIONS}
     )
-
-    find_package(Thrust REQUIRED CONFIG
-      NO_DEFAULT_PATH # Only check the explicit path in HINTS:
-      HINTS "${Thrust_SOURCE_DIR}"
-    )
   endif()
 endfunction()

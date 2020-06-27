@@ -6,7 +6,7 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   add_dependencies(${config_prefix}.all ${config_meta_target})
 endforeach()
 
-# Update flags to reflect RDC options. See note in ThrustCUDAConfig.cmake --
+# Update flags to reflect RDC options. See note in ThrustCudaConfig.cmake --
 # these flag variables behave unintuitively:
 if (THRUST_ENABLE_TESTS_WITH_RDC)
   set(CMAKE_CUDA_FLAGS "${THRUST_CUDA_FLAGS_BASE} ${THRUST_CUDA_FLAGS_RDC}")
@@ -81,7 +81,7 @@ function(thrust_add_test target_name_var test_name test_src thrust_target)
   # Related target names:
   set(config_framework_target ${config_prefix}.test.framework)
   set(config_meta_target ${config_prefix}.tests)
-  set(test_meta_target thrust.meta.test.${test_name})
+  set(test_meta_target thrust.all.test.${test_name})
 
   add_executable(${test_target} "${real_test_src}")
   target_link_libraries(${test_target} ${config_framework_target})
