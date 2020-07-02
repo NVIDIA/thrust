@@ -16,7 +16,7 @@
 
 #include <utility>
 #include <new>
-#include <memory>
+#include <thrust/detail/memory_wrapper.h>
 
 namespace thrust
 {

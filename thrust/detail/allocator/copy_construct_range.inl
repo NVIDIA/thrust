@@ -24,7 +24,7 @@
 #include <thrust/distance.h>
 #include <thrust/iterator/zip_iterator.h>
 #include <thrust/for_each.h>
-#include <memory>
+#include <thrust/detail/memory_wrapper.h>
 
 namespace thrust
 {

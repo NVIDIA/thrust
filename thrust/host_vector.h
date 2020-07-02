@@ -22,7 +22,7 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <memory>
+#include <thrust/detail/memory_wrapper.h>
 #include <thrust/detail/vector_base.h>
 #include <vector>
 #include <utility>
