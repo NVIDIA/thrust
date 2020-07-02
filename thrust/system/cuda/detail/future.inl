@@ -30,7 +30,7 @@
 #include <thrust/system/cuda/detail/get_value.h>
 
 #include <type_traits>
-#include <memory>
+#include <thrust/detail/memory_wrapper.h>
 
 namespace thrust
 {

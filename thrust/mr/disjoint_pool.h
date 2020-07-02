@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include <algorithm>
+#include <thrust/detail/algorithm_wrapper.h>
 
 #include <thrust/host_vector.h>
 #include <thrust/binary_search.h>

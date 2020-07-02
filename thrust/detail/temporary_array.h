@@ -39,7 +39,7 @@ template<typename T, typename System>
 #include <thrust/detail/contiguous_storage.h>
 #include <thrust/detail/allocator/temporary_allocator.h>
 #include <thrust/detail/allocator/no_throw_allocator.h>
-#include <memory>
+#include <thrust/detail/memory_wrapper.h>
 
 namespace thrust
 {

@@ -8,7 +8,7 @@
 #include <thrust/detail/config.h>
 
 #if THRUST_CPP_DIALECT >= 2011
-#  include <memory>
+#  include <thrust/detail/memory_wrapper.h>
 #endif
 
 namespace thrust
