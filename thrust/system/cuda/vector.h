@@ -35,9 +35,6 @@ template<typename T, typename Allocator> class host_vector;
 namespace cuda_cub
 {
 
-// XXX upon c++11
-// template<typename T, typename Allocator = allocator<T> > using vector = thrust::detail::vector_base<T,Allocator>;
-
 /*! \p cuda_bulk::vector is a container that supports random access to elements,
  *  constant time removal of elements at the end, and linear time insertion
  *  and removal of elements at the beginning or in the middle. The number of
@@ -54,101 +51,7 @@ namespace cuda_cub
  *  \see device_vector
  */
 template<typename T, typename Allocator = allocator<T> >
-  class vector
-    : public thrust::detail::vector_base<T,Allocator>
-{
-  /*! \cond
-   */
-  private:
-    typedef thrust::detail::vector_base<T,Allocator> super_t;
-  /*! \endcond
-   */
-
-  public:
-
-  /*! \cond
-   */
-    typedef typename super_t::size_type  size_type;
-    typedef typename super_t::value_type value_type;
-  /*! \endcond
-   */
-
-    /*! This constructor creates an empty \p cuda_bulk::vector.
-     */
-    vector();
-
-    /*! This constructor creates a \p cuda_bulk::vector with \p n default-constructed elements.
-     *  \param n The size of the \p cuda_bulk::vector to create.
-     */
-    explicit vector(size_type n);
-
-    /*! This constructor creates a \p cuda_bulk::vector with \p n copies of \p value.
-     *  \param n The size of the \p cuda_bulk::vector to create.
-     *  \param value An element to copy.
-     */
-    explicit vector(size_type n, const value_type &value);
-
-    /*! Copy constructor copies from another \p cuda_bulk::vector.
-     *  \param x The other \p cuda_bulk::vector to copy.
-     */
-    vector(const vector &x);
-
-  #if THRUST_CPP_DIALECT >= 2011
-    /*! Move constructor moves from over another \p cuda::vector.
-     *  \param x The other \p cuda::vector to move from.
-     */
-    vector(vector &&x);
-  #endif
-
-    /*! This constructor copies from another Thrust vector-like object.
-     *  \param x The other object to copy from.
-     */
-    template<typename OtherT, typename OtherAllocator>
-    vector(const thrust::detail::vector_base<OtherT,OtherAllocator> &x);
-
-    /*! This constructor copies from a \c std::vector.
-     *  \param x The \c std::vector to copy from.
-     */
-    template<typename OtherT, typename OtherAllocator>
-    vector(const std::vector<OtherT,OtherAllocator> &x);
-
-    /*! This constructor creates a \p cuda_bulk::vector by copying from a range.
-     *  \param first The beginning of the range.
-     *  \param last The end of the range.
-     */
-    template<typename InputIterator>
-    vector(InputIterator first, InputIterator last);
-
-    /*! Assignment operator assigns from another \p cuda::vector.
-     *  \param x The other object to assign from.
-     *  \return <tt>*this</tt>
-     */
-    vector &operator=(const vector &x);
-
-  #if THRUST_CPP_DIALECT >= 2011
-    /*! Move assignment operator moves from another \p cuda::vector.
-     *  \param x The other \p cuda::vector to move from.
-     *  \return <tt>*this</tt>
-     */
-     vector &operator=(vector &&x);
-  #endif
-
-    // XXX vector_base should take a Derived type so we don't have to define these superfluous assigns
-    //
-    /*! Assignment operator assigns from a \c std::vector.
-     *  \param x The \c std::vector to assign from.
-     *  \return <tt>*this</tt>
-     */
-    template<typename OtherT, typename OtherAllocator>
-    vector &operator=(const std::vector<OtherT,OtherAllocator> &x);
-
-    /*! Assignment operator assigns from another Thrust vector-like object.
-     *  \param x The other object to assign from.
-     *  \return <tt>*this</tt>
-     */
-    template<typename OtherT, typename OtherAllocator>
-    vector &operator=(const thrust::detail::vector_base<OtherT,OtherAllocator> &x);
-}; // end vector
+using vector = thrust::detail::vector_base<T, Allocator>;
 
 } // end cuda_cub
 
@@ -167,6 +70,3 @@ using thrust::cuda_cub::vector;
 }
 
 } // end thrust
-
-#include <thrust/system/cuda/detail/vector.inl>
-
