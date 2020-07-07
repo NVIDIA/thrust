@@ -23,12 +23,105 @@
   #include <thrust/detail/type_deduction.h>
 #endif
 
+#include <memory>
 #include <new>
 
 namespace thrust
 {
 namespace detail
 {
+
+#if THRUST_CPP_DIALECT >= 2011
+
+// std::allocator's member functions are deprecated in C++17 and removed in
+// C++20, so we can't just use the generic implementation for allocator_traits
+// that calls the allocator's member functions.
+// Instead, specialize allocator_traits for std::allocator and defer to
+// std::allocator_traits<std::allocator> and let the STL do whatever it needs
+// to for the current c++ version. Manually forward the calls to suppress
+// host/device warnings.
+template <typename T>
+struct allocator_traits<std::allocator<T>>
+  : public std::allocator_traits<std::allocator<T>>
+{
+private:
+  using superclass = std::allocator_traits<std::allocator<T>>;
+
+public:
+  using allocator_type = typename superclass::allocator_type;
+  using value_type = typename superclass::value_type;
+  using pointer = typename superclass::pointer;
+  using const_pointer = typename superclass::const_pointer;
+  using void_pointer = typename superclass::void_pointer;
+  using const_void_pointer = typename superclass::const_void_pointer;
+  using difference_type = typename superclass::difference_type;
+  using size_type = typename superclass::size_type;
+  using propagate_on_container_swap = typename superclass::propagate_on_container_swap;
+  using propagate_on_container_copy_assignment =
+    typename superclass::propagate_on_container_copy_assignment;
+  using propagate_on_container_move_assignment =
+    typename superclass::propagate_on_container_move_assignment;
+
+  // std::allocator_traits added this in C++17, but thrust::allocator_traits defines
+  // it unconditionally.
+  using is_always_equal = typename eval_if<
+      allocator_traits_detail::has_is_always_equal<allocator_type>::value,
+      allocator_traits_detail::nested_is_always_equal<allocator_type>,
+      is_empty<allocator_type>
+    >::type;
+
+  template <typename U>
+  using rebind_alloc = std::allocator<U>;
+  template <typename U>
+  using rebind_traits = allocator_traits<std::allocator<U>>;
+
+  __thrust_exec_check_disable__
+  __host__ __device__
+  static pointer allocate(allocator_type &a, size_type n)
+  {
+    return superclass::allocate(a, n);
+  }
+
+  __thrust_exec_check_disable__
+  __host__ __device__
+  static pointer allocate(allocator_type &a, size_type n, const_void_pointer hint)
+  {
+    return superclass::allocate(a, n, hint);
+  }
+
+  __thrust_exec_check_disable__
+  __host__ __device__
+  static void deallocate(allocator_type &a, pointer p, size_type n)
+  {
+    superclass::deallocate(a, p, n);
+  }
+
+  __thrust_exec_check_disable__
+  template <typename U, typename ...Args>
+  __host__ __device__
+  static void construct(allocator_type &a, U *p, Args&&... args)
+  {
+    superclass::construct(a, p, THRUST_FWD(args)...);
+  }
+
+  __thrust_exec_check_disable__
+  template <typename U>
+  __host__ __device__
+  static void destroy(allocator_type &a, U *p)
+  {
+    superclass::destroy(a, p);
+  }
+
+  __thrust_exec_check_disable__
+  __host__ __device__
+  static size_type max_size(const allocator_type &a)
+  {
+    return superclass::max_size(a);
+  }
+};
+
+#endif //  C++11
+
 namespace allocator_traits_detail
 {
 
