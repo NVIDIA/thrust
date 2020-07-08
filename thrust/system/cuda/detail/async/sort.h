@@ -30,10 +30,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
+#include <thrust/detail/cpp14_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
@@ -505,6 +504,8 @@ auto async_stable_sort(
   Sentinel                         last,
   StrictWeakOrdering               comp
 )
+// A GCC 5 bug requires an explicit trailing return type here, so stick with
+// THRUST_DECLTYPE_RETURNS for now.
 THRUST_DECLTYPE_RETURNS(
   thrust::system::cuda::detail::async_stable_sort_n(
     policy, first, distance(first, last), comp

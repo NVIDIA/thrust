@@ -21,10 +21,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
+#include <thrust/detail/cpp14_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/select_system.h>
@@ -82,7 +81,7 @@ struct copy_fn final
   , OutputIt&& output
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     async_copy(
       thrust::detail::derived_cast(thrust::detail::strip_const(from_exec))
     , thrust::detail::derived_cast(thrust::detail::strip_const(to_exec))
@@ -101,7 +100,7 @@ struct copy_fn final
   , ForwardIt&& first, Sentinel&& last
   , OutputIt&& output
   )
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     copy_fn::call(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
       // Synthesize a suitable new execution policy, because we don't want to
@@ -117,7 +116,7 @@ struct copy_fn final
   template <typename ForwardIt, typename Sentinel, typename OutputIt>
   __host__
   static auto call(ForwardIt&& first, Sentinel&& last, OutputIt&& output)
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     copy_fn::call(
       thrust::detail::select_system(
         typename thrust::iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -133,7 +132,7 @@ struct copy_fn final
   template <typename... Args>
   THRUST_NODISCARD __host__
   auto operator()(Args&&... args) const
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     call(THRUST_FWD(args)...)
   )
 };

@@ -32,10 +32,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
+#include <thrust/detail/cpp14_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
@@ -198,7 +197,7 @@ auto async_reduce(
 , T                                init
 , BinaryOp                         op
 )
-THRUST_DECLTYPE_RETURNS(
+THRUST_RETURNS(
   thrust::system::cuda::detail::async_reduce_n(
     policy, first, distance(first, last), init, op
   )
@@ -335,7 +334,7 @@ auto async_reduce_into(
 , T                                init
 , BinaryOp                         op
 )
-THRUST_DECLTYPE_RETURNS(
+THRUST_RETURNS(
   thrust::system::cuda::detail::async_reduce_into_n(
     policy, first, distance(first, last), output, init, op
   )

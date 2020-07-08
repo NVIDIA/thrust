@@ -2,7 +2,7 @@
 
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #include <unittest/unittest.h>
 #include <unittest/util_async.h>
@@ -48,7 +48,7 @@ struct custom_plus
     auto operator()(                                                          \
       ForwardIt&& first, Sentinel&& last                                      \
     )                                                                         \
-    THRUST_DECLTYPE_RETURNS(                                                  \
+    THRUST_RETURNS(                                                           \
       ::thrust::async::reduce(                                                \
         __VA_ARGS__                                                           \
       )                                                                       \
@@ -76,7 +76,7 @@ struct custom_plus
     auto operator()(                                                          \
       ForwardIt&& first, Sentinel&& last                                      \
     )                                                                         \
-    THRUST_DECLTYPE_RETURNS(                                                  \
+    THRUST_RETURNS(                                                           \
       ::thrust::reduce(                                                       \
         __VA_ARGS__                                                           \
       )                                                                       \

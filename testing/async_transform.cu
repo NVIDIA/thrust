@@ -1,6 +1,6 @@
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #include <unittest/unittest.h>
 #include <unittest/util_async.h>
@@ -48,7 +48,7 @@ struct divide_by_2
       ForwardIt&& first, Sentinel&& last, OutputIt&& output                   \
     , UnaryOperation&& op                                                     \
     )                                                                         \
-    THRUST_DECLTYPE_RETURNS(                                                  \
+    THRUST_RETURNS(                                                           \
       ::thrust::async::transform(                                             \
         __VA_ARGS__                                                           \
       )                                                                       \
@@ -78,7 +78,7 @@ struct divide_by_2
       ForwardIt&& first, Sentinel&& last, OutputIt&& output                   \
     , UnaryOperation&& op                                                     \
     )                                                                         \
-    THRUST_DECLTYPE_RETURNS(                                                  \
+    THRUST_RETURNS(                                                           \
       ::thrust::transform(                                                    \
         __VA_ARGS__                                                           \
       )                                                                       \
