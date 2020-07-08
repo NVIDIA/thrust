@@ -1,6 +1,6 @@
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #include <unittest/unittest.h>
 
@@ -16,7 +16,7 @@
     auto operator()(                                                          \
       ForwardIt&& first, Sentinel&& last, UnaryFunction&& f                   \
     ) const                                                                   \
-    THRUST_DECLTYPE_RETURNS(                                                  \
+    THRUST_RETURNS(                                                           \
       ::thrust::async::for_each(                                              \
         __VA_ARGS__                                                           \
         THRUST_PP_COMMA_IF(THRUST_PP_ARITY(__VA_ARGS__))                      \

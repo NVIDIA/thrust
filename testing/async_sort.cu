@@ -1,8 +1,13 @@
 #include <thrust/detail/config.h>
 
-// Disabled on MSVC for GH issue #1098
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC) && \
-  THRUST_HOST_COMPILER != THRUST_HOST_COMPILER_MSVC
+// Disabled on MSVC && NVCC < 11.1 for GH issue #1098.
+#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && defined(__CUDACC__)
+#if (__CUDACC_VER_MAJOR__ < 11) || (__CUDACC_VER_MAJOR__ == 11 && __CUDACC_VER_MINOR__ < 1)
+#define THRUST_BUG_1098_ACTIVE
+#endif // NVCC version check
+#endif // MSVC + NVCC check
+
+#if THRUST_CPP_DIALECT >= 2014 && !defined(THRUST_BUG_1098_ACTIVE)
 
 #include <unittest/unittest.h>
 
@@ -50,7 +55,7 @@ struct custom_greater
     static auto async(                                                        \
       ForwardIt&& first, Sentinel&& last                                      \
     )                                                                         \
-    THRUST_DECLTYPE_RETURNS(                                                  \
+    THRUST_RETURNS(                                                           \
       ::thrust::async::sort(                                                  \
         __VA_ARGS__                                                           \
         THRUST_PP_COMMA_IF(THRUST_PP_ARITY(__VA_ARGS__))                      \
@@ -91,7 +96,7 @@ DEFINE_SORT_INVOKER(
     static auto async(                                                        \
       ForwardIt&& first, Sentinel&& last                                      \
     )                                                                         \
-    THRUST_DECLTYPE_RETURNS(                                                  \
+    THRUST_RETURNS(                                                           \
       ::thrust::async::sort(                                                  \
         __VA_ARGS__                                                           \
         THRUST_PP_COMMA_IF(THRUST_PP_ARITY(__VA_ARGS__))                      \

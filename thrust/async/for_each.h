@@ -21,10 +21,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
+#include <thrust/detail/cpp14_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/select_system.h>
@@ -79,7 +78,7 @@ struct for_each_fn final
   , UnaryFunction&& f 
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     async_for_each(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
@@ -90,7 +89,7 @@ struct for_each_fn final
   template <typename ForwardIt, typename Sentinel, typename UnaryFunction>
   __host__
   static auto call(ForwardIt&& first, Sentinel&& last, UnaryFunction&& f) 
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     for_each_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -103,7 +102,7 @@ struct for_each_fn final
   template <typename... Args>
   THRUST_NODISCARD __host__
   auto operator()(Args&&... args) const
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     call(THRUST_FWD(args)...)
   )
 };

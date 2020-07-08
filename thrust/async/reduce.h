@@ -21,10 +21,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
+#include <thrust/detail/cpp14_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #include <thrust/detail/static_assert.h>
 #include <thrust/detail/select_system.h>
@@ -82,7 +81,7 @@ struct reduce_fn final
   , BinaryOp&& op
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     async_reduce(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
@@ -103,7 +102,7 @@ struct reduce_fn final
   , thrust::true_type
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     async_reduce(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
@@ -124,7 +123,7 @@ struct reduce_fn final
   , thrust::true_type
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     async_reduce(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
@@ -143,7 +142,7 @@ struct reduce_fn final
                     T&& init,
                     BinaryOp&& op,
                     thrust::false_type)
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -159,7 +158,7 @@ struct reduce_fn final
   static auto call3(ForwardIt&& first, Sentinel&& last,
                     T&& init,
                     thrust::false_type)
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -176,7 +175,7 @@ struct reduce_fn final
   template <typename T1, typename T2, typename T3>
   __host__
   static auto call(T1&& t1, T2&& t2, T3&& t3)
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_fn::call3(THRUST_FWD(t1), THRUST_FWD(t2), THRUST_FWD(t3),
                      thrust::is_execution_policy<thrust::remove_cvref_t<T1>>{})
   )
@@ -184,7 +183,7 @@ struct reduce_fn final
   template <typename T1, typename T2, typename T3, typename T4>
   __host__
   static auto call(T1&& t1, T2&& t2, T3&& t3, T4&& t4)
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_fn::call4(THRUST_FWD(t1), THRUST_FWD(t2), THRUST_FWD(t3), THRUST_FWD(t4),
                      thrust::is_execution_policy<thrust::remove_cvref_t<T1>>{})
   )
@@ -192,7 +191,7 @@ struct reduce_fn final
   template <typename ForwardIt, typename Sentinel>
   __host__
   static auto call(ForwardIt&& first, Sentinel&& last)
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -210,7 +209,7 @@ struct reduce_fn final
   template <typename... Args>
   THRUST_NODISCARD __host__ 
   auto operator()(Args&&... args) const
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     call(THRUST_FWD(args)...)
   )
 };
@@ -266,7 +265,7 @@ struct reduce_into_fn final
   , BinaryOp&& op
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     async_reduce_into(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
@@ -290,7 +289,7 @@ struct reduce_into_fn final
   , thrust::true_type
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     async_reduce_into(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
@@ -313,7 +312,7 @@ struct reduce_into_fn final
   , thrust::true_type
   )
   // ADL dispatch.
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     async_reduce_into(
       thrust::detail::derived_cast(thrust::detail::strip_const(exec))
     , THRUST_FWD(first), THRUST_FWD(last)
@@ -339,7 +338,7 @@ struct reduce_into_fn final
   , BinaryOp&& op
   , thrust::false_type
   )
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_into_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -363,7 +362,7 @@ struct reduce_into_fn final
   , T&& init
   , thrust::false_type
   )
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_into_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -384,7 +383,7 @@ struct reduce_into_fn final
     ForwardIt&& first, Sentinel&& last
   , OutputIt&& output
   )
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_into_fn::call(
       thrust::detail::select_system(
         typename iterator_system<remove_cvref_t<ForwardIt>>::type{}
@@ -407,7 +406,7 @@ struct reduce_into_fn final
   template <typename T1, typename T2, typename T3, typename T4>
   __host__
   static auto call(T1&& t1, T2&& t2, T3&& t3, T4&& t4)
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_into_fn::call4(
       THRUST_FWD(t1), THRUST_FWD(t2), THRUST_FWD(t3), THRUST_FWD(t4),
       thrust::is_execution_policy<thrust::remove_cvref_t<T1>>{})
@@ -416,7 +415,7 @@ struct reduce_into_fn final
   template <typename T1, typename T2, typename T3, typename T4, typename T5>
   __host__
   static auto call(T1&& t1, T2&& t2, T3&& t3, T4&& t4, T5&& t5)
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     reduce_into_fn::call5(
       THRUST_FWD(t1), THRUST_FWD(t2), THRUST_FWD(t3), THRUST_FWD(t4),
       THRUST_FWD(t5), thrust::is_execution_policy<thrust::remove_cvref_t<T1>>{})
@@ -425,7 +424,7 @@ struct reduce_into_fn final
   template <typename... Args>
   THRUST_NODISCARD __host__ 
   auto operator()(Args&&... args) const
-  THRUST_DECLTYPE_RETURNS(
+  THRUST_RETURNS(
     call(THRUST_FWD(args)...)
   )
 };

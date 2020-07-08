@@ -31,10 +31,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
+#include <thrust/detail/cpp14_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
@@ -144,7 +143,7 @@ auto async_for_each(
   Sentinel                         last,
   UnaryFunction&&                  func
 )
-THRUST_DECLTYPE_RETURNS(
+THRUST_RETURNS(
   thrust::system::cuda::detail::async_for_each_n(
     policy, first, distance(first, last), THRUST_FWD(func)
   )

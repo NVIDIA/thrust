@@ -30,10 +30,9 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/cpp11_required.h>
-#include <thrust/detail/modern_gcc_required.h>
+#include <thrust/detail/cpp14_required.h>
 
-#if THRUST_CPP_DIALECT >= 2011 && !defined(THRUST_LEGACY_GCC)
+#if THRUST_CPP_DIALECT >= 2014
 
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 
@@ -64,7 +63,7 @@ template <typename DerivedPolicy>
 auto get_async_host_allocator(
   thrust::detail::execution_policy_base<DerivedPolicy>&
 )
-THRUST_DECLTYPE_RETURNS(
+THRUST_RETURNS(
   thrust::mr::stateless_resource_allocator<
     thrust::detail::uint8_t, default_async_host_resource
   >{}
@@ -82,7 +81,7 @@ template <typename DerivedPolicy>
 auto get_async_device_allocator(
   thrust::detail::execution_policy_base<DerivedPolicy>&
 )
-THRUST_DECLTYPE_RETURNS(
+THRUST_RETURNS(
   thrust::per_device_allocator<
     thrust::detail::uint8_t, default_async_device_resource, par_t
   >{}
@@ -92,7 +91,7 @@ template <typename Allocator, template <typename> class BaseSystem>
 auto get_async_device_allocator(
   thrust::detail::execute_with_allocator<Allocator, BaseSystem>& exec
 )
-THRUST_DECLTYPE_RETURNS(exec.get_allocator())
+THRUST_RETURNS(exec.get_allocator())
 
 template <typename Allocator, template <typename> class BaseSystem>
 auto get_async_device_allocator(
@@ -100,7 +99,7 @@ auto get_async_device_allocator(
     Allocator, BaseSystem
   >& exec
 )
-THRUST_DECLTYPE_RETURNS(exec.get_allocator())
+THRUST_RETURNS(exec.get_allocator())
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -113,7 +112,7 @@ template <typename DerivedPolicy>
 auto get_async_universal_host_pinned_allocator(
   thrust::detail::execution_policy_base<DerivedPolicy>&
 )
-THRUST_DECLTYPE_RETURNS(
+THRUST_RETURNS(
   thrust::mr::stateless_resource_allocator<
     thrust::detail::uint8_t, default_async_universal_host_pinned_resource
   >{}

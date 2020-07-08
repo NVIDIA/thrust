@@ -46,6 +46,7 @@ if len(headers) == 0:
     print('#error no include files found\n')
 
 print('#define THRUST_CPP11_REQUIRED_NO_ERROR')
+print('#define THRUST_CPP14_REQUIRED_NO_ERROR')
 print('#define THRUST_MODERN_GCC_REQUIRED_NO_ERROR')
 for h in headers:
     print('#include <' + h + '>')
