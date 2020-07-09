@@ -116,6 +116,7 @@ function(thrust_build_compiler_targets)
   foreach (cxx_option IN LISTS cxx_compile_options)
     target_compile_options(thrust.compiler_interface INTERFACE
       $<$<COMPILE_LANGUAGE:CXX>:${cxx_option}>
+      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:Feta>>:${cxx_option}>
       # Only use -Xcompiler with NVCC, not Feta.
       #
       # CMake can't split genexs, so this can't be formatted better :(
