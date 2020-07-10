@@ -76,12 +76,10 @@ auto async_reduce_n(
     = typename thrust::detail::allocator_traits<decltype(device_alloc)>::
       template rebind_traits<U>::pointer;
 
-  unique_eager_future_promise_pair<U, pointer> fp;
-
   // Determine temporary device storage requirements.
 
   size_t tmp_size = 0;
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     cub::DeviceReduce::Reduce(
       nullptr
     , tmp_size
@@ -115,32 +113,7 @@ auto async_reduce_n(
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
-
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
-  {
-    fp = make_dependent_future<U, pointer>(
-      [] (decltype(content) const& c)
-      {
-        return pointer(
-          thrust::detail::aligned_reinterpret_cast<U*>(
-            raw_pointer_cast(c.get())
-          )
-        );
-      }
-    , std::tuple_cat(
-        std::make_tuple(
-          std::move(content)
-        , unique_stream(nonowning, user_raw_stream)
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
-      )
-    );
-  }
-  else
-  {
+  unique_eager_future_promise_pair<U, pointer>
     fp = make_dependent_future<U, pointer>(
       [] (decltype(content) const& c)
       {
@@ -154,16 +127,13 @@ auto async_reduce_n(
         std::make_tuple(
           std::move(content)
         )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
+      , extract_dependencies(std::move(policy))
       )
     );
-  }
 
   // Run reduction.
 
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     cub::DeviceReduce::Reduce(
       tmp_ptr
     , tmp_size
@@ -229,12 +199,10 @@ auto async_reduce_into_n(
 
   auto const device_alloc = get_async_device_allocator(policy);
 
-  unique_eager_event e;
-
   // Determine temporary device storage requirements.
 
   size_t tmp_size = 0;
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     cub::DeviceReduce::Reduce(
       nullptr
     , tmp_size
@@ -266,39 +234,19 @@ auto async_reduce_into_n(
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
-
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
-  {
-    e = make_dependent_event(
-      std::tuple_cat(
-        std::make_tuple(
-          std::move(content)
-        , unique_stream(nonowning, user_raw_stream)
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
-      )
-    );
-  }
-  else
-  {
+  unique_eager_event
     e = make_dependent_event(
       std::tuple_cat(
         std::make_tuple(
           std::move(content)
         )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
+      , extract_dependencies(std::move(policy))
       )
     );
-  }
 
   // Run reduction.
 
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     cub::DeviceReduce::Reduce(
       tmp_ptr
     , tmp_size

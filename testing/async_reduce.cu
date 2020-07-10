@@ -376,11 +376,12 @@ struct test_async_reduce
       invoke_async.validate_event(f0c);
       invoke_async.validate_event(f0d);
 
-      // This potentially runs concurrently with the copies.
-      auto const r0 = invoke_sync(h0.begin(), h0.end());
-
       auto const r1a = TEST_FUTURE_VALUE_RETRIEVAL(f0a);
       auto const r1b = TEST_FUTURE_VALUE_RETRIEVAL(f0b);
+
+      // This potentially runs concurrently with the asynchronous algorithms.
+      auto const r0 = invoke_sync(h0.begin(), h0.end());
+
       auto const r1c = TEST_FUTURE_VALUE_RETRIEVAL(f0c);
       auto const r1d = TEST_FUTURE_VALUE_RETRIEVAL(f0d);
 
@@ -626,11 +627,12 @@ struct test_async_reduce_counting_iterator
       invoke_async.validate_event(f0c);
       invoke_async.validate_event(f0d);
 
-      // This potentially runs concurrently with the copies.
-      auto const r0 = invoke_sync(first, last);
-
       auto const r1a = TEST_FUTURE_VALUE_RETRIEVAL(f0a);
       auto const r1b = TEST_FUTURE_VALUE_RETRIEVAL(f0b);
+
+      // This potentially runs concurrently with the asynchronous algorithms.
+      auto const r0 = invoke_sync(first, last);
+
       auto const r1c = TEST_FUTURE_VALUE_RETRIEVAL(f0c);
       auto const r1d = TEST_FUTURE_VALUE_RETRIEVAL(f0d);
 
@@ -751,11 +753,12 @@ struct test_async_reduce_using
       f0b = reduce(d0b.begin(), d0b.end());
     }
 
+    T const r1a = TEST_FUTURE_VALUE_RETRIEVAL(f0a);
+
     // ADL should find the synchronous algorithms.
-    // This potentially runs concurrently with the copies.
+    // This potentially runs concurrently with the asynchronous algorithms.
     T const r0 = reduce(h0.begin(), h0.end());
 
-    T const r1a = TEST_FUTURE_VALUE_RETRIEVAL(f0a);
     T const r1b = TEST_FUTURE_VALUE_RETRIEVAL(f0b);
 
     ASSERT_EQUAL(r0, r1a);
@@ -785,14 +788,14 @@ struct test_async_reduce_after
     );
 
     ASSERT_EQUAL(true, f0.valid_stream());
- 
+
     auto const f0_stream = f0.stream().native_handle();
 
     auto f1 = thrust::async::reduce(
       thrust::device.after(f0), d0.begin(), d0.end()
     );
 
-    // Verify that double consumption of a future produces an exception.
+    // Verify that double consumption of a policy produces an exception.
     ASSERT_THROWS_EQUAL(
       auto x = thrust::async::reduce(
         thrust::device.after(f0), d0.begin(), d0.end()
@@ -822,10 +825,9 @@ struct test_async_reduce_after
 
     ASSERT_EQUAL_QUIET(f0_stream, f2.stream().native_handle());
 
-    // This potentially runs concurrently with the copies.
-    T const r0 = thrust::reduce(h0.begin(), h0.end());
-
     T const r1 = TEST_FUTURE_VALUE_RETRIEVAL(f2);
+
+    T const r0 = thrust::reduce(h0.begin(), h0.end());
 
     ASSERT_EQUAL(r0, r1);
   }
@@ -863,7 +865,7 @@ struct test_async_reduce_on_then_after
       thrust::device.after(f0), d0.begin(), d0.end()
     );
 
-    // Verify that double consumption of a future produces an exception.
+    // Verify that double consumption of a policy produces an exception.
     ASSERT_THROWS_EQUAL(
       auto x = thrust::async::reduce(
         thrust::device.after(f0), d0.begin(), d0.end()
@@ -893,10 +895,9 @@ struct test_async_reduce_on_then_after
 
     ASSERT_EQUAL_QUIET(stream, f2.stream().native_handle());
 
-    // This potentially runs concurrently with the copies.
-    T const r0 = thrust::reduce(h0.begin(), h0.end());
-
     T const r1 = TEST_FUTURE_VALUE_RETRIEVAL(f2);
+
+    T const r0 = thrust::reduce(h0.begin(), h0.end());
 
     ASSERT_EQUAL(r0, r1);
 
@@ -977,10 +978,9 @@ struct test_async_reduce_allocator_on_then_after
     // `.on`, and `.after`.
     ASSERT_EQUAL_QUIET(stream1, f2.stream().native_handle());
 
-    // This potentially runs concurrently with the copies.
-    T const r0 = thrust::reduce(h0.begin(), h0.end());
-
     T const r1 = TEST_FUTURE_VALUE_RETRIEVAL(f2);
+
+    T const r0 = thrust::reduce(h0.begin(), h0.end());
 
     ASSERT_EQUAL(r0, r1);
 
@@ -1029,10 +1029,9 @@ struct test_async_reduce_caching
 
       ASSERT_EQUAL_QUIET(f0_raw_data, f1.raw_data());
 
-      // This potentially runs concurrently with the copies.
-      T const r0 = thrust::reduce(h0.begin(), h0.end());
-
       T const r1 = TEST_FUTURE_VALUE_RETRIEVAL(f1);
+
+      T const r0 = thrust::reduce(h0.begin(), h0.end());
 
       ASSERT_EQUAL(r0, r1);
     }
@@ -1109,11 +1108,12 @@ struct test_async_copy_then_reduce
     ASSERT_EQUAL_QUIET(f0c_stream, f1c.stream().native_handle());
     ASSERT_EQUAL_QUIET(f0d_stream, f1d.stream().native_handle());
 
-    // This potentially runs concurrently with the copies.
-    T const r0 = thrust::reduce(h0a.begin(), h0a.end());
-
     T const r1a = TEST_FUTURE_VALUE_RETRIEVAL(f1a);
     T const r1b = TEST_FUTURE_VALUE_RETRIEVAL(f1b);
+
+    // This potentially runs concurrently with the asynchronous algorithms.
+    T const r0 = thrust::reduce(h0a.begin(), h0a.end());
+
     T const r1c = TEST_FUTURE_VALUE_RETRIEVAL(f1c);
     T const r1d = TEST_FUTURE_VALUE_RETRIEVAL(f1d);
 

@@ -718,7 +718,7 @@ namespace __partition {
 
     size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -733,7 +733,7 @@ namespace __partition {
                        num_items,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "partition failed on 1st step");
+    throw_on_error(status, "partition failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
@@ -744,7 +744,7 @@ namespace __partition {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "partition failed on 1st alias_storage");
+    throw_on_error(status, "partition failed on 1st alias_storage");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -755,7 +755,7 @@ namespace __partition {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "partition failed on 2nd alias_storage");
+    throw_on_error(status, "partition failed on 2nd alias_storage");
 
     size_type* d_num_selected_out
       = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
@@ -771,10 +771,9 @@ namespace __partition {
                        num_items,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "partition failed on 2nd step");
+    throw_on_error(status, "partition failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "partition failed to synchronize");
+    synchronize(policy, "partition failed to synchronize");
 
     size_type num_selected = 0;
     if (num_items > 0)
@@ -845,7 +844,7 @@ partition_copy(execution_policy<Derived> &policy,
                Predicate                  predicate)
 {
   pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __partition::partition(policy,
                             first,
@@ -857,7 +856,7 @@ partition_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
                                  first,
                                  last,
@@ -885,7 +884,7 @@ partition_copy(execution_policy<Derived> &policy,
                Predicate                  predicate)
 {
   pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __partition::partition(policy,
                                  first,
@@ -897,7 +896,7 @@ partition_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::partition_copy(cvt_to_seq(derived_cast(policy)),
                                  first,
                                  last,
@@ -924,7 +923,7 @@ stable_partition_copy(execution_policy<Derived> &policy,
                       Predicate                  predicate)
 {
   pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __partition::partition(policy,
                                  first,
@@ -936,7 +935,7 @@ stable_partition_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
                                         first,
                                         last,
@@ -965,7 +964,7 @@ stable_partition_copy(execution_policy<Derived> &policy,
                       Predicate                  predicate)
 {
   pair<SelectedOutIt, RejectedOutIt> ret = thrust::make_pair(selected_result, rejected_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __partition::partition(policy,
                                  first,
@@ -977,7 +976,7 @@ stable_partition_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::stable_partition_copy(cvt_to_seq(derived_cast(policy)),
                                         first,
                                         last,
@@ -1005,13 +1004,13 @@ partition(execution_policy<Derived> &policy,
           Predicate                  predicate)
 {
   Iterator ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __partition::partition_inplace(policy, first, last, stencil, predicate);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::partition(cvt_to_seq(derived_cast(policy)),
                             first,
                             last,
@@ -1033,7 +1032,7 @@ partition(execution_policy<Derived> &policy,
           Predicate                  predicate)
 {
   Iterator ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __partition::partition_inplace(policy,
                                          first,
@@ -1043,7 +1042,7 @@ partition(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::partition(cvt_to_seq(derived_cast(policy)),
                             first,
                             last,
@@ -1066,7 +1065,7 @@ stable_partition(execution_policy<Derived> &policy,
                  Predicate                  predicate)
 {
   Iterator result = first;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     result = __partition::partition_inplace(policy,
                                     first,
@@ -1080,7 +1079,7 @@ stable_partition(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     result = thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
                                       first,
                                       last,
@@ -1102,7 +1101,7 @@ stable_partition(execution_policy<Derived> &policy,
                  Predicate                  predicate)
 {
   Iterator result = first;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     result = __partition::partition_inplace(policy,
                                        first,
@@ -1116,7 +1115,7 @@ stable_partition(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     result = thrust::stable_partition(cvt_to_seq(derived_cast(policy)),
                                       first,
                                       last,

@@ -710,7 +710,7 @@ namespace __scan {
       return output_it;
 
     size_t       storage_size = 0;
-    cudaStream_t stream       = cuda_cub::stream(policy);
+    cudaStream_t stream       = get_raw_stream(policy);
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -726,7 +726,7 @@ namespace __scan {
                                 scan_op,
                                 stream,
                                 debug_sync));
-    cuda_cub::throw_on_error(status, "scan failed on 1st step");
+    throw_on_error(status, "scan failed on 1st step");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -745,10 +745,9 @@ namespace __scan {
                                 scan_op,
                                 stream,
                                 debug_sync));
-    cuda_cub::throw_on_error(status, "scan failed on 2nd step");
+    throw_on_error(status, "scan failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "scan failed to synchronize");
+    synchronize(policy, "scan failed to synchronize");
 
     return output_it + num_items;
   }    // func scan
@@ -773,7 +772,7 @@ inclusive_scan_n(execution_policy<Derived> &policy,
                  ScanOp                     scan_op)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typedef typename iterator_traits<InputIt>::value_type T;
     ret = __scan::scan<thrust::detail::true_type>(policy,
@@ -785,7 +784,7 @@ inclusive_scan_n(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::inclusive_scan(cvt_to_seq(derived_cast(policy)),
                                  first,
                                  first + num_items,
@@ -847,7 +846,7 @@ exclusive_scan_n(execution_policy<Derived> &policy,
                  ScanOp                     scan_op)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __scan::scan<thrust::detail::false_type>(
         policy,
@@ -859,7 +858,7 @@ exclusive_scan_n(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::exclusive_scan(cvt_to_seq(derived_cast(policy)),
                                  first,
                                  first + num_items,

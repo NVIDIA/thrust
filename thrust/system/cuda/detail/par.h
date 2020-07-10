@@ -27,124 +27,44 @@
 #pragma once
 
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
-#include <thrust/system/cuda/detail/util.h>
-
+#include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/detail/allocator_aware_execution_policy.h>
-
-#if THRUST_CPP_DIALECT >= 2011
-#  include <thrust/detail/dependencies_aware_execution_policy.h>
-#endif
-
+#include <thrust/detail/dependencies_aware_execution_policy.h>
 
 namespace thrust
 {
-namespace cuda_cub {
-
-template <class Derived>
-struct execute_on_stream_base : execution_policy<Derived>
+namespace system
 {
-private:
-  cudaStream_t stream;
-
-public:
-  __host__ __device__
-  execute_on_stream_base(cudaStream_t stream_ = default_stream())
-      : stream(stream_) {}
-
-  THRUST_RUNTIME_FUNCTION
-  Derived
-  on(cudaStream_t const &s) const
-  {
-    Derived result = derived_cast(*this);
-    result.stream  = s;
-    return result;
-  }
-
-private:
-  friend __host__ __device__
-  cudaStream_t
-  get_stream(const execute_on_stream_base &exec)
-  {
-    return exec.stream;
-  }
-
-  friend __host__ __device__
-  cudaError_t
-  synchronize_stream(execute_on_stream_base &exec)
-  {
-    cudaError_t result;
-    if (THRUST_IS_HOST_CODE) {
-      #if THRUST_INCLUDE_HOST_CODE
-        cudaStreamSynchronize(exec.stream);
-        result = cudaGetLastError();
-      #endif
-    } else {
-      #if THRUST_INCLUDE_DEVICE_CODE
-        #if __THRUST_HAS_CUDART__
-          THRUST_UNUSED_VAR(exec);
-          cudaDeviceSynchronize();
-          result = cudaGetLastError();
-        #else
-          THRUST_UNUSED_VAR(exec);
-          result = cudaSuccess;
-        #endif
-      #endif
-    }
-    return result;
-  }
-};
-
-struct execute_on_stream : execute_on_stream_base<execute_on_stream>
+namespace cuda
 {
-  typedef execute_on_stream_base<execute_on_stream> base_t;
+namespace detail
+{
 
-  __host__ __device__
-  execute_on_stream() : base_t(){};
-  __host__ __device__
-  execute_on_stream(cudaStream_t stream) : base_t(stream){};
-};
-
-
-struct par_t : execution_policy<par_t>,
+struct par_t : thrust::system::cuda::execution_policy<par_t>,
   thrust::detail::allocator_aware_execution_policy<
-    execute_on_stream_base>
-#if THRUST_CPP_DIALECT >= 2011
+    thrust::system::cuda::execution_policy>
 , thrust::detail::dependencies_aware_execution_policy<
-    execute_on_stream_base>
-#endif
+    thrust::system::cuda::execution_policy>
 {
-  typedef execution_policy<par_t> base_t;
+  using base_t = execution_policy<par_t>;
 
   __host__ __device__
   THRUST_CONSTEXPR par_t() : base_t() {}
-
-  typedef execute_on_stream stream_attachment_type;
-
-  THRUST_RUNTIME_FUNCTION
-  stream_attachment_type
-  on(cudaStream_t const &stream) const
-  {
-    return execute_on_stream(stream);
-  }
 };
 
-THRUST_INLINE_CONSTANT par_t par;
-}    // namespace cuda_
+} // namespace detail
 
-namespace system {
-namespace cuda {
-  using thrust::cuda_cub::par;
-  namespace detail {
-    using thrust::cuda_cub::par_t;
-  }
-} // namesapce cuda
-} // namespace system
+THRUST_INLINE_CONSTANT detail::par_t par;
 
-namespace cuda {
-using thrust::cuda_cub::par;
+}} // namespace system::cuda
+
+namespace cuda
+{
+
+using thrust::system::cuda::par;
+
 } // namespace cuda
 
-} // end namespace thrust
+} // namespace thrust
 

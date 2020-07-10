@@ -31,6 +31,7 @@
 #include <thrust/system/cuda/config.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
 #include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/system/cuda/error.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <cub/block/block_load.cuh>
 #include <cub/block/block_store.cuh>
@@ -360,7 +361,7 @@ namespace core {
       // code without device-side kernel launches. NVCC and Feta check for
       // these situations differently.
       #ifdef __NVCOMPILER_CUDA__
-        #ifdef __THRUST_HAS_CUDART__
+        #ifdef THRUST_HAS_CUDART
           if (CUB_IS_DEVICE_CODE) {
             return typename get_plan<Agent>::type(typename Agent::ptx_plan());
           } else
@@ -369,7 +370,7 @@ namespace core {
           return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
         }
       #else
-        #if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
+        #if (CUB_PTX_ARCH > 0) && defined(THRUST_HAS_CUDART)
           typedef typename get_plan<Agent>::type Plan;
           THRUST_UNUSED_VAR(ptx_version);
           // We're on device, use default policy
@@ -465,18 +466,18 @@ namespace core {
   int get_sm_count()
   {
     int dev_id;
-    cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
-                             "get_sm_count :"
-                             "failed to cudaGetDevice");
+    throw_on_error(cudaGetDevice(&dev_id),
+                   "get_sm_count :"
+                   "failed to cudaGetDevice");
 
     cudaError_t status;
     int         i32value;
     status = cudaDeviceGetAttribute(&i32value,
                                     cudaDevAttrMultiProcessorCount,
                                     dev_id);
-    cuda_cub::throw_on_error(status,
-                             "get_sm_count:"
-                             "failed to sm_count");
+    throw_on_error(status,
+                   "get_sm_count:"
+                   "failed to sm_count");
     return i32value;
   }
 
@@ -484,18 +485,18 @@ namespace core {
   get_max_shared_memory_per_block()
   {
     int dev_id;
-    cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
-                             "get_max_shared_memory_per_block :"
-                             "failed to cudaGetDevice");
+    throw_on_error(cudaGetDevice(&dev_id),
+                   "get_max_shared_memory_per_block :"
+                   "failed to cudaGetDevice");
 
     cudaError_t status;
     int         i32value;
     status = cudaDeviceGetAttribute(&i32value,
                                     cudaDevAttrMaxSharedMemoryPerBlock,
                                     dev_id);
-    cuda_cub::throw_on_error(status,
-                             "get_max_shared_memory_per_block :"
-                             "failed to get max shared memory per block");
+    throw_on_error(status,
+                   "get_max_shared_memory_per_block :"
+                   "failed to get max shared memory per block");
 
     return static_cast<size_t>(i32value);
   }

@@ -12,8 +12,8 @@
 
 enum wait_policy
 {
-  wait_for_futures
-, do_not_wait_for_futures
+  wait_for_events
+, do_not_wait_for_events
 };
 
 template <typename T>
@@ -105,21 +105,21 @@ DEFINE_SORT_OP_INVOKER(
   sort_invoker_less,        thrust::less
 );
 DEFINE_SORT_OP_INVOKER(
-  sort_invoker_less_device, thrust::less, thrust::device 
+  sort_invoker_less_device, thrust::less, thrust::device
 );
 
 DEFINE_SORT_OP_INVOKER(
   sort_invoker_greater,        thrust::greater
 );
 DEFINE_SORT_OP_INVOKER(
-  sort_invoker_greater_device, thrust::greater, thrust::device 
+  sort_invoker_greater_device, thrust::greater, thrust::device
 );
 
 DEFINE_SORT_OP_INVOKER(
   sort_invoker_custom_greater,        custom_greater
 );
 DEFINE_SORT_OP_INVOKER(
-  sort_invoker_custom_greater_device, custom_greater, thrust::device 
+  sort_invoker_custom_greater_device, custom_greater, thrust::device
 );
 
 #undef DEFINE_SORT_INVOKER
@@ -136,24 +136,24 @@ struct test_async_sort
     __host__
     void operator()(std::size_t n)
     {
-      thrust::host_vector<T>   h0_data(unittest::random_integers<T>(n));
-      thrust::device_vector<T> d0_data(h0_data);
+      thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
+      thrust::device_vector<T> d0(h0);
 
-      ASSERT_EQUAL(h0_data, d0_data);
+      ASSERT_EQUAL(h0, d0);
 
       SortInvoker<T>::sync(
-        h0_data.begin(), h0_data.end()
+        h0.begin(), h0.end()
       );
 
-      auto f0 = SortInvoker<T>::async(
-        d0_data.begin(), d0_data.end()
+      auto e0 = SortInvoker<T>::async(
+        d0.begin(), d0.end()
       );
 
-      if (wait_for_futures == WaitPolicy)
+      if (wait_for_events == WaitPolicy)
       {
-        f0.wait();
+        TEST_EVENT_WAIT(e0);
 
-        ASSERT_EQUAL(h0_data, d0_data);
+        ASSERT_EQUAL(h0, d0);
       }
     }
   };
@@ -162,7 +162,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker
-    , wait_for_futures
+    , wait_for_events
     >::tester
   )
 , NumericTypes
@@ -172,7 +172,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker
-    , do_not_wait_for_futures
+    , do_not_wait_for_events
     >::tester
   )
 , NumericTypes
@@ -182,7 +182,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_device
-    , wait_for_futures
+    , wait_for_events
     >::tester
   )
 , NumericTypes
@@ -192,7 +192,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_device
-    , do_not_wait_for_futures
+    , do_not_wait_for_events
     >::tester
   )
 , NumericTypes
@@ -202,7 +202,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_less
-    , wait_for_futures
+    , wait_for_events
     >::tester
   )
 , NumericTypes
@@ -212,7 +212,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_less
-    , do_not_wait_for_futures
+    , do_not_wait_for_events
     >::tester
   )
 , NumericTypes
@@ -222,7 +222,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_less_device
-    , wait_for_futures
+    , wait_for_events
     >::tester
   )
 , NumericTypes
@@ -232,7 +232,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_less_device
-    , do_not_wait_for_futures
+    , do_not_wait_for_events
     >::tester
   )
 , NumericTypes
@@ -242,7 +242,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_greater
-    , wait_for_futures
+    , wait_for_events
     >::tester
   )
 , NumericTypes
@@ -252,7 +252,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_greater
-    , do_not_wait_for_futures
+    , do_not_wait_for_events
     >::tester
   )
 , NumericTypes
@@ -262,7 +262,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_greater_device
-    , wait_for_futures
+    , wait_for_events
     >::tester
   )
 , NumericTypes
@@ -272,7 +272,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_greater_device
-    , do_not_wait_for_futures
+    , do_not_wait_for_events
     >::tester
   )
 , NumericTypes
@@ -282,7 +282,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_custom_greater
-    , wait_for_futures
+    , wait_for_events
     >::tester
   )
 , NumericTypes
@@ -292,7 +292,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_custom_greater
-    , do_not_wait_for_futures
+    , do_not_wait_for_events
     >::tester
   )
 , NumericTypes
@@ -302,7 +302,7 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_custom_greater_device
-    , wait_for_futures
+    , wait_for_events
     >::tester
   )
 , NumericTypes
@@ -312,11 +312,81 @@ DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES_AND_NAME(
   THRUST_PP_EXPAND_ARGS(
     test_async_sort<
       sort_invoker_custom_greater_device
-    , do_not_wait_for_futures
+    , do_not_wait_for_events
     >::tester
   )
 , NumericTypes
 , test_async_sort_policy_custom_greater_no_wait
+);
+
+///////////////////////////////////////////////////////////////////////////////
+
+template <typename T>
+struct test_async_sort_after
+{
+  __host__
+  void operator()(std::size_t n)
+  {
+    thrust::host_vector<T>   h0(unittest::random_integers<T>(n));
+    thrust::device_vector<T> d0(h0);
+    thrust::device_vector<T> d1(h0);
+
+    ASSERT_EQUAL(h0, d0);
+    ASSERT_EQUAL(h0, d1);
+
+    auto e0 = thrust::async::sort(
+      d0.begin(), d0.end()
+    );
+
+    ASSERT_EQUAL(true, e0.valid_stream());
+
+    auto const e0_stream = e0.stream().native_handle();
+
+    auto e1 = thrust::async::sort(
+      thrust::device.after(e0), d0.begin(), d0.end()
+    );
+
+    // Verify that double consumption of a policy produces an exception.
+    ASSERT_THROWS_EQUAL(
+      auto x = thrust::async::sort(
+        thrust::device.after(e0), d0.begin(), d0.end()
+      );
+      THRUST_UNUSED_VAR(x)
+    , thrust::event_error
+    , thrust::event_error(thrust::event_errc::no_state)
+    );
+
+    ASSERT_EQUAL_QUIET(e0_stream, e1.stream().native_handle());
+
+    auto after_policy2 = thrust::device.after(e1);
+
+    auto e2 = thrust::async::sort(
+      after_policy2, d1.begin(), d1.end()
+    );
+
+    // Verify that double consumption of a policy produces an exception.
+    ASSERT_THROWS_EQUAL(
+      auto x = thrust::async::sort(
+        after_policy2, d1.begin(), d1.end()
+      );
+      THRUST_UNUSED_VAR(x)
+    , thrust::event_error
+    , thrust::event_error(thrust::event_errc::no_state)
+    );
+
+    ASSERT_EQUAL_QUIET(e0_stream, e2.stream().native_handle());
+
+    TEST_EVENT_WAIT(e2);
+
+    thrust::sort(h0.begin(), h0.end());
+
+    ASSERT_EQUAL(h0, d0);
+    ASSERT_EQUAL(h0, d1);
+  }
+};
+DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES(
+  test_async_sort_after
+, NumericTypes
 );
 
 ///////////////////////////////////////////////////////////////////////////////

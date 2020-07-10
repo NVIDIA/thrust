@@ -95,6 +95,8 @@ auto async_stable_sort_n(
 
   auto new_policy0 = thrust::detail::derived_cast(policy).rebind_after(
     std::move(device_buffer)
+    // Don't drop these dependencies.
+  , extract_dependencies(std::move(policy))
   );
 
   THRUST_STATIC_ASSERT((
@@ -197,12 +199,10 @@ auto async_stable_sort_n(
 {
   auto const device_alloc = get_async_device_allocator(policy);
 
-  unique_eager_event e;
-
   // Determine temporary device storage requirements.
 
   size_t tmp_size = 0;
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     thrust::cuda_cub::__merge_sort::doit_step<
       /* Sort items? */ std::false_type, /* Stable? */ std::true_type
     >(
@@ -235,39 +235,19 @@ auto async_stable_sort_n(
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
-
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
-  {
-    e = make_dependent_event(
-      std::tuple_cat(
-        std::make_tuple(
-          std::move(content)
-        , unique_stream(nonowning, user_raw_stream)
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
-      )
-    );
-  }
-  else
-  {
+  unique_eager_event
     e = make_dependent_event(
       std::tuple_cat(
         std::make_tuple(
           std::move(content)
         )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
+      , extract_dependencies(std::move(policy))
       )
     );
-  }
 
   // Run merge sort.
 
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     thrust::cuda_cub::__merge_sort::doit_step<
       /* Sort items? */ std::false_type, /* Stable? */ std::true_type
     >(
@@ -366,8 +346,6 @@ auto async_stable_sort_n(
 
   auto const device_alloc = get_async_device_allocator(policy);
 
-  unique_eager_event e;
-
   cub::DoubleBuffer<T> keys(
     raw_pointer_cast(&*first), nullptr
   );
@@ -375,7 +353,7 @@ auto async_stable_sort_n(
   // Determine temporary device storage requirements.
 
   size_t tmp_size = 0;
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     invoke_radix_sort(
       nullptr // Null stream, just for sizing.
     , nullptr
@@ -412,39 +390,19 @@ auto async_stable_sort_n(
 
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
-
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
-  {
-    e = make_dependent_event(
-      std::tuple_cat(
-        std::make_tuple(
-          std::move(content)
-        , unique_stream(nonowning, user_raw_stream)
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
-      )
-    );
-  }
-  else
-  {
+  unique_eager_event
     e = make_dependent_event(
       std::tuple_cat(
         std::make_tuple(
           std::move(content)
         )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
+      , extract_dependencies(std::move(policy))
       )
     );
-  }
 
   // Run radix sort.
 
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     invoke_radix_sort(
       e.stream().native_handle()
     , tmp_ptr

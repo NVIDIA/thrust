@@ -119,13 +119,13 @@ copy(execution_policy<System> &system,
      OutputIterator            result)
 {
   OutputIterator ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __copy::device_to_device(system, first, last, result);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::copy(cvt_to_seq(derived_cast(system)),
                        first,
                        last,
@@ -148,13 +148,13 @@ copy_n(execution_policy<System> &system,
        OutputIterator            result)
 {
   OutputIterator ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __copy::device_to_device(system, first, first + n, result);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::copy_n(cvt_to_seq(derived_cast(system)), first, n, result);
 #endif
   }

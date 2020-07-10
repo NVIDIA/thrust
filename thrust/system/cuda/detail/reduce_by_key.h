@@ -982,7 +982,7 @@ namespace __reduce_by_key {
 
     size_type    num_items          = static_cast<size_type>(thrust::distance(keys_first, keys_last));
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
@@ -1001,7 +1001,7 @@ namespace __reduce_by_key {
                        num_items,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "reduce_by_key failed on 1st step");
+    throw_on_error(status, "reduce_by_key failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
@@ -1011,7 +1011,7 @@ namespace __reduce_by_key {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "reduce failed on 1st alias_storage");
+    throw_on_error(status, "reduce failed on 1st alias_storage");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -1022,7 +1022,7 @@ namespace __reduce_by_key {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
+    throw_on_error(status, "reduce failed on 2nd alias_storage");
 
     size_type* d_num_runs_out
       = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
@@ -1039,10 +1039,9 @@ namespace __reduce_by_key {
                        num_items,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "reduce_by_key failed on 2nd step");
+    throw_on_error(status, "reduce_by_key failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "reduce_by_key: failed to synchronize");
+    synchronize(policy, "reduce_by_key: failed to synchronize");
 
     int num_runs_out = cuda_cub::get_value(policy, d_num_runs_out);
 
@@ -1077,7 +1076,7 @@ reduce_by_key(execution_policy<Derived> &policy,
               BinaryOp                   binary_op)
 {
   pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_output, values_output);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __reduce_by_key::reduce_by_key(policy,
                                          keys_first,
@@ -1090,7 +1089,7 @@ reduce_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
                                 keys_first,
                                 keys_last,

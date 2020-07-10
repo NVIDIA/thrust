@@ -84,33 +84,10 @@ auto async_for_each_n(
   UnaryFunction                    func
 ) -> unique_eager_event
 {
-  unique_eager_event e;
-
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(policy);
-
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
-  {
-    e = make_dependent_event(
-      std::tuple_cat(
-        std::make_tuple(
-          unique_stream(nonowning, user_raw_stream)
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(policy))
-        )
-      )
-    );
-  }
-  else
-  {
-    e = make_dependent_event(
-      extract_dependencies(
-        std::move(thrust::detail::derived_cast(policy))
-      )
-    );
-  }
+  unique_eager_event
+    e = make_dependent_event(extract_dependencies(std::move(policy)));
 
   // Run for_each.
 
@@ -118,7 +95,7 @@ auto async_for_each_n(
     std::move(first), std::move(func)
   );
 
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     thrust::cuda_cub::__parallel_for::parallel_for(
       n, std::move(wrapped), e.stream().native_handle()
     )

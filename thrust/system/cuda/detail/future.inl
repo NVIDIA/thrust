@@ -26,6 +26,7 @@
 #include <thrust/detail/event_error.h>
 #include <thrust/system/cuda/memory.h>
 #include <thrust/system/cuda/future.h>
+#include <thrust/system/cuda/stream.h>
 #include <thrust/system/cuda/detail/util.h>
 #include <thrust/system/cuda/detail/get_value.h>
 
@@ -40,250 +41,6 @@ struct new_stream_t;
 
 namespace system { namespace cuda { namespace detail
 {
-
-///////////////////////////////////////////////////////////////////////////////
-
-struct nonowning_t final {};
-
-THRUST_INLINE_CONSTANT nonowning_t nonowning{};
-
-///////////////////////////////////////////////////////////////////////////////
-
-struct marker_deleter final
-{
-  __host__
-  void operator()(CUevent_st* e) const
-  {
-    if (nullptr != e)
-      thrust::cuda_cub::throw_on_error(cudaEventDestroy(e));
-  }
-};
-
-///////////////////////////////////////////////////////////////////////////////
-
-struct unique_marker final
-{
-  using native_handle_type = CUevent_st*;
-
-private:
-  std::unique_ptr<CUevent_st, marker_deleter> handle_;
-
-public:
-  /// \brief Create a new stream and construct a handle to it. When the handle
-  ///        is destroyed, the stream is destroyed.
-  __host__
-  unique_marker()
-    : handle_(nullptr, marker_deleter())
-  {
-    native_handle_type e;
-    thrust::cuda_cub::throw_on_error(
-      cudaEventCreateWithFlags(&e, cudaEventDisableTiming)
-    );
-    handle_.reset(e);
-  }
-
-  __thrust_exec_check_disable__
-  unique_marker(unique_marker const&) = delete;
-  __thrust_exec_check_disable__
-  unique_marker(unique_marker&&) = default;
-  __thrust_exec_check_disable__
-  unique_marker& operator=(unique_marker const&) = delete;
-  __thrust_exec_check_disable__
-  unique_marker& operator=(unique_marker&&) = default;
-
-  __thrust_exec_check_disable__
-  ~unique_marker() = default;
-
-  __host__
-  auto get() const
-  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
-  __host__
-  auto native_handle() const
-  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
-
-  __host__
-  bool valid() const noexcept { return bool(handle_); }
-
-  __host__
-  bool ready() const
-  {
-    cudaError_t const err = cudaEventQuery(handle_.get());
-
-    if (cudaErrorNotReady == err)
-      return false;
-
-    // Throw on any other error.
-    thrust::cuda_cub::throw_on_error(err);
-
-    return true;
-  }
-
-  __host__
-  void wait() const
-  {
-    thrust::cuda_cub::throw_on_error(cudaEventSynchronize(handle_.get()));
-  }
-
-  __host__
-  bool operator==(unique_marker const& other) const
-  {
-    return other.handle_ == handle_;
-  }
-
-  __host__
-  bool operator!=(unique_marker const& other) const
-  {
-    return !(other == *this);
-  }
-};
-
-///////////////////////////////////////////////////////////////////////////////
-
-struct stream_deleter final
-{
-  __host__
-  void operator()(CUstream_st* s) const
-  {
-    if (nullptr != s)
-      thrust::cuda_cub::throw_on_error(cudaStreamDestroy(s));
-  }
-};
-
-struct stream_conditional_deleter final
-{
-private:
-  bool const cond_;
-
-public:
-  __host__
-  constexpr stream_conditional_deleter() noexcept
-    : cond_(true) {}
-
-  __host__
-  explicit constexpr stream_conditional_deleter(nonowning_t) noexcept
-    : cond_(false) {}
-
-  __host__
-  void operator()(CUstream_st* s) const
-  {
-    if (cond_ && nullptr != s)
-    {
-      thrust::cuda_cub::throw_on_error(cudaStreamDestroy(s));
-    }
-  }
-};
-
-///////////////////////////////////////////////////////////////////////////////
-
-struct unique_stream final
-{
-  using native_handle_type = CUstream_st*;
-
-private:
-  std::unique_ptr<CUstream_st, stream_conditional_deleter> handle_;
-
-public:
-  /// \brief Create a new stream and construct a handle to it. When the handle
-  ///        is destroyed, the stream is destroyed.
-  __host__
-  unique_stream()
-    : handle_(nullptr, stream_conditional_deleter())
-  {
-    native_handle_type s;
-    thrust::cuda_cub::throw_on_error(
-      cudaStreamCreateWithFlags(&s, cudaStreamNonBlocking)
-    );
-    handle_.reset(s);
-  }
-
-  /// \brief Construct a non-owning handle to an existing stream. When the
-  ///        handle is destroyed, the stream is not destroyed.
-  __host__
-  explicit unique_stream(nonowning_t, native_handle_type handle)
-    : handle_(handle, stream_conditional_deleter(nonowning))
-  {}
-
-  __thrust_exec_check_disable__
-  unique_stream(unique_stream const&) = delete;
-  __thrust_exec_check_disable__
-  unique_stream(unique_stream&&) = default;
-  __thrust_exec_check_disable__
-  unique_stream& operator=(unique_stream const&) = delete;
-  __thrust_exec_check_disable__
-  unique_stream& operator=(unique_stream&&) = default;
-
-  __thrust_exec_check_disable__
-  ~unique_stream() = default;
-
-  __host__
-  auto get() const
-  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
-  __host__
-  auto native_handle() const
-  THRUST_DECLTYPE_RETURNS(native_handle_type(handle_.get()));
-
-  __host__
-  bool valid() const noexcept { return bool(handle_); }
-
-  __host__
-  bool ready() const
-  {
-    cudaError_t const err = cudaStreamQuery(handle_.get());
-
-    if (cudaErrorNotReady == err)
-      return false;
-
-    // Throw on any other error.
-    thrust::cuda_cub::throw_on_error(err);
-
-    return true;
-  }
-
-  __host__
-  void wait() const
-  {
-    thrust::cuda_cub::throw_on_error(
-      cudaStreamSynchronize(handle_.get())
-    );
-  }
-
-  __host__
-  void depend_on(unique_marker& e)
-  {
-    thrust::cuda_cub::throw_on_error(
-      cudaStreamWaitEvent(handle_.get(), e.get(), 0)
-    );
-  }
-
-  __host__
-  void depend_on(unique_stream& s)
-  {
-    if (s != *this)
-    {
-      unique_marker e;
-      s.record(e);
-      depend_on(e);
-    }
-  }
-
-  __host__
-  void record(unique_marker& e)
-  {
-    thrust::cuda_cub::throw_on_error(cudaEventRecord(e.get(), handle_.get()));
-  }
-
-  __host__
-  bool operator==(unique_stream const& other) const
-  {
-    return other.handle_ == handle_;
-  }
-
-  __host__
-  bool operator!=(unique_stream const& other) const
-  {
-    return !(other == *this);
-  }
-};
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -358,7 +115,7 @@ try_acquire_stream(int device, unique_eager_future<X>& parent) noexcept;
 template <typename... Dependencies>
 __host__
 acquired_stream acquire_stream(int device, Dependencies&... deps) noexcept;
-  
+
 template <typename... Dependencies>
 __host__
 unique_eager_event
@@ -517,7 +274,7 @@ public:
 
   // Precondition: `true == valid_content()`.
   __host__
-  pointer data() 
+  pointer data()
   {
     if (!valid_content())
       throw thrust::event_error(event_errc::no_content);
@@ -527,7 +284,7 @@ public:
 
   // Precondition: `true == valid_content()`.
   __host__
-  const_pointer data() const 
+  const_pointer data() const
   {
     if (!valid_content())
       throw thrust::event_error(event_errc::no_content);
@@ -670,7 +427,7 @@ public:
   }
 
   THRUST_NODISCARD __host__ __device__
-  value_type extract() 
+  value_type extract()
   {
     return std::move(value_);
   }
@@ -722,9 +479,9 @@ public:
   // NOTE: We take `new_stream_t` by `const&` because it is incomplete here.
   explicit unique_eager_event(new_stream_t const&)
     : device_(0)
-    , async_signal_(new detail::async_signal(detail::unique_stream{}))
+    , async_signal_(new detail::async_signal(unique_stream{}))
   {
-    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
+    throw_on_error(cudaGetDevice(&device_));
   }
 
   __host__
@@ -752,14 +509,14 @@ public:
 
   // Precondition: `true == valid_stream()`.
   __host__
-  detail::unique_stream& stream()
+  unique_stream& stream()
   {
     if (!valid_stream())
       throw thrust::event_error(event_errc::no_state);
 
     return async_signal_->stream();
   }
-  detail::unique_stream const& stream() const
+  unique_stream const& stream() const
   {
     if (!valid_stream())
       throw thrust::event_error(event_errc::no_state);
@@ -778,7 +535,7 @@ public:
   }
 
   friend __host__
-  optional<detail::unique_stream>
+  optional<unique_stream>
   thrust::system::cuda::detail::try_acquire_stream(
     int device, unique_eager_event& parent
     ) noexcept;
@@ -828,9 +585,9 @@ public:
   // NOTE: We take `new_stream_t` by `const&` because it is incomplete here.
   explicit unique_eager_future(new_stream_t const&)
     : device_(0)
-    , async_signal_(new detail::async_value<value_type>(detail::unique_stream{}))
+    , async_signal_(new detail::async_value<value_type>(unique_stream{}))
   {
-    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_));
+    throw_on_error(cudaGetDevice(&device_));
   }
 
   __host__
@@ -870,7 +627,7 @@ public:
 
   // Precondition: `true == valid_stream()`.
   __host__
-  detail::unique_stream& stream()
+  unique_stream& stream()
   {
     if (!valid_stream())
       throw thrust::event_error(event_errc::no_state);
@@ -878,7 +635,7 @@ public:
     return async_signal_->stream();
   }
   __host__
-  detail::unique_stream const& stream() const
+  unique_stream const& stream() const
   {
     if (!valid_stream())
       throw thrust::event_error(event_errc::no_state);
@@ -936,7 +693,7 @@ public:
 
   template <typename X>
   friend __host__
-  optional<detail::unique_stream>
+  optional<unique_stream>
   thrust::system::cuda::detail::try_acquire_stream(
     int device, unique_eager_future<X>& parent
     ) noexcept;
@@ -1268,7 +1025,7 @@ __host__
 unique_eager_event make_dependent_event(std::tuple<Dependencies...>&& deps)
 {
   int device = 0;
-  thrust::cuda_cub::throw_on_error(cudaGetDevice(&device));
+  throw_on_error(cudaGetDevice(&device));
 
   // First, either steal a stream from one of our children or make a new one.
   auto as = acquire_stream(device, deps);
@@ -1305,7 +1062,7 @@ unique_eager_future_promise_pair<X, XPointer>
 make_dependent_future(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
 {
   int device = 0;
-  thrust::cuda_cub::throw_on_error(cudaGetDevice(&device));
+  throw_on_error(cudaGetDevice(&device));
 
   // First, either steal a stream from one of our children or make a new one.
   auto as = acquire_stream(device, deps);
@@ -1328,7 +1085,7 @@ make_dependent_future(ComputeContent&& cc, std::tuple<Dependencies...>&& deps)
   std::unique_ptr<async_signal_type> sig(
     new async_signal_type(std::move(as.stream), std::move(ka), std::move(cc))
   );
- 
+
   // Finally, we create the promise and future objects.
   weak_promise<X, XPointer> child_prom(device, sig->data());
   unique_eager_future<X> child_fut(device, std::move(sig));
@@ -1347,7 +1104,7 @@ unique_eager_event when_all(Events&&... evs)
 // TODO: Constrain to events, futures, and maybe streams (currently allows keep
 // alives).
 {
-  return detail::make_dependent_event(std::make_tuple(std::move(evs)...)); 
+  return detail::make_dependent_event(std::make_tuple(std::move(evs)...));
 }
 
 // ADL hook for transparent `.after` move support.
@@ -1365,5 +1122,5 @@ THRUST_DECLTYPE_RETURNS(std::move(dependency))
 
 } // end namespace thrust
 
-#endif 
+#endif
 

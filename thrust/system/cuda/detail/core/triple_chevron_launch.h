@@ -429,7 +429,7 @@ namespace launcher {
     doit_device(K k, Args const&... args) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,args...);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, args...);
@@ -443,7 +443,7 @@ namespace launcher {
     doit_device(K k, _0 x0) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0);
@@ -459,7 +459,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1);
@@ -476,7 +476,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2);
@@ -494,7 +494,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3);
@@ -513,7 +513,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4);
@@ -533,7 +533,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5);
@@ -554,7 +554,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6);
@@ -576,7 +576,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7);
@@ -599,7 +599,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8);
@@ -623,7 +623,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9);
@@ -648,7 +648,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA);
@@ -674,7 +674,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB);
@@ -701,7 +701,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC);
@@ -729,7 +729,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD);
@@ -758,7 +758,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE);
@@ -788,7 +788,7 @@ namespace launcher {
     doit_device(K k, _0 x0, _1 x1, _2 x2, _3 x3, _4 x4, _5 x5, _6 x6, _7 x7, _8 x8, _9 x9, _xA xA, _xB xB, _xC xC,_xD xD, _xE xE, _xF xF) const
     {
       cudaError_t status = cudaErrorNotSupported;
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       const size_t size = argument_pack_size(0,x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE,xF);
       void *param_buffer = cudaGetParameterBuffer(64,size);
       fill_arguments((char*)param_buffer, 0, x0,x1,x2,x3,x4,x5,x6,x7,x8,x9,xA,xB,xC,xD,xE,xF);
@@ -820,7 +820,7 @@ namespace launcher {
     cudaError_t __device__
     launch_device(K k, void* buffer) const
     {
-#if __THRUST_HAS_CUDART__
+#if THRUST_HAS_CUDART
       return cudaLaunchDevice((void*)k,
                               buffer,
                               dim3(grid),

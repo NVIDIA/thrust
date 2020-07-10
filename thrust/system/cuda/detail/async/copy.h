@@ -89,47 +89,19 @@ auto async_copy_n(
     = typename thrust::detail::allocator_traits<decltype(device_alloc)>::
       template rebind_traits<void>::pointer;
 
-  unique_eager_event e;
-
   // Set up stream with dependencies.
 
-  cudaStream_t const user_raw_stream = thrust::cuda_cub::stream(
-    select_device_system(from_exec, to_exec)
-  );
-
-  if (thrust::cuda_cub::default_stream() != user_raw_stream)
-  {
+  unique_eager_event
     e = make_dependent_event(
       std::tuple_cat(
-        std::make_tuple(
-          unique_stream(nonowning, user_raw_stream)
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(from_exec))
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(to_exec))
-        )
+        extract_dependencies(std::move(from_exec))
+      , extract_dependencies(std::move(to_exec))
       )
     );
-  }
-  else
-  {
-    e = make_dependent_event(
-      std::tuple_cat(
-        extract_dependencies(
-          std::move(thrust::detail::derived_cast(from_exec))
-        )
-      , extract_dependencies(
-          std::move(thrust::detail::derived_cast(to_exec))
-        )
-      )
-    );
-  }
 
   // Run copy.
 
-  thrust::cuda_cub::throw_on_error(
+  throw_on_error(
     cudaMemcpyAsync(
       thrust::raw_pointer_cast(&*output)
     , thrust::raw_pointer_cast(&*first)
@@ -292,12 +264,8 @@ auto async_copy_n(
       std::make_tuple(
         std::move(buffer)
       )
-    , extract_dependencies(
-        std::move(thrust::detail::derived_cast(from_exec))
-      )
-    , extract_dependencies(
-        std::move(thrust::detail::derived_cast(to_exec))
-      )
+    , extract_dependencies(std::move(from_exec))
+    , extract_dependencies(std::move(to_exec))
     )
   );
 

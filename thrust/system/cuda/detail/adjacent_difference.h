@@ -446,14 +446,14 @@ namespace __adjacent_difference {
 
     size_type    num_items    = thrust::distance(first, last);
     size_t       storage_size = 0;
-    cudaStream_t stream       = cuda_cub::stream(policy);
+    cudaStream_t stream       = get_raw_stream(policy);
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
     THRUST_INDEX_TYPE_DISPATCH(status, doit_step, num_items,
         (NULL, storage_size, first, result, binary_op,
            num_items_fixed, stream, debug_sync));
-    cuda_cub::throw_on_error(status, "adjacent_difference failed on 1st step");
+    throw_on_error(status, "adjacent_difference failed on 1st step");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -463,10 +463,9 @@ namespace __adjacent_difference {
     THRUST_INDEX_TYPE_DISPATCH(status, doit_step, num_items,
         (ptr, storage_size, first, result, binary_op,
            num_items_fixed, stream, debug_sync));
-    cuda_cub::throw_on_error(status, "adjacent_difference failed on 2nd step");
+    throw_on_error(status, "adjacent_difference failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "adjacent_difference failed to synchronize");
+    synchronize(policy, "adjacent_difference failed to synchronize");
 
     return result + num_items;
   }
@@ -490,7 +489,7 @@ adjacent_difference(execution_policy<Derived> &policy,
                     BinaryOp                   binary_op)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __adjacent_difference::adjacent_difference(policy,
         first,
@@ -500,7 +499,7 @@ adjacent_difference(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::adjacent_difference(cvt_to_seq(derived_cast(policy)),
                                       first,
                                       last,

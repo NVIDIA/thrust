@@ -1283,7 +1283,7 @@ namespace __merge_sort {
     size_type count = static_cast<size_type>(thrust::distance(keys_first, keys_last));
 
     size_t       storage_size = 0;
-    cudaStream_t stream       = cuda_cub::stream(policy);
+    cudaStream_t stream       = dispatch_get_raw_stream(policy);
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -1295,7 +1295,7 @@ namespace __merge_sort {
                                            compare_op,
                                            stream,
                                            debug_sync);
-    cuda_cub::throw_on_error(status, "merge_sort: failed on 1st step");
+    throw_on_error(status, "merge_sort: failed on 1st step");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -1310,10 +1310,9 @@ namespace __merge_sort {
                                            compare_op,
                                            stream,
                                            debug_sync);
-    cuda_cub::throw_on_error(status, "merge_sort: failed on 2nd step");
+    throw_on_error(status, "merge_sort: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "merge_sort: failed to synchronize");
+    synchronize(policy, "merge_sort: failed to synchronize");
   }
 }    // namespace __merge_sort
 
@@ -1438,7 +1437,7 @@ namespace __radix_sort {
                   CompareOp)
   {
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cub::DoubleBuffer<Key>  keys_buffer(keys, NULL);
@@ -1456,7 +1455,7 @@ namespace __radix_sort {
                                                    keys_count,
                                                    stream,
                                                    debug_sync);
-    cuda_cub::throw_on_error(status, "radix_sort: failed on 1st step");
+    throw_on_error(status, "radix_sort: failed on 1st step");
 
     size_t keys_temp_storage  = core::align_to(sizeof(Key) * keys_count, 128);
     size_t items_temp_storage = core::align_to(sizeof(Item) * items_count, 128);
@@ -1486,7 +1485,7 @@ namespace __radix_sort {
                                                    keys_count,
                                                    stream,
                                                    debug_sync);
-    cuda_cub::throw_on_error(status, "radix_sort: failed on 2nd step");
+    throw_on_error(status, "radix_sort: failed on 2nd step");
 
     if (keys_buffer.selector != 0)
     {
@@ -1615,7 +1614,7 @@ sort(execution_policy<Derived>& policy,
      ItemsIt                    last,
      CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typedef typename thrust::iterator_value<ItemsIt>::type item_type;
     __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::false_type>(
@@ -1623,7 +1622,7 @@ sort(execution_policy<Derived>& policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     thrust::sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
 #endif
   }
@@ -1637,7 +1636,7 @@ stable_sort(execution_policy<Derived>& policy,
             ItemsIt                    last,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typedef typename thrust::iterator_value<ItemsIt>::type item_type;
     __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::true_type>(
@@ -1645,7 +1644,7 @@ stable_sort(execution_policy<Derived>& policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     thrust::stable_sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
 #endif
   }
@@ -1660,14 +1659,14 @@ sort_by_key(execution_policy<Derived>& policy,
             ValuesIt                   values,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::false_type>(
         policy, keys_first, keys_last, values, compare_op);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     thrust::sort_by_key(
         cvt_to_seq(derived_cast(policy)), keys_first, keys_last, values, compare_op);
 #endif
@@ -1686,14 +1685,14 @@ stable_sort_by_key(execution_policy<Derived> &policy,
             ValuesIt                   values,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::true_type>(
         policy, keys_first, keys_last, values, compare_op);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     thrust::stable_sort_by_key(
         cvt_to_seq(derived_cast(policy)), keys_first, keys_last, values, compare_op);
 #endif

@@ -70,10 +70,7 @@ fill_n(execution_policy<Derived>& policy,
                          value),
                          count);
 
-  cuda_cub::throw_on_error(
-    cuda_cub::synchronize(policy)
-  , "fill_n: failed to synchronize"
-  );
+  synchronize(policy, "fill_n: failed to synchronize");
 
   return first + count;
 }    // func fill_n

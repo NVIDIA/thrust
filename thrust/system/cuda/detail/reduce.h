@@ -36,6 +36,7 @@
 #include <thrust/detail/raw_reference_cast.h>
 #include <thrust/detail/type_traits/iterator/is_output_iterator.h>
 #include <cub/device/device_reduce.cuh>
+#include <thrust/system/cuda/stream.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/get_value.h>
 #include <thrust/system/cuda/detail/dispatch.h>
@@ -863,7 +864,7 @@ namespace __reduce {
       return init;
 
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -876,7 +877,7 @@ namespace __reduce {
                        reinterpret_cast<T*>(NULL),
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "reduce failed on 1st step");
+    throw_on_error(status, "reduce failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(T*), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
@@ -886,7 +887,7 @@ namespace __reduce {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "reduce failed on 1st alias_storage");
+    throw_on_error(status, "reduce failed on 1st alias_storage");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -897,7 +898,7 @@ namespace __reduce {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "reduce failed on 2nd alias_storage");
+    throw_on_error(status, "reduce failed on 2nd alias_storage");
 
     T* d_result = thrust::detail::aligned_reinterpret_cast<T*>(allocations[0]);
 
@@ -910,10 +911,9 @@ namespace __reduce {
                        d_result,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "reduce failed on 2nd step");
+    throw_on_error(status, "reduce failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "reduce failed to synchronize");
+    synchronize(policy, "reduce failed to synchronize");
 
     T result = cuda_cub::get_value(policy, d_result);
 
@@ -935,7 +935,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
                 T                          init,
                 BinaryOp                   binary_op)
 {
-  cudaStream_t stream = cuda_cub::stream(policy);
+  cudaStream_t stream = get_raw_stream(policy);
   cudaError_t status;
 
   // Determine temporary device storage requirements.
@@ -951,7 +951,7 @@ T reduce_n_impl(execution_policy<Derived>& policy,
     (NULL, tmp_size, first, reinterpret_cast<T*>(NULL),
         num_items_fixed, binary_op, init, stream,
         THRUST_DEBUG_SYNC_FLAG));
-  cuda_cub::throw_on_error(status, "after reduction step 1");
+  throw_on_error(status, "after reduction step 1");
 
   // Allocate temporary storage.
 
@@ -979,12 +979,11 @@ T reduce_n_impl(execution_policy<Derived>& policy,
     (tmp_ptr, tmp_size, first, ret_ptr,
         num_items_fixed, binary_op, init, stream,
         THRUST_DEBUG_SYNC_FLAG));
-  cuda_cub::throw_on_error(status, "after reduction step 2");
+  throw_on_error(status, "after reduction step 2");
 
   // Synchronize the stream and get the value.
 
-  cuda_cub::throw_on_error(cuda_cub::synchronize(policy),
-    "reduce failed to synchronize");
+  synchronize(policy, "reduce failed to synchronize");
 
   // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
   // `reference`, which has an `operator&` that returns a `pointer`, which
@@ -1017,11 +1016,11 @@ T reduce_n(execution_policy<Derived>& policy,
            T                          init,
            BinaryOp                   binary_op)
 {
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
     return thrust::cuda_cub::detail::reduce_n_impl(
       policy, first, num_items, init, binary_op);
 
-  #if !__THRUST_HAS_CUDART__
+  #if !THRUST_HAS_CUDART
     return thrust::reduce(
       cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
   #endif

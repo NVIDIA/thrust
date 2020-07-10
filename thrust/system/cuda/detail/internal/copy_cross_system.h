@@ -62,8 +62,8 @@ namespace __copy {
     status = cuda_cub::trivial_copy_to_device(dst,
                                               src,
                                               count,
-                                              cuda_cub::stream(device_s));
-    cuda_cub::throw_on_error(status, "__copy::trivial_device_copy H->D: failed");
+                                              get_raw_stream(device_s));
+    throw_on_error(status, "__copy::trivial_device_copy H->D: failed");
   }
 
   template <class D,
@@ -81,8 +81,8 @@ namespace __copy {
     status = cuda_cub::trivial_copy_from_device(dst,
                                                 src,
                                                 count,
-                                                cuda_cub::stream(device_s));
-    cuda_cub::throw_on_error(status, "trivial_device_copy D->H failed");
+                                                get_raw_stream(device_s));
+    throw_on_error(status, "trivial_device_copy D->H failed");
   }
 
   template <class System1,
@@ -145,8 +145,8 @@ namespace __copy {
     cudaError status = cuda_cub::trivial_copy_to_device(d_in_ptr.data().get(),
                                                         temp.data().get(),
                                                         num_items,
-                                                        cuda_cub::stream(device_s));
-    cuda_cub::throw_on_error(status, "__copy:: H->D: failed");
+                                                        get_raw_stream(device_s));
+    throw_on_error(status, "__copy:: H->D: failed");
 
 
     // device->device copy
@@ -176,7 +176,7 @@ namespace __copy {
     // get type of the input data
     typedef typename thrust::iterator_value<InputIt>::type InputTy;
 
-    // allocate device temp storage 
+    // allocate device temp storage
     thrust::detail::temporary_array<InputTy, D> d_in_ptr(device_s, num_items);
 
     // uninitialize copy into temp device storage
@@ -190,8 +190,8 @@ namespace __copy {
     status = cuda_cub::trivial_copy_from_device(temp.data().get(),
                                                 d_in_ptr.data().get(),
                                                 num_items,
-                                                cuda_cub::stream(device_s));
-    cuda_cub::throw_on_error(status, "__copy:: D->H: failed");
+                                                get_raw_stream(device_s));
+    throw_on_error(status, "__copy:: D->H: failed");
 
     // host->host copy
     OutputIt ret = thrust::copy_n(host_s, temp.data(), num_items, result);

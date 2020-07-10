@@ -92,7 +92,7 @@ template <typename Allocator, template <typename> class BaseSystem>
 auto get_async_device_allocator(
   thrust::detail::execute_with_allocator<Allocator, BaseSystem>& exec
 )
-THRUST_DECLTYPE_RETURNS(exec.get_allocator())
+THRUST_DECLTYPE_RETURNS(get_allocator(exec))
 
 template <typename Allocator, template <typename> class BaseSystem>
 auto get_async_device_allocator(
@@ -100,7 +100,7 @@ auto get_async_device_allocator(
     Allocator, BaseSystem
   >& exec
 )
-THRUST_DECLTYPE_RETURNS(exec.get_allocator())
+THRUST_DECLTYPE_RETURNS(get_allocator(exec))
 
 ///////////////////////////////////////////////////////////////////////////////
 

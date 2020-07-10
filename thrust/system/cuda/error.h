@@ -126,10 +126,32 @@ enum errc_t
   startup_failure                    = cudaErrorStartupFailure
 }; // end errc_t
 
-
 } // end namespace errc
 
-} // end namespace cuda_cub
+/*! Terminates the program. In host code, \p std::terminate is called. In device
+  * code, a similar mechanism is used, but the Standard C++ terminate handler is
+  * not run.
+  */
+__host__ __device__ inline void terminate() noexcept;
+
+/*! If \p status is not equal to \p cudaSuccess, report a fatal error. In host
+ *  code, a \p thrust::exception with \p thrust::cuda_category is thrown
+ *  containing the details of the error code. In device code, the details of the
+ *  error code is printed with \p printf and then \p thrust::cuda::terminate is
+ *  called.
+ */
+__host__  __device__ inline void throw_on_error(cudaError_t status);
+
+/*! If \p status is not equal to \p cudaSuccess, report a fatal error with
+ *  message \p msg. In host code, a \p thrust::exception with
+ *  \p thrust::cuda_category is thrown containing the details of the error code
+ *  and \p msg. In device code, the details of the error code and \p msg is
+ *  printed with \p printf and then \p thrust::cuda::terminate is called.
+ */
+__host__ __device__ inline void
+throw_on_error(cudaError_t status, char const* msg);
+
+} // end namespace cuda
 
 /*! \return A reference to an object of a type derived from class \p thrust::error_category.
  *  \note The object's \p equivalent virtual functions shall behave as specified
@@ -166,13 +188,23 @@ inline error_condition make_error_condition(cuda::errc::errc_t e);
 
 namespace cuda_cub
 {
+
 namespace errc = system::cuda::errc;
+
+using system::cuda::terminate;
+using system::cuda::throw_on_error;
+
 } // end cuda_cub
 
 namespace cuda
 {
+
 // XXX replace with using system::cuda_errc upon c++0x
 namespace errc = system::cuda::errc;
+
+using system::cuda::terminate;
+using system::cuda::throw_on_error;
+
 } // end cuda
 
 using system::cuda_category;

@@ -37,59 +37,8 @@
 namespace thrust
 {
 
-namespace cuda_cub {
-
-inline __host__ __device__
-cudaStream_t
-default_stream()
+namespace cuda_cub
 {
-#ifdef CUDA_API_PER_THREAD_DEFAULT_STREAM
-  return cudaStreamPerThread;
-#else
-  return cudaStreamLegacy;
-#endif
-}
-
-// Fallback implementation of the customization point.
-template <class Derived>
-__host__ __device__
-cudaStream_t
-get_stream(execution_policy<Derived> &)
-{
-  return default_stream();
-}
-
-// Entry point/interface.
-template <class Derived>
-__host__ __device__ cudaStream_t
-stream(execution_policy<Derived> &policy)
-{
-  return get_stream(derived_cast(policy));
-}
-
-// Fallback implementation of the customization point.
-__thrust_exec_check_disable__
-template <class Derived>
-__host__ __device__
-cudaError_t
-synchronize_stream(execution_policy<Derived> &)
-{
-  #if __THRUST_HAS_CUDART__
-    cudaDeviceSynchronize();
-    return cudaGetLastError();
-  #else
-    return cudaSuccess;
-  #endif
-}
-
-// Entry point/interface.
-template <class Policy>
-__host__ __device__
-cudaError_t
-synchronize(Policy &policy)
-{
-  return synchronize_stream(derived_cast(policy));
-}
 
 template <class Type>
 THRUST_HOST_FUNCTION cudaError_t
@@ -139,93 +88,14 @@ trivial_copy_device_to_device(Policy &    policy,
   cudaError_t  status = cudaSuccess;
   if (count == 0) return status;
 
-  cudaStream_t stream = cuda_cub::stream(policy);
-  //
+  cudaStream_t stream = get_raw_stream(derived_cast(policy));
   status = ::cudaMemcpyAsync(dst,
                              src,
                              sizeof(Type) * count,
                              cudaMemcpyDeviceToDevice,
                              stream);
-  cuda_cub::synchronize(policy);
+  synchronize(policy);
   return status;
-}
-
-inline void __host__ __device__
-terminate()
-{
-  if (THRUST_IS_DEVICE_CODE) {
-    #if THRUST_INCLUDE_DEVICE_CODE
-      asm("trap;");
-    #endif
-  } else {
-    #if THRUST_INCLUDE_HOST_CODE
-      std::terminate();
-    #endif
-  }
-}
-
-__host__  __device__
-inline void throw_on_error(cudaError_t status)
-{
-#if __THRUST_HAS_CUDART__
-  // Clear the global CUDA error state which may have been set by the last
-  // call. Otherwise, errors may "leak" to unrelated kernel launches.
-  cudaGetLastError();
-#endif
-
-  if (cudaSuccess != status)
-  {
-    if (THRUST_IS_HOST_CODE) {
-      #if THRUST_INCLUDE_HOST_CODE
-        throw thrust::system_error(status, thrust::cuda_category());
-      #endif
-    } else {
-      #if THRUST_INCLUDE_DEVICE_CODE
-        #if __THRUST_HAS_CUDART__
-          printf("Thrust CUDA backend error: %s: %s\n",
-                 cudaGetErrorName(status),
-                 cudaGetErrorString(status));
-        #else
-          printf("Thrust CUDA backend error: %d\n",
-                 static_cast<int>(status));
-        #endif
-        cuda_cub::terminate();
-      #endif
-    }
-  }
-}
-
-__host__ __device__
-inline void throw_on_error(cudaError_t status, char const *msg)
-{
-#if __THRUST_HAS_CUDART__
-  // Clear the global CUDA error state which may have been set by the last
-  // call. Otherwise, errors may "leak" to unrelated kernel launches.
-  cudaGetLastError();
-#endif
-
-  if (cudaSuccess != status)
-  {
-    if (THRUST_IS_HOST_CODE) {
-      #if THRUST_INCLUDE_HOST_CODE
-        throw thrust::system_error(status, thrust::cuda_category(), msg);
-      #endif
-    } else {
-      #if THRUST_INCLUDE_DEVICE_CODE
-        #if __THRUST_HAS_CUDART__
-          printf("Thrust CUDA backend error: %s: %s: %s\n",
-                 cudaGetErrorName(status),
-                 cudaGetErrorString(status),
-                 msg);
-        #else
-          printf("Thrust CUDA backend error: %d: %s \n",
-                 static_cast<int>(status),
-                 msg);
-        #endif
-        cuda_cub::terminate();
-      #endif
-    }
-  }
 }
 
 // FIXME: Move the iterators elsewhere.

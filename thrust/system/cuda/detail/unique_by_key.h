@@ -733,7 +733,7 @@ namespace __unique_by_key {
       = static_cast<size_type>(thrust::distance(keys_first, keys_last));
 
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -748,7 +748,7 @@ namespace __unique_by_key {
                                         num_items,
                                         stream,
                                         debug_sync);
-    cuda_cub::throw_on_error(status, "unique_by_key: failed on 1st step");
+    throw_on_error(status, "unique_by_key: failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
@@ -758,7 +758,7 @@ namespace __unique_by_key {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "unique_by_key failed on 1st alias_storage");
+    throw_on_error(status, "unique_by_key failed on 1st alias_storage");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -769,7 +769,7 @@ namespace __unique_by_key {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "unique_by_key failed on 2nd alias_storage");
+    throw_on_error(status, "unique_by_key failed on 2nd alias_storage");
 
     size_type* d_num_selected_out
       = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
@@ -785,10 +785,9 @@ namespace __unique_by_key {
                                         num_items,
                                         stream,
                                         debug_sync);
-    cuda_cub::throw_on_error(status, "unique_by_key: failed on 2nd step");
+    throw_on_error(status, "unique_by_key: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "unique_by_key: failed to synchronize");
+    synchronize(policy, "unique_by_key: failed to synchronize");
 
     size_type num_selected = get_value(policy, d_num_selected_out);
 
@@ -823,7 +822,7 @@ unique_by_key_copy(execution_policy<Derived> &policy,
                    BinaryPred                 binary_pred)
 {
   pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_result, values_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __unique_by_key::unique_by_key(policy,
                                 keys_first,
@@ -835,7 +834,7 @@ unique_by_key_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
                                      keys_first,
                                      keys_last,
@@ -883,7 +882,7 @@ unique_by_key(execution_policy<Derived> &policy,
               BinaryPred                 binary_pred)
 {
   pair<KeyInputIt, ValInputIt> ret = thrust::make_pair(keys_first, values_first);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = cuda_cub::unique_by_key_copy(policy,
                                        keys_first,
@@ -895,7 +894,7 @@ unique_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
                                 keys_first,
                                 keys_last,

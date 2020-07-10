@@ -655,7 +655,7 @@ namespace __binary_search {
       return result;
 
     size_t       storage_size = 0;
-    cudaStream_t stream       = cuda_cub::stream(policy);
+    cudaStream_t stream       = get_raw_stream(policy);
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError status;
@@ -670,7 +670,7 @@ namespace __binary_search {
                        search_op,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "binary_search: failed on 1st call");
+    throw_on_error(status, "binary_search: failed on 1st call");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -688,10 +688,9 @@ namespace __binary_search {
                        search_op,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "binary_search: failed on 2nt call");
+    throw_on_error(status, "binary_search: failed on 2nt call");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "binary_search: failed to synchronize");
+    synchronize(policy, "binary_search: failed to synchronize");
 
     return result + needles_count;
   }
@@ -727,7 +726,7 @@ lower_bound(execution_policy<Derived>& policy,
             CompareOp                  compare_op)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __binary_search::doit(policy,
                                 first,
@@ -740,7 +739,7 @@ lower_bound(execution_policy<Derived>& policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::lower_bound(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,

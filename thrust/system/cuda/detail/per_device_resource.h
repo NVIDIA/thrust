@@ -57,7 +57,7 @@ MR * get_per_device_resource(execution_policy<DerivedPolicy>&)
     static std::unordered_map<int, MR> device_id_to_resource;
 
     int device_id;
-    thrust::cuda_cub::throw_on_error(cudaGetDevice(&device_id));
+    throw_on_error(cudaGetDevice(&device_id));
 
     std::lock_guard<std::mutex> lock{map_lock};
     return &device_id_to_resource[device_id];

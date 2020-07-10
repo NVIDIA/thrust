@@ -87,10 +87,7 @@ uninitialized_copy_n(execution_policy<Derived> &policy,
                          functor_t(first, result),
                          count);
 
-  cuda_cub::throw_on_error(
-    cuda_cub::synchronize(policy)
-  , "uninitialized_copy_n: failed to synchronize"
-  );
+  synchronize(policy, "uninitialized_copy_n: failed to synchronize");
 
   return result + count;
 }

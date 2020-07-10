@@ -1266,7 +1266,7 @@ namespace __set_operations {
       return thrust::make_pair(keys_output, values_output);
 
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -1286,7 +1286,7 @@ namespace __set_operations {
                                    set_op,
                                    stream,
                                    debug_sync));
-    cuda_cub::throw_on_error(status, "set_operations failed on 1st step");
+    throw_on_error(status, "set_operations failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(std::size_t), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
@@ -1297,7 +1297,7 @@ namespace __set_operations {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "set_operations failed on 1st alias_storage");
+    throw_on_error(status, "set_operations failed on 1st alias_storage");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -1308,7 +1308,7 @@ namespace __set_operations {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "set_operations failed on 2nd alias_storage");
+    throw_on_error(status, "set_operations failed on 2nd alias_storage");
 
     std::size_t* d_output_count
       = thrust::detail::aligned_reinterpret_cast<std::size_t*>(allocations[0]);
@@ -1329,10 +1329,9 @@ namespace __set_operations {
                                    set_op,
                                    stream,
                                    debug_sync));
-    cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
+    throw_on_error(status, "set_operations failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
+    synchronize(policy, "set_operations failed to synchronize");
 
     std::size_t output_count = cuda_cub::get_value(policy, d_output_count);
 
@@ -1360,7 +1359,7 @@ set_difference(execution_policy<Derived> &policy,
                CompareOp                  compare)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
@@ -1380,7 +1379,7 @@ set_difference(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::set_difference(cvt_to_seq(derived_cast(policy)),
                                  items1_first,
                                  items1_last,
@@ -1434,7 +1433,7 @@ set_intersection(execution_policy<Derived> &policy,
                  CompareOp                  compare)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
@@ -1454,7 +1453,7 @@ set_intersection(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::set_intersection(cvt_to_seq(derived_cast(policy)),
                                    items1_first,
                                    items1_last,
@@ -1508,7 +1507,7 @@ set_symmetric_difference(execution_policy<Derived> &policy,
                          CompareOp                  compare)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
@@ -1528,7 +1527,7 @@ set_symmetric_difference(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::set_symmetric_difference(cvt_to_seq(derived_cast(policy)),
                                            items1_first,
                                            items1_last,
@@ -1582,7 +1581,7 @@ set_union(execution_policy<Derived> &policy,
           CompareOp                  compare)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typename thrust::iterator_value<ItemsIt1>::type *null_ = NULL;
     //
@@ -1602,7 +1601,7 @@ set_union(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::set_union(cvt_to_seq(derived_cast(policy)),
                             items1_first,
                             items1_last,
@@ -1669,7 +1668,7 @@ set_difference_by_key(execution_policy<Derived> &policy,
                       CompareOp                  compare_op)
 {
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __set_operations::set_operations<thrust::detail::true_type>(
         policy,
@@ -1686,7 +1685,7 @@ set_difference_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::set_difference_by_key(cvt_to_seq(derived_cast(policy)),
                                         keys1_first,
                                         keys1_last,
@@ -1756,7 +1755,7 @@ set_intersection_by_key(execution_policy<Derived> &policy,
                         CompareOp                  compare_op)
 {
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __set_operations::set_operations<thrust::detail::true_type>(
         policy,
@@ -1773,7 +1772,7 @@ set_intersection_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::set_intersection_by_key(cvt_to_seq(derived_cast(policy)),
                                           keys1_first,
                                           keys1_last,
@@ -1841,7 +1840,7 @@ set_symmetric_difference_by_key(execution_policy<Derived> &policy,
                                 CompareOp                  compare_op)
 {
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __set_operations::set_operations<thrust::detail::true_type>(
         policy,
@@ -1858,7 +1857,7 @@ set_symmetric_difference_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::set_symmetric_difference_by_key(cvt_to_seq(derived_cast(policy)),
                                                   keys1_first,
                                                   keys1_last,
@@ -1929,7 +1928,7 @@ set_union_by_key(execution_policy<Derived> &policy,
                  CompareOp                  compare_op)
 {
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __set_operations::set_operations<thrust::detail::true_type>(
         policy,
@@ -1946,7 +1945,7 @@ set_union_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::set_union_by_key(cvt_to_seq(derived_cast(policy)),
                                    keys1_first,
                                    keys1_last,

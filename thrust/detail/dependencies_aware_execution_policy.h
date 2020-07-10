@@ -24,6 +24,9 @@
 #include <tuple>
 
 #include <thrust/detail/execute_with_dependencies.h>
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+  #include <thrust/detail/execute_with_stream.h>
+#endif
 
 namespace thrust
 {
@@ -33,6 +36,18 @@ namespace detail
 template<template<typename> class ExecutionPolicyCRTPBase>
 struct dependencies_aware_execution_policy
 {
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+    template<typename ...Dependencies>
+    __host__
+    thrust::detail::execute_with_stream<
+        ExecutionPolicyCRTPBase
+    >
+    on(cudaStream_t stream) const
+    {
+        return { stream };
+    }
+#endif
+
     template<typename ...Dependencies>
     __host__
     thrust::detail::execute_with_dependencies<
@@ -73,7 +88,7 @@ struct dependencies_aware_execution_policy
     >
     rebind_after(Dependencies&& ...dependencies) const
     {
-        return { capture_as_dependency(THRUST_FWD(dependencies))... };
+        return after(THRUST_FWD(dependencies)...);
     }
 
     template<typename ...Dependencies>
@@ -84,7 +99,7 @@ struct dependencies_aware_execution_policy
     >
     rebind_after(std::tuple<Dependencies...>& dependencies) const
     {
-        return { capture_as_dependency(dependencies) };
+        return after(dependencies);
     }
     template<typename ...Dependencies>
     __host__
@@ -94,7 +109,7 @@ struct dependencies_aware_execution_policy
     >
     rebind_after(std::tuple<Dependencies...>&& dependencies) const
     {
-        return { capture_as_dependency(std::move(dependencies)) };
+        return after(std::move(dependencies));
     }
 };
 

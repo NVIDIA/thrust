@@ -318,7 +318,7 @@ namespace __extrema {
             T*)
   {
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -326,7 +326,7 @@ namespace __extrema {
         (NULL, temp_storage_bytes, first, num_items_fixed,
             binary_op, reinterpret_cast<T*>(NULL), stream,
             debug_sync));
-    cuda_cub::throw_on_error(status, "extrema failed on 1st step");
+    throw_on_error(status, "extrema failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(T*), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
@@ -336,7 +336,7 @@ namespace __extrema {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "extrema failed on 1st alias storage");
+    throw_on_error(status, "extrema failed on 1st alias storage");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -347,7 +347,7 @@ namespace __extrema {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "extrema failed on 2nd alias storage");
+    throw_on_error(status, "extrema failed on 2nd alias storage");
 
     T* d_result = thrust::detail::aligned_reinterpret_cast<T*>(allocations[0]);
 
@@ -355,10 +355,9 @@ namespace __extrema {
         (allocations[1], temp_storage_bytes, first,
             num_items_fixed, binary_op, d_result, stream,
             debug_sync));
-    cuda_cub::throw_on_error(status, "extrema failed on 2nd step");
+    throw_on_error(status, "extrema failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "extrema failed to synchronize");
+    synchronize(policy, "extrema failed to synchronize");
 
     T result = cuda_cub::get_value(policy, d_result);
 
@@ -418,7 +417,7 @@ min_element(execution_policy<Derived> &policy,
             BinaryPred                 binary_pred)
 {
   ItemsIt ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __extrema::element<__extrema::arg_min_f>(policy,
                                                    first,
@@ -427,7 +426,7 @@ min_element(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::min_element(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,
@@ -461,7 +460,7 @@ max_element(execution_policy<Derived> &policy,
             BinaryPred                 binary_pred)
 {
   ItemsIt ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __extrema::element<__extrema::arg_max_f>(policy,
                                                    first,
@@ -470,7 +469,7 @@ max_element(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::max_element(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,
@@ -505,7 +504,7 @@ minmax_element(execution_policy<Derived> &policy,
 {
   pair<ItemsIt, ItemsIt> ret = thrust::make_pair(first, first);
 
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     if (first == last)
       return thrust::make_pair(last, last);
@@ -541,7 +540,7 @@ minmax_element(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::minmax_element(cvt_to_seq(derived_cast(policy)),
                                  first,
                                  last,

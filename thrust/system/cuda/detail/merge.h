@@ -807,7 +807,7 @@ namespace __merge {
       return thrust::make_pair(keys_result, items_result);
 
     size_t       storage_size = 0;
-    cudaStream_t stream       = cuda_cub::stream(policy);
+    cudaStream_t stream       = get_raw_stream(policy);
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -824,7 +824,7 @@ namespace __merge {
                                     compare_op,
                                     stream,
                                     debug_sync);
-    cuda_cub::throw_on_error(status, "merge: failed on 1st step");
+    throw_on_error(status, "merge: failed on 1st step");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -844,10 +844,9 @@ namespace __merge {
                                     compare_op,
                                     stream,
                                     debug_sync);
-    cuda_cub::throw_on_error(status, "merge: failed on 2nd step");
+    throw_on_error(status, "merge: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "merge: failed to synchronize");
+    synchronize(policy, "merge: failed to synchronize");
 
     return thrust::make_pair(keys_result + count, items_result + count);
   }
@@ -876,7 +875,7 @@ merge(execution_policy<Derived>& policy,
 
 {
   ResultIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typedef typename thrust::iterator_value<KeysIt1>::type keys_type;
     //
@@ -896,7 +895,7 @@ merge(execution_policy<Derived>& policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::merge(cvt_to_seq(derived_cast(policy)),
                         keys1_first,
                         keys1_last,
@@ -950,7 +949,7 @@ merge_by_key(execution_policy<Derived> &policy,
              CompareOp                  compare_op)
 {
   pair<KeysOutputIt, ItemsOutputIt> ret = thrust::make_pair(keys_result, items_result);
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     return __merge::merge<thrust::detail::true_type>(policy,
                                                      keys1_first,
@@ -965,7 +964,7 @@ merge_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::merge_by_key(cvt_to_seq(derived_cast(policy)),
                                keys1_first,
                                keys1_last,

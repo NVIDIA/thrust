@@ -52,7 +52,7 @@ get_temporary_buffer(
   // of type T?
   size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
-  void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
+  void_pointer ptr = alloc_traits::allocate(get_allocator(system), num_elements);
 
   // Return the pointer and the number of elements of type T allocated.
   return thrust::make_pair(thrust::reinterpret_pointer_cast<T*>(ptr),n);
@@ -81,7 +81,7 @@ return_temporary_buffer(
   size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
   pointer to_ptr = thrust::reinterpret_pointer_cast<pointer>(p);
-  alloc_traits::deallocate(system.get_allocator(), to_ptr, num_elements);
+  alloc_traits::deallocate(get_allocator(system), to_ptr, num_elements);
 }
 
 #if THRUST_CPP_DIALECT >= 2011
@@ -109,7 +109,7 @@ get_temporary_buffer(
   // of type T?
   size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
-  void_pointer ptr = alloc_traits::allocate(system.get_allocator(), num_elements);
+  void_pointer ptr = alloc_traits::allocate(get_allocator(system), num_elements);
 
   // Return the pointer and the number of elements of type T allocated.
   return thrust::make_pair(thrust::reinterpret_pointer_cast<T*>(ptr),n);
@@ -139,7 +139,7 @@ return_temporary_buffer(
   size_type num_elements = divide_ri(sizeof(T) * n, sizeof(value_type));
 
   pointer to_ptr = thrust::reinterpret_pointer_cast<pointer>(p);
-  alloc_traits::deallocate(system.get_allocator(), to_ptr, num_elements);
+  alloc_traits::deallocate(get_allocator(system), to_ptr, num_elements);
 }
 
 #endif

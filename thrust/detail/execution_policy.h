@@ -25,8 +25,8 @@ namespace detail
 
 struct execution_policy_marker {};
 
-// execution_policy_base serves as a guard against
-// inifinite recursion in thrust entry points:
+// execution_policy_base serves as a guard against infinite recursion in thrust
+// entry points:
 //
 // template<typename DerivedPolicy>
 // void foo(const thrust::detail::execution_policy_base<DerivedPolicy> &s)
@@ -56,6 +56,14 @@ THRUST_CONSTEXPR __host__ __device__
 DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<DerivedPolicy&>(x);
+}
+
+
+template<typename DerivedPolicy>
+THRUST_CONSTEXPR __host__ __device__
+DerivedPolicy &&derived_cast(execution_policy_base<DerivedPolicy> &&x)
+{
+  return static_cast<DerivedPolicy&&>(x);
 }
 
 

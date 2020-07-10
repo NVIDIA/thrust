@@ -734,7 +734,7 @@ namespace __scan_by_key {
   {
     int          num_items    = static_cast<int>(thrust::distance(keys_first, keys_last));
     size_t       storage_size = 0;
-    cudaStream_t stream       = cuda_cub::stream(policy);
+    cudaStream_t stream       = get_raw_stream(policy);
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
@@ -752,7 +752,7 @@ namespace __scan_by_key {
                                   add_init_to_scan,
                                   stream,
                                   debug_sync);
-    cuda_cub::throw_on_error(status, "scan_by_key: failed on 1st step");
+    throw_on_error(status, "scan_by_key: failed on 1st step");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -770,10 +770,9 @@ namespace __scan_by_key {
                                   add_init_to_scan,
                                   stream,
                                   debug_sync);
-    cuda_cub::throw_on_error(status, "scan_by_key: failed on 2nd step");
+    throw_on_error(status, "scan_by_key: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "scan_by_key: failed to synchronize");
+    synchronize(policy, "scan_by_key: failed to synchronize");
 
     return values_result + num_items;
   }    // func doit
@@ -804,7 +803,7 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                       ScanOp                     scan_op)
 {
   ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     typedef typename iterator_traits<ValInputIt>::value_type T;
     ret = __scan_by_key::scan_by_key<thrust::detail::true_type>(policy,
@@ -818,7 +817,7 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
                                         key_first,
                                         key_last,
@@ -898,7 +897,7 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
                       ScanOp                     scan_op)
 {
   ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __scan_by_key::scan_by_key<thrust::detail::false_type>(
         policy,
@@ -912,7 +911,7 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
                                         key_first,
                                         key_last,

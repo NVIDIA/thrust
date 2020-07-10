@@ -23,6 +23,9 @@
 #if THRUST_CPP_DIALECT >= 2011
   #include <thrust/detail/execute_with_dependencies.h>
 #endif
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+  #include <thrust/detail/execute_with_stream.h>
+#endif
 
 namespace thrust
 {
@@ -50,7 +53,14 @@ public:
     : alloc(alloc_)
   {}
 
-  typename remove_reference<Allocator>::type& get_allocator() { return alloc; }
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+  __host__
+  execute_with_allocator_and_stream<Allocator, BaseSystem>
+  on(cudaStream_t stream) const
+  {
+    return { alloc, stream };
+  }
+#endif
 
 #if THRUST_CPP_DIALECT >= 2011
   template<typename ...Dependencies>
@@ -66,14 +76,14 @@ public:
   execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
   after(std::tuple<Dependencies...>& dependencies) const
   {
-      return { alloc, capture_as_dependency(dependencies) };
+    return { alloc, capture_as_dependency(dependencies) };
   }
   template<typename ...Dependencies>
   __host__
   execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
   after(std::tuple<Dependencies...>&& dependencies) const
   {
-      return { alloc, capture_as_dependency(std::move(dependencies)) };
+    return { alloc, capture_as_dependency(std::move(dependencies)) };
   }
 
   template<typename ...Dependencies>
@@ -81,7 +91,7 @@ public:
   execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
   rebind_after(Dependencies&& ...dependencies) const
   {
-    return { alloc, capture_as_dependency(THRUST_FWD(dependencies))... };
+    return after(THRUST_FWD(dependencies)...);
   }
 
   template<typename ...Dependencies>
@@ -89,16 +99,28 @@ public:
   execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
   rebind_after(std::tuple<Dependencies...>& dependencies) const
   {
-      return { alloc, capture_as_dependency(dependencies) };
+    return after(dependencies);
   }
   template<typename ...Dependencies>
   __host__
   execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>
   rebind_after(std::tuple<Dependencies...>&& dependencies) const
   {
-      return { alloc, capture_as_dependency(std::move(dependencies)) };
+    return after(std::move(dependencies));
   }
 #endif
+
+  friend __host__
+  typename remove_reference<Allocator>::type&
+  dispatch_get_allocator(execute_with_allocator const& system)
+  {
+    return system.alloc;
+  }
 };
+
+template <typename Derived>
+__host__ auto
+get_allocator(thrust::detail::execution_policy_base<Derived> const& policy)
+THRUST_DECLTYPE_RETURNS(dispatch_get_allocator(derived_cast(policy)));
 
 }} // namespace thrust::detail

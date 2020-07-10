@@ -642,7 +642,7 @@ namespace __unique {
 
     size_type    num_items          = static_cast<size_type>(thrust::distance(items_first, items_last));
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     cudaError_t status;
@@ -655,7 +655,7 @@ namespace __unique {
                        num_items,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "unique: failed on 1st step");
+    throw_on_error(status, "unique: failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
@@ -665,7 +665,7 @@ namespace __unique {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "unique: failed on 1st step");
+    throw_on_error(status, "unique: failed on 1st step");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -676,7 +676,7 @@ namespace __unique {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "unique: failed on 2nd step");
+    throw_on_error(status, "unique: failed on 2nd step");
 
     size_type* d_num_selected_out
       = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
@@ -690,10 +690,9 @@ namespace __unique {
                        num_items,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "unique: failed on 2nd step");
+    throw_on_error(status, "unique: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "unique: failed to synchronize");
+    synchronize(policy, "unique: failed to synchronize");
 
     size_type num_selected = get_value(policy, d_num_selected_out);
 
@@ -718,7 +717,7 @@ unique_copy(execution_policy<Derived> &policy,
             BinaryPred                 binary_pred)
 {
   OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __unique::unique(policy,
                            first,
@@ -728,7 +727,7 @@ unique_copy(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::unique_copy(cvt_to_seq(derived_cast(policy)),
                               first,
                               last,
@@ -765,13 +764,13 @@ unique(execution_policy<Derived> &policy,
        BinaryPred                 binary_pred)
 {
   InputIt ret = first;
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = cuda_cub::unique_copy(policy, first, last, first, binary_pred);
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::unique(cvt_to_seq(derived_cast(policy)),
                          first,
                          last,

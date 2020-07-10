@@ -91,7 +91,7 @@ void free(execution_policy<DerivedPolicy> &, Pointer ptr)
       #else
         cudaError_t status = cudaFree(thrust::raw_pointer_cast(ptr));
       #endif
-      cuda_cub::throw_on_error(status, "device free failed");
+      throw_on_error(status, "device free failed");
     #endif
   } else {
     #if THRUST_INCLUDE_DEVICE_CODE

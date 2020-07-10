@@ -343,7 +343,7 @@ struct test_async_copy_after
       thrust::device.after(e0), d0.begin(), d0.end(), d1.begin()
     );
 
-    // Verify that double consumption of a future produces an exception.
+    // Verify that double consumption of a policy produces an exception.
     ASSERT_THROWS_EQUAL(
       auto x = thrust::async::copy(
         thrust::device.after(e0), d0.begin(), d0.end(), d1.begin()

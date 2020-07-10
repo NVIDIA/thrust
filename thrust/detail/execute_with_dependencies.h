@@ -23,6 +23,9 @@
 
 #include <thrust/detail/type_deduction.h>
 #include <thrust/type_traits/remove_cvref.h>
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+  #include <thrust/system/cuda/stream.h>
+#endif
 
 #include <tuple>
 #include <type_traits>
@@ -94,12 +97,21 @@ public:
     {
     }
 
-    std::tuple<remove_cvref_t<Dependencies>...>
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
     __host__
-    extract_dependencies() 
+    execute_with_dependencies<
+        BaseSystem, cuda::unique_stream, Dependencies...
+    >
+    on(cudaStream_t stream) &&
     {
-        return std::move(dependencies);
+        return { std::tuple_cat(
+            std::make_tuple(
+                cuda::unique_stream(cuda::nonowning, stream)
+            ),
+            std::move(dependencies)
+        ) };
     }
+#endif
 
     // Rebinding.
     template<typename ...UDependencies>
@@ -124,6 +136,22 @@ public:
     rebind_after(std::tuple<UDependencies...>&& udependencies) const
     {
         return { capture_as_dependency(std::move(udependencies)) };
+    }
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+    friend __host__
+    cudaStream_t
+    dispatch_get_raw_stream(execute_with_dependencies const& system)
+    {
+        return get_raw_stream(system.dependencies);
+    }
+#endif
+
+    friend __host__
+    std::tuple<remove_cvref_t<Dependencies>...>
+    dispatch_extract_dependencies(execute_with_dependencies& system)
+    {
+        return std::move(system.dependencies);
     }
 };
 
@@ -182,19 +210,21 @@ public:
     {
     }
 
-    std::tuple<remove_cvref_t<Dependencies>...>
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
     __host__
-    extract_dependencies() 
+    execute_with_allocator_and_dependencies<
+        Allocator, BaseSystem, cuda::unique_stream, Dependencies...
+    >
+    on(cudaStream_t stream) &&
     {
-        return std::move(dependencies);
+        return { alloc, std::tuple_cat(
+            std::make_tuple(
+                cuda::unique_stream(cuda::nonowning, stream)
+            ),
+            std::move(dependencies)
+        ) };
     }
-
-    __host__
-    typename std::add_lvalue_reference<Allocator>::type
-    get_allocator()
-    {
-        return alloc;
-    }
+#endif
 
     // Rebinding.
     template<typename ...UDependencies>
@@ -204,8 +234,6 @@ public:
     {
         return { alloc, capture_as_dependency(THRUST_FWD(udependencies))... };
     }
-
-    // Rebinding.
     template<typename ...UDependencies>
     __host__
     execute_with_allocator_and_dependencies<Allocator, BaseSystem, UDependencies...>
@@ -220,45 +248,50 @@ public:
     {
         return { alloc, capture_as_dependency(std::move(udependencies)) };
     }
+
+    friend __host__
+    typename std::add_lvalue_reference<Allocator>::type
+    dispatch_get_allocator(execute_with_allocator_and_dependencies const& system)
+    {
+        return system.alloc;
+    }
+
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+    friend __host__
+    cudaStream_t
+    dispatch_get_raw_stream(execute_with_allocator_and_dependencies const& system)
+    {
+        return get_raw_stream(system.dependencies);
+    }
+#endif
+
+    friend __host__
+    std::tuple<remove_cvref_t<Dependencies>...>
+    dispatch_extract_dependencies(execute_with_allocator_and_dependencies& system)
+    {
+        return std::move(system.dependencies);
+    }
 };
 
-template<template<typename> class BaseSystem, typename ...Dependencies>
-__host__
-std::tuple<remove_cvref_t<Dependencies>...>
-extract_dependencies(thrust::detail::execute_with_dependencies<BaseSystem, Dependencies...>&& system)
-{
-    return std::move(system).extract_dependencies();
-}
-template<template<typename> class BaseSystem, typename ...Dependencies>
-__host__
-std::tuple<remove_cvref_t<Dependencies>...>
-extract_dependencies(thrust::detail::execute_with_dependencies<BaseSystem, Dependencies...>& system)
-{
-    return std::move(system).extract_dependencies();
-}
-
-template<typename Allocator, template<typename> class BaseSystem, typename ...Dependencies>
-__host__
-std::tuple<remove_cvref_t<Dependencies>...>
-extract_dependencies(thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>&& system)
-{
-    return std::move(system).extract_dependencies();
-}
-template<typename Allocator, template<typename> class BaseSystem, typename ...Dependencies>
-__host__
-std::tuple<remove_cvref_t<Dependencies>...>
-extract_dependencies(thrust::detail::execute_with_allocator_and_dependencies<Allocator, BaseSystem, Dependencies...>& system)
-{
-    return std::move(system).extract_dependencies();
-}
-
+// Fallback implementation.
 template<typename System>
-__host__
-std::tuple<>
-extract_dependencies(System &&)
+__host__ std::tuple<> extract_dependencies(System&&)
 {
     return std::tuple<>{};
 }
+
+template<typename Derived>
+__host__ auto
+extract_dependencies(thrust::detail::execution_policy_base<Derived>& policy)
+THRUST_DECLTYPE_RETURNS(
+    dispatch_extract_dependencies(derived_cast(policy))
+);
+template<typename Derived>
+__host__ auto
+extract_dependencies(thrust::detail::execution_policy_base<Derived>&& policy)
+THRUST_DECLTYPE_RETURNS(
+    dispatch_extract_dependencies(derived_cast(std::move(policy)))
+);
 
 } // end detail
 } // end thrust

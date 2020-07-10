@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2008-2020 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@
 
 #include <thrust/system/cuda/error.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
+#include <thrust/system/system_error.h>
+#include <exception>
+#include <cstdio>
 
 namespace thrust
 {
@@ -39,12 +42,8 @@ error_condition make_error_condition(cuda::errc::errc_t e)
 } // end make_error_condition()
 
 
-namespace cuda_cub
+namespace cuda
 {
-
-namespace detail
-{
-
 
 class cuda_error_category
   : public error_category
@@ -78,19 +77,91 @@ class cuda_error_category
 
       return system_category().default_error_condition(ev);
     }
-}; // end cuda_error_category
+};
 
-} // end detail
+__host__ __device__ inline void terminate() noexcept
+{
+  if (THRUST_IS_DEVICE_CODE) {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      asm("trap;");
+    #endif
+  } else {
+    #if THRUST_INCLUDE_HOST_CODE
+      std::terminate();
+    #endif
+  }
+}
 
-} // end namespace cuda_cub
+__host__  __device__ inline void throw_on_error(cudaError_t status)
+{
+  #if THRUST_HAS_CUDART
+    // Clear the global CUDA error state which may have been set by the last
+    // call. Otherwise, errors may "leak" to unrelated kernel launches.
+    cudaGetLastError();
+  #endif
 
+  if (cudaSuccess != status)
+  {
+    if (THRUST_IS_HOST_CODE) {
+      #if THRUST_INCLUDE_HOST_CODE
+        throw system_error(status, cuda_category());
+      #endif
+    } else {
+      #if THRUST_INCLUDE_DEVICE_CODE
+        #if THRUST_HAS_CUDART
+          printf("Thrust CUDA backend error: %s: %s\n",
+                 cudaGetErrorName(status),
+                 cudaGetErrorString(status));
+        #else
+          printf("Thrust CUDA backend error: %d\n",
+                 static_cast<int>(status));
+        #endif
+        terminate();
+      #endif
+    }
+  }
+}
+
+__host__ __device__ inline void
+throw_on_error(cudaError_t status, char const* msg)
+{
+#if THRUST_HAS_CUDART
+  // Clear the global CUDA error state which may have been set by the last
+  // call. Otherwise, errors may "leak" to unrelated kernel launches.
+  cudaGetLastError();
+#endif
+
+  if (cudaSuccess != status)
+  {
+    if (THRUST_IS_HOST_CODE) {
+      #if THRUST_INCLUDE_HOST_CODE
+        throw system_error(status, cuda_category(), msg);
+      #endif
+    } else {
+      #if THRUST_INCLUDE_DEVICE_CODE
+        #if THRUST_HAS_CUDART
+          printf("Thrust CUDA backend error: %s: %s: %s\n",
+                 cudaGetErrorName(status),
+                 cudaGetErrorString(status),
+                 msg);
+        #else
+          printf("Thrust CUDA backend error: %d: %s \n",
+                 static_cast<int>(status),
+                 msg);
+        #endif
+        terminate();
+      #endif
+    }
+  }
+}
+
+} // end namespace cuda
 
 const error_category &cuda_category(void)
 {
-  static const thrust::system::cuda_cub::detail::cuda_error_category result;
+  static const thrust::system::cuda::cuda_error_category result;
   return result;
 }
-
 
 } // end namespace system
 

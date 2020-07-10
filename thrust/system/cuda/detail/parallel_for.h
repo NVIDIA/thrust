@@ -157,15 +157,15 @@ parallel_for(execution_policy<Derived> &policy,
   if (count == 0)
     return;
 
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
-    cudaStream_t stream = cuda_cub::stream(policy);
+    cudaStream_t stream = get_raw_stream(policy);
     cudaError_t  status = __parallel_for::parallel_for(count, f, stream);
-    cuda_cub::throw_on_error(status, "parallel_for failed");
+    throw_on_error(status, "parallel_for failed");
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     for (Size idx = 0; idx != count; ++idx)
       f(idx);
 #endif

@@ -705,7 +705,7 @@ namespace __copy_if {
 
     size_type    num_items          = static_cast<size_type>(thrust::distance(first, last));
     size_t       temp_storage_bytes = 0;
-    cudaStream_t stream             = cuda_cub::stream(policy);
+    cudaStream_t stream             = get_raw_stream(policy);
     bool         debug_sync         = THRUST_DEBUG_SYNC_FLAG;
 
     if (num_items == 0)
@@ -722,7 +722,7 @@ namespace __copy_if {
                        num_items,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "copy_if failed on 1st step");
+    throw_on_error(status, "copy_if failed on 1st step");
 
     size_t allocation_sizes[2] = {sizeof(size_type), temp_storage_bytes};
     void * allocations[2]      = {NULL, NULL};
@@ -733,7 +733,7 @@ namespace __copy_if {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "copy_if failed on 1st alias_storage");
+    throw_on_error(status, "copy_if failed on 1st alias_storage");
 
     // Allocate temporary storage.
     thrust::detail::temporary_array<thrust::detail::uint8_t, Derived>
@@ -744,7 +744,7 @@ namespace __copy_if {
                                  storage_size,
                                  allocations,
                                  allocation_sizes);
-    cuda_cub::throw_on_error(status, "copy_if failed on 2nd alias_storage");
+    throw_on_error(status, "copy_if failed on 2nd alias_storage");
 
     size_type* d_num_selected_out
       = thrust::detail::aligned_reinterpret_cast<size_type*>(allocations[0]);
@@ -759,10 +759,9 @@ namespace __copy_if {
                        num_items,
                        stream,
                        debug_sync);
-    cuda_cub::throw_on_error(status, "copy_if failed on 2nd step");
+    throw_on_error(status, "copy_if failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
-    cuda_cub::throw_on_error(status, "copy_if failed to synchronize");
+    synchronize(policy, "copy_if failed to synchronize");
 
     size_type num_selected = get_value(policy, d_num_selected_out);
 
@@ -789,7 +788,7 @@ copy_if(execution_policy<Derived> &policy,
 {
   OutputIterator ret = result;
 
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __copy_if::copy_if(policy,
                              first,
@@ -800,7 +799,7 @@ copy_if(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::copy_if(cvt_to_seq(derived_cast(policy)),
                           first,
                           last,
@@ -827,7 +826,7 @@ copy_if(execution_policy<Derived> &policy,
 {
   OutputIterator ret = result;
 
-  if (__THRUST_HAS_CUDART__)
+  if (THRUST_HAS_CUDART)
   {
     ret = __copy_if::copy_if(policy,
                              first,
@@ -838,7 +837,7 @@ copy_if(execution_policy<Derived> &policy,
   }
   else
   {
-#if !__THRUST_HAS_CUDART__
+#if !THRUST_HAS_CUDART
     ret = thrust::copy_if(cvt_to_seq(derived_cast(policy)),
                           first,
                           last,
