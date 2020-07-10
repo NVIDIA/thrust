@@ -16,7 +16,7 @@
 #include <thrust/detail/allocator/allocator_traits.h>
 
 #include <utility>
-#include <memory>
+#include <thrust/detail/memory_wrapper.h>
 
 namespace thrust
 {
