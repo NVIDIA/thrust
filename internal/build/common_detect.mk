@@ -1,4 +1,4 @@
-CXX_STD = c++14
+CXX_STD = c++11
 
 ifeq ($(THRUST_TEST),1)
   include $(ROOTDIR)/build/getprofile.mk
