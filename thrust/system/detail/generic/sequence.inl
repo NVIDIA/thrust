@@ -15,7 +15,6 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/functional.h>
 #include <thrust/system/detail/generic/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/tabulate.h>
@@ -28,6 +27,30 @@ namespace detail
 {
 namespace generic
 {
+namespace sequence_detail
+{
+
+
+template<typename T>
+struct sequence_functor
+{
+  T init, step;
+
+  __host__ __device__
+  sequence_functor(T init, T step)
+    : init(init), step(step)
+  {}
+
+  template<typename Index>
+  __host__ __device__
+  T operator()(Index i) const
+  {
+    return static_cast<T>(init + step * i);
+  }
+};
+
+
+} // end sequence_detail
 
 
 template<typename DerivedPolicy, typename ForwardIterator>
@@ -61,9 +84,8 @@ __host__ __device__
                 T init,
                 T step)
 {
-  using thrust::placeholders::_1;
-
-  thrust::tabulate(exec, first, last, init + step * _1);
+  // XXX TODO use a placeholder expression here
+  thrust::tabulate(exec, first, last, sequence_detail::sequence_functor<T>(init, step));
 } // end sequence()
 
 
