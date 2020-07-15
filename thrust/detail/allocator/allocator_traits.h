@@ -347,6 +347,10 @@ template<typename Alloc>
   };
 #endif
 
+  // Deprecated std::allocator typedefs that we need:
+  typedef typename thrust::detail::pointer_traits<pointer>::reference reference;
+  typedef typename thrust::detail::pointer_traits<const_pointer>::reference const_reference;
+
   inline __host__ __device__
   static pointer allocate(allocator_type &a, size_type n);
 
