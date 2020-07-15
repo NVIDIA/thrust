@@ -43,14 +43,8 @@ template<typename T, typename Alloc>
     typedef typename alloc_traits::const_pointer       const_pointer;
     typedef typename alloc_traits::size_type           size_type;
     typedef typename alloc_traits::difference_type     difference_type;
-
-    // XXX we should bring reference & const_reference into allocator_traits
-    //     at the moment, it's unclear how -- we have nothing analogous to
-    //     rebind_pointer for references
-    //     we either need to add reference_traits or extend the existing
-    //     pointer_traits to support wrapped references
-    typedef typename Alloc::reference                  reference;
-    typedef typename Alloc::const_reference            const_reference;
+    typedef typename alloc_traits::reference           reference;
+    typedef typename alloc_traits::const_reference     const_reference;
 
     typedef thrust::detail::normal_iterator<pointer>       iterator;
     typedef thrust::detail::normal_iterator<const_pointer> const_iterator;
