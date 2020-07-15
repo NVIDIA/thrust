@@ -70,6 +70,12 @@ public:
       is_empty<allocator_type>
     >::type;
 
+  // std::allocator_traits doesn't provide these, but
+  // thrust::detail::allocator_traits does. These used to be part of the
+  // std::allocator API but were deprecated in C++17.
+  using reference = typename thrust::detail::pointer_traits<pointer>::reference;
+  using const_reference = typename thrust::detail::pointer_traits<const_pointer>::reference;
+
   template <typename U>
   using rebind_alloc = std::allocator<U>;
   template <typename U>
