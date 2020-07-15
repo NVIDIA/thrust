@@ -30,7 +30,14 @@ namespace detail
 template <typename InputFunction, typename OutputFunction, typename Iterator>
   class transform_input_output_iterator_proxy
 {
-  using Value = typename std::result_of<InputFunction(typename thrust::iterator_value<Iterator>::type)>::type;
+  using iterator_value_type = typename thrust::iterator_value<Iterator>::type;
+
+  // std::result_of is deprecated in 2017, replace with std::invoke_result
+#if THRUST_CPP_DIALECT < 2017
+  using Value = typename std::result_of<InputFunction(iterator_value_type)>::type;
+#else
+  using Value = std::invoke_result_t<InputFunction, iterator_value_type>;
+#endif
 
   public:
     __host__ __device__
@@ -75,11 +82,20 @@ template <typename InputFunction, typename OutputFunction, typename Iterator>
 template <typename InputFunction, typename OutputFunction, typename Iterator>
 struct transform_input_output_iterator_base
 {
+private:
+  using iterator_value_type = typename thrust::iterator_value<Iterator>::type;
+
+public:
     typedef thrust::iterator_adaptor
     <
         transform_input_output_iterator<InputFunction, OutputFunction, Iterator>
       , Iterator
-      , typename std::result_of<InputFunction(typename thrust::iterator_value<Iterator>::type)>::type
+    // std::result_of is deprecated in 2017, replace with std::invoke_result
+#if THRUST_CPP_DIALECT < 2017
+      , typename std::result_of<InputFunction(iterator_value_type)>::type
+#else
+      , std::invoke_result_t<InputFunction, iterator_value_type>
+#endif
       , thrust::use_default
       , thrust::use_default
       , transform_input_output_iterator_proxy<InputFunction, OutputFunction, Iterator>
