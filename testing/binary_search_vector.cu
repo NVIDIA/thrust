@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/binary_search.h>
 
+#include <thrust/detail/allocator/allocator_traits.h>
 #include <thrust/sequence.h>
 #include <thrust/sort.h>
 #include <thrust/iterator/discard_iterator.h>
@@ -16,7 +17,8 @@ template <class ExampleVector, typename NewType>
 struct vector_like
 {
     typedef typename ExampleVector::allocator_type alloc;
-    typedef typename alloc::template rebind<NewType>::other new_alloc;
+    typedef typename thrust::detail::allocator_traits<alloc> alloc_traits;
+    typedef typename alloc_traits::template rebind_alloc<NewType> new_alloc;
     typedef thrust::detail::vector_base<NewType, new_alloc> type;
 };
 
