@@ -24,7 +24,10 @@ function(thrust_build_compiler_targets)
   endif()
 
   if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
-    # TODO Enable /Wall
+    # TODO Enable /Wall instead of W3
+    append_option_if_available("/W3" cxx_compile_options)
+
+    # Treat all warnings as errors:
     append_option_if_available("/WX" cxx_compile_options)
 
     # Disabled loss-of-data conversion warnings.
