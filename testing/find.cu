@@ -1,4 +1,5 @@
 #include <unittest/unittest.h>
+#include <thrust/sequence.h>
 #include <thrust/find.h>
 #include <thrust/iterator/retag.h>
 
@@ -338,3 +339,35 @@ void TestFindWithBigIndexes()
     TestFindWithBigIndexesHelper(33);
 }
 DECLARE_UNITTEST(TestFindWithBigIndexes);
+
+namespace
+{
+
+class Weird
+{
+  int value;
+
+public:
+  __host__ __device__ Weird(int val, int)
+      : value(val)
+  {}
+
+  friend __host__ __device__
+  bool operator==(int x, Weird y)
+  {
+    return x == y.value;
+  }
+};
+
+} // end anon namespace
+
+void TestFindAsymmetricEquality()
+{ // Regression test for thrust/thrust#1229
+  thrust::host_vector<int> v(1000);
+  thrust::sequence(v.begin(), v.end());
+  thrust::device_vector<int> dv(v);
+  auto result = thrust::find(dv.begin(), dv.end(), Weird(333, 0));
+  ASSERT_EQUAL(*result, 333);
+  ASSERT_EQUAL(result - dv.begin(), 333);
+}
+DECLARE_UNITTEST(TestFindAsymmetricEquality);

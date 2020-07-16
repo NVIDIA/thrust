@@ -1,8 +1,11 @@
 #include <unittest/unittest.h>
 #include <thrust/inner_product.h>
+
+#include <thrust/functional.h>
 #include <thrust/iterator/retag.h>
 #include <thrust/device_malloc.h>
 #include <thrust/device_free.h>
+#include <thrust/device_vector.h>
 
 template <class Vector>
 void TestInnerProductSimple(void)
@@ -153,3 +156,18 @@ void TestInnerProductWithBigIndexes()
     TestInnerProductWithBigIndexesHelper(33);
 }
 DECLARE_UNITTEST(TestInnerProductWithBigIndexes);
+
+void TestInnerProductPlaceholders()
+{ // Regression test for thrust/thrust#1178
+  using namespace thrust::placeholders;
+
+  thrust::device_vector<float> v1(100, 1.f);
+  thrust::device_vector<float> v2(100, 1.f);
+
+  auto result = thrust::inner_product(v1.begin(), v1.end(), v2.begin(), 0.0f,
+                                      thrust::plus<float>{},
+                                      _1 * _2 + 1.0f);
+
+  ASSERT_ALMOST_EQUAL(result, 200.f);
+}
+DECLARE_UNITTEST(TestInnerProductPlaceholders);

@@ -27,6 +27,9 @@
 #include <thrust/detail/functional/composite.h>
 #include <thrust/detail/functional/operators/assignment_operator.h>
 #include <thrust/functional.h>
+#include <thrust/type_traits/logical_metafunctions.h>
+
+#include <type_traits>
 
 namespace thrust
 {
@@ -62,135 +65,38 @@ template<typename Eval>
   return eval_type::eval(thrust::null_type());
 } // end basic_environment::operator()
 
-template<typename Eval>
-  template<typename T0>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0) const
-{
-  return eval_type::eval(thrust::tie(_0));
-} // end basic_environment::operator()
+// actor::operator() needs to construct a tuple of references to its
+// arguments. To make this work with thrust::reference<T>, we need to
+// detect thrust proxy references and store them as T rather than T&.
+// This check ensures that the forwarding references passed into
+// actor::operator() are either:
+// - T&& if and only if T is a thrust::reference<U>, or
+// - T& for any other types.
+// This struct provides a nicer diagnostic for when these conditions aren't
+// met.
+template <typename T>
+using actor_check_ref_type =
+  thrust::detail::integral_constant<bool,
+    ( std::is_lvalue_reference<T>::value ||
+      thrust::detail::is_wrapped_reference<T>::value )>;
+
+template <typename... Ts>
+using actor_check_ref_types =
+  thrust::conjunction<actor_check_ref_type<Ts>...>;
 
 template<typename Eval>
-  template<typename T0, typename T1>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1) const
+template<typename... Ts>
+__host__ __device__
+typename apply_actor<typename actor<Eval>::eval_type,
+                     thrust::tuple<eval_ref<Ts>...>>::type
+actor<Eval>::operator()(Ts&&... ts) const
 {
-  return eval_type::eval(thrust::tie(_0,_1));
-} // end basic_environment::operator()
-
-template<typename Eval>
-  template<typename T0, typename T1, typename T2>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&,T2&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1, T2 &_2) const
-{
-  return eval_type::eval(thrust::tie(_0,_1,_2));
-} // end basic_environment::operator()
-
-template<typename Eval>
-  template<typename T0, typename T1, typename T2, typename T3>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&,T2&,T3&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3) const
-{
-  return eval_type::eval(thrust::tie(_0,_1,_2,_3));
-} // end basic_environment::operator()
-
-template<typename Eval>
-  template<typename T0, typename T1, typename T2, typename T3, typename T4>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&,T2&,T3&,T4&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4) const
-{
-  return eval_type::eval(thrust::tie(_0,_1,_2,_3,_4));
-} // end basic_environment::operator()
-
-template<typename Eval>
-  template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5) const
-{
-  return eval_type::eval(thrust::tie(_0,_1,_2,_3,_4,_5));
-} // end basic_environment::operator()
-
-template<typename Eval>
-  template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6) const
-{
-  return eval_type::eval(thrust::tie(_0,_1,_2,_3,_4,_5,_6));
-} // end basic_environment::operator()
-
-template<typename Eval>
-  template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7) const
-{
-  return eval_type::eval(thrust::tie(_0,_1,_2,_3,_4,_5,_6,_7));
-} // end basic_environment::operator()
-
-template<typename Eval>
-  template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7, T8 &_8) const
-{
-  return eval_type::eval(thrust::tie(_0,_1,_2,_3,_4,_5,_6,_7,_8));
-} // end basic_environment::operator()
-
-template<typename Eval>
-  template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5, typename T6, typename T7, typename T8, typename T9>
-    __host__ __device__
-    typename apply_actor<
-      typename actor<Eval>::eval_type,
-      typename thrust::tuple<T0&,T1&,T2&,T3&,T4&,T5&,T6&,T7&,T8&,T9&>
-    >::type
-      actor<Eval>
-        ::operator()(T0 &_0, T1 &_1, T2 &_2, T3 &_3, T4 &_4, T5 &_5, T6 &_6, T7 &_7, T8 &_8, T9 &_9) const
-{
-  return eval_type::eval(thrust::tie(_0,_1,_2,_3,_4,_5,_6,_7,_8,_9));
-} // end basic_environment::operator()
+  static_assert(actor_check_ref_types<Ts...>::value,
+                "Actor evaluations only support rvalue references to "
+                "thrust::reference subclasses.");
+  using tuple_type = thrust::tuple<eval_ref<Ts>...>;
+  return eval_type::eval(tuple_type(THRUST_FWD(ts)...));
+} // end actor<Eval>::operator()
 
 template<typename Eval>
   template<typename T>

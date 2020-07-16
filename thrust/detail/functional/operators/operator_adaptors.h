@@ -17,8 +17,13 @@
 #pragma once
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/functional/argument.h>
+#include <thrust/detail/type_deduction.h>
 #include <thrust/tuple.h>
 #include <thrust/detail/type_traits.h>
+#include <thrust/type_traits/void_t.h>
+
+#include <type_traits>
 
 namespace thrust
 {
@@ -27,87 +32,104 @@ namespace detail
 namespace functional
 {
 
-// this thing (which models Eval) is an adaptor for the unary
-// functors inside functional.h
-template<template<typename> class UnaryOperator>
-  struct unary_operator
+// Adapts a transparent unary functor from functional.h (e.g. thrust::negate<>)
+// into the Eval interface.
+template <typename UnaryFunctor>
+struct transparent_unary_operator
 {
-  template<typename Env>
-    struct argument
-      : thrust::detail::eval_if<
-          (thrust::tuple_size<Env>::value == 0),
-          thrust::detail::identity_<thrust::null_type>,
-          thrust::tuple_element<0,Env>
-        >
+  template <typename>
+  using operator_type = UnaryFunctor;
+
+  template <typename Env>
+  using argument =
+  typename thrust::detail::eval_if<
+    thrust::tuple_size<Env>::value != 1,
+    thrust::detail::identity_<thrust::null_type>,
+    thrust::detail::functional::argument_helper<0, Env>
+  >::type;
+
+  template <typename Env>
+  struct result_type_impl
   {
+    using type = decltype(
+      std::declval<UnaryFunctor>()(std::declval<argument<Env>>()));
   };
 
-  template<typename Env>
-    struct operator_type
+  template <typename Env>
+  using result_type =
+  typename thrust::detail::eval_if<
+    std::is_same<thrust::null_type, argument<Env>>::value,
+    thrust::detail::identity_<thrust::null_type>,
+    result_type_impl<Env>
+  >::type;
+
+  template <typename Env>
+  struct result
   {
-    typedef UnaryOperator<
-      typename thrust::detail::remove_reference<
-        typename argument<Env>::type
-      >::type
-    > type;
+    using op_type = UnaryFunctor;
+    using type = result_type<Env>;
   };
 
-  template<typename Env>
-    struct result
-  {
-    typedef typename operator_type<Env>::type op_type;
-    typedef typename op_type::result_type type;
-  };
-
-  template<typename Env>
+  template <typename Env>
   __host__ __device__
-  typename result<Env>::type eval(const Env &e) const
-  {
-    typename operator_type<Env>::type op;
-    return op(thrust::get<0>(e));
-  } // end eval()
-}; // end unary_operator
+  result_type<Env> eval(Env&& e) const
+  THRUST_RETURNS(UnaryFunctor{}(thrust::get<0>(THRUST_FWD(e))))
+};
 
-// this thing (which models Eval) is an adaptor for the binary
-// functors inside functional.h
-template<template<typename> class BinaryOperator>
-  struct binary_operator
+
+// Adapts a transparent binary functor from functional.h (e.g. thrust::less<>)
+// into the Eval interface.
+template <typename BinaryFunctor>
+struct transparent_binary_operator
 {
-  template<typename Env>
-    struct first_argument
-      : thrust::detail::eval_if<
-          (thrust::tuple_size<Env>::value == 0),
-          thrust::detail::identity_<thrust::null_type>,
-          thrust::tuple_element<0,Env>
-        >
+  template <typename>
+  using operator_type = BinaryFunctor;
+
+  template <typename Env>
+  using first_argument =
+    typename thrust::detail::eval_if<
+      thrust::tuple_size<Env>::value != 2,
+      thrust::detail::identity_<thrust::null_type>,
+      thrust::detail::functional::argument_helper<0, Env>
+    >::type;
+
+  template <typename Env>
+  using second_argument =
+    typename thrust::detail::eval_if<
+      thrust::tuple_size<Env>::value != 2,
+      thrust::detail::identity_<thrust::null_type>,
+      thrust::detail::functional::argument_helper<1, Env>
+    >::type;
+
+  template <typename Env>
+  struct result_type_impl
   {
+    using type = decltype(
+      std::declval<BinaryFunctor>()(std::declval<first_argument<Env>>(),
+                                    std::declval<second_argument<Env>>()));
   };
 
-  template<typename Env>
-    struct operator_type
+  template <typename Env>
+  using result_type =
+    typename thrust::detail::eval_if<
+      (std::is_same<thrust::null_type, first_argument<Env>>::value ||
+       std::is_same<thrust::null_type, second_argument<Env>>::value),
+      thrust::detail::identity_<thrust::null_type>,
+      result_type_impl<Env>
+    >::type;
+
+  template <typename Env>
+  struct result
   {
-    typedef BinaryOperator<
-      typename thrust::detail::remove_reference<
-        typename first_argument<Env>::type
-      >::type
-    > type;
+    using op_type = BinaryFunctor;
+    using type = result_type<Env>;
   };
 
-  template<typename Env>
-    struct result
-  {
-    typedef typename operator_type<Env>::type op_type;
-    typedef typename op_type::result_type type;
-  };
-
-  template<typename Env>
+  template <typename Env>
   __host__ __device__
-  typename result<Env>::type eval(const Env &e) const
-  {
-    typename operator_type<Env>::type op;
-    return op(thrust::get<0>(e), thrust::get<1>(e));
-  } // end eval()
-}; // end binary_operator
+  result_type<Env> eval(Env&& e) const
+  THRUST_RETURNS(BinaryFunctor{}(thrust::get<0>(e), thrust::get<1>(e)))
+};
 
 } // end functional
 } // end detail
