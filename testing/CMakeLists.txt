@@ -111,6 +111,14 @@ function(thrust_add_test target_name_var test_name test_src thrust_target)
   if (("OMP" IN_LIST config_systems) OR ("TBB" IN_LIST config_systems))
     set_tests_properties(${test_target} PROPERTIES RUN_SERIAL ON)
   endif()
+
+  # Check for per-test script. Script will be included in the current scope
+  # to allow custom property modifications.
+  get_filename_component(test_cmake_script "${test_src}" NAME_WLE)
+  set(test_cmake_script "${CMAKE_CURRENT_LIST_DIR}/${test_cmake_script}.cmake")
+  if (EXISTS "${test_cmake_script}")
+    include("${test_cmake_script}")
+  endif()
 endfunction()
 
 file(GLOB test_srcs
