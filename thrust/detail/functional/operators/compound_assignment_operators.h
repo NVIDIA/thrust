@@ -28,25 +28,34 @@ namespace detail
 namespace functional
 {
 
-template<typename T>
-  struct plus_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard plus_equal functional, so roll an ad hoc one here
+struct plus_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs += rhs; }
-}; // end plus_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) += THRUST_FWD(t2)))
+      -> decltype(THRUST_FWD(t1) += THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) += THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<plus_equal>,
+    transparent_binary_operator<plus_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator+=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<plus_equal>(),
+  return compose(transparent_binary_operator<plus_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator+=()
@@ -55,37 +64,46 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<plus_equal>,
+    transparent_binary_operator<plus_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator+=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<plus_equal>(),
+  return compose(transparent_binary_operator<plus_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator+=()
 
-template<typename T>
-  struct minus_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard minus_equal functional, so roll an ad hoc one here
+struct minus_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T &rhs) const { return lhs -= rhs; }
-}; // end minus_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) -= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) -= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) -= THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<minus_equal>,
+    transparent_binary_operator<minus_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator-=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<minus_equal>(),
+  return compose(transparent_binary_operator<minus_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator-=()
@@ -94,37 +112,46 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<minus_equal>,
+    transparent_binary_operator<minus_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator-=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<minus_equal>(),
+  return compose(transparent_binary_operator<minus_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator-=()
 
-template<typename T>
-  struct multiplies_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard multiplies_equal functional, so roll an ad hoc one here
+struct multiplies_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T&rhs) const { return lhs *= rhs; }
-}; // end multiplies_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) *= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) *= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) *= THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<multiplies_equal>,
+    transparent_binary_operator<multiplies_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator*=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<multiplies_equal>(),
+  return compose(transparent_binary_operator<multiplies_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator*=()
@@ -133,37 +160,46 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<multiplies_equal>,
+    transparent_binary_operator<multiplies_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator*=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<multiplies_equal>(),
+  return compose(transparent_binary_operator<multiplies_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator*=()
 
-template<typename T>
-  struct divides_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard divides_equal functional, so roll an ad hoc one here
+struct divides_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T&rhs) const { return lhs /= rhs; }
-}; // end divides_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) /= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) /= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) /= THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<divides_equal>,
+    transparent_binary_operator<divides_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator/=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<divides_equal>(),
+  return compose(transparent_binary_operator<divides_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator/=()
@@ -172,37 +208,46 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<divides_equal>,
+    transparent_binary_operator<divides_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator/=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<divides_equal>(),
+  return compose(transparent_binary_operator<divides_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator/=()
 
-template<typename T>
-  struct modulus_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard modulus_equal functional, so roll an ad hoc one here
+struct modulus_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T&rhs) const { return lhs %= rhs; }
-}; // end modulus_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) %= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) %= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) %= THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<modulus_equal>,
+    transparent_binary_operator<modulus_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator%=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<modulus_equal>(),
+  return compose(transparent_binary_operator<modulus_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator%=()
@@ -211,37 +256,46 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<modulus_equal>,
+    transparent_binary_operator<modulus_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator%=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<modulus_equal>(),
+  return compose(transparent_binary_operator<modulus_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator%=()
 
-template<typename T>
-  struct bit_and_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard bit_and_equal functional, so roll an ad hoc one here
+struct bit_and_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T&rhs) const { return lhs &= rhs; }
-}; // end bit_and_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) &= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) &= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) &= THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_and_equal>,
+    transparent_binary_operator<bit_and_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator&=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<bit_and_equal>(),
+  return compose(transparent_binary_operator<bit_and_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator&=()
@@ -250,37 +304,46 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_and_equal>,
+    transparent_binary_operator<bit_and_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator&=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<bit_and_equal>(),
+  return compose(transparent_binary_operator<bit_and_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator&=()
 
-template<typename T>
-  struct bit_or_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard bit_or_equal functional, so roll an ad hoc one here
+struct bit_or_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T&rhs) const { return lhs |= rhs; }
-}; // end bit_or_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) |= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) |= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) |= THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_or_equal>,
+    transparent_binary_operator<bit_or_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator|=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<bit_or_equal>(),
+  return compose(transparent_binary_operator<bit_or_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator|=()
@@ -289,37 +352,46 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_or_equal>,
+    transparent_binary_operator<bit_or_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator|=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<bit_or_equal>(),
+  return compose(transparent_binary_operator<bit_or_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator|=()
 
-template<typename T>
-  struct bit_xor_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard bit_xor_equal functional, so roll an ad hoc one here
+struct bit_xor_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T&rhs) const { return lhs ^= rhs; }
-}; // end bit_xor_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) ^= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) ^= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) ^= THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_xor_equal>,
+    transparent_binary_operator<bit_xor_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator^=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<bit_xor_equal>(),
+  return compose(transparent_binary_operator<bit_xor_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator|=()
@@ -328,37 +400,45 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_xor_equal>,
+    transparent_binary_operator<bit_xor_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator^=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<bit_xor_equal>(),
+  return compose(transparent_binary_operator<bit_xor_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator|=()
 
-template<typename T>
-  struct bit_lshift_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard bit_lshift_equal functional, so roll an ad hoc one here
+struct bit_lshift_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T&rhs) const { return lhs <<= rhs; }
-}; // end bit_lshift_equal
+  using is_transparent = void;
 
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) <<= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) <<= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) <<= THRUST_FWD(t2);
+  }
+};
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_lshift_equal>,
+    transparent_binary_operator<bit_lshift_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator<<=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<bit_lshift_equal>(),
+  return compose(transparent_binary_operator<bit_lshift_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator<<=()
@@ -367,37 +447,46 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_lshift_equal>,
+    transparent_binary_operator<bit_lshift_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator<<=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<bit_lshift_equal>(),
+  return compose(transparent_binary_operator<bit_lshift_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator<<=()
 
-template<typename T>
-  struct bit_rshift_equal
-    : public thrust::binary_function<T&,T,T&>
+// there's no standard bit_rshift_equal functional, so roll an ad hoc one here
+struct bit_rshift_equal
 {
-  __host__ __device__ T& operator()(T &lhs, const T&rhs) const { return lhs >>= rhs; }
-}; // end bit_rshift_equal
+  using is_transparent = void;
+
+  __thrust_exec_check_disable__
+  template <typename T1, typename T2>
+  __host__ __device__
+  constexpr auto operator()(T1&& t1, T2&& t2) const
+  noexcept(noexcept(THRUST_FWD(t1) >>= THRUST_FWD(t2)))
+  -> decltype(THRUST_FWD(t1) >>= THRUST_FWD(t2))
+  {
+    return THRUST_FWD(t1) >>= THRUST_FWD(t2);
+  }
+};
 
 template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_rshift_equal>,
+    transparent_binary_operator<bit_rshift_equal>,
     actor<T1>,
     typename as_actor<T2>::type
   >
 >
 operator>>=(const actor<T1> &_1, const T2 &_2)
 {
-  return compose(binary_operator<bit_rshift_equal>(),
+  return compose(transparent_binary_operator<bit_rshift_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator>>=()
@@ -406,14 +495,14 @@ template<typename T1, typename T2>
 __host__ __device__
 actor<
   composite<
-    binary_operator<bit_rshift_equal>,
+    transparent_binary_operator<bit_rshift_equal>,
     actor<T1>,
     actor<T2>
   >
 >
 operator>>=(const actor<T1> &_1, const actor<T2> &_2)
 {
-  return compose(binary_operator<bit_rshift_equal>(),
+  return compose(transparent_binary_operator<bit_rshift_equal>(),
                  make_actor(_1),
                  make_actor(_2));
 } // end operator>>=()
