@@ -1,7 +1,13 @@
-cmake_minimum_required(VERSION 3.18)
+# 3.15 is the minimum.
+# 3.17 for nvc++/Feta
+# 3.18 for C++17 + CUDA
+cmake_minimum_required(VERSION 3.15)
 
-# Remove this when we use the new CUDA_ARCHITECTURES properties:
-cmake_policy(SET CMP0104 OLD)
+# Remove this when we use the new CUDA_ARCHITECTURES properties with both
+# nvcc and nvc++.
+if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.18)
+  cmake_policy(SET CMP0104 OLD)
+endif()
 
 project(Thrust NONE)
 
@@ -80,6 +86,9 @@ endif ()
 # Temporary hacks to make Feta work; this requires you to define
 # `CMAKE_CUDA_COMPILER_ID=Feta` and `CMAKE_CUDA_COMPILER_FORCED`.
 if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+  # Need 3.17 for the properties used below.
+  cmake_minimum_required(VERSION 3.17)
+
   set(CMAKE_CUDA_STANDARD_DEFAULT 03)
 
   set(CMAKE_CUDA03_STANDARD_COMPILE_OPTION "-std=c++03")
