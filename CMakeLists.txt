@@ -1,7 +1,4 @@
-cmake_minimum_required(VERSION 3.18)
-
-# Remove this when we use the new CUDA_ARCHITECTURES properties:
-cmake_policy(SET CMP0104 OLD)
+cmake_minimum_required(VERSION 3.10)
 
 project(Thrust NONE)
 
