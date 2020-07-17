@@ -23,7 +23,7 @@
   #include <thrust/detail/type_deduction.h>
 #endif
 
-#include <memory>
+#include <thrust/detail/memory_wrapper.h>
 #include <new>
 
 namespace thrust
