@@ -1,4 +1,4 @@
-# Thrust v1.9.10-1 (NVIDIA HPC SDK 20.7, CUDA Toolkit 11.1)
+# Thrust 1.9.10-1 (NVIDIA HPC SDK 20.7, CUDA Toolkit 11.1)
 
 ## Summary
 
@@ -15,7 +15,7 @@ Thrust 1.9.10-1 is the minor release accompanying the NVIDIA HPC SDK 20.7 releas
 - #1218: Wrap includes of `<memory>` and `<algorithm>` to avoid circular
     inclusion with NVC++.
 
-# Thrust v1.9.10 (NVIDIA HPC SDK 20.5)
+# Thrust 1.9.10 (NVIDIA HPC SDK 20.5)
 
 ## Summary
 
@@ -199,7 +199,7 @@ Thrust 1.9.8, which is included in the CUDA Toolkit 11.0 release, removes
 It will now be necessary to do `git clone --recursive` when checking out
   Thrust, and to update the CUB submodule when pulling in new Thrust changes.
 Additionally, CUB is now included as a first class citizen in the CUDA toolkit.
-Thrust v1.9.8 also fixes bugs preventing most Thrust algorithms from working
+Thrust 1.9.8 also fixes bugs preventing most Thrust algorithms from working
   with more than `2^32` elements.
 Now, `reduce`, `*_scan`, and related algorithms (aka most of Thrust) work with
   large element counts.
@@ -246,7 +246,7 @@ Now, `reduce`, `*_scan`, and related algorithms (aka most of Thrust) work with
 
 ## Summary
 
-Thrust v1.9.7 is a minor release accompanying the CUDA 10.2 release.
+Thrust 1.9.7 is a minor release accompanying the CUDA 10.2 release.
 
 ## Bug Fixes
 
@@ -306,7 +306,7 @@ Thrust 1.9.6 is a minor release accompanying the CUDA Toolkit 10.1 Update 2
 - NVBug 200513211: Truncation warning in test code under VC142
 
 
-# Thrust v1.9.5 (CUDA 10.1 Update 1)
+# Thrust 1.9.5 (CUDA 10.1 Update 1)
 
 ## Summary
 
@@ -1112,7 +1112,7 @@ Thrust 1.5.1 is a minor bug fix release.
 # Thrust 1.5.0
 
 Summary
-- Thrust v1.5.0 provides introduces new programmer productivity and performance
+- Thrust 1.5.0 provides introduces new programmer productivity and performance
 - enhancements. New functionality for creating anonymous "lambda" functions has
 - been added. A faster host sort provides 2-10x faster performance for sorting
 - arithmetic types on (single-threaded) CPUs. A new OpenMP sort provides
@@ -1404,7 +1404,7 @@ Small fixes for compatibility for the CUDA Toolkit 3.1.
 # Thrust 1.2.0
 
 Summary
-- Thrust v1.2 introduces support for compilation to multicore CPUs
+- Thrust 1.2 introduces support for compilation to multicore CPUs
 - and the Ocelot virtual machine, and several new facilities for
 - pseudo-random number generation.  New algorithms such as set
 - intersection and segmented reduction have also been added.  Lastly,
@@ -1530,7 +1530,7 @@ Summary
 # Thrust 1.1.0
 
 Summary
-- Thrust v1.1 introduces fancy iterators, binary search functions, and
+- Thrust 1.1.0 introduces fancy iterators, binary search functions, and
 - several specialized reduction functions.  Experimental support for
 - segmented scan has also been added.
 
