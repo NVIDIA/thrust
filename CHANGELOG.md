@@ -1,3 +1,20 @@
+# Thrust v1.9.10-1 (NVIDIA HPC SDK 20.7, CUDA Toolkit 11.1)
+
+## Summary
+
+Thrust 1.9.10-1 is the minor release accompanying the NVIDIA HPC SDK 20.7 release
+  and the CUDA Toolkit 11.1 release.
+
+## Bug Fixes
+
+- #1214, NVBug 200619442: Stop using `std::allocator` APIs deprecated in C++17.
+- #1216, NVBug 200540293: Make `thrust::optional` work with Clang when used
+    with older libstdc++.
+- #1207, NVBug 200618218: Don't force C++14 with older compilers that don't
+    support it.
+- #1218: Wrap includes of `<memory>` and `<algorithm>` to avoid circular
+    inclusion with NVC++.
+
 # Thrust v1.9.10 (NVIDIA HPC SDK 20.5)
 
 ## Summary
