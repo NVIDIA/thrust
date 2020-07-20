@@ -292,7 +292,7 @@ to `master` with NVIDIA's internal perforce repository.
 
 # CMake Options
 
-A Thrust build is configured using CMake options. These may be passed to CMake 
+A Thrust build is configured using CMake options. These may be passed to CMake
 using
 
 ```
@@ -308,9 +308,9 @@ targeting a variety of systems and dialects are generated.
 
 The CMake options are divided into these categories:
 
-1. [Generic CMake Options](#generic-cmake-options): Options applicable to all 
+1. [Generic CMake Options](#generic-cmake-options): Options applicable to all
    Thrust builds.
-1. [Single Config CMake Options](#single-config-cmake-options) Options 
+1. [Single Config CMake Options](#single-config-cmake-options) Options
    applicable only when `THRUST_ENABLE_MULTICONFIG` is disabled.
 1. [Multi Config CMake Options](#multi-config-cmake-options) Options applicable
    only when `THRUST_ENABLE_MULTICONFIG` is enabled.
@@ -359,7 +359,7 @@ The CMake options are divided into these categories:
 - `THRUST_MULTICONFIG_WORKLOAD={SMALL, MEDIUM, LARGE, FULL}`
   - Restricts the host/device combinations that will be targeted.
   - By default, the `SMALL` workload is used.
-  - The full cross product of `host x device` systems results in 12 
+  - The full cross product of `host x device` systems results in 12
     configurations, some of which are more important than others.
     This option can be used to prune some of the less important ones.
   - `SMALL`: (3 configs) Minimal coverage and validation of each device system against the `CPP` host.
@@ -385,12 +385,12 @@ The CMake options are divided into these categories:
 ## CUDA Specific CMake Options
 
 - `THRUST_INCLUDE_CUB_CMAKE={ON, OFF}`
-  - If enabled, the CUB project will be built as part of Thrust. Default is 
+  - If enabled, the CUB project will be built as part of Thrust. Default is
     `OFF`.
   - This adds CUB tests, etc. Useful for working on both CUB and Thrust
     simultaneously.
-  - CUB configurations will be generated for each C++ dialect targeted by 
-    the current Thrust build. 
+  - CUB configurations will be generated for each C++ dialect targeted by
+    the current Thrust build.
 - `THRUST_ENABLE_COMPUTE_XX={ON, OFF}`
   - Controls the targeted CUDA architecture(s)
   - Multiple options may be selected when using NVCC as the CUDA compiler.
@@ -456,14 +456,11 @@ Releases prior to 1.10.0 largely, but not strictly, followed these semantic mean
 The version number for a Thrust release uses the following format: `MMM.mmm.ss-ppp`, where:
 
    * `THRUST_VERSION_MAJOR`/`MMM`: Major version, up to 3 decimal digits. It is incremented
-     when the fundamental nature of the library evolves, leading to widespread changes across the
-     entire library interface with no guarantee of API, ABI, or semantic compatibility with former
-     versions.
+     when changes that are API-backwards-incompatible are made.
    * `THRUST_VERSION_MINOR`/`mmm`: Minor version, up to 3 decimal digits. It is incremented when
      breaking API, ABI, or semantic changes are made.
    * `THRUST_VERSION_SUBMINOR`/`ss`: Subminor version, up to 2 decimal digits. It is incremented
-     when notable new features or bug fixes or features that are API, ABI, and semantic backwards
-     compatible are added.
+     when notable new features or bug fixes or features that are API-backwards-compatible are made.
    * `THRUST_PATCH_NUMBER`/`ppp`: Patch number, up to 3 decimal digits. It is incremented if any
      change in the repo whatsoever is made and no other version component has been incremented.
 
