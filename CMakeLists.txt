@@ -16,6 +16,7 @@ include(cmake/AppendOptionIfAvailable.cmake)
 include(cmake/ThrustBuildCompilerTargets.cmake)
 include(cmake/ThrustBuildTargetList.cmake)
 include(cmake/ThrustMultiConfig.cmake)
+include(cmake/ThrustInstallRules.cmake)
 include(cmake/ThrustUtilities.cmake)
 
 # Add cache string options for CMAKE_BUILD_TYPE and default to RelWithDebInfo.
