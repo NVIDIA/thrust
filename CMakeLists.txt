@@ -19,6 +19,21 @@ include(cmake/ThrustMultiConfig.cmake)
 include(cmake/ThrustInstallRules.cmake)
 include(cmake/ThrustUtilities.cmake)
 
+option(THRUST_ENABLE_HEADER_TESTING "Test that all public headers compile." "ON")
+option(THRUST_ENABLE_TESTING "Build Thrust testing suite." "ON")
+option(THRUST_ENABLE_EXAMPLES "Build Thrust examples." "ON")
+option(THRUST_INCLUDE_CUB_CMAKE "Build CUB tests and examples. (Requires CUDA)." "OFF")
+
+# Check if we're actually building anything before continuing. If not, no need
+# to search for deps, etc. This is a common approach for packagers that just
+# need the install rules. See GH issue thrust/thrust#1211.
+if (NOT (THRUST_ENABLE_HEADER_TESTING OR
+         THRUST_ENABLE_TESTING OR
+         THRUST_ENABLE_EXAMPLES OR
+         THRUST_INCLUDE_CUB_CMAKE))
+  return()
+endif()
+
 # Add cache string options for CMAKE_BUILD_TYPE and default to RelWithDebInfo.
 if ("" STREQUAL "${CMAKE_BUILD_TYPE}")
   set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build." FORCE)
@@ -135,11 +150,6 @@ message(STATUS "OMP system found?  ${THRUST_OMP_FOUND}")
 if (THRUST_CUDA_FOUND)
   include(cmake/ThrustCudaConfig.cmake)
 endif()
-
-option(THRUST_ENABLE_HEADER_TESTING "Test that all public headers compile." "ON")
-option(THRUST_ENABLE_TESTING "Build Thrust testing suite." "ON")
-option(THRUST_ENABLE_EXAMPLES "Build Thrust examples." "ON")
-option(THRUST_INCLUDE_CUB_CMAKE "Build CUB tests and examples. (Requires CUDA)." "OFF")
 
 if (THRUST_ENABLE_HEADER_TESTING)
   include(cmake/ThrustHeaderTesting.cmake)
