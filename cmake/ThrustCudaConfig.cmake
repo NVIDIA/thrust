@@ -115,11 +115,16 @@ option(THRUST_ENABLE_EXAMPLES_WITH_RDC
   ${option_init}
 )
 
+option(THRUST_ENABLE_BENCHMARKS_WITH_RDC
+  "Build all Thrust benchmarks with RDC; benchmarks which require RDC are not affected by this option."
+  ${option_init}
+)
+
 # Check for RDC/SM compatibility and error/warn if necessary
 foreach (sm IN LISTS no_rdc_archs)
   set(sm_opt THRUST_ENABLE_COMPUTE_${sm})
   if (${sm_opt})
-    foreach (opt IN ITEMS TESTS EXAMPLES)
+    foreach (opt IN ITEMS TESTS EXAMPLES BENCHMARKS)
       set(rdc_opt THRUST_ENABLE_${opt}_WITH_RDC)
       if (${rdc_opt})
         message(FATAL_ERROR

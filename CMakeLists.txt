@@ -29,6 +29,7 @@ include(cmake/ThrustUtilities.cmake)
 option(THRUST_ENABLE_HEADER_TESTING "Test that all public headers compile." "ON")
 option(THRUST_ENABLE_TESTING "Build Thrust testing suite." "ON")
 option(THRUST_ENABLE_EXAMPLES "Build Thrust examples." "ON")
+option(THRUST_ENABLE_BENCHMARKS "Build Thrust benchmarking suite." "OFF")
 option(THRUST_INCLUDE_CUB_CMAKE "Build CUB tests and examples. (Requires CUDA)." "OFF")
 
 # Check if we're actually building anything before continuing. If not, no need
@@ -37,6 +38,7 @@ option(THRUST_INCLUDE_CUB_CMAKE "Build CUB tests and examples. (Requires CUDA)."
 if (NOT (THRUST_ENABLE_HEADER_TESTING OR
          THRUST_ENABLE_TESTING OR
          THRUST_ENABLE_EXAMPLES OR
+         THRUST_ENABLE_BENCHMARKS OR
          THRUST_INCLUDE_CUB_CMAKE))
   return()
 endif()
@@ -174,6 +176,10 @@ endif()
 
 if (THRUST_ENABLE_EXAMPLES)
   add_subdirectory(examples)
+endif()
+
+if (THRUST_ENABLE_BENCHMARKS)
+  add_subdirectory(internal/benchmark)
 endif()
 
 if (THRUST_INCLUDE_CUB_CMAKE AND THRUST_CUDA_FOUND)

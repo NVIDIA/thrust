@@ -2,6 +2,10 @@
 
 #include <cassert>
 
+#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
+
+#include <cuda_runtime_api.h>
+
 #  define CUDA_SAFE_CALL_NO_SYNC( call) do {                                 \
     cudaError err = call;                                                    \
     if( cudaSuccess != err) {                                                \
@@ -60,6 +64,8 @@ class cuda_timer
         return milliseconds_elapsed() / 1000.0;
     }
 };
+
+#endif // DEVICE=CUDA
 
 #if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC)
 #include <windows.h>

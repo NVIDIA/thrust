@@ -4,6 +4,7 @@
 #include <thrust/sort.h>
 #include <thrust/reduce.h>
 #include <thrust/scan.h>
+#include <thrust/transform_reduce.h>
 #include <thrust/detail/config.h>
 
 #if THRUST_CPP_DIALECT >= 2011
