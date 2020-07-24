@@ -79,6 +79,15 @@ function(thrust_set_target_properties target_name host device dialect prefix)
         RUNTIME_OUTPUT_DIRECTORY "${THRUST_EXECUTABLE_OUTPUT_DIR}"
     )
 
+    # CMake still emits errors about empty CUDA_ARCHITECTURES when CMP0104
+    # is set to OLD. This suppresses the errors for good.
+    if (CMAKE_VERSION VERSION_GREATER_EQUAL 3.18)
+      set_target_properties(${target_name}
+        PROPERTIES
+          CUDA_ARCHITECTURES OFF
+      )
+    endif()
+
     if ("CUDA" STREQUAL "${device}" AND
         "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
       set_target_properties(${target_name} PROPERTIES
