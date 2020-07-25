@@ -23,10 +23,11 @@
 
 #include <thrust/tuple.h>
 #include <thrust/iterator/iterator_traits.h>
+#include <thrust/detail/static_assert.h>
 #include <thrust/detail/type_traits.h>
 #include <thrust/iterator/detail/tuple_of_iterator_references.h>
 #include <thrust/detail/raw_reference_cast.h>
-#include <memory> // for ::new
+#include <thrust/detail/memory_wrapper.h> // for ::new
 
 namespace thrust
 {
@@ -97,7 +98,7 @@ struct predicate_to_integral
   
   template <typename T>
   __host__ __device__
-  bool operator()(const T& x)
+  IntegralType operator()(const T& x)
   {
     return pred(x) ? IntegralType(1) : IntegralType(0);
   }

@@ -60,7 +60,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename T, typename BinaryOp
 >
-THRUST_RUNTIME_FUNCTION
 auto async_reduce_n(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
@@ -192,7 +191,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename T, typename BinaryOp
 >
-THRUST_RUNTIME_FUNCTION
 auto async_reduce(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
@@ -218,7 +216,6 @@ template <
 , typename ForwardIt, typename Size, typename OutputIt
 , typename T, typename BinaryOp
 >
-THRUST_RUNTIME_FUNCTION
 auto async_reduce_into_n(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
@@ -330,7 +327,6 @@ template <
 , typename ForwardIt, typename Sentinel, typename OutputIt
 , typename T, typename BinaryOp
 >
-THRUST_RUNTIME_FUNCTION
 auto async_reduce_into(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first

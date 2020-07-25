@@ -14,8 +14,8 @@
 
 # Makefile for building Thrust unit test driver
 
-# Force C++14 mode. NVCC will ignore it if the host compiler doesn't support it.
-export CXX_STD := c++14
+# Force C++11 mode. NVCC will ignore it if the host compiler doesn't support it.
+export CXX_STD := c++11
 
 export CCCL_ENABLE_DEPRECATIONS := 1
 
@@ -110,35 +110,6 @@ ifdef VULCAN_TOOLKIT_BASE
 else
   include ../build/common.mk
 endif
-
-# Print host compiler version.
-
-VERSION_FLAG :=
-ifeq ($(OS),$(filter $(OS),Linux Darwin))
-  ifdef USEPGCXX        # PGI
-    VERSION_FLAG := -V
-  else
-    ifdef USEXLC        # XLC
-      VERSION_FLAG := -qversion
-    else                # GCC, ICC or Clang AKA the sane ones.
-      VERSION_FLAG := --version
-    endif
-  endif
-else ifeq ($(OS),win32) # MSVC
-  # cl.exe run without any options will print its version info and exit.
-  VERSION_FLAG :=
-endif
-
-CCBIN_ENVIRONMENT :=
-ifeq ($(OS), QNX)
-  # QNX's GCC complains if QNX_HOST and QNX_TARGET aren't defined in the
-  # environment.
-  CCBIN_ENVIRONMENT := QNX_HOST=$(QNX_HOST) QNX_TARGET=$(QNX_TARGET)
-endif
-
-$(info #### CCBIN         : $(CCBIN))
-$(info #### CCBIN VERSION : $(shell $(CCBIN_ENVIRONMENT) $(CCBIN) $(VERSION_FLAG)))
-$(info #### CXX_STD       : $(CXX_STD))
 
 ifeq ($(OS), win32)
   CREATE_DVS_PACKAGE = $(ZIP) -r built/CUDA-thrust-package.zip bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark thrust/*.trs $(DVS_COMMON_TEST_PACKAGE_FILES)

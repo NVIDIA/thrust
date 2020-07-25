@@ -20,13 +20,13 @@
 namespace thrust
 {
 
-template <typename OutputIterator, typename UnaryFunction>
+template <typename UnaryFunction, typename OutputIterator>
   class transform_output_iterator;
 
 namespace detail 
 {
 
-// Proxy reference that uses Unary Functiont o transform the rhs of assigment
+// Proxy reference that uses Unary Function to transform the rhs of assigment
 // operator before writing the result to OutputIterator
 template <typename UnaryFunction, typename OutputIterator>
   class transform_output_iterator_proxy
@@ -66,11 +66,11 @@ struct transform_output_iterator_base
     > type;
 };
 
-// Register trasnform_output_iterator_proxy with 'is_proxy_reference' from
+// Register transform_output_iterator_proxy with 'is_proxy_reference' from
 // type_traits to enable its use with algorithms.
-template <class OutputIterator, class UnaryFunction>
+template <class UnaryFunction, class OutputIterator>
 struct is_proxy_reference<
-    transform_output_iterator_proxy<OutputIterator, UnaryFunction> >
+    transform_output_iterator_proxy<UnaryFunction, OutputIterator> >
     : public thrust::detail::true_type {};
 
 } // end detail

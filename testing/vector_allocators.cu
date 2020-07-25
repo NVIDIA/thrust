@@ -7,6 +7,8 @@
 template<typename BaseAlloc, bool PropagateOnSwap>
 class stateful_allocator : public BaseAlloc
 {
+  typedef thrust::detail::allocator_traits<BaseAlloc> base_traits;
+
 public:
     stateful_allocator(int i) : state(i)
     {
@@ -43,20 +45,35 @@ public:
     static int last_allocated;
     static int last_deallocated;
 
-    typedef
-        typename thrust::detail::allocator_traits<BaseAlloc>::pointer
-        pointer;
+    typedef typename base_traits::pointer pointer;
+    typedef typename base_traits::const_pointer const_pointer;
+    typedef typename base_traits::reference reference;
+    typedef typename base_traits::const_reference const_reference;
 
     pointer allocate(std::size_t size)
     {
+        BaseAlloc alloc;
         last_allocated = state;
-        return BaseAlloc::allocate(size);
+        return base_traits::allocate(alloc, size);
     }
 
     void deallocate(pointer ptr, std::size_t size)
     {
+        BaseAlloc alloc;
         last_deallocated = state;
-        return BaseAlloc::deallocate(ptr, size);
+        return base_traits::deallocate(alloc, ptr, size);
+    }
+
+    static void construct(pointer ptr)
+    {
+      BaseAlloc alloc;
+      return base_traits::construct(alloc, ptr);
+    }
+
+    static void destroy(pointer ptr)
+    {
+      BaseAlloc alloc;
+      return base_traits::destroy(alloc, ptr);
     }
 
     bool operator==(const stateful_allocator &rhs) const

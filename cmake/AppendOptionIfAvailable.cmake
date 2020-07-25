@@ -3,7 +3,7 @@ include(CheckCXXCompilerFlag)
 
 macro (APPEND_OPTION_IF_AVAILABLE _FLAG _LIST)
 
-set(_VAR "CXX_FLAG_${_FLAG}")
+string(MAKE_C_IDENTIFIER "CXX_FLAG_${_FLAG}" _VAR)
 check_cxx_compiler_flag(${_FLAG} ${_VAR})
 
 if (${${_VAR}})

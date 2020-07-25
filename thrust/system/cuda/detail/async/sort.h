@@ -65,7 +65,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -173,7 +172,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,
@@ -289,7 +287,6 @@ auto async_stable_sort_n(
 }
 
 template <typename T, typename Size, typename StrictWeakOrdering>
-THRUST_RUNTIME_FUNCTION
 typename std::enable_if<
   is_operator_less_function_object<StrictWeakOrdering>::value
 , cudaError_t
@@ -316,7 +313,6 @@ invoke_radix_sort(
 }
 
 template <typename T, typename Size, typename StrictWeakOrdering>
-THRUST_RUNTIME_FUNCTION
 typename std::enable_if<
   is_operator_greater_function_object<StrictWeakOrdering>::value
 , cudaError_t
@@ -349,7 +345,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Size, typename StrictWeakOrdering
 >
-THRUST_RUNTIME_FUNCTION
 auto async_stable_sort_n(
   execution_policy<DerivedPolicy>& policy
 , ForwardIt                        first
@@ -504,7 +499,6 @@ template <
   typename DerivedPolicy
 , typename ForwardIt, typename Sentinel, typename StrictWeakOrdering
 >
-THRUST_RUNTIME_FUNCTION
 auto async_stable_sort(
   execution_policy<DerivedPolicy>& policy,
   ForwardIt                        first,

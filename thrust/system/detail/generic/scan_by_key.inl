@@ -89,8 +89,7 @@ __host__ __device__
                                        OutputIterator result,
                                        BinaryPredicate binary_pred)
 {
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  return thrust::inclusive_scan_by_key(exec, first1, last1, first2, result, binary_pred, thrust::plus<OutputType>());
+  return thrust::inclusive_scan_by_key(exec, first1, last1, first2, result, binary_pred, thrust::plus<>());
 }
 
 
@@ -185,8 +184,7 @@ __host__ __device__
                                        T init,
                                        BinaryPredicate binary_pred)
 {
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  return thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, init, binary_pred, thrust::plus<OutputType>());
+  return thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, init, binary_pred, thrust::plus<>());
 }
 
 

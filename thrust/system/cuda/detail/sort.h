@@ -1214,7 +1214,7 @@ namespace __merge_sort {
       return status;
     };
 
-    int num_passes = thrust::detail::log2_ri(num_tiles);
+    int num_passes = static_cast<int>(thrust::detail::log2_ri(num_tiles));
     bool ping = !(1 & num_passes);
 
     Size*      merge_partitions = (Size*)allocations[0];

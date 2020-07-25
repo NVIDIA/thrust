@@ -24,80 +24,137 @@ namespace thrust
 namespace detail
 {
 
-
-template<typename Function, typename Result>
-  struct wrapped_function
+template <typename Function, typename Result>
+struct wrapped_function
 {
   // mutable because Function::operator() might be const
   mutable Function m_f;
 
   inline __host__ __device__
   wrapped_function()
+      : m_f()
+  {}
+
+  inline __host__ __device__
+  wrapped_function(const Function& f)
+      : m_f(f)
+  {}
+
+  __thrust_exec_check_disable__
+  template <typename Argument>
+  inline __host__ __device__
+  Result operator()(Argument& x) const
+  {
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x)));
+  }
+
+  __thrust_exec_check_disable__
+  template <typename Argument>
+  inline __host__ __device__
+  Result operator()(const Argument& x) const
+  {
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x)));
+  }
+
+  __thrust_exec_check_disable__
+  template <typename Argument1, typename Argument2>
+  inline __host__ __device__
+  Result operator()(Argument1& x, Argument2& y) const
+  {
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x),
+                                   thrust::raw_reference_cast(y)));
+  }
+
+  __thrust_exec_check_disable__
+  template <typename Argument1, typename Argument2>
+  inline __host__ __device__
+  Result operator()(const Argument1& x, Argument2& y) const
+  {
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x),
+                                   thrust::raw_reference_cast(y)));
+  }
+
+  __thrust_exec_check_disable__
+  template <typename Argument1, typename Argument2>
+  inline __host__ __device__
+  Result operator()(const Argument1& x, const Argument2& y) const
+  {
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x),
+                                   thrust::raw_reference_cast(y)));
+  }
+
+  __thrust_exec_check_disable__
+  template <typename Argument1, typename Argument2>
+  inline __host__ __device__
+  Result operator()(Argument1& x, const Argument2& y) const
+  {
+    return static_cast<Result>(m_f(thrust::raw_reference_cast(x),
+                                   thrust::raw_reference_cast(y)));
+  }
+}; // end wrapped_function
+
+// Specialize for void return types:
+template <typename Function>
+struct wrapped_function<Function, void>
+{
+  // mutable because Function::operator() might be const
+  mutable Function m_f;
+  inline __host__ __device__
+  wrapped_function()
     : m_f()
   {}
 
   inline __host__ __device__
-  wrapped_function(const Function &f)
+  wrapped_function(const Function& f)
     : m_f(f)
   {}
 
   __thrust_exec_check_disable__
-  template<typename Argument>
+  template <typename Argument>
   inline __host__ __device__
-    Result operator()(Argument &x) const
+  void operator()(Argument& x) const
   {
-    // we static cast to Result to handle void Result without error
-    // in case Function's result is non-void
-    return static_cast<Result>(m_f(thrust::raw_reference_cast(x)));
+    m_f(thrust::raw_reference_cast(x));
   }
 
   __thrust_exec_check_disable__
-  template<typename Argument>
-    inline __host__ __device__ Result operator()(const Argument &x) const
+  template <typename Argument>
+  inline __host__ __device__
+  void operator()(const Argument& x) const
   {
-    // we static cast to Result to handle void Result without error
-    // in case Function's result is non-void
-    return static_cast<Result>(m_f(thrust::raw_reference_cast(x)));
+    m_f(thrust::raw_reference_cast(x));
   }
 
   __thrust_exec_check_disable__
-  template<typename Argument1, typename Argument2>
-    inline __host__ __device__ Result operator()(Argument1 &x, Argument2 &y) const
+  template <typename Argument1, typename Argument2>
+  inline __host__ __device__
+  void operator()(Argument1& x, Argument2& y) const
   {
-    // we static cast to Result to handle void Result without error
-    // in case Function's result is non-void
-    return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
+    m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y));
   }
 
   __thrust_exec_check_disable__
-  template<typename Argument1, typename Argument2>
-    inline __host__ __device__ Result operator()(const Argument1 &x, Argument2 &y) const
+  template <typename Argument1, typename Argument2>
+  inline __host__ __device__
+  void operator()(const Argument1& x, Argument2& y) const
   {
-    // we static cast to Result to handle void Result without error
-    // in case Function's result is non-void
-    return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
+    m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y));
   }
-
   __thrust_exec_check_disable__
-  template<typename Argument1, typename Argument2>
-    inline __host__ __device__ Result operator()(const Argument1 &x, const Argument2 &y) const
+  template <typename Argument1, typename Argument2>
+  inline __host__ __device__
+  void operator()(const Argument1& x, const Argument2& y) const
   {
-    // we static cast to Result to handle void Result without error
-    // in case Function's result is non-void
-    return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
+    m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y));
   }
-
   __thrust_exec_check_disable__
-  template<typename Argument1, typename Argument2>
-    inline __host__ __device__ Result operator()(Argument1 &x, const Argument2 &y) const
+  template <typename Argument1, typename Argument2>
+  inline __host__ __device__
+  void operator()(Argument1& x, const Argument2& y) const
   {
-    // we static cast to Result to handle void Result without error
-    // in case Function's result is non-void
-    return static_cast<Result>(m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)));
+    m_f(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y));
   }
 }; // end wrapped_function
 
-
-} // end detail
-} // end thrust
-
+} // namespace detail
+} // namespace thrust

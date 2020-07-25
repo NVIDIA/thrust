@@ -147,6 +147,7 @@ DECLARE_VECTOR_UNITTEST(TestUninitializedFillPOD);
 
 struct CopyConstructTest
 {
+  __host__ __device__
   CopyConstructTest(void)
     :copy_constructed_on_host(false),
      copy_constructed_on_device(false)
