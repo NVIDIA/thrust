@@ -48,7 +48,7 @@ struct custom_plus
     auto operator()(                                                          \
       ForwardIt&& first, Sentinel&& last                                      \
     )                                                                         \
-    THRUST_RETURNS(                                                           \
+    THRUST_DECLTYPE_RETURNS(                                                  \
       ::thrust::async::reduce(                                                \
         __VA_ARGS__                                                           \
       )                                                                       \

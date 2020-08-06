@@ -48,7 +48,7 @@ struct divide_by_2
       ForwardIt&& first, Sentinel&& last, OutputIt&& output                   \
     , UnaryOperation&& op                                                     \
     )                                                                         \
-    THRUST_RETURNS(                                                           \
+    THRUST_DECLTYPE_RETURNS(                                                  \
       ::thrust::async::transform(                                             \
         __VA_ARGS__                                                           \
       )                                                                       \
