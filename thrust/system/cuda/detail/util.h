@@ -72,14 +72,27 @@ __thrust_exec_check_disable__
 template <class Derived>
 __host__ __device__
 cudaError_t
-synchronize_stream(execution_policy<Derived> &)
+synchronize_stream(execution_policy<Derived> &policy)
 {
-  #if __THRUST_HAS_CUDART__
-    cudaDeviceSynchronize();
-    return cudaGetLastError();
-  #else
-    return cudaSuccess;
-  #endif
+  cudaError_t result;
+  if (THRUST_IS_HOST_CODE) {
+    #if THRUST_INCLUDE_HOST_CODE
+      cudaStreamSynchronize(stream(policy));
+      result = cudaGetLastError();
+    #endif
+  } else {
+    #if THRUST_INCLUDE_DEVICE_CODE
+      #if __THRUST_HAS_CUDART__
+        THRUST_UNUSED_VAR(policy);
+        cudaDeviceSynchronize();
+        result = cudaGetLastError();
+      #else
+        THRUST_UNUSED_VAR(policy);
+        result = cudaSuccess;
+      #endif
+    #endif
+  }
+  return result;
 }
 
 // Entry point/interface.
