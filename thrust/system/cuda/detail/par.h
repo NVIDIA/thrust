@@ -69,31 +69,6 @@ private:
   {
     return exec.stream;
   }
-
-  friend __host__ __device__
-  cudaError_t
-  synchronize_stream(execute_on_stream_base &exec)
-  {
-    cudaError_t result;
-    if (THRUST_IS_HOST_CODE) {
-      #if THRUST_INCLUDE_HOST_CODE
-        cudaStreamSynchronize(exec.stream);
-        result = cudaGetLastError();
-      #endif
-    } else {
-      #if THRUST_INCLUDE_DEVICE_CODE
-        #if __THRUST_HAS_CUDART__
-          THRUST_UNUSED_VAR(exec);
-          cudaDeviceSynchronize();
-          result = cudaGetLastError();
-        #else
-          THRUST_UNUSED_VAR(exec);
-          result = cudaSuccess;
-        #endif
-      #endif
-    }
-    return result;
-  }
 };
 
 struct execute_on_stream : execute_on_stream_base<execute_on_stream>
