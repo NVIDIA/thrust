@@ -1598,6 +1598,10 @@ namespace __smart_sort {
     {
       cuda_cub::copy(policy, keys.begin(), keys.end(), keys_first);
     }
+
+    cuda_cub::throw_on_error(
+      cuda_cub::synchronize(policy),
+      "merge_sort: failed to synchronize");
   }
 }    // namespace __smart_sort
 
