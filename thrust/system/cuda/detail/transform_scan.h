@@ -50,8 +50,8 @@ transform_inclusive_scan(execution_policy<Derived> &policy,
                          TransformOp                transform_op,
                          ScanOp                     scan_op)
 {
-  // Use the input iterator's value type per https://wg21.link/P0571
-  using result_type = typename thrust::iterator_value<InputIt>::type;
+  using input_type = typename thrust::iterator_value<InputIt>::type;
+  using result_type = typename std::result_of<TransformOp(input_type)>::type;
 
   typedef typename iterator_traits<InputIt>::difference_type size_type;
   size_type num_items = static_cast<size_type>(thrust::distance(first, last));

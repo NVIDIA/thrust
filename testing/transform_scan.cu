@@ -190,6 +190,61 @@ void TestTransformScanSimple(void)
 }
 DECLARE_INTEGRAL_VECTOR_UNITTEST(TestTransformScanSimple);
 
+struct Record {
+    int number;
+
+    bool operator==(const Record& rhs) const {
+        return number == rhs.number;
+    }
+    bool operator!=(const Record& rhs) const {
+        return !(rhs == *this);
+    }
+    friend Record operator+(Record lhs, const Record& rhs) {
+        lhs.number += rhs.number;
+        return lhs;
+    }
+    friend std::ostream& operator<<(std::ostream& os, const Record& record) {
+        os << "number: " << record.number;
+        return os;
+    }
+};
+
+struct negate {
+    __host__ __device__ int operator()(Record const& record) const
+    {
+        return - record.number;
+    }
+};
+
+void TestTransformInclusiveScanDifferentTypes()
+{
+    typename thrust::host_vector<int>::iterator h_iter;
+
+    thrust::host_vector<Record> h_input(5);
+    thrust::host_vector<int> h_output(5);
+    thrust::host_vector<int> result(5);
+
+    h_input[0] = {1}; h_input[1] = {3}; h_input[2] = {-2}; h_input[3] = {4}; h_input[4] = {-5};
+
+    thrust::host_vector<Record> input_copy(h_input);
+
+    h_iter = thrust::transform_inclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), negate{}, thrust::plus<int>{});
+    result[0] = -1; result[1] = -4; result[2] = -2; result[3] = -6; result[4] = -1;
+    ASSERT_EQUAL(std::size_t(h_iter - h_output.begin()), h_input.size());
+    ASSERT_EQUAL(h_input, input_copy);
+    ASSERT_EQUAL(h_output, result);
+
+    typename thrust::device_vector<int>::iterator d_iter;
+
+    thrust::device_vector<Record> d_input = h_input;
+    thrust::device_vector<int> d_output(5);
+
+    d_iter = thrust::transform_inclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), negate{}, thrust::plus<int>{});
+    ASSERT_EQUAL(std::size_t(d_iter - d_output.begin()), d_input.size());
+    ASSERT_EQUAL(d_input, input_copy);
+    ASSERT_EQUAL(d_output, result);
+}
+DECLARE_UNITTEST(TestTransformInclusiveScanDifferentTypes);
 
 template <typename T>
 struct TestTransformScan
