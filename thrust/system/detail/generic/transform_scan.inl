@@ -48,8 +48,8 @@ __host__ __device__
                                           UnaryFunction unary_op,
                                           BinaryFunction binary_op)
 {
-  // Use the input iterator's value type per https://wg21.link/P0571
-  using ValueType = typename thrust::iterator_value<InputIterator>::type;
+  using InputType = typename thrust::iterator_value<InputIterator>::type;
+  using ValueType = typename std::result_of<UnaryFunction(InputType)>::type;
 
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
