@@ -652,10 +652,10 @@ namespace core {
   }
 
 #define CUDA_CUB_RET_IF_FAIL(e) \
-  do {                          \
+  {                             \
     auto const error = (e);     \
     if (cub::Debug(error, __FILE__, __LINE__)) return error; \
-  } while(0);
+  }
 
   // uninitialized
   // -------
