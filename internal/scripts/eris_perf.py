@@ -169,6 +169,9 @@ with open(COMBINED_OUTPUT_FILE_NAME, "w") as output_file:
 
     for record in reader:
       for variable, directionality in measured_variables:
+        # Don't monitor regressions for STL implementations, nvbug 28980890:
+        if "STL" in variable:
+          continue
         print "&&&& PERF {0}_{1}_{2}bit_{3}mib_{4} {5} {6}{7}".format(
           record["Algorithm"],
           record["Element Type"],
