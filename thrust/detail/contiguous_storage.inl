@@ -24,6 +24,8 @@
 #include <thrust/detail/allocator/default_construct_range.h>
 #include <thrust/detail/allocator/destroy_range.h>
 #include <thrust/detail/allocator/fill_construct_range.h>
+
+#include <stdexcept> // for std::runtime_error
 #include <utility> // for use of std::swap in the WAR below
 
 namespace thrust
