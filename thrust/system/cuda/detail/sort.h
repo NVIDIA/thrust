@@ -312,18 +312,18 @@ namespace __merge_sort {
                                 item_type (&items)[ITEMS_PER_THREAD])
       {
 #pragma unroll
-        for (int I = 0; I < ITEMS_PER_THREAD; ++I)
+        for (int i = 0; i < ITEMS_PER_THREAD; ++i)
         {
 #pragma unroll
-          for (int J = 1 & I; J < ITEMS_PER_THREAD - 1; J += 2)
+          for (int j = 1 & i; j < ITEMS_PER_THREAD - 1; j += 2)
           {
-            if (compare_op(keys[J + 1], keys[J]))
+            if (compare_op(keys[j + 1], keys[j]))
             {
               using thrust::swap;
-              swap(keys[J], keys[J + 1]);
+              swap(keys[j], keys[j + 1]);
               if (SORT_ITEMS::value)
               {
-                swap(items[J], items[J + 1]);
+                swap(items[j], items[j + 1]);
               }
             }
           }    // inner loop
