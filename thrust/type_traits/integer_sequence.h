@@ -167,11 +167,11 @@ template <typename T, std::size_t N>
 struct make_reversed_integer_sequence_impl;
 
 // Add a new element to the front of an integer_sequence<>.
-template <typename T, T I, typename Sequence> 
+template <typename T, T Value, typename Sequence>
 struct integer_sequence_push_front_impl;
 
 // Add a new element to the back of an integer_sequence<>.
-template <typename T, T I, typename Sequence> 
+template <typename T, T Value, typename Sequence>
 struct integer_sequence_push_back_impl;
 
 }
@@ -189,14 +189,14 @@ using make_reversed_index_sequence =
   make_reversed_integer_sequence<std::size_t, N>;
 
 // Add a new element to the front of an integer_sequence<>.
-template <typename T, T I, typename Sequence> 
+template <typename T, T Value, typename Sequence>
 using integer_sequence_push_front =
-  typename detail::integer_sequence_push_front_impl<T, I, Sequence>::type;
+  typename detail::integer_sequence_push_front_impl<T, Value, Sequence>::type;
 
 // Add a new element to the back of an integer_sequence<>.
-template <typename T, T I, typename Sequence> 
+template <typename T, T Value, typename Sequence>
 using integer_sequence_push_back =
-  typename detail::integer_sequence_push_back_impl<T, I, Sequence>::type;
+  typename detail::integer_sequence_push_back_impl<T, Value, Sequence>::type;
 
 ///////////////////////////////////////////////////////////////////////////////
 

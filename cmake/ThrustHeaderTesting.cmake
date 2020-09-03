@@ -4,10 +4,14 @@
 # .inl files are not globbed for, because they are not supposed to be used as public
 # entrypoints.
 
+# Meta target for all configs' header builds:
+add_custom_target(thrust.all.headers)
+
 foreach(thrust_target IN LISTS THRUST_TARGETS)
   thrust_get_target_property(config_host ${thrust_target} HOST)
   thrust_get_target_property(config_device ${thrust_target} DEVICE)
   thrust_get_target_property(config_prefix ${thrust_target} PREFIX)
+  set(config_systems ${config_host} ${config_device})
 
   string(TOLOWER "${config_host}" host_lower)
   string(TOLOWER "${config_device}" device_lower)
@@ -115,5 +119,14 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
   target_link_libraries(${headertest_target} PUBLIC ${thrust_target})
   thrust_clone_target_properties(${headertest_target} ${thrust_target})
 
+  # Disable macro checks on TBB; the TBB atomic implementation uses `I` and
+  # our checks will issue false errors.
+  if ("TBB" IN_LIST config_systems)
+    target_compile_definitions(${headertest_target}
+      PRIVATE THRUST_IGNORE_MACRO_CHECKS
+    )
+  endif()
+
+  add_dependencies(thrust.all.headers ${headertest_target})
   add_dependencies(${config_prefix}.all ${headertest_target})
 endforeach()
