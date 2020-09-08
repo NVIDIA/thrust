@@ -95,7 +95,8 @@ __host__ __device__
   {
     if(wrapped_pred(*next))
     {
-      iter_swap(first, next);
+      // Fully qualify name to disambiguate overloads found via ADL.
+      ::thrust::system::detail::sequential::iter_swap(first, next);
       ++first;
     }
   }
@@ -143,7 +144,8 @@ __host__ __device__
   {
     if(wrapped_pred(*stencil_first))
     {
-      iter_swap(first, next);
+      // Fully qualify name to disambiguate overloads found via ADL.
+      ::thrust::system::detail::sequential::iter_swap(first, next);
       ++first;
     }
 
