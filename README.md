@@ -81,6 +81,7 @@ See the [changelog](CHANGELOG.md) for details about specific releases.
 
 | Thrust Release    | Included In                             |
 | ----------------- | --------------------------------------- |
+| 1.10.0            | NVIDIA HPC SDK 20.9                     |
 | 1.9.10-1          | NVIDIA HPC SDK 20.7 & CUDA Toolkit 11.1 |
 | 1.9.10            | NVIDIA HPC SDK 20.5                     |
 | 1.9.9             | CUDA Toolkit 11.0                       |
