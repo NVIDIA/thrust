@@ -1,3 +1,148 @@
+# Thrust 1.10.0 (NVIDIA HPC SDK 20.9)
+
+## Summary
+
+Thrust 1.10.0 is the major release accompanying the NVIDIA HPC SDK 20.9 release.
+It drops support for C++03, GCC < 5, Clang < 6, and MSVC < 2017.
+It also overhauls CMake support.
+Finally, we now have a Code of Conduct for contributors:
+https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md
+
+## Breaking Changes
+
+- C++03 is no longer supported.
+- GCC < 5, Clang < 6, and MSVC < 2017 are no longer supported.
+- C++11 is deprecated.
+  Using this dialect will generate a compile-time warning.
+  These warnings can be suppressed by defining
+    `THRUST_IGNORE_DEPRECATED_CPP_DIALECT` or `THRUST_IGNORE_DEPRECATED_CPP_11`.
+  Suppression is only a short term solution.
+  We will be dropping support for C++11 in the near future.
+- Asynchronous algorithms now require C++14.
+- CMake < 3.15 is no longer supported.
+- The default branch on GitHub is now called `main`.
+- Allocator and vector classes have been replaced with alias templates.
+
+## New Features
+
+- Contributor documentation: https://github.com/thrust/thrust/blob/main/CONTRIBUTING.md#multi-config-cmake-options
+- thrust/thrust#1159: CMake multi-config support, which allows multiple
+    combinations of host and device systems to be built and tested at once.
+  More details can be found here: https://github.com/thrust/thrust/blob/main/CONTRIBUTING.md#multi-config-cmake-options
+- CMake refactoring:
+  - Added install targets to CMake builds.
+  - Added support for CUB tests and examples.
+  - Thrust can be added to another CMake project by calling `add_subdirectory`
+      with the Thrust source root (see thrust/thrust#976).
+    An example can be found here:
+      https://github.com/thrust/thrust/blob/main/examples/cmake/add_subdir/CMakeLists.txt
+  - CMake < 3.15 is no longer supported.
+  - Dialects are now configured through target properties.
+    A new `THRUST_CPP_DIALECT` option has been added for single config mode.
+    Logic that modified `CMAKE_CXX_STANDARD` and `CMAKE_CUDA_STANDARD` has been
+      eliminated.
+  - Testing related CMake code has been moved to `testing/CMakeLists.txt`
+  - Example related CMake code has been moved to `examples/CMakeLists.txt`
+  - Header testing related CMake code has been moved to `cmake/ThrustHeaderTesting.cmake`
+  - CUDA configuration CMake code has been moved to to `cmake/ThrustCUDAConfig.cmake`.
+  - Now we explicitly `include(cmake/*.cmake)` files rather than searching
+      `CMAKE_MODULE_PATH` - we only want to use the ones in the repo.
+- `thrust::transform_input_output_iterator`, a variant of transform iterator
+    adapter that works as both an input iterator and an output iterator.
+  The given input function is applied after reading from the wrapped iterator
+    while the output function is applied before writing to the wrapped iterator.
+  Thanks to Trevor Smith for this contribution.
+
+## Other Enhancements
+
+- Support for all combinations of host and device systems.
+- C++17 support.
+- thrust/thrust#1221: Allocator and vector classes have been replaced with
+    alias templates.
+  Thanks to Michael Francis for this contribution.
+- thrust/thrust#1186: Use placeholder expressions to simplify the definitions
+    of a number of algorithms.
+  Thanks to Michael Francis for this contribution.
+- thrust/thrust#1170: More conforming semantics for scan algorithms:
+  - Follow P0571's guidance regarding intermediate types.
+    - https://wg21.link/P0571
+    - The accumulator's type is now:
+      - The type of the user-supplied initial value (if provided), or
+      - The input iterator's value type if no initial value.
+  - Follow C++ standard guidance for default binary operator type.
+    - https://eel.is/c++draft/exclusive.scan#1
+    - Thrust binary/unary functors now specialize a default void template
+        parameter.
+      Types are deduced and forwarded transparently.
+    - Updated the scan's default binary operator to the new `thrust::plus<>`
+        specialization.
+  - The `thrust::intermediate_type_from_function_and_iterators` helper is no
+      longer needed and has been removed.
+- thrust/thrust#1255: Always use `cudaStreamSynchronize` instead of
+    `cudaDeviceSynchronize` if the execution policy has a stream attached to it.
+  Thanks to Rong Ou for this contribution.
+- thrust/thrust#1201: Tests for correct handling of legacy and per-thread
+    default streams.
+  Thanks to Rong Ou for this contribution.
+
+## Bug Fixes
+
+- thrust/thrust#1260: Fix `thrust::transform_inclusive_scan` with heterogeneous
+    types.
+  Thanks to Rong Ou for this contribution.
+- thrust/thrust#1258, NVC++ FS #28463: Ensure the CUDA radix sort backend
+    synchronizes before returning; otherwise, copies from temporary storage will
+    race with destruction of said temporary storage.
+- thrust/thrust#1264: Evaluate `CUDA_CUB_RET_IF_FAIL` macro argument only once.
+  Thanks to Jason Lowe for this contribution.
+- thrust/thrust#1262: Add missing `<stdexcept>` header.
+- thrust/thrust#1250: Restore some `THRUST_DECLTYPE_RETURNS` macros in async
+    test implementations.
+- thrust/thrust#1249: Use `std::iota` in `CUDATestDriver::target_devices`.
+  Thanks to Michael Francis for this contribution.
+- thrust/thrust#1244: Check for macro collisions with system headers during
+    header testing.
+- thrust/thrust#1224: Remove unnecessary SFINAE contexts from asynchronous
+    algorithms.
+- thrust/thrust#1190: Make `out_of_memory_recovery` test trigger faster.
+- thrust/thrust#1187: Elminate superfluous iterators specific to the CUDA
+    backend.
+- thrust/thrust#1181: Various fixes for GoUDA.
+  Thanks to Andrei Tchouprakov for this contribution.
+- thrust/thrust#1178, thrust/thrust#1229: Use transparent functionals in
+    placeholder expressions, fixing issues with `thrust::device_reference` and
+    placeholder expressions and `thrust::find` with asymmetric equality
+    operators.
+- thrust/thrust#1153: Switch to placement new instead of assignment to
+    construct items in uninitialized memory.
+  Thanks to Hugh Winkler for this contribution.
+- thrust/thrust#1050: Fix compilation of asynchronous algorithms when RDC is
+    enabled.
+- thrust/thrust#1042: Correct return type of
+    `thrust::detail::predicate_to_integral` from `bool` to `IntegralType`.
+  Thanks to Andreas Hehn for this contribution.
+- thrust/thrust#1009: Avoid returning uninitialized allocators.
+  Thanks to Zhihao Yuan for this contribution.
+- thrust/thrust#990: Add missing `<thrust/system/cuda/memory.h>` include to
+    `<thrust/system/cuda/detail/malloc_and_free.h>`.
+  Thanks to Robert Maynard for this contribution.
+- thrust/thrust#966: Fix spurious MSVC conversion with loss of data warning in
+    sort algorithms.
+  Thanks to Zhihao Yuan for this contribution.
+- Add more metadata to mock specializations for testing iterator in
+   `testing/copy.cu`.
+- Add missing include to shuffle unit test.
+- Specialize `thrust::wrapped_function` for `void` return types because MSVC is
+    not a fan of the pattern `return static_cast<void>(expr);`.
+- Replace deprecated `tbb/tbb_thread.h` with `<thread>`.
+- Fix overcounting of initial value in TBB scans.
+- Use `thrust::advance` instead of `+=` for generic iterators.
+- Wrap the OMP flags in `-Xcompiler` for NVCC
+- Extend `ASSERT_STATIC_ASSERT` skip for the OMP backend.
+- Add missing header caught by `tbb.cuda` configs.
+- Fix "unsafe API" warnings in examples on MSVC: `s/fopen/fstream/`
+- Various C++17 fixes.
+
 # Thrust 1.9.10-1 (NVIDIA HPC SDK 20.7, CUDA Toolkit 11.1)
 
 ## Summary
@@ -1076,11 +1221,14 @@ Support for TBB allows Thrust programs to integrate more naturally into
 - `set_operations`
 
 ## Other Enhancements
-- thrust::for_each now returns the end of the input range similar to most other algorithms
-- thrust::pair and thrust::tuple have swap functionality
-- All CUDA algorithms now support large data types
-- Iterators may be dereferenced in user __device__ or __global__ functions
-- The safe use of different backend systems is now possible within a single binary
+
+- `thrust::for_each` now returns the end of the input range similar to most
+    other algorithms.
+- `thrust::pair` and `thrust::tuple` have swap functionality.
+- All CUDA algorithms now support large data types.
+- Iterators may be dereferenced in user `__device__` or `__global__` functions.
+- The safe use of different backend systems is now possible within a single
+  binary
 
 ## Bug Fixes
 
