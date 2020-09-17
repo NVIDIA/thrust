@@ -1601,7 +1601,7 @@ namespace __smart_sort {
 
     cuda_cub::throw_on_error(
       cuda_cub::synchronize(policy),
-      "merge_sort: failed to synchronize");
+      "smart_sort: failed to synchronize");
   }
 }    // namespace __smart_sort
 
