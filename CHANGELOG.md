@@ -25,7 +25,6 @@ https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md
 
 ## New Features
 
-- Contributor documentation: https://github.com/thrust/thrust/blob/main/CONTRIBUTING.md
 - thrust/thrust#1159: CMake multi-config support, which allows multiple
     combinations of host and device systems to be built and tested at once.
   More details can be found here: https://github.com/thrust/thrust/blob/main/CONTRIBUTING.md#multi-config-cmake-options
@@ -55,6 +54,9 @@ https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md
 
 ## Other Enhancements
 
+- Contributor documentation: https://github.com/thrust/thrust/blob/main/CONTRIBUTING.md
+- Code of Conduct: https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md.
+  Thanks to Conor Hoekstra for this contribution.
 - Support for all combinations of host and device systems.
 - C++17 support.
 - thrust/thrust#1221: Allocator and vector classes have been replaced with
