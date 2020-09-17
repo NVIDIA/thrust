@@ -51,6 +51,15 @@ ifndef BUILD_AGAINST_RELEASE
     INCLUDES_ABSPATH += $(ROOTDIR)/cuda/tools/cudart
   endif
 
+  # libcu++ includes
+  ifdef VULCAN
+    INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/libcudacxx/include
+    INCLUDES_ABSPATH += $(VULCAN_INSTALL_DIR)/cuda/tools/libcudacxxext
+  else
+    INCLUDES_ABSPATH += $(ROOTDIR)/libcudacxx/include
+    INCLUDES_ABSPATH += $(ROOTDIR)/cuda/tools/libcudacxxext
+  endif
+
   # Thrust includes
   ifdef VULCAN
     INCLUDES_ABSPATH += $(VULCAN_TOOLKIT_BASE)/thrust
