@@ -225,7 +225,7 @@ template<typename DerivedPolicy,
          typename InputIterator2,
          typename OutputIterator,
          typename StrictWeakOrdering>
-OutputIterator merge(execution_policy<DerivedPolicy> &exec,
+OutputIterator merge(execution_policy<DerivedPolicy> &,
                      InputIterator1 first1,
                      InputIterator1 last1,
                      InputIterator2 first2,
@@ -254,7 +254,7 @@ template <typename DerivedPolicy,
           typename OutputIterator2,
           typename StrictWeakOrdering>
 thrust::pair<OutputIterator1,OutputIterator2>
-  merge_by_key(execution_policy<DerivedPolicy> &exec,
+  merge_by_key(execution_policy<DerivedPolicy> &,
                InputIterator1 keys_first1,
                InputIterator1 keys_last1,
                InputIterator2 keys_first2,
