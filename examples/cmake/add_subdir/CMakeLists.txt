@@ -29,7 +29,7 @@ set(THRUST_OPTIONAL_SYSTEMS CUDA)
 
 # Use your project's checkout of Thrust here, for most cases
 # `add_subdirectory(thrust)` will be sufficient.
-add_subdirectory("${THRUST_DIR}" thrust)
+add_subdirectory("${THRUST_ROOT}" thrust)
 
 # Create a thrust target that only uses the serial CPP backend.
 # See thrust/thrust/cmake/README.md for details and additional options:
