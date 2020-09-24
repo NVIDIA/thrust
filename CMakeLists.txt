@@ -33,7 +33,7 @@ option(THRUST_INCLUDE_CUB_CMAKE "Build CUB tests and examples. (Requires CUDA)."
 
 # Check if we're actually building anything before continuing. If not, no need
 # to search for deps, etc. This is a common approach for packagers that just
-# need the install rules. See GH issue thrust/thrust#1211.
+# need the install rules. See GH issue NVIDIA/thrust#1211.
 if (NOT (THRUST_ENABLE_HEADER_TESTING OR
          THRUST_ENABLE_TESTING OR
          THRUST_ENABLE_EXAMPLES OR

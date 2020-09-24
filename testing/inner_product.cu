@@ -158,7 +158,7 @@ void TestInnerProductWithBigIndexes()
 DECLARE_UNITTEST(TestInnerProductWithBigIndexes);
 
 void TestInnerProductPlaceholders()
-{ // Regression test for thrust/thrust#1178
+{ // Regression test for NVIDIA/thrust#1178
   using namespace thrust::placeholders;
 
   thrust::device_vector<float> v1(100, 1.f);
