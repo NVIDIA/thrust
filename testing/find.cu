@@ -362,7 +362,7 @@ public:
 } // end anon namespace
 
 void TestFindAsymmetricEquality()
-{ // Regression test for thrust/thrust#1229
+{ // Regression test for NVIDIA/thrust#1229
   thrust::host_vector<int> v(1000);
   thrust::sequence(v.begin(), v.end());
   thrust::device_vector<int> dv(v);

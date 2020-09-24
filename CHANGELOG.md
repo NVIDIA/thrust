@@ -6,7 +6,7 @@ Thrust 1.10.0 is the major release accompanying the NVIDIA HPC SDK 20.9 release.
 It drops support for C++03, GCC < 5, Clang < 6, and MSVC < 2017.
 It also overhauls CMake support.
 Finally, we now have a Code of Conduct for contributors:
-https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md
+https://github.com/NVIDIA/thrust/blob/main/CODE_OF_CONDUCT.md
 
 ## Breaking Changes
 
@@ -25,16 +25,16 @@ https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md
 
 ## New Features
 
-- thrust/thrust#1159: CMake multi-config support, which allows multiple
+- NVIDIA/thrust#1159: CMake multi-config support, which allows multiple
     combinations of host and device systems to be built and tested at once.
-  More details can be found here: https://github.com/thrust/thrust/blob/main/CONTRIBUTING.md#multi-config-cmake-options
+  More details can be found here: https://github.com/NVIDIA/thrust/blob/main/CONTRIBUTING.md#multi-config-cmake-options
 - CMake refactoring:
   - Added install targets to CMake builds.
   - Added support for CUB tests and examples.
   - Thrust can be added to another CMake project by calling `add_subdirectory`
-      with the Thrust source root (see thrust/thrust#976).
+      with the Thrust source root (see NVIDIA/thrust#976).
     An example can be found here:
-      https://github.com/thrust/thrust/blob/main/examples/cmake/add_subdir/CMakeLists.txt
+      https://github.com/NVIDIA/thrust/blob/main/examples/cmake/add_subdir/CMakeLists.txt
   - CMake < 3.15 is no longer supported.
   - Dialects are now configured through target properties.
     A new `THRUST_CPP_DIALECT` option has been added for single config mode.
@@ -54,18 +54,18 @@ https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md
 
 ## Other Enhancements
 
-- Contributor documentation: https://github.com/thrust/thrust/blob/main/CONTRIBUTING.md
-- Code of Conduct: https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md.
+- Contributor documentation: https://github.com/NVIDIA/thrust/blob/main/CONTRIBUTING.md
+- Code of Conduct: https://github.com/NVIDIA/thrust/blob/main/CODE_OF_CONDUCT.md.
   Thanks to Conor Hoekstra for this contribution.
 - Support for all combinations of host and device systems.
 - C++17 support.
-- thrust/thrust#1221: Allocator and vector classes have been replaced with
+- NVIDIA/thrust#1221: Allocator and vector classes have been replaced with
     alias templates.
   Thanks to Michael Francis for this contribution.
-- thrust/thrust#1186: Use placeholder expressions to simplify the definitions
+- NVIDIA/thrust#1186: Use placeholder expressions to simplify the definitions
     of a number of algorithms.
   Thanks to Michael Francis for this contribution.
-- thrust/thrust#1170: More conforming semantics for scan algorithms:
+- NVIDIA/thrust#1170: More conforming semantics for scan algorithms:
   - Follow P0571's guidance regarding intermediate types.
     - https://wg21.link/P0571
     - The accumulator's type is now:
@@ -80,55 +80,55 @@ https://github.com/thrust/thrust/blob/main/CODE_OF_CONDUCT.md
         specialization.
   - The `thrust::intermediate_type_from_function_and_iterators` helper is no
       longer needed and has been removed.
-- thrust/thrust#1255: Always use `cudaStreamSynchronize` instead of
+- NVIDIA/thrust#1255: Always use `cudaStreamSynchronize` instead of
     `cudaDeviceSynchronize` if the execution policy has a stream attached to it.
   Thanks to Rong Ou for this contribution.
-- thrust/thrust#1201: Tests for correct handling of legacy and per-thread
+- NVIDIA/thrust#1201: Tests for correct handling of legacy and per-thread
     default streams.
   Thanks to Rong Ou for this contribution.
 
 ## Bug Fixes
 
-- thrust/thrust#1260: Fix `thrust::transform_inclusive_scan` with heterogeneous
+- NVIDIA/thrust#1260: Fix `thrust::transform_inclusive_scan` with heterogeneous
     types.
   Thanks to Rong Ou for this contribution.
-- thrust/thrust#1258, NVC++ FS #28463: Ensure the CUDA radix sort backend
+- NVIDIA/thrust#1258, NVC++ FS #28463: Ensure the CUDA radix sort backend
     synchronizes before returning; otherwise, copies from temporary storage will
     race with destruction of said temporary storage.
-- thrust/thrust#1264: Evaluate `CUDA_CUB_RET_IF_FAIL` macro argument only once.
+- NVIDIA/thrust#1264: Evaluate `CUDA_CUB_RET_IF_FAIL` macro argument only once.
   Thanks to Jason Lowe for this contribution.
-- thrust/thrust#1262: Add missing `<stdexcept>` header.
-- thrust/thrust#1250: Restore some `THRUST_DECLTYPE_RETURNS` macros in async
+- NVIDIA/thrust#1262: Add missing `<stdexcept>` header.
+- NVIDIA/thrust#1250: Restore some `THRUST_DECLTYPE_RETURNS` macros in async
     test implementations.
-- thrust/thrust#1249: Use `std::iota` in `CUDATestDriver::target_devices`.
+- NVIDIA/thrust#1249: Use `std::iota` in `CUDATestDriver::target_devices`.
   Thanks to Michael Francis for this contribution.
-- thrust/thrust#1244: Check for macro collisions with system headers during
+- NVIDIA/thrust#1244: Check for macro collisions with system headers during
     header testing.
-- thrust/thrust#1224: Remove unnecessary SFINAE contexts from asynchronous
+- NVIDIA/thrust#1224: Remove unnecessary SFINAE contexts from asynchronous
     algorithms.
-- thrust/thrust#1190: Make `out_of_memory_recovery` test trigger faster.
-- thrust/thrust#1187: Elminate superfluous iterators specific to the CUDA
+- NVIDIA/thrust#1190: Make `out_of_memory_recovery` test trigger faster.
+- NVIDIA/thrust#1187: Elminate superfluous iterators specific to the CUDA
     backend.
-- thrust/thrust#1181: Various fixes for GoUDA.
+- NVIDIA/thrust#1181: Various fixes for GoUDA.
   Thanks to Andrei Tchouprakov for this contribution.
-- thrust/thrust#1178, thrust/thrust#1229: Use transparent functionals in
+- NVIDIA/thrust#1178, NVIDIA/thrust#1229: Use transparent functionals in
     placeholder expressions, fixing issues with `thrust::device_reference` and
     placeholder expressions and `thrust::find` with asymmetric equality
     operators.
-- thrust/thrust#1153: Switch to placement new instead of assignment to
+- NVIDIA/thrust#1153: Switch to placement new instead of assignment to
     construct items in uninitialized memory.
   Thanks to Hugh Winkler for this contribution.
-- thrust/thrust#1050: Fix compilation of asynchronous algorithms when RDC is
+- NVIDIA/thrust#1050: Fix compilation of asynchronous algorithms when RDC is
     enabled.
-- thrust/thrust#1042: Correct return type of
+- NVIDIA/thrust#1042: Correct return type of
     `thrust::detail::predicate_to_integral` from `bool` to `IntegralType`.
   Thanks to Andreas Hehn for this contribution.
-- thrust/thrust#1009: Avoid returning uninitialized allocators.
+- NVIDIA/thrust#1009: Avoid returning uninitialized allocators.
   Thanks to Zhihao Yuan for this contribution.
-- thrust/thrust#990: Add missing `<thrust/system/cuda/memory.h>` include to
+- NVIDIA/thrust#990: Add missing `<thrust/system/cuda/memory.h>` include to
     `<thrust/system/cuda/detail/malloc_and_free.h>`.
   Thanks to Robert Maynard for this contribution.
-- thrust/thrust#966: Fix spurious MSVC conversion with loss of data warning in
+- NVIDIA/thrust#966: Fix spurious MSVC conversion with loss of data warning in
     sort algorithms.
   Thanks to Zhihao Yuan for this contribution.
 - Add more metadata to mock specializations for testing iterator in
@@ -209,7 +209,7 @@ Starting with the upcoming 1.10.0 release, C++03 support will be dropped
     number correctly: for example, Thrust 17.17.17 would be interpreted as
     Thrust 1.1.1701717.
   You can find directions for using the new CMake `find_package` support and
-    migrating away from the legacy `FindThrust.cmake` [here](https://github.com/thrust/thrust/blob/master/thrust/cmake/README.md)
+    migrating away from the legacy `FindThrust.cmake` [here](https://github.com/NVIDIA/thrust/blob/main/thrust/cmake/README.md)
 - #1129: Added `thrust::detail::single_device_tls_caching_allocator`, a
     convenient way to get an MR caching allocator for device memory, which is
     used by NVC++.

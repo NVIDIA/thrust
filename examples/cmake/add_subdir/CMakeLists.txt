@@ -4,7 +4,7 @@
 # The variables THRUST_REQUIRED_SYSTEMS and THRUST_OPTIONAL_SYSTEMS must be
 # set prior to add_subdirectory(thrust), and afterwards the thrust_create_target
 # function may be used to create targets with the desired systems. See
-# thrust/thrust/cmake/README.md for more details on thrust_create_target.
+# NVIDIA/thrust/cmake/README.md for more details on thrust_create_target.
 
 cmake_minimum_required(VERSION 3.15)
 

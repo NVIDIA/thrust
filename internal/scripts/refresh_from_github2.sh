@@ -1,4 +1,4 @@
-branch="master"
+branch="main"
 
 while getopts "hb:c:" opt; do
     case $opt in
@@ -37,7 +37,7 @@ set -e
 
 echo "Downloading thrust code from the $branch branch into /tmp/thrust-${branch}"
 rm -rf /tmp/thrust-${branch}
-git clone -q git://github.com/thrust/thrust.git -b ${branch} /tmp/thrust-${branch}
+git clone -q git://github.com/NVIDIA/thrust.git -b ${branch} /tmp/thrust-${branch}
 
 cd `dirname $0`/../..
 echo "Changed current directory to `pwd`"

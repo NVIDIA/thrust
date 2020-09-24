@@ -10,7 +10,7 @@ software. Develop **high-performance** applications rapidly with Thrust!
 
 Thrust is included in the NVIDIA HPC SDK and the CUDA Toolkit.
 
-Refer to the [Quick Start Guide](http://github.com/thrust/thrust/wiki/Quick-Start-Guide) page for further information and examples.
+Refer to the [Quick Start Guide](http://github.com/NVIDIA/thrust/wiki/Quick-Start-Guide) page for further information and examples.
 
 Examples
 --------
@@ -137,7 +137,7 @@ recipe should be followed:
 
 ```
 # Clone Thrust and CUB repos recursively:
-git clone --recursive https://github.com/thrust/thrust.git
+git clone --recursive https://github.com/NVIDIA/thrust.git
 cd thrust
 
 # Create build directory:
