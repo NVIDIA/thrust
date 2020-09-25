@@ -4,9 +4,9 @@ on:
       - "main"
 
 jobs:
-  mirror_job:
-    runs-on: ubuntu-latest
+  mirror-main-branch-to-master-branch:
     name: Mirror main branch to master branch
+    runs-on: ubuntu-latest
     steps:
     - name: Mirror main branch to master branch
       id: mirror
