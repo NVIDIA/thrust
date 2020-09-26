@@ -1,8 +1,4 @@
-thrust/system/cuda/detail/.gitignore
-*.bash
 *.log
 .p4config
-run
-build*
 doc/html
 discrete_voronoi.pgm
