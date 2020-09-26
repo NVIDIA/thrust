@@ -336,6 +336,8 @@ The CMake options are divided into these categories:
 - `THRUST_ENABLE_EXAMPLE_FILECHECK={ON, OFF}`
   - Enable validation of example outputs using the LLVM FileCheck utility.
     Default is `OFF`.
+- `THRUST_ENABLE_INSTALL_RULES={ON, OFF}`
+  - If true, installation rules will be generated for thrust. Default is `ON`.
 
 ## Single Config CMake Options
 
@@ -391,6 +393,10 @@ The CMake options are divided into these categories:
     simultaneously.
   - CUB configurations will be generated for each C++ dialect targeted by
     the current Thrust build.
+- `THRUST_INSTALL_CUB_HEADERS={ON, OFF}`
+  - If enabled, the CUB project's headers will be installed through Thrust's
+    installation rules. Default is `ON`.
+  - This option depends on `THRUST_ENABLE_INSTALL_RULES`.
 - `THRUST_ENABLE_COMPUTE_XX={ON, OFF}`
   - Controls the targeted CUDA architecture(s)
   - Multiple options may be selected when using NVCC as the CUDA compiler.
