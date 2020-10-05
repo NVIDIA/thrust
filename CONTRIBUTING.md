@@ -489,3 +489,71 @@ The following branch names are used in the Thrust project:
 On the rare occasion that we cannot do work in the open, for example when developing a change specific to an
 unreleased product, these branches may exist on `gitlab` instead of `github`. By default, everything should be
 in the open on `github` unless there is a strong motivation for it to not be open.
+
+# Release Process
+
+This section is a work in progress.
+
+## Update Compiler Explorer
+
+Thrust and CUB are bundled together on
+[Compiler Explorer](https://www.godbolt.org/) (CE) as libraries for the CUDA
+language. When releasing a new version of these projects, CE will need to be
+updated.
+
+There are two files in two repos that need to be updated:
+
+### libraries.yaml
+
+- Repo: https://github.com/compiler-explorer/infra
+- Path: bin/yaml/libraries.yaml
+
+This file tells CE how to pull in library files and defines which versions to
+fetch. Look for the `thrustcub:` section:
+
+```yaml
+    thrustcub:
+      type: github
+      method: clone_branch
+      repo: NVIDIA/thrust
+      check_file: dependencies/cub/cub/cub.cuh
+      targets:
+        - 1.9.9
+        - 1.9.10
+        - 1.9.10-1
+        - 1.10.0
+```
+
+Simply add the new version tag to list of `targets:`. This will check out the
+specified tag to `/opt/compiler-explorer/libs/thrustcub/<tag>/`.
+
+### cuda.amazon.properties
+
+- Repo: https://github.com/compiler-explorer/compiler-explorer
+- File: etc/config/cuda.amazon.properties
+
+This file defines the library versions displayed in the CE UI and maps them
+to a set of include directories. Look for the `libs.thrustcub` section:
+
+```yaml
+libs.thrustcub.name=Thrust+CUB
+libs.thrustcub.description=CUDA collective and parallel algorithms
+libs.thrustcub.versions=trunk:109090:109100:109101:110000
+libs.thrustcub.url=http://www.github.com/NVIDIA/thrust
+libs.thrustcub.versions.109090.version=1.9.9
+libs.thrustcub.versions.109090.path=/opt/compiler-explorer/libs/thrustcub/1.9.9:/opt/compiler-explorer/libs/thrustcub/1.9.9/dependencies/cub
+libs.thrustcub.versions.109100.version=1.9.10
+libs.thrustcub.versions.109100.path=/opt/compiler-explorer/libs/thrustcub/1.9.10:/opt/compiler-explorer/libs/thrustcub/1.9.10/dependencies/cub
+libs.thrustcub.versions.109101.version=1.9.10-1
+libs.thrustcub.versions.109101.path=/opt/compiler-explorer/libs/thrustcub/1.9.10-1:/opt/compiler-explorer/libs/thrustcub/1.9.10-1/dependencies/cub
+libs.thrustcub.versions.110000.version=1.10.0
+libs.thrustcub.versions.110000.path=/opt/compiler-explorer/libs/thrustcub/1.10.0:/opt/compiler-explorer/libs/thrustcub/1.10.0/dependencies/cub
+libs.thrustcub.versions.trunk.version=trunk
+libs.thrustcub.versions.trunk.path=/opt/compiler-explorer/libs/thrustcub/trunk:/opt/compiler-explorer/libs/thrustcub/trunk/dependencies/cub
+```
+
+Add a new version identifier to the `libs.thrustcub.versions` key, using the
+convention `X.Y.Z-W -> XXYYZZWW`. Then add a corresponding UI label (the
+`version` key) and set of colon-separated include paths for Thrust and CUB
+(`path`). The version used in the `path` entries must exactly match the tag
+specified in `libraries.yaml`.
