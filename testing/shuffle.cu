@@ -383,6 +383,23 @@ template <typename T> void TestFunctionIsBijection(size_t m) {
 }
 DECLARE_VARIABLE_UNITTEST(TestFunctionIsBijection);
 
+void TestBijectionLength() {
+  thrust::default_random_engine g(0xD5);
+
+  uint64_t m = 3;
+  thrust::system::detail::generic::feistel_bijection f(m, g);
+  ASSERT_EQUAL(f.nearest_power_of_two(), 4);
+
+  m = 2;
+  f = thrust::system::detail::generic::feistel_bijection(m, g);
+  ASSERT_EQUAL(f.nearest_power_of_two(), 2);
+
+  m = 0;
+  f = thrust::system::detail::generic::feistel_bijection(m, g);
+  ASSERT_EQUAL(f.nearest_power_of_two(), 1);
+}
+DECLARE_UNITTEST(TestBijectionLength);
+
 // Individual input keys should be permuted to output locations with uniform
 // probability. Perform chi-squared test with confidence 99.9%.
 template <typename Vector> void TestShuffleKeyPosition() {

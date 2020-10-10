@@ -79,7 +79,9 @@ class feistel_bijection {
  private:
   // Find the nearest power of two
   __host__ __device__ uint64_t get_cipher_bits(uint64_t m) {
+    if (m == 0) return 0;
     uint64_t i = 0;
+    m--;
     while (m != 0) {
       i++;
       m >>= 1;
@@ -118,7 +120,7 @@ class feistel_bijection {
     return {new_left, round_function_res};
   }
 
-  static const uint64_t num_rounds = 16;
+  static constexpr uint64_t num_rounds = 16;
   uint64_t right_side_bits;
   uint64_t left_side_bits;
   uint64_t right_side_mask;
