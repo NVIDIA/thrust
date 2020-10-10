@@ -356,15 +356,15 @@ template <typename T> void TestFunctionIsBijection(size_t m) {
   thrust::default_random_engine host_g(0xD5);
   thrust::default_random_engine device_g(0xD5);
 
-  thrust::system::detail::generic::rc5_bijection<> host_f(m, host_g);
-  thrust::system::detail::generic::rc5_bijection<> device_f(m, device_g);
+  thrust::system::detail::generic::feistel_bijection host_f(m, host_g);
+  thrust::system::detail::generic::feistel_bijection device_f(m, device_g);
 
-  if (host_f.bijection_width() >= std::numeric_limits<T>::max() || m == 0) {
+  if (host_f.nearest_power_of_two() >= std::numeric_limits<T>::max() || m == 0) {
     return;
   }
 
-  thrust::host_vector<T> host_result(host_f.bijection_width());
-  thrust::host_vector<T> device_result(device_f.bijection_width());
+  thrust::host_vector<T> host_result(host_f.nearest_power_of_two());
+  thrust::host_vector<T> device_result(device_f.nearest_power_of_two());
   thrust::sequence(host_result.begin(), host_result.end(), 0llu);
   thrust::sequence(device_result.begin(), device_result.end(), 0llu);
 

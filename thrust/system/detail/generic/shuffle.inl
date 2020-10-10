@@ -32,85 +32,98 @@ namespace system {
 namespace detail {
 namespace generic {
 
-// An implementation of RC5
-template <uint32_t num_rounds = 12> class rc5_bijection {
-private:
+// An implementation of a Feistel cipher for operating on 64 bit keys
+class feistel_bijection {
   struct round_state {
-    uint32_t A;
-    uint32_t B;
+    uint32_t left;
+    uint32_t right;
   };
 
-public:
+ public:
   template <class URBG>
-  __host__ __device__ rc5_bijection(uint64_t m, URBG &&g)
-   : w(get_cipher_bits(m))
-  {
-    init_state(std::forward<URBG>(g));
+  __host__ __device__ feistel_bijection(uint64_t m, URBG&& g) {
+    uint64_t total_bits = get_cipher_bits(m);
+    // Half bits rounded down
+    left_side_bits = total_bits / 2;
+    left_side_mask = (1ull << left_side_bits) - 1;
+    // Half the bits rounded up
+    right_side_bits = total_bits - left_side_bits;
+    right_side_mask = (1ull << right_side_bits) - 1;
+
+    for (uint64_t i = 0; i < num_rounds; i++) {
+      key[i] = g();
+    }
   }
 
-  __host__ __device__ uint64_t bijection_width() const {
-    return 1ull << (2*w);
+  __host__ __device__ uint64_t nearest_power_of_two() const {
+    return 1ull << (left_side_bits + right_side_bits);
   }
-
   __host__ __device__ uint64_t operator()(const uint64_t val) const {
-    if(w == 0)
-      return val;
-    round_state state = { (uint32_t)val & get_mask(), (uint32_t)(val >> w) };
-    state.A = (state.A + S[0]) & get_mask();
-    state.B = (state.B + S[1]) & get_mask();
-    for(uint32_t i = 0; i < num_rounds; i++)
+    // Extract the right and left sides of the input
+    uint32_t left = (uint32_t)(val >> right_side_bits);
+    uint32_t right = (uint32_t)(val & right_side_mask);
+    round_state state = {left, right};
+
+    for (uint64_t i = 0; i < num_rounds; i++) {
       state = do_round(state, i);
-    uint64_t res = state.B << w | state.A;
-    return res;
+    }
+
+    // Check we have the correct number of bits on each side
+    assert((state.left >> left_side_bits) == 0);
+    assert((state.right >> right_side_bits) == 0);
+
+    // Combine the left and right sides together to get result
+    return state.left << right_side_bits | state.right;
   }
 
-private:
-  template <class URBG>
-  __host__ __device__ void init_state(URBG&& g)
-  {
-    thrust::uniform_int_distribution<uint32_t> dist(0, get_mask());
-    for( uint32_t i = 0; i < state_size; i++ )
-      S[i] = dist(g);
-  }
-
+ private:
   // Find the nearest power of two
   __host__ __device__ uint64_t get_cipher_bits(uint64_t m) {
-    if(m == 0)
-      return 0;
     uint64_t i = 0;
-    m--;
     while (m != 0) {
       i++;
-      m >>= 2u;
+      m >>= 1;
     }
     return i;
   }
 
-  __host__ __device__ uint32_t get_mask() const
-  {
-    return (uint32_t)((1ull << (uint64_t)w) - 1ull);
+  // Equivalent to boost::hash_combine
+  __host__ __device__ size_t hash_combine(uint64_t lhs, uint64_t rhs) const {
+    lhs ^= rhs + 0x9e3779b9 + (lhs << 6) + (lhs >> 2);
+    return lhs;
   }
 
-  __host__ __device__ uint32_t rotl( uint32_t val, uint32_t amount ) const
-  {
-    const uint32_t amount_mod = amount % w;
-    return val << amount_mod | val >> (w-amount_mod);
+  // Round function, a 'pseudorandom function' who's output is indistinguishable
+  // from random for each key value input. This is not cryptographically secure
+  // but sufficient for generating permutations. 
+  __host__ __device__ uint32_t round_function(uint64_t value,
+                                              const uint64_t key) const {
+    uint64_t hash0 = thrust::random::taus88(value)();
+    uint64_t hash1 = thrust::random::ranlux48(value)();
+    return hash_combine(hash_combine(hash0, key), hash1) & left_side_mask;
   }
 
   __host__ __device__ round_state do_round(const round_state state,
                                            const uint64_t round) const {
-    uint32_t A = state.A;
-    uint32_t B = state.B;
-
-    A = ( rotl( A ^ B, B ) + S[ 2 * round + 2 ] ) & get_mask();
-    B = ( rotl( A ^ B, A ) + S[ 2 * round + 3 ] ) & get_mask();
-
-    return { A, B };
+    const uint32_t new_left = state.right & left_side_mask;
+    const uint32_t round_function_res =
+        state.left ^ round_function(state.right, key[round]);
+    if (right_side_bits != left_side_bits) {
+      // Upper bit of the old right becomes lower bit of new right if we have
+      // odd length feistel
+      const uint32_t new_right =
+          (round_function_res << 1ull) | state.right >> left_side_bits;
+      return {new_left, new_right};
+    }
+    return {new_left, round_function_res};
   }
 
-  static constexpr uint64_t state_size = 2 * num_rounds + 3;
-  const uint32_t w = 0;
-  uint32_t S[state_size];
+  static const uint64_t num_rounds = 16;
+  uint64_t right_side_bits;
+  uint64_t left_side_bits;
+  uint64_t right_side_mask;
+  uint64_t left_side_mask;
+  uint64_t key[num_rounds];
 };
 
 struct key_flag_tuple {
@@ -120,16 +133,17 @@ struct key_flag_tuple {
 
 // scan only flags
 struct key_flag_scan_op {
-  __host__ __device__ key_flag_tuple operator()(const key_flag_tuple &a,
-                                                const key_flag_tuple &b) {
+  __host__ __device__ key_flag_tuple operator()(const key_flag_tuple& a,
+                                                const key_flag_tuple& b) {
     return {b.key, a.flag + b.flag};
   }
 };
 
-template <class bijection_op> struct construct_key_flag_op {
+struct construct_key_flag_op {
   uint64_t m;
-  bijection_op bijection;
-  __host__ __device__ construct_key_flag_op(uint64_t m, bijection_op bijection)
+  feistel_bijection bijection;
+  __host__ __device__ construct_key_flag_op(uint64_t m,
+                                            feistel_bijection bijection)
       : m(m), bijection(bijection) {}
   __host__ __device__ key_flag_tuple operator()(uint64_t idx) {
     auto gather_key = bijection(idx);
@@ -137,26 +151,27 @@ template <class bijection_op> struct construct_key_flag_op {
   }
 };
 
-template <typename InputIterT, typename OutputIterT> struct write_output_op {
+template <typename InputIterT, typename OutputIterT>
+struct write_output_op {
   uint64_t m;
   InputIterT in;
   OutputIterT out;
   // flag contains inclusive scan of valid keys
   // perform gather using valid keys
-  __thrust_exec_check_disable__ __host__ __device__ size_t
-  operator()(key_flag_tuple x) {
+  __thrust_exec_check_disable__
+  __host__ __device__ size_t operator()(key_flag_tuple x) {
     if (x.key < m) {
       // -1 because inclusive scan
       out[x.flag - 1] = in[x.key];
     }
-    return 0; // Discarded
+    return 0;  // Discarded
   }
 };
 
 template <typename ExecutionPolicy, typename RandomIterator, typename URBG>
-__host__ __device__ void
-shuffle(thrust::execution_policy<ExecutionPolicy> &exec, RandomIterator first,
-        RandomIterator last, URBG &&g) {
+__host__ __device__ void shuffle(
+    thrust::execution_policy<ExecutionPolicy>& exec, RandomIterator first,
+    RandomIterator last, URBG&& g) {
   typedef
       typename thrust::iterator_traits<RandomIterator>::value_type InputType;
 
@@ -168,23 +183,21 @@ shuffle(thrust::execution_policy<ExecutionPolicy> &exec, RandomIterator first,
 
 template <typename ExecutionPolicy, typename RandomIterator,
           typename OutputIterator, typename URBG>
-__host__ __device__ void
-shuffle_copy(thrust::execution_policy<ExecutionPolicy> &exec,
-             RandomIterator first, RandomIterator last, OutputIterator result,
-             URBG &&g) {
+__host__ __device__ void shuffle_copy(
+    thrust::execution_policy<ExecutionPolicy>& exec, RandomIterator first,
+    RandomIterator last, OutputIterator result, URBG&& g) {
   // m is the length of the input
   // we have an available bijection of length n via a feistel cipher
   size_t m = last - first;
-  using bijection_op = rc5_bijection<>;
-  bijection_op bijection(m, g);
-  uint64_t n = bijection.bijection_width();
+  feistel_bijection bijection(m, g);
+  uint64_t n = bijection.nearest_power_of_two();
 
   // perform stream compaction over length n bijection to get length m
   // pseudorandom bijection over the original input
   thrust::counting_iterator<uint64_t> indices(0);
-  thrust::transform_iterator<construct_key_flag_op<bijection_op>,
-                             decltype(indices), key_flag_tuple>
-      key_flag_it(indices, construct_key_flag_op<bijection_op>(m, bijection));
+  thrust::transform_iterator<construct_key_flag_op, decltype(indices),
+                             key_flag_tuple>
+      key_flag_it(indices, construct_key_flag_op(m, bijection));
   write_output_op<RandomIterator, decltype(result)> write_functor{m, first,
                                                                   result};
   auto gather_output_it = thrust::make_transform_output_iterator(
@@ -197,8 +210,8 @@ shuffle_copy(thrust::execution_policy<ExecutionPolicy> &exec,
                          key_flag_scan_op());
 }
 
-} // end namespace generic
-} // end namespace detail
-} // end namespace system
-} // end namespace thrust
+}  // end namespace generic
+}  // end namespace detail
+}  // end namespace system
+}  // end namespace thrust
 #endif
