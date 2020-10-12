@@ -391,22 +391,44 @@ template<typename T1, typename T2>
 
 
 // mpl stuff
+template<typename... Conditions>
+  struct or_;
 
-template <typename Condition1,               typename Condition2,              typename Condition3 = false_type,
-          typename Condition4  = false_type, typename Condition5 = false_type, typename Condition6 = false_type,
-          typename Condition7  = false_type, typename Condition8 = false_type, typename Condition9 = false_type,
-          typename Condition10 = false_type>
-  struct or_
+template <>
+  struct or_<>
     : public integral_constant<
         bool,
-        Condition1::value || Condition2::value || Condition3::value || Condition4::value || Condition5::value || Condition6::value || Condition7::value || Condition8::value || Condition9::value || Condition10::value
+        false_type::value  // identity for or_
       >
 {
 }; // end or_
 
-template <typename Condition1, typename Condition2, typename Condition3 = true_type>
-  struct and_
-    : public integral_constant<bool, Condition1::value && Condition2::value && Condition3::value>
+template <typename Condition, typename... Conditions>
+  struct or_<Condition, Conditions...>
+    : public integral_constant<
+        bool,
+        Condition::value || or_<Conditions...>::value
+      >
+{
+}; // end or_
+
+template <typename... Conditions>
+  struct and_;
+
+template<>
+  struct and_<>
+    : public integral_constant<
+        bool,
+        true_type::value // identity for and_
+      >
+{
+}; // end and_
+
+template <typename Condition, typename... Conditions>
+  struct and_<Condition, Conditions...>
+    : public integral_constant<
+        bool,
+        Condition::value && and_<Conditions...>::value>
 {
 }; // end and_
 
