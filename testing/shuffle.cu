@@ -8,6 +8,18 @@
 #include <thrust/shuffle.h>
 #include <unittest/unittest.h>
 
+// Functions for performing statistical tests of randomness
+// From NIST-Statistical-Test-Suite
+// Licence:
+//  "This software was developed at the National Institute of Standards and
+//  Technology by employees of the Federal Government in the course of their
+//  official duties. Pursuant to title 17 Section 105 of the United States Code
+//  this software is not subject to copyright protection and is in the public
+//  domain. The NIST Statistical Test Suite is an experimental system. NIST
+//  assumes no responsibility whatsoever for its use by other parties, and makes
+//  no guarantees, expressed or implied, about its quality, reliability, or any
+//  other characteristic. We would appreciate acknowledgment if the software is
+//  used."
 class CephesFunctions {
 public:
   static double cephes_igamc(double a, double x) {
@@ -303,7 +315,8 @@ constexpr unsigned short CephesFunctions::A[];
 constexpr unsigned short CephesFunctions::B[];
 constexpr unsigned short CephesFunctions::C[];
 
-template <typename Vector> void TestShuffleSimple() {
+template <typename Vector>
+void TestShuffleSimple() {
   Vector data(5);
   data[0] = 0;
   data[1] = 1;
@@ -320,7 +333,8 @@ template <typename Vector> void TestShuffleSimple() {
 }
 DECLARE_VECTOR_UNITTEST(TestShuffleSimple);
 
-template <typename Vector> void TestShuffleCopySimple() {
+template <typename Vector>
+void TestShuffleCopySimple() {
   Vector data(5);
   data[0] = 0;
   data[1] = 1;
@@ -336,7 +350,8 @@ template <typename Vector> void TestShuffleCopySimple() {
 }
 DECLARE_VECTOR_UNITTEST(TestShuffleCopySimple);
 
-template <typename T> void TestHostDeviceIdentical(size_t m) {
+template <typename T>
+void TestHostDeviceIdentical(size_t m) {
   thrust::host_vector<T> host_result(m);
   thrust::host_vector<T> device_result(m);
   thrust::sequence(host_result.begin(), host_result.end(), 0llu);
@@ -352,7 +367,8 @@ template <typename T> void TestHostDeviceIdentical(size_t m) {
 }
 DECLARE_VARIABLE_UNITTEST(TestHostDeviceIdentical);
 
-template <typename T> void TestFunctionIsBijection(size_t m) {
+template <typename T>
+void TestFunctionIsBijection(size_t m) {
   thrust::default_random_engine host_g(0xD5);
   thrust::default_random_engine device_g(0xD5);
 
@@ -402,7 +418,8 @@ DECLARE_UNITTEST(TestBijectionLength);
 
 // Individual input keys should be permuted to output locations with uniform
 // probability. Perform chi-squared test with confidence 99.9%.
-template <typename Vector> void TestShuffleKeyPosition() {
+template <typename Vector>
+void TestShuffleKeyPosition() {
   typedef typename Vector::value_type T;
   size_t m = 20;
   size_t num_samples = 100;
@@ -451,7 +468,8 @@ struct vector_compare {
 // Brute force check permutations are uniformly distributed on small input
 // Uses a chi-squared test indicating 99% confidence the output is uniformly
 // random
-template <typename Vector> void TestShuffleUniformPermutation() {
+template <typename Vector>
+void TestShuffleUniformPermutation() {
   typedef typename Vector::value_type T;
 
   size_t m = 5;
@@ -480,7 +498,8 @@ template <typename Vector> void TestShuffleUniformPermutation() {
 }
 DECLARE_VECTOR_UNITTEST(TestShuffleUniformPermutation);
 
-template <typename Vector> void TestShuffleEvenSpacingBetweenOccurances() {
+template <typename Vector>
+void TestShuffleEvenSpacingBetweenOccurances() {
   typedef typename Vector::value_type T;
   const uint64_t shuffle_size = 10;
   const uint64_t num_samples = 1000;
@@ -528,7 +547,8 @@ template <typename Vector> void TestShuffleEvenSpacingBetweenOccurances() {
 }
 DECLARE_INTEGRAL_VECTOR_UNITTEST(TestShuffleEvenSpacingBetweenOccurances);
 
-template <typename Vector> void TestShuffleEvenDistribution() {
+template <typename Vector>
+void TestShuffleEvenDistribution() {
   typedef typename Vector::value_type T;
   const uint64_t shuffle_sizes[] = {10, 100, 500};
   thrust::default_random_engine g(0xD5);
