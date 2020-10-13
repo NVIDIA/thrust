@@ -51,7 +51,7 @@ template <
 class tuple;
 
 // forward declaration of tuple_element
-template<int i, typename T> struct tuple_element;
+template<size_t N, class T> struct tuple_element;
 
 // specializations for tuple_element
 template<class T>
@@ -60,7 +60,7 @@ template<class T>
   typedef typename T::head_type type;
 }; // end tuple_element<0,T>
 
-template<int N, class T>
+template<size_t N, class T>
   struct tuple_element<N, const T>
 {
   private:
