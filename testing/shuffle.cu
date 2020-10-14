@@ -404,15 +404,15 @@ void TestBijectionLength() {
 
   uint64_t m = 3;
   thrust::system::detail::generic::feistel_bijection f(m, g);
-  ASSERT_EQUAL(f.nearest_power_of_two(), 4);
+  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(4));
 
   m = 2;
   f = thrust::system::detail::generic::feistel_bijection(m, g);
-  ASSERT_EQUAL(f.nearest_power_of_two(), 2);
+  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(2));
 
   m = 0;
   f = thrust::system::detail::generic::feistel_bijection(m, g);
-  ASSERT_EQUAL(f.nearest_power_of_two(), 1);
+  ASSERT_EQUAL(f.nearest_power_of_two(), uint64_t(1));
 }
 DECLARE_UNITTEST(TestBijectionLength);
 
