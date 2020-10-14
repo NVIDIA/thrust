@@ -27,6 +27,9 @@ function usage {
   echo
   echo "-s, --shell-only"
   echo "  Skip building and testing and launch an interactive shell instead."
+  echo
+  echo "-c, --clean"
+  echo "  If the build directory already exists, delete it."
 
   exit -3
 }
@@ -42,6 +45,8 @@ REPOSITORY_PATH=$(realpath ${SCRIPT_PATH}/../..)
 IMAGE="gpuci/cccl:cuda11.0-devel-ubuntu18.04-gcc5"
 
 SHELL_ONLY=0
+
+CLEAN=0
 
 TARGETS=""
 
@@ -63,6 +68,8 @@ do
     ;;
   -s) ;&
   --shell-only) SHELL_ONLY=1 ;;
+  -c) ;&
+  --clean) CLEAN=1 ;;
   *)
     TARGETS="${TARGETS:+${TARGETS} }${1}"
     ;;
@@ -87,7 +94,12 @@ done
 # ${BUILD_PATH_IN_CONTAINER} is the location of ${BUILD_PATH} inside the
 # container.
 
-BUILD_PATH=${REPOSITORY_PATH}/build_$(echo "$(basename "${IMAGE}")" | sed -e 's/:/_/g')
+BUILD_PATH=${REPOSITORY_PATH}/build_$(echo "$(basename "${IMAGE}")" | sed -e 's/:/_/g' | sed -e 's/-/_/g')
+
+if [ "${CLEAN}" != 0 ]; then
+  rm -rf ${BUILD_PATH}
+fi
+
 mkdir -p ${BUILD_PATH}
 
 BASE_PATH_IN_CONTAINER="/cccl"
@@ -95,16 +107,6 @@ BASE_PATH_IN_CONTAINER="/cccl"
 REPOSITORY_PATH_IN_CONTAINER="${BASE_PATH_IN_CONTAINER}/$(basename "${REPOSITORY_PATH}")"
 
 BUILD_PATH_IN_CONTAINER="${BASE_PATH_IN_CONTAINER}/$(basename "${REPOSITORY_PATH}")/build"
-
-################################################################################
-# COMMAND - Setup the command that will be run by the container.
-################################################################################
-
-if   [ "${SHELL_ONLY}" != 0 ]; then
-  COMMAND="bash"
-else
-  COMMAND="${REPOSITORY_PATH_IN_CONTAINER}/ci/cpu/build.bash ${TARGETS} || bash"
-fi
 
 ################################################################################
 # PERMISSIONS - Setup permissions and users for hte container.
@@ -116,12 +118,26 @@ GROUP_PATH="/etc/group"
 USER_FOUND=$(grep -wc "$(whoami)" < "${PASSWD_PATH}")
 if [ "${USER_FOUND}" == 0 ]; then
   echo "Local user not found, generating dummy /etc/passwd and /etc/group."
-  cp "${PASSWD_PATH}" /tmp/passwd
-  PASSWD_PATH="/tmp/passwd"
-  cp "${GROUP_PATH}" /tmp/group
-  GROUP_PATH="/tmp/group"
+  cp "${PASSWD_PATH}" "${BUILD_PATH}/passwd"
+  PASSWD_PATH="${BUILD_PATH}/passwd"
+  cp "${GROUP_PATH}" "${BUILD_PATH}/group"
+  GROUP_PATH="${BUILD_PATH}/group"
   echo "$(whoami):x:$(id -u):$(id -g):$(whoami),,,:${HOME}:${SHELL_ONLY}" >> "${PASSWD_PATH}"
   echo "$(whoami):x:$(id -g):" >> "${GROUP_PATH}"
+fi
+
+################################################################################
+# ENVIRONMENT - Setup the thunk build script that will be run by the container.
+################################################################################
+
+# We have to run `ldconfig` to rebuild `ld.so.cache` to work around this
+# failure on Debian: https://github.com/NVIDIA/nvidia-docker/issues/1399
+
+COMMAND="sudo ldconfig; sudo ldconfig"
+if [ "${SHELL_ONLY}" != 0 ]; then
+  COMMAND="${COMMAND}; bash"
+else
+  COMMAND="${COMMAND}; ${REPOSITORY_PATH_IN_CONTAINER}/ci/gpu/build.bash ${TARGETS} || bash"
 fi
 
 ################################################################################
