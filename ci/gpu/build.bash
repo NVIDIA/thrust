@@ -6,14 +6,14 @@
 # See https://llvm.org/LICENSE.txt for license information.
 
 ################################################################################
-# Thrust and CUB build script for gpuCI (CPU-only)
+# Thrust and CUB build script for gpuCI (heterogeneous)
 ################################################################################
 
 SCRIPT_PATH=$(cd $(dirname ${0}); pwd -P)
 
 REPOSITORY_PATH=$(realpath ${SCRIPT_PATH}/../..)
 
-export BUILD_KIND=cpu
+export BUILD_KIND=gpu
 
 source ${REPOSITORY_PATH}/ci/common/build.bash
 
