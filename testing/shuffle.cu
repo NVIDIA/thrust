@@ -6,6 +6,7 @@
 #include <thrust/random.h>
 #include <thrust/sequence.h>
 #include <thrust/shuffle.h>
+#include <thrust/sort.h>
 #include <unittest/unittest.h>
 
 // Functions for performing statistical tests of randomness
