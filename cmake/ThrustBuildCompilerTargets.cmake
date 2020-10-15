@@ -142,6 +142,12 @@ function(thrust_build_compiler_targets)
     $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcudafe=--display_error_number>
   )
 
+  # Tell NVCC to be quiet about deprecated GPU targets:
+  target_compile_options(thrust.compiler_interface INTERFACE
+    # If using CUDA w/ NVCC...
+    $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Wno-deprecated-gpu-targets>
+  )
+
   # This is kept separate for Github issue #1174.
   add_library(thrust.promote_cudafe_warnings INTERFACE)
   target_compile_options(thrust.promote_cudafe_warnings INTERFACE
