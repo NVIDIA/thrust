@@ -6,8 +6,13 @@ install(DIRECTORY "${Thrust_SOURCE_DIR}/thrust"
   FILES_MATCHING
     PATTERN "*.h"
     PATTERN "*.inl"
-    PATTERN "*.cmake"
     PATTERN "*.md"
+)
+
+install(DIRECTORY "${Thrust_SOURCE_DIR}/thrust"
+  TYPE LIB
+  FILES_MATCHING
+    PATTERN "*.cmake"
 )
 
 # Depending on how Thrust is configured, CUB's CMake scripts may or may not be
@@ -20,6 +25,11 @@ if (THRUST_INSTALL_CUB_HEADERS)
     TYPE INCLUDE
     FILES_MATCHING
       PATTERN "*.cuh"
+  )
+
+  install(DIRECTORY "${Thrust_SOURCE_DIR}/dependencies/cub/cub"
+    TYPE LIB
+    FILES_MATCHING
       PATTERN "*.cmake"
   )
 endif()

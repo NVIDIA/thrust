@@ -625,7 +625,7 @@ set(_THRUST_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}" CACHE INTERNAL "Location of th
 if (NOT TARGET Thrust::Thrust)
   _thrust_declare_interface_alias(Thrust::Thrust _Thrust_Thrust)
   # Strip out the 'thrust/cmake/' from '[thrust_include_path]/thrust/cmake/':
-  get_filename_component(_THRUST_INCLUDE_DIR "../.." ABSOLUTE BASE_DIR "${_THRUST_CMAKE_DIR}")
+  get_filename_component(_THRUST_INCLUDE_DIR "../../../include" ABSOLUTE BASE_DIR "${_THRUST_CMAKE_DIR}")
   set(_THRUST_INCLUDE_DIR "${_THRUST_INCLUDE_DIR}"
     CACHE INTERNAL "Location of thrust headers."
   )
