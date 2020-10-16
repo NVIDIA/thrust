@@ -137,7 +137,7 @@ COMMAND="sudo ldconfig; sudo ldconfig"
 if [ "${SHELL_ONLY}" != 0 ]; then
   COMMAND="${COMMAND}; bash"
 else
-  COMMAND="${COMMAND}; ${REPOSITORY_PATH_IN_CONTAINER}/ci/gpu/build.bash ${TARGETS} || bash"
+  COMMAND="${COMMAND}; ${REPOSITORY_PATH_IN_CONTAINER}/ci/common/build.bash ${TARGETS} || bash"
 fi
 
 ################################################################################
@@ -168,7 +168,9 @@ if [ "${NVIDIA_DOCKER_INSTALLED}" == 0 ]; then
   exit -4
 fi
 
-#docker pull "${IMAGE}"
+source ../ci/common/determine_build_parallelism.bash
+
+docker pull "${IMAGE}"
 
 docker run --rm -it ${GPU_OPTS} \
   --cap-add=SYS_PTRACE \
@@ -178,6 +180,8 @@ docker run --rm -it ${GPU_OPTS} \
   -v "${PASSWD_PATH}":/etc/passwd:ro \
   -v "${GROUP_PATH}":/etc/group:ro \
   -e "WORKSPACE=${REPOSITORY_PATH_IN_CONTAINER}" \
+  -e "BUILD_KIND=gpu"
+  -e "PARALLEL_LEVEL=${PARALLEL_LEVEL}" \
   -w "${REPOSITORY_PATH_IN_CONTAINER}" \
   "${IMAGE}" bash -c "${COMMAND}"
 

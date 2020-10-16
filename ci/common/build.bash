@@ -77,8 +77,7 @@ else
 fi
 
 logger "Build Thrust and CUB..."
-source ../ci/common/determine_build_parallelism.bash
-cmake --build . -j${BUILD_THREADS} "${@}"
+cmake --build . -j${PARALLEL_LEVEL} "${@}"
 
 ################################################################################
 # TEST - Run Thrust and CUB examples and tests.

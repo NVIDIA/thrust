@@ -21,9 +21,9 @@ export MEM_BOUND_THREADS=$((${TOTAL_MEM_KB} / (2 * 1000 * 1000))) # 2 GB / Build
 
 # Pick the smaller of the two as the default.
 if [ ${MEM_BOUND_THREADS} -lt ${CPU_BOUND_THREADS} ]; then
-  export BUILD_THREADS=${MEM_BOUND_THREADS}
+  export PARLLEL_LEVEL=${MEM_BOUND_THREADS}
 else
-  export BUILD_THREADS=${CPU_BOUND_THREADS}
+  export PARLLEL_LEVEL=${CPU_BOUND_THREADS}
 fi
 
 echo "Logical CPU Count:  ${LOGICAL_CPU_COUNT} [threads]"
@@ -31,5 +31,5 @@ echo "Physical CPU Count: ${PHYSICAL_CPU_COUNT} [cores]"
 echo "Total Mem:          ${TOTAL_MEM_KB} [kb]"
 echo "CPU Bound Jobs:     ${CPU_BOUND_THREADS}"
 echo "Mem Bound Jobs:     ${MEM_BOUND_THREADS}"
-echo "Build Threads:      ${BUILD_THREADS} [threads]"
+echo "Parallel Level:     ${PARLLEL_LEVEL} [threads]"
 
