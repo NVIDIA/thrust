@@ -228,7 +228,7 @@ template <typename T1, typename T2>
  *  \tparam N This parameter selects the member of interest.
  *  \tparam T A \c pair type of interest.
  */
-template<int N, typename T> struct tuple_element;
+template<size_t N, class T> struct tuple_element;
 
 
 /*! This convenience metafunction is included for compatibility with

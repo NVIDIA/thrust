@@ -650,3 +650,9 @@ foreach(component ${${CMAKE_FIND_PACKAGE_NAME}_FIND_COMPONENTS})
 endforeach()
 
 thrust_update_system_found_flags()
+
+include(FindPackageHandleStandardArgs)
+if (NOT Thrust_CONFIG)
+  set(Thrust_CONFIG "${CMAKE_CURRENT_LIST_FILE}")
+endif()
+find_package_handle_standard_args(Thrust CONFIG_MODE)

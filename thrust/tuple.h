@@ -62,7 +62,7 @@ struct null_type;
  *  \see pair
  *  \see tuple
  */
-template<int N, class T>
+template<size_t N, class T>
   struct tuple_element
 {
   private:

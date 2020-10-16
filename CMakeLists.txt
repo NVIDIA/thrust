@@ -1,10 +1,3 @@
-# Support adding Thrust to a parent project via add_subdirectory.
-# See examples/cmake/add_subdir/CMakeLists.txt for details.
-if (NOT "${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_LIST_DIR}")
-  include(cmake/ThrustAddSubdir.cmake)
-  return()
-endif()
-
 # 3.15 is the minimum.
 # 3.17 for nvc++/Feta
 # 3.18 for C++17 + CUDA
@@ -18,12 +11,31 @@ endif()
 
 project(Thrust NONE)
 
+# Determine whether Thrust is the top-level project or included into
+# another project via add_subdirectory()
+if ("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_CURRENT_LIST_DIR}")
+  set(THRUST_TOPLEVEL_PROJECT ON)
+else()
+  set(THRUST_TOPLEVEL_PROJECT OFF)
+endif()
+
+option(THRUST_ENABLE_INSTALL_RULES "Enable installation of Thrust" ${THRUST_TOPLEVEL_PROJECT})
+if (THRUST_ENABLE_INSTALL_RULES)
+  include(cmake/ThrustInstallRules.cmake)
+endif()
+
+# Support adding Thrust to a parent project via add_subdirectory.
+# See examples/cmake/add_subdir/CMakeLists.txt for details.
+if (NOT THRUST_TOPLEVEL_PROJECT)
+  include(cmake/ThrustAddSubdir.cmake)
+  return()
+endif()
+
 include(cmake/AppendOptionIfAvailable.cmake)
 
 include(cmake/ThrustBuildCompilerTargets.cmake)
 include(cmake/ThrustBuildTargetList.cmake)
 include(cmake/ThrustMultiConfig.cmake)
-include(cmake/ThrustInstallRules.cmake)
 include(cmake/ThrustUtilities.cmake)
 
 option(THRUST_ENABLE_HEADER_TESTING "Test that all public headers compile." "ON")

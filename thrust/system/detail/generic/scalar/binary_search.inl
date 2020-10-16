@@ -52,7 +52,7 @@ RandomAccessIterator lower_bound_n(RandomAccessIterator first,
   Size start = 0, i;
   while(start < n)
   {
-    i = (start + n) / 2;
+    i = start + (n - start) / 2;  // Overflow-safe variant of (a+b)/2
     if(wrapped_comp(first[i], val))
     {
       start = i + 1;
@@ -62,7 +62,7 @@ RandomAccessIterator lower_bound_n(RandomAccessIterator first,
       n = i;
     }
   } // end while
-  
+
   return first + start;
 }
 
@@ -94,7 +94,7 @@ RandomAccessIterator upper_bound_n(RandomAccessIterator first,
   Size start = 0, i;
   while(start < n)
   {
-    i = (start + n) / 2;
+    i = start + (n - start) / 2;  // Overflow-safe variant of (a+b)/2
     if(wrapped_comp(val, first[i]))
     {
       n = i;
@@ -104,7 +104,7 @@ RandomAccessIterator upper_bound_n(RandomAccessIterator first,
       start = i + 1;
     }
   } // end while
-  
+
   return first + start;
 }
 
@@ -156,4 +156,3 @@ bool binary_search(RandomAccessIterator first, RandomAccessIterator last, const 
 } // end thrust
 
 #include <thrust/system/detail/generic/scalar/binary_search.inl>
-

@@ -229,9 +229,23 @@ template <typename IteratorTuple>
  *
  *  \see zip_iterator
  */
-template<typename IteratorTuple>
+template<typename... Iterators>
 inline __host__ __device__
-zip_iterator<IteratorTuple> make_zip_iterator(IteratorTuple t);
+zip_iterator<thrust::tuple<Iterators...>> make_zip_iterator(thrust::tuple<Iterators...> t);
+
+
+/*! \p make_zip_iterator creates a \p zip_iterator from
+ *  iterators.
+ *
+ *  \param its The iterators to copy.
+ *  \return A newly created \p zip_iterator which zips the iterators.
+ *
+ *  \see zip_iterator
+ */
+template<typename... Iterators>
+inline __host__ __device__
+zip_iterator<thrust::tuple<Iterators...>> make_zip_iterator(Iterators... its);
+
 
 /*! \} // end fancyiterators
  */
