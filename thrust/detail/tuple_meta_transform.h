@@ -17,6 +17,7 @@
 #pragma once
 
 #include <thrust/tuple.h>
+#include <thrust/type_traits/integer_sequence.h>
 
 namespace thrust
 {
@@ -24,151 +25,30 @@ namespace thrust
 namespace detail
 {
 
+// introduce an intermediate type tuple_meta_transform_WAR_NVCC
+// rather than directly specializing tuple_meta_transform with
+// default argument IndexSequence = thrust::make_index_sequence<thrust::tuple_size<Tuple>::value>
+// to workaround nvcc 11.0 compiler bug
 template<typename Tuple,
          template<typename> class UnaryMetaFunction,
-         unsigned int sz = thrust::tuple_size<Tuple>::value>
-  struct tuple_meta_transform;
+         typename IndexSequence>
+  struct tuple_meta_transform_WAR_NVCC;
 
 template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,0>
-{
-  typedef null_type type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,1>
+         template<typename> class UnaryMetaFunction,
+         size_t... Is>
+  struct tuple_meta_transform_WAR_NVCC<Tuple, UnaryMetaFunction, thrust::index_sequence<Is...>>
 {
   typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type
+    typename UnaryMetaFunction<typename thrust::tuple_element<Is,Tuple>::type>::type...
   > type;
 };
 
 template<typename Tuple,
          template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,2>
+  struct tuple_meta_transform
 {
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type
-  > type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,3>
-{
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type
-  > type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,4>
-{
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type
-  > type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,5>
-{
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type
-  > type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,6>
-{
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type
-  > type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,7>
-{
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<6,Tuple>::type>::type
-  > type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,8>
-{
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<6,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<7,Tuple>::type>::type
-  > type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,9>
-{
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<6,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<7,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<8,Tuple>::type>::type
-  > type;
-};
-
-template<typename Tuple,
-         template<typename> class UnaryMetaFunction>
-  struct tuple_meta_transform<Tuple,UnaryMetaFunction,10>
-{
-  typedef thrust::tuple<
-    typename UnaryMetaFunction<typename thrust::tuple_element<0,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<1,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<2,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<3,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<4,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<5,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<6,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<7,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<8,Tuple>::type>::type,
-    typename UnaryMetaFunction<typename thrust::tuple_element<9,Tuple>::type>::type
-  > type;
+  typedef typename tuple_meta_transform_WAR_NVCC<Tuple, UnaryMetaFunction, thrust::make_index_sequence<thrust::tuple_size<Tuple>::value>>::type type;
 };
 
 } // end detail
