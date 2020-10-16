@@ -1,5 +1,5 @@
 # Parse version information from version.h:
-file(READ "${CMAKE_CURRENT_LIST_DIR}/../version.h" THRUST_VERSION_HEADER)
+file(READ "${CMAKE_CURRENT_LIST_DIR}/../../../include/thrust/version.h" THRUST_VERSION_HEADER)
 string(REGEX MATCH "#define[ \t]+THRUST_VERSION[ \t]+([0-9]+)" DUMMY "${THRUST_VERSION_HEADER}")
 set(THRUST_VERSION_FLAT ${CMAKE_MATCH_1})
 # Note that Thrust calls this the PATCH number, CMake calls it the TWEAK number:
