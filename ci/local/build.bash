@@ -25,6 +25,9 @@ function usage {
   echo "-i <image>, --image <image>"
   echo "  Docker image to use (default: ${IMAGE})"
   echo
+  echo "-l, --local-image"
+  echo "  Use the local version of the image instead of pulling from Docker hub."
+  echo
   echo "-s, --shell-only"
   echo "  Skip building and testing and launch an interactive shell instead."
   echo
@@ -43,6 +46,8 @@ REPOSITORY_PATH=$(realpath ${SCRIPT_PATH}/../..)
 ################################################################################
 
 IMAGE="gpuci/cccl:cuda11.0-devel-ubuntu18.04-gcc5"
+
+LOCAL_IMAGE=0
 
 SHELL_ONLY=0
 
@@ -66,6 +71,8 @@ do
     shift # The next argument is the image.
     IMAGE="${1}"
     ;;
+  -l) ;&
+  --local-image) LOCAL_IMAGE=1 ;;
   -s) ;&
   --shell-only) SHELL_ONLY=1 ;;
   -c) ;&
@@ -168,9 +175,11 @@ if [ "${NVIDIA_DOCKER_INSTALLED}" == 0 ]; then
   exit -4
 fi
 
-source ../ci/common/determine_build_parallelism.bash
+source ${REPOSITORY_PATH}/ci/common/determine_build_parallelism.bash
 
-docker pull "${IMAGE}"
+if [ "${LOCAL_IMAGE}" == 0 ]; then
+  docker pull "${IMAGE}"
+fi
 
 docker run --rm -it ${GPU_OPTS} \
   --cap-add=SYS_PTRACE \
@@ -180,7 +189,7 @@ docker run --rm -it ${GPU_OPTS} \
   -v "${PASSWD_PATH}":/etc/passwd:ro \
   -v "${GROUP_PATH}":/etc/group:ro \
   -e "WORKSPACE=${REPOSITORY_PATH_IN_CONTAINER}" \
-  -e "BUILD_KIND=gpu"
+  -e "BUILD_TYPE=gpu" \
   -e "PARALLEL_LEVEL=${PARALLEL_LEVEL}" \
   -w "${REPOSITORY_PATH_IN_CONTAINER}" \
   "${IMAGE}" bash -c "${COMMAND}"
