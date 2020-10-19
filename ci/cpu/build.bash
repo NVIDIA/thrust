@@ -13,7 +13,6 @@ SCRIPT_PATH=$(cd $(dirname ${0}); pwd -P)
 
 REPOSITORY_PATH=$(realpath ${SCRIPT_PATH}/../..)
 
-export BUILD_KIND=cpu
 export PARALLEL_LEVEL=4
 
 source ${REPOSITORY_PATH}/ci/common/build.bash
