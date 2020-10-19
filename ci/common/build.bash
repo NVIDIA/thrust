@@ -90,12 +90,8 @@ ${CUDACXX} --version
 mkdir -p build
 cd build
 
-#if [ ! -f CMakeLists.txt ]; then
-  logger "Configure Thrust and CUB..."
-  cmake ${CMAKE_FLAGS} ..
-#else
-#  logger "Existing Thrust and CUB configuration found, skipping configure..."
-#fi
+logger "Configure Thrust and CUB..."
+cmake ${CMAKE_FLAGS} ..
 
 logger "Build Thrust and CUB..."
 cmake --build . -j${PARALLEL_LEVEL} "${@}"
