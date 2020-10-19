@@ -497,7 +497,7 @@ macro(_thrust_find_CUDA required)
       NO_DEFAULT_PATH # Only check the explicit HINTS below:
       HINTS
         "${_THRUST_INCLUDE_DIR}/dependencies/cub" # Source layout
-        "${_THRUST_INCLUDE_DIR}"                  # Install layout
+        "${_THRUST_INCLUDE_DIR}/.."               # Install layout
     )
 
     if (TARGET CUB::CUB)
@@ -624,11 +624,11 @@ set(_THRUST_CMAKE_DIR "${CMAKE_CURRENT_LIST_DIR}" CACHE INTERNAL "Location of th
 # Internal target that actually holds the Thrust interface. Used by all other Thrust targets.
 if (NOT TARGET Thrust::Thrust)
   _thrust_declare_interface_alias(Thrust::Thrust _Thrust_Thrust)
-  # Strip out the 'thrust/cmake/' from '[thrust_include_path]/thrust/cmake/':
-  get_filename_component(_THRUST_INCLUDE_DIR "../../../include" ABSOLUTE BASE_DIR "${_THRUST_CMAKE_DIR}")
-  set(_THRUST_INCLUDE_DIR "${_THRUST_INCLUDE_DIR}"
-    CACHE INTERNAL "Location of thrust headers."
+  # Pull in the include dir detected by thrust-config-version.cmake
+  set(_THRUST_INCLUDE_DIR "${_THRUST_VERSION_INCLUDE_DIR}"
+    CACHE INTERNAL "Location of Thrust headers."
   )
+  unset(_THRUST_VERSION_INCLUDE_DIR CACHE) # Clear tmp variable from cache
   target_include_directories(_Thrust_Thrust INTERFACE "${_THRUST_INCLUDE_DIR}")
   thrust_debug_target(Thrust::Thrust "${THRUST_VERSION}" internal)
 endif()

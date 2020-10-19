@@ -1,3 +1,6 @@
+# Bring in CMAKE_INSTALL_LIBDIR
+include(GNUInstallDirs)
+
 # Thrust is a header library; no need to build anything before installing:
 set(CMAKE_SKIP_INSTALL_ALL_DEPENDENCY TRUE)
 
@@ -6,13 +9,10 @@ install(DIRECTORY "${Thrust_SOURCE_DIR}/thrust"
   FILES_MATCHING
     PATTERN "*.h"
     PATTERN "*.inl"
-    PATTERN "*.md"
 )
 
-install(DIRECTORY "${Thrust_SOURCE_DIR}/thrust"
-  TYPE LIB
-  FILES_MATCHING
-    PATTERN "*.cmake"
+install(DIRECTORY "${Thrust_SOURCE_DIR}/thrust/cmake/"
+  DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/thrust"
 )
 
 # Depending on how Thrust is configured, CUB's CMake scripts may or may not be
@@ -27,9 +27,7 @@ if (THRUST_INSTALL_CUB_HEADERS)
       PATTERN "*.cuh"
   )
 
-  install(DIRECTORY "${Thrust_SOURCE_DIR}/dependencies/cub/cub"
-    TYPE LIB
-    FILES_MATCHING
-      PATTERN "*.cmake"
+  install(DIRECTORY "${Thrust_SOURCE_DIR}/dependencies/cub/cub/cmake/"
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/cub"
   )
 endif()
