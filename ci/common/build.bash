@@ -29,8 +29,10 @@ export PATH=/usr/local/cuda/bin:${PATH}
 # Set home to the job's workspace.
 export HOME=${WORKSPACE}
 
-# Switch to project root; also root of repo checkout.
+# Switch to the build directory.
 cd ${WORKSPACE}
+mkdir -p build
+cd build
 
 # The Docker image sets up `${CXX}` and `${CUDACXX}`.
 CMAKE_FLAGS="-G Ninja -DCMAKE_CXX_COMPILER='${CXX}' -DCMAKE_CUDA_COMPILER='${CUDACXX}'"
@@ -42,6 +44,7 @@ if [ "${BUILD_MODE}" == "branch" ]; then
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_DIALECT_CPP11=ON"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_IGNORE_DEPRECATED_CPP_11=ON"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_DIALECT_CPP14=ON"
+  CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_DIALECT_CPP17=OFF"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CPP=ON"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_SYSTEM_TBB=ON"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_SYSTEM_OMP=ON"
@@ -59,6 +62,7 @@ else
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_DIALECT_CPP11=ON"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_IGNORE_DEPRECATED_CPP_11=ON"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_DIALECT_CPP14=ON"
+  CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_DIALECT_CPP17=OFF"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CPP=ON"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_SYSTEM_TBB=ON"
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_ENABLE_SYSTEM_OMP=ON"
@@ -66,10 +70,20 @@ else
   CMAKE_FLAGS="${CMAKE_FLAGS} -DTHRUST_MULTICONFIG_WORKLOAD=SMALL"
 fi
 
+CMAKE_BUILD_FLAGS="-j${PARALLEL_LEVEL}"
+
+if [ ! -z "${@}" ]; then
+  CMAKE_BUILD_FLAGS="${CMAKE_BUILD_FLAGS} -- ${@}"
+fi
+
 CTEST_FLAGS=""
 
 if [ "${BUILD_TYPE}" == "cpu" ]; then
-  CTEST_FLAGS="${CTEST_FLAGS} -E '^cub|^thrust.*cuda'"
+  CTEST_FLAGS="${CTEST_FLAGS} -E ^cub|^thrust.*cuda"
+fi
+
+if [ ! -z "${@}" ]; then
+  CTEST_FLAGS="${CTEST_FLAGS} -R ^${@}$"
 fi
 
 ################################################################################
@@ -87,19 +101,16 @@ ${CUDACXX} --version
 # BUILD - Build Thrust and CUB examples and tests.
 ################################################################################
 
-mkdir -p build
-cd build
-
 logger "Configure Thrust and CUB..."
-cmake ${CMAKE_FLAGS} ..
+cmake .. ${CMAKE_FLAGS}
 
 logger "Build Thrust and CUB..."
-cmake --build . -j${PARALLEL_LEVEL} "${@}"
+cmake --build . ${CMAKE_BUILD_FLAGS}
 
 ################################################################################
 # TEST - Run Thrust and CUB examples and tests.
 ################################################################################
 
 logger "Test Thrust and CUB..."
-ctest ${CTEST_FLAGS} "${@}"
+ctest ${CTEST_FLAGS}
 

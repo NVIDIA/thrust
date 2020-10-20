@@ -175,7 +175,11 @@ if [ "${NVIDIA_DOCKER_INSTALLED}" == 0 ]; then
   exit -4
 fi
 
-source ${REPOSITORY_PATH}/ci/common/determine_build_parallelism.bash
+if [ "${SHELL_ONLY}" != 0 ]; then
+  DETERMINE_PARALLELISM_FLAGS=--quiet
+fi
+source ${REPOSITORY_PATH}/ci/common/determine_build_parallelism.bash \
+       ${DETERMINE_PARALLELISM_FLAGS}
 
 if [ "${LOCAL_IMAGE}" == 0 ]; then
   docker pull "${IMAGE}"
@@ -191,6 +195,6 @@ docker run --rm -it ${GPU_OPTS} \
   -e "WORKSPACE=${REPOSITORY_PATH_IN_CONTAINER}" \
   -e "BUILD_TYPE=gpu" \
   -e "PARALLEL_LEVEL=${PARALLEL_LEVEL}" \
-  -w "${REPOSITORY_PATH_IN_CONTAINER}" \
+  -w "${BUILD_PATH_IN_CONTAINER}" \
   "${IMAGE}" bash -c "${COMMAND}"
 
