@@ -5,4 +5,4 @@ CXX_TYPE:
   - gcc
 
 CXX_VER:
-  - 5
+  - 7
