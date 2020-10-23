@@ -9,11 +9,7 @@
 # Thrust and CUB build script for gpuCI (CPU-only)
 ################################################################################
 
-SCRIPT_PATH=$(cd $(dirname ${0}); pwd -P)
+export PARALLEL_LEVEL=${PARALLEL_LEVEL:-4}
 
-REPOSITORY_PATH=$(realpath ${SCRIPT_PATH}/../..)
-
-export PARALLEL_LEVEL=4
-
-source ${REPOSITORY_PATH}/ci/common/build.bash
+source ${WORKSPACE}/ci/common/build.bash
 
