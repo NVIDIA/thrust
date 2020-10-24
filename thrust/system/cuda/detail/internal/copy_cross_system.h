@@ -100,12 +100,13 @@ namespace __copy {
 
   {
     typedef typename iterator_traits<InputIt>::value_type InputTy;
-
-    trivial_device_copy(derived_cast(sys1),
-                        derived_cast(sys2),
-                        reinterpret_cast<InputTy*>(thrust::raw_pointer_cast(&*result)),
-                        reinterpret_cast<InputTy const*>(thrust::raw_pointer_cast(&*begin)),
-                        n);
+    if (n > 0) {
+      trivial_device_copy(derived_cast(sys1),
+                          derived_cast(sys2),
+                          reinterpret_cast<InputTy*>(thrust::raw_pointer_cast(&*result)),
+                          reinterpret_cast<InputTy const*>(thrust::raw_pointer_cast(&*begin)),
+                          n);
+    }
 
     return result + n;
   }

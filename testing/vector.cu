@@ -645,6 +645,19 @@ DECLARE_VECTOR_UNITTEST(TestVectorReserving)
 
 
 template <class Vector>
+void TestVectorUninitialisedCopy(void)
+{
+    thrust::device_vector<int> v;
+    std::vector<int> std_vector;
+
+    v = std_vector;
+
+    ASSERT_EQUAL(v.size(), static_cast<size_t>(0));
+}
+DECLARE_VECTOR_UNITTEST(TestVectorUninitialisedCopy);
+
+
+template <class Vector>
 void TestVectorShrinkToFit(void)
 {
     typedef typename Vector::value_type T;
