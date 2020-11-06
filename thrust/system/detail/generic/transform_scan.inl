@@ -51,10 +51,11 @@ __host__ __device__
   // Use the input iterator's value type per https://wg21.link/P0571
   using InputType = typename thrust::iterator_value<InputIterator>::type;
 #if THRUST_CPP_DIALECT < 2017
-  using ValueType = typename std::result_of<UnaryFunction(InputType)>::type;
+  using ResultType = typename std::result_of<UnaryFunction(InputType)>::type;
 #else
-  using ValueType = std::invoke_result_t<UnaryFunction, InputType>;
+  using ResultType = std::invoke_result_t<UnaryFunction, InputType>;
 #endif
+  using ValueType = typename std::remove_reference<ResultType>::type;
 
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
@@ -79,7 +80,7 @@ __host__ __device__
                                           AssociativeOperator binary_op)
 {
   // Use the initial value type per https://wg21.link/P0571
-  using ValueType = InitialValueType;
+  using ValueType = typename std::remove_reference<InitialValueType>::type;
 
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _first(first, unary_op);
   thrust::transform_iterator<UnaryFunction, InputIterator, ValueType> _last(last, unary_op);
