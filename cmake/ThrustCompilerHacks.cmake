@@ -79,6 +79,8 @@ if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   set(CMAKE_CUDA17_STANDARD__HAS_FULL_SUPPORT TRUE)
   set_property(GLOBAL PROPERTY CMAKE_CUDA17_KNOWN_FEATURES)
 
+  include(Internal/FeatureTesting)
+  include(Compiler/CMakeCommonCompilerMacros)
   cmake_record_cuda_compile_features()
 
   set(CMAKE_CUDA_COMPILE_FEATURES
