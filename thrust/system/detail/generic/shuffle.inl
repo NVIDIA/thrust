@@ -34,7 +34,6 @@ namespace generic {
 
 // An implementation of a Feistel cipher for operating on 64 bit keys
 class feistel_bijection {
- private:
   struct round_state {
     uint32_t left;
     uint32_t right;
@@ -80,7 +79,9 @@ class feistel_bijection {
  private:
   // Find the nearest power of two
   __host__ __device__ uint64_t get_cipher_bits(uint64_t m) {
+    if (m == 0) return 0;
     uint64_t i = 0;
+    m--;
     while (m != 0) {
       i++;
       m >>= 1;
@@ -88,15 +89,20 @@ class feistel_bijection {
     return i;
   }
 
-  // Round function, a 'pseudorandom function' whos output is indistinguishable
+  // Equivalent to boost::hash_combine
+  __host__ __device__ size_t hash_combine(uint64_t lhs, uint64_t rhs) const {
+    lhs ^= rhs + 0x9e3779b9 + (lhs << 6) + (lhs >> 2);
+    return lhs;
+  }
+
+  // Round function, a 'pseudorandom function' who's output is indistinguishable
   // from random for each key value input. This is not cryptographically secure
-  // but sufficient for generating permutations. We hash the value with the
-  // tau88 engine and combine it with the random bits of the key (provided by
-  // the user-defined engine).
+  // but sufficient for generating permutations. 
   __host__ __device__ uint32_t round_function(uint64_t value,
                                               const uint64_t key) const {
-    uint64_t value_hash = thrust::random::taus88(value)();
-    return (value_hash ^ key) & left_side_mask;
+    uint64_t hash0 = thrust::random::taus88(value)();
+    uint64_t hash1 = thrust::random::ranlux48(value)();
+    return hash_combine(hash_combine(hash0, key), hash1) & left_side_mask;
   }
 
   __host__ __device__ round_state do_round(const round_state state,
@@ -114,7 +120,7 @@ class feistel_bijection {
     return {new_left, round_function_res};
   }
 
-  static const uint64_t num_rounds = 8;
+  static constexpr uint64_t num_rounds = 16;
   uint64_t right_side_bits;
   uint64_t left_side_bits;
   uint64_t right_side_mask;
