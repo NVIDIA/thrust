@@ -126,19 +126,26 @@ private:
   /* A[]: Stirling's formula expansion of log gamma
    * B[], C[]: log gamma function between 2 and 3
    */
-  static constexpr unsigned short A[] = {
-      0x6661, 0x2733, 0x9850, 0x3f4a, 0xe943, 0xb580, 0x7fbd,
-      0xbf43, 0x5ebb, 0x20dc, 0x019f, 0x3f4a, 0xa5a1, 0x16b0,
-      0xc16c, 0xbf66, 0x554b, 0x5555, 0x5555, 0x3fb5};
-  static constexpr unsigned short B[] = {
-      0x6761, 0x8ff3, 0x8901, 0xc095, 0xb93e, 0x355b, 0xf234, 0xc0e2,
-      0x89e5, 0xf890, 0x3d73, 0xc114, 0xdb51, 0xf994, 0xbc82, 0xc131,
-      0xf20b, 0x0219, 0x4589, 0xc13a, 0x055e, 0x5418, 0x0c67, 0xc12a};
-  static constexpr unsigned short C[] = {
-      /*0x0000,0x0000,0x0000,0x3ff0,*/
-      0x12b2, 0x1cf3, 0xfd0d, 0xc075, 0xd757, 0x7b89, 0xaa0d, 0xc0d0,
-      0x4c9b, 0xb974, 0xeb84, 0xc10a, 0x0043, 0x7195, 0x6286, 0xc131,
-      0xf34c, 0x892f, 0x5255, 0xc143, 0xe14a, 0x6a11, 0xce4b, 0xc13e};
+  static constexpr double A[] = {
+      0.000811614167470508488140545910738410384510643780,
+      -0.000595061904284301438315674115386855191900394857,
+      0.000793650340457716942620114419781884862459264696,
+      -0.002777777777300996942672073330982129846233874559,
+      0.083333333333333189929525985917280195280909538269};
+  static constexpr double B[] = {
+      -1378.251525691208598800585605204105377197265625,
+      -38801.631513463784358464181423187255859375,
+      -331612.9927388711948879063129425048828125,
+      -1162370.97492762305773794651031494140625,
+      -1721737.00820839661173522472381591796875,
+      -853555.66424576542340219020843505859375};
+  static constexpr double C[] = {
+      -351.8157014365234545039129443466663360595703125,
+      -17064.21066518811494461260735988616943359375,
+      -220528.59055385444662533700466156005859375,
+      -1139334.44367982516996562480926513671875,
+      -2532523.07177582941949367523193359375,
+      -2018891.4143353276886045932769775390625};
 
   static constexpr double MAXLGM = 2.556348e305;
 
@@ -200,8 +207,8 @@ private:
         return (log(z));
       p -= 2.0;
       x = x + p;
-      p = x * cephes_polevl(x, (const double *)B, 5) /
-          cephes_p1evl(x, (const double *)C, 6);
+      p = x * cephes_polevl(x, B, 5) /
+          cephes_p1evl(x, C, 6);
 
       return log(z) + p;
     }
@@ -224,7 +231,7 @@ private:
            0.0833333333333333333333) /
           x;
     else
-      q += cephes_polevl(p, (const double *)A, 4) / x;
+      q += cephes_polevl(p, A, 4) / x;
 
     return q;
   }
@@ -312,9 +319,9 @@ private:
   }
 };
 int CephesFunctions::sgngam = 0;
-constexpr unsigned short CephesFunctions::A[];
-constexpr unsigned short CephesFunctions::B[];
-constexpr unsigned short CephesFunctions::C[];
+constexpr double CephesFunctions::A[];
+constexpr double CephesFunctions::B[];
+constexpr double CephesFunctions::C[];
 
 template <typename Vector>
 void TestShuffleSimple() {
