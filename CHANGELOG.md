@@ -1,3 +1,77 @@
+# Thrust 1.11.0
+
+## Summary
+
+Thrust 1.11.0 is a major release providing bugfixes and performance
+enhancements.
+
+It includes a new sort algorithm that provides up to 2x more performance
+from `thrust::sort` when used with certain key types and hardware.
+
+The new `thrust::shuffle` algorithm has been tweaked to improve the randomness
+of the output.
+
+Our CMake package and build system continue to see improvements with
+improved `add_subdirectory` support, installation rules, status messages, and
+other features that make CUB easier to use from CMake projects.
+
+The release includes several other bugfixes and modernizations, and received
+updates from 12 contributors.
+
+## New Features
+
+- NVIDIA/cub#204: New implementation for `thrust::sort` on CUDA when using
+  32/64-bit numeric keys on Pascal and up (SM60+). This improved radix sort
+  algorithm provides up to 2x more performance. Thanks for Andy Adinets for this
+  contribution.
+- NVIDIA/thrust#1310, NVIDIA/thrust#1312: Various tuple-related APIs have been
+  updated to use variadic templates. Thanks for Andrew Corrigan for these
+  contributions.
+- NVIDIA/thrust#1297: Optionally add install rules when included with
+  CMake's `add_subdirectory`. Thanks to Kai Germaschewski for this contribution.
+
+## Bug Fixes
+
+- NVIDIA/thrust#1309: Fix `thrust::shuffle` to produce better quality random
+  distributions. Thanks to Rory Mitchell and Daniel Stokes for this
+  contribution.
+- NVIDIA/thrust#1337: Fix compile-time regression in `transform_inclusive_scan`
+  and `transform_exclusive_scan`.
+- NVIDIA/thrust#1306: Fix binary search `middle` calculation to avoid overflows.
+  Thanks to Richard Barnes for this contribution.
+- NVIDIA/thrust#1314: Use `size_t` for the index type parameter
+  in `thrust::tuple_element`. Thanks to Andrew Corrigan for this contribution.
+- NVIDIA/thrust#1329: Fix runtime error when copying an
+  empty `thrust::device_vector` in MSVC Debug builds. Thanks to Ben Jude for
+  this contribution.
+- NVIDIA/thrust#1323: Fix and add test for cmake package install rules. Thanks
+  for Keith Kraus and Kai Germaschewski for testing and discussion.
+- NVIDIA/thrust#1338: Fix GCC version checks in `thrust::detail::is_pod`
+  implementation. Thanks to Anatoliy Tomilov for this contribution.
+- NVIDIA/thrust#1289: Partial fixes for Clang 10 as host/c++ compiler. Exposed
+  an nvcc bug that will be fixed in a future version of the CUDA Toolkit (NVBug
+  3136307).
+- NVIDIA/thrust#1272: Fix ambiguous `iter_swap` call when
+  using `thrust::partition` with STL containers. Thanks to Isaac Deutsch for
+  this contribution.
+- NVIDIA/thrust#1281: Update our bundled `FindTBB.cmake` module to support
+  latest MSVC.
+- NVIDIA/thrust#1298: Use semantic versioning rules for our CMake package's
+  compatibility checks. Thanks to Kai Germaschewski for this contribution.
+- NVIDIA/thrust#1300: Use `FindPackageHandleStandardArgs` to print standard
+  status messages when our CMake package is found. Thanks to Kai Germaschewski
+  for this contribution.
+- NVIDIA/thrust#1320: Use feature-testing instead of a language dialect check
+  for `thrust::remove_cvref`. Thanks to Andrew Corrigan for this contribution.
+- NVIDIA/thrust#1319: Suppress GPU deprecation warnings.
+
+## Other Enhancements
+
+- NVIDIA/cub#213: Removed some tuning policies for unsupported hardware (<SM35).
+- References to the old Github repository and branch names were updated.
+  - Github's `thrust/cub` repository is now `NVIDIA/cub`
+  - Development has moved from the `master` branch to the `main` branch.
+
 # Thrust 1.10.0 (NVIDIA HPC SDK 20.9)
 
 ## Summary
