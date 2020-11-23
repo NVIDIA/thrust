@@ -12,8 +12,8 @@ The new `thrust::shuffle` algorithm has been tweaked to improve the randomness
 of the output.
 
 Our CMake package and build system continue to see improvements with
-improved `add_subdirectory` support, installation rules, status messages, and
-other features that make CUB easier to use from CMake projects.
+better `add_subdirectory` support, installation rules, status messages, and
+other features that make Thrust easier to use from CMake projects.
 
 The release includes several other bugfixes and modernizations, and received
 updates from 12 contributors.
