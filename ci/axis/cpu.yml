@@ -3,6 +3,16 @@ OS_VER:
 
 CXX_TYPE:
   - gcc
+  - clang
 
 CXX_VER:
+  - 5
+  - 6
   - 7
+  - 8
+  - 9
+  - 10
+
+exclude:
+  - CXX_TYPE: clang
+    CXX_VER: 5
