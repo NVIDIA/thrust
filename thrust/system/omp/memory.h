@@ -27,11 +27,7 @@
 #include <thrust/mr/allocator.h>
 #include <ostream>
 
-namespace thrust
-{
-namespace system
-{
-namespace omp
+namespace thrust { namespace system { namespace omp
 {
 
 /*! Allocates an area of memory available to Thrust's <tt>omp</tt> system.
@@ -67,29 +63,38 @@ inline pointer<T> malloc(std::size_t n);
  */
 inline void free(pointer<void> ptr);
 
-/*! \p omp::allocator is the default allocator used by the \p omp system's containers such as
- *  <tt>omp::vector</tt> if no user-specified allocator is provided. \p omp::allocator allocates
- *  (deallocates) storage with \p omp::malloc (\p omp::free).
+/*! \p omp::allocator is the default allocator used by the \p omp system's
+ *  containers such as <tt>omp::vector</tt> if no user-specified allocator is
+ *  provided. \p omp::allocator allocates (deallocates) storage with \p
+ *  omp::malloc (\p omp::free).
  */
 template<typename T>
-using allocator = thrust::mr::stateless_resource_allocator<T, memory_resource>;
+using allocator = thrust::mr::stateless_resource_allocator<
+  T, thrust::system::omp::memory_resource
+>;
 
-} // end omp
-} // end system
+/*! \p omp::universal_allocator allocates memory that can be used by the \p omp
+ *  system and host systems.
+ */
+template<typename T>
+using universal_allocator = thrust::mr::stateless_resource_allocator<
+  T, thrust::system::omp::universal_memory_resource
+>;
+
+}} // namespace system::omp
 
 /*! \namespace thrust::omp
  *  \brief \p thrust::omp is a top-level alias for thrust::system::omp.
  */
 namespace omp
 {
-
 using thrust::system::omp::malloc;
 using thrust::system::omp::free;
 using thrust::system::omp::allocator;
+using thrust::system::omp::universal_allocator;
+} // namespace omp
 
-} // end omp
-
-} // end thrust
+} // namespace thrust
 
 #include <thrust/system/omp/detail/memory.inl>
 

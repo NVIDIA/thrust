@@ -12,8 +12,8 @@ The new `thrust::shuffle` algorithm has been tweaked to improve the randomness
 of the output.
 
 Our CMake package and build system continue to see improvements with
-improved `add_subdirectory` support, installation rules, status messages, and
-other features that make CUB easier to use from CMake projects.
+better `add_subdirectory` support, installation rules, status messages, and
+other features that make Thrust easier to use from CMake projects.
 
 The release includes several other bugfixes and modernizations, and received
 updates from 12 contributors.
@@ -72,11 +72,12 @@ updates from 12 contributors.
   - Github's `thrust/cub` repository is now `NVIDIA/cub`
   - Development has moved from the `master` branch to the `main` branch.
 
-# Thrust 1.10.0 (NVIDIA HPC SDK 20.9)
+# Thrust 1.10.0 (NVIDIA HPC SDK 20.9, CUDA Toolkit 11.2)
 
 ## Summary
 
-Thrust 1.10.0 is the major release accompanying the NVIDIA HPC SDK 20.9 release.
+Thrust 1.10.0 is the major release accompanying the NVIDIA HPC SDK 20.9 release
+  and the CUDA Toolkit 11.2 release.
 It drops support for C++03, GCC < 5, Clang < 6, and MSVC < 2017.
 It also overhauls CMake support.
 Finally, we now have a Code of Conduct for contributors:

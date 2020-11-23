@@ -2,7 +2,7 @@
  *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
+ *  you may not use this file except in ctbbliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -67,33 +67,38 @@ inline pointer<T> malloc(std::size_t n);
  */
 inline void free(pointer<void> ptr);
 
-/*! \p tbb::allocator is the default allocator used by the \p tbb system's containers such as
- *  <tt>tbb::vector</tt> if no user-specified allocator is provided. \p tbb::allocator allocates
- *  (deallocates) storage with \p tbb::malloc (\p tbb::free).
+/*! \p tbb::allocator is the default allocator used by the \p tbb system's
+ *  containers such as <tt>tbb::vector</tt> if no user-specified allocator is
+ *  provided. \p tbb::allocator allocates (deallocates) storage with \p
+ *  tbb::malloc (\p tbb::free).
  */
 template<typename T>
-using allocator = thrust::mr::stateless_resource_allocator<T, memory_resource>;
+using allocator = thrust::mr::stateless_resource_allocator<
+  T, thrust::system::tbb::memory_resource
+>;
 
-} // end tbb
-
-/*! \}
+/*! \p tbb::universal_allocator allocates memory that can be used by the \p tbb
+ *  system and host systems.
  */
+template<typename T>
+using universal_allocator = thrust::mr::stateless_resource_allocator<
+  T, thrust::system::tbb::universal_memory_resource
+>;
 
-} // end system
+}} // namespace system::tbb
 
 /*! \namespace thrust::tbb
  *  \brief \p thrust::tbb is a top-level alias for thrust::system::tbb.
  */
 namespace tbb
 {
-
 using thrust::system::tbb::malloc;
 using thrust::system::tbb::free;
 using thrust::system::tbb::allocator;
+using thrust::system::tbb::universal_allocator;
+} // namsespace tbb
 
-} // end tbb
-
-} // end thrust
+} // namespace thrust
 
 #include <thrust/system/tbb/detail/memory.inl>
 

@@ -24,7 +24,7 @@
 
 #include <thrust/detail/integer_math.h>
 
-#include <thrust/mr/detail/config.h>
+#include <thrust/detail/config/memory_resource.h>
 
 namespace thrust
 {

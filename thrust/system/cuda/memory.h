@@ -2,7 +2,7 @@
  *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in ccudaliance with the License.
+ *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -27,9 +27,8 @@
 #include <thrust/mr/allocator.h>
 #include <ostream>
 
-namespace thrust
+namespace thrust { namespace cuda_cub
 {
-namespace cuda_cub {
 
 /*! Allocates an area of memory available to Thrust's <tt>cuda</tt> system.
  *  \param n Number of bytes to allocate.
@@ -64,30 +63,46 @@ inline __host__ __device__ pointer<T> malloc(std::size_t n);
  */
 inline __host__ __device__ void free(pointer<void> ptr);
 
-/*! \p cuda::allocator is the default allocator used by the \p cuda system's containers such as
- *  <tt>cuda::vector</tt> if no user-specified allocator is provided. \p cuda::allocator allocates
- *  (deallocates) storage with \p cuda::malloc (\p cuda::free).
+/*! \p cuda::allocator is the default allocator used by the \p cuda system's
+ *  containers such as <tt>cuda::vector</tt> if no user-specified allocator is
+ *  provided. \p cuda::allocator allocates (deallocates) storage with \p
+ *  cuda::malloc (\p cuda::free).
  */
 template<typename T>
-using allocator = thrust::mr::stateless_resource_allocator<T, system::cuda::memory_resource>;
+using allocator = thrust::mr::stateless_resource_allocator<
+  T, thrust::system::cuda::memory_resource
+>;
 
-}    // namespace cuda_cub
+/*! \p cuda::universal_allocator allocates memory that can be used by the \p cuda
+ *  system and host systems.
+ */
+template<typename T>
+using universal_allocator = thrust::mr::stateless_resource_allocator<
+  T, thrust::system::cuda::universal_memory_resource
+>;
 
-namespace system {
-namespace cuda {
+} // namespace cuda_cub
+
+namespace system { namespace cuda
+{
 using thrust::cuda_cub::malloc;
 using thrust::cuda_cub::free;
 using thrust::cuda_cub::allocator;
+using thrust::cuda_cub::universal_allocator;
+}} // namespace system::cuda
+
+/*! \namespace thrust::cuda
+ *  \brief \p thrust::cuda is a top-level alias for \p thrust::system::cuda.
+ */
+namespace cuda
+{
+using thrust::cuda_cub::malloc;
+using thrust::cuda_cub::free;
+using thrust::cuda_cub::allocator;
+using thrust::cuda_cub::universal_allocator;
 } // namespace cuda
-} // namespace system
 
-namespace cuda {
-using thrust::cuda_cub::malloc;
-using thrust::cuda_cub::free;
-using thrust::cuda_cub::allocator;
-}    // end cuda
-
-} // end namespace thrust
+} // namespace thrust
 
 #include <thrust/system/cuda/detail/memory.inl>
 

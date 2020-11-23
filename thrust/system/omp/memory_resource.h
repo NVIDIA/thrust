@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 NVIDIA Corporation
+ *  Copyright 2018-2020 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*! \file omp/memory_resource.h
- *  \brief Memory resources for the OMP system.
+ *  \brief Memory resources for the OpenMP system.
  */
 
 #pragma once
@@ -26,11 +26,7 @@
 
 #include <thrust/system/omp/pointer.h>
 
-namespace thrust
-{
-namespace system
-{
-namespace omp
+namespace thrust { namespace system { namespace omp
 {
 
 //! \cond
@@ -40,7 +36,12 @@ namespace detail
         thrust::mr::new_delete_resource,
         thrust::omp::pointer<void>
     > native_resource;
-}
+
+    typedef thrust::mr::fancy_pointer_resource<
+        thrust::mr::new_delete_resource,
+        thrust::omp::universal_pointer<void>
+    > universal_native_resource;
+} // namespace detail
 //! \endcond
 
 /*! \addtogroup memory_resources Memory Resources
@@ -48,16 +49,19 @@ namespace detail
  *  \{
  */
 
-/*! The memory resource for the OMP system. Uses \p mr::new_delete_resource and tags it with \p omp::pointer. */
+/*! The memory resource for the OpenMP system. Uses \p mr::new_delete_resource
+ *  and tags it with \p omp::pointer.
+ */
 typedef detail::native_resource memory_resource;
-/*! An alias for \p omp::memory_resource. */
-typedef detail::native_resource universal_memory_resource;
-/*! An alias for \p omp::memory_resource. */
+/*! The unified memory resource for the OpenMP system. Uses
+ *  \p mr::new_delete_resource and tags it with \p omp::universal_pointer.
+ */
+typedef detail::universal_native_resource universal_memory_resource;
+/*! An alias for \p omp::universal_memory_resource. */
 typedef detail::native_resource universal_host_pinned_memory_resource;
 
 /*! \}
  */
 
-}
-}
-}
+}}} // namespace thrust::system::omp
+
