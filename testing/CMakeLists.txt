@@ -27,6 +27,11 @@ set(partially_implemented_CUDA
   async_transform
   event
   future
+
+  # This test is incompatible with TBB and OMP, since it requires special per-device
+  # handling to process exceptions in a device function, which is only implemented
+  # for CUDA.
+  unittest_static_assert
 )
 
 # List of tests that aren't implemented for all backends, but are implemented for CPP.
@@ -116,7 +121,13 @@ function(thrust_add_test target_name_var test_name test_src thrust_target)
   # to allow custom property modifications.
   get_filename_component(test_cmake_script "${test_src}" NAME_WLE)
   set(test_cmake_script "${CMAKE_CURRENT_LIST_DIR}/${test_cmake_script}.cmake")
-  if (EXISTS "${test_cmake_script}")
+  # Use a glob so we can detect if this changes:
+  file(GLOB test_cmake_script
+    RELATIVE "${CMAKE_CURRENT_LIST_DIR}"
+    CONFIGURE_DEPENDS
+    "${test_cmake_script}"
+  )
+  if (test_cmake_script) # Will be non-empty only if the script exists
     include("${test_cmake_script}")
   endif()
 endfunction()
