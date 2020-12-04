@@ -3,6 +3,26 @@ OS_VER:
 
 CXX_TYPE:
   - gcc
+  - clang
 
 CXX_VER:
+  - 5
+  - 6
   - 7
+  - 8
+  - 9
+  - 10
+
+exclude:
+  # Unsupported compiler version
+  - CXX_TYPE: clang
+    CXX_VER: 5
+  # This config is broken in the docker image: https://github.com/NVIDIA/cccl/issues/6
+  - CXX_TYPE: clang
+    CXX_VER: 6
+  # Needs newer nvcc in image, https://github.com/NVIDIA/cccl/issues/7
+  - CXX_TYPE: clang
+    CXX_VER: 10
+  # Config broken in image: https://github.com/NVIDIA/cccl/issues/8
+  - CXX_TYPE: gcc
+    CXX_VER: 10
