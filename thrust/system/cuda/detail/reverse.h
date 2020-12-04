@@ -70,8 +70,8 @@ reverse_copy(execution_policy<Derived> &policy,
              ResultIt                   result)
 {
   return cuda_cub::copy(policy,
-                        make_reverse_iterator(last),
-                        make_reverse_iterator(first),
+                        thrust::make_reverse_iterator(last),
+                        thrust::make_reverse_iterator(first),
                         result);
 }
 
@@ -89,7 +89,7 @@ reverse(execution_policy<Derived> &policy,
   ItemsIt mid(first);
   thrust::advance(mid, N / 2);
 
-  cuda_cub::swap_ranges(policy, first, mid, make_reverse_iterator(last));
+  cuda_cub::swap_ranges(policy, first, mid, thrust::make_reverse_iterator(last));
 }
 
 
