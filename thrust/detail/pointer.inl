@@ -27,24 +27,16 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   pointer<Element,Tag,Reference,Derived>
     ::pointer()
-      : super_t(static_cast<Element*>(
-          #if THRUST_CPP_DIALECT >= 2011
-          nullptr
-          #else
-          0
-          #endif
-        ))
+      : super_t(static_cast<Element*>(nullptr))
 {} // end pointer::pointer
 
 
-#if THRUST_CPP_DIALECT >= 2011
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   pointer<Element,Tag,Reference,Derived>
     ::pointer(decltype(nullptr))
       : super_t(static_cast<Element*>(nullptr))
 {} // end pointer::pointer
-#endif
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
@@ -82,7 +74,6 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 {} // end pointer::pointer
 
 
-#if THRUST_CPP_DIALECT >= 2011
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   typename pointer<Element,Tag,Reference,Derived>::derived_type &
@@ -92,7 +83,6 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
   super_t::base_reference() = nullptr;
   return static_cast<derived_type&>(*this);
 } // end pointer::operator=
-#endif
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived>
@@ -159,7 +149,15 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 } // end pointer::get
 
 
-#if THRUST_CPP_DIALECT >= 2011
+template<typename Element, typename Tag, typename Reference, typename Derived>
+  __host__ __device__
+  Element *pointer<Element,Tag,Reference,Derived>
+    ::operator->() const
+{
+  return super_t::base();
+} // end pointer::operator->
+
+
 template<typename Element, typename Tag, typename Reference, typename Derived>
   __host__ __device__
   pointer<Element,Tag,Reference,Derived>
@@ -167,7 +165,6 @@ template<typename Element, typename Tag, typename Reference, typename Derived>
 {
   return bool(get());
 } // end pointer::operator bool
-#endif
 
 
 template<typename Element, typename Tag, typename Reference, typename Derived,
@@ -179,7 +176,6 @@ operator<<(std::basic_ostream<charT, traits> &os,
   return os << p.get();
 }
 
-#if THRUST_CPP_DIALECT >= 2011
 // NOTE: These are needed so that Thrust smart pointers work with
 // `std::unique_ptr`.
 template <typename Element, typename Tag, typename Reference, typename Derived>
@@ -209,65 +205,6 @@ bool operator!=(pointer<Element, Tag, Reference, Derived> p, decltype(nullptr))
 {
   return !(nullptr == p);
 }
-#endif
 
-namespace detail
-{
-
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC) && (_MSC_VER <= 1400)
-// XXX WAR MSVC 2005 problem with correctly implementing
-//     pointer_raw_pointer for pointer by specializing it here
-template<typename Element, typename Tag, typename Reference, typename Derived>
-  struct pointer_raw_pointer< thrust::pointer<Element,Tag,Reference,Derived> >
-{
-  typedef typename pointer<Element,Tag,Reference,Derived>::raw_pointer type;
-}; // end pointer_raw_pointer
-#endif
-
-
-#if (THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC) && (THRUST_GCC_VERSION < 40200)
-// XXX WAR g++-4.1 problem with correctly implementing
-//     pointer_element for pointer by specializing it here
-template<typename Element, typename Tag>
-  struct pointer_element< thrust::pointer<Element,Tag> >
-{
-  typedef Element type;
-}; // end pointer_element
-
-template<typename Element, typename Tag, typename Reference>
-  struct pointer_element< thrust::pointer<Element,Tag,Reference> >
-    : pointer_element< thrust::pointer<Element,Tag> >
-{}; // end pointer_element
-
-template<typename Element, typename Tag, typename Reference, typename Derived>
-  struct pointer_element< thrust::pointer<Element,Tag,Reference,Derived> >
-    : pointer_element< thrust::pointer<Element,Tag,Reference> >
-{}; // end pointer_element
-
-
-
-// XXX WAR g++-4.1 problem with correctly implementing
-//     rebind_pointer for pointer by specializing it here
-template<typename Element, typename Tag, typename NewElement>
-  struct rebind_pointer<thrust::pointer<Element,Tag>, NewElement>
-{
-  // XXX note we don't attempt to rebind the pointer's Reference type (or Derived)
-  typedef thrust::pointer<NewElement,Tag> type;
-};
-
-template<typename Element, typename Tag, typename Reference, typename NewElement>
-  struct rebind_pointer<thrust::pointer<Element,Tag,Reference>, NewElement>
-    : rebind_pointer<thrust::pointer<Element,Tag>, NewElement>
-{};
-
-template<typename Element, typename Tag, typename Reference, typename Derived, typename NewElement>
-  struct rebind_pointer<thrust::pointer<Element,Tag,Reference,Derived>, NewElement>
-    : rebind_pointer<thrust::pointer<Element,Tag,Reference>, NewElement>
-{};
-#endif
-
-} // end namespace detail
-
-
-} // end thrust
+} // namespace thrust
 
