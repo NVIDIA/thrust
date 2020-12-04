@@ -31,8 +31,23 @@ function usage {
   echo "-s, --shell-only"
   echo "  Skip building and testing and launch an interactive shell instead."
   echo
+  echo "-d, --disable-gpus"
+  echo "  Don't start the container with the NVIDIA runtime and GPUs attached."
+  echo
   echo "-c, --clean"
   echo "  If the build directory already exists, delete it."
+  echo
+  echo "-j <threads>, --jobs <threads>"
+  echo "  Number of threads to use when building (default: inferred)."
+  echo
+  echo "-b <type>, --cmake-build-type <plan>"
+  echo "  CMake build type to use, either Release, RelWithDebInfo, or Debug"
+  echo "  (default: ${CMAKE_BUILD_TYPE})."
+  echo
+  echo "-p <plan>, --coverage-plan <plan>"
+  echo "  Coverage plan to use, either Exhaustive, Thorough, or Minimal"
+  echo "  (default: ${COVERAGE_PLAN})."
+  echo
 
   exit -3
 }
@@ -45,13 +60,21 @@ REPOSITORY_PATH=$(realpath ${SCRIPT_PATH}/../..)
 # FLAGS - Process command line flags.
 ################################################################################
 
-IMAGE="gpuci/cccl:cuda11.0-devel-ubuntu18.04-gcc5"
+IMAGE="gpuci/cccl:cuda11.0-devel-ubuntu20.04-gcc7"
 
 LOCAL_IMAGE=0
 
 SHELL_ONLY=0
 
+BUILD_TYPE="gpu"
+
 CLEAN=0
+
+PARALLEL_LEVEL=""
+
+CMAKE_BUILD_TYPE="Release"
+
+COVERAGE_PLAN="Minimal"
 
 TARGETS=""
 
@@ -75,8 +98,25 @@ do
   --local-image) LOCAL_IMAGE=1 ;;
   -s) ;&
   --shell-only) SHELL_ONLY=1 ;;
+  -d) ;&
+  --disable-gpus) BUILD_TYPE="cpu" ;;
   -c) ;&
   --clean) CLEAN=1 ;;
+  -j) ;&
+  --jobs)
+    shift # The next argument is the number of threads.
+    PARALLEL_LEVEL="${1}"
+    ;;
+  -b) ;&
+  --cmake-build-type)
+    shift # The next argument is the build type.
+    CMAKE_BUILD_TYPE="${1}"
+    ;;
+  -p) ;&
+  --coverage-plan)
+    shift # The next argument is the coverage plan.
+    COVERAGE_PLAN="${1}"
+    ;;
   *)
     TARGETS="${TARGETS:+${TARGETS} }${1}"
     ;;
@@ -103,7 +143,7 @@ done
 
 BUILD_PATH=${REPOSITORY_PATH}/build_$(echo "$(basename "${IMAGE}")" | sed -e 's/:/_/g' | sed -e 's/-/_/g')
 
-if [ "${CLEAN}" != 0 ]; then
+if [[ "${CLEAN}" != 0 ]]; then
   rm -rf ${BUILD_PATH}
 fi
 
@@ -116,24 +156,6 @@ REPOSITORY_PATH_IN_CONTAINER="${BASE_PATH_IN_CONTAINER}/$(basename "${REPOSITORY
 BUILD_PATH_IN_CONTAINER="${BASE_PATH_IN_CONTAINER}/$(basename "${REPOSITORY_PATH}")/build"
 
 ################################################################################
-# PERMISSIONS - Setup permissions and users for hte container.
-################################################################################
-
-PASSWD_PATH="/etc/passwd"
-GROUP_PATH="/etc/group"
-
-USER_FOUND=$(grep -wc "$(whoami)" < "${PASSWD_PATH}")
-if [ "${USER_FOUND}" == 0 ]; then
-  echo "Local user not found, generating dummy /etc/passwd and /etc/group."
-  cp "${PASSWD_PATH}" "${BUILD_PATH}/passwd"
-  PASSWD_PATH="${BUILD_PATH}/passwd"
-  cp "${GROUP_PATH}" "${BUILD_PATH}/group"
-  GROUP_PATH="${BUILD_PATH}/group"
-  echo "$(whoami):x:$(id -u):$(id -g):$(whoami),,,:${HOME}:${SHELL_ONLY}" >> "${PASSWD_PATH}"
-  echo "$(whoami):x:$(id -g):" >> "${GROUP_PATH}"
-fi
-
-################################################################################
 # ENVIRONMENT - Setup the thunk build script that will be run by the container.
 ################################################################################
 
@@ -141,7 +163,7 @@ fi
 # failure on Debian: https://github.com/NVIDIA/nvidia-docker/issues/1399
 
 COMMAND="sudo ldconfig; sudo ldconfig"
-if [ "${SHELL_ONLY}" != 0 ]; then
+if [[ "${SHELL_ONLY}" != 0 ]]; then
   COMMAND="${COMMAND}; bash"
 else
   COMMAND="${COMMAND}; ${REPOSITORY_PATH_IN_CONTAINER}/ci/common/build.bash ${TARGETS} || bash"
@@ -151,18 +173,20 @@ fi
 # GPU - Setup GPUs.
 ################################################################################
 
-# Limit GPUs available to the container based on ${CUDA_VISIBLE_DEVICES}.
-if [ -z "${CUDA_VISIBLE_DEVICES}" ]; then
-  VISIBLE_DEVICES="all"
-else
-  VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}"
-fi
+if [[ "${BUILD_TYPE}" == "gpu" ]]; then
+  # Limit GPUs available to the container based on ${CUDA_VISIBLE_DEVICES}.
+  if [[ -z "${CUDA_VISIBLE_DEVICES}" ]]; then
+    VISIBLE_DEVICES="all"
+  else
+    VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}"
+  fi
 
-DOCKER_MAJOR_VER=$(docker -v | sed 's/[^[0-9]*\([0-9]*\).*/\1/')
-GPU_OPTS="--gpus device=${VISIBLE_DEVICES}"
-if [ "${DOCKER_MAJOR_VER}" -lt 19 ]
-then
-  GPU_OPTS="--runtime=nvidia -e NVIDIA_VISIBLE_DEVICES='${VISIBLE_DEVICES}'"
+  DOCKER_MAJOR_VER=$(docker -v | sed 's/[^[0-9]*\([0-9]*\).*/\1/')
+  GPU_OPTS="--gpus device=${VISIBLE_DEVICES}"
+  if [[ "${DOCKER_MAJOR_VER}" -lt 19 ]]
+  then
+    GPU_OPTS="--runtime=nvidia -e NVIDIA_VISIBLE_DEVICES='${VISIBLE_DEVICES}'"
+  fi
 fi
 
 ################################################################################
@@ -170,18 +194,12 @@ fi
 ################################################################################
 
 NVIDIA_DOCKER_INSTALLED=$(docker info 2>&1 | grep -i runtime | grep -c nvidia)
-if [ "${NVIDIA_DOCKER_INSTALLED}" == 0 ]; then
+if [[ "${NVIDIA_DOCKER_INSTALLED}" == 0 ]]; then
   echo "NVIDIA Docker not found, please install it: https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html#installing-docker-ce"
   exit -4
 fi
 
-if [ "${SHELL_ONLY}" != 0 ]; then
-  DETERMINE_PARALLELISM_FLAGS=--quiet
-fi
-source ${REPOSITORY_PATH}/ci/common/determine_build_parallelism.bash \
-       ${DETERMINE_PARALLELISM_FLAGS}
-
-if [ "${LOCAL_IMAGE}" == 0 ]; then
+if [[ "${LOCAL_IMAGE}" == 0 ]]; then
   docker pull "${IMAGE}"
 fi
 
@@ -190,10 +208,16 @@ docker run --rm -it ${GPU_OPTS} \
   --user "$(id -u)":"$(id -g)" \
   -v "${REPOSITORY_PATH}":"${REPOSITORY_PATH_IN_CONTAINER}" \
   -v "${BUILD_PATH}":"${BUILD_PATH_IN_CONTAINER}" \
-  -v "${PASSWD_PATH}":/etc/passwd:ro \
-  -v "${GROUP_PATH}":/etc/group:ro \
+  -v /etc/passwd:/etc/passwd:ro \
+  -v /etc/group:/etc/group:ro \
+  -v /etc/subuid:/etc/subuid:ro \
+  -v /etc/subgid:/etc/subgid:ro \
+  -v /etc/shadow:/etc/shadow:ro \
+  -v /etc/gshadow:/etc/gshadow:ro \
   -e "WORKSPACE=${REPOSITORY_PATH_IN_CONTAINER}" \
-  -e "BUILD_TYPE=gpu" \
+  -e "BUILD_TYPE=${BUILD_TYPE}" \
+  -e "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}" \
+  -e "COVERAGE_PLAN=${COVERAGE_PLAN}" \
   -e "PARALLEL_LEVEL=${PARALLEL_LEVEL}" \
   -w "${BUILD_PATH_IN_CONTAINER}" \
   "${IMAGE}" bash -c "${COMMAND}"

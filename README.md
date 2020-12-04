@@ -1,3 +1,5 @@
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon'></a>
+
 Thrust: Code at the speed of light
 ==================================
 
@@ -70,6 +72,21 @@ int main(void)
   return 0;
 }
 ```
+
+CI Status
+---------
+
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20GCC%207%20build%20and%20device%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20GCC%209%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=8,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=8,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20GCC%208%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20GCC%207%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=6,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=6,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20GCC%206%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=5,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=5,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20GCC%205%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20Clang%209%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=8,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=8,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20Clang%208%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=clang,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20Clang%207%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=icc,CXX_VER=latest,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=icc,CXX_VER=latest,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon?subject=NVCC%2011.0%20%2B%20ICC%20build%20and%20host%20tests'></a>
+<a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=20.9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=20.9-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=20.9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=20.9-devel/badge/icon?subject=NVC%2B%2B%2020.9%20build%20and%20host%20tests'></a>
 
 Releases
 --------

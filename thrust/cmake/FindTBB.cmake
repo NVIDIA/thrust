@@ -351,7 +351,6 @@ endforeach ()
 set(TBB_LIBRARY_NAMES tbb)
 get_debug_names(TBB_LIBRARY_NAMES)
 
-
 find_path(TBB_INCLUDE_DIR
           NAMES tbb/tbb.h
           PATHS ${TBB_INC_SEARCH_PATH})
@@ -411,12 +410,18 @@ findpkg_finish(TBB_MALLOC_PROXY tbbmalloc_proxy)
 
 
 #=============================================================================
-#parse all the version numbers from tbb
+# Parse all the version numbers from tbb.
 if(NOT TBB_VERSION)
+  if(EXISTS "${TBB_INCLUDE_DIR}/tbb/version.h")
+    # The newer oneTBB provides tbb/version.h but no tbb/tbb_stddef.h.
+    set(version_file "${TBB_INCLUDE_DIR}/tbb/version.h")
+  else()
+    # Older TBB provides tbb/tbb_stddef.h but no tbb/version.h.
+    set(version_file "${TBB_INCLUDE_DIR}/tbb/tbb_stddef.h")
+  endif()
 
- #only read the start of the file
- file(STRINGS
-      "${TBB_INCLUDE_DIR}/tbb/tbb_stddef.h"
+  file(STRINGS
+      "${version_file}"
       TBB_VERSION_CONTENTS
       REGEX "VERSION")
 
@@ -437,5 +442,4 @@ if(NOT TBB_VERSION)
         TBB_COMPATIBLE_INTERFACE_VERSION "${TBB_VERSION_CONTENTS}")
 
   set(TBB_VERSION "${TBB_VERSION_MAJOR}.${TBB_VERSION_MINOR}")
-
 endif()

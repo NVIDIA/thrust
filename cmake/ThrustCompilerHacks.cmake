@@ -28,8 +28,25 @@ if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   set(CMAKE_CUDA_FLAGS "${CMAKE_CUDA_FLAGS} -stdpar")
   set(CMAKE_CUDA_HOST_LINK_LAUNCHER "${CMAKE_CUDA_COMPILER}")
   set(CMAKE_CUDA_LINK_EXECUTABLE
-    "<CMAKE_CUDA_HOST_LINK_LAUNCHER> ${CMAKE_CUDA_FLAGS} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
-endif ()
+    "<CMAKE_CUDA_HOST_LINK_LAUNCHER> <FLAGS> <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
+
+  # Setup CMAKE_CXX_LIBRARY_ARCHITECTURE on Debian/Ubuntu so that find_package
+  # works properly.
+  if (EXISTS /etc/debian_version)
+    if (NOT CMAKE_CXX_LIBRARY_ARCHITECTURE)
+      file(GLOB files_in_lib RELATIVE /lib /lib/*-linux-gnu* )
+      foreach (file ${files_in_lib})
+        if ("${file}" MATCHES "${CMAKE_LIBRARY_ARCHITECTURE_REGEX}")
+          set(CMAKE_CXX_LIBRARY_ARCHITECTURE ${file})
+          break()
+        endif()
+      endforeach()
+    endif()
+    if (NOT CMAKE_LIBRARY_ARCHITECTURE)
+      set(CMAKE_LIBRARY_ARCHITECTURE ${CMAKE_CXX_LIBRARY_ARCHITECTURE})
+    endif()
+  endif()
+endif()
 
 # We don't set CMAKE_CUDA_HOST_COMPILER for NVC++; if we do, CMake tries to
 # pass `-ccbin ${CMAKE_CUDA_HOST_COMPILER}` to NVC++, which it doesn't
@@ -90,4 +107,4 @@ if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
     ${CMAKE_CUDA17_COMPILE_FEATURES}
     ${CMAKE_CUDA20_COMPILE_FEATURES}
   )
-endif ()
+endif()
