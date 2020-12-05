@@ -1,9 +1,19 @@
 OS_VER:
   - ubuntu18.04
 
+SDK_TYPE:
+  - nvidia/cuda
+  - nvcr.io/nvidia/nvhpc
+
+SDK_VER:
+  - 11.0-devel
+  - 20.7-devel
+
 CXX_TYPE:
   - gcc
   - clang
+  - icc
+  - nvcxx
 
 CXX_VER:
   - 5
@@ -12,17 +22,65 @@ CXX_VER:
   - 8
   - 9
   - 10
+  - 20.7
+  - latest
 
 exclude:
-  # Unsupported compiler version
+  # Unsupported versions
+  - SDK_TYPE: nvidia/cuda
+    SDK_VER: 20.7-devel
+  - SDK_TYPE: nvcr.io/nvidia/nvhpc
+    SDK_VER: 11.0-devel
+  - CXX_TYPE: gcc
+    CXX_VER: 20.7
+  - CXX_TYPE: gcc
+    CXX_VER: latest
   - CXX_TYPE: clang
     CXX_VER: 5
+  - CXX_TYPE: clang
+    CXX_VER: 20.7
+  - CXX_TYPE: clang
+    CXX_VER: latest
+  - CXX_TYPE: icc
+    CXX_VER: 5
+  - CXX_TYPE: icc
+    CXX_VER: 6
+  - CXX_TYPE: icc
+    CXX_VER: 7
+  - CXX_TYPE: icc
+    CXX_VER: 8
+  - CXX_TYPE: icc
+    CXX_VER: 9
+  - CXX_TYPE: icc
+    CXX_VER: 10
+  - CXX_TYPE: icc
+    CXX_VER: 20.7
+  - CXX_TYPE: nvcxx
+    CXX_VER: 5
+  - CXX_TYPE: nvcxx
+    CXX_VER: 6
+  - CXX_TYPE: nvcxx
+    CXX_VER: 7
+  - CXX_TYPE: nvcxx
+    CXX_VER: 8
+  - CXX_TYPE: nvcxx
+    CXX_VER: 9
+  - CXX_TYPE: nvcxx
+    CXX_VER: 10
+  - CXX_TYPE: nvcxx
+    CXX_VER: latest
+  # SDK / compiler mismatches
+  - CXX_TYPE: clang
+    SDK_TYPE: nvcr.io/nvidia/nvhpc
+  - CXX_TYPE: gcc
+    SDK_TYPE: nvcr.io/nvidia/nvhpc
+  - CXX_TYPE: icc
+    SDK_TYPE: nvcr.io/nvidia/nvhpc
+  - CXX_TYPE: nvcxx
+    SDK_TYPE: nvidia/cuda
   # This config is broken in the docker image: https://github.com/NVIDIA/cccl/issues/6
   - CXX_TYPE: clang
     CXX_VER: 6
   # Needs newer nvcc in image, https://github.com/NVIDIA/cccl/issues/7
   - CXX_TYPE: clang
-    CXX_VER: 10
-  # Config broken in image: https://github.com/NVIDIA/cccl/issues/8
-  - CXX_TYPE: gcc
     CXX_VER: 10
