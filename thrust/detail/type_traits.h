@@ -391,6 +391,29 @@ template<typename T1, typename T2>
 
 
 // mpl stuff
+
+#if THRUST_CPP_DIALECT >= 2017
+
+template <typename... Conditions>
+  struct or_
+    : public integral_constant<
+        bool,
+        (... || Conditions::value)
+      >
+{
+}; // end or_
+
+template <typename... Conditions>
+  struct and_
+    : public integral_constant<
+        bool,
+        (... && Conditions::value)
+      >
+{
+}; // end and_
+
+#else
+
 template<typename... Conditions>
   struct or_;
 
@@ -431,6 +454,8 @@ template <typename Condition, typename... Conditions>
         Condition::value && and_<Conditions...>::value>
 {
 }; // end and_
+
+#endif
 
 template <typename Boolean>
   struct not_
