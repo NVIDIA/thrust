@@ -23,6 +23,3 @@ exclude:
   # Needs newer nvcc in image, https://github.com/NVIDIA/cccl/issues/7
   - CXX_TYPE: clang
     CXX_VER: 10
-  # Config broken in image: https://github.com/NVIDIA/cccl/issues/8
-  - CXX_TYPE: gcc
-    CXX_VER: 10
