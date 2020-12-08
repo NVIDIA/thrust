@@ -190,11 +190,11 @@ namespace __copy_if {
 
       union TempStorage
       {
-        struct
+        struct ScanStorage
         {
           typename BlockScan::TempStorage          scan;
           typename TilePrefixCallback::TempStorage prefix;
-        };
+        } scan_storage;
 
         typename BlockLoadItems::TempStorage   load_items;
         typename BlockLoadStencil::TempStorage load_stencil;
@@ -419,7 +419,7 @@ namespace __copy_if {
         Size num_selections_prefix = 0;
         if (IS_FIRST_TILE)
         {
-          BlockScan(storage.scan)
+          BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
                             num_tile_selections);
@@ -442,10 +442,10 @@ namespace __copy_if {
         else
         {
           TilePrefixCallback prefix_cb(tile_state,
-                                       storage.prefix,
+                                       storage.scan_storage.prefix,
                                        cub::Sum(),
                                        tile_idx);
-          BlockScan(storage.scan)
+          BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
                             selection_idx,
                             prefix_cb);

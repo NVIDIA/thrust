@@ -360,18 +360,18 @@ namespace __set_operations {
       //
       union TempStorage
       {
-        struct
+        struct ScanStorage
         {
           typename BlockScan::TempStorage          scan;
           typename TilePrefixCallback::TempStorage prefix;
-        };
+        } scan_storage;
 
-        struct
+        struct LoadStorage
         {
-          core::uninitialized_array<int, PtxPlan::BLOCK_THREADS>
-              offset;
+          core::uninitialized_array<int, PtxPlan::BLOCK_THREADS> offset;
           union
           {
+            // FIXME These don't appear to be used anywhere?
             typename BlockLoadKeys1::TempStorage   load_keys1;
             typename BlockLoadKeys2::TempStorage   load_keys2;
             typename BlockLoadValues1::TempStorage load_values1;
@@ -389,8 +389,8 @@ namespace __set_operations {
                 value_type,
                 PtxPlan::ITEMS_PER_TILE + PtxPlan::BLOCK_THREADS>
                 values_shared;
-          };
-        };
+          }; // anon union
+        } load_storage; // struct LoadStorage
       };    // union TempStorage
     };      // struct PtxPlan
 
@@ -589,7 +589,7 @@ namespace __set_operations {
                                    num_keys1,
                                    num_keys2);
 
-        reg_to_shared(&storage.keys_shared[0], keys_loc);
+        reg_to_shared(&storage.load_storage.keys_shared[0], keys_loc);
 
         sync_threadblock();
 
@@ -597,8 +597,8 @@ namespace __set_operations {
                                 num_keys1 + num_keys2);
 
         pair<int, int> partition_loc =
-            balanced_path(&storage.keys_shared[0],
-                          &storage.keys_shared[num_keys1],
+            balanced_path(&storage.load_storage.keys_shared[0],
+                          &storage.load_storage.keys_shared[num_keys1],
                           num_keys1,
                           num_keys2,
                           diag_loc,
@@ -615,13 +615,13 @@ namespace __set_operations {
                         : (partition_loc.first << 16) | partition_loc.second;
 
         int dst = threadIdx.x == 0 ? BLOCK_THREADS - 1 : threadIdx.x - 1;
-        storage.offset[dst] = value;
+        storage.load_storage.offset[dst] = value;
 
         core::sync_threadblock();
 
         pair<int,int> partition1_loc = thrust::make_pair(
-          storage.offset[threadIdx.x] >> 16,
-          storage.offset[threadIdx.x] & 0xFFFF);
+          storage.load_storage.offset[threadIdx.x] >> 16,
+          storage.load_storage.offset[threadIdx.x] & 0xFFFF);
 
         int keys1_end_loc = partition1_loc.first;
         int keys2_end_loc = partition1_loc.second;
@@ -633,7 +633,7 @@ namespace __set_operations {
         //
         int indices[ITEMS_PER_THREAD];
 
-        int active_mask = serial_set_op(&storage.keys_shared[0],
+        int active_mask = serial_set_op(&storage.load_storage.keys_shared[0],
                                         keys1_beg_loc,
                                         keys2_beg_loc + num_keys1,
                                         num_keys1_loc,
@@ -657,7 +657,7 @@ namespace __set_operations {
 
         if (tile_idx == 0)    // first tile
         {
-          BlockScan(storage.scan)
+          BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(thread_output_count,
                             thread_output_prefix,
                             tile_output_count);
@@ -673,11 +673,11 @@ namespace __set_operations {
         else
         {
           TilePrefixCallback prefix_cb(tile_state,
-                                       storage.prefix,
+                                       storage.scan_storage.prefix,
                                        cub::Sum(),
                                        tile_idx);
 
-          BlockScan(storage.scan)
+          BlockScan(storage.scan_storage.scan)
               .ExclusiveSum(thread_output_count,
                             thread_output_prefix,
                             prefix_cb);
@@ -691,7 +691,7 @@ namespace __set_operations {
         //
         scatter(keys_out,
                 keys_loc,
-                &storage.keys_shared[0],
+                &storage.load_storage.keys_shared[0],
                 active_mask,
                 thread_output_prefix,
                 tile_output_prefix,
@@ -708,7 +708,7 @@ namespace __set_operations {
 
           sync_threadblock();
 
-          reg_to_shared(&storage.values_shared[0], values_loc);
+          reg_to_shared(&storage.load_storage.values_shared[0], values_loc);
 
           sync_threadblock();
 
@@ -719,7 +719,7 @@ namespace __set_operations {
           {
             if (active_mask & (1 << ITEM))
             {
-              values_loc[ITEM] = storage.values_shared[indices[ITEM]];
+              values_loc[ITEM] = storage.load_storage.values_shared[indices[ITEM]];
             }
           }
 
@@ -727,7 +727,7 @@ namespace __set_operations {
 
           scatter(values_out,
                   values_loc,
-                  &storage.values_shared[0],
+                  &storage.load_storage.values_shared[0],
                   active_mask,
                   thread_output_prefix,
                   tile_output_prefix,
