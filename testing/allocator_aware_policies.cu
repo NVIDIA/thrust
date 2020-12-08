@@ -17,14 +17,14 @@ struct test_allocator_t
 test_allocator_t<int> test_allocator = test_allocator_t<int>();
 const test_allocator_t<int> const_test_allocator = test_allocator_t<int>();
 
-struct test_memory_resource_t THRUST_FINAL : thrust::mr::memory_resource<>
+struct test_memory_resource_t final : thrust::mr::memory_resource<>
 {
-    void * do_allocate(std::size_t size, std::size_t) THRUST_OVERRIDE
+    void * do_allocate(std::size_t size, std::size_t) override
     {
         return reinterpret_cast<void *>(size);
     }
 
-    void do_deallocate(void * ptr, std::size_t size, std::size_t) THRUST_OVERRIDE
+    void do_deallocate(void * ptr, std::size_t size, std::size_t) override
     {
         ASSERT_EQUAL(ptr, reinterpret_cast<void *>(size));
     }

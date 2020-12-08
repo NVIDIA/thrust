@@ -157,7 +157,7 @@ private:
 /*! Compares the allocators for equality by comparing the underlying memory resources. */
 template<typename T, typename MR>
 __host__ __device__
-bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRUST_NOEXCEPT
+bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) noexcept
 {
     return *lhs.resource() == *rhs.resource();
 }
@@ -165,7 +165,7 @@ bool operator==(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRU
 /*! Compares the allocators for inequality by comparing the underlying memory resources. */
 template<typename T, typename MR>
 __host__ __device__
-bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) THRUST_NOEXCEPT
+bool operator!=(const allocator<T, MR> & lhs, const allocator<T, MR> & rhs) noexcept
 {
     return !(lhs == rhs);
 }

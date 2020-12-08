@@ -93,7 +93,7 @@ struct par_t : execution_policy<par_t>,
   typedef execution_policy<par_t> base_t;
 
   __host__ __device__
-  THRUST_CONSTEXPR par_t() : base_t() {}
+  constexpr par_t() : base_t() {}
 
   typedef execute_on_stream stream_attachment_type;
 

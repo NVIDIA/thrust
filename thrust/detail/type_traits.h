@@ -59,8 +59,8 @@ namespace detail
      integral_constant(std::integral_constant<T, v>) noexcept {}
      #endif
 
-     THRUST_CONSTEXPR __host__ __device__ operator value_type() const THRUST_NOEXCEPT { return value; }
-     THRUST_CONSTEXPR __host__ __device__ value_type operator()() const THRUST_NOEXCEPT { return value; }
+     constexpr __host__ __device__ operator value_type() const noexcept { return value; }
+     constexpr __host__ __device__ value_type operator()() const noexcept { return value; }
    };
  
  /// typedef for true_type

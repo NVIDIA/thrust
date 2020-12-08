@@ -35,10 +35,10 @@ namespace mr
 /*! A memory resource that uses global operators new and delete to allocate and deallocate memory. Uses alignment-enabled
  *      overloads when available, otherwise uses regular overloads and implements alignment requirements by itself.
  */
-class new_delete_resource THRUST_FINAL : public memory_resource<>
+class new_delete_resource final : public memory_resource<>
 {
 public:
-    void * do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    void * do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
 #if defined(__cpp_aligned_new)
         return ::operator new(bytes, std::align_val_t(alignment));
@@ -59,7 +59,7 @@ public:
 #endif
     }
 
-    void do_deallocate(void * p, std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    void do_deallocate(void * p, std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
 #if defined(__cpp_aligned_new)
 # if defined(__cpp_sized_deallocation)

@@ -43,7 +43,7 @@ namespace thrust
  *      a \p device_ptr.
  */
 template<typename Upstream>
-class device_ptr_memory_resource THRUST_FINAL
+class device_ptr_memory_resource final
     : public thrust::mr::memory_resource<
         device_ptr<void>
     >
@@ -69,13 +69,13 @@ public:
     }
 
     THRUST_NODISCARD __host__
-    virtual pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    virtual pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         return pointer(m_upstream->do_allocate(bytes, alignment).get());
     }
 
     __host__
-    virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) THRUST_OVERRIDE
+    virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) override
     {
         m_upstream->do_deallocate(upstream_ptr(p.get()), bytes, alignment);
     }

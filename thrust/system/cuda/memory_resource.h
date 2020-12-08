@@ -45,10 +45,10 @@ namespace detail
     typedef cudaError_t (*deallocation_fn)(void *);
 
     template<allocation_fn Alloc, deallocation_fn Dealloc, typename Pointer>
-    class cuda_memory_resource THRUST_FINAL : public mr::memory_resource<Pointer>
+    class cuda_memory_resource final : public mr::memory_resource<Pointer>
     {
     public:
-        Pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+        Pointer do_allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
         {
             (void)alignment;
 
@@ -64,7 +64,7 @@ namespace detail
             return Pointer(ret);
         }
 
-        void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) THRUST_OVERRIDE
+        void do_deallocate(Pointer p, std::size_t bytes, std::size_t alignment) override
         {
             (void)bytes;
             (void)alignment;
