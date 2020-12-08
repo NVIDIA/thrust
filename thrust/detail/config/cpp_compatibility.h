@@ -24,10 +24,16 @@
 #  define __has_cpp_attribute(X) 0
 #endif
 
-#if __has_cpp_attribute(nodiscard)
+#if THRUST_CPP_DIALECT >= 2014 && __has_cpp_attribute(nodiscard)
 #  define THRUST_NODISCARD [[nodiscard]]
 #else
 #  define THRUST_NODISCARD
+#endif
+
+#if THRUST_CPP_DIALECT >= 2017 && __cpp_if_constexpr
+#  define THRUST_IF_CONSTEXPR if constexpr
+#else
+#  define THRUST_IF_CONSTEXPR if
 #endif
 
 // FIXME: Combine THRUST_INLINE_CONSTANT and

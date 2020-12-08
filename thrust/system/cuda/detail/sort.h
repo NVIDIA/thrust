@@ -1493,10 +1493,13 @@ namespace __radix_sort {
       Key* temp_ptr = reinterpret_cast<Key*>(keys_buffer.d_buffers[1]);
       cuda_cub::copy_n(policy, temp_ptr, keys_count, keys);
     }
-    if (SORT_ITEMS::value && items_buffer.selector != 0)
+    THRUST_IF_CONSTEXPR(SORT_ITEMS::value)
     {
-      Item* temp_ptr = reinterpret_cast<Item*>(items_buffer.d_buffers[1]);
-      cuda_cub::copy_n(policy, temp_ptr, items_count, items);
+      if (items_buffer.selector != 0)
+      {
+        Item *temp_ptr = reinterpret_cast<Item *>(items_buffer.d_buffers[1]);
+        cuda_cub::copy_n(policy, temp_ptr, items_count, items);
+      }
     }
   }
 }    // __radix_sort
