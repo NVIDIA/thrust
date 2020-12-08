@@ -112,10 +112,10 @@ template<typename UIntType, size_t w, size_t s, size_t r>
   os.flags(ios_base::dec | ios_base::fixed | ios_base::left);
   os.fill(space);
 
-  const UIntType long_lag = r;
+  const UIntType long_lag_ = r;
                                                           
   for(size_t i = 0; i < r; ++i)
-    os << m_x[(i + m_k) % long_lag] << space;
+    os << m_x[(i + m_k) % long_lag_] << space;
   os << m_carry;
                                                                           
   os.flags(flags);
@@ -151,12 +151,12 @@ template<typename UIntType, size_t w, size_t s, size_t r>
   bool subtract_with_carry_engine<UIntType,w,s,r>
     ::equal(const subtract_with_carry_engine<UIntType,w,s,r> &rhs) const
 {
-  const UIntType long_lag = r;
+  const UIntType long_lag_ = r;
 
   bool result = true;
   for(size_t i = 0; i < r; ++i)
   {
-    result &= (m_x[(i + m_k) % long_lag] == rhs.m_x[(i + rhs.m_k) % long_lag]);
+    result &= (m_x[(i + m_k) % long_lag_] == rhs.m_x[(i + rhs.m_k) % long_lag_]);
   }
 
   // XXX not sure if this last check is necessary

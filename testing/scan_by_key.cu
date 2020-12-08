@@ -628,8 +628,8 @@ void TestScanByKeyLargeInput()
         // define segments
         thrust::host_vector<unsigned int> h_keys(n);
         thrust::default_random_engine rng;
-        for(size_t i = 0, k = 0; i < n; i++){
-            h_keys[i] = k;
+        for(size_t j = 0, k = 0; j < n; j++){
+            h_keys[j] = k;
             if (rng() % 100 == 0)
                 k++;
         }

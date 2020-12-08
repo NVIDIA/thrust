@@ -163,9 +163,6 @@ void TestUninitializedFillNDevice(ExecutionPolicy exec)
     ASSERT_EQUAL(cudaSuccess, err);
   }
 
-  cudaError_t const err = cudaDeviceSynchronize();
-  ASSERT_EQUAL(cudaSuccess, err);
-
   iter = iter_vec[0];
   
   ASSERT_EQUAL(v[0], exemplar);

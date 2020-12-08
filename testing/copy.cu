@@ -340,9 +340,6 @@ void TestCopyIfSequence(const size_t n)
     thrust::host_vector<T>   h_data(n); thrust::sequence(h_data.begin(), h_data.end());
     thrust::device_vector<T> d_data(n); thrust::sequence(d_data.begin(), d_data.end());
 
-    thrust::host_vector<T>   h_result(n);
-    thrust::device_vector<T> d_result(n);
-
     typename thrust::host_vector<T>::iterator   h_new_end;
     typename thrust::device_vector<T>::iterator d_new_end;
 
@@ -408,9 +405,6 @@ void TestCopyIfStencil(const size_t n)
 
     thrust::host_vector<T>   h_stencil = unittest::random_integers<T>(n);
     thrust::device_vector<T> d_stencil = unittest::random_integers<T>(n);
-
-    thrust::host_vector<T>   h_result(n);
-    thrust::device_vector<T> d_result(n);
 
     typename thrust::host_vector<T>::iterator   h_new_end;
     typename thrust::device_vector<T>::iterator d_new_end;

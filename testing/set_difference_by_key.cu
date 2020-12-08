@@ -250,11 +250,11 @@ DECLARE_VARIABLE_UNITTEST(TestSetDifferenceByKeyEquivalentRanges);
 template<typename T>
 void TestSetDifferenceByKeyMultiset(const size_t n)
 {
-  thrust::host_vector<T> temp = unittest::random_integers<T>(2 * n);
+  thrust::host_vector<T> vec = unittest::random_integers<T>(2 * n);
 
   // restrict elements to [min,13)
-  for(typename thrust::host_vector<T>::iterator i = temp.begin();
-      i != temp.end();
+  for(typename thrust::host_vector<T>::iterator i = vec.begin();
+      i != vec.end();
       ++i)
   {
     int temp = static_cast<int>(*i);
@@ -262,8 +262,8 @@ void TestSetDifferenceByKeyMultiset(const size_t n)
     *i = temp;
   }
 
-  thrust::host_vector<T> h_a_key(temp.begin(), temp.begin() + n);
-  thrust::host_vector<T> h_b_key(temp.begin() + n, temp.end());
+  thrust::host_vector<T> h_a_key(vec.begin(), vec.begin() + n);
+  thrust::host_vector<T> h_b_key(vec.begin() + n, vec.end());
 
   thrust::sort(h_a_key.begin(), h_a_key.end());
   thrust::sort(h_b_key.begin(), h_b_key.end());

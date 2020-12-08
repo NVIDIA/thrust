@@ -392,10 +392,10 @@ public:
                 )
             );
 
-            chunk_descriptor desc;
-            desc.size = chunk_size;
-            desc.next = m_allocated;
-            *chunk = desc;
+            chunk_descriptor chunk_desc;
+            chunk_desc.size = chunk_size;
+            chunk_desc.next = m_allocated;
+            *chunk = chunk_desc;
             m_allocated = chunk;
 
             for (std::size_t i = 0; i < n; ++i)
@@ -406,9 +406,9 @@ public:
                     )
                 );
 
-                block_descriptor desc;
-                desc.next = bucket.free_list;
-                *block = desc;
+                block_descriptor block_desc;
+                block_desc.next = bucket.free_list;
+                *block = block_desc;
                 bucket.free_list = block;
             }
         }

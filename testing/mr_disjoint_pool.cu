@@ -21,13 +21,13 @@ struct alloc_id
         return id == other.id && size == other.size && alignment == other.alignment;
     }
 
-    alloc_id operator+(std::size_t size) const
+    alloc_id operator+(std::size_t size_) const
     {
         alloc_id ret;
         ret.id = id;
-        ret.size = size;
+        ret.size = size_;
         ret.alignment = alignment;
-        ret.offset = size;
+        ret.offset = size_;
         return ret;
     }
 };
