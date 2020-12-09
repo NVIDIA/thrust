@@ -10,7 +10,32 @@ software. Develop **high-performance** applications rapidly with Thrust!
 
 Thrust is included in the NVIDIA HPC SDK and the CUDA Toolkit.
 
-Refer to the [Quick Start Guide](http://github.com/NVIDIA/thrust/wiki/Quick-Start-Guide) page for further information and examples.
+Quick Start: Using Thrust From Your Project
+-------------------------------------------
+
+To use Thrust from your project, first recursively clone the Thrust Github repository:
+
+```
+git clone --recursive https://github.com/NVIDIA/thrust.git
+```
+
+Thrust is a header-only library; there is no need to build or install the project
+unless you want to run the Thrust unit tests.
+
+For CMake-based projects, we provide a CMake package for use with
+`find_package`. See the [CMake README](thrust/cmake/README.md) for more
+information. Thrust can also be added via `add_subdirectory` or tools like
+the [CMake Package Manager](https://github.com/TheLartians/CPM.cmake).
+
+For non-CMake projects, compile with:
+- The Thrust include path (`-I<thrust repo root>/thrust`)
+- The CUB include path, if using the CUDA device system (`-I<thrust repo root>/dependencies/cub/`)
+- By default, the CPP host system and CUDA device system are used. 
+  These can be changed using compiler definitions:
+  - `-DTHRUST_HOST_SYSTEM=THRUST_HOST_SYSTEM_XXX`,
+     where `XXX` is `CPP` (serial, default), `OMP` (OpenMP), or `TBB` (Intel TBB)
+  - `-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_XXX`, where `XXX` is 
+    `CPP`, `OMP`, `TBB`, or `CUDA` (default).
 
 Examples
 --------
@@ -117,17 +142,6 @@ See the [changelog](CHANGELOG.md) for details about specific releases.
 | 1.1.1             |                                         |
 | 1.1.0             |                                         |
 | 1.0.0             |                                         |
-
-Adding Thrust To A CMake Project
---------------------------------
-
-Since Thrust is a header library, there is no need to build or install Thrust
-to use it. The `thrust` directory contains a complete, ready-to-use Thrust
-package upon checkout.
-
-We provide CMake configuration files that make it easy to include Thrust
-from other CMake projects. See the [CMake README](thrust/cmake/README.md)
-for details.
 
 Development Process
 -------------------
