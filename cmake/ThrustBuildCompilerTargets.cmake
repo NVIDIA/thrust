@@ -159,4 +159,17 @@ function(thrust_build_compiler_targets)
   target_compile_options(thrust.promote_cudafe_warnings INTERFACE
     $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcudafe=--promote_warnings>
   )
+
+  # Some of our unit tests unconditionally throw exceptions, and compilers will
+  # detect that the following instructions are unreachable. This is intentional
+  # and unavoidable in these cases. This target can be used to silence
+  # unreachable code warnings.
+  add_library(thrust.silence_unreachable_code_warnings INTERFACE)
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(thrust.silence_unreachable_code_warnings INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:/wd4702>
+      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=/wd4702>
+    )
+  endif()
+
 endfunction()
