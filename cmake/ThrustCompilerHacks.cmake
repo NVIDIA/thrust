@@ -1,25 +1,25 @@
-# Set up compiler paths and apply temporary hacks to support NVC++ (Feta).
+# Set up compiler paths and apply temporary hacks to support NVC++.
 # This file must be included before enabling any languages.
 
-# Temporary hacks to make Feta work; this requires you to define
-# `CMAKE_CUDA_COMPILER_ID=Feta` and `CMAKE_CUDA_COMPILER_FORCED`.
-if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
-  # If using Feta, don't set CXX compiler
+# Temporary hacks to make NVC++ work; this requires you to define
+# `CMAKE_CUDA_COMPILER_ID=NVCXX and `CMAKE_CUDA_COMPILER_FORCED=ON`.
+if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+  # If using NVC++, don't set CXX compiler
   if (NOT "${CMAKE_CXX_COMPILER}" STREQUAL "")
     unset(CMAKE_CXX_COMPILER CACHE)
-    message(FATAL_ERROR "You are using Feta as your CUDA C++ compiler, but have"
-      " specified a different ISO C++ compiler; Feta acts as both, so please"
+    message(FATAL_ERROR "You are using NVC++ as your CUDA C++ compiler, but have"
+      " specified a different ISO C++ compiler; NVC++ acts as both, so please"
       " unset the CMAKE_CXX_COMPILER variable."
     )
   endif()
 
-  # We don't set CMAKE_CUDA_HOST_COMPILER for Feta; if we do, CMake tries to
-  # pass `-ccbin ${CMAKE_CUDA_HOST_COMPILER}` to Feta, which it doesn't
+  # We don't set CMAKE_CUDA_HOST_COMPILER for NVC++; if we do, CMake tries to
+  # pass `-ccbin ${CMAKE_CUDA_HOST_COMPILER}` to NVC++, which it doesn't
   # understand.
   if (NOT "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "")
     unset(CMAKE_CUDA_HOST_COMPILER CACHE)
-    message(FATAL_ERROR "You are using Feta as your CUDA C++ compiler, but have"
-      " specified a different host ISO C++ compiler; Feta acts as both, so"
+    message(FATAL_ERROR "You are using NVC++ as your CUDA C++ compiler, but have"
+      " specified a different host ISO C++ compiler; NVC++ acts as both, so"
       " please unset the CMAKE_CUDA_HOST_COMPILER variable."
     )
   endif()
@@ -31,10 +31,10 @@ if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
     "<CMAKE_CUDA_HOST_LINK_LAUNCHER> ${CMAKE_CUDA_FLAGS} <LINK_FLAGS> <OBJECTS> -o <TARGET> <LINK_LIBRARIES>")
 endif ()
 
-# We don't set CMAKE_CUDA_HOST_COMPILER for Feta; if we do, CMake tries to
-# pass `-ccbin ${CMAKE_CUDA_HOST_COMPILER}` to Feta, which it doesn't
+# We don't set CMAKE_CUDA_HOST_COMPILER for NVC++; if we do, CMake tries to
+# pass `-ccbin ${CMAKE_CUDA_HOST_COMPILER}` to NVC++, which it doesn't
 # understand.
-if ((NOT "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}"))
+if ((NOT "NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}"))
   if (NOT ("${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "" OR
     "${CMAKE_CUDA_HOST_COMPILER}" STREQUAL "${CMAKE_CXX_COMPILER}"))
     set(tmp "${CMAKE_CUDA_HOST_COMPILER}")
@@ -51,9 +51,9 @@ if ((NOT "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}"))
   set(CMAKE_CUDA_HOST_COMPILER "${CMAKE_CXX_COMPILER}")
 endif ()
 
-# Temporary hacks to make Feta work; this requires you to define
-# `CMAKE_CUDA_COMPILER_ID=Feta` and `CMAKE_CUDA_COMPILER_FORCED`.
-if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+# Temporary hacks to make NVC++ work; this requires you to define
+# `CMAKE_CUDA_COMPILER_ID=NVCXX and `CMAKE_CUDA_COMPILER_FORCED=ON`.
+if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   # Need 3.17 for the properties used below.
   cmake_minimum_required(VERSION 3.17)
 

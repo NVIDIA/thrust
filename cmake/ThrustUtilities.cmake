@@ -13,7 +13,7 @@ endfunction()
 
 # Enable RDC for a CUDA target. Encapsulates compiler hacks:
 function(thrust_enable_rdc_for_cuda_target target_name)
-  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+  if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
     set_target_properties(${target_name} PROPERTIES
       COMPILE_FLAGS "-gpu=rdc"
     )
