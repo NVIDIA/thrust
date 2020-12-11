@@ -72,7 +72,8 @@ namespace unittest
 
     namespace detail
     {
-#ifdef __clang__
+#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC || \
+    THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
         __attribute__((used))
 #endif
         __device__ static static_assert_exception* device_exception = NULL;
