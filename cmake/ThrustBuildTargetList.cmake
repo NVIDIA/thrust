@@ -89,7 +89,7 @@ function(thrust_set_target_properties target_name host device dialect prefix)
     endif()
 
     if ("CUDA" STREQUAL "${device}" AND
-        "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+        "NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
       set_target_properties(${target_name} PROPERTIES
         CUDA_RESOLVE_DEVICE_SYMBOLS OFF
       )

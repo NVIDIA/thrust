@@ -37,7 +37,7 @@ math(EXPR max_idx "${max_idx} - 1")
 list(GET THRUST_KNOWN_COMPUTE_ARCHS ${max_idx} highest_arch)
 
 set(option_init OFF)
-if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   set(option_init ON)
 endif()
 option(THRUST_DISABLE_ARCH_BY_DEFAULT
@@ -63,10 +63,10 @@ foreach (arch IN LISTS THRUST_KNOWN_COMPUTE_ARCHS)
 
   math(EXPR num_archs_enabled "${num_archs_enabled} + 1")
 
-  if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+  if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
     if (NOT ${num_archs_enabled} EQUAL 1)
       message(FATAL_ERROR
-        "Feta does not support compilation for multiple device architectures "
+        "NVCXX does not support compilation for multiple device architectures "
         "at once."
       )
     endif()
@@ -82,7 +82,7 @@ foreach (arch IN LISTS THRUST_KNOWN_COMPUTE_ARCHS)
   endif()
 endforeach()
 
-if (NOT "Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+if (NOT "NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   option(THRUST_ENABLE_COMPUTE_FUTURE
     "Enable code generation for tests for compute_${highest_arch}"
     ${option_init}
@@ -97,11 +97,11 @@ endif()
 
 message(STATUS "Thrust: Enabled CUDA architectures:${COMPUTE_MESSAGE}")
 
-# RDC is off by default in NVCC and on by default in Feta. Turning off RDC
-# isn't currently supported by Feta. So, we default to RDC off for NVCC and
-# RDC on for Feta.
+# RDC is off by default in NVCC and on by default in NVC++. Turning off RDC
+# isn't currently supported by NVC++. So, we default to RDC off for NVCC and
+# RDC on for NVC++.
 set(option_init OFF)
-if ("Feta" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
   set(option_init ON)
 endif()
 

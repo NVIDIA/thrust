@@ -1,6 +1,6 @@
 # 3.15 is the minimum.
-# 3.17 for nvc++/Feta
-# 3.18 for C++17 + CUDA
+# 3.17 for NVC++.
+# 3.18 for C++17 + CUDA.
 cmake_minimum_required(VERSION 3.15)
 
 # Remove this when we use the new CUDA_ARCHITECTURES properties with both
