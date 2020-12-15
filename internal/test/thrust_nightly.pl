@@ -182,12 +182,12 @@ sub process_return_code {
 
 my $have_filecheck = 1;
 
-sub filecheck_sanity {
-    my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/thrust.sanity.filecheck";
+sub filecheck_test {
+    my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/thrust.confidence.filecheck";
 
     my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
 
-    print $filecheck_stdin "SANITY";
+    print $filecheck_stdin "CONFIDENCE";
 
     my $filecheck_ret = 0;
     if (close($filecheck_stdin) == 0)
@@ -196,21 +196,21 @@ sub filecheck_sanity {
     }
 
     if ($filecheck_ret == 0) {
-      printf("#### SANE FileCheck\n");
+      printf("&&&& PASSED FileCheck\n");
     } else {
       # Use a temporary file to send the output to
       # FileCheck so we can get the output this time,
       # because Perl and bidirectional pipes suck.
       my $tmp = File::Temp->new();
       my $tmp_filename = $tmp->filename;
-      print $tmp "SANITY";
+      print $tmp "CONFIDENCE";
 
       printf("********************************************************************************\n");
       print `$filecheck_cmd -input-file $tmp_filename`;
       printf("********************************************************************************\n");
 
-      process_return_code("FileCheck Sanity", $filecheck_ret, "");
-      printf("#### INSANE FileCheck\n");
+      process_return_code("FileCheck Test", $filecheck_ret, "");
+      printf("&&&& FAILED FileCheck\n");
 
       $have_filecheck = 0;
     }
@@ -243,7 +243,7 @@ sub run_cmd {
         {
           $ret = $?;
         }
- 
+
         alarm 0;
     };
     my $elapsed = timestamp() - $start;
@@ -286,7 +286,7 @@ sub run_examples {
     {
         my $test_exe = $test;
 
-        # Ignore FileCheck files. 
+        # Ignore FileCheck files.
         if ($test =~ /[.]filecheck$/)
         {
           next;
@@ -403,7 +403,7 @@ sub run_unit_tests {
     {
         my $test_exe = $test;
 
-        # Ignore FileCheck files. 
+        # Ignore FileCheck files.
         if ($test =~ /[.]filecheck$/)
         {
           next;
@@ -558,6 +558,7 @@ sub dvs_summary {
 
     printf("\n");
 
+    # We can't remove "sanity" here yet because DVS looks for this exact string.
     printf("CUDA DVS BASIC SANITY SCORE : %.1f\n", $dvs_score);
 
     if ($failures + $errors > 0) {
@@ -582,7 +583,7 @@ printf("#### ENV LD_LIBRARY_PATH `%s`\n", defined $ENV{'LD_LIBRARY_PATH'} ? $ENV
 
 printf("\n");
 
-filecheck_sanity();
+filecheck_test();
 
 printf("\n");
 

@@ -332,7 +332,7 @@ protected:
   // \param test The UnitTest of interest
   // \param concise Whether or not to suppress output
   // \return true if all is well; false if the tests must be immediately aborted
-  virtual bool post_test_sanity_check(const UnitTest &test, bool concise);
+  virtual bool post_test_confidence_check(const UnitTest &test, bool concise);
 
 public:
   inline virtual ~UnitTestDriver() {};

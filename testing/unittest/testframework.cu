@@ -30,7 +30,7 @@ const size_t standard_test_sizes[] =
   (1 << 26) + 1, (1 << 27) - 1, (1 << 27)
 };
 
-        
+
 const size_t tiny_threshold    = 1 <<  5;  //   32
 const size_t small_threshold   = 1 <<  8;  //  256
 const size_t medium_threshold  = 1 << 12;  //   4K
@@ -110,9 +110,9 @@ void process_args(int argc, char ** argv,
   {
     std::string arg(argv[i]);
 
-    // look for --key or --key=value arguments 
+    // look for --key or --key=value arguments
     if(arg.substr(0,2) == "--")
-    {   
+    {
       std::string::size_type n = arg.find('=',2);
 
       if(n == std::string::npos)
@@ -135,7 +135,7 @@ void process_args(int argc, char ** argv,
 void usage(int /*argc*/, char** argv)
 {
   std::string indent = "  ";
-  
+
   std::cout << "Example Usage:\n";
   std::cout << indent << argv[0] << "\n";
   std::cout << indent << argv[0] << " TestName1 [TestName2 ...] \n";
@@ -164,14 +164,14 @@ struct TestResult
   TestStatus  status;
   std::string name;
   std::string message;
-  
+
   // XXX use a c++11 timer result when available
   std::clock_t elapsed;
-  
+
   TestResult(const TestStatus status, std::clock_t elapsed, const UnitTest& u, const std::string& message = "")
       : status(status), name(u.name), message(message), elapsed(elapsed)
   {}
-  
+
   bool operator<(const TestResult& tr) const
   {
     if(status < tr.status)
@@ -199,20 +199,20 @@ void record_result(const TestResult& test_result, std::vector< TestResult >& tes
 void report_results(std::vector< TestResult >& test_results, double elapsed_minutes)
 {
   std::cout << std::endl;
-  
+
   std::string hline = "================================================================";
-  
+
   std::sort(test_results.begin(), test_results.end());
-  
+
   size_t num_passes = 0;
   size_t num_failures = 0;
   size_t num_known_failures = 0;
   size_t num_errors = 0;
-  
+
   for(size_t i = 0; i < test_results.size(); i++)
   {
     const TestResult& tr = test_results[i];
-    
+
     if(tr.status == Pass)
     {
       num_passes++;
@@ -220,7 +220,7 @@ void report_results(std::vector< TestResult >& test_results, double elapsed_minu
     else
     {
       std::cout << hline << std::endl;
-    
+
       switch(tr.status)
       {
         case Failure:
@@ -232,13 +232,13 @@ void report_results(std::vector< TestResult >& test_results, double elapsed_minu
         default:
           break;
       }
-    
+
       std::cout << ": " << tr.name << std::endl << tr.message << std::endl;
     }
   }
-  
+
   std::cout << hline << std::endl;
-  
+
   std::cout << "Totals: ";
   std::cout << num_failures << " failures, ";
   std::cout << num_known_failures << " known failures, ";
@@ -257,7 +257,7 @@ void UnitTestDriver::list_tests(void)
 }
 
 
-bool UnitTestDriver::post_test_sanity_check(const UnitTest &/*test*/, bool /*concise*/)
+bool UnitTestDriver::post_test_confidence_check(const UnitTest &/*test*/, bool /*concise*/)
 {
   return true;
 }
@@ -266,45 +266,45 @@ bool UnitTestDriver::post_test_sanity_check(const UnitTest &/*test*/, bool /*con
 bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const ArgumentMap& kwargs)
 {
   std::time_t start_time = std::time(0);
-  
+
   THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_BEGIN
   bool verbose = kwargs.count("verbose");
   bool concise = kwargs.count("concise");
   THRUST_DISABLE_MSVC_FORCING_VALUE_TO_BOOL_WARNING_END
-  
+
   std::vector< TestResult > test_results;
-  
+
   if(verbose && concise)
   {
     std::cout << "--verbose and --concise cannot be used together" << std::endl;
     exit(EXIT_FAILURE);
   }
-  
+
   if(!concise)
   {
     std::cout << "Running " << tests_to_run.size() << " unit tests." << std::endl;
   }
-  
+
   for(size_t i = 0; i < tests_to_run.size(); i++)
   {
      UnitTest& test = *tests_to_run[i];
-  
+
      if(verbose)
      {
        std::cout << "Running " << test.name << "..." << std::flush;
      }
-  
+
      try
      {
        // time the test
        std::clock_t start = std::clock();
-  
+
        // run the test
        test.run();
-  
+
        // test passed
        record_result(TestResult(Pass, std::clock() - start, test), test_results);
-     } 
+     }
      catch(unittest::UnitTestFailure& f)
      {
        record_result(TestResult(Failure, (std::numeric_limits<std::clock_t>::max)(), test, f.message), test_results);
@@ -321,7 +321,7 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
      {
        record_result(TestResult(Error, (std::numeric_limits<std::clock_t>::max)(), test, e.message), test_results);
      }
-  
+
      // immediate report
      if(!concise)
      {
@@ -342,7 +342,7 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
            default:
              break;
          }
-  
+
          std::cout << " " << test.name << std::endl;
        }
        else
@@ -362,24 +362,24 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
          }
        }
      }
-  
-     if(!post_test_sanity_check(test, concise))
+
+     if(!post_test_confidence_check(test, concise))
      {
        return false;
      }
-  
+
      std::cout.flush();
   }
-  
+
   double elapsed_minutes = double(std::time(0) - start_time) / 60;
-  
+
   // summary report
   if(!concise)
   {
     report_results(test_results, elapsed_minutes);
   }
-  
-  
+
+
   // if any failures or errors return false
   for(size_t i = 0; i < test_results.size(); i++)
   {
@@ -388,7 +388,7 @@ bool UnitTestDriver::run_tests(std::vector<UnitTest *>& tests_to_run, const Argu
       return false;
     }
   }
-  
+
   // all tests pass or are known failures
   return true;
 }
@@ -400,35 +400,35 @@ bool UnitTestDriver::run_tests(const ArgumentSet& args, const ArgumentMap& kwarg
   {
     // run all tests
     std::vector<UnitTest *> tests_to_run;
-    
+
     for(TestMap::iterator iter = test_map.begin(); iter != test_map.end(); iter++)
     {
       tests_to_run.push_back(iter->second);
     }
-    
+
     return run_tests(tests_to_run, kwargs);
   }
   else
   {
     // all non-keyword arguments are assumed to be test names or partial test names
-  
+
     typedef TestMap::iterator               TestMapIterator;
-  
+
     // vector to accumulate tests
     std::vector<UnitTest *> tests_to_run;
-  
+
     for(ArgumentSet::const_iterator iter = args.begin(); iter != args.end(); iter++)
     {
       const std::string& arg = *iter;
-  
+
       size_t len = arg.size();
       size_t matches = 0;
-  
+
       if(arg[len-1] == '*')
       {
         // wildcard search
         std::string search = arg.substr(0,len-1);
-  
+
         TestMapIterator lb = test_map.lower_bound(search);
         while(lb != test_map.end())
         {
@@ -436,8 +436,8 @@ bool UnitTestDriver::run_tests(const ArgumentSet& args, const ArgumentMap& kwarg
           {
             break;
           }
-  
-          tests_to_run.push_back(lb->second); 
+
+          tests_to_run.push_back(lb->second);
           lb++;
           matches++;
         }
@@ -446,21 +446,21 @@ bool UnitTestDriver::run_tests(const ArgumentSet& args, const ArgumentMap& kwarg
       {
         // non-wildcard search
         TestMapIterator lb = test_map.find(arg);
-  
+
         if(lb != test_map.end())
         {
-          tests_to_run.push_back(lb->second); 
+          tests_to_run.push_back(lb->second);
           matches++;
         }
       }
-  
+
       if(matches == 0)
       {
         std::cout << "[ERROR] found no test names matching the pattern: " << arg << std::endl;
         return false;
       }
     }
-  
+
     return run_tests(tests_to_run, kwargs);
   }
 }
@@ -487,21 +487,21 @@ int main(int argc, char **argv)
 {
   ArgumentSet args;
   ArgumentMap kwargs;
-  
+
   process_args(argc, argv, args, kwargs);
-  
+
   if(kwargs.count("help"))
   {
     usage(argc, argv);
     return 0;
   }
-  
+
   if(kwargs.count("list"))
   {
     UnitTestDriver::s_driver().list_tests();
     return 0;
   }
-  
+
   if(kwargs.count("sizes"))
   {
     set_test_sizes(kwargs["sizes"]);
@@ -510,14 +510,14 @@ int main(int argc, char **argv)
   {
     set_test_sizes("default");
   }
-  
+
   bool passed = UnitTestDriver::s_driver().run_tests(args, kwargs);
-  
+
   if(kwargs.count("concise"))
   {
     std::cout << ((passed) ? "PASSED" : "FAILED") << std::endl;
   }
-  
+
   return (passed) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
 

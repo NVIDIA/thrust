@@ -11,7 +11,6 @@ template <typename IndexVector,
 void print_sparse_vector(const IndexVector& A_index,
                          const ValueVector& A_value)
 {
-    // sanity test
     assert(A_index.size() == A_value.size());
 
     for(size_t i = 0; i < A_index.size(); i++)
@@ -35,7 +34,6 @@ void sum_sparse_vectors(const IndexVector1& A_index,
     typedef typename IndexVector3::value_type  IndexType;
     typedef typename ValueVector3::value_type  ValueType;
 
-    // sanity test
     assert(A_index.size() == A_value.size());
     assert(B_index.size() == B_value.size());
 
@@ -53,7 +51,7 @@ void sum_sparse_vectors(const IndexVector1& A_index,
                          B_value.begin(),
                          temp_index.begin(),
                          temp_value.begin());
-    
+
     // compute number of unique indices
     size_t C_size = thrust::inner_product(temp_index.begin(), temp_index.end() - 1,
                                           temp_index.begin() + 1,
@@ -83,7 +81,7 @@ int main(void)
     A_index[1] = 3;  A_value[1] = 60;
     A_index[2] = 5;  A_value[2] = 20;
     A_index[3] = 8;  A_value[3] = 40;
-    
+
     // initialize sparse vector B with 6 elements
     thrust::device_vector<int>   B_index(6);
     thrust::device_vector<float> B_value(6);
@@ -97,7 +95,7 @@ int main(void)
     // compute sparse vector C = A + B
     thrust::device_vector<int>   C_index;
     thrust::device_vector<float> C_value;
-    
+
     sum_sparse_vectors(A_index, A_value, B_index, B_value, C_index, C_value);
 
     std::cout << "Computing C = A + B for sparse vectors A and B" << std::endl;

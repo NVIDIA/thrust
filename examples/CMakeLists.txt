@@ -28,8 +28,8 @@ if (THRUST_ENABLE_EXAMPLE_FILECHECK)
   endif()
 
   execute_process(
-    COMMAND "${THRUST_FILECHECK_EXECUTABLE}" "${filecheck_data_path}/thrust.sanity.filecheck"
-    INPUT_FILE "${Thrust_SOURCE_DIR}/cmake/sanity"
+    COMMAND "${THRUST_FILECHECK_EXECUTABLE}" "${filecheck_data_path}/thrust.confidence.filecheck"
+    INPUT_FILE "${Thrust_SOURCE_DIR}/cmake/filecheck_confidence_test"
     RESULT_VARIABLE exit_code
   )
 

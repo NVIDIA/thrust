@@ -16,7 +16,7 @@ class CUDATestDriver
 
     bool check_cuda_error(bool concise);
 
-    virtual bool post_test_sanity_check(const UnitTest &test, bool concise);
+    virtual bool post_test_confidence_check(const UnitTest &test, bool concise);
 
     virtual bool run_tests(const ArgumentSet &args, const ArgumentMap &kwargs);
 };
