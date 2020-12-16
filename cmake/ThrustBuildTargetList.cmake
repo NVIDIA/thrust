@@ -165,30 +165,73 @@ function(_thrust_add_target_to_target_list target_name host device dialect prefi
 endfunction()
 
 function(_thrust_build_target_list_multiconfig)
-  # Find thrust and all of the required systems:
-  set(req_systems)
-  if (THRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA)
-    list(APPEND req_systems CUDA)
-  endif()
-  if (THRUST_MULTICONFIG_ENABLE_SYSTEM_CPP)
-    list(APPEND req_systems CPP)
-  endif()
-  if (THRUST_MULTICONFIG_ENABLE_SYSTEM_TBB)
-    list(APPEND req_systems TBB)
-  endif()
-  if (THRUST_MULTICONFIG_ENABLE_SYSTEM_OMP)
-    list(APPEND req_systems OMP)
+  # Detect supported dialects if requested -- this must happen after CUDA is
+  # enabled, if it's going to be enabled.
+  if (THRUST_MULTICONFIG_ENABLE_DIALECT_ALL OR
+      THRUST_MULTICONFIG_ENABLE_DIALECT_LATEST)
+    message(STATUS "Testing for supported language standards...")
+    include("${CMAKE_CURRENT_FUNCTION_LIST_DIR}/DetectSupportedStandards.cmake")
+    detect_supported_standards(THRUST CXX ${THRUST_CPP_DIALECT_OPTIONS})
+    if (THRUST_CUDA_FOUND)
+      detect_supported_standards(THRUST CUDA ${THRUST_CPP_DIALECT_OPTIONS})
+    endif()
+
+    # Take the union of supported standards in CXX and CUDA:
+    set(supported_dialects)
+    set(latest_dialect 11)
+    foreach(standard IN LISTS THRUST_CPP_DIALECT_OPTIONS)
+      if ((THRUST_CXX_${standard}_SUPPORTED) AND
+          ((NOT THRUST_CUDA_FOUND) OR THRUST_CUDA_${standard}_SUPPORTED))
+
+        # MSVC silently promotes C++11 to C++14 -- skip it:
+        if ((${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC) AND (standard EQUAL 11))
+          continue()
+        endif()
+
+        list(APPEND supported_dialects ${standard})
+        if (latest_dialect LESS standard)
+          set(latest_dialect ${standard})
+        endif()
+      endif()
+    endforeach()
+
+    if (THRUST_MULTICONFIG_ENABLE_DIALECT_ALL)
+      foreach(standard IN LISTS THRUST_CPP_DIALECT_OPTIONS)
+        if (standard IN_LIST supported_dialects)
+          set(THRUST_MULTICONFIG_ENABLE_DIALECT_CPP${standard} ON CACHE BOOL
+              "Generate C++${dialect} build configurations." FORCE
+          )
+        else()
+          set(THRUST_MULTICONFIG_ENABLE_DIALECT_CPP${standard} OFF CACHE BOOL
+            "Generate C++${dialect} build configurations." FORCE
+            )
+        endif()
+      endforeach()
+    elseif(THRUST_MULTICONFIG_ENABLE_DIALECT_LATEST)
+      foreach(standard IN LISTS THRUST_CPP_DIALECT_OPTIONS)
+        if (standard EQUAL latest_dialect)
+          set(THRUST_MULTICONFIG_ENABLE_DIALECT_CPP${standard} ON CACHE BOOL
+            "Generate C++${dialect} build configurations." FORCE
+            )
+        else()
+          set(THRUST_MULTICONFIG_ENABLE_DIALECT_CPP${standard} OFF CACHE BOOL
+            "Generate C++${dialect} build configurations." FORCE
+            )
+        endif()
+      endforeach()
+    endif()
   endif()
 
-  find_package(Thrust REQUIRED CONFIG
-    NO_DEFAULT_PATH # Only check the explicit path in HINTS:
-    HINTS "${Thrust_SOURCE_DIR}"
-    COMPONENTS ${req_systems}
-  )
-
-  # This must be called after backends are loaded but
-  # before _thrust_add_target_to_target_list.
-  thrust_build_compiler_targets()
+  # Supported versions of MSVC do not distinguish between C++11 and C++14.
+  # Warn the user that they may be generating a ton of redundant targets if
+  # they explicitly requested this configuration.
+  if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}" AND
+    THRUST_MULTICONFIG_ENABLE_DIALECT_CPP11)
+    message(WARNING
+      "Supported versions of MSVC (2017+) do not distinguish between C++11 "
+      "and C++14. The requested C++11 targets may be redundant."
+    )
+  endif()
 
   # Build THRUST_TARGETS
   foreach(host IN LISTS THRUST_HOST_SYSTEM_OPTIONS)
@@ -225,21 +268,10 @@ function(_thrust_build_target_list_multiconfig)
 endfunction()
 
 function(_thrust_build_target_list_singleconfig)
-  find_package(Thrust REQUIRED CONFIG
-    NO_DEFAULT_PATH # Only check the explicit path in HINTS:
-    HINTS "${Thrust_SOURCE_DIR}"
-  )
-  thrust_create_target(thrust FROM_OPTIONS ${THRUST_TARGET_FLAGS})
-  thrust_debug_target(thrust "${THRUST_VERSION}")
-
   set(host ${THRUST_HOST_SYSTEM})
   set(device ${THRUST_DEVICE_SYSTEM})
   set(dialect ${THRUST_CPP_DIALECT})
   set(prefix "thrust") # single config
-
-  # This depends on the backends loaded by thrust_create_target, and must
-  # be called before _thrust_add_target_to_target_list.
-  thrust_build_compiler_targets()
 
   _thrust_add_target_to_target_list(thrust ${host} ${device} ${dialect} ${prefix})
 endfunction()

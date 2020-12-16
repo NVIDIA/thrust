@@ -24,15 +24,17 @@ function(thrust_configure_multiconfig)
       )
     endforeach()
 
-    # Supported versions of MSVC do not distinguish between C++11 and C++14.
-    # Warn the user that they may be generating a ton of redundant targets.
-    if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}" AND
-        THRUST_MULTICONFIG_ENABLE_DIALECT_CPP11)
-      message(WARNING
-        "Supported versions of MSVC (2017+) do not distinguish between C++11 "
-        "and C++14. The requested C++11 targets will be built with C++14."
-      )
-    endif()
+    # Option to enable all standards supported by the CUDA and CXX compilers:
+    option(THRUST_MULTICONFIG_ENABLE_DIALECT_ALL
+      "Generate build configurations for all C++ standards supported by the configured compilers."
+      OFF
+    )
+
+    # Option to enable only the most recent supported dialect:
+    option(THRUST_MULTICONFIG_ENABLE_DIALECT_LATEST
+      "Generate a single build configuration for the most recent C++ standard supported by the configured compilers."
+      OFF
+    )
 
     # Systems:
     option(THRUST_MULTICONFIG_ENABLE_SYSTEM_CPP "Generate build configurations that use CPP." ON)

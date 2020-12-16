@@ -1,5 +1,5 @@
-# 3.15 is the minimum.
-# 3.17 for NVC++.
+# 3.15 is the minimum for including the project with add_subdirectory.
+# 3.17 for building the project's standalone tests/examples/etc.
 # 3.18 for C++17 + CUDA.
 cmake_minimum_required(VERSION 3.15)
 
@@ -43,6 +43,9 @@ if (NOT THRUST_TOPLEVEL_PROJECT)
   return()
 endif()
 
+# We use 3.17 features when building our tests, etc.
+cmake_minimum_required(VERSION 3.17)
+
 option(THRUST_ENABLE_HEADER_TESTING "Test that all public headers compile." "ON")
 option(THRUST_ENABLE_TESTING "Build Thrust testing suite." "ON")
 option(THRUST_ENABLE_EXAMPLES "Build Thrust examples." "ON")
@@ -61,6 +64,7 @@ endif()
 include(cmake/AppendOptionIfAvailable.cmake)
 include(cmake/ThrustBuildCompilerTargets.cmake)
 include(cmake/ThrustBuildTargetList.cmake)
+include(cmake/ThrustFindThrust.cmake)
 include(cmake/ThrustMultiConfig.cmake)
 include(cmake/ThrustUtilities.cmake)
 
@@ -83,17 +87,18 @@ set(THRUST_LIBRARY_OUTPUT_DIR "${CMAKE_BINARY_DIR}/lib")
 set(THRUST_EXECUTABLE_OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin")
 
 thrust_configure_multiconfig()
+thrust_find_thrust()
+thrust_build_compiler_targets()
+thrust_update_system_found_flags()
+if (THRUST_CUDA_FOUND)
+  include(cmake/ThrustCudaConfig.cmake)
+endif()
 thrust_build_target_list()
 
-thrust_update_system_found_flags()
 message(STATUS "CPP system found?  ${THRUST_CPP_FOUND}")
 message(STATUS "CUDA system found? ${THRUST_CUDA_FOUND}")
 message(STATUS "TBB system found?  ${THRUST_TBB_FOUND}")
 message(STATUS "OMP system found?  ${THRUST_OMP_FOUND}")
-
-if (THRUST_CUDA_FOUND)
-  include(cmake/ThrustCudaConfig.cmake)
-endif()
 
 if (THRUST_ENABLE_HEADER_TESTING)
   include(cmake/ThrustHeaderTesting.cmake)
