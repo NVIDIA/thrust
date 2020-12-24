@@ -12,23 +12,38 @@ function usage {
   echo "parallelism."
   echo
   echo "Exported variables:"
-  echo "  $${LOGICAL_CPUS}      : Logical processors (e.g. hyperthreads)."
-  echo "  $${PHYSICAL_CPUS}     : Physical processors (e.g. cores)."
-  echo "  $${TOTAL_MEM_KB}      : Total system memory."
-  echo "  $${CPU_BOUND_THREADS} : # of build threads constrained by processors."
-  echo "  $${MEM_BOUND_THREADS} : # of build threads constrained by memory."
-  echo "  $${PARLLEL_LEVEL}     : Determined # of build threads."
+  echo "  \${LOGICAL_CPUS}          : Logical processors (e.g. threads)."
+  echo "  \${PHYSICAL_CPUS}         : Physical processors (e.g. cores)."
+  echo "  \${TOTAL_MEM}             : Total system memory [GB]."
+  echo "  \${MAX_THREADS_PER_CORE}  : Maximum threads per core allowed."
+  echo "  \${MIN_MEMORY_PER_THREAD} : Minimum memory [GB] per thread allowed."
+  echo "  \${CPU_BOUND_THREADS}     : # of build threads constrained by processors."
+  echo "  \${MEM_BOUND_THREADS}     : # of build threads constrained by memory [GB]."
+  echo "  \${PARALLEL_LEVEL}        : Determined # of build threads."
+  echo "  \${MEM_PER_THREAD}        : Memory [GB] per build thread."
   echo
   echo "-h, -help, --help"
   echo "  Print this message."
   echo
   echo "-q, --quiet"
   echo "  Print nothing and only export variables."
+  echo
+  echo "-j <threads>, --jobs <threads>"
+  echo "  Explicitly set the number of build threads to use."
+  echo
+  echo "--max-threads-per-core <threads>"
+  echo "  Specify the maximum threads per core allowed (default: ${MAX_THREADS_PER_CORE} [threads/core])."
+  echo
+  echo "--min-memory-per-thread <gigabytes>"
+  echo "  Specify the minimum memory per thread allowed (default: ${MIN_MEMORY_PER_THREAD} [GBs/thread])."
 
   exit -3
 }
 
 QUIET=0
+
+export MAX_THREADS_PER_CORE=2
+export MIN_MEMORY_PER_THREAD=4 # [GB]
 
 while test ${#} != 0
 do
@@ -38,6 +53,19 @@ do
   --help) usage ;;
   -q) ;&
   --quiet) QUIET=1 ;;
+  -j) ;&
+  --jobs)
+    shift # The next argument is the number of threads.
+    PARALLEL_LEVEL="${1}"
+    ;;
+  --max-threads-per-core)
+    shift # The next argument is the number of threads per core.
+    MAX_THREADS_PER_CORE="${1}"
+    ;;
+  --min-memory-per-thread)
+    shift # The next argument is the amount of memory per thread.
+    MIN_MEMORY_PER_THREAD="${1}"
+    ;;
   esac
   shift
 done
@@ -51,24 +79,41 @@ else
   export PHYSICAL_CPUS=$(lscpu -p | egrep -v '^#' | sort -u -t, -k 2,4 | wc -l)
 fi
 
-export TOTAL_MEM_KB=`grep MemTotal /proc/meminfo | awk '{print $2}'`
+export TOTAL_MEM=$(awk "BEGIN { printf \"%0.4g\", $(grep MemTotal /proc/meminfo | awk '{ print $2 }') / (1024 * 1024) }")
 
-export CPU_BOUND_THREADS=$((${PHYSICAL_CPUS} * 2))                # 2 Build Threads / Core
-export MEM_BOUND_THREADS=$((${TOTAL_MEM_KB} / (2 * 1000 * 1000))) # 2 GB / Build Thread
+export CPU_BOUND_THREADS=$(awk "BEGIN { printf \"%.04g\", int(${PHYSICAL_CPUS} * ${MAX_THREADS_PER_CORE}) }")
+export MEM_BOUND_THREADS=$(awk "BEGIN { printf \"%.04g\", int(${TOTAL_MEM} / ${MIN_MEMORY_PER_THREAD}) }")
 
-# Pick the smaller of the two as the default.
-if [ ${MEM_BOUND_THREADS} -lt ${CPU_BOUND_THREADS} ]; then
-  export PARLLEL_LEVEL=${MEM_BOUND_THREADS}
+if [[ -z "${PARALLEL_LEVEL}" ]]; then
+  # Pick the smaller of the two as the default.
+  if [[ "${MEM_BOUND_THREADS}" -lt "${CPU_BOUND_THREADS}" ]]; then
+    export PARALLEL_LEVEL=${MEM_BOUND_THREADS}
+  else
+    export PARALLEL_LEVEL=${CPU_BOUND_THREADS}
+  fi
 else
-  export PARLLEL_LEVEL=${CPU_BOUND_THREADS}
+  EXPLICIT_PARALLEL_LEVEL=1
 fi
 
-if [ "${QUIET}" == 0 ]; then
-  echo "Logical CPUs:      ${LOGICAL_CPUS} [threads]"
-  echo "Physical CPUs:     ${PHYSICAL_CPUS} [cores]"
-  echo "Total Mem:         ${TOTAL_MEM_KB} [kb]"
-  echo "CPU Bound Threads: ${CPU_BOUND_THREADS} [threads]"
-  echo "Mem Bound Threads: ${MEM_BOUND_THREADS} [threads]"
-  echo "Parallel Level:    ${PARLLEL_LEVEL} [threads]"
+# This can be a floating point number.
+export MEM_PER_THREAD=$(awk "BEGIN { printf \"%.04g\", ${TOTAL_MEM} / ${PARALLEL_LEVEL} }")
+
+if [[ "${QUIET}" == 0 ]]; then
+  echo    "Logical CPUs:           ${LOGICAL_CPUS} [threads]"
+  echo    "Physical CPUs:          ${PHYSICAL_CPUS} [cores]"
+  echo    "Total Mem:              ${TOTAL_MEM} [GBs]"
+  echo    "Max Threads Per Core:   ${MAX_THREADS_PER_CORE} [threads/core]"
+  echo    "Min Memory Per Threads: ${MIN_MEMORY_PER_THREAD} [GBs/thread]"
+  echo    "CPU Bound Threads:      ${CPU_BOUND_THREADS} [threads]"
+  echo    "Mem Bound Threads:      ${MEM_BOUND_THREADS} [threads]"
+
+  echo -n "Parallel Level:         ${PARALLEL_LEVEL} [threads]"
+  if [[ -n "${EXPLICIT_PARALLEL_LEVEL}" ]]; then
+    echo " (explicitly set)"
+  else
+    echo
+  fi
+
+  echo    "Mem Per Thread:         ${MEM_PER_THREAD} [GBs/thread]"
 fi
 
