@@ -16,8 +16,8 @@
 
 #pragma once
 
-#include "detail/config.h"
-#include "memory_resource.h"
+#include <thrust/detail/config/memory_resource.h>
+#include <thrust/mr/memory_resource.h>
 
 namespace thrust
 {

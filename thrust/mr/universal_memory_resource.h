@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2013 NVIDIA Corporation
+ *  Copyright 2018-2020 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,25 +14,9 @@
  *  limitations under the License.
  */
 
+#pragma once
 
-/*! \file device_vector.inl
- *  \brief Inline file for device_vector.h.
- */
+#include <thrust/detail/config.h>
 
-#include <thrust/host_vector.h>
-
-namespace thrust
-{
-
-template<typename T, typename Alloc>
-  template<typename OtherT, typename OtherAlloc>
-    __host__
-    device_vector<T,Alloc>
-      ::device_vector(const host_vector<OtherT,OtherAlloc> &v)
-        :Parent(v)
-{
-  ;
-} // end device_vector::device_vector()
-
-} // end namespace thrust
+#include <thrust/mr/device_memory_resource.h>
 

@@ -2,7 +2,7 @@
  *  Copyright 2008-2013 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in ccudaliance with the License.
+ *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -26,47 +26,63 @@
 #include <thrust/detail/vector_base.h>
 #include <vector>
 
-namespace thrust
+namespace thrust { namespace cuda_cub
 {
 
-// forward declaration of host_vector
-template<typename T, typename Allocator> class host_vector;
-
-namespace cuda_cub
-{
-
-/*! \p cuda_bulk::vector is a container that supports random access to elements,
+/*! \p cuda::vector is a container that supports random access to elements,
  *  constant time removal of elements at the end, and linear time insertion
  *  and removal of elements at the beginning or in the middle. The number of
- *  elements in a \p cuda_bulk::vector may vary dynamically; memory management is
- *  automatic. The elements contained in a \p cuda_bulk::vector reside in memory
- *  available to the \p cuda_bulk system.
+ *  elements in a \p cuda::vector may vary dynamically; memory management is
+ *  automatic. The elements contained in a \p cuda::vector reside in memory
+ *  accessible by the \p cuda system.
  *
- *  \tparam T The element type of the \p cuda_bulk::vector.
- *  \tparam Allocator The allocator type of the \p cuda_bulk::vector. Defaults to \p cuda_bulk::allocator.
+ *  \tparam T The element type of the \p cuda::vector.
+ *  \tparam Allocator The allocator type of the \p cuda::vector.
+ *          Defaults to \p cuda::allocator.
  *
- *  \see http://www.sgi.com/tech/stl/Vector.html
+ *  \see https://en.cppreference.com/w/cpp/container/vector
  *  \see host_vector For the documentation of the complete interface which is
- *                   shared by \p cuda_bulk::vector
+ *                   shared by \p cuda::vector
  *  \see device_vector
+ *  \see universal_vector
  */
-template<typename T, typename Allocator = allocator<T> >
+template <typename T, typename Allocator = thrust::system::cuda::allocator<T>>
 using vector = thrust::detail::vector_base<T, Allocator>;
 
-} // end cuda_cub
+/*! \p cuda::universal_vector is a container that supports random access to
+ *  elements, constant time removal of elements at the end, and linear time
+ *  insertion and removal of elements at the beginning or in the middle. The
+ *  number of elements in a \p cuda::universal_vector may vary dynamically;
+ *  memory management is automatic. The elements contained in a
+ *  \p cuda::universal_vector reside in memory accessible by the \p cuda system
+ *  and host systems.
+ *
+ *  \tparam T The element type of the \p cuda::universal_vector.
+ *  \tparam Allocator The allocator type of the \p cuda::universal_vector.
+ *          Defaults to \p cuda::universal_allocator.
+ *
+ *  \see https://en.cppreference.com/w/cpp/container/vector
+ *  \see host_vector For the documentation of the complete interface which is
+ *                   shared by \p cuda::universal_vector
+ *  \see device_vector
+ *  \see universal_vector
+ */
+template <typename T, typename Allocator = thrust::system::cuda::universal_allocator<T>>
+using universal_vector = thrust::detail::vector_base<T, Allocator>;
 
-// alias system::cuda_bulk names at top-level
+} // namespace cuda_cub
+
+namespace system { namespace cuda
+{
+using thrust::cuda_cub::vector;
+using thrust::cuda_cub::universal_vector;
+}}
+
 namespace cuda
 {
-
 using thrust::cuda_cub::vector;
-
-} // end cuda_bulk
-
-namespace system {
-namespace cuda {
-using thrust::cuda_cub::vector;
-}
+using thrust::cuda_cub::universal_vector;
 }
 
-} // end thrust
+} // namespace thrust
+

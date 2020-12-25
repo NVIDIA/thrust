@@ -21,7 +21,7 @@
 
 #pragma once
 
-#include "detail/config.h"
+#include <thrust/detail/config/memory_resource.h>
 #ifdef THRUST_MR_STD_MR_HEADER
 #  include THRUST_MR_STD_MR_HEADER
 #endif

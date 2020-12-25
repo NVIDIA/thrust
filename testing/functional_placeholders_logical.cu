@@ -23,6 +23,13 @@ template<typename T, typename U, typename Allocator>
     typename Allocator::template rebind<U>::other> type;
 };
 
+template<typename T, typename U, typename Allocator>
+  struct rebind_vector<thrust::universal_vector<T, Allocator>, U>
+{
+  typedef thrust::universal_vector<U,
+    typename Allocator::template rebind<U>::other> type;
+};
+
 #define BINARY_FUNCTIONAL_PLACEHOLDERS_TEST(name, reference_operator, functor) \
 template<typename Vector> \
   void TestFunctionalPlaceholders##name(void) \
