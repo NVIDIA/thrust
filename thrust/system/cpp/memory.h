@@ -15,7 +15,7 @@
  */
 
 /*! \file thrust/system/cpp/memory.h
- *  \brief Managing memory associated with Thrust's Standard C++ system.
+ *  \brief Managing memory associated with Thrust's standard C++ system.
  */
 
 #pragma once
@@ -27,9 +27,12 @@
 #include <thrust/mr/allocator.h>
 #include <ostream>
 
-namespace thrust { namespace system { namespace cpp
+namespace thrust
 {
-
+namespace system
+{
+namespace cpp
+{
 /*! Allocates an area of memory available to Thrust's <tt>cpp</tt> system.
  *  \param n Number of bytes to allocate.
  *  \return A <tt>cpp::pointer<void></tt> pointing to the beginning of the newly
@@ -63,37 +66,30 @@ inline pointer<T> malloc(std::size_t n);
  */
 inline void free(pointer<void> ptr);
 
-/*! \p cpp::allocator is the default allocator used by the \p cpp system's
- *  containers such as <tt>cpp::vector</tt> if no user-specified allocator is
- *  provided. \p cpp::allocator allocates (deallocates) storage with \p
- *  cpp::malloc (\p cpp::free).
+/*! \p cpp::allocator is the default allocator used by the \p cpp system's containers such as
+ *  <tt>cpp::vector</tt> if no user-specified allocator is provided. \p cpp::allocator allocates
+ *  (deallocates) storage with \p cpp::malloc (\p cpp::free).
  */
 template<typename T>
-using allocator = thrust::mr::stateless_resource_allocator<
-  T, thrust::system::cpp::memory_resource
->;
+using allocator = thrust::mr::stateless_resource_allocator<T, memory_resource>;
 
-/*! \p cpp::universal_allocator allocates memory that can be used by the \p cpp
- *  system and host systems.
- */
-template<typename T>
-using universal_allocator = thrust::mr::stateless_resource_allocator<
-  T, thrust::system::cpp::universal_memory_resource
->;
+} // end cpp
 
-}} // namespace system::cpp
+} // end system
 
 /*! \namespace thrust::cpp
  *  \brief \p thrust::cpp is a top-level alias for thrust::system::cpp.
  */
 namespace cpp
 {
+
 using thrust::system::cpp::malloc;
 using thrust::system::cpp::free;
 using thrust::system::cpp::allocator;
-} // namespace cpp
 
-} // namespace thrust
+} // end cpp
+
+} // end thrust
 
 #include <thrust/system/cpp/detail/memory.inl>
 

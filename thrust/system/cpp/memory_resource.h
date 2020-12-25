@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018-2020 NVIDIA Corporation
+ *  Copyright 2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,7 +15,7 @@
  */
 
 /*! \file cpp/memory_resource.h
- *  \brief Memory resources for the Standard C++ system.
+ *  \brief Memory resources for the CPP system.
  */
 
 #pragma once
@@ -26,7 +26,11 @@
 
 #include <thrust/system/cpp/pointer.h>
 
-namespace thrust { namespace system { namespace cpp
+namespace thrust
+{
+namespace system
+{
+namespace cpp
 {
 
 //! \cond
@@ -36,32 +40,23 @@ namespace detail
         thrust::mr::new_delete_resource,
         thrust::cpp::pointer<void>
     > native_resource;
-
-    typedef thrust::mr::fancy_pointer_resource<
-        thrust::mr::new_delete_resource,
-        thrust::cpp::universal_pointer<void>
-    > universal_native_resource;
-} // namespace detail
+}
 //! \endcond
 
 /*! \addtogroup memory_resources Memory Resources
  *  \ingroup memory_management_classes
- *  \{
  */
 
-/*! The memory resource for the Standard C++ system. Uses \p
- *  mr::new_delete_resource and tags it with \p cpp::pointer.
- */
+/*! The memory resource for the CPP system. Uses \p mr::new_delete_resource and tags it with \p cpp::pointer. */
 typedef detail::native_resource memory_resource;
-/*! The unified memory resource for the Standard C++ system. Uses
- *  \p mr::new_delete_resource and tags it with \p cpp::universal_pointer.
- */
-typedef detail::universal_native_resource universal_memory_resource;
-/*! An alias for \p cpp::universal_memory_resource. */
+/*! An alias for \p cpp::memory_resource. */
+typedef detail::native_resource universal_memory_resource;
+/*! An alias for \p cpp::memory_resource. */
 typedef detail::native_resource universal_host_pinned_memory_resource;
 
 /*! \}
  */
 
-}}} // namespace thrust::system::cpp
-
+}
+}
+}

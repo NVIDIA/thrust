@@ -26,7 +26,15 @@
 #include <thrust/detail/vector_base.h>
 #include <vector>
 
-namespace thrust { namespace system { namespace cpp
+namespace thrust
+{
+
+// forward declaration of host_vector
+template<typename T, typename Allocator> class host_vector;
+
+namespace system
+{
+namespace cpp
 {
 
 /*! \p cpp::vector is a container that supports random access to elements,
@@ -34,48 +42,28 @@ namespace thrust { namespace system { namespace cpp
  *  and removal of elements at the beginning or in the middle. The number of
  *  elements in a \p cpp::vector may vary dynamically; memory management is
  *  automatic. The elements contained in a \p cpp::vector reside in memory
- *  accessible by the \p cpp system.
+ *  available to the \p cpp system.
  *
  *  \tparam T The element type of the \p cpp::vector.
- *  \tparam Allocator The allocator type of the \p cpp::vector.
- *          Defaults to \p cpp::allocator.
+ *  \tparam Allocator The allocator type of the \p cpp::vector. Defaults to \p cpp::allocator.
  *
- *  \see https://en.cppreference.com/w/cpp/container/vector
+ *  \see http://www.sgi.com/tech/stl/Vector.html
  *  \see host_vector For the documentation of the complete interface which is
- *                   shared by \p cpp::vector.
+ *                   shared by \p cpp::vector
  *  \see device_vector
- *  \see universal_vector
  */
-template <typename T, typename Allocator = thrust::system::cpp::allocator<T>>
+template<typename T, typename Allocator = allocator<T> >
 using vector = thrust::detail::vector_base<T, Allocator>;
 
-/*! \p cpp::universal_vector is a container that supports random access to
- *  elements, constant time removal of elements at the end, and linear time
- *  insertion and removal of elements at the beginning or in the middle. The
- *  number of elements in a \p cpp::universal_vector may vary dynamically;
- *  memory management is automatic. The elements contained in a
- *  \p cpp::universal_vector reside in memory accessible by the \p cpp system
- *  and host systems.
- *
- *  \tparam T The element type of the \p cpp::universal_vector.
- *  \tparam Allocator The allocator type of the \p cpp::universal_vector.
- *          Defaults to \p cpp::universal_allocator.
- *
- *  \see https://en.cppreference.com/w/cpp/container/vector
- *  \see host_vector For the documentation of the complete interface which is
- *                   shared by \p cpp::universal_vector
- *  \see device_vector
- *  \see universal_vector
- */
-template <typename T, typename Allocator = thrust::system::cpp::universal_allocator<T>>
-using universal_vector = thrust::detail::vector_base<T, Allocator>;
+} // end cpp
+} // end system
 
-}} // namespace system::cpp
-
+// alias system::cpp names at top-level
 namespace cpp
 {
+
 using thrust::system::cpp::vector;
-using thrust::system::cpp::universal_vector;
-}
+
+} // end cpp
 
 } // end thrust

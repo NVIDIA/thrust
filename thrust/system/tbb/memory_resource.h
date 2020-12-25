@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018-2020 NVIDIA Corporation
+ *  Copyright 2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -26,7 +26,11 @@
 
 #include <thrust/system/tbb/pointer.h>
 
-namespace thrust { namespace system { namespace tbb
+namespace thrust
+{
+namespace system
+{
+namespace tbb
 {
 
 //! \cond
@@ -36,12 +40,7 @@ namespace detail
         thrust::mr::new_delete_resource,
         thrust::tbb::pointer<void>
     > native_resource;
-
-    typedef thrust::mr::fancy_pointer_resource<
-        thrust::mr::new_delete_resource,
-        thrust::tbb::universal_pointer<void>
-    > universal_native_resource;
-} // namespace detail
+}
 //! \endcond
 
 /*! \addtogroup memory_resources Memory Resources
@@ -49,19 +48,16 @@ namespace detail
  *  \{
  */
 
-/*! The memory resource for the TBB system. Uses \p mr::new_delete_resource and
- *  tags it with \p tbb::pointer.
- */
+/*! The memory resource for the TBB system. Uses \p mr::new_delete_resource and tags it with \p tbb::pointer. */
 typedef detail::native_resource memory_resource;
-/*! The unified memory resource for the TBB system. Uses
- *  \p mr::new_delete_resource and tags it with \p tbb::universal_pointer.
- */
-typedef detail::universal_native_resource universal_memory_resource;
-/*! An alias for \p tbb::universal_memory_resource. */
+/*! An alias for \p tbb::memory_resource. */
+typedef detail::native_resource universal_memory_resource;
+/*! An alias for \p tbb::memory_resource. */
 typedef detail::native_resource universal_host_pinned_memory_resource;
 
 /*! \}
  */
 
-}}} // namespace thrust::system::tbb
-
+}
+}
+}

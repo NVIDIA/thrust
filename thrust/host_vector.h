@@ -16,8 +16,7 @@
 
 
 /*! \file host_vector.h
- *  \brief A dynamically-sizable array of elements which resides in memory
- *         accessible to hosts.
+ *  \brief A dynamically-sizable array of elements which reside in the "host" memory space
  */
 
 #pragma once
@@ -31,6 +30,9 @@
 namespace thrust
 {
 
+// forward declaration of device_vector
+template<typename T, typename Alloc> class device_vector;
+
 /*! \addtogroup container_classes Container Classes
  *  \addtogroup host_containers Host Containers
  *  \ingroup container_classes
@@ -41,12 +43,11 @@ namespace thrust
  *  constant time removal of elements at the end, and linear time insertion
  *  and removal of elements at the beginning or in the middle. The number of
  *  elements in a \p host_vector may vary dynamically; memory management is
- *  automatic. The memory associated with a \p host_vector resides in memory
- *  accessible to hosts.
+ *  automatic. The memory associated with a \p host_vector resides in the memory
+ *  space of the host associated with a parallel device.
  *
- *  \see https://en.cppreference.com/w/cpp/container/vector
+ *  \see http://www.sgi.com/tech/stl/Vector.html
  *  \see device_vector
- *  \see universal_vector
  */
 template<typename T, typename Alloc = std::allocator<T> >
   class host_vector
@@ -199,20 +200,19 @@ template<typename T, typename Alloc = std::allocator<T> >
     host_vector &operator=(const std::vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this;}
 
-    /*! Copy construct from a \p vector_base of related type..
-     *  \param v The \p vector_base to copy.
+    /*! Copy constructor copies from an exemplar \p device_vector with possibly different type.
+     *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
     __host__
-    host_vector(const detail::vector_base<OtherT,OtherAlloc> &v)
-      :Parent(v) {}
+    host_vector(const device_vector<OtherT,OtherAlloc> &v);
 
-    /*! Assign a \p vector_base of related type.
-     *  \param v The \p vector_base to copy.
+    /*! Assign operator copies from an exemplar \p device_vector.
+     *  \param v The \p device_vector to copy.
      */
     template<typename OtherT, typename OtherAlloc>
     __host__
-    host_vector &operator=(const detail::vector_base<OtherT,OtherAlloc> &v)
+    host_vector &operator=(const device_vector<OtherT,OtherAlloc> &v)
     { Parent::operator=(v); return *this; }
 
     /*! This constructor builds a \p host_vector from a range.
@@ -450,7 +450,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param x The exemplar element to copy & insert.
      *  \return An iterator pointing to the newly inserted element.
      */
-    iterator insert(iterator position, const T &x);
+    iterator insert(iterator position, const T &x); 
 
     /*! This method inserts a copy of an exemplar value to a range at the
      *  specified position in this vector.
@@ -493,7 +493,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      */
     allocator_type get_allocator(void) const;
 #endif // end doxygen-only members
-};
+}; // end host_vector
 
 /*! Exchanges the values of two vectors.
  *  \p x The first \p host_vector of interest.
@@ -503,10 +503,12 @@ template<typename T, typename Alloc>
   void swap(host_vector<T,Alloc> &a, host_vector<T,Alloc> &b)
 {
   a.swap(b);
-}
+} // end swap()
 
 /*! \}
  */
 
-} // namespace thrust
+} // end thrust
+
+#include <thrust/detail/host_vector.inl>
 

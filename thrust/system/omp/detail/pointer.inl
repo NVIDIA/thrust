@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018 NVIDIA Corporation
+ *  Copyright 2008-2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,37 +14,39 @@
  *  limitations under the License.
  */
 
-#pragma once
-
-#include "detail/config.h"
-#include "memory_resource.h"
-
 namespace thrust
 {
-namespace mr
+namespace system
+{
+namespace omp
 {
 
-template<typename MR>
-struct validator
-{
-#if THRUST_CPP_DIALECT >= 2011
-  static_assert(
-    std::is_base_of<memory_resource<typename MR::pointer>, MR>::value,
-    "a type used as a memory resource must derive from memory_resource"
-  );
-#endif
-};
-
-template<typename T, typename U>
-struct validator2 : private validator<T>, private validator<U>
-{
-};
 
 template<typename T>
-struct validator2<T, T> : private validator<T>
+  template<typename OtherT>
+    reference<T> &
+      reference<T>
+        ::operator=(const reference<OtherT> &other)
 {
-};
+  return super_t::operator=(other);
+} // end reference::operator=()
 
-} // end mr
+template<typename T>
+  reference<T> &
+    reference<T>
+      ::operator=(const value_type &x)
+{
+  return super_t::operator=(x);
+} // end reference::operator=()
+
+template<typename T>
+__host__ __device__
+void swap(reference<T> a, reference<T> b)
+{
+  a.swap(b);
+} // end swap()
+
+} // end omp
+} // end system
 } // end thrust
 

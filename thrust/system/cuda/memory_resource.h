@@ -1,5 +1,5 @@
 /*
- *  Copyright 2018-2020 NVIDIA Corporation
+ *  Copyright 2018 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -22,12 +22,13 @@
 
 #include <thrust/mr/memory_resource.h>
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
+#include <thrust/system/cuda/detail/managed_memory_pointer.h>
 #include <thrust/system/cuda/pointer.h>
 #include <thrust/system/detail/bad_alloc.h>
 #include <thrust/system/cuda/error.h>
 #include <thrust/system/cuda/detail/util.h>
 
-#include <thrust/mr/host_memory_resource.h>
+#include <thrust/memory/detail/host_system_resource.h>
 
 namespace thrust
 {
@@ -87,39 +88,24 @@ namespace detail
         thrust::cuda::pointer<void> >
         device_memory_resource;
     typedef detail::cuda_memory_resource<detail::cudaMallocManaged, cudaFree,
-        thrust::cuda::universal_pointer<void> >
+        detail::managed_memory_pointer<void> >
         managed_memory_resource;
     typedef detail::cuda_memory_resource<cudaMallocHost, cudaFreeHost,
-        thrust::cuda::universal_pointer<void> >
+        thrust::host_memory_resource::pointer>
         pinned_memory_resource;
 
 } // end detail
 //! \endcond
 
-/*! The memory resource for the CUDA system. Uses <tt>cudaMalloc</tt> and wraps
- *  the result with \p cuda::pointer.
- */
+/*! The memory resource for the CUDA system. Uses <tt>cudaMalloc</tt> and wraps the result with \p cuda::pointer. */
 typedef detail::device_memory_resource memory_resource;
-/*! The universal memory resource for the CUDA system. Uses
- *  <tt>cudaMallocManaged</tt> and wraps the result with
- *  \p cuda::universal_pointer.
- */
+/*! The universal memory resource for the CUDA system. Uses <tt>cudaMallocManaged</tt> and wraps the result with \p cuda::pointer. */
 typedef detail::managed_memory_resource universal_memory_resource;
-/*! The host pinned memory resource for the CUDA system. Uses
- *  <tt>cudaMallocHost</tt> and wraps the result with \p
- *  cuda::universal_pointer.
- */
+/*! The host pinned memory resource for the CUDA system. Uses <tt>cudaMallocHost</tt> and wraps the result with \p cuda::pointer. */
 typedef detail::pinned_memory_resource universal_host_pinned_memory_resource;
 
 } // end cuda
 } // end system
-
-namespace cuda
-{
-using thrust::system::cuda::memory_resource;
-using thrust::system::cuda::universal_memory_resource;
-using thrust::system::cuda::universal_host_pinned_memory_resource;
-}
 
 } // end namespace thrust
 

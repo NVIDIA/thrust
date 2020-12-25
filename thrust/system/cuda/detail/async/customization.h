@@ -42,7 +42,7 @@
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/execute_with_allocator.h>
 #include <thrust/system/cuda/memory_resource.h>
-#include <thrust/mr/host_memory_resource.h>
+#include <thrust/memory/detail/host_system_resource.h>
 #include <thrust/mr/allocator.h>
 #include <thrust/mr/disjoint_sync_pool.h>
 #include <thrust/mr/sync_pool.h>

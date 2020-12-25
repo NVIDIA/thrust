@@ -19,7 +19,7 @@
 #include <thrust/mr/allocator.h>
 #include <thrust/mr/disjoint_tls_pool.h>
 #include <thrust/mr/new.h>
-#include <thrust/mr/device_memory_resource.h>
+#include <thrust/memory/detail/device_system_resource.h>
 
 namespace thrust
 {

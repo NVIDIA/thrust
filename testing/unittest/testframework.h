@@ -13,9 +13,8 @@
 
 #include <thrust/limits.h>
 #include <thrust/detail/integer_traits.h>
-#include <thrust/mr/host_memory_resource.h>
-#include <thrust/mr/device_memory_resource.h>
-#include <thrust/mr/universal_memory_resource.h>
+#include <thrust/memory/detail/device_system_resource.h>
+#include <thrust/memory/detail/host_system_resource.h>
 #include <thrust/mr/allocator.h>
 
 // define some common lists of types
@@ -360,7 +359,7 @@ class NAME##UnitTest : public UnitTest {                         \
     public:                                                      \
     NAME##UnitTest() : UnitTest(#NAME) {}                        \
     void run(){                                                  \
-        TEST();                                                  \
+            TEST();                                              \
     }                                                            \
 };                                                               \
 NAME##UnitTest NAME##Instance
@@ -389,16 +388,15 @@ void VTEST##Device(void) {                                      \
     VTEST< thrust::device_vector<int,                           \
         thrust::mr::stateless_resource_allocator<int,           \
             thrust::device_memory_resource> > >();              \
-}                                                               \
-void VTEST##Universal(void) {                                   \
-    VTEST< thrust::universal_vector<int> >();                   \
+    VTEST< thrust::device_vector<int,                           \
+        thrust::mr::stateless_resource_allocator<int,           \
+            thrust::universal_memory_resource> > >();           \
     VTEST< thrust::device_vector<int,                           \
         thrust::mr::stateless_resource_allocator<int,           \
             thrust::universal_host_pinned_memory_resource> > >();\
 }                                                               \
 DECLARE_UNITTEST(VTEST##Host);                                  \
-DECLARE_UNITTEST(VTEST##Device);                                \
-DECLARE_UNITTEST(VTEST##Universal);
+DECLARE_UNITTEST(VTEST##Device);
 
 // Same as above, but only for integral types
 #define DECLARE_INTEGRAL_VECTOR_UNITTEST(VTEST)                 \
@@ -412,15 +410,8 @@ void VTEST##Device(void) {                                      \
     VTEST< thrust::device_vector<short> >();                    \
     VTEST< thrust::device_vector<int> >();                      \
 }                                                               \
-void VTEST##Universal(void) {                                   \
-    VTEST< thrust::universal_vector<int> >();                   \
-    VTEST< thrust::device_vector<int,                           \
-        thrust::mr::stateless_resource_allocator<int,           \
-            thrust::universal_host_pinned_memory_resource> > >();\
-}                                                               \
 DECLARE_UNITTEST(VTEST##Host);                                  \
-DECLARE_UNITTEST(VTEST##Device);                                \
-DECLARE_UNITTEST(VTEST##Universal);
+DECLARE_UNITTEST(VTEST##Device);
 
 // Macro to create instances of a test for several data types.
 #define DECLARE_GENERIC_UNITTEST(TEST)                           \

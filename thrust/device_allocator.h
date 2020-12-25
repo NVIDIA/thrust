@@ -16,8 +16,7 @@
 
 
 /*! \file device_allocator.h
- *  \brief An allocator which creates new elements in memory accessible by
- *         devices.
+ *  \brief An allocator which creates new elements in device memory
  */
 
 #pragma once
@@ -25,7 +24,7 @@
 #include <thrust/detail/config.h>
 #include <thrust/device_ptr.h>
 #include <thrust/mr/allocator.h>
-#include <thrust/mr/device_memory_resource.h>
+#include <thrust/memory/detail/device_system_resource.h>
 
 #include <limits>
 #include <stdexcept>
@@ -84,10 +83,13 @@ private:
     Upstream * m_upstream;
 };
 
-/*! \brief An allocator which creates new elements in memory accessible by
- *         devices.
- *
- *  \see https://en.cppreference.com/w/cpp/named_req/Allocator
+/*! \}
+ */
+
+/*! \addtogroup memory_management Memory Management
+ *  \addtogroup memory_management_classes Memory Management Classes
+ *  \ingroup memory_management
+ *  \{
  */
 template<typename T>
 class device_allocator

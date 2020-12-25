@@ -16,7 +16,7 @@
 
 
 /*! \file device_ptr.h
- *  \brief A pointer to a variable which resides memory accessible to devices.
+ *  \brief A pointer to a variable which resides in the "device" system's memory space
  */
 
 #pragma once
@@ -89,7 +89,7 @@ template<typename T>
 
     /*! \p device_ptr's copy constructor is templated to allow copying to a
      *  <tt>device_ptr<const T></tt> from a <tt>T *</tt>.
-     *
+     *  
      *  \param ptr A raw pointer to copy from, presumed to point to a location in
      *         device memory.
      */

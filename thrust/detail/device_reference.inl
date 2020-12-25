@@ -14,15 +14,42 @@
  *  limitations under the License.
  */
 
-#pragma once
+
+/*! \file device_reference.inl
+ *  \brief Inline file for device_reference.h.
+ */
 
 #include <thrust/detail/config.h>
-#include <thrust/detail/use_default.h>
+#include <thrust/device_reference.h>
 
 namespace thrust
 {
 
-template<typename Element, typename Pointer, typename Derived = use_default> class reference;
+template<typename T>
+  template<typename OtherT>
+    __host__ __device__
+    device_reference<T> &
+      device_reference<T>
+        ::operator=(const device_reference<OtherT> &other)
+{
+  return super_t::operator=(other);
+} // end operator=()
+
+template<typename T>
+  __host__ __device__
+  device_reference<T> &
+    device_reference<T>
+      ::operator=(const value_type &x)
+{
+  return super_t::operator=(x);
+} // end operator=()
+
+template<typename T>
+__host__ __device__
+void swap(device_reference<T> a, device_reference<T> b)
+{
+  a.swap(b);
+} // end swap()
 
 } // end thrust
 

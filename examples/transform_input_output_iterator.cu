@@ -1,4 +1,3 @@
-#include <thrust/host_vector.h>
 #include <thrust/device_vector.h>
 #include <thrust/functional.h>
 #include <thrust/gather.h>
