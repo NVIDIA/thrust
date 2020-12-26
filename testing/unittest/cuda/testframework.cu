@@ -110,7 +110,7 @@ bool CUDATestDriver::check_cuda_error(bool concise)
   return cudaSuccess != error;
 }
 
-bool CUDATestDriver::post_test_confidence_check(const UnitTest &test, bool concise)
+bool CUDATestDriver::post_test_smoke_check(const UnitTest &test, bool concise)
 {
   cudaError_t const error = cudaDeviceSynchronize();
   if(cudaSuccess != error)
