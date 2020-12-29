@@ -1,5 +1,5 @@
 /*
- *  Copyright 2008-2018 NVIDIA Corporation
+ *  Copyright 2008-2021 NVIDIA Corporation
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -14,7 +14,10 @@
  *  limitations under the License.
  */
 
+#pragma once
+
 #include <thrust/detail/config.h>
+
 #include <thrust/detail/pointer.h>
 #include <thrust/detail/type_traits.h>
 
