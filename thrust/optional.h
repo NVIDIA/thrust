@@ -846,7 +846,7 @@ public:
   /// \group and_then
   /// Carries out some operation which returns an optional on the stored
   /// object if there is one. \requires `std::invoke(std::forward<F>(f),
-  /// value())` returns a `std::optional<U>` for some `U`. \returns Let `U` be
+  /// value())` returns a `std::optional<U>` for some `U`. \return Let `U` be
   /// the result of `std::invoke(std::forward<F>(f), value())`. Returns a
   /// `std::optional<U>`. The return value is empty if `*this` is empty,
   /// otherwise the return value of `std::invoke(std::forward<F>(f), value())`
@@ -913,7 +913,7 @@ public:
   /// Carries out some operation which returns an optional on the stored
   /// object if there is one. \requires `std::invoke(std::forward<F>(f),
   /// value())` returns a `std::optional<U>` for some `U`.
-  /// \returns Let `U` be the result of `std::invoke(std::forward<F>(f),
+  /// \return Let `U` be the result of `std::invoke(std::forward<F>(f),
   /// value())`. Returns a `std::optional<U>`. The return value is empty if
   /// `*this` is empty, otherwise the return value of
   /// `std::invoke(std::forward<F>(f), value())` is returned.
@@ -979,7 +979,7 @@ public:
 #if defined(THRUST_OPTIONAL_CPP14) && !defined(THRUST_OPTIONAL_GCC49) &&               \
     !defined(THRUST_OPTIONAL_GCC54) && !defined(THRUST_OPTIONAL_GCC55)
   /// \brief Carries out some operation on the stored object if there is one.
-  /// \returns Let `U` be the result of `std::invoke(std::forward<F>(f),
+  /// \return Let `U` be the result of `std::invoke(std::forward<F>(f),
   /// value())`. Returns a `std::optional<U>`. The return value is empty if
   /// `*this` is empty, otherwise an `optional<U>` is constructed from the
   /// return value of `std::invoke(std::forward<F>(f), value())` and is
@@ -1022,7 +1022,7 @@ public:
   }
 #else
   /// \brief Carries out some operation on the stored object if there is one.
-  /// \returns Let `U` be the result of `std::invoke(std::forward<F>(f),
+  /// \return Let `U` be the result of `std::invoke(std::forward<F>(f),
   /// value())`. Returns a `std::optional<U>`. The return value is empty if
   /// `*this` is empty, otherwise an `optional<U>` is constructed from the
   /// return value of `std::invoke(std::forward<F>(f), value())` and is
@@ -1263,7 +1263,7 @@ public:
   }
 #endif
 
-  /// \returns `u` if `*this` has a value, otherwise an empty optional.
+  /// \return `u` if `*this` has a value, otherwise an empty optional.
   __thrust_exec_check_disable__
   template <class U>
   __host__ __device__
@@ -1272,7 +1272,7 @@ public:
     return has_value() ? result{u} : result{nullopt};
   }
 
-  /// \returns `rhs` if `*this` is empty, otherwise the current value.
+  /// \return `rhs` if `*this` is empty, otherwise the current value.
   /// \group disjunction
   __thrust_exec_check_disable__
   __host__ __device__
@@ -1635,7 +1635,7 @@ public:
     }
   }
 
-  /// \returns a pointer to the stored value
+  /// \return a pointer to the stored value
   /// \requires a value is stored
   /// \group pointer
   /// \synopsis constexpr const T *operator->() const;
@@ -1653,7 +1653,7 @@ public:
     return addressof(this->m_value);
   }
 
-  /// \returns the stored value
+  /// \return the stored value
   /// \requires a value is stored
   /// \group deref
   /// \synopsis constexpr T &operator*();
@@ -1681,7 +1681,7 @@ public:
   constexpr const T &&operator*() const && { return std::move(this->m_value); }
 #endif
 
-  /// \returns whether or not the optional has a value
+  /// \return whether or not the optional has a value
   /// \group has_value
   __thrust_exec_check_disable__
   __host__ __device__
@@ -1694,7 +1694,7 @@ public:
     return this->m_has_value;
   }
 
-  /// \returns the contained value if there is one, otherwise throws
+  /// \return the contained value if there is one, otherwise throws
   /// [bad_optional_access]
   /// \group value
   /// \synopsis constexpr T &value();
@@ -1730,7 +1730,7 @@ public:
   }
 #endif
 
-  /// \returns the stored value if there is one, otherwise returns `u`
+  /// \return the stored value if there is one, otherwise returns `u`
   /// \group value_or
   __thrust_exec_check_disable__
   template <class U>
@@ -2131,7 +2131,7 @@ public:
   /// \group and_then
   /// Carries out some operation which returns an optional on the stored
   /// object if there is one. \requires `std::invoke(std::forward<F>(f),
-  /// value())` returns a `std::optional<U>` for some `U`. \returns Let `U` be
+  /// value())` returns a `std::optional<U>` for some `U`. \return Let `U` be
   /// the result of `std::invoke(std::forward<F>(f), value())`. Returns a
   /// `std::optional<U>`. The return value is empty if `*this` is empty,
   /// otherwise the return value of `std::invoke(std::forward<F>(f), value())`
@@ -2197,7 +2197,7 @@ public:
   /// \group and_then
   /// Carries out some operation which returns an optional on the stored
   /// object if there is one. \requires `std::invoke(std::forward<F>(f),
-  /// value())` returns a `std::optional<U>` for some `U`. \returns Let `U` be
+  /// value())` returns a `std::optional<U>` for some `U`. \return Let `U` be
   /// the result of `std::invoke(std::forward<F>(f), value())`. Returns a
   /// `std::optional<U>`. The return value is empty if `*this` is empty,
   /// otherwise the return value of `std::invoke(std::forward<F>(f), value())`
@@ -2264,7 +2264,7 @@ public:
 #if defined(THRUST_OPTIONAL_CPP14) && !defined(THRUST_OPTIONAL_GCC49) &&               \
     !defined(THRUST_OPTIONAL_GCC54) && !defined(THRUST_OPTIONAL_GCC55)
   /// \brief Carries out some operation on the stored object if there is one.
-  /// \returns Let `U` be the result of `std::invoke(std::forward<F>(f),
+  /// \return Let `U` be the result of `std::invoke(std::forward<F>(f),
   /// value())`. Returns a `std::optional<U>`. The return value is empty if
   /// `*this` is empty, otherwise an `optional<U>` is constructed from the
   /// return value of `std::invoke(std::forward<F>(f), value())` and is
@@ -2307,7 +2307,7 @@ public:
   }
 #else
   /// \brief Carries out some operation on the stored object if there is one.
-  /// \returns Let `U` be the result of `std::invoke(std::forward<F>(f),
+  /// \return Let `U` be the result of `std::invoke(std::forward<F>(f),
   /// value())`. Returns a `std::optional<U>`. The return value is empty if
   /// `*this` is empty, otherwise an `optional<U>` is constructed from the
   /// return value of `std::invoke(std::forward<F>(f), value())` and is
@@ -2549,7 +2549,7 @@ public:
   }
 #endif
 
-  /// \returns `u` if `*this` has a value, otherwise an empty optional.
+  /// \return `u` if `*this` has a value, otherwise an empty optional.
   __thrust_exec_check_disable__
   template <class U>
   __host__ __device__
@@ -2558,7 +2558,7 @@ public:
     return has_value() ? result{u} : result{nullopt};
   }
 
-  /// \returns `rhs` if `*this` is empty, otherwise the current value.
+  /// \return `rhs` if `*this` is empty, otherwise the current value.
   /// \group disjunction
   __thrust_exec_check_disable__
   __host__ __device__
@@ -2775,7 +2775,7 @@ public:
   __host__ __device__
   void swap(optional &rhs) noexcept { std::swap(m_value, rhs.m_value); }
 
-  /// \returns a pointer to the stored value
+  /// \return a pointer to the stored value
   /// \requires a value is stored
   /// \group pointer
   /// \synopsis constexpr const T *operator->() const;
@@ -2789,7 +2789,7 @@ public:
   __host__ __device__
   THRUST_OPTIONAL_CPP11_CONSTEXPR T *operator->() { return m_value; }
 
-  /// \returns the stored value
+  /// \return the stored value
   /// \requires a value is stored
   /// \group deref
   /// \synopsis constexpr T &operator*();
@@ -2802,7 +2802,7 @@ public:
   __host__ __device__
   constexpr const T &operator*() const { return *m_value; }
 
-  /// \returns whether or not the optional has a value
+  /// \return whether or not the optional has a value
   /// \group has_value
   __thrust_exec_check_disable__
   __host__ __device__
@@ -2815,7 +2815,7 @@ public:
     return m_value != nullptr;
   }
 
-  /// \returns the contained value if there is one, otherwise throws
+  /// \return the contained value if there is one, otherwise throws
   /// [bad_optional_access]
   /// \group value
   /// synopsis constexpr T &value();
@@ -2834,7 +2834,7 @@ public:
     throw bad_optional_access();
   }
 
-  /// \returns the stored value if there is one, otherwise returns `u`
+  /// \return the stored value if there is one, otherwise returns `u`
   /// \group value_or
   __thrust_exec_check_disable__
   template <class U>
