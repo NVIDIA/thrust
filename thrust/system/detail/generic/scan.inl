@@ -61,9 +61,7 @@ __host__ __device__
 {
   // Use the input iterator's value type per https://wg21.link/P0571
   using ValueType = typename thrust::iterator_value<InputIterator>::type;
-
-  // assume 0 as the initialization value
-  return thrust::exclusive_scan(exec, first, last, result, ValueType(0));
+  return thrust::exclusive_scan(exec, first, last, result, ValueType{});
 } // end exclusive_scan()
 
 

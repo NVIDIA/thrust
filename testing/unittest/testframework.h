@@ -440,6 +440,22 @@ class TEST##UnitTest : public UnitTest {                         \
 };                                                               \
 TEST##UnitTest TEST##Instance
 
+// Macro to create instances of a test for several array sizes.
+#define DECLARE_SIZED_UNITTEST(TEST)                             \
+class TEST##UnitTest : public UnitTest {                         \
+    public:                                                      \
+    TEST##UnitTest() : UnitTest(#TEST) {}                        \
+    void run()                                                   \
+    {                                                            \
+        std::vector<size_t> sizes = get_test_sizes();            \
+        for(size_t i = 0; i != sizes.size(); ++i)                \
+        {                                                        \
+            TEST(sizes[i]);                                      \
+        }                                                        \
+    }                                                            \
+};                                                               \
+TEST##UnitTest TEST##Instance
+
 // Macro to create instances of a test for several data types and array sizes
 #define DECLARE_VARIABLE_UNITTEST(TEST)                          \
 class TEST##UnitTest : public UnitTest {                         \

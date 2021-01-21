@@ -65,6 +65,7 @@ foreach(thrust_target IN LISTS THRUST_TARGETS)
     async/copy.h
     async/for_each.h
     async/reduce.h
+    async/scan.h
     async/sort.h
     async/transform.h
     event.h
