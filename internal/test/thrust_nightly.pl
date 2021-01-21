@@ -182,12 +182,12 @@ sub process_return_code {
 
 my $have_filecheck = 1;
 
-sub filecheck_test {
-    my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/thrust.confidence.filecheck";
+sub filecheck_smoke_test {
+    my $filecheck_cmd = "$filecheck_path/FileCheck $filecheck_data_path/thrust.smoke.filecheck";
 
     my $filecheck_pid = open(my $filecheck_stdin, "|-", "$filecheck_cmd 2>&1");
 
-    print $filecheck_stdin "CONFIDENCE";
+    print $filecheck_stdin "SMOKE";
 
     my $filecheck_ret = 0;
     if (close($filecheck_stdin) == 0)
@@ -203,7 +203,7 @@ sub filecheck_test {
       # because Perl and bidirectional pipes suck.
       my $tmp = File::Temp->new();
       my $tmp_filename = $tmp->filename;
-      print $tmp "CONFIDENCE";
+      print $tmp "SMOKE";
 
       printf("********************************************************************************\n");
       print `$filecheck_cmd -input-file $tmp_filename`;
@@ -583,7 +583,7 @@ printf("#### ENV LD_LIBRARY_PATH `%s`\n", defined $ENV{'LD_LIBRARY_PATH'} ? $ENV
 
 printf("\n");
 
-filecheck_test();
+filecheck_smoke_test();
 
 printf("\n");
 
