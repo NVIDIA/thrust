@@ -123,6 +123,19 @@ CI Status
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=20.9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=20.9-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/prb/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=20.9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=20.9-devel/badge/icon?subject=NVC%2B%2B%2020.9%20build%20and%20host%20tests'></a>
 
+Supported Compilers
+-------------------
+
+Thrust is regularly tested using the specified versions of the following
+compilers. Unsupported versions may emit deprecation warnings, which can be
+silenced by defining THRUST_IGNORE_DEPRECATED_COMPILER during compilation.
+
+- NVCC 11.0+
+- NVC++ 20.9+
+- GCC 5+
+- Clang 7+
+- MSVC 2019+ (19.20/16.0/14.20)
+
 Releases
 --------
 
