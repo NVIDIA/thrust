@@ -491,7 +491,7 @@ template <class T> struct optional_operations_base : optional_storage_base<T> {
   template <class... Args>
   __host__ __device__
   void construct(Args &&... args) noexcept {
-    new (addressof(this->m_value)) T(std::forward<Args>(args)...);
+    new (thrust::addressof(this->m_value)) T(std::forward<Args>(args)...);
     this->m_has_value = true;
   }
 
