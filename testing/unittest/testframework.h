@@ -1,12 +1,12 @@
 #pragma once
 
-#include <string>
-#include <vector>
-#include <set>
-#include <map>
+#include <cstdio>
 #include <iostream>
-
-#include <stdio.h>
+#include <map>
+#include <set>
+#include <string>
+#include <type_traits>
+#include <vector>
 
 #include "meta.h"
 #include "util.h"
@@ -79,10 +79,13 @@ public:
         fill(0);
     }
 
+    // Allow construction from any integral numeric.
+    template <typename T,
+              typename = typename std::enable_if<std::is_integral<T>::value>::type>
     __host__ __device__
-    custom_numeric(int i)
+    custom_numeric(const T& i)
     {
-        fill(i);
+        fill(static_cast<int>(i));
     }
 
     __host__ __device__

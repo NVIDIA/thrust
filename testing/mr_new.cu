@@ -9,7 +9,7 @@ void TestAlignment(MemoryResource memres, std::size_t size, std::size_t alignmen
     ASSERT_EQUAL(reinterpret_cast<std::size_t>(ptr) % alignment, 0u);
 
     char * char_ptr = reinterpret_cast<char *>(ptr);
-    thrust::fill(char_ptr, char_ptr + size, 0);
+    thrust::fill(char_ptr, char_ptr + size, char{});
 
     memres.do_deallocate(ptr, size, alignment);
 }

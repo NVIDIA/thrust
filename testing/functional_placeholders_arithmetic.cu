@@ -65,8 +65,8 @@ template<typename T>
   struct unary_plus_reference
 {
   __host__ __device__ T operator()(const T &x) const
-  {
-    return +x;
+  { // Static cast to undo integral promotion
+    return static_cast<T>(+x);
   }
 };
 

@@ -26,9 +26,9 @@ typename thrust::detail::disable_if<
 , T
 >::type truncate_to_max_representable(std::size_t n)
 {
-  return thrust::min<std::size_t>(
-    n, static_cast<std::size_t>(thrust::numeric_limits<T>::max())
-  );
+  return static_cast<T>(thrust::min<std::size_t>(
+    n,
+    static_cast<std::size_t>(thrust::numeric_limits<T>::max())));
 }
 
 // TODO: This probably won't work for `half`.
@@ -38,9 +38,7 @@ typename thrust::detail::enable_if<
 , T
 >::type truncate_to_max_representable(std::size_t n)
 {
-  return thrust::min<T>(
-    n, thrust::numeric_limits<T>::max()
-  );
+  return thrust::min<T>(static_cast<T>(n), thrust::numeric_limits<T>::max());
 }
 
 } // end unittest

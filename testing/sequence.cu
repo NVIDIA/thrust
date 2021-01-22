@@ -41,8 +41,9 @@ DECLARE_UNITTEST(TestSequenceDispatchImplicit);
 
 
 template <class Vector>
-void TestSequenceSimple(void)
+void TestSequenceSimple()
 {
+    using value_type = typename Vector::value_type;
     Vector v(5);
 
     thrust::sequence(v.begin(), v.end());
@@ -53,7 +54,7 @@ void TestSequenceSimple(void)
     ASSERT_EQUAL(v[3], 3);
     ASSERT_EQUAL(v[4], 4);
 
-    thrust::sequence(v.begin(), v.end(), 10);
+    thrust::sequence(v.begin(), v.end(), value_type{10});
 
     ASSERT_EQUAL(v[0], 10);
     ASSERT_EQUAL(v[1], 11);
@@ -61,7 +62,7 @@ void TestSequenceSimple(void)
     ASSERT_EQUAL(v[3], 13);
     ASSERT_EQUAL(v[4], 14);
     
-    thrust::sequence(v.begin(), v.end(), 10, 2);
+    thrust::sequence(v.begin(), v.end(), value_type{10}, value_type{2});
 
     ASSERT_EQUAL(v[0], 10);
     ASSERT_EQUAL(v[1], 12);
@@ -93,8 +94,8 @@ void TestSequence(size_t n)
 
     ASSERT_EQUAL(h_data, d_data);
     
-    thrust::sequence(h_data.begin(), h_data.end(), size_t(10), size_t(2));
-    thrust::sequence(d_data.begin(), d_data.end(), size_t(10), size_t(2));
+    thrust::sequence(h_data.begin(), h_data.end(), T(10), T(2));
+    thrust::sequence(d_data.begin(), d_data.end(), T(10), T(2));
 
     ASSERT_EQUAL(h_data, d_data);
 }

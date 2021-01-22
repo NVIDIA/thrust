@@ -109,11 +109,12 @@ void TestConstantIteratorCopy(void)
 {
   using namespace thrust;
 
-  typedef constant_iterator<int> ConstIter;
+  using ValueType = typename Vector::value_type;
+  using ConstIter = constant_iterator<ValueType>;
 
   Vector result(4);
 
-  ConstIter first = make_constant_iterator<int>(7);
+  ConstIter first = make_constant_iterator<ValueType>(7);
   ConstIter last  = first + result.size();
   thrust::copy(first, last, result.begin());
 

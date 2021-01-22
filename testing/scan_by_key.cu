@@ -375,15 +375,17 @@ void TestInclusiveScanByKey(const size_t n)
     thrust::host_vector<int> h_keys(n);
     thrust::default_random_engine rng;
     for(size_t i = 0, k = 0; i < n; i++){
-        h_keys[i] = k;
+        h_keys[i] = static_cast<int>(k);
         if (rng() % 10 == 0)
+        {
             k++;
+        }
     }
     thrust::device_vector<int> d_keys = h_keys;
 
     thrust::host_vector<T>   h_vals = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
-        h_vals[i] = i % 10;
+        h_vals[i] = static_cast<int>(i % 10);
     thrust::device_vector<T> d_vals = h_vals;
 
     thrust::host_vector<T>   h_output(n);
@@ -402,15 +404,19 @@ void TestExclusiveScanByKey(const size_t n)
     thrust::host_vector<int> h_keys(n);
     thrust::default_random_engine rng;
     for(size_t i = 0, k = 0; i < n; i++){
-        h_keys[i] = k;
+        h_keys[i] = static_cast<int>(k);
         if (rng() % 10 == 0)
+        {
             k++;
+        }
     }
     thrust::device_vector<int> d_keys = h_keys;
 
     thrust::host_vector<T>   h_vals = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
-        h_vals[i] = i % 10;
+    {
+        h_vals[i] = static_cast<int>(i % 10);
+    }
     thrust::device_vector<T> d_vals = h_vals;
 
     thrust::host_vector<T>   h_output(n);
@@ -444,15 +450,19 @@ void TestInclusiveScanByKeyInPlace(const size_t n)
     thrust::host_vector<int> h_keys(n);
     thrust::default_random_engine rng;
     for(size_t i = 0, k = 0; i < n; i++){
-        h_keys[i] = k;
+        h_keys[i] = static_cast<int>(k);
         if (rng() % 10 == 0)
+        {
             k++;
+        }
     }
     thrust::device_vector<int> d_keys = h_keys;
 
     thrust::host_vector<T>   h_vals = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
-        h_vals[i] = i % 10;
+    {
+        h_vals[i] = static_cast<int>(i % 10);
+    }
     thrust::device_vector<T> d_vals = h_vals;
 
     thrust::host_vector<T>   h_output(n);
@@ -474,15 +484,19 @@ void TestExclusiveScanByKeyInPlace(const size_t n)
     thrust::host_vector<int> h_keys(n);
     thrust::default_random_engine rng;
     for(size_t i = 0, k = 0; i < n; i++){
-        h_keys[i] = k;
+        h_keys[i] = static_cast<int>(k);
         if (rng() % 10 == 0)
+        {
             k++;
+        }
     }
     thrust::device_vector<int> d_keys = h_keys;
 
     thrust::host_vector<T>   h_vals = unittest::random_integers<int>(n);
     for(size_t i = 0; i < n; i++)
-        h_vals[i] = i % 10;
+    {
+        h_vals[i] = static_cast<int>(i % 10);
+    }
     thrust::device_vector<T> d_vals = h_vals;
 
     thrust::host_vector<T>   h_output = h_vals;
@@ -501,9 +515,11 @@ void TestScanByKeyMixedTypes(void)
     thrust::host_vector<int> h_keys(n);
     thrust::default_random_engine rng;
     for(size_t i = 0, k = 0; i < n; i++){
-        h_keys[i] = k;
+        h_keys[i] = static_cast<int>(k);
         if (rng() % 10 == 0)
+        {
             k++;
+        }
     }
     thrust::device_vector<int> d_keys = h_keys;
 
@@ -629,9 +645,11 @@ void TestScanByKeyLargeInput()
         thrust::host_vector<unsigned int> h_keys(n);
         thrust::default_random_engine rng;
         for(size_t j = 0, k = 0; j < n; j++){
-            h_keys[j] = k;
+            h_keys[j] = static_cast<unsigned int>(k);
             if (rng() % 100 == 0)
+            {
                 k++;
+            }
         }
         thrust::device_vector<unsigned int> d_keys = h_keys;
     
@@ -659,10 +677,12 @@ void _TestScanByKeyWithLargeTypes(void)
     thrust::default_random_engine rng;
     for(size_t i = 0, k = 0; i < h_vals.size(); i++)
     {
-        h_vals[i] = FixedVector<T,N>(i);
-        h_keys[i]  = k;
+        h_keys[i]  = static_cast<unsigned int>(k);
+        h_vals[i] = FixedVector<T,N>(static_cast<T>(i));
         if (rng() % 5 == 0)
+        {
             k++;
+        }
     }
 
     thrust::device_vector<   unsigned int   > d_keys = h_keys;

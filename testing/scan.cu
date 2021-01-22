@@ -480,7 +480,9 @@ void _TestScanWithLargeTypes(void)
     thrust::host_vector< FixedVector<T,N> > h_output(n);
 
     for(size_t i = 0; i < h_input.size(); i++)
-        h_input[i] = FixedVector<T,N>(i);
+    {
+        h_input[i] = FixedVector<T, N>(static_cast<T>(i));
+    }
 
     thrust::device_vector< FixedVector<T,N> > d_input = h_input;
     thrust::device_vector< FixedVector<T,N> > d_output(n);

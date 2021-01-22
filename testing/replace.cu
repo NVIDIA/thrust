@@ -603,8 +603,8 @@ void TestReplaceCopyIf(const size_t n)
     thrust::host_vector<T>   h_dest(n);
     thrust::device_vector<T> d_dest(n);
 
-    thrust::replace_copy_if(h_data.begin(), h_data.end(), h_dest.begin(), less_than_five<T>(), 0);
-    thrust::replace_copy_if(d_data.begin(), d_data.end(), d_dest.begin(), less_than_five<T>(), 0);
+    thrust::replace_copy_if(h_data.begin(), h_data.end(), h_dest.begin(), less_than_five<T>(), T{0});
+    thrust::replace_copy_if(d_data.begin(), d_data.end(), d_dest.begin(), less_than_five<T>(), T{0});
 
     ASSERT_ALMOST_EQUAL(h_data, d_data);
     ASSERT_ALMOST_EQUAL(h_dest, d_dest);
@@ -619,10 +619,10 @@ void TestReplaceCopyIfToDiscardIterator(const size_t n)
     thrust::device_vector<T> d_data = h_data;
 
     thrust::discard_iterator<> h_result =
-      thrust::replace_copy_if(h_data.begin(), h_data.end(), thrust::make_discard_iterator(), less_than_five<T>(), 0);
+      thrust::replace_copy_if(h_data.begin(), h_data.end(), thrust::make_discard_iterator(), less_than_five<T>(), T{0});
 
     thrust::discard_iterator<> d_result =
-      thrust::replace_copy_if(d_data.begin(), d_data.end(), thrust::make_discard_iterator(), less_than_five<T>(), 0);
+      thrust::replace_copy_if(d_data.begin(), d_data.end(), thrust::make_discard_iterator(), less_than_five<T>(), T{0});
 
     thrust::discard_iterator<> reference(n);
 
@@ -643,8 +643,8 @@ void TestReplaceCopyIfStencil(const size_t n)
     thrust::host_vector<T>   h_dest(n);
     thrust::device_vector<T> d_dest(n);
 
-    thrust::replace_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), h_dest.begin(), less_than_five<T>(), 0);
-    thrust::replace_copy_if(d_data.begin(), d_data.end(), d_stencil.begin(), d_dest.begin(), less_than_five<T>(), 0);
+    thrust::replace_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), h_dest.begin(), less_than_five<T>(), T{0});
+    thrust::replace_copy_if(d_data.begin(), d_data.end(), d_stencil.begin(), d_dest.begin(), less_than_five<T>(), T{0});
 
     ASSERT_ALMOST_EQUAL(h_data, d_data);
     ASSERT_ALMOST_EQUAL(h_dest, d_dest);
@@ -661,10 +661,10 @@ void TestReplaceCopyIfStencilToDiscardIterator(const size_t n)
     thrust::device_vector<T> d_stencil = h_stencil;
 
     thrust::discard_iterator<> h_result =
-      thrust::replace_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), thrust::make_discard_iterator(), less_than_five<T>(), 0);
+      thrust::replace_copy_if(h_data.begin(), h_data.end(), h_stencil.begin(), thrust::make_discard_iterator(), less_than_five<T>(), T{0});
 
     thrust::discard_iterator<> d_result =
-      thrust::replace_copy_if(d_data.begin(), d_data.end(), d_stencil.begin(), thrust::make_discard_iterator(), less_than_five<T>(), 0);
+      thrust::replace_copy_if(d_data.begin(), d_data.end(), d_stencil.begin(), thrust::make_discard_iterator(), less_than_five<T>(), T{0});
 
     thrust::discard_iterator<> reference(n);
 

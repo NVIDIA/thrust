@@ -20,7 +20,11 @@ struct add_pairs
   __host__ __device__
     Pair1 operator()(const Pair1 &x, const Pair2 &y)
   {
-    return thrust::make_pair(x.first + y.first, x.second + y.second);
+    // Need cast to undo integer promotion, decltype(char{} + char{}) == int
+    using P1T1 = typename Pair1::first_type;
+    using P1T2 = typename Pair1::second_type;
+    return thrust::make_pair(static_cast<P1T1>(x.first + y.first),
+                             static_cast<P1T2>(x.second + y.second));
   } // end operator()
 }; // end add_pairs
 
@@ -46,7 +50,7 @@ template <typename T>
     thrust::host_vector<T>   h_keys = unittest::random_integers<bool>(n);
     thrust::device_vector<T> d_keys = h_keys;
 
-    P init = thrust::make_pair(13,13);
+    P init = thrust::make_pair(T{13}, T{13});
 
     // scan on the host
     thrust::exclusive_scan_by_key(h_keys.begin(), h_keys.end(), h_pairs.begin(), h_pairs.begin(), init, thrust::equal_to<T>(), add_pairs());

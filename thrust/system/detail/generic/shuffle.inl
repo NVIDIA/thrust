@@ -100,9 +100,10 @@ class feistel_bijection {
   // but sufficient for generating permutations. 
   __host__ __device__ uint32_t round_function(uint64_t value,
                                               const uint64_t key_) const {
-    uint64_t hash0 = thrust::random::taus88(value)();
+    uint64_t hash0 = thrust::random::taus88(static_cast<uint32_t>(value))();
     uint64_t hash1 = thrust::random::ranlux48(value)();
-    return hash_combine(hash_combine(hash0, key_), hash1) & left_side_mask;
+    return static_cast<uint32_t>(
+      hash_combine(hash_combine(hash0, key_), hash1) & left_side_mask);
   }
 
   __host__ __device__ round_state do_round(const round_state state,

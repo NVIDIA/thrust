@@ -218,7 +218,7 @@ void TestSetIntersectionMultiset(const size_t n)
   {
     int tmp = static_cast<int>(*i);
     tmp %= 13;
-    *i = tmp;
+    *i = static_cast<T>(tmp);
   }
 
   thrust::host_vector<T> h_a(vec.begin(), vec.begin() + n);
