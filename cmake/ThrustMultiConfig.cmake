@@ -42,10 +42,10 @@ function(thrust_configure_multiconfig)
     option(THRUST_MULTICONFIG_ENABLE_SYSTEM_OMP "Generate build configurations that use OpenMP." OFF)
     option(THRUST_MULTICONFIG_ENABLE_SYSTEM_TBB "Generate build configurations that use TBB." OFF)
 
-    # CMake added C++17 support for CUDA targets in 3.18:
+    # CMake fixed C++17 support for NVCC + MSVC targets in 3.18.3:
     if (THRUST_MULTICONFIG_ENABLE_DIALECT_CPP17 AND
         THRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA)
-      cmake_minimum_required(VERSION 3.18)
+      cmake_minimum_required(VERSION 3.18.3)
     endif()
 
     # Workload:
@@ -120,10 +120,10 @@ function(thrust_configure_multiconfig)
       ${THRUST_CPP_DIALECT_OPTIONS}
     )
 
-    # CMake added C++17 support for CUDA targets in 3.18:
+    # CMake fixed C++17 support for NVCC + MSVC targets in 3.18.3:
     if (THRUST_CPP_DIALECT EQUAL 17 AND
         THRUST_DEVICE_SYSTEM STREQUAL "CUDA")
-      cmake_minimum_required(VERSION 3.18)
+      cmake_minimum_required(VERSION 3.18.3)
     endif()
   endif()
 endfunction()

@@ -1,6 +1,6 @@
 # 3.15 is the minimum for including the project with add_subdirectory.
 # 3.17 for building the project's standalone tests/examples/etc.
-# 3.18 for C++17 + CUDA.
+# 3.18.3 for C++17 + CUDA
 cmake_minimum_required(VERSION 3.15)
 
 # Remove this when we use the new CUDA_ARCHITECTURES properties with both
