@@ -61,19 +61,6 @@ template <typename T>
     thrust::inclusive_scan(d_pairs.begin(), d_pairs.end(), d_output.begin(), thrust::maximum<P>());
     ASSERT_EQUAL_QUIET(h_output, d_output);
 
-
-    // The tests below get miscompiled on Tesla hw for 8b types
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
-    {
-      if(sizeof(T) == sizeof(unittest::uint8_t) && driver->current_device_architecture() < 200)
-      {
-        KNOWN_FAILURE;
-      } // end if
-    } // end if
-#endif
-
     // scan with plus
     thrust::exclusive_scan(h_pairs.begin(), h_pairs.end(), h_output.begin(), init, add_pairs());
     thrust::exclusive_scan(d_pairs.begin(), d_pairs.end(), d_output.begin(), init, add_pairs());

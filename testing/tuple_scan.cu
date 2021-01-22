@@ -58,18 +58,6 @@ struct TestTupleScan
      inclusive_scan(d_input.begin(), d_input.end(), d_output.begin(), SumTupleFunctor());
      ASSERT_EQUAL_QUIET(h_output, d_output);
 
-    // The tests below get miscompiled on Tesla hw for 8b types
-
-#if THRUST_DEVICE_SYSTEM == THRUST_DEVICE_SYSTEM_CUDA
-    if(const CUDATestDriver *driver = dynamic_cast<const CUDATestDriver*>(&UnitTestDriver::s_driver()))
-    {
-      if(sizeof(T) == sizeof(unittest::uint8_t) && driver->current_device_architecture() < 200)
-      {
-        KNOWN_FAILURE;
-      } // end if
-    } // end if
-#endif
-
      // exclusive_scan
      tuple<T,T> init(13,17);
      exclusive_scan(h_input.begin(), h_input.end(), h_output.begin(), init, SumTupleFunctor());

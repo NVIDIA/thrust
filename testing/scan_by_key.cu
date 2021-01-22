@@ -438,15 +438,6 @@ DECLARE_VARIABLE_UNITTEST(TestExclusiveScanByKey);
 template <typename T>
 void TestInclusiveScanByKeyInPlace(const size_t n)
 {
-    // XXX WAR nvbug 1541533
-#if 0 //THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-    if(typeid(T) == typeid(char) ||
-       typeid(T) == typeid(unsigned char))
-    {
-      KNOWN_FAILURE;
-    }
-#endif
-
     thrust::host_vector<int> h_keys(n);
     thrust::default_random_engine rng;
     for(size_t i = 0, k = 0; i < n; i++){
