@@ -91,7 +91,7 @@ function(thrust_configure_multiconfig)
     )
     set(THRUST_MULTICONFIG_WORKLOAD_FULL_CONFIGS
       ${THRUST_MULTICONFIG_WORKLOAD_LARGE_CONFIGS}
-      OMP_CPP TBB_CPP OMP_TBB  TBB_OMP
+      OMP_CPP TBB_CPP OMP_TBB TBB_OMP
       CACHE INTERNAL "Host/device combos enabled for FULL workloads." FORCE
     )
 

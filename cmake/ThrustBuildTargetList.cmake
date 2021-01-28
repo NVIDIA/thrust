@@ -226,7 +226,7 @@ function(_thrust_build_target_list_multiconfig)
   # Warn the user that they may be generating a ton of redundant targets if
   # they explicitly requested this configuration.
   if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}" AND
-    THRUST_MULTICONFIG_ENABLE_DIALECT_CPP11)
+      THRUST_MULTICONFIG_ENABLE_DIALECT_CPP11)
     message(WARNING
       "Supported versions of MSVC (2017+) do not distinguish between C++11 "
       "and C++14. The requested C++11 targets may be redundant."
