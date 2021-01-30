@@ -16,6 +16,7 @@
 
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/cstdint.h>
 #include <thrust/system/detail/generic/scan_by_key.h>
 #include <thrust/functional.h>
 #include <thrust/transform.h>
@@ -108,7 +109,7 @@ __host__ __device__
                                        AssociativeOperator binary_op)
 {
   using OutputType = typename thrust::iterator_traits<InputIterator2>::value_type;
-  using HeadFlagType = unsigned int;
+  using HeadFlagType = thrust::detail::uint32_t;
 
   const size_t n = last1 - first1;
 
@@ -204,7 +205,7 @@ __host__ __device__
                                        AssociativeOperator binary_op)
 {
   using OutputType = T;
-  using HeadFlagType = unsigned int;
+  using HeadFlagType = thrust::detail::uint32_t;
 
   const size_t n = last1 - first1;
 
