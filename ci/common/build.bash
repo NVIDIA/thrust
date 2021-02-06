@@ -240,6 +240,16 @@ log "Configure Thrust and CUB..."
 
 echo_and_run_timed "Configure" cmake .. ${CMAKE_FLAGS}
 
+# nvc++ 20.9 builds time-out on gpuci, and the build fails when repro'd locally
+# due to known issues in the HPC SDK.
+# Until we have a public version of the SDK that can build thrust/cub cleanly
+# without timing out, skip the build/test steps.
+# Usually when we break nvc++, we break the cmake configuration, so I've left
+# that step enabled so this CI config still has some value.
+if [[ "${CXX_TYPE}" == "nvcxx" ]]; then
+  exit 0
+fi
+
 log "Build Thrust and CUB..."
 
 # ${PARALLEL_LEVEL} needs to be passed after we run
