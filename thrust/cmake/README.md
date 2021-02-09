@@ -31,11 +31,11 @@ several unique Thrust interface targets with different configurations, as
 detailed below.
 
 **Note:** If CMake is unable to locate Thrust, specify the path to Thrust's CMake
-configuration directory (where this README file is located) as `Thrust_DIR`,
-e.g.:
+configuration directory (where this README file is located) as `Thrust_DIR`.
+If cloning Thrust from github, this would be
 
 ```
-$ cmake . -DThrust_DIR=/usr/local/cuda/include/thrust/cmake/
+$ cmake . -DThrust_DIR=<thrust git repo root>/thrust/cmake/
 ```
 
 #### TBB / OpenMP
