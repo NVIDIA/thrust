@@ -1,6 +1,7 @@
 #include <unittest/unittest.h>
 #include <thrust/scan.h>
 #include <thrust/functional.h>
+#include <thrust/iterator/discard_iterator.h>
 #include <thrust/iterator/transform_iterator.h>
 #include <thrust/iterator/retag.h>
 #include <thrust/random.h>
@@ -538,6 +539,74 @@ void TestScanByKeyMixedTypes(void)
     ASSERT_EQUAL(d_int_output, h_int_output);
 }
 DECLARE_UNITTEST(TestScanByKeyMixedTypes);
+
+
+template <typename T>
+void TestScanByKeyDiscardOutput(std::size_t n)
+{
+  thrust::host_vector<T> h_keys(n);
+  thrust::default_random_engine rng;
+
+  for (size_t i = 0, k = 0; i < n; i++)
+  {
+    h_keys[i] = static_cast<T>(k);
+    if (rng() % 10 == 0)
+    {
+      k++;
+    }
+  }
+  thrust::device_vector<T> d_keys = h_keys;
+
+  thrust::host_vector<T> h_vals(n);
+  for(size_t i = 0; i < n; i++)
+  {
+    h_vals[i] = static_cast<T>(i % 10);
+  }
+  thrust::device_vector<T> d_vals = h_vals;
+
+  auto out = thrust::make_discard_iterator();
+
+  // These are no-ops, but they should compile.
+  thrust::exclusive_scan_by_key(d_keys.cbegin(),
+                                d_keys.cend(),
+                                d_vals.cbegin(),
+                                out);
+  thrust::exclusive_scan_by_key(d_keys.cbegin(),
+                                d_keys.cend(),
+                                d_vals.cbegin(),
+                                out,
+                                T{});
+  thrust::exclusive_scan_by_key(d_keys.cbegin(),
+                                d_keys.cend(),
+                                d_vals.cbegin(),
+                                out,
+                                T{},
+                                thrust::equal_to<T>{});
+  thrust::exclusive_scan_by_key(d_keys.cbegin(),
+                                d_keys.cend(),
+                                d_vals.cbegin(),
+                                out,
+                                T{},
+                                thrust::equal_to<T>{},
+                                thrust::multiplies<T>{});
+
+  thrust::inclusive_scan_by_key(d_keys.cbegin(),
+                                d_keys.cend(),
+                                d_vals.cbegin(),
+                                out);
+  thrust::inclusive_scan_by_key(d_keys.cbegin(),
+                                d_keys.cend(),
+                                d_vals.cbegin(),
+                                out,
+                                thrust::equal_to<T>{});
+  thrust::inclusive_scan_by_key(d_keys.cbegin(),
+                                d_keys.cend(),
+                                d_vals.cbegin(),
+                                out,
+                                thrust::equal_to<T>{},
+                                thrust::multiplies<T>{});
+}
+DECLARE_VARIABLE_UNITTEST(TestScanByKeyDiscardOutput);
 
 
 void TestScanByKeyLargeInput()

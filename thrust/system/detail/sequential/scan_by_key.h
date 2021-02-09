@@ -52,8 +52,8 @@ __host__ __device__
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
+  using KeyType = typename thrust::iterator_traits<InputIterator1>::value_type;
+  using ValueType = typename thrust::iterator_traits<InputIterator2>::value_type;
 
   // wrap binary_op
   thrust::detail::wrapped_function<
@@ -105,8 +105,8 @@ __host__ __device__
                                        BinaryPredicate binary_pred,
                                        BinaryFunction binary_op)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type KeyType;
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type ValueType;
+  using KeyType = typename thrust::iterator_traits<InputIterator1>::value_type;
+  using ValueType = T;
 
   if(first1 != last1)
   {

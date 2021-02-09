@@ -16,6 +16,7 @@
 
 
 #include <thrust/detail/config.h>
+#include <thrust/detail/cstdint.h>
 #include <thrust/system/detail/generic/scan_by_key.h>
 #include <thrust/functional.h>
 #include <thrust/transform.h>
@@ -71,8 +72,7 @@ __host__ __device__
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
-  return thrust::inclusive_scan_by_key(exec, first1, last1, first2, result, thrust::equal_to<InputType1>());
+  return thrust::inclusive_scan_by_key(exec, first1, last1, first2, result, thrust::equal_to<>());
 }
 
 
@@ -108,8 +108,8 @@ __host__ __device__
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  typedef unsigned int HeadFlagType;
+  using OutputType = typename thrust::iterator_traits<InputIterator2>::value_type;
+  using HeadFlagType = thrust::detail::uint32_t;
 
   const size_t n = last1 - first1;
 
@@ -146,8 +146,8 @@ __host__ __device__
                                        InputIterator2 first2,
                                        OutputIterator result)
 {
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  return thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, OutputType(0));
+  typedef typename thrust::iterator_traits<InputIterator2>::value_type InitType;
+  return thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, InitType{});
 }
 
 
@@ -164,8 +164,7 @@ __host__ __device__
                                        OutputIterator result,
                                        T init)
 {
-  typedef typename thrust::iterator_traits<InputIterator1>::value_type InputType1;
-  return thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, init, thrust::equal_to<InputType1>());
+  return thrust::exclusive_scan_by_key(exec, first1, last1, first2, result, init, thrust::equal_to<>());
 }
 
 
@@ -205,8 +204,8 @@ __host__ __device__
                                        BinaryPredicate binary_pred,
                                        AssociativeOperator binary_op)
 {
-  typedef typename thrust::iterator_traits<OutputIterator>::value_type OutputType;
-  typedef unsigned int HeadFlagType;
+  using OutputType = T;
+  using HeadFlagType = thrust::detail::uint32_t;
 
   const size_t n = last1 - first1;
 

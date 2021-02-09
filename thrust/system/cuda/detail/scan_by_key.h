@@ -844,14 +844,14 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                       ValOutputIt                value_result,
                       BinaryPred                 binary_pred)
 {
-  typedef typename thrust::iterator_traits<ValOutputIt>::value_type value_type;
+  typedef typename thrust::iterator_traits<ValInputIt>::value_type value_type;
   return cuda_cub::inclusive_scan_by_key(policy,
                                          key_first,
                                          key_last,
                                          value_first,
                                          value_result,
                                          binary_pred,
-                                         plus<value_type>());
+                                         thrust::plus<>());
 }
 
 template <class Derived,
@@ -871,7 +871,7 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                                          key_last,
                                          value_first,
                                          value_result,
-                                         equal_to<key_type>());
+                                         thrust::equal_to<>());
 }
 
 
@@ -948,7 +948,7 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
                                          value_result,
                                          init,
                                          binary_pred,
-                                         plus<Init>());
+                                         plus<>());
 }
 
 template <class Derived,
@@ -971,7 +971,7 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
                                          value_first,
                                          value_result,
                                          init,
-                                         equal_to<key_type>());
+                                         equal_to<>());
 }
 
 
@@ -986,13 +986,13 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
                       ValInputIt                 value_first,
                       ValOutputIt                value_result)
 {
-  typedef typename iterator_traits<ValOutputIt>::value_type value_type;
+  typedef typename iterator_traits<ValInputIt>::value_type value_type;
   return cuda_cub::exclusive_scan_by_key(policy,
                                          key_first,
                                          key_last,
                                          value_first,
                                          value_result,
-                                         value_type(0));
+                                         value_type{});
 }
 
 
