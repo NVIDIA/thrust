@@ -47,6 +47,8 @@
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
+#include <cub/util_math.cuh>
+
 namespace thrust
 {
 
@@ -909,7 +911,7 @@ namespace __reduce_by_key {
 
     // Number of input tiles
     int  tile_size = reduce_by_key_plan.items_per_tile;
-    Size num_tiles = (num_items + tile_size - 1) / tile_size;
+    Size num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_size = core::vshmem_size(reduce_by_key_plan.shared_memory_size,
                                            num_tiles);

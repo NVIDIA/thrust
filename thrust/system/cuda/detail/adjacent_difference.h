@@ -43,6 +43,8 @@
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
 
+#include <cub/util_math.cuh>
+
 namespace thrust
 {
 
@@ -394,7 +396,7 @@ namespace __adjacent_difference {
 
 
     Size tile_size = difference_plan.items_per_tile;
-    Size num_tiles = (num_items + tile_size - 1) / tile_size;
+    Size num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t tmp1        = num_tiles * sizeof(input_type);
     size_t vshmem_size = core::vshmem_size(difference_plan.shared_memory_size,

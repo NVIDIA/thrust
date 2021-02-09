@@ -38,6 +38,8 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
 
+#include <cub/util_math.cuh>
+
 namespace thrust
 {
 namespace cuda_cub {
@@ -670,7 +672,7 @@ namespace __scan_by_key {
     AgentPlan init_plan        = init_agent::get_plan();
 
     int tile_size = scan_by_key_plan.items_per_tile;
-    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_size = core::vshmem_size(scan_by_key_plan.shared_memory_size,
                                            num_tiles);
