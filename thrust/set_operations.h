@@ -84,12 +84,12 @@ namespace thrust
  *  #include <thrust/set_operations.h>
  *  #include <thrust/execution_policy.h>
  *  ...
- *  int A1[6] = {0, 1, 3, 4, 5, 6, 9};
+ *  int A1[7] = {0, 1, 3, 4, 5, 6, 9};
  *  int A2[5] = {1, 3, 5, 7, 9};
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_difference(thrust::host, A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = thrust::set_difference(thrust::host, A1, A1 + 7, A2, A2 + 5, result);
  *  // result is now {0, 4, 6}
  *  \endcode
  *
@@ -157,12 +157,12 @@ __host__ __device__
  *  \code
  *  #include <thrust/set_operations.h>
  *  ...
- *  int A1[6] = {0, 1, 3, 4, 5, 6, 9};
+ *  int A1[7] = {0, 1, 3, 4, 5, 6, 9};
  *  int A2[5] = {1, 3, 5, 7, 9};
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_difference(A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = thrust::set_difference(A1, A1 + 7, A2, A2 + 5, result);
  *  // result is now {0, 4, 6}
  *  \endcode
  *
@@ -232,12 +232,12 @@ template<typename InputIterator1,
  *  #include <thrust/functional.h>
  *  #include <thrust/execution_policy.h>
  *  ...
- *  int A1[6] = {9, 6, 5, 4, 3, 1, 0};
+ *  int A1[7] = {9, 6, 5, 4, 3, 1, 0};
  *  int A2[5] = {9, 7, 5, 3, 1};
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_difference(thrust::host, A1, A1 + 6, A2, A2 + 5, result, thrust::greater<int>());
+ *  int *result_end = thrust::set_difference(thrust::host, A1, A1 + 7, A2, A2 + 5, result, thrust::greater<int>());
  *  // result is now {6, 4, 0}
  *  \endcode
  *
@@ -306,12 +306,12 @@ __host__ __device__
  *  #include <thrust/set_operations.h>
  *  #include <thrust/functional.h>
  *  ...
- *  int A1[6] = {9, 6, 5, 4, 3, 1, 0};
+ *  int A1[7] = {9, 6, 5, 4, 3, 1, 0};
  *  int A2[5] = {9, 7, 5, 3, 1};
  *
  *  int result[3];
  *
- *  int *result_end = thrust::set_difference(A1, A1 + 6, A2, A2 + 5, result, thrust::greater<int>());
+ *  int *result_end = thrust::set_difference(A1, A1 + 7, A2, A2 + 5, result, thrust::greater<int>());
  *  // result is now {6, 4, 0}
  *  \endcode
  *
@@ -717,12 +717,12 @@ template<typename InputIterator1,
  *  #include <thrust/set_operations.h>
  *  #include <thrust/execution_policy.h>
  *  ...
- *  int A1[6] = {0, 1, 2, 2, 4, 6, 7};
+ *  int A1[7] = {0, 1, 2, 2, 4, 6, 7};
  *  int A2[5] = {1, 1, 2, 5, 8};
  *
  *  int result[6];
  *
- *  int *result_end = thrust::set_symmetric_difference(thrust::host, A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = thrust::set_symmetric_difference(thrust::host, A1, A1 + 7, A2, A2 + 5, result);
  *  // result = {0, 4, 5, 6, 7, 8}
  *  \endcode
  *
@@ -794,12 +794,12 @@ __host__ __device__
  *  \code
  *  #include <thrust/set_operations.h>
  *  ...
- *  int A1[6] = {0, 1, 2, 2, 4, 6, 7};
+ *  int A1[7] = {0, 1, 2, 2, 4, 6, 7};
  *  int A2[5] = {1, 1, 2, 5, 8};
  *
  *  int result[6];
  *
- *  int *result_end = thrust::set_symmetric_difference(A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = thrust::set_symmetric_difference(A1, A1 + 7, A2, A2 + 5, result);
  *  // result = {0, 4, 5, 6, 7, 8}
  *  \endcode
  *
@@ -875,12 +875,12 @@ template<typename InputIterator1,
  *  #include <thrust/set_operations.h>
  *  #include <thrust/execution_policy.h>
  *  ...
- *  int A1[6] = {7, 6, 4, 2, 2, 1, 0};
+ *  int A1[7] = {7, 6, 4, 2, 2, 1, 0};
  *  int A2[5] = {8, 5, 2, 1, 1};
  *
  *  int result[6];
  *
- *  int *result_end = thrust::set_symmetric_difference(thrust::host, A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = thrust::set_symmetric_difference(thrust::host, A1, A1 + 7, A2, A2 + 5, result);
  *  // result = {8, 7, 6, 5, 4, 0}
  *  \endcode
  *
@@ -955,12 +955,12 @@ __host__ __device__
  *  \code
  *  #include <thrust/set_operations.h>
  *  ...
- *  int A1[6] = {7, 6, 4, 2, 2, 1, 0};
+ *  int A1[7] = {7, 6, 4, 2, 2, 1, 0};
  *  int A2[5] = {8, 5, 2, 1, 1};
  *
  *  int result[6];
  *
- *  int *result_end = thrust::set_symmetric_difference(A1, A1 + 6, A2, A2 + 5, result);
+ *  int *result_end = thrust::set_symmetric_difference(A1, A1 + 7, A2, A2 + 5, result);
  *  // result = {8, 7, 6, 5, 4, 0}
  *  \endcode
  *
