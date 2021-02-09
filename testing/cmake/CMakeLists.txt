@@ -1,5 +1,15 @@
 thrust_update_system_found_flags()
 
+set(extra_cmake_flags)
+
+# Need to pass these when testing NVC++.
+if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
+  set(extra_cmake_flags
+    -D "CMAKE_CUDA_COMPILER_ID=${CMAKE_CUDA_COMPILER_ID}"
+    -D "CMAKE_CUDA_COMPILER_FORCED=${CMAKE_CUDA_COMPILER_FORCED}"
+  )
+endif()
+
 if (THRUST_CPP_FOUND AND THRUST_CUDA_FOUND)
   # Test that we can use `find_package` on an installed Thrust:
   add_test(
@@ -13,5 +23,6 @@ if (THRUST_CPP_FOUND AND THRUST_CUDA_FOUND)
       -D "CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
       -D "CMAKE_CUDA_COMPILER=${CMAKE_CUDA_COMPILER}"
       -D "CMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}"
+      ${extra_cmake_flags}
   )
 endif()
