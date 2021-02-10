@@ -659,7 +659,7 @@ void _TestScanByKeyWithLargeTypes(void)
     thrust::default_random_engine rng;
     for(size_t i = 0, k = 0; i < h_vals.size(); i++)
     {
-        h_keys[i]  = static_cast<unsigned int>(k);
+        h_keys[i] = static_cast<unsigned int>(k);
         h_vals[i] = FixedVector<T,N>(static_cast<T>(i));
         if (rng() % 5 == 0)
         {
