@@ -282,7 +282,7 @@ void TestZipIteratorCopy(void)
   Vector output0(4), output1(4);
 
   // initialize input
-  sequence(input0.begin(), input0.end(),  T{0});
+  sequence(input0.begin(), input0.end(), T{0});
   sequence(input1.begin(), input1.end(), T{13});
 
   copy( make_zip_iterator(make_tuple(input0.begin(),  input1.begin())),
