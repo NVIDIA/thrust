@@ -41,7 +41,7 @@ void initialize(thrust::device_vector<int>& v1, thrust::device_vector<int>& v2)
   for(size_t i = 0; i < v1.size(); i++)
   {
     v1[i] = dist(rng);
-    v2[i] = i;
+    v2[i] = static_cast<int>(i);
   }
 }
 

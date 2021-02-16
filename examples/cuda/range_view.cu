@@ -226,7 +226,7 @@ int main()
 
   // print values from original device_vector<float> Z 
   // to ensure that range view was mapped to this vector
-  for (int i = 0, n = Z.size(); i < n; ++i)
+  for (std::size_t i = 0, n = Z.size(); i < n; ++i)
   {
     cout << "z[" << i << "]= " << Z[i] << endl;
   }

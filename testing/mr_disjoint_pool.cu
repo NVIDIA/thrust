@@ -21,13 +21,13 @@ struct alloc_id
         return id == other.id && size == other.size && alignment == other.alignment;
     }
 
-    alloc_id operator+(std::size_t size) const
+    alloc_id operator+(std::size_t size_) const
     {
         alloc_id ret;
         ret.id = id;
-        ret.size = size;
+        ret.size = size_;
         ret.alignment = alignment;
-        ret.offset = size;
+        ret.offset = size_;
         return ret;
     }
 };
@@ -50,7 +50,7 @@ struct pointer_traits<alloc_id>
 };
 }}
 
-class dummy_resource THRUST_FINAL : public thrust::mr::memory_resource<alloc_id>
+class dummy_resource final : public thrust::mr::memory_resource<alloc_id>
 {
 public:
     dummy_resource() : id_to_allocate(0), id_to_deallocate(0)
@@ -63,7 +63,7 @@ public:
         ASSERT_EQUAL(id_to_deallocate, 0u);
     }
 
-    virtual alloc_id do_allocate(std::size_t bytes, std::size_t alignment) THRUST_OVERRIDE
+    virtual alloc_id do_allocate(std::size_t bytes, std::size_t alignment) override
     {
         ASSERT_EQUAL(static_cast<bool>(id_to_allocate), true);
 
@@ -77,7 +77,7 @@ public:
         return ret;
     }
 
-    virtual void do_deallocate(alloc_id p, std::size_t bytes, std::size_t alignment) THRUST_OVERRIDE
+    virtual void do_deallocate(alloc_id p, std::size_t bytes, std::size_t alignment) override
     {
         ASSERT_EQUAL(p.size, bytes);
         ASSERT_EQUAL(p.alignment, alignment);

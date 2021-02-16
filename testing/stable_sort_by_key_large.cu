@@ -25,8 +25,10 @@ void _TestStableSortByKeyWithLargeKeys(void)
 
     for(size_t i = 0; i < n; i++)
     {
-        h_keys[i] = FixedVector<T,N>(rand());
-        h_vals[i] = i;
+        const auto uint_i = static_cast<unsigned int>(i);
+        const auto rand_int = unittest::generate_random_integer<T>()(uint_i);
+        h_keys[i] = FixedVector<T,N>(rand_int);
+        h_vals[i] = uint_i;
     }
 
     thrust::device_vector< FixedVector<T,N> > d_keys = h_keys;
@@ -69,8 +71,11 @@ void _TestStableSortByKeyWithLargeValues(void)
 
     for(size_t i = 0; i < n; i++)
     {
-        h_keys[i] = rand();
-        h_vals[i] = FixedVector<T,N>(i);
+        const auto uint_i = static_cast<unsigned int>(i);
+        const auto rand_int =
+          unittest::generate_random_integer<unsigned int>()(uint_i);
+        h_keys[i] = rand_int;
+        h_vals[i] = FixedVector<T,N>(static_cast<T>(i));
     }
 
     thrust::device_vector<   unsigned int   > d_keys = h_keys;
@@ -120,8 +125,10 @@ void _TestStableSortByKeyWithLargeKeysAndValues(void)
 
     for(size_t i = 0; i < n; i++)
     {
-        h_keys[i] = FixedVector<T,N>(rand());
-        h_vals[i] = FixedVector<T,N>(i);
+        const auto uint_i = static_cast<unsigned int>(i);
+        const auto rand_int = unittest::generate_random_integer<T>()(uint_i);
+        h_keys[i] = FixedVector<T,N>(rand_int);
+        h_vals[i] = FixedVector<T,N>(static_cast<T>(i));
     }
 
     thrust::device_vector< FixedVector<T,N> > d_keys = h_keys;

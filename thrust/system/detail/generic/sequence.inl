@@ -15,7 +15,6 @@
  */
 
 #include <thrust/detail/config.h>
-#include <thrust/functional.h>
 #include <thrust/system/detail/generic/sequence.h>
 #include <thrust/iterator/iterator_traits.h>
 #include <thrust/tabulate.h>
@@ -52,6 +51,22 @@ __host__ __device__
   thrust::sequence(exec, first, last, init, T(1));
 } // end sequence()
 
+namespace detail
+{
+template <typename T>
+struct compute_sequence_value
+{
+  T init;
+  T step;
+
+  __thrust_exec_check_disable__
+  __host__ __device__
+  T operator()(std::size_t i) const
+  {
+    return init + step * static_cast<T>(i);
+  }
+};
+}
 
 template<typename DerivedPolicy, typename ForwardIterator, typename T>
 __host__ __device__
@@ -61,9 +76,12 @@ __host__ __device__
                 T init,
                 T step)
 {
-  using thrust::placeholders::_1;
 
-  thrust::tabulate(exec, first, last, init + step * _1);
+  thrust::tabulate(exec,
+                   first,
+                   last,
+                   detail::compute_sequence_value<T>{std::move(init),
+                                                     std::move(step)});
 } // end sequence()
 
 

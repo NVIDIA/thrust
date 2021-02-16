@@ -84,11 +84,9 @@ int main(void)
   typedef Vector::iterator           Iterator;
   typedef thrust::device_system_tag  System;
 
-  size_t N = 5;
-
   // allocate device memory
-  Vector A(N);
-  Vector B(N);
+  Vector A(5);
+  Vector B(5);
 
   // initialize A and B
   thrust::sequence(A.begin(), A.end());
@@ -100,7 +98,7 @@ int main(void)
 
   // note: we must specify the System to ensure correct execution
   thrust::for_each(thrust::counting_iterator<int,System>(0),
-                   thrust::counting_iterator<int,System>(N),
+                   thrust::counting_iterator<int,System>(5),
                    copy_iterators<Iterator,Iterator>(A.begin(), B.begin()));
   
   std::cout << "After A->B Copy" << std::endl;

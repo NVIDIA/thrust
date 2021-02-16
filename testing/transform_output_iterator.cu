@@ -12,14 +12,14 @@ void TestTransformOutputIterator(void)
 {
     typedef typename Vector::value_type T;
 
-    typedef thrust::negate<T> UnaryFunction;
+    typedef thrust::square<T> UnaryFunction;
     typedef typename Vector::iterator Iterator;
 
     Vector input(4);
     Vector output(4);
     
     // initialize input
-    thrust::sequence(input.begin(), input.end(), 1);
+    thrust::sequence(input.begin(), input.end(), T{1});
    
     // construct transform_iterator
     thrust::transform_output_iterator<UnaryFunction, Iterator> output_iter(output.begin(), UnaryFunction());
@@ -27,10 +27,10 @@ void TestTransformOutputIterator(void)
     thrust::copy(input.begin(), input.end(), output_iter);
 
     Vector gold_output(4);
-    gold_output[0] = -1;
-    gold_output[1] = -2;
-    gold_output[2] = -3;
-    gold_output[3] = -4;
+    gold_output[0] = 1;
+    gold_output[1] = 4;
+    gold_output[2] = 9;
+    gold_output[3] = 16;
 
     ASSERT_EQUAL(output, gold_output);
 
@@ -42,7 +42,7 @@ void TestMakeTransformOutputIterator(void)
 {
     typedef typename Vector::value_type T;
 
-    typedef thrust::negate<T> UnaryFunction;
+    typedef thrust::square<T> UnaryFunction;
 
     Vector input(4);
     Vector output(4);
@@ -54,11 +54,10 @@ void TestMakeTransformOutputIterator(void)
                  thrust::make_transform_output_iterator(output.begin(), UnaryFunction()));
 
     Vector gold_output(4);
-    gold_output[0] = -1;
-    gold_output[1] = -2;
-    gold_output[2] = -3;
-    gold_output[3] = -4;
-
+    gold_output[0] = 1;
+    gold_output[1] = 4;
+    gold_output[2] = 9;
+    gold_output[3] = 16;
     ASSERT_EQUAL(output, gold_output);
 
 }
@@ -88,5 +87,5 @@ struct TestTransformOutputIteratorScan
         ASSERT_EQUAL(h_result, d_result);
     }
 };
-VariableUnitTest<TestTransformOutputIteratorScan, IntegralTypes> TestTransformOutputIteratorScanInstance;
+VariableUnitTest<TestTransformOutputIteratorScan, SignedIntegralTypes> TestTransformOutputIteratorScanInstance;
 

@@ -61,7 +61,16 @@ function(thrust_set_target_properties target_name host device dialect prefix)
   )
 
   get_target_property(type ${target_name} TYPE)
-  if (NOT ${type} STREQUAL "INTERFACE_LIBRARY")
+  if (${type} STREQUAL "INTERFACE_LIBRARY")
+    target_compile_features(${target_name} INTERFACE
+      cxx_std_${dialect}
+      cuda_std_${dialect}
+    )
+  else()
+    target_compile_features(${target_name} PUBLIC
+      cxx_std_${dialect}
+      cuda_std_${dialect}
+    )
     set_target_properties(${target_name}
       PROPERTIES
         CXX_STANDARD ${dialect}
@@ -147,6 +156,7 @@ function(_thrust_add_target_to_target_list target_name host device dialect prefi
 
   target_link_libraries(${target_name} INTERFACE
     thrust.compiler_interface
+    thrust.compiler_interface_cpp${dialect}
   )
 
   # Workaround Github issue #1174. cudafe promote TBB header warnings to

@@ -975,6 +975,8 @@ struct test_async_reduce_allocator_on_then_after
     KNOWN_FAILURE;
     // FIXME: The below fails because you can't combine allocator attachment,
     // `.on`, and `.after`.
+    // The `#if 0` can be removed once the KNOWN_FAILURE is resolved.
+#if 0
     ASSERT_EQUAL_QUIET(stream1, f2.stream().native_handle());
 
     // This potentially runs concurrently with the copies.
@@ -986,6 +988,7 @@ struct test_async_reduce_allocator_on_then_after
 
     thrust::cuda_cub::throw_on_error(cudaStreamDestroy(stream0));
     thrust::cuda_cub::throw_on_error(cudaStreamDestroy(stream1));
+#endif
   }
 };
 DECLARE_GENERIC_SIZED_UNITTEST_WITH_TYPES(

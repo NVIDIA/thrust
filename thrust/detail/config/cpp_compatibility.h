@@ -20,30 +20,20 @@
 
 #include <cstddef>
 
-#if THRUST_CPP_DIALECT >= 2011
-#  ifndef __has_cpp_attribute
-#    define __has_cpp_attribute(X) 0
-#  endif
-
-#  if __has_cpp_attribute(nodiscard)
-#    define THRUST_NODISCARD [[nodiscard]]
-#  endif
-
-#  define THRUST_CONSTEXPR constexpr
-#  define THRUST_OVERRIDE override
-#  define THRUST_DEFAULT = default;
-#  define THRUST_NOEXCEPT noexcept
-#  define THRUST_FINAL final
-#else
-#  define THRUST_CONSTEXPR
-#  define THRUST_OVERRIDE
-#  define THRUST_DEFAULT {}
-#  define THRUST_NOEXCEPT throw()
-#  define THRUST_FINAL
+#ifndef __has_cpp_attribute
+#  define __has_cpp_attribute(X) 0
 #endif
 
-#ifndef THRUST_NODISCARD
+#if THRUST_CPP_DIALECT >= 2014 && __has_cpp_attribute(nodiscard)
+#  define THRUST_NODISCARD [[nodiscard]]
+#else
 #  define THRUST_NODISCARD
+#endif
+
+#if THRUST_CPP_DIALECT >= 2017 && __cpp_if_constexpr
+#  define THRUST_IF_CONSTEXPR if constexpr
+#else
+#  define THRUST_IF_CONSTEXPR if
 #endif
 
 // FIXME: Combine THRUST_INLINE_CONSTANT and

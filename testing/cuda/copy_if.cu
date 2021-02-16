@@ -144,9 +144,6 @@ void TestCopyIfStencilDevice(ExecutionPolicy exec)
   thrust::host_vector<int>   h_stencil = unittest::random_integers<int>(n);
   thrust::device_vector<int> d_stencil = unittest::random_integers<int>(n);
   
-  thrust::host_vector<int>   h_result(n);
-  thrust::device_vector<int> d_result(n);
-  
   typename thrust::host_vector<int>::iterator   h_new_end;
   typename thrust::device_vector<int>::iterator d_new_end;
 

@@ -44,7 +44,7 @@ struct execution_policy_base : execution_policy_marker {};
 
 
 template<typename DerivedPolicy>
-THRUST_CONSTEXPR __host__ __device__
+constexpr __host__ __device__
 execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_base<DerivedPolicy> &x)
 {
   return const_cast<execution_policy_base<DerivedPolicy>&>(x);
@@ -52,7 +52,7 @@ execution_policy_base<DerivedPolicy> &strip_const(const execution_policy_base<De
 
 
 template<typename DerivedPolicy>
-THRUST_CONSTEXPR __host__ __device__
+constexpr __host__ __device__
 DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<DerivedPolicy&>(x);
@@ -60,7 +60,7 @@ DerivedPolicy &derived_cast(execution_policy_base<DerivedPolicy> &x)
 
 
 template<typename DerivedPolicy>
-THRUST_CONSTEXPR __host__ __device__
+constexpr __host__ __device__
 const DerivedPolicy &derived_cast(const execution_policy_base<DerivedPolicy> &x)
 {
   return static_cast<const DerivedPolicy&>(x);

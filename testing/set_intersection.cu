@@ -209,20 +209,20 @@ DECLARE_VARIABLE_UNITTEST(TestSetIntersectionEquivalentRanges);
 template<typename T>
 void TestSetIntersectionMultiset(const size_t n)
 {
-  thrust::host_vector<T> temp = unittest::random_integers<T>(2 * n);
+  thrust::host_vector<T> vec = unittest::random_integers<T>(2 * n);
 
   // restrict elements to [min,13)
-  for(typename thrust::host_vector<T>::iterator i = temp.begin();
-      i != temp.end();
+  for(typename thrust::host_vector<T>::iterator i = vec.begin();
+      i != vec.end();
       ++i)
   {
-    int temp = static_cast<int>(*i);
-    temp %= 13;
-    *i = temp;
+    int tmp = static_cast<int>(*i);
+    tmp %= 13;
+    *i = static_cast<T>(tmp);
   }
 
-  thrust::host_vector<T> h_a(temp.begin(), temp.begin() + n);
-  thrust::host_vector<T> h_b(temp.begin() + n, temp.end());
+  thrust::host_vector<T> h_a(vec.begin(), vec.begin() + n);
+  thrust::host_vector<T> h_b(vec.begin() + n, vec.end());
 
   thrust::sort(h_a.begin(), h_a.end());
   thrust::sort(h_b.begin(), h_b.end());

@@ -108,7 +108,7 @@ struct tracked_pointer : thrust::iterator_facade<
     }
 };
 
-class tracked_resource THRUST_FINAL : public thrust::mr::memory_resource<tracked_pointer<void> >
+class tracked_resource final : public thrust::mr::memory_resource<tracked_pointer<void> >
 {
 public:
     tracked_resource() : id_to_allocate(0), id_to_deallocate(0)
@@ -121,7 +121,7 @@ public:
         ASSERT_EQUAL(id_to_deallocate, 0u);
     }
 
-    virtual tracked_pointer<void> do_allocate(std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    virtual tracked_pointer<void> do_allocate(std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         ASSERT_EQUAL(static_cast<bool>(id_to_allocate), true);
 
@@ -136,7 +136,7 @@ public:
         return ret;
     }
 
-    virtual void do_deallocate(tracked_pointer<void> p, std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) THRUST_OVERRIDE
+    virtual void do_deallocate(tracked_pointer<void> p, std::size_t n, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT) override
     {
         ASSERT_EQUAL(p.size, n);
         ASSERT_EQUAL(p.alignment, alignment);

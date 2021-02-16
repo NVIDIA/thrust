@@ -263,7 +263,7 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
 
     for(unsigned int j = 0; j < NumHistograms; j++)
     {
-      const EncodedType BitShift = RadixBits * j;
+      const auto BitShift = static_cast<EncodedType>(RadixBits * j);
       histograms[j][(x >> BitShift) & BitMask]++;
     }
   }

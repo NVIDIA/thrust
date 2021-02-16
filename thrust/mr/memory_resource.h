@@ -54,7 +54,7 @@ public:
 
     /*! Virtual destructor, defaulted when possible.
      */
-    virtual ~memory_resource() THRUST_DEFAULT
+    virtual ~memory_resource() = default;
 
     /*! Allocates memory of size at least \p bytes and alignment at least \p alignment.
      *
@@ -89,7 +89,7 @@ public:
      *  \returns whether the two resources are equivalent.
      */
     __host__ __device__
-    bool is_equal(const memory_resource & other) const THRUST_NOEXCEPT
+    bool is_equal(const memory_resource & other) const noexcept
     {
         return do_is_equal(other);
     }
@@ -120,7 +120,7 @@ public:
      *  \returns whether the two resources are equivalent.
      */
     __host__ __device__
-    virtual bool do_is_equal(const memory_resource & other) const THRUST_NOEXCEPT
+    virtual bool do_is_equal(const memory_resource & other) const noexcept
     {
         return this == &other;
     }
@@ -135,7 +135,7 @@ class memory_resource<void *>
 public:
     typedef void * pointer;
 
-    virtual ~memory_resource() THRUST_DEFAULT
+    virtual ~memory_resource() = default;
 
     THRUST_NODISCARD
     pointer allocate(std::size_t bytes, std::size_t alignment = THRUST_MR_DEFAULT_ALIGNMENT)
@@ -149,7 +149,7 @@ public:
     }
 
     __host__ __device__
-    bool is_equal(const memory_resource & other) const THRUST_NOEXCEPT
+    bool is_equal(const memory_resource & other) const noexcept
     {
         return do_is_equal(other);
     }
@@ -157,7 +157,7 @@ public:
     virtual pointer do_allocate(std::size_t bytes, std::size_t alignment) = 0;
     virtual void do_deallocate(pointer p, std::size_t bytes, std::size_t alignment) = 0;
     __host__ __device__
-    virtual bool do_is_equal(const memory_resource & other) const THRUST_NOEXCEPT
+    virtual bool do_is_equal(const memory_resource & other) const noexcept
     {
         return this == &other;
     }
@@ -182,7 +182,7 @@ public:
  */
 template<typename Pointer>
 __host__ __device__
-bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) THRUST_NOEXCEPT
+bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) noexcept
 {
     return &lhs == &rhs || rhs.is_equal(rhs);
 }
@@ -191,7 +191,7 @@ bool operator==(const memory_resource<Pointer> & lhs, const memory_resource<Poin
  */
 template<typename Pointer>
 __host__ __device__
-bool operator!=(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) THRUST_NOEXCEPT
+bool operator!=(const memory_resource<Pointer> & lhs, const memory_resource<Pointer> & rhs) noexcept
 {
     return !(lhs == rhs);
 }

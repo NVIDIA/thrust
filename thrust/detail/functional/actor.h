@@ -61,7 +61,7 @@ template<typename Eval>
   typedef Eval eval_type;
 
   __host__ __device__
-  THRUST_CONSTEXPR actor();
+  constexpr actor();
 
   __host__ __device__
   actor(const Eval &base);

@@ -38,6 +38,8 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
 
+#include <cub/util_math.cuh>
+
 namespace thrust
 {
 namespace cuda_cub {
@@ -217,12 +219,12 @@ namespace __scan_by_key {
 
       union TempStorage
       {
-        struct
+        struct ScanStorage
         {
           typename BlockScan::TempStorage              scan;
           typename TilePrefixCallback::TempStorage     prefix;
           typename BlockDiscontinuityKeys::TempStorage discontinuity;
-        };
+        } scan_storage;
 
         typename BlockLoadKeys::TempStorage   load_keys;
         typename BlockLoadValues::TempStorage load_values;
@@ -280,7 +282,7 @@ namespace __scan_by_key {
                 size_value_pair_t &tile_aggregate,
                 thrust::detail::false_type /* is_inclusive */)
       {
-        BlockScan(storage.scan)
+        BlockScan(storage.scan_storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
       }
 
@@ -291,7 +293,7 @@ namespace __scan_by_key {
                 size_value_pair_t &tile_aggregate,
                 thrust::detail::true_type /* is_inclusive */)
       {
-        BlockScan(storage.scan)
+        BlockScan(storage.scan_storage.scan)
             .InclusiveScan(scan_items, scan_items, scan_op, tile_aggregate);
       }
 
@@ -307,7 +309,7 @@ namespace __scan_by_key {
                 TilePrefixCallback &prefix_op,
                 thrust::detail::false_type /* is_incclusive */)
       {
-        BlockScan(storage.scan)
+        BlockScan(storage.scan_storage.scan)
             .ExclusiveScan(scan_items, scan_items, scan_op, prefix_op);
         tile_aggregate = prefix_op.GetBlockAggregate();
       }
@@ -320,7 +322,7 @@ namespace __scan_by_key {
                 TilePrefixCallback &prefix_op,
                 thrust::detail::true_type /* is_inclusive */)
       {
-        BlockScan(storage.scan)
+        BlockScan(storage.scan_storage.scan)
             .InclusiveScan(scan_items, scan_items, scan_op, prefix_op);
         tile_aggregate = prefix_op.GetBlockAggregate();
       }
@@ -423,7 +425,7 @@ namespace __scan_by_key {
         // first tile
         if (tile_idx == 0)
         {
-          BlockDiscontinuityKeys(storage.discontinuity)
+          BlockDiscontinuityKeys(storage.scan_storage.discontinuity)
             .FlagHeads(segment_flags, keys, inequality_op);
 
           // Zip values and segment_flags
@@ -449,7 +451,7 @@ namespace __scan_by_key {
           key_type tile_pred_key = (threadIdx.x == 0)
                                        ? keys_load_it[tile_base - 1]
                                        : key_type();
-          BlockDiscontinuityKeys(storage.discontinuity)
+          BlockDiscontinuityKeys(storage.scan_storage.discontinuity)
               .FlagHeads(segment_flags,
                          keys,
                          inequality_op,
@@ -462,7 +464,7 @@ namespace __scan_by_key {
                                              scan_items);
 
           size_value_pair_t  tile_aggregate;
-          TilePrefixCallback prefix_op(tile_state, storage.prefix, scan_op, tile_idx);
+          TilePrefixCallback prefix_op(tile_state, storage.scan_storage.prefix, scan_op, tile_idx);
           scan_tile(scan_items, tile_aggregate, prefix_op, Inclusive());
         }
 
@@ -670,7 +672,7 @@ namespace __scan_by_key {
     AgentPlan init_plan        = init_agent::get_plan();
 
     int tile_size = scan_by_key_plan.items_per_tile;
-    size_t num_tiles = (num_items + tile_size - 1) / tile_size;
+    size_t num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_size = core::vshmem_size(scan_by_key_plan.shared_memory_size,
                                            num_tiles);

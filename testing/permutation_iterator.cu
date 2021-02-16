@@ -279,17 +279,20 @@ DECLARE_UNITTEST(TestPermutationIteratorHostDeviceScatter);
 template <typename Vector>
 void TestPermutationIteratorWithCountingIterator(void)
 {
-  typedef typename Vector::value_type T;
+  using T = typename Vector::value_type;
+  using diff_t = typename thrust::counting_iterator<T>::difference_type;
   
-  typename thrust::counting_iterator<T> input(0), index(0);
+  thrust::counting_iterator<T> input(0), index(0);
 
   // test copy()
   {
     Vector output(4,0);
 
-    thrust::copy(thrust::make_permutation_iterator(input, index),
-                 thrust::make_permutation_iterator(input, index + output.size()),
-                 output.begin());
+    auto first = thrust::make_permutation_iterator(input, index);
+    auto last  = thrust::make_permutation_iterator(input,
+                                                   index + static_cast<diff_t>(output.size()));
+
+    thrust::copy(first, last, output.begin());
 
     ASSERT_EQUAL(output[0], 0);
     ASSERT_EQUAL(output[1], 1);

@@ -276,13 +276,14 @@ template <typename Vector>
 void TestZipIteratorCopy(void)
 {
   using namespace thrust;
+  using T = typename Vector::value_type;
 
   Vector input0(4),  input1(4);
   Vector output0(4), output1(4);
 
   // initialize input
-  sequence(input0.begin(), input0.end(),  0);
-  sequence(input1.begin(), input1.end(), 13);
+  sequence(input0.begin(), input0.end(), T{0});
+  sequence(input1.begin(), input1.end(), T{13});
 
   copy( make_zip_iterator(make_tuple(input0.begin(),  input1.begin())),
         make_zip_iterator(make_tuple(input0.end(),    input1.end())),

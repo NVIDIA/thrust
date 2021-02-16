@@ -17,43 +17,29 @@ endif()
 # Generate testing framework libraries:
 add_subdirectory(unittest)
 
-# List of tests that aren't implemented for all backends, but are implemented for CUDA.
-set(partially_implemented_CUDA
-  async_copy
-  async_for_each
-  async_reduce
-  async_reduce_into
-  async_sort
-  async_transform
-  event
-  future
+# Some tests only support certain host.device configurations. Use this macro to
+# declare allowed configurations. If not specified, all host.device config are
+# used.
+set(restricted_tests)
+macro(thrust_declare_test_restrictions test_name)
+  list(APPEND restricted_tests ${test_name})
+  list(APPEND ${test_name}_host.device_allowed ${ARGN})
+endmacro()
 
-  # This test is incompatible with TBB and OMP, since it requires special per-device
-  # handling to process exceptions in a device function, which is only implemented
-  # for CUDA.
-  unittest_static_assert
-)
+# Async/future/event tests only support the CUDA backend:
+thrust_declare_test_restrictions(async_copy        CPP.CUDA OMP.CUDA TBB.CUDA)
+thrust_declare_test_restrictions(async_for_each    CPP.CUDA OMP.CUDA TBB.CUDA)
+thrust_declare_test_restrictions(async_reduce      CPP.CUDA OMP.CUDA TBB.CUDA)
+thrust_declare_test_restrictions(async_reduce_into CPP.CUDA OMP.CUDA TBB.CUDA)
+thrust_declare_test_restrictions(async_sort        CPP.CUDA OMP.CUDA TBB.CUDA)
+thrust_declare_test_restrictions(async_transform   CPP.CUDA OMP.CUDA TBB.CUDA)
+thrust_declare_test_restrictions(event             CPP.CUDA OMP.CUDA TBB.CUDA)
+thrust_declare_test_restrictions(future            CPP.CUDA OMP.CUDA TBB.CUDA)
 
-# List of tests that aren't implemented for all backends, but are implemented for CPP.
-set(partially_implemented_CPP
-)
-
-# List of tests that aren't implemented for all backends, but are implemented for TBB.
-set(partially_implemented_TBB
-)
-
-# List of tests that aren't implemented for all backends, but are implemented for OMP.
-set(partially_implemented_OMP
-)
-
-# List of all partially implemented tests.
-set(partially_implemented
-  ${partially_implemented_CUDA}
-  ${partially_implemented_CPP}
-  ${partially_implemented_TBB}
-  ${partially_implemented_OMP}
-)
-list(REMOVE_DUPLICATES partially_implemented)
+# This test is incompatible with TBB and OMP, since it requires special per-device
+# handling to process exceptions in a device function, which is only implemented
+# for CUDA.
+thrust_declare_test_restrictions(unittest_static_assert CPP.CPP CPP.CUDA)
 
 ## thrust_add_test
 #
@@ -89,7 +75,7 @@ function(thrust_add_test target_name_var test_name test_src thrust_target)
   set(test_meta_target thrust.all.test.${test_name})
 
   add_executable(${test_target} "${real_test_src}")
-  target_link_libraries(${test_target} ${config_framework_target})
+  target_link_libraries(${test_target} PRIVATE ${config_framework_target})
   target_include_directories(${test_target} PRIVATE "${Thrust_SOURCE_DIR}/testing")
   thrust_clone_target_properties(${test_target} ${thrust_target})
 
@@ -140,15 +126,18 @@ file(GLOB test_srcs
 
 # Add common tests to all configs:
 foreach(thrust_target IN LISTS THRUST_TARGETS)
+  thrust_get_target_property(config_host ${thrust_target} HOST)
   thrust_get_target_property(config_device ${thrust_target} DEVICE)
   thrust_get_target_property(config_prefix ${thrust_target} PREFIX)
 
   foreach(test_src IN LISTS test_srcs)
     get_filename_component(test_name "${test_src}" NAME_WLE)
-    if ("${test_name}" IN_LIST partially_implemented)
-      # This test is partially implemented on _some_ backends...
-      if (NOT "${test_name}" IN_LIST partially_implemented_${config_device})
-        # ...but not on the current one.
+
+    # Is this test restricted to only certain host/device combinations?
+    if(${test_name} IN_LIST restricted_tests)
+      # Is the current host/device combination supported?
+      if (NOT "${config_host}.${config_device}" IN_LIST
+            ${test_name}_host.device_allowed)
         continue()
       endif()
     endif()

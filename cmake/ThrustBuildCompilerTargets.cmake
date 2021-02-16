@@ -6,10 +6,21 @@
 # - Interface target providing compiler-specific options needed to build
 #   Thrust's tests, examples, etc.
 #
+# thrust.compiler_interface_cpp11
+# thrust.compiler_interface_cpp14
+# thrust.compiler_interface_cpp17
+# - Interface targets providing compiler-specific options that should only be
+#   applied to certain dialects of C++.
+#
 # thrust.promote_cudafe_warnings
 # - Interface target that adds warning promotion for NVCC cudafe invocations.
 # - Only exists to work around github issue #1174 on tbb.cuda configurations.
 # - May be combined with thrust.compiler_interface when #1174 is fully resolved.
+#
+# thrust.silence_unreachable_code_warnings
+# - Interface target that silences unreachable code warnings.
+# - Used to selectively disable such warnings in unit tests caused by
+#   unconditionally thrown exceptions.
 
 function(thrust_build_compiler_targets)
   set(cxx_compile_definitions)
@@ -17,29 +28,37 @@ function(thrust_build_compiler_targets)
 
   thrust_update_system_found_flags()
 
-  if (THRUST_TBB_FOUND)
-    # There's a ton of these in the TBB backend, even though the code is correct.
-    # TODO: silence these warnings in code instead
-    append_option_if_available("-Wno-unused-parameter" cxx_compile_options)
-  endif()
-
   if ("MSVC" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
-    # TODO Enable /Wall instead of W3
-    append_option_if_available("/W3" cxx_compile_options)
+    append_option_if_available("/W4" cxx_compile_options)
 
-    # Treat all warnings as errors:
-    append_option_if_available("/WX" cxx_compile_options)
+    # Treat all warnings as errors. This is only supported on Release builds,
+    # as `nv_exec_check_disable` doesn't seem to work with MSVC debug iterators
+    # and spurious warnings are emitted.
+    # See NVIDIA/thrust#1273, NVBug 3129879.
+    if (CMAKE_BUILD_TYPE STREQUAL "Release")
+      append_option_if_available("/WX" cxx_compile_options)
+    endif()
+
+    # Suppress overly-pedantic/unavoidable warnings brought in with /W4:
+    # C4324: structure was padded due to alignment specifier
+    append_option_if_available("/wd4324" cxx_compile_options)
+    # C4505: unreferenced local function has been removed
+    # The CUDA `host_runtime.h` header emits this for
+    # `__cudaUnregisterBinaryUtil`.
+    append_option_if_available("/wd4505" cxx_compile_options)
+    # C4706: assignment within conditional expression
+    # MSVC doesn't provide an opt-out for this warning when the assignment is
+    # intentional. Clang will warn for these, but suppresses the warning when
+    # double-parentheses are used around the assignment. We'll let Clang catch
+    # unintentional assignments and suppress all such warnings on MSVC.
+    append_option_if_available("/wd4706" cxx_compile_options)
 
     # Disabled loss-of-data conversion warnings.
     # TODO Re-enable.
     append_option_if_available("/wd4244" cxx_compile_options)
-    append_option_if_available("/wd4267" cxx_compile_options)
-
-    # Suppress numeric conversion-to-bool warnings.
-    # TODO Re-enable.
-    append_option_if_available("/wd4800" cxx_compile_options)
 
     # Disable warning about applying unary operator- to unsigned type.
+    # TODO Re-enable.
     append_option_if_available("/wd4146" cxx_compile_options)
 
     # MSVC STL assumes that `allocator_traits`'s allocator will use raw pointers,
@@ -64,46 +83,27 @@ function(thrust_build_compiler_targets)
     append_option_if_available("-Winit-self" cxx_compile_options)
     append_option_if_available("-Woverloaded-virtual" cxx_compile_options)
     append_option_if_available("-Wcast-qual" cxx_compile_options)
-    append_option_if_available("-Wno-cast-align" cxx_compile_options)
-    append_option_if_available("-Wno-long-long" cxx_compile_options)
-    append_option_if_available("-Wno-variadic-macros" cxx_compile_options)
+    append_option_if_available("-Wpointer-arith" cxx_compile_options)
+    append_option_if_available("-Wunused-local-typedef" cxx_compile_options)
+    append_option_if_available("-Wvla" cxx_compile_options)
+
+    # Disable GNU extensions (flag is clang only)
+    append_option_if_available("-Wgnu" cxx_compile_options)
+    # Calling a variadic macro with zero args is a GNU extension until C++20,
+    # but the THRUST_PP_ARITY macro is used with zero args. Need to see if this
+    # is a real problem worth fixing.
+    append_option_if_available("-Wno-gnu-zero-variadic-macro-arguments" cxx_compile_options)
+
+    # This complains about functions in CUDA system headers when used with nvcc.
     append_option_if_available("-Wno-unused-function" cxx_compile_options)
-    append_option_if_available("-Wno-unused-variable" cxx_compile_options)
   endif()
 
   if ("GNU" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.5)
-      # In GCC 4.4, the CUDA backend's kernel launch templates cause
-      # impossible-to-decipher "'<anonymous>' is used uninitialized in this
-      # function" warnings, so we disable uninitialized variable warnings.
-      append_option_if_available("-Wno-uninitialized" cxx_compile_options)
-    endif()
-
-    if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 4.5)
-      # This isn't available until GCC 4.3, and misfires on TMP code until
-      # GCC 4.5.
-      append_option_if_available("-Wlogical-op" cxx_compile_options)
-    endif()
-
     if (CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 7.3)
       # GCC 7.3 complains about name mangling changes due to `noexcept`
       # becoming part of the type system; we don't care.
       append_option_if_available("-Wno-noexcept-type" cxx_compile_options)
     endif()
-  endif()
-
-  if (("Clang" STREQUAL "${CMAKE_CXX_COMPILER_ID}") OR
-      ("XL" STREQUAL "${CMAKE_CXX_COMPILER_ID}"))
-    # xlC and Clang warn about unused parameters in uninstantiated templates.
-    # This causes xlC to choke on the OMP backend, which is mostly #ifdef'd out
-    # (and thus has unused parameters) when you aren't using it.
-    append_option_if_available("-Wno-unused-parameters" cxx_compile_options)
-  endif()
-
-  if ("Clang" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
-    # -Wunneeded-internal-declaration misfires in the unit test framework
-    # on older versions of Clang.
-    append_option_if_available("-Wno-unneeded-internal-declaration" cxx_compile_options)
   endif()
 
   if ("Intel" STREQUAL "${CMAKE_CXX_COMPILER_ID}")
@@ -159,4 +159,36 @@ function(thrust_build_compiler_targets)
   target_compile_options(thrust.promote_cudafe_warnings INTERFACE
     $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcudafe=--promote_warnings>
   )
+
+  # Some of our unit tests unconditionally throw exceptions, and compilers will
+  # detect that the following instructions are unreachable. This is intentional
+  # and unavoidable in these cases. This target can be used to silence
+  # unreachable code warnings.
+  add_library(thrust.silence_unreachable_code_warnings INTERFACE)
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    target_compile_options(thrust.silence_unreachable_code_warnings INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:/wd4702>
+      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=/wd4702>
+    )
+  endif()
+
+  # These targets are used for dialect-specific options:
+  add_library(thrust.compiler_interface_cpp11 INTERFACE)
+  add_library(thrust.compiler_interface_cpp14 INTERFACE)
+  add_library(thrust.compiler_interface_cpp17 INTERFACE)
+
+  if (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    # C4127: conditional expression is constant
+    # Disable this MSVC warning for C++11/C++14. In C++17, we can use
+    # THRUST_IF_CONSTEXPR to address these warnings.
+    target_compile_options(thrust.compiler_interface_cpp11 INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:/wd4127>
+      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=/wd4127>
+    )
+    target_compile_options(thrust.compiler_interface_cpp14 INTERFACE
+      $<$<COMPILE_LANGUAGE:CXX>:/wd4127>
+      $<$<AND:$<COMPILE_LANGUAGE:CUDA>,$<CUDA_COMPILER_ID:NVIDIA>>:-Xcompiler=/wd4127>
+    )
+  endif()
+
 endfunction()

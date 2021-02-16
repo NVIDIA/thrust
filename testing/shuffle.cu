@@ -362,8 +362,8 @@ template <typename T>
 void TestHostDeviceIdentical(size_t m) {
   thrust::host_vector<T> host_result(m);
   thrust::host_vector<T> device_result(m);
-  thrust::sequence(host_result.begin(), host_result.end(), 0llu);
-  thrust::sequence(device_result.begin(), device_result.end(), 0llu);
+  thrust::sequence(host_result.begin(), host_result.end(), T{});
+  thrust::sequence(device_result.begin(), device_result.end(), T{});
 
   thrust::default_random_engine host_g(183);
   thrust::default_random_engine device_g(183);
@@ -389,8 +389,8 @@ void TestFunctionIsBijection(size_t m) {
 
   thrust::host_vector<T> host_result(host_f.nearest_power_of_two());
   thrust::host_vector<T> device_result(device_f.nearest_power_of_two());
-  thrust::sequence(host_result.begin(), host_result.end(), 0llu);
-  thrust::sequence(device_result.begin(), device_result.end(), 0llu);
+  thrust::sequence(host_result.begin(), host_result.end(), T{});
+  thrust::sequence(device_result.begin(), device_result.end(), T{});
 
   thrust::transform(host_result.begin(), host_result.end(), host_result.begin(),
                     host_f);
