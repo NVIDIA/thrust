@@ -53,6 +53,7 @@ namespace thrust
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
  *  \pre The range <tt>[map_first, map_last)</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
+ *  \pre The input data shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *
  *  \remark \p gather is the inverse of thrust::scatter.
  *
@@ -108,6 +109,7 @@ __host__ __device__
  *  \tparam OutputIterator must be a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
  *
  *  \pre The range <tt>[map_first, map_last)</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
+ *  \pre The input data shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *
  *  \remark \p gather is the inverse of thrust::scatter.
  *
@@ -166,6 +168,7 @@ template<typename InputIterator,
  *
  *  \pre The range <tt>[map_first, map_last)</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *  \pre The range <tt>[stencil, stencil + (map_last - map_first))</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
+ *  \pre The input data shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *
  *  \remark \p gather_if is the inverse of \p scatter_if.
  *
@@ -232,6 +235,7 @@ __host__ __device__
  *
  *  \pre The range <tt>[map_first, map_last)</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *  \pre The range <tt>[stencil, stencil + (map_last - map_first))</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
+ *  \pre The input data shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *
  *  \remark \p gather_if is the inverse of \p scatter_if.
  *
@@ -299,6 +303,7 @@ template<typename InputIterator1,
  *
  *  \pre The range <tt>[map_first, map_last)</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *  \pre The range <tt>[stencil, stencil + (map_last - map_first))</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
+ *  \pre The input data shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *
  *  \remark \p gather_if is the inverse of \p scatter_if.
  *
@@ -379,6 +384,7 @@ __host__ __device__
  *
  *  \pre The range <tt>[map_first, map_last)</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *  \pre The range <tt>[stencil, stencil + (map_last - map_first))</tt> shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
+ *  \pre The input data shall not overlap the range <tt>[result, result + (map_last - map_first))</tt>.
  *
  *  \remark \p gather_if is the inverse of \p scatter_if.
  *
