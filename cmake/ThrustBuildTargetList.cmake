@@ -60,16 +60,23 @@ function(thrust_set_target_properties target_name host device dialect prefix)
       _THRUST_PREFIX ${prefix}
   )
 
+  get_property(langs GLOBAL PROPERTY ENABLED_LANGUAGES)
+  set(standard_features)
+  if (CUDA IN_LIST langs)
+    list(APPEND standard_features cuda_std_${dialect})
+  endif()
+  if (CXX IN_LIST langs)
+    list(APPEND standard_features cxx_std_${dialect})
+  endif()
+
   get_target_property(type ${target_name} TYPE)
   if (${type} STREQUAL "INTERFACE_LIBRARY")
     target_compile_features(${target_name} INTERFACE
-      cxx_std_${dialect}
-      cuda_std_${dialect}
+      ${standard_features}
     )
   else()
     target_compile_features(${target_name} PUBLIC
-      cxx_std_${dialect}
-      cuda_std_${dialect}
+      ${standard_features}
     )
     set_target_properties(${target_name}
       PROPERTIES
