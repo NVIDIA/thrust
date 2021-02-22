@@ -84,11 +84,11 @@ __host__ __device__ inline int isnan(double x){
 }
 
 __host__ __device__ inline int signbit(float x){
-  return (*((uint32_t *)&x)) & 0x80000000;
+  return ((*((uint32_t *)&x)) & 0x80000000) != 0 ? 1 : 0;
 }
 
 __host__ __device__ inline int signbit(double x){
-  return (*((uint32_t *)&x)) & 0x80000000;
+  return ((*((uint64_t *)&x)) & 0x8000000000000000) != 0ull ? 1 : 0;
 }
 
 __host__ __device__ inline int isfinite(float x){
