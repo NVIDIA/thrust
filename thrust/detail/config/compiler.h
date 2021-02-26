@@ -73,7 +73,7 @@
 #endif
 
 // is the device compiler capable of compiling omp?
-#if defined(_OPENMP) || defined(_NV_STDPAR_OPENMP)
+#if defined(_OPENMP) || defined(_NVHPC_STDPAR_OPENMP)
 #define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_TRUE
 #else
 #define THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE THRUST_FALSE
