@@ -140,7 +140,7 @@ __host__ __device__ inline float copysignf(float x, float y){
 
 
 
-#ifndef __CUDACC__
+#if !defined(__CUDACC__) && !defined(__NVCOMPILER_CUDA__)
 
 // Simple approximation to log1p as Visual Studio is lacking one
 inline double log1p(double x){
