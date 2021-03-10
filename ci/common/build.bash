@@ -80,11 +80,6 @@ if [[ "${CXX_TYPE}" == "nvcxx" ]]; then
   # NVC++ currently uses a lot of memory.
   PARALLEL_LEVEL=1
 else
-  if [[ "${CXX_TYPE}" == "icc" ]]; then
-    # Only the latest version of the Intel C++ compiler, which NVCC doesn't
-    # officially support yet, is freely available.
-    append CMAKE_FLAGS "-DCMAKE_CUDA_FLAGS=-allow-unsupported-compiler"
-  fi
   # We're using NVCC so we need to set the host compiler.
   append CMAKE_FLAGS "-DCMAKE_CXX_COMPILER='${CXX}'"
   append CMAKE_FLAGS "-G Ninja"

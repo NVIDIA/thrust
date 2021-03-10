@@ -21,7 +21,6 @@ CXX_TYPE:
   - nvcxx
   - clang
   - gcc
-  - icc
 
 CXX_VER:
   - 5
@@ -31,15 +30,12 @@ CXX_VER:
   - 9
   - 10
   - 20.9
-  - latest
 
 exclude:
   # Excludes by `SDK_TYPE`.
   - CXX_TYPE: gcc
     SDK_TYPE: nvhpc
   - CXX_TYPE: clang
-    SDK_TYPE: nvhpc
-  - CXX_TYPE: icc
     SDK_TYPE: nvhpc
   - CXX_TYPE: nvcxx
     SDK_TYPE: cuda
@@ -61,14 +57,10 @@ exclude:
     CXX_VER: 9
   - CXX_TYPE: nvcxx
     CXX_VER: 10
-  - CXX_TYPE: nvcxx
-    CXX_VER: latest
   - CXX_TYPE: gcc
     CXX_VER: 10
   - CXX_TYPE: gcc
     CXX_VER: 20.9
-  - CXX_TYPE: gcc
-    CXX_VER: latest
   - CXX_TYPE: clang
     CXX_VER: 5
   - CXX_TYPE: clang
@@ -77,20 +69,3 @@ exclude:
     CXX_VER: 10
   - CXX_TYPE: clang
     CXX_VER: 20.9
-  - CXX_TYPE: clang
-    CXX_VER: latest
-  - CXX_TYPE: icc
-    CXX_VER: 5
-  - CXX_TYPE: icc
-    CXX_VER: 6
-  - CXX_TYPE: icc
-    CXX_VER: 7
-  - CXX_TYPE: icc
-    CXX_VER: 8
-  - CXX_TYPE: icc
-    CXX_VER: 9
-  - CXX_TYPE: icc
-    CXX_VER: 10
-  - CXX_TYPE: icc
-    CXX_VER: 20.9
-
