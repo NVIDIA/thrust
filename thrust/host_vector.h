@@ -466,8 +466,8 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param first The beginning of the range to copy.
      *  \param last  The end of the range to copy.
      *
-     *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html>Input Iterator</a>,
-     *                        and \p InputIterator's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>.
+     *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator>Input Iterator</a>,
+     *                        and \p InputIterator's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>.
      */
     template<typename InputIterator>
     void insert(iterator position, InputIterator first, InputIterator last);
@@ -483,7 +483,7 @@ template<typename T, typename Alloc = std::allocator<T> >
      *  \param first The beginning of the range to copy.
      *  \param last  The end of the range to copy.
      *
-     *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>.
+     *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>.
      */
     template<typename InputIterator>
     void assign(InputIterator first, InputIterator last);

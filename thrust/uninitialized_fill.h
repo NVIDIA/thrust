@@ -51,7 +51,7 @@ namespace thrust
  *  \param x The value to use as the exemplar of the copy constructor.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that
  *          takes a single argument of type \p T.
  *
@@ -80,7 +80,7 @@ namespace thrust
  *  // x.val == 46 for all 0 <= i < N
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/uninitialized_fill.html
+ *  \see https://en.cppreference.com/w/cpp/memory/uninitialized_fill
  *  \see \c uninitialized_fill_n
  *  \see \c fill
  *  \see \c uninitialized_copy
@@ -108,7 +108,7 @@ __host__ __device__
  *  \param last The last element of the range of interest.
  *  \param x The value to use as the exemplar of the copy constructor.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that
  *          takes a single argument of type \p T.
  *
@@ -136,7 +136,7 @@ __host__ __device__
  *  // x.val == 46 for all 0 <= i < N
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/uninitialized_fill.html
+ *  \see https://en.cppreference.com/w/cpp/memory/uninitialized_fill
  *  \see \c uninitialized_fill_n
  *  \see \c fill
  *  \see \c uninitialized_copy
@@ -167,7 +167,7 @@ template<typename ForwardIterator, typename T>
  *  \return <tt>first+n</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that
  *          takes a single argument of type \p T.
  *
@@ -196,7 +196,7 @@ template<typename ForwardIterator, typename T>
  *  // x.val == 46 for all 0 <= i < N
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/uninitialized_fill.html
+ *  \see https://en.cppreference.com/w/cpp/memory/uninitialized_fill
  *  \see \c uninitialized_fill
  *  \see \c fill
  *  \see \c uninitialized_copy_n
@@ -225,7 +225,7 @@ __host__ __device__
  *  \param x The value to use as the exemplar of the copy constructor.
  *  \return <tt>first+n</tt>
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that
  *          takes a single argument of type \p T.
  *
@@ -253,7 +253,7 @@ __host__ __device__
  *  // x.val == 46 for all 0 <= i < N
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/uninitialized_fill.html
+ *  \see https://en.cppreference.com/w/cpp/memory/uninitialized_fill
  *  \see \c uninitialized_fill
  *  \see \c fill
  *  \see \c uninitialized_copy_n

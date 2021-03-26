@@ -40,7 +40,7 @@ namespace thrust
  *  \param last The end of an input range of interest.
  *  \return The distance between the beginning and end of the input range.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
  *
  *  \pre If \c InputIterator meets the requirements of random access iterator, \p last shall be reachable from \p first or
  *       \p first shall be reachable from \p last; otherwise, \p last shall be reachable from \p first.
@@ -61,7 +61,7 @@ namespace thrust
  *  // d is 7
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/distance.html
+ *  \see https://en.cppreference.com/w/cpp/iterator/distance
  */
 template<typename InputIterator>
 inline __host__ __device__

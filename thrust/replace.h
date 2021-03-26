@@ -48,10 +48,10 @@ namespace thrust
  *  \param new_value The new value to replace \p old_value.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html>Assignable.html">Assignable</a>,
- *          \p T is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">EqualityComparable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable>Assignable">Assignable</a>,
+ *          \p T is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">EqualityComparable</a>,
  *          objects of \p T may be compared for equality with objects of
  *          \p ForwardIterator's \c value_type,
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
@@ -78,7 +78,7 @@ namespace thrust
  *  // A contains [99, 2, 3, 99]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace
  *  \see \c replace_if
  *  \see \c replace_copy
  *  \see \c replace_copy_if
@@ -100,10 +100,10 @@ __host__ __device__
  *  \param old_value The value to replace.
  *  \param new_value The new value to replace \p old_value.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html>Assignable.html">Assignable</a>,
- *          \p T is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">EqualityComparable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable>Assignable">Assignable</a>,
+ *          \p T is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">EqualityComparable</a>,
  *          objects of \p T may be compared for equality with objects of
  *          \p ForwardIterator's \c value_type,
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
@@ -128,7 +128,7 @@ __host__ __device__
  *  // A contains [99, 2, 3, 99]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace
  *  \see \c replace_if
  *  \see \c replace_copy
  *  \see \c replace_copy_if
@@ -152,11 +152,11 @@ template<typename ForwardIterator, typename T>
  *         to \c true.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable,
  *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p replace_if to replace
@@ -192,7 +192,7 @@ template<typename ForwardIterator, typename T>
  *  // A contains [1, 0, 2, 0]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace_if.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace
  *  \see \c replace
  *  \see \c replace_copy
  *  \see \c replace_copy_if
@@ -215,11 +215,11 @@ __host__ __device__
  *  \param new_value The new value to replace elements which <tt>pred(*i)</tt> evaluates
  *         to \c true.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable,
  *          and \p ForwardIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p replace_if to replace
@@ -253,7 +253,7 @@ __host__ __device__
  *  // A contains [1, 0, 2, 0]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace_if.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace
  *  \see \c replace
  *  \see \c replace_copy
  *  \see \c replace_copy_if
@@ -280,12 +280,12 @@ template<typename ForwardIterator, typename Predicate, typename T>
  *         to \c true.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p replace_if to replace
@@ -326,7 +326,7 @@ template<typename ForwardIterator, typename Predicate, typename T>
  *  // A contains [0, 20, 0, 40]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace_if.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace
  *  \see \c replace
  *  \see \c replace_copy
  *  \see \c replace_copy_if
@@ -352,12 +352,12 @@ __host__ __device__
  *  \param new_value The new value to replace elements which <tt>pred(*i)</tt> evaluates
  *         to \c true.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p replace_if to replace
@@ -396,7 +396,7 @@ __host__ __device__
  *  // A contains [0, 20, 0, 40]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace_if.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace
  *  \see \c replace
  *  \see \c replace_copy
  *  \see \c replace_copy_if
@@ -427,10 +427,10 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
  *  \return <tt>result + (last-first)</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
- *          \p T is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
+ *          \p T is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>,
  *          \p T may be compared for equality with \p InputIterator's \c value_type,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
@@ -454,7 +454,7 @@ template<typename ForwardIterator, typename InputIterator, typename Predicate, t
  *  // B contains [99, 2, 3, 99]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace_copy.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace_copy
  *  \see \c copy
  *  \see \c replace
  *  \see \c replace_if
@@ -484,10 +484,10 @@ __host__ __device__
  *  \param new_value The replacement value for which <tt>*i == old_value</tt> evaluates to \c true.
  *  \return <tt>result + (last-first)</tt>
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
- *          \p T is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
+ *          \p T is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>,
  *          \p T may be compared for equality with \p InputIterator's \c value_type,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
@@ -510,7 +510,7 @@ __host__ __device__
  *  // B contains [99, 2, 3, 99]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace_copy.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace_copy
  *  \see \c copy
  *  \see \c replace
  *  \see \c replace_if
@@ -541,11 +541,11 @@ template<typename InputIterator, typename OutputIterator, typename T>
  *  \return <tt>result + (last-first)</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
  *  \pre \p first may equal \p result, but the ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
@@ -580,7 +580,7 @@ template<typename InputIterator, typename OutputIterator, typename T>
  *  // B contains [1, 0, 2, 0]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace_copy_if.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace_copy
  *  \see \c replace
  *  \see \c replace_if
  *  \see \c replace_copy
@@ -609,11 +609,11 @@ __host__ __device__
  *  \param new_value The replacement value to assign <tt>pred(*i)</tt> evaluates to \c true.
  *  \return <tt>result + (last-first)</tt>
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
  *  \pre \p first may equal \p result, but the ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
@@ -647,7 +647,7 @@ __host__ __device__
  *  // B contains [1, 0, 2, 0]
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/replace_copy_if.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/replace_copy
  *  \see \c replace
  *  \see \c replace_if
  *  \see \c replace_copy
@@ -679,12 +679,12 @@ template<typename InputIterator, typename OutputIterator, typename Predicate, ty
  *  \return <tt>result + (last-first)</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
  *  \pre \p first may equal \p result, but the ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap otherwise.
@@ -755,12 +755,12 @@ __host__ __device__
  *  \param new_value The replacement value to assign when <tt>pred(*s)</tt> evaluates to \c true. 
  *  \return <tt>result + (last-first)</tt>
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *                         and \p InputIterator2's \c value_type is convertible to \p Predicate's \c argument_type.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T is convertible to \p OutputIterator's \c value_type.
  *
  *  \pre \p first may equal \p result, but the ranges <tt>[first, last)</tt> and <tt>[result, result + (last - first))</tt> shall not overlap otherwise.

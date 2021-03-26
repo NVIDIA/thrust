@@ -42,7 +42,7 @@ namespace thrust
  *
  *  \see device_new
  *  \see device_ptr
- *  \see http://www.sgi.com/tech/stl/Allocators.html
+ *  \see https://en.cppreference.com/w/cpp/memory/allocator
  */
 template<typename T>
   class device_new_allocator

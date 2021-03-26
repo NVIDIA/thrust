@@ -48,7 +48,7 @@ namespace experimental
 /*! \p pinned_allocator is a CUDA-specific host memory allocator
  *  that employs \c cudaMallocHost for allocation.
  *
- *  \see http://www.sgi.com/tech/stl/Allocators.html
+ *  \see https://en.cppreference.com/w/cpp/memory/allocator
  */
 template<typename T> class pinned_allocator;
 

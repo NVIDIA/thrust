@@ -51,7 +51,7 @@ template<typename T> device_ptr<T> device_malloc(const std::size_t n);
  *  \see device_malloc
  *  \see device_ptr
  *  \see device_allocator
- *  \see http://www.sgi.com/tech/stl/Allocators.html
+ *  \see https://en.cppreference.com/w/cpp/memory/allocator
  */
 template<typename T>
   class device_malloc_allocator

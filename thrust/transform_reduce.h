@@ -61,13 +61,13 @@ namespace thrust
  *  \return The result of the transformed reduction.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction's \c result_type is convertible to \c OutputType.
- *  \tparam OutputType is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam OutputType is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and is convertible to \p BinaryFunction's \c first_argument_type and \c second_argument_type.
- *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>,
+ *  \tparam BinaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>,
  *          and \p BinaryFunction's \c result_type is convertible to \p OutputType.
  *
  *  The following code snippet demonstrates how to use \p transform_reduce
@@ -137,13 +137,13 @@ __host__ __device__
  *  \param binary_op The reduction operation.
  *  \return The result of the transformed reduction.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction's \c result_type is convertible to \c OutputType.
- *  \tparam OutputType is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam OutputType is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and is convertible to \p BinaryFunction's \c first_argument_type and \c second_argument_type.
- *  \tparam BinaryFunction is a model of <a href="http://www.sgi.com/tech/stl/BinaryFunction.html">Binary Function</a>,
+ *  \tparam BinaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/binary_function">Binary Function</a>,
  *          and \p BinaryFunction's \c result_type is convertible to \p OutputType.
  *
  *  The following code snippet demonstrates how to use \p transform_reduce

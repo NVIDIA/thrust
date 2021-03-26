@@ -61,17 +61,17 @@ namespace thrust
  *  \return The end of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting range shall not overlap with either input range.
@@ -93,7 +93,7 @@ namespace thrust
  *  // result is now {0, 4, 6}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_difference
  *  \see \p includes
  *  \see \p set_union
  *  \see \p set_intersection
@@ -136,17 +136,17 @@ __host__ __device__
  *  \param result The beginning of the output range.
  *  \return The end of the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting range shall not overlap with either input range.
@@ -166,7 +166,7 @@ __host__ __device__
  *  // result is now {0, 4, 6}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_difference
  *  \see \p includes
  *  \see \p set_union
  *  \see \p set_intersection
@@ -211,14 +211,14 @@ template<typename InputIterator1,
  *  \return The end of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1's \c value_type is convertable to \p StrictWeakCompare's \c first_argument_type.
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2's \c value_type is convertable to \p StrictWeakCompare's \c second_argument_type.
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting range shall not overlap with either input range.
@@ -241,7 +241,7 @@ template<typename InputIterator1,
  *  // result is now {6, 4, 0}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_difference
  *  \see \p includes
  *  \see \p set_union
  *  \see \p set_intersection
@@ -287,14 +287,14 @@ __host__ __device__
  *  \param comp Comparison operator.
  *  \return The end of the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1's \c value_type is convertable to \p StrictWeakCompare's \c first_argument_type.
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2's \c value_type is convertable to \p StrictWeakCompare's \c second_argument_type.
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting range shall not overlap with either input range.
@@ -315,7 +315,7 @@ __host__ __device__
  *  // result is now {6, 4, 0}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_difference
  *  \see \p includes
  *  \see \p set_union
  *  \see \p set_intersection
@@ -368,17 +368,17 @@ template<typename InputIterator1,
  *  \return The end of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting range shall not overlap with either input range.
@@ -400,7 +400,7 @@ template<typename InputIterator1,
  *  // result is now {1, 3, 5}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_intersection.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_intersection
  *  \see \p includes
  *  \see \p set_union
  *  \see \p set_intersection
@@ -450,17 +450,17 @@ __host__ __device__
  *  \param result The beginning of the output range.
  *  \return The end of the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting range shall not overlap with either input range.
@@ -480,7 +480,7 @@ __host__ __device__
  *  // result is now {1, 3, 5}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_intersection.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_intersection
  *  \see \p includes
  *  \see \p set_union
  *  \see \p set_intersection
@@ -534,17 +534,17 @@ template<typename InputIterator1,
  *  \pre The resulting range shall not overlap with either input range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  The following code snippet demonstrates how to use \p set_intersection to compute
  *  the set intersection of sets of integers sorted in descending order using the \p thrust::host execution
@@ -563,7 +563,7 @@ template<typename InputIterator1,
  *  // result is now {5, 3, 1}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_intersection.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_intersection
  *  \see \p includes
  *  \see \p set_union
  *  \see \p set_intersection
@@ -618,17 +618,17 @@ __host__ __device__
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting range shall not overlap with either input range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  The following code snippet demonstrates how to use \p set_intersection to compute
  *  the set intersection of sets of integers sorted in descending order.
@@ -645,7 +645,7 @@ __host__ __device__
  *  // result is now {5, 3, 1}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_intersection.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_intersection
  *  \see \p includes
  *  \see \p set_union
  *  \see \p set_intersection
@@ -694,17 +694,17 @@ template<typename InputIterator1,
  *  \return The end of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting range shall not overlap with either input range.
@@ -726,7 +726,7 @@ template<typename InputIterator1,
  *  // result = {0, 4, 5, 6, 7, 8}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_symmetric_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference
  *  \see \p merge
  *  \see \p includes
  *  \see \p set_difference
@@ -773,17 +773,17 @@ __host__ __device__
  *  \param result The beginning of the output range.
  *  \return The end of the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting range shall not overlap with either input range.
@@ -803,7 +803,7 @@ __host__ __device__
  *  // result = {0, 4, 5, 6, 7, 8}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_symmetric_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference
  *  \see \p merge
  *  \see \p includes
  *  \see \p set_difference
@@ -852,17 +852,17 @@ template<typename InputIterator1,
  *  \return The end of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting range shall not overlap with either input range.
@@ -884,7 +884,7 @@ template<typename InputIterator1,
  *  // result = {8, 7, 6, 5, 4, 0}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_symmetric_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference
  *  \see \p merge
  *  \see \p includes
  *  \see \p set_difference
@@ -934,17 +934,17 @@ __host__ __device__
  *  \param comp Comparison operator.
  *  \return The end of the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting range shall not overlap with either input range.
@@ -964,7 +964,7 @@ __host__ __device__
  *  // result = {8, 7, 6, 5, 4, 0}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_symmetric_difference.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference
  *  \see \p merge
  *  \see \p includes
  *  \see \p set_difference
@@ -1012,17 +1012,17 @@ template<typename InputIterator1,
  *  \return The end of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting range shall not overlap with either input range.
@@ -1044,7 +1044,7 @@ template<typename InputIterator1,
  *  // result = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_union.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_union
  *  \see \p merge
  *  \see \p includes
  *  \see \p set_union
@@ -1089,17 +1089,17 @@ __host__ __device__
  *  \param result The beginning of the output range.
  *  \return The end of the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting range shall not overlap with either input range.
@@ -1119,7 +1119,7 @@ __host__ __device__
  *  // result = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_union.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_union
  *  \see \p merge
  *  \see \p includes
  *  \see \p set_union
@@ -1166,14 +1166,14 @@ template<typename InputIterator1,
  *  \return The end of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1's \c value_type is convertable to \p StrictWeakCompare's \c first_argument_type.
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2's \c value_type is convertable to \p StrictWeakCompare's \c second_argument_type.
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting range shall not overlap with either input range.
@@ -1196,7 +1196,7 @@ template<typename InputIterator1,
  *  // result = {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_union.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_union
  *  \see \p merge
  *  \see \p includes
  *  \see \p set_union
@@ -1244,14 +1244,14 @@ __host__ __device__
  *  \param comp Comparison operator.
  *  \return The end of the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1's \c value_type is convertable to \p StrictWeakCompare's \c first_argument_type.
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2's \c value_type is convertable to \p StrictWeakCompare's \c second_argument_type.
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[first1, last1)</tt> and <tt>[first2, last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting range shall not overlap with either input range.
@@ -1272,7 +1272,7 @@ __host__ __device__
  *  // result = {12, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/set_union.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/set_union
  *  \see \p merge
  *  \see \p includes
  *  \see \p set_union
@@ -1330,22 +1330,22 @@ template<typename InputIterator1,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -1431,22 +1431,22 @@ __host__ __device__
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -1532,23 +1532,23 @@ template<typename InputIterator1,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -1638,23 +1638,23 @@ __host__ __device__
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -1745,20 +1745,20 @@ template<typename InputIterator1,
  *        \c values_first2 parameter because elements from the second input range are never copied to the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -1845,20 +1845,20 @@ __host__ __device__
  *  \note Unlike the other key-value set operations, \p set_intersection_by_key is unique in that it has no
  *        \c values_first2 parameter because elements from the second input range are never copied to the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -1945,21 +1945,21 @@ template<typename InputIterator1,
  *        \c values_first2 parameter because elements from the second input range are never copied to the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2050,21 +2050,21 @@ __host__ __device__
  *  \note Unlike the other key-value set operations, \p set_intersection_by_key is unique in that it has no
  *        \c values_first2 parameter because elements from the second input range are never copied to the output range.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2153,22 +2153,22 @@ template<typename InputIterator1,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2257,22 +2257,22 @@ __host__ __device__
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2361,23 +2361,23 @@ template<typename InputIterator1,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2470,23 +2470,23 @@ __host__ __device__
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2575,22 +2575,22 @@ template<typename InputIterator1,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2677,22 +2677,22 @@ __host__ __device__
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to <tt>operator<</tt>.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2779,23 +2779,23 @@ template<typename InputIterator1,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting ranges shall not overlap with any input range.
@@ -2886,23 +2886,23 @@ __host__ __device__
  *  \return A \p pair \c p such that <tt>p.first</tt> is the end of the output range of keys,
  *          and such that <tt>p.second</tt> is the end of the output range of values.
  *
- *  \tparam InputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator1 and \p InputIterator2 have the same \c value_type,
- *          \p InputIterator1's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator1's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator1's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator1's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          \p InputIterator2 and \p InputIterator1 have the same \c value_type,
- *          \p InputIterator2's \c value_type is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a>,
- *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="http://www.sgi.com/tech/stl/LessThanComparable">LessThan Comparable</a> requirements,
+ *          \p InputIterator2's \c value_type is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>,
+ *          the ordering on \p InputIterator2's \c value_type is a strict weak ordering, as defined in the <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a> requirements,
  *          and \p InputIterator2's \c value_type is convertable to a type in \p OutputIterator's set of \c value_types.
- *  \tparam InputIterator3 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator3 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator3's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam InputIterator4 is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>,
+ *  \tparam InputIterator4 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>,
  *          and \p InputIterator4's \c value_type is convertible to a type in \p OutputIterator2's set of \c value_types.
- *  \tparam OutputIterator1 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam OutputIterator2 is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam StrictWeakCompare is a model of <a href="http://www.sgi.com/tech/stl/StrictWeakOrdering.html">Strict Weak Ordering</a>.
+ *  \tparam OutputIterator1 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam OutputIterator2 is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam StrictWeakCompare is a model of <a href="https://en.cppreference.com/w/cpp/concepts/strict_weak_order">Strict Weak Ordering</a>.
  *
  *  \pre The ranges <tt>[keys_first1, keys_last1)</tt> and <tt>[keys_first2, keys_last2)</tt> shall be sorted with respect to \p comp.
  *  \pre The resulting ranges shall not overlap with any input range.

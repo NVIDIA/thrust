@@ -119,8 +119,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>x.first == y.first && x.second == y.second</tt>.
  *  
- *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -133,8 +133,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>x.first < y.first || (!(y.first < x.first) && x.second < y.second)</tt>.
  *
- *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
- *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
+ *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -147,8 +147,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>!(x == y)</tt>.
  *
- *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -161,8 +161,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>y < x</tt>.
  *
- *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
- *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
+ *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -175,8 +175,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>!(y < x)</tt>.
  *
- *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
- *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
+ *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__
@@ -189,8 +189,8 @@ template <typename T1, typename T2>
  *  \param y The second \p pair to compare.
  *  \return \c true if and only if <tt>!(x < y)</tt>.
  *
- *  \tparam T1 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
- *  \tparam T2 is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T1 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
+ *  \tparam T2 is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  */
 template <typename T1, typename T2>
   inline __host__ __device__

@@ -47,11 +47,11 @@ namespace thrust
  *  \param unary_op The unary operation to apply.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable,
  *          and if \c x and \c y are objects of \c ForwardIterator's \c value_type, then <tt>x + y</tt> is defined,
  *          and if \c T is \p ForwardIterator's \c value_type, then <tt>T(0)</tt> is defined.
- *  \tparam UnaryOperation is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>
+ *  \tparam UnaryOperation is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>
  *                         and \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p tabulate to generate the first \c n non-positive integers
@@ -90,11 +90,11 @@ __host__ __device__
  *  \param last The end of the range.
  *  \param unary_op The unary operation to apply.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable,
  *          and if \c x and \c y are objects of \c ForwardIterator's \c value_type, then <tt>x + y</tt> is defined,
  *          and if \c T is \p ForwardIterator's \c value_type, then <tt>T(0)</tt> is defined.
- *  \tparam UnaryOperation is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction.html">Unary Function</a>
+ *  \tparam UnaryOperation is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>
  *                         and \c UnaryFunction's \c result_type is convertible to \c OutputIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p tabulate to generate the first \c n non-positive integers:

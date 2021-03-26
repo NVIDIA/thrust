@@ -50,9 +50,9 @@ namespace thrust
  *  \return last
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each to print the elements
@@ -86,7 +86,7 @@ namespace thrust
  *  \endcode
  *
  *  \see for_each_n
- *  \see http://www.sgi.com/tech/stl/for_each.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/for_each
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -113,10 +113,10 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *  \return <tt>first + n</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
  *  \tparam Size is an integral type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each_n to print the elements
@@ -149,7 +149,7 @@ InputIterator for_each(const thrust::detail::execution_policy_base<DerivedPolicy
  *  \endcode
  *
  *  \see for_each
- *  \see http://www.sgi.com/tech/stl/for_each.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/for_each
  */
 template<typename DerivedPolicy,
          typename InputIterator,
@@ -173,9 +173,9 @@ InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPoli
  *  \param f The function object to apply to the range <tt>[first, last)</tt>.
  *  \return last
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each to print the elements
@@ -207,7 +207,7 @@ InputIterator for_each_n(const thrust::detail::execution_policy_base<DerivedPoli
  *  \endcode
  *
  *  \see for_each_n
- *  \see http://www.sgi.com/tech/stl/for_each.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/for_each
  */
 template<typename InputIterator,
          typename UnaryFunction>
@@ -227,10 +227,10 @@ InputIterator for_each(InputIterator first,
  *  \param f The function object to apply to the range <tt>[first, first + n)</tt>.
  *  \return <tt>first + n</tt>
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator">Input Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/named_req/InputIterator">Input Iterator</a>,
  *          and \p InputIterator's \c value_type is convertible to \p UnaryFunction's \c argument_type.
  *  \tparam Size is an integral type.
- *  \tparam UnaryFunction is a model of <a href="http://www.sgi.com/tech/stl/UnaryFunction">Unary Function</a>,
+ *  \tparam UnaryFunction is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">Unary Function</a>,
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each_n to print the elements
@@ -262,7 +262,7 @@ InputIterator for_each(InputIterator first,
  *  \endcode
  *
  *  \see for_each
- *  \see http://www.sgi.com/tech/stl/for_each.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/for_each
  */
 template<typename InputIterator,
          typename Size,
