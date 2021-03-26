@@ -2,6 +2,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/system/cpp/vector.h>
+
+#include <nv/target>
+
 #include <memory>
 
 template <typename T>
@@ -80,9 +83,7 @@ struct my_allocator_with_custom_destroy
   __host__ __device__
   void destroy(T *)
   {
-#if !__CUDA_ARCH__
-    g_state = true;
-#endif
+    NV_IF_TARGET(NV_IS_HOST, (g_state = true;));
   }
 
   value_type *allocate(std::ptrdiff_t n)
@@ -203,7 +204,6 @@ void TestAllocatorTraitsRebind()
 }
 DECLARE_UNITTEST(TestAllocatorTraitsRebind);
 
-#if THRUST_CPP_DIALECT >= 2011
 void TestAllocatorTraitsRebindCpp11()
 {
   ASSERT_EQUAL(
@@ -251,5 +251,3 @@ void TestAllocatorTraitsRebindCpp11()
   );
 }
 DECLARE_UNITTEST(TestAllocatorTraitsRebindCpp11);
-#endif // C++11
-

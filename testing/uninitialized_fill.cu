@@ -3,6 +3,7 @@
 #include <thrust/device_malloc_allocator.h>
 #include <thrust/iterator/retag.h>
 
+#include <nv/target>
 
 template<typename ForwardIterator, typename T>
 void uninitialized_fill(my_system &system,
@@ -156,13 +157,13 @@ struct CopyConstructTest
   __host__ __device__
   CopyConstructTest(const CopyConstructTest &)
   {
-#if __CUDA_ARCH__
-    copy_constructed_on_device = true;
-    copy_constructed_on_host   = false;
-#else
-    copy_constructed_on_device = false;
-    copy_constructed_on_host   = true;
-#endif
+    NV_IF_TARGET(NV_IS_DEVICE, (
+      copy_constructed_on_device = true;
+      copy_constructed_on_host   = false;
+    ), (
+      copy_constructed_on_device = false;
+      copy_constructed_on_host   = true;
+    ));
   }
 
   __host__ __device__

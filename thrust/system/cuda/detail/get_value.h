@@ -24,6 +24,8 @@
 #include <thrust/detail/raw_pointer_cast.h>
 #include <thrust/iterator/iterator_traits.h>
 
+#include <nv/target>
+
 THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
@@ -62,24 +64,10 @@ inline __host__ __device__
     }
   };
 
-  // The usual pattern for separating host and device code doesn't work here
-  // because it would result in a compiler warning, either about falling off
-  // the end of a non-void function, or about result_type's default constructor
-  // being a host-only function.
-  #ifdef _NVHPC_CUDA
-  if (THRUST_IS_HOST_CODE) {
-    return war_nvbugs_881631::host_path(exec, ptr);
-  } else {
-    return war_nvbugs_881631::device_path(exec, ptr);
-  }
-  #else
-    #ifndef __CUDA_ARCH__
-      return war_nvbugs_881631::host_path(exec, ptr);
-    #else
-      return war_nvbugs_881631::device_path(exec, ptr);
-    #endif // __CUDA_ARCH__
-  #endif
-  } // end get_value_msvc2005_war()
+  NV_IF_TARGET(NV_IS_HOST,
+               (return war_nvbugs_881631::host_path(exec, ptr);),
+               (return war_nvbugs_881631::device_path(exec, ptr);))
+} // end get_value_msvc2005_war()
 } // end anon namespace
 
 

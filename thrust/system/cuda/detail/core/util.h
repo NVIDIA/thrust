@@ -26,15 +26,17 @@
  ******************************************************************************/
 #pragma once
 
-#include <cuda_occupancy.h>
 #include <thrust/detail/config.h>
-#include <thrust/system/cuda/config.h>
-#include <thrust/type_traits/is_contiguous_iterator.h>
 #include <thrust/detail/raw_pointer_cast.h>
+#include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/util.h>
+#include <thrust/type_traits/is_contiguous_iterator.h>
+
 #include <cub/block/block_load.cuh>
-#include <cub/block/block_store.cuh>
 #include <cub/block/block_scan.cuh>
+#include <cub/block/block_store.cuh>
+
+#include <nv/target>
 
 THRUST_NAMESPACE_BEGIN
 
@@ -356,27 +358,20 @@ namespace core {
       // Use one path, with Agent::ptx_plan, for device code where device-side
       // kernel launches are supported. The other path, with
       // get_agent_plan_impl::get(version), is for host code and for device
-      // code without device-side kernel launches. NVCC and Feta check for
-      // these situations differently.
-      #ifdef _NVHPC_CUDA
-        #ifdef __THRUST_HAS_CUDART__
-          if (CUB_IS_DEVICE_CODE) {
-            return typename get_plan<Agent>::type(typename Agent::ptx_plan());
-          } else
-        #endif
-        {
-          return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
-        }
-      #else
-        #if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
-          typedef typename get_plan<Agent>::type Plan;
+      // code without device-side kernel launches.
+#ifdef __THRUST_HAS_CUDART__
+      NV_IF_TARGET(
+        NV_IS_DEVICE,
+        (
           THRUST_UNUSED_VAR(ptx_version);
-          // We're on device, use default policy
-          return Plan(typename Agent::ptx_plan());
-        #else
-          return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
-        #endif
-      #endif
+          using plan_type = typename get_plan<Agent>::type;
+          using ptx_plan  = typename Agent::ptx_plan;
+          return plan_type{ptx_plan{}};
+        ), // NV_IS_HOST:
+        ( return get_agent_plan_impl<Agent, sm_list>::get(ptx_version); ));
+#else
+      return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
+#endif
     }
 
 // XXX keep this dead-code for now as a gentle reminder
