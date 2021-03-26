@@ -36,14 +36,7 @@
 #include <thrust/system/cuda/detail/core/util.h>
 #include <cassert>
 
-#if 0
-#define __THRUST__TEMPLATE_DEBUG
-#endif
-
-#if __THRUST__TEMPLATE_DEBUG
-template<int...> class ID_impl;
-template<int... I> class Foo { ID_impl<I...> t;};
-#endif
+#include <cub/detail/target.cuh>
 
 THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
@@ -521,15 +514,9 @@ namespace core {
     {
       if (debug_sync)
       {
-        if (THRUST_IS_DEVICE_CODE) {
-          #if THRUST_INCLUDE_DEVICE_CODE
-            cub::detail::device_synchronize();
-          #endif
-        } else {
-          #if THRUST_INCLUDE_HOST_CODE
-            cudaStreamSynchronize(stream);
-          #endif
-        }
+        NV_IF_TARGET(NV_IS_DEVICE,
+                     (cub::detail::device_synchronize();),
+                     (cudaStreamSynchronize(stream);));
       }
     }
 
@@ -747,16 +734,6 @@ namespace core {
     void THRUST_RUNTIME_FUNCTION
     launch(Args... args) const
     {
-#if __THRUST__TEMPLATE_DEBUG
-#ifdef __CUDA_ARCH__
-      typedef typename Foo<
-        shm1::v1,
-        shm1::v2,
-        shm1::v3,
-        shm1::v4,
-        shm1::v5>::t tt;
-#endif
-#endif
       launch_impl(has_enough_shmem_t(),args...);
       sync();
     }
