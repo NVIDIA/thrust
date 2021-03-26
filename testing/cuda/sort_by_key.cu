@@ -4,16 +4,11 @@
 #include <thrust/functional.h>
 
 
-template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Compare, typename Iterator3>
+template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Compare>
 __global__
-void sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Compare comp, Iterator3 is_supported)
+void sort_by_key_kernel(ExecutionPolicy exec, Iterator1 keys_first, Iterator1 keys_last, Iterator2 values_first, Compare comp)
 {
-#if (__CUDA_ARCH__ >= 200)
-  *is_supported = true;
   thrust::sort_by_key(exec, keys_first, keys_last, values_first, comp);
-#else
-  *is_supported = false;
-#endif
 }
 
 
@@ -36,19 +31,15 @@ void TestComparisonSortByKeyDevice(ExecutionPolicy exec, const size_t n, Compare
 
   thrust::host_vector<T>   h_values = h_keys;
   thrust::device_vector<T> d_values = d_keys;
-  
-  thrust::device_vector<bool> is_supported(1);
-  sort_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_values.begin(), comp, is_supported.begin());
+
+  sort_by_key_kernel<<<1,1>>>(exec, d_keys.begin(), d_keys.end(), d_values.begin(), comp);
   cudaError_t const err = cudaDeviceSynchronize();
   ASSERT_EQUAL(cudaSuccess, err);
 
-  if(is_supported[0])
-  {
-    thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), comp);
-    
-    ASSERT_EQUAL(h_keys, d_keys);
-    ASSERT_EQUAL(h_values, d_values);
-  }
+  thrust::sort_by_key(h_keys.begin(), h_keys.end(), h_values.begin(), comp);
+
+  ASSERT_EQUAL(h_keys, d_keys);
+  ASSERT_EQUAL(h_values, d_values);
 };
 
 
@@ -139,7 +130,7 @@ void TestComparisonSortByKeyCudaStreams()
 
   ASSERT_EQUAL(true, thrust::is_sorted(keys.begin(), keys.end()));
   ASSERT_EQUAL(true, thrust::is_sorted(vals.begin(), vals.end()));
-                      
+
   cudaStreamDestroy(s);
 }
 DECLARE_UNITTEST(TestComparisonSortByKeyCudaStreams);
@@ -169,7 +160,7 @@ void TestSortByKeyCudaStreams()
 
   ASSERT_EQUAL(true, thrust::is_sorted(keys.begin(), keys.end()));
   ASSERT_EQUAL(true, thrust::is_sorted(vals.begin(), vals.end()));
-                      
+
   cudaStreamDestroy(s);
 }
 DECLARE_UNITTEST(TestSortByKeyCudaStreams);
