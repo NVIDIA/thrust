@@ -163,6 +163,10 @@ template<typename T, typename Alloc>
     template<typename OtherT, typename OtherAlloc>
     vector_base &operator=(const std::vector<OtherT,OtherAlloc> &v);
 
+    /*! Construct a new std vector and copy the contents of this vector into it.
+     */
+    explicit operator std::vector<T>() const; 
+
     /*! This constructor builds a vector_base from a range.
      *  \param first The beginning of the range.
      *  \param last The end of the range.

@@ -130,6 +130,35 @@ void TestVectorFromSTLVector(void)
     ASSERT_EQUAL(v[0], 0);
     ASSERT_EQUAL(v[1], 1);
     ASSERT_EQUAL(v[2], 2);
+
+    auto result_stl_vector = std::vector<T>(v);
+
+    ASSERT_EQUAL(result_stl_vector.size(), 3lu);
+    ASSERT_EQUAL(result_stl_vector[0], 0);
+    ASSERT_EQUAL(result_stl_vector[1], 1);
+    ASSERT_EQUAL(result_stl_vector[2], 2);
+
+    thrust::device_vector<T> v2(stl_vector);
+
+    ASSERT_EQUAL(v2.size(), 3lu);
+    ASSERT_EQUAL(v2[0], 0);
+    ASSERT_EQUAL(v2[1], 1);
+    ASSERT_EQUAL(v2[2], 2);
+
+    v2 = stl_vector;
+
+    ASSERT_EQUAL(v2.size(), 3lu);
+    ASSERT_EQUAL(v2[0], 0);
+    ASSERT_EQUAL(v2[1], 1);
+    ASSERT_EQUAL(v2[2], 2);
+
+    auto result_stl_vector2 = std::vector<T>(v);
+
+    ASSERT_EQUAL(result_stl_vector2.size(), 3lu);
+    ASSERT_EQUAL(result_stl_vector2[0], 0);
+    ASSERT_EQUAL(result_stl_vector2[1], 1);
+    ASSERT_EQUAL(result_stl_vector2[2], 2);
+
 }
 DECLARE_VECTOR_UNITTEST(TestVectorFromSTLVector);
 

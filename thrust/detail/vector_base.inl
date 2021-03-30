@@ -200,6 +200,15 @@ template<typename T, typename Alloc>
 } // end vector_base::operator=()
 
 template<typename T, typename Alloc>
+  vector_base<T,Alloc>
+    ::operator std::vector<T>() const
+{
+  std::vector<T> vec(size());
+  thrust::copy(begin(),end(),vec.begin());
+  return vec;
+}
+
+template<typename T, typename Alloc>
   template<typename IteratorOrIntegralType>
     void vector_base<T,Alloc>
       ::init_dispatch(IteratorOrIntegralType n,

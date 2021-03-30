@@ -107,7 +107,8 @@ DECLARE_VECTOR_UNITTEST(TestVectorReferenceIterators);
 
 __global__ void testVectorRefOnDevice(thrust::vector_reference<int> in, thrust::vector_reference<int> out)
 {
-  if(!in.size() == out.size()) {
+  if(!in.size() == out.size()) 
+  {
     printf("different sizes");
     asm("trap;");
   }
@@ -130,6 +131,13 @@ void TestVectorReferenceOnDevice(void)
   ASSERT_EQUAL(vin[1], vout[1]);
   ASSERT_EQUAL(vin[5], vout[5]);
   ASSERT_EQUAL(vin[8], vout[8]);
+
+  auto stdvec_out = std::vector<int>(vout);
+
+  ASSERT_EQUAL(stdvec[1], stdvec_out[1]);
+  ASSERT_EQUAL(stdvec[5], stdvec_out[5]);
+  ASSERT_EQUAL(stdvec[8], stdvec_out[8]);
+
 }
 DECLARE_UNITTEST(TestVectorReferenceOnDevice);
 
