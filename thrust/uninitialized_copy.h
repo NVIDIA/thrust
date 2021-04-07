@@ -52,8 +52,8 @@ namespace thrust
  *  \return An iterator pointing to the last element of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that takes
  *          a single argument whose type is \p InputIterator's \c value_type.
  *
@@ -87,7 +87,7 @@ namespace thrust
  *  // x.val == 46 for all 0 <= i < N
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/uninitialized_copy.html
+ *  \see https://en.cppreference.com/w/cpp/memory/uninitialized_copy
  *  \see \c copy
  *  \see \c uninitialized_fill
  *  \see \c device_new
@@ -116,8 +116,8 @@ __host__ __device__
  *  \param result The first element of the output range to copy to.
  *  \return An iterator pointing to the last element of the output range.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that takes
  *          a single argument whose type is \p InputIterator's \c value_type.
  *
@@ -149,7 +149,7 @@ __host__ __device__
  *  // x.val == 46 for all 0 <= i < N
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/uninitialized_copy.html
+ *  \see https://en.cppreference.com/w/cpp/memory/uninitialized_copy
  *  \see \c copy
  *  \see \c uninitialized_fill
  *  \see \c device_new
@@ -180,9 +180,9 @@ template<typename InputIterator, typename ForwardIterator>
  *  \return An iterator pointing to the last element of the output range.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
  *  \tparam Size is an integral type.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that takes
  *          a single argument whose type is \p InputIterator's \c value_type.
  *
@@ -216,7 +216,7 @@ template<typename InputIterator, typename ForwardIterator>
  *  // x.val == 46 for all 0 <= i < N
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/uninitialized_copy.html
+ *  \see https://en.cppreference.com/w/cpp/memory/uninitialized_copy
  *  \see \c uninitialized_copy
  *  \see \c copy
  *  \see \c uninitialized_fill
@@ -246,9 +246,9 @@ __host__ __device__
  *  \param result The first element of the output range to copy to.
  *  \return An iterator pointing to the last element of the output range.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
  *  \tparam Size is an integral type.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          \p ForwardIterator is mutable, and \p ForwardIterator's \c value_type has a constructor that takes
  *          a single argument whose type is \p InputIterator's \c value_type.
  *
@@ -280,7 +280,7 @@ __host__ __device__
  *  // x.val == 46 for all 0 <= i < N
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/uninitialized_copy.html
+ *  \see https://en.cppreference.com/w/cpp/memory/uninitialized_copy
  *  \see \c uninitialized_copy
  *  \see \c copy
  *  \see \c uninitialized_fill

@@ -48,9 +48,9 @@ namespace thrust
  *  \param value The value to be copied.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T's \c value_type is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
@@ -67,7 +67,7 @@ namespace thrust
  *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/fill.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/fill
  *  \see \c fill_n
  *  \see \c uninitialized_fill
  */
@@ -88,9 +88,9 @@ __host__ __device__
  *  \param last The end of the sequence.
  *  \param value The value to be copied.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator is mutable.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T's \c value_type is convertible to \p ForwardIterator's \c value_type.
  *
  *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
@@ -106,7 +106,7 @@ __host__ __device__
  *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/fill.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/fill
  *  \see \c fill_n
  *  \see \c uninitialized_fill
  */
@@ -131,8 +131,8 @@ __host__ __device__
  *  \return <tt>first + n</tt>
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T's \c value_type is convertible to a type in \p OutputIterator's set of \c value_type.
  *
  *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
@@ -149,7 +149,7 @@ __host__ __device__
  *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/fill_n.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/fill_n
  *  \see \c fill
  *  \see \c uninitialized_fill_n
  */
@@ -171,8 +171,8 @@ __host__ __device__
  *  \param value The value to be copied.
  *  \return <tt>first + n</tt>
  *
- *  \tparam OutputIterator is a model of <a href="http://www.sgi.com/tech/stl/OutputIterator.html">Output Iterator</a>.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam OutputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/output_iterator">Output Iterator</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and \p T's \c value_type is convertible to a type in \p OutputIterator's set of \c value_type.
  *
  *  The following code snippet demonstrates how to use \p fill to set a thrust::device_vector's
@@ -188,7 +188,7 @@ __host__ __device__
  *  // v[0] == 137, v[1] == 137, v[2] == 137, v[3] == 137
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/fill_n.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/fill_n
  *  \see \c fill
  *  \see \c uninitialized_fill_n
  */

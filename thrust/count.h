@@ -56,8 +56,8 @@ namespace thrust
  *  \return The number of elements equal to \p value.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be a model of must be a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam EqualityComparable must be a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a> and can be compared for equality with \c InputIterator's \c value_type
+ *  \tparam InputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a> and \c InputIterator's \c value_type must be a model of must be a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam EqualityComparable must be a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a> and can be compared for equality with \c InputIterator's \c value_type
  *
  *  The following code snippet demonstrates how to use \p count to 
  *  count the number of instances in a range of a value of interest using the \p thrust::device execution policy:
@@ -78,7 +78,7 @@ namespace thrust
  *  // result == 3
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/count.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/count
  */
 template<typename DerivedPolicy, typename InputIterator, typename EqualityComparable>
 __host__ __device__
@@ -96,8 +96,8 @@ __host__ __device__
  *  \param value The value to be counted.
  *  \return The number of elements equal to \p value.
  *
- *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be a model of must be a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
- *  \tparam EqualityComparable must be a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a> and can be compared for equality with \c InputIterator's \c value_type
+ *  \tparam InputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a> and \c InputIterator's \c value_type must be a model of must be a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
+ *  \tparam EqualityComparable must be a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a> and can be compared for equality with \c InputIterator's \c value_type
  *
  *  The following code snippet demonstrates how to use \p count to 
  *  count the number of instances in a range of a value of interest.
@@ -116,7 +116,7 @@ __host__ __device__
  *  // result == 3
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/count.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/count
  */
 template <typename InputIterator, typename EqualityComparable>
   typename thrust::iterator_traits<InputIterator>::difference_type
@@ -136,8 +136,8 @@ template <typename InputIterator, typename EqualityComparable>
  *  \return The number of elements where \p pred is \c true.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c Predicate's \c argument_type.
- *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam InputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c Predicate's \c argument_type.
+ *  \tparam Predicate must be a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p count to
  *  count the number of odd numbers in a range using the \p thrust::device execution policy:
@@ -169,7 +169,7 @@ template <typename InputIterator, typename EqualityComparable>
  *  // result == 2
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/count.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/count
  */
 template<typename DerivedPolicy, typename InputIterator, typename Predicate>
 __host__ __device__
@@ -186,8 +186,8 @@ __host__ __device__
  *  \param pred The predicate.
  *  \return The number of elements where \p pred is \c true.
  *
- *  \tparam InputIterator must be a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c Predicate's \c argument_type.
- *  \tparam Predicate must be a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam InputIterator must be a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a> and \c InputIterator's \c value_type must be convertible to \c Predicate's \c argument_type.
+ *  \tparam Predicate must be a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p count to
  *  count the number of odd numbers in a range.
@@ -217,7 +217,7 @@ __host__ __device__
  *  // result == 2
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/count.html
+ *  \see https://en.cppreference.com/w/cpp/algorithm/count
  */
 template <typename InputIterator, typename Predicate>
   typename thrust::iterator_traits<InputIterator>::difference_type

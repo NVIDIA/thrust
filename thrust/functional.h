@@ -62,7 +62,7 @@ template<typename Operation> struct binary_traits;
  *        \c unary_function obsolete, its use is optional if C++11 language
  *        features are enabled.
  *
- *  \see http://www.sgi.com/tech/stl/unary_function.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/unary_function
  *  \see binary_function
  */
 template<typename Argument,
@@ -102,7 +102,7 @@ struct unary_function
  *        \c binary_function obsolete, its use is optional if C++11 language
  *        features are enabled.
  *
- *  \see http://www.sgi.com/tech/stl/binary_function.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/binary_function
  *  \see unary_function
  */
 template<typename Argument1,
@@ -178,7 +178,7 @@ struct binary_function
  *  If \c f is an object of class <tt>plus<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x+y</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x and \c y are objects of type \p T, then <tt>x+y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>plus</tt> to sum two
@@ -204,7 +204,7 @@ struct binary_function
  *  // V3 is now {76, 77, 78, ..., 1075}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/plus.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/plus
  *  \see binary_function
  */
 template<typename T = void>
@@ -241,7 +241,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(plus, +);
  *  If \c f is an object of class <tt>minus<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x-y</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x and \c y are objects of type \p T, then <tt>x-y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>minus</tt> to subtract
@@ -267,7 +267,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(plus, +);
  *  // V3 is now {-74, -73, -72, ..., 925}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/minus.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/minus
  *  \see binary_function
  */
 template<typename T = void>
@@ -304,7 +304,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(minus, -);
  *  If \c f is an object of class <tt>multiplies<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x*y</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x and \c y are objects of type \p T, then <tt>x*y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>multiplies</tt> to multiply
@@ -330,7 +330,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(minus, -);
  *  // V3 is now {75, 150, 225, ..., 75000}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/multiplies.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/multiplies
  *  \see binary_function
  */
 template<typename T = void>
@@ -367,7 +367,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(multiplies, *);
  *  If \c f is an object of class <tt>divides<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x/y</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x and \c y are objects of type \p T, then <tt>x/y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>divides</tt> to divide
@@ -393,7 +393,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(multiplies, *);
  *  // V3 is now {1/75, 2/75, 3/75, ..., 1000/75}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/divides.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/divides
  *  \see binary_function
  */
 template<typename T = void>
@@ -430,7 +430,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(divides, /);
  *  If \c f is an object of class <tt>modulus<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x \% y</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x and \c y are objects of type \p T, then <tt>x \% y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>modulus</tt> to take
@@ -456,7 +456,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(divides, /);
  *  // V3 is now {1%75, 2%75, 3%75, ..., 1000%75}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/modulus.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/modulus
  *  \see binary_function
  */
 template<typename T = void>
@@ -493,7 +493,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(modulus, %);
  *  If \c f is an object of class <tt>negate<T></tt>, and \c x is an object
  *  of class \c T, then <tt>f(x)</tt> returns <tt>-x</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x is an object of type \p T, then <tt>-x</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>negate</tt> to negate
@@ -516,7 +516,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(modulus, %);
  *  // V2 is now {-1, -2, -3, ..., -1000}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/negate.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/negate
  *  \see unary_function
  */
 template<typename T = void>
@@ -548,7 +548,7 @@ THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(negate, -THRUST_FWD(x));
  *  If \c f is an object of class <tt>square<T></tt>, and \c x is an object
  *  of class \c T, then <tt>f(x)</tt> returns <tt>x*x</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x is an object of type \p T, then <tt>x*x</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>square</tt> to square
@@ -612,9 +612,9 @@ THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(square, x*x);
  *  and \c y are objects of class \c T, then <tt>f(x,y)</tt> returns \c true if
  *  <tt>x == y</tt> and \c false otherwise.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
  *
- *  \see http://www.sgi.com/tech/stl/equal_to.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/equal_to
  *  \see binary_function
  */
 template<typename T = void>
@@ -653,9 +653,9 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(equal_to, ==);
  *  and \c y are objects of class \c T, then <tt>f(x,y)</tt> returns \c true if
  *  <tt>x != y</tt> and \c false otherwise.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/EqualityComparable.html">Equality Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/concepts/equality_comparable">Equality Comparable</a>.
  *
- *  \see http://www.sgi.com/tech/stl/not_equal_to.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/not_equal_to
  *  \see binary_function
  */
 template<typename T = void>
@@ -694,9 +694,9 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(not_equal_to, !=);
  *  and \c y are objects of class \c T, then <tt>f(x,y)</tt> returns \c true if
  *  <tt>x > y</tt> and \c false otherwise.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
- *  \see http://www.sgi.com/tech/stl/greater.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/greater
  *  \see binary_function
  */
 template<typename T = void>
@@ -735,9 +735,9 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(greater, >);
  *  and \c y are objects of class \c T, then <tt>f(x,y)</tt> returns \c true if
  *  <tt>x < y</tt> and \c false otherwise.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
- *  \see http://www.sgi.com/tech/stl/less.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/less
  *  \see binary_function
  */
 template<typename T = void>
@@ -776,9 +776,9 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(less, <);
  *  and \c y are objects of class \c T, then <tt>f(x,y)</tt> returns \c true if
  *  <tt>x >= y</tt> and \c false otherwise.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
- *  \see http://www.sgi.com/tech/stl/greater_equal.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/greater_equal
  *  \see binary_function
  */
 template<typename T = void>
@@ -817,9 +817,9 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(greater_equal, >=);
  *  and \c y are objects of class \c T, then <tt>f(x,y)</tt> returns \c true if
  *  <tt>x <= y</tt> and \c false otherwise.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
- *  \see http://www.sgi.com/tech/stl/less_equal.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/less_equal
  *  \see binary_function
  */
 template<typename T = void>
@@ -869,7 +869,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(less_equal, <=);
  *
  *  \tparam T must be convertible to \c bool.
  *
- *  \see http://www.sgi.com/tech/stl/logical_and.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/logical_and
  *  \see binary_function
  */
 template<typename T = void>
@@ -910,7 +910,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(logical_and, &&);
  *
  *  \tparam T must be convertible to \c bool.
  *
- *  \see http://www.sgi.com/tech/stl/logical_or.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/logical_or
  *  \see binary_function
  */
 template<typename T = void>
@@ -965,7 +965,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(logical_or, ||);
  *  // The elements of V are now the logical complement of what they were prior
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/logical_not.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/logical_not
  *  \see unary_function
  */
 template<typename T = void>
@@ -1010,7 +1010,7 @@ THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(logical_not, !THRUST_FWD(x));
  *  If \c f is an object of class <tt>bit_and<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x&y</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x and \c y are objects of type \p T, then <tt>x&y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>bit_and</tt> to take
@@ -1072,7 +1072,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(bit_and, &);
  *  If \c f is an object of class <tt>bit_and<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x|y</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x and \c y are objects of type \p T, then <tt>x|y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>bit_or</tt> to take
@@ -1134,7 +1134,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(bit_or, |);
  *  If \c f is an object of class <tt>bit_and<T></tt>, and \c x and \c y are objects
  *  of class \c T, then <tt>f(x,y)</tt> returns <tt>x^y</tt>.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/Assignable.html">Assignable</a>,
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/CopyAssignable">Assignable</a>,
  *          and if \c x and \c y are objects of type \p T, then <tt>x^y</tt> must be defined and must have a return type that is convertible to \c T.
  *
  *  The following code snippet demonstrates how to use <tt>bit_xor</tt> to take
@@ -1217,7 +1217,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP(bit_xor, ^);
  *  assert(x == id(x));
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/identity.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/identity
  *  \see unary_function
  */
 template<typename T = void>
@@ -1250,7 +1250,7 @@ THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION(identity, THRUST_FWD(x));
  *  object of class <tt>maximum<T></tt> and \c x and \c y are objects of class \c T
  *  <tt>f(x,y)</tt> returns \c x if <tt>x > y</tt> and \c y, otherwise.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  The following code snippet demonstrates that \p maximum returns its
  *  greater argument.
@@ -1306,7 +1306,7 @@ THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION(maximum,
  *  object of class <tt>minimum<T></tt> and \c x and \c y are objects of class \c T
  *  <tt>f(x,y)</tt> returns \c x if <tt>x < y</tt> and \c y, otherwise.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  The following code snippet demonstrates that \p minimum returns its
  *  lesser argument.
@@ -1492,7 +1492,7 @@ struct project2nd<void, void>
  *  There is rarely any reason to construct a <tt>unary_negate</tt> directly;
  *  it is almost always easier to use the helper function not1.
  *
- *  \see http://www.sgi.com/tech/stl/unary_negate.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/unary_negate
  *  \see not1
  */
 template<typename Predicate>
@@ -1529,7 +1529,7 @@ struct unary_negate
  *  \return A new object, <tt>npred</tt> such that <tt>npred(x)</tt> always returns
  *          the same value as <tt>!pred(x)</tt>.
  *
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/AdaptablePredicate.html">Adaptable Predicate</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_negate">Adaptable Predicate</a>.
  *
  *  \see unary_negate
  *  \see not2
@@ -1546,7 +1546,7 @@ template<typename Predicate>
  *  There is rarely any reason to construct a <tt>binary_negate</tt> directly;
  *  it is almost always easier to use the helper function not2.
  *
- *  \see http://www.sgi.com/tech/stl/binary_negate.html
+ *  \see https://en.cppreference.com/w/cpp/utility/functional/binary_negate
  */
 template<typename Predicate>
 struct binary_negate
@@ -1587,7 +1587,7 @@ struct binary_negate
  *  \return A new object, <tt>npred</tt> such that <tt>npred(x,y)</tt> always returns
  *          the same value as <tt>!pred(x,y)</tt>.
  *
- *  \tparam Binary Predicate is a model of <a href="http://www.sgi.com/tech/stl/AdaptableBinaryPredicate.html">Adaptable Binary Predicate</a>.
+ *  \tparam Binary Predicate is a model of <a href="https://en.cppreference.com/w/cpp/utility/functional/AdaptableBinaryPredicate">Adaptable Binary Predicate</a>.
  *
  *  \see binary_negate
  *  \see not1

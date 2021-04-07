@@ -35,7 +35,7 @@ namespace thrust
  *  \return The smaller element.
  *
  *  \tparam T is convertible to \p BinaryPredicate's first argument type and to its second argument type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">BinaryPredicate</a>.
  *
  *  The following code snippet demonstrates how to use \p min to compute the smaller of two
  *  key-value objects.
@@ -80,7 +80,7 @@ __host__ __device__
  *  \param rhs The second value to compare.
  *  \return The smaller element.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  The following code snippet demonstrates how to use \p min to compute the smaller of two
  *  integers.
@@ -111,7 +111,7 @@ __host__ __device__
  *  \return The larger element.
  *
  *  \tparam T is convertible to \p BinaryPredicate's first argument type and to its second argument type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">BinaryPredicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">BinaryPredicate</a>.
  *
  *  The following code snippet demonstrates how to use \p max to compute the larger of two
  *  key-value objects.
@@ -156,7 +156,7 @@ __host__ __device__
  *  \param rhs The second value to compare.
  *  \return The larger element.
  *
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  The following code snippet demonstrates how to use \p max to compute the larger of two
  *  integers.
@@ -207,9 +207,9 @@ __host__ __device__
  *  \return An iterator pointing to the smallest element of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \c ForwardIterator's \c value_type is a model of
- *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *          <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  \code
  *  #include <thrust/extrema.h>
@@ -222,7 +222,7 @@ __host__ __device__
  *  // *result is 0
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/min_element.html 
+ *  \see https://en.cppreference.com/w/cpp/algorithm/min_element 
  */
 template<typename DerivedPolicy, typename ForwardIterator>
 __host__ __device__
@@ -246,9 +246,9 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
  *  \return An iterator pointing to the smallest element of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \c ForwardIterator's \c value_type is a model of
- *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *          <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  \code
  *  #include <thrust/extrema.h>
@@ -260,7 +260,7 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
  *  // *result is 0
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/min_element.html 
+ *  \see https://en.cppreference.com/w/cpp/algorithm/min_element 
  */
 template <typename ForwardIterator>
 ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
@@ -288,10 +288,10 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *          if it is not an empty range; \p last, otherwise.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p min_element to find the smallest element
  *  of a collection of key-value pairs using the \p thrust::host execution policy for parallelization:
@@ -325,7 +325,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last);
  *  // *smallest == {0,7}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/min_element.html 
+ *  \see https://en.cppreference.com/w/cpp/algorithm/min_element 
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
 __host__ __device__
@@ -350,10 +350,10 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
  *  \return An iterator pointing to the smallest element of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p min_element to find the smallest element
  *  of a collection of key-value pairs.
@@ -385,7 +385,7 @@ ForwardIterator min_element(const thrust::detail::execution_policy_base<DerivedP
  *  // *smallest == {0,7}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/min_element.html 
+ *  \see https://en.cppreference.com/w/cpp/algorithm/min_element 
  */
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
@@ -413,9 +413,9 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *          if it is not an empty range; \p last, otherwise.
  *
  *  \tparam A Thrust backend system.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \c ForwardIterator's \c value_type is a model of
- *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *          <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  \code
  *  #include <thrust/extrema.h>
@@ -427,7 +427,7 @@ ForwardIterator min_element(ForwardIterator first, ForwardIterator last,
  *  // *result == 3
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/max_element.html 
+ *  \see https://en.cppreference.com/w/cpp/algorithm/max_element 
  */
 template<typename DerivedPolicy, typename ForwardIterator>
 __host__ __device__
@@ -451,9 +451,9 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
  *  \return An iterator pointing to the largest element of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \c ForwardIterator's \c value_type is a model of
- *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *          <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  \code
  *  #include <thrust/extrema.h>
@@ -464,7 +464,7 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
  *  // *result == 3
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/max_element.html 
+ *  \see https://en.cppreference.com/w/cpp/algorithm/max_element 
  */
 template <typename ForwardIterator>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
@@ -492,10 +492,10 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *          if it is not an empty range; \p last, otherwise.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p max_element to find the largest element
  *  of a collection of key-value pairs using the \p thrust::host execution policy for parallelization.
@@ -529,7 +529,7 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last);
  *  // *largest == {6,1}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/max_element.html 
+ *  \see https://en.cppreference.com/w/cpp/algorithm/max_element 
  */
 template<typename DerivedPolicy, typename ForwardIterator, typename BinaryPredicate>
 __host__ __device__
@@ -554,10 +554,10 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
  *  \return An iterator pointing to the largest element of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate.html">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p max_element to find the largest element
  *  of a collection of key-value pairs.
@@ -589,7 +589,7 @@ ForwardIterator max_element(const thrust::detail::execution_policy_base<DerivedP
  *  // *largest == {6,1}
  *  \endcode
  *
- *  \see http://www.sgi.com/tech/stl/max_element.html 
+ *  \see https://en.cppreference.com/w/cpp/algorithm/max_element 
  */
 template <typename ForwardIterator, typename BinaryPredicate>
 ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
@@ -610,9 +610,9 @@ ForwardIterator max_element(ForwardIterator first, ForwardIterator last,
  *          if it is not an empty range; \p last, otherwise.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \c ForwardIterator's \c value_type is a model of
- *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *          <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  \code
  *  #include <thrust/extrema.h>
@@ -646,9 +646,9 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detai
  *  \return A pair of iterator pointing to the smallest and largest elements of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator.html">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \c ForwardIterator's \c value_type is a model of
- *          <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">LessThan Comparable</a>.
+ *          <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
  *
  *  \code
  *  #include <thrust/extrema.h>
@@ -686,10 +686,10 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(ForwardIterator fir
  *          if it is not an empty range; \p last, otherwise.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p minmax_element to find the smallest and largest elements
  *  of a collection of key-value pairs using the \p thrust::host execution policy for parallelization:
@@ -746,10 +746,10 @@ thrust::pair<ForwardIterator,ForwardIterator> minmax_element(const thrust::detai
  *  \return A pair of iterator pointing to the smallest and largest elements of the range <tt>[first, last)</tt>,
  *          if it is not an empty range; \p last, otherwise.
  *
- *  \tparam ForwardIterator is a model of <a href="http://www.sgi.com/tech/stl/ForwardIterator">Forward Iterator</a>,
+ *  \tparam ForwardIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>,
  *          and \p ForwardIterator's \c value_type is convertible to both \p comp's
  *          \c first_argument_type and \c second_argument_type.
- *  \tparam BinaryPredicate is a model of <a href="http://www.sgi.com/tech/stl/BinaryPredicate">Binary Predicate</a>.
+ *  \tparam BinaryPredicate is a model of <a href="https://en.cppreference.com/w/cpp/named_req/BinaryPredicate">Binary Predicate</a>.
  *
  *  The following code snippet demonstrates how to use \p minmax_element to find the smallest and largest elements
  *  of a collection of key-value pairs.

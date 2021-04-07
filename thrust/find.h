@@ -50,9 +50,9 @@ namespace thrust
  *  \return The first iterator \c i such that <tt>*i == value</tt> or \c last.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *          and \p InputIterator's \c value_type is equality comparable to type \c T.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">EqualityComparable</a>. 
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">EqualityComparable</a>. 
  *
  *  \code
  *  #include <thrust/find.h>
@@ -93,9 +93,9 @@ InputIterator find(const thrust::detail::execution_policy_base<DerivedPolicy> &e
  *  \param value The value to find.
  *  \return The first iterator \c i such that <tt>*i == value</tt> or \c last.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>
  *          and \p InputIterator's \c value_type is equality comparable to type \c T.
- *  \tparam T is a model of <a href="http://www.sgi.com/tech/stl/LessThanComparable.html">EqualityComparable</a>. 
+ *  \tparam T is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">EqualityComparable</a>. 
  *
  *  \code
  *  #include <thrust/find.h>
@@ -137,8 +137,8 @@ InputIterator find(InputIterator first,
  *  \return The first iterator \c i such that <tt>pred(*i)</tt> is \c true, or \c last.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  \code
  *  #include <thrust/find.h>
@@ -200,8 +200,8 @@ InputIterator find_if(const thrust::detail::execution_policy_base<DerivedPolicy>
  *  \param pred A predicate used to test range elements.
  *  \return The first iterator \c i such that <tt>pred(*i)</tt> is \c true, or \c last.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  \code
  *  #include <thrust/find.h>
@@ -263,8 +263,8 @@ InputIterator find_if(InputIterator first,
  *  \return The first iterator \c i such that <tt>pred(*i)</tt> is \c false, or \c last.
  *
  *  \tparam DerivedPolicy The name of the derived execution policy.
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  \code
  *  #include <thrust/find.h>
@@ -326,8 +326,8 @@ InputIterator find_if_not(const thrust::detail::execution_policy_base<DerivedPol
  *  \param pred A predicate used to test range elements.
  *  \return The first iterator \c i such that <tt>pred(*i)</tt> is \c false, or \c last.
  *
- *  \tparam InputIterator is a model of <a href="http://www.sgi.com/tech/stl/InputIterator.html">Input Iterator</a>.
- *  \tparam Predicate is a model of <a href="http://www.sgi.com/tech/stl/Predicate.html">Predicate</a>.
+ *  \tparam InputIterator is a model of <a href="https://en.cppreference.com/w/cpp/iterator/input_iterator">Input Iterator</a>.
+ *  \tparam Predicate is a model of <a href="https://en.cppreference.com/w/cpp/concepts/predicate">Predicate</a>.
  *
  *  \code
  *  #include <thrust/find.h>
