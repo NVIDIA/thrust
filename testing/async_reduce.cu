@@ -973,6 +973,7 @@ struct test_async_reduce_allocator_on_then_after
     );
 
     KNOWN_FAILURE;
+#if 0
     // FIXME: The below fails because you can't combine allocator attachment,
     // `.on`, and `.after`.
     // The `#if 0` can be removed once the KNOWN_FAILURE is resolved.
