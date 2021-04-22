@@ -33,6 +33,9 @@ CXX_VER:
   - 20.9
   - latest
 
+RDC_STATE:
+  - DEFAULT
+
 exclude:
   # Excludes by `SDK_TYPE`.
   - CXX_TYPE: gcc

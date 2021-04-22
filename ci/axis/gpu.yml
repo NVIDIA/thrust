@@ -21,3 +21,7 @@ CXX_TYPE:
 CXX_VER:
   - 7
 
+RDC_STATE:
+  - ON
+  - OFF
+

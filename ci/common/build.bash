@@ -172,6 +172,14 @@ case "${COVERAGE_PLAN}" in
     ;;
 esac
 
+if [[ "${RDC_STATE}" != "DEFAULT" ]]; then
+  # NVC++ can currently only target one compute architecture at a time.
+  append CMAKE_FLAGS "-DTHRUST_ENABLE_TESTS_WITH_RDC=${RDC_STATE}"
+  append CMAKE_FLAGS "-DTHRUST_ENABLE_EXAMPLES_WITH_RDC=${RDC_STATE}"
+  append CMAKE_FLAGS "-DCUB_ENABLE_TESTS_WITH_RDC=${RDC_STATE}"
+  append CMAKE_FLAGS "-DCUB_ENABLE_EXAMPLES_WITH_RDC=${RDC_STATE}"
+fi
+
 if [[ -n "${@}" ]]; then
   append CMAKE_BUILD_FLAGS "${@}"
 fi
