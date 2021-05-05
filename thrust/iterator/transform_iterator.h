@@ -312,7 +312,7 @@ template <class AdaptableUnaryFunction, class Iterator, class Reference = use_de
       // Create a temporary to allow iterators with wrapped references to
       // convert to their value type before calling m_f. Note that this
       // disallows non-constant operations through m_f.
-      typename thrust::iterator_value<Iterator>::type x = *this->base();
+      typename thrust::iterator_value<Iterator>::type const& x = *this->base();
       return m_f(x);
     }
 
