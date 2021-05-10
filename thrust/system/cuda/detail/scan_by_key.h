@@ -512,8 +512,8 @@ namespace __scan_by_key {
             inequality_op(equality_op_),
             scan_op(scan_op_)
       {
-        Size tile_idx      = blockIdx.x;
-        Size tile_base     = ITEMS_PER_TILE * tile_idx;
+        int  tile_idx      = blockIdx.x;
+        Size tile_base     = ITEMS_PER_TILE * static_cast<Size>(tile_idx);
         Size num_remaining = num_items - tile_base;
 
         if (num_remaining > ITEMS_PER_TILE)
