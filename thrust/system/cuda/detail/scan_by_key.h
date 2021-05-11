@@ -734,7 +734,7 @@ namespace __scan_by_key {
                              ScanOp                     scan_op,
                              AddInitToScan              add_init_to_scan)
   {
-    Size         num_items    = static_cast<Size>(thrust::distance(keys_first, keys_last));
+    size_t       num_items    = static_cast<size_t>(thrust::distance(keys_first, keys_last));
     size_t       storage_size = 0;
     cudaStream_t stream       = cuda_cub::stream(policy);
     bool         debug_sync   = THRUST_DEBUG_SYNC_FLAG;
