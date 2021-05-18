@@ -1,4 +1,9 @@
-# Thrust 1.12.0 (NVIDIA HPC SDK 21.3, CUDA Toolkit 11.4)
+# Thrust 1.12.1 (CUDA Toolkit 11.4)
+
+Thrust 1.12.1 is a trivial patch release that slightly changes the phrasing of
+a deprecation message.
+
+# Thrust 1.12.0 (NVIDIA HPC SDK 21.3)
 
 ## Summary
 
