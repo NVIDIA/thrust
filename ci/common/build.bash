@@ -182,6 +182,12 @@ if [[ "${BUILD_TYPE}" == "cpu" ]]; then
   append CTEST_FLAGS "-E ^cub|^thrust.*cuda"
 fi
 
+if [[ "${CXX_TYPE}" == "icc" ]]; then
+  # The free version of icpc used in gpuCI seems to have a compiler bug that
+  # causes a scan test to produce incorrect output.
+  append CTEST_FLAGS "-E thrust\\.cpp\\.tbb\\.cpp..\\.test\\.scan$"
+fi
+
 if [[ -n "${@}" ]]; then
   for arg in "${@}"
   do
