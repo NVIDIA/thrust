@@ -70,6 +70,7 @@
 /*! \def THRUST_PATCH_NUMBER
  *  \brief The preprocessor macro \p THRUST_PATCH_NUMBER encodes the
  *         patch number of the Thrust library.
+ *         Legacy; will be 0 for all future releases.
  */
 #define THRUST_PATCH_NUMBER 0
 

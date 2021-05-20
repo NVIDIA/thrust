@@ -467,8 +467,8 @@ The version number for a Thrust release uses the following format: `MMM.mmm.ss-p
      breaking API, ABI, or semantic changes are made.
    * `THRUST_VERSION_SUBMINOR`/`ss`: Subminor version, up to 2 decimal digits. It is incremented
      when notable new features or bug fixes or features that are API-backwards-compatible are made.
-   * `THRUST_PATCH_NUMBER`/`ppp`: Patch number, up to 3 decimal digits. It is incremented if any
-     change in the repo whatsoever is made and no other version component has been incremented.
+   * `THRUST_PATCH_NUMBER`/`ppp`: Patch number, up to 3 decimal digits. This is no longer used and
+     will be zero for all future releases.
 
 The `<thrust/version.h>` header defines `THRUST_*` macros for all of the version components mentioned
 above. Additionally, a `THRUST_VERSION` macro is defined, which is an integer literal containing all
