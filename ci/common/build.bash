@@ -232,7 +232,11 @@ fi
 
 log "Configure Thrust and CUB..."
 
+# Clear out any stale CMake configs:
+rm -rf CMakeCache.txt CMakeFiles/
+
 echo_and_run_timed "Configure" cmake .. ${CMAKE_FLAGS}
+configure_status=$?
 
 log "Build Thrust and CUB..."
 
@@ -240,6 +244,7 @@ log "Build Thrust and CUB..."
 # determine_build_parallelism.bash, so it can't be part of ${CMAKE_BUILD_FLAGS}.
 set +e # Don't stop on build failures.
 echo_and_run_timed "Build" cmake --build . ${CMAKE_BUILD_FLAGS} -j ${PARALLEL_LEVEL}
+build_status=$?
 set -e
 
 ################################################################################
@@ -249,4 +254,20 @@ set -e
 log "Test Thrust and CUB..."
 
 echo_and_run_timed "Test" ctest ${CTEST_FLAGS}
+test_status=$?
 
+################################################################################
+# SUMMARY - Print status of each step and exit with failure if needed.
+################################################################################
+
+log "Summary:"
+log "- Configure Error Code: ${configure_status}"
+log "- Build Error Code: ${build_status}"
+log "- Test Error Code: ${test_status}"
+
+
+if [[ "${configure_status}" != "0" ]] || \
+   [[ "${build_status}" != "0" ]] || \
+   [[ "${test_status}" != "0" ]]; then
+     exit 1
+fi
