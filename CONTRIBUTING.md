@@ -66,7 +66,7 @@ git config --global user.email johndoe@example.com
 
 ### Configure CMake builds
 
-Thrust uses [CMake](https://www.cmake.org) for its developer build system. To
+Thrust uses [CMake](https://www.cmake.org) for its primary build system. To
 configure, build, and test your checkout of Thrust:
 
 ```
@@ -75,9 +75,10 @@ mkdir build
 cd build
 
 # Configure -- use one of the following:
-cmake ..   # Command line interface.
-ccmake ..  # ncurses GUI (Linux only)
-cmake-gui  # Graphical UI, set source/build directories in the app
+cmake ..                                 # Command line interface
+cmake -DTHRUST_INCLUDE_CUB_CMAKE=ON ..   # Enables CUB development targets
+ccmake ..                # ncurses GUI (Linux only)
+cmake-gui                # Graphical UI, set source/build directories in the app
 
 # Build:
 cmake --build . -j <num jobs>   # invokes make (or ninja, etc)
@@ -86,7 +87,10 @@ cmake --build . -j <num jobs>   # invokes make (or ninja, etc)
 ctest
 ```
 
-See [CMake Options](#cmake-options) for details on customizing the build.
+See [CMake Options](#cmake-options) for details on customizing the build. To
+enable CUB tests and examples, set the `THRUST_INCLUDE_CUB_CMAKE` option to
+`ON`. Additional CMake options for CUB are listed
+[here](https://github.com/NVIDIA/cub/blob/main/CONTRIBUTING.md#cmake-options).
 
 ## Create a Development Branch
 
