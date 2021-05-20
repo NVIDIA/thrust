@@ -7,6 +7,8 @@
 #include <thrust/sequence.h>
 #include <thrust/iterator/counting_iterator.h>
 
+#include <memory>
+
 template <class Vector>
 void TestTransformIterator(void)
 {
@@ -83,4 +85,29 @@ struct TestTransformIteratorReduce
     }
 };
 VariableUnitTest<TestTransformIteratorReduce, IntegralTypes> TestTransformIteratorReduceInstance;
+
+
+struct ExtractValue{
+    int operator()(std::unique_ptr<int> const& n){
+        return *n;
+    }
+};
+
+void TestTransformIteratorNonCopyable(){
+
+    thrust::host_vector<std::unique_ptr<int>> hv(4);
+    hv[0].reset(new int{1});
+    hv[1].reset(new int{2});
+    hv[2].reset(new int{3});
+    hv[3].reset(new int{4});
+
+    auto transformed = thrust::make_transform_iterator(hv.begin(), ExtractValue{});
+    ASSERT_EQUAL(transformed[0], 1);
+    ASSERT_EQUAL(transformed[1], 2);
+    ASSERT_EQUAL(transformed[2], 3);
+    ASSERT_EQUAL(transformed[3], 4);
+
+}
+
+DECLARE_UNITTEST(TestTransformIteratorNonCopyable);
 
