@@ -41,6 +41,18 @@ function echo_and_run_timed {
   time ${@:2}
 }
 
+# join_delimit <delimiter> [value [value [...]]]
+# Combine all values into a single string, separating each by a single character
+# delimiter. Eg:
+# foo=(bar baz kramble)
+# joined_foo=$(join_delimit "|" "${foo[@]}")
+# echo joined_foo # "bar|baz|kramble"
+function join_delimit {
+  local IFS="${1}"
+  shift
+  echo "${*}"
+}
+
 ################################################################################
 # VARIABLES - Set up bash and environmental variables.
 ################################################################################
@@ -178,15 +190,26 @@ fi
 
 append CTEST_FLAGS "--output-on-failure"
 
+CTEST_EXCLUSION_REGEXES=()
+
 if [[ "${BUILD_TYPE}" == "cpu" ]]; then
-  append CTEST_FLAGS "-E ^cub|^thrust.*cuda"
+  CTEST_EXCLUSION_REGEXES+=("^cub" "^thrust.*cuda")
+fi
+
+if [[ "${CXX_TYPE}" == "icc" ]]; then
+  # The free version of icpc used in gpuCI seems to have a compiler bug that
+  # causes a scan test to produce incorrect output.
+  CTEST_EXCLUSION_REGEXES+=("thrust\\.cpp\\.tbb\\.cpp..\\.test\\.scan$")
+fi
+
+if [[ -n "${CTEST_EXCLUSION_REGEXES[@]}" ]]; then
+  CTEST_EXCLUSION_REGEX=$(join_delimit "|" "${CTEST_EXCLUSION_REGEXES[@]}")
+  append CTEST_FLAGS "-E ${CTEST_EXCLUSION_REGEX}"
 fi
 
 if [[ -n "${@}" ]]; then
-  for arg in "${@}"
-  do
-    append CTEST_FLAGS "-R ^${arg}$"
-  done
+  CTEST_INCLUSION_REGEX=$(join_delimit "|" "${@}")
+  append CTEST_FLAGS "-R ${CTEST_INCLUSION_REGEX[@]}"
 fi
 
 # Export variables so they'll show up in the logs when we report the environment.
