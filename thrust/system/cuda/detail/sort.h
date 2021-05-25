@@ -334,6 +334,7 @@ namespace __merge_sort {
       // Parallel thread block merge sort
       //---------------------------------------------------------------------
 
+      template <bool IS_LAST_TILE>
       THRUST_DEVICE_FUNCTION void
       block_mergesort(int tid,
                       int count,
@@ -343,9 +344,12 @@ namespace __merge_sort {
         using core::uninitialized_array;
         using core::sync_threadblock;
 
-        // stable sort items in a single thread
+        // if first element of thread is in input range, stable sort items
         //
-        stable_odd_even_sort(keys_loc,items_loc);
+        if (!IS_LAST_TILE || ITEMS_PER_THREAD * tid < count)
+        {
+          stable_odd_even_sort(keys_loc, items_loc);
+        }
 
         // each thread has  sorted keys_loc
         // merge sort keys_loc in shared memory
@@ -499,17 +503,17 @@ namespace __merge_sort {
 
         if (IS_LAST_TILE)
         {
-          block_mergesort(tid,
-                          num_remaining,
-                          keys_loc,
-                          items_loc);
+          block_mergesort<IS_LAST_TILE>(tid,
+                                        num_remaining,
+                                        keys_loc,
+                                        items_loc);
         }
         else
         {
-          block_mergesort(tid,
-                          ITEMS_PER_TILE,
-                          keys_loc,
-                          items_loc);
+          block_mergesort<IS_LAST_TILE>(tid,
+                                        ITEMS_PER_TILE,
+                                        keys_loc,
+                                        items_loc);
         }
 
         sync_threadblock();
