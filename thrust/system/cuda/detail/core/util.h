@@ -92,10 +92,10 @@ namespace core {
       int shared_memory_size;
       int grid_size;
 
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       AgentPlan() {}
 
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       AgentPlan(int block_threads_,
                 int items_per_thread_,
                 int shared_memory_size_,
@@ -109,7 +109,7 @@ namespace core {
       }
 
       template <class PtxPlan>
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       AgentPlan(PtxPlan,
                 typename thrust::detail::disable_if_convertible<
                     PtxPlan,
@@ -133,7 +133,7 @@ namespace core {
               typename AgentPlanType = AgentPlan>
     struct AgentPlanFromTunings
     {
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       static AgentPlanType get()
       {
         using tunings_t = typename Agent::Tunings;
@@ -147,7 +147,7 @@ namespace core {
 
       // Used by ptx_dispatch:
       template <typename Tuning>
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       void operator()(cub::detail::type_wrapper<Tuning>)
       {
         using PtxPlan = typename Agent::template PtxPlan<Tuning>;
@@ -162,8 +162,8 @@ namespace core {
   /////////////////////////
   /////////////////////////
 
-  THRUST_RUNTIME_FUNCTION
-  int get_sm_count()
+  CUB_RUNTIME_FUNCTION
+  inline int get_sm_count()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -181,8 +181,8 @@ namespace core {
     return i32value;
   }
 
-  THRUST_RUNTIME_FUNCTION
-  std::size_t get_max_shared_memory_per_block()
+  CUB_RUNTIME_FUNCTION
+  inline std::size_t get_max_shared_memory_per_block()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -201,9 +201,9 @@ namespace core {
     return static_cast<std::size_t>(i32value);
   }
 
-  THRUST_RUNTIME_FUNCTION
-  std::size_t vshmem_size(std::size_t shmem_per_block,
-                          std::size_t num_blocks)
+  CUB_RUNTIME_FUNCTION
+  inline std::size_t vshmem_size(std::size_t shmem_per_block,
+                                 std::size_t num_blocks)
   {
     std::size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -313,8 +313,8 @@ namespace core {
     __host__ __device__ operator T const &() const { return value_; }
   };
 
-  THRUST_RUNTIME_FUNCTION
-  cuda_optional<int> get_ptx_version()
+  CUB_RUNTIME_FUNCTION
+  inline cuda_optional<int> get_ptx_version()
   {
     int ptx_version = 0;
     cudaError_t status = cub::PtxVersion(ptx_version);
@@ -365,9 +365,9 @@ namespace core {
 
   // FIXME Just call cub directly
   template <int ALLOCATIONS>
-  THRUST_RUNTIME_FUNCTION
+  CUB_RUNTIME_FUNCTION
   cudaError_t alias_storage(void*   storage_ptr,
-                            size_t& storage_size,
+                            std::size_t& storage_size,
                             void*   (&allocations)[ALLOCATIONS],
                             std::size_t  (&allocation_sizes)[ALLOCATIONS])
   {

@@ -46,6 +46,7 @@
 #include <thrust/system/cuda/detail/par_to_seq.h>
 #include <thrust/system/cuda/detail/util.h>
 
+#include <cub/detail/cdp_dispatch.cuh>
 #include <cub/detail/ptx_dispatch.cuh>
 #include <cub/device/device_reduce.cuh>
 #include <cub/util_math.cuh>
@@ -181,11 +182,11 @@ namespace __reduce {
     {
       cub::GridMappingStrategy grid_mapping;
 
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       Plan() {}
 
       template <class P>
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
           Plan(P) : core::AgentPlan(P()),
                     grid_mapping(P::GRID_MAPPING)
       {
@@ -686,7 +687,7 @@ namespace __reduce {
             class Size,
             class ReductionOp,
             class T>
-  cudaError_t THRUST_RUNTIME_FUNCTION
+  cudaError_t CUB_RUNTIME_FUNCTION
   doit_step(void *       d_temp_storage,
             size_t &     temp_storage_bytes,
             InputIt      input_it,
@@ -889,7 +890,7 @@ namespace __reduce {
             typename Size,
             typename T,
             typename BinaryOp>
-  THRUST_RUNTIME_FUNCTION
+  CUB_RUNTIME_FUNCTION
   T reduce(execution_policy<Derived>& policy,
            InputIt                    first,
            Size                       num_items,
@@ -965,7 +966,7 @@ template <typename Derived,
           typename Size,
           typename T,
           typename BinaryOp>
-THRUST_RUNTIME_FUNCTION
+CUB_RUNTIME_FUNCTION
 T reduce_n_impl(execution_policy<Derived>& policy,
                 InputIt                    first,
                 Size                       num_items,
@@ -1054,14 +1055,17 @@ T reduce_n(execution_policy<Derived>& policy,
            T                          init,
            BinaryOp                   binary_op)
 {
-  if (__THRUST_HAS_CUDART__)
-    return thrust::cuda_cub::detail::reduce_n_impl(
-      policy, first, num_items, init, binary_op);
-
-  #if !__THRUST_HAS_CUDART__
-    return thrust::reduce(
-      cvt_to_seq(derived_cast(policy)), first, first + num_items, init, binary_op);
-  #endif
+  CUB_CDP_DISPATCH((init = thrust::cuda_cub::detail::reduce_n_impl(policy,
+                                                                   first,
+                                                                   num_items,
+                                                                   init,
+                                                                   binary_op);),
+                   (init = thrust::reduce(cvt_to_seq(derived_cast(policy)),
+                                          first,
+                                          first + num_items,
+                                          init,
+                                          binary_op);));
+  return init;
 }
 
 template <class Derived, class InputIt, class T, class BinaryOp>
