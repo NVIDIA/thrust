@@ -877,13 +877,13 @@ template<typename T, typename Alloc>
         new_end = m_storage.uninitialized_copy(begin(), end(), new_storage.begin());
 
         // construct new elements to insert
-        m_storage.default_construct_n(new_end, n);
+        new_storage.default_construct_n(new_end, n);
         new_end += n;
       } // end try
       catch(...)
       {
         // something went wrong, so destroy & deallocate the new storage
-        m_storage.destroy(new_storage.begin(), new_end);
+        new_storage.destroy(new_storage.begin(), new_end);
         new_storage.deallocate();
 
         // rethrow
