@@ -601,12 +601,11 @@ namespace core {
   template <class T>
   class cuda_optional
   {
-    cudaError_t status_;
-    T           value_;
+    cudaError_t status_{cudaSuccess};
+    T           value_{};
 
   public:
-    __host__ __device__
-    cuda_optional() : status_(cudaSuccess) {}
+    cuda_optional() = default;
 
     __host__ __device__
     cuda_optional(T v, cudaError_t status = cudaSuccess) : status_(status), value_(v) {}
