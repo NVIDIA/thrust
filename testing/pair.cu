@@ -218,6 +218,10 @@ void TestPairTupleSize(void)
 {
   int result = thrust::tuple_size< thrust::pair<int,int> >::value;
   ASSERT_EQUAL(2, result);
+
+  // test const pair
+  int const_result = thrust::tuple_size< thrust::pair<int,int> const >::value;
+  ASSERT_EQUAL(2, const_result);
 };
 DECLARE_UNITTEST(TestPairTupleSize);
 
@@ -229,6 +233,13 @@ void TestPairTupleElement(void)
 
   ASSERT_EQUAL_QUIET(typeid(int),   typeid(type0));
   ASSERT_EQUAL_QUIET(typeid(float), typeid(type1));
+
+  // test const pair
+  typedef thrust::tuple_element<0, thrust::pair<int, float> const>::type const_type0;
+  typedef thrust::tuple_element<1, thrust::pair<int, float> const>::type const_type1;
+
+  ASSERT_EQUAL_QUIET(typeid(int const),   typeid(const_type0));
+  ASSERT_EQUAL_QUIET(typeid(float const), typeid(const_type1));
 };
 DECLARE_UNITTEST(TestPairTupleElement);
 
