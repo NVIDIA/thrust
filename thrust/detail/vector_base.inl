@@ -364,7 +364,38 @@ template<typename T, typename Alloc>
 {
   if(n > capacity())
   {
-    allocate_and_copy(n, begin(), end(), m_storage);
+    // compute the new capacity after the allocation
+    size_type new_capacity = n;
+
+    // do not exceed maximum storage
+    new_capacity = thrust::min THRUST_PREVENT_MACRO_SUBSTITUTION <size_type>(new_capacity, max_size());
+
+    // create new storage
+    storage_type new_storage(copy_allocator_t(), m_storage, new_capacity);
+
+    // record how many constructors we invoke in the try block below
+    iterator new_end = new_storage.begin();
+
+    try
+    {
+      // construct copy all elements into the newly allocated storage
+      new_end = m_storage.uninitialized_copy(begin(), end(), new_storage.begin());
+    } // end try
+    catch(...)
+    {
+      // something went wrong, so destroy & deallocate the new storage
+      new_storage.destroy(new_storage.begin(), new_end);
+      new_storage.deallocate();
+
+      // rethrow
+      throw;
+    } // end catch
+
+    // call destructors on the elements in the old storage
+    m_storage.destroy(begin(), end());
+
+    // record the vector's new state
+    m_storage.swap(new_storage);
   } // end if
 } // end vector_base::reserve()
 
@@ -877,13 +908,13 @@ template<typename T, typename Alloc>
         new_end = m_storage.uninitialized_copy(begin(), end(), new_storage.begin());
 
         // construct new elements to insert
-        m_storage.default_construct_n(new_end, n);
+        new_storage.default_construct_n(new_end, n);
         new_end += n;
       } // end try
       catch(...)
       {
         // something went wrong, so destroy & deallocate the new storage
-        m_storage.destroy(new_storage.begin(), new_end);
+        new_storage.destroy(new_storage.begin(), new_end);
         new_storage.deallocate();
 
         // rethrow
