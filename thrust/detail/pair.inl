@@ -140,13 +140,13 @@ template <typename T1, typename T2>
 
 // specializations of tuple_element for pair
 template<typename T1, typename T2>
-  struct tuple_element<0, const pair<T1,T2> >
+  struct tuple_element<0, pair<T1,T2> const>
 {
   typedef T1 type;
 }; // end tuple_element
 
 template<typename T1, typename T2>
-  struct tuple_element<1, const pair<T1,T2> >
+  struct tuple_element<1, pair<T1,T2> const >
 {
   typedef T2 type;
 }; // end tuple_element
@@ -154,7 +154,7 @@ template<typename T1, typename T2>
 
 // specialization of tuple_size for pair
 template<typename T1, typename T2>
-  struct tuple_size< const pair<T1,T2 > >
+  struct tuple_size< pair<T1,T2> const >
 {
   static const unsigned int value = 2;
 }; // end tuple_size
