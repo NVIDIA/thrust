@@ -50,6 +50,7 @@
 #
 # # Create target with HOST=CPP DEVICE=CUDA and some advanced flags set
 # thrust_create_target(TargetName
+#   IGNORE_DEPRECATED_API         # Silence build warnings about deprecated APIs
 #   IGNORE_DEPRECATED_CPP_DIALECT # Silence build warnings about deprecated compilers and C++ standards
 #   IGNORE_DEPRECATED_CPP_11      # Only silence deprecation warnings for C++11
 #   IGNORE_DEPRECATED_COMPILER    # Only silence deprecation warnings for old compilers
@@ -104,6 +105,7 @@ function(thrust_create_target target_name)
     ADVANCED
     FROM_OPTIONS
     IGNORE_CUB_VERSION_CHECK
+    IGNORE_DEPRECATED_API
     IGNORE_DEPRECATED_COMPILER
     IGNORE_DEPRECATED_CPP_11
     IGNORE_DEPRECATED_CPP_DIALECT
@@ -194,6 +196,10 @@ function(thrust_create_target target_name)
 
   if (TCT_IGNORE_DEPRECATED_CPP_DIALECT)
     target_compile_definitions(${target_name} INTERFACE "THRUST_IGNORE_DEPRECATED_CPP_DIALECT")
+  endif()
+
+  if (TCT_IGNORE_DEPRECATED_API)
+    target_compile_definitions(${target_name} INTERFACE "THRUST_IGNORE_DEPRECATED_API")
   endif()
 
   if (TCT_IGNORE_DEPRECATED_CPP_11)

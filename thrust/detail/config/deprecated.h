@@ -21,8 +21,17 @@
 #pragma once
 
 #include <thrust/detail/config/compiler.h>
+#include <thrust/detail/config/cpp_dialect.h>
 
-#if THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
+#if defined(CUB_IGNORE_DEPRECATED_API) && !defined(THRUST_IGNORE_DEPRECATED_API)
+#  define THRUST_IGNORE_DEPRECATED_API
+#endif
+
+#ifdef THRUST_IGNORE_DEPRECATED_API
+#  define THRUST_DEPRECATED
+#elif THRUST_CPP_DIALECT >= 2014
+#  define THRUST_DEPRECATED [[deprecated]]
+#elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 #  define THRUST_DEPRECATED __declspec(deprecated)
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
 #  define THRUST_DEPRECATED __attribute__((deprecated))

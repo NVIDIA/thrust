@@ -29,12 +29,3 @@ namespace thrust
 typedef thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::tag host_system_tag;
 
 } // end thrust
-
-// TODO remove this in 1.8.0
-namespace thrust
-{
-
-typedef THRUST_DEPRECATED host_system_tag host_space_tag;
-
-} // end thrust
-
