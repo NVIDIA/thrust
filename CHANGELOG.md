@@ -1,3 +1,41 @@
+# Thrust 1.13.0 (NVIDIA HPC SDK 21.7)
+
+Thrust 1.13.0 is the major release accompanying the NVIDIA HPC SDK 21.7 release.
+
+## Breaking Changes
+
+- NVIDIA/thrust#1459: Remove deprecated aliases `thrust::host_space_tag` and
+  `thrust::device_space_tag`. Use the equivalent `thrust::host_system_tag` and
+  `thrust::device_system_tag` instead.
+
+## New Features
+
+- NVIDIA/cub#306: Add radix-sort support for `bfloat16` in `thrust::sort`.
+  Thanks to Xiang Gao (@zasdfgbnm) for this contribution.
+- NVIDIA/thrust#1423: `thrust::transform_iterator` now supports non-copyable
+  types. Thanks to Jake Hemstad (@jrhemstad) for this contribution.
+- NVIDIA/thrust#1459: Introduce a new `THRUST_IGNORE_DEPRECATED_API` macro that
+  disables deprecation warnings on Thrust and CUB APIs.
+
+## Bug Fixes
+
+- NVIDIA/cub#277: Fixed sanitizer warnings when `thrust::sort` calls
+  into `cub::DeviceRadixSort`. Thanks to Andy Adinets (@canonizer) for this
+  contribution.
+- NVIDIA/thrust#1442: Reduce extraneous comparisons in `thrust::sort`'s merge
+  sort implementation.
+- NVIDIA/thrust#1447: Fix memory leak and avoid overallocation when
+  calling `reserve` on Thrust's vector containers. Thanks to Kai Germaschewski
+  (@germasch) for this contribution.
+
+## Other Enhancements
+
+- NVIDIA/thrust#1405: Update links to standard C++ documentations from sgi to
+  cppreference. Thanks to Muhammad Adeel Hussain (@AdeilH) for this
+  contribution.
+- NVIDIA/thrust#1432: Updated build instructions in `CONTRIBUTING.md` to include
+  details on building CUB's test suite as part of Thrust.
+
 # Thrust 1.12.1 (CUDA Toolkit 11.4)
 
 Thrust 1.12.1 is a trivial patch release that slightly changes the phrasing of

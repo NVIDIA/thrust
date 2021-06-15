@@ -146,6 +146,7 @@ See the [changelog](CHANGELOG.md) for details about specific releases.
 
 | Thrust Release    | Included In                             |
 | ----------------- | --------------------------------------- |
+| 1.13.0            | NVIDIA HPC SDK 21.7                     |
 | 1.12.1            | CUDA Toolkit 11.4                       |
 | 1.12.0            | NVIDIA HPC SDK 21.3                     |
 | 1.11.0            | CUDA Toolkit 11.3                       |
