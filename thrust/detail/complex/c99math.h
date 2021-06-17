@@ -16,12 +16,13 @@
  */
 #pragma once
 
+#include <thrust/detail/config.h>
+
 #include <math.h>
 #include <cmath>
 #include <thrust/detail/complex/math_private.h>
 
-namespace thrust
-{
+THRUST_NAMESPACE_BEGIN
 namespace detail
 {
 namespace complex
@@ -192,5 +193,5 @@ inline double hypot(double x, double y){
 
 } // namespace detail
 
-} // namespace thrust
+THRUST_NAMESPACE_END
 

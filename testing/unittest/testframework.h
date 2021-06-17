@@ -12,6 +12,7 @@
 #include "util.h"
 
 #include <thrust/limits.h>
+#include <thrust/detail/config.h>
 #include <thrust/detail/integer_traits.h>
 #include <thrust/mr/host_memory_resource.h>
 #include <thrust/mr/device_memory_resource.h>
@@ -228,8 +229,7 @@ private:
     }
 };
 
-namespace thrust
-{
+THRUST_NAMESPACE_BEGIN
 
 template <>
 struct numeric_limits<custom_numeric> : numeric_limits<int> {};
@@ -243,7 +243,9 @@ class integer_traits<custom_numeric>
   : public integer_traits_base<int, INT_MIN, INT_MAX>
 {};
 
-}} // namespace thrust::detail
+} // namespace detail
+
+THRUST_NAMESPACE_END
 
 typedef unittest::type_list<char,
                             signed char,

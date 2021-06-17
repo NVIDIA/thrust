@@ -26,6 +26,8 @@ j * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
  ******************************************************************************/
 #pragma once
 
+#include <thrust/detail/config.h>
+
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/detail/cstdint.h>
 #include <thrust/detail/temporary_array.h>
@@ -43,8 +45,7 @@ j * Copyright (c) 2016, NVIDIA CORPORATION.  All rights reserved.
 #include <thrust/distance.h>
 
 
-namespace thrust
-{
+THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
 namespace __merge {
@@ -128,9 +129,9 @@ namespace __merge {
 
   template <int                      _BLOCK_THREADS,
             int                      _ITEMS_PER_THREAD = 1,
-            cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
-            cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_LDG,
-            cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT>
+            CUB_NS_QUALIFIER::BlockLoadAlgorithm  _LOAD_ALGORITHM   = CUB_NS_QUALIFIER::BLOCK_LOAD_DIRECT,
+            CUB_NS_QUALIFIER::CacheLoadModifier   _LOAD_MODIFIER    = CUB_NS_QUALIFIER::LOAD_LDG,
+            CUB_NS_QUALIFIER::BlockStoreAlgorithm _STORE_ALGORITHM  = CUB_NS_QUALIFIER::BLOCK_STORE_DIRECT>
   struct PtxPolicy
   {
     enum
@@ -140,9 +141,9 @@ namespace __merge {
       ITEMS_PER_TILE     = _BLOCK_THREADS * _ITEMS_PER_THREAD,
     };
 
-    static const cub::BlockLoadAlgorithm  LOAD_ALGORITHM  = _LOAD_ALGORITHM;
-    static const cub::CacheLoadModifier   LOAD_MODIFIER   = _LOAD_MODIFIER;
-    static const cub::BlockStoreAlgorithm STORE_ALGORITHM = _STORE_ALGORITHM;
+    static const CUB_NS_QUALIFIER::BlockLoadAlgorithm  LOAD_ALGORITHM  = _LOAD_ALGORITHM;
+    static const CUB_NS_QUALIFIER::CacheLoadModifier   LOAD_MODIFIER   = _LOAD_MODIFIER;
+    static const CUB_NS_QUALIFIER::BlockStoreAlgorithm STORE_ALGORITHM = _STORE_ALGORITHM;
   };    // PtxPolicy
 
   template <class KeysIt1,
@@ -220,9 +221,9 @@ namespace __merge {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_STORE_WARP_TRANSPOSE>
+                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
+                      CUB_NS_QUALIFIER::LOAD_DEFAULT,
+                      CUB_NS_QUALIFIER::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };    // Tuning sm300
 
@@ -241,9 +242,9 @@ namespace __merge {
 
     typedef PtxPolicy<512,
                       ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
-                      cub::LOAD_DEFAULT,
-                      cub::BLOCK_STORE_WARP_TRANSPOSE>
+                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
+                      CUB_NS_QUALIFIER::LOAD_DEFAULT,
+                      CUB_NS_QUALIFIER::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };    // Tuning sm52
 
@@ -259,9 +260,9 @@ namespace __merge {
 
     typedef PtxPolicy<512,
                       ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
-                      cub::LOAD_LDG,
-                      cub::BLOCK_STORE_WARP_TRANSPOSE>
+                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
+                      CUB_NS_QUALIFIER::LOAD_LDG,
+                      CUB_NS_QUALIFIER::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };    // Tuning sm52
 
@@ -279,9 +280,9 @@ namespace __merge {
 
     typedef PtxPolicy<256,
                       ITEMS_PER_THREAD,
-                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
-                      cub::LOAD_LDG,
-                      cub::BLOCK_STORE_WARP_TRANSPOSE>
+                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
+                      CUB_NS_QUALIFIER::LOAD_LDG,
+                      CUB_NS_QUALIFIER::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };    // Tuning sm350
 
@@ -1014,5 +1015,5 @@ merge_by_key(execution_policy<Derived> &policy,
 
 
 }    // namespace cuda_cub
-} // end namespace thrust
+THRUST_NAMESPACE_END
 #endif
