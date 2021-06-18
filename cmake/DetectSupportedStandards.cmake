@@ -23,6 +23,24 @@ function(detect_supported_standards prefix lang)
     else()
       set(${var_name} FALSE)
     endif()
+
+
+    if (standard EQUAL 17 AND
+        (lang STREQUAL "CXX" OR lang STREQUAL "CUDA") AND
+        ((CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND
+          CMAKE_CXX_COMPILER_VERSION VERSION_LESS 7) OR
+         (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" AND
+          CMAKE_CXX_COMPILER_VERSION VERSION_LESS 8)))
+      # Special cases:
+      # gcc < 7 and clang < 8 don't fully support C++17.
+      # They accept the flag and have partial support, but nvcc will refuse
+      # to enable it and falls back to the default dialect for the current
+      # CXX compiler version. This breaks our CI.
+      # CMake's COMPILE_FEATURES var reports that these compilers support C++17,
+      # but we can't rely on it, so manually disable the dialect in these cases.
+      set(${var_name} FALSE)
+    endif()
+
     message(STATUS "Testing ${lang}${standard} Support: ${${var_name}}")
     set(${var_name} ${${var_name}} PARENT_SCOPE)
   endforeach()
