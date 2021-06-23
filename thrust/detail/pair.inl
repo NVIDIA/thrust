@@ -16,6 +16,7 @@
 
 #include <thrust/pair.h>
 #include <thrust/detail/swap.h>
+#include <thrust/tuple.h>
 
 namespace thrust
 {
