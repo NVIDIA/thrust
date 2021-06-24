@@ -89,8 +89,6 @@ if [[ "${CXX_TYPE}" == "nvcxx" ]]; then
   append CMAKE_FLAGS "-DCMAKE_CUDA_COMPILER_ID=NVCXX"
   # Don't stop on build failures.
   append CMAKE_BUILD_FLAGS "-k"
-  # NVC++ currently uses a lot of memory.
-  PARALLEL_LEVEL=1
 else
   if [[ "${CXX_TYPE}" == "icc" ]]; then
     # Only the latest version of the Intel C++ compiler, which NVCC doesn't
@@ -196,12 +194,6 @@ if [[ "${BUILD_TYPE}" == "cpu" ]]; then
   CTEST_EXCLUSION_REGEXES+=("^cub" "^thrust.*cuda")
 fi
 
-if [[ "${CXX_TYPE}" == "icc" ]]; then
-  # The free version of icpc used in gpuCI seems to have a compiler bug that
-  # causes a scan test to produce incorrect output.
-  CTEST_EXCLUSION_REGEXES+=("thrust\\.cpp\\.tbb\\.cpp..\\.test\\.scan$")
-fi
-
 if [[ -n "${CTEST_EXCLUSION_REGEXES[@]}" ]]; then
   CTEST_EXCLUSION_REGEX=$(join_delimit "|" "${CTEST_EXCLUSION_REGEXES[@]}")
   append CTEST_FLAGS "-E ${CTEST_EXCLUSION_REGEX}"
@@ -209,7 +201,7 @@ fi
 
 if [[ -n "${@}" ]]; then
   CTEST_INCLUSION_REGEX=$(join_delimit "|" "${@}")
-  append CTEST_FLAGS "-R ${CTEST_INCLUSION_REGEX[@]}"
+  append CTEST_FLAGS "-R ^${CTEST_INCLUSION_REGEX[@]}$"
 fi
 
 # Export variables so they'll show up in the logs when we report the environment.
