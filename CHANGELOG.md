@@ -2,6 +2,12 @@
 
 Thrust 1.13.0 is the major release accompanying the NVIDIA HPC SDK 21.7 release.
 
+Notable changes include `bfloat16` radix sort support (via `thrust::sort`) and
+memory handling fixes in the `reserve` method of Thrust's vectors.
+The `CONTRIBUTING.md` file has been expanded to include instructions for
+building CUB as a component of Thrust, and API documentation now refers to
+cppreference instead of SGI's STL reference.
+
 ## Breaking Changes
 
 - NVIDIA/thrust#1459: Remove deprecated aliases `thrust::host_space_tag` and
