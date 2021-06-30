@@ -118,15 +118,12 @@ ifeq ($(OS), win32)
   APPEND_CUH_DVS_PACKAGE = $(ZIP) -rg built/CUDA-thrust-package.zip thrust -9 -i *.cuh
   MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_H_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE)
 else
-  CREATE_DVS_PACKAGE = tar -cvh -f built/CUDA-thrust-package.tar bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark $(DVS_COMMON_TEST_PACKAGE_FILES)
-  APPEND_H_DVS_PACKAGE = find -L thrust -name "*.h" | xargs tar rvf built/CUDA-thrust-package.tar
-  APPEND_INL_DVS_PACKAGE = find -L thrust -name "*.inl" | xargs tar rvf built/CUDA-thrust-package.tar
-  APPEND_CUH_DVS_PACKAGE = find -L thrust -name "*.cuh" | xargs tar rvf built/CUDA-thrust-package.tar
-  COMPRESS_DVS_PACKAGE = bzip2 --force built/CUDA-thrust-package.tar
-  MAKE_DVS_PACKAGE = $(CREATE_DVS_PACKAGE) && $(APPEND_H_DVS_PACKAGE) && $(APPEND_INL_DVS_PACKAGE) && $(APPEND_CUH_DVS_PACKAGE) && $(COMPRESS_DVS_PACKAGE)
+  TAR_FILES = bin thrust/internal/test thrust/internal/scripts thrust/internal/benchmark $(DVS_COMMON_TEST_PACKAGE_FILES)
+  TAR_FILES += `find -L thrust \( -name "*.cuh" -o -name "*.h" -o -name "*.inl" \)`
+  MAKE_DVS_PACKAGE = tar -I lbzip2 -chvf built/CUDA-thrust-package.tar.bz2 $(TAR_FILES)
 endif
 
-COPY_CUB_FOR_PACKAGING = rm -rf cub && cp -r ../cub/cub cub
+COPY_CUB_FOR_PACKAGING = rm -rf cub && cp -rp ../cub/cub cub
 
 DVS_OPTIONS :=
 
