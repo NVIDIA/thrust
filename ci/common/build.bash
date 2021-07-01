@@ -87,6 +87,13 @@ if [[ "${CXX_TYPE}" == "nvcxx" ]]; then
   # supported, so we just use makefiles.
   append CMAKE_FLAGS "-DCMAKE_CUDA_COMPILER_FORCED=ON"
   append CMAKE_FLAGS "-DCMAKE_CUDA_COMPILER_ID=NVCXX"
+  # We use NVC++ "slim" image which only contain a single CUDA toolkit version.
+  # When using NVC++ in an environment without GPUs (like our CPU-only
+  # builders) it unfortunately defaults to the oldest CUDA toolkit version it
+  # supports, even if that version is not in the image. So, we have to
+  # explicitly tell NVC++ it which CUDA toolkit version to use.
+  CUDA_VER=$(echo ${SDK_VER} | sed 's/.*\(cuda[0-9]\+\.[0-9]\+\)/\1/')
+  append CMAKE_FLAGS "-DCMAKE_CUDA_FLAGS=-gpu=${CUDA_VER}"
   # Don't stop on build failures.
   append CMAKE_BUILD_FLAGS "-k"
 else
