@@ -26,7 +26,6 @@
 #define THRUST_HOST_COMPILER_GCC     2
 #define THRUST_HOST_COMPILER_CLANG   3
 #define THRUST_HOST_COMPILER_INTEL   4
-#define THRUST_HOST_COMPILER_NVCXX   5
 
 // enumerate device compilers we know about
 #define THRUST_DEVICE_COMPILER_UNKNOWN 0
@@ -34,7 +33,6 @@
 #define THRUST_DEVICE_COMPILER_GCC     2
 #define THRUST_DEVICE_COMPILER_CLANG   3
 #define THRUST_DEVICE_COMPILER_NVCC    4
-#define THRUST_DEVICE_COMPILER_NVCXX   5
 
 // figure out which host compiler we're using
 // XXX we should move the definition of THRUST_DEPRECATED out of this logic
@@ -44,8 +42,6 @@
 #define THRUST_MSVC_VERSION_FULL _MSC_FULL_VER
 #elif defined(__ICC)
 #define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_INTEL
-#elif defined(__NVCOMPILER)
-#define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_NVCXX
 #elif defined(__clang__)
 #define THRUST_HOST_COMPILER THRUST_HOST_COMPILER_CLANG
 #define THRUST_CLANG_VERSION (__clang_major__ * 10000 + __clang_minor__ * 100 + __clang_patchlevel__)
