@@ -50,37 +50,78 @@ template <
   class T9 = null_type>
 class tuple;
 
-// forward declaration of tuple_element
-template<size_t N, class T> struct tuple_element;
 
-// specializations for tuple_element
-template<class T>
-  struct tuple_element<0,T>
-{
-  typedef typename T::head_type type;
-}; // end tuple_element<0,T>
+template <size_t N, class T> struct tuple_element;
 
 template<size_t N, class T>
-  struct tuple_element<N, const T>
+  struct tuple_element_impl
 {
   private:
     typedef typename T::tail_type Next;
-    typedef typename tuple_element<N-1, Next>::type unqualified_type;
 
   public:
-    typedef typename thrust::detail::add_const<unqualified_type>::type type;
-}; // end tuple_element<N, const T>
+    /*! The result of this metafunction is returned in \c type.
+     */
+    typedef typename tuple_element_impl<N-1, Next>::type type;
+}; // end tuple_element
 
 template<class T>
-  struct tuple_element<0,const T>
+  struct tuple_element_impl<0,T>
 {
-  typedef typename thrust::detail::add_const<typename T::head_type>::type type;
-}; // end tuple_element<0,const T>
+  typedef typename T::head_type type;
+};
 
+template <size_t N, class T> 
+  struct tuple_element<N, T const> 
+{
+    using type = typename std::add_const<typename tuple_element<N, T>::type>::type;
+};
 
+template <size_t N, class T> 
+struct tuple_element<N, T volatile> 
+{
+    using type = typename std::add_volatile<typename tuple_element<N, T>::type>::type;
+};
+
+template <size_t N, class T> 
+  struct tuple_element<N, T const volatile> 
+{
+    using type = typename std::add_cv<typename tuple_element<N, T>::type>::type;
+};
+
+template <size_t N, class T>
+struct tuple_element{
+    using type = typename tuple_element_impl<N,T>::type;
+};
 
 // forward declaration of tuple_size
 template<class T> struct tuple_size;
+
+template<class T>
+  struct tuple_size<T const> : public tuple_size<T> {};
+
+template<class T>
+  struct tuple_size<T volatile> : public tuple_size<T> {};
+
+template<class T>
+  struct tuple_size<T const volatile> : public tuple_size<T> {};
+
+/*! This metafunction returns the number of elements
+ *  of a \p tuple type of interest.
+ *
+ *  \tparam T A \c tuple type of interest.
+ *
+ *  \see pair
+ *  \see tuple
+ */
+template<class T>
+  struct tuple_size
+{
+  /*! The result of this metafunction is returned in \c value.
+   */
+  static const int value = 1 + tuple_size<typename T::tail_type>::value;
+}; // end tuple_size
+
 
 // specializations for tuple_size
 template<>

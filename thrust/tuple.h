@@ -62,17 +62,7 @@ struct null_type;
  *  \see pair
  *  \see tuple
  */
-template<size_t N, class T>
-  struct tuple_element
-{
-  private:
-    typedef typename T::tail_type Next;
-
-  public:
-    /*! The result of this metafunction is returned in \c type.
-     */
-    typedef typename tuple_element<N-1, Next>::type type;
-}; // end tuple_element
+template <size_t N, class T> struct tuple_element;
 
 /*! This metafunction returns the number of elements
  *  of a \p tuple type of interest.
@@ -82,13 +72,8 @@ template<size_t N, class T>
  *  \see pair
  *  \see tuple
  */
-template<class T>
-  struct tuple_size
-{
-  /*! The result of this metafunction is returned in \c value.
-   */
-  static const int value = 1 + tuple_size<typename T::tail_type>::value;
-}; // end tuple_size
+template <class T> struct tuple_size;
+
 
 // get function for non-const cons-lists, returns a reference to the element
 
