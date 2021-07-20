@@ -50,10 +50,10 @@ namespace __scan_by_key {
 
   template <int                      _BLOCK_THREADS,
             int                      _ITEMS_PER_THREAD = 1,
-            CUB_NS_QUALIFIER::BlockLoadAlgorithm  _LOAD_ALGORITHM   = CUB_NS_QUALIFIER::BLOCK_LOAD_DIRECT,
-            CUB_NS_QUALIFIER::CacheLoadModifier   _LOAD_MODIFIER    = CUB_NS_QUALIFIER::LOAD_DEFAULT,
-            CUB_NS_QUALIFIER::BlockScanAlgorithm  _SCAN_ALGORITHM   = CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS,
-            CUB_NS_QUALIFIER::BlockStoreAlgorithm _STORE_ALGORITHM  = CUB_NS_QUALIFIER::BLOCK_STORE_DIRECT>
+            cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
+            cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_DEFAULT,
+            cub::BlockScanAlgorithm  _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS,
+            cub::BlockStoreAlgorithm _STORE_ALGORITHM  = cub::BLOCK_STORE_DIRECT>
   struct PtxPolicy
   {
     enum
@@ -63,10 +63,10 @@ namespace __scan_by_key {
       ITEMS_PER_TILE   = BLOCK_THREADS * ITEMS_PER_THREAD,
     };
 
-    static const CUB_NS_QUALIFIER::BlockLoadAlgorithm  LOAD_ALGORITHM  = _LOAD_ALGORITHM;
-    static const CUB_NS_QUALIFIER::CacheLoadModifier   LOAD_MODIFIER   = _LOAD_MODIFIER;
-    static const CUB_NS_QUALIFIER::BlockScanAlgorithm  SCAN_ALGORITHM  = _SCAN_ALGORITHM;
-    static const CUB_NS_QUALIFIER::BlockStoreAlgorithm STORE_ALGORITHM = _STORE_ALGORITHM;
+    static const cub::BlockLoadAlgorithm  LOAD_ALGORITHM  = _LOAD_ALGORITHM;
+    static const cub::CacheLoadModifier   LOAD_MODIFIER   = _LOAD_MODIFIER;
+    static const cub::BlockScanAlgorithm  SCAN_ALGORITHM  = _SCAN_ALGORITHM;
+    static const cub::BlockStoreAlgorithm STORE_ALGORITHM = _STORE_ALGORITHM;
   };    // struct PtxPolicy
 
   template <class Arch, class Key, class Value>
@@ -95,10 +95,10 @@ namespace __scan_by_key {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_DEFAULT,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS,
-                      CUB_NS_QUALIFIER::BLOCK_STORE_WARP_TRANSPOSE>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_DEFAULT,
+                      cub::BLOCK_SCAN_WARP_SCANS,
+                      cub::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };    // Tuning sm30
 
@@ -125,10 +125,10 @@ namespace __scan_by_key {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_LDG,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS,
-                      CUB_NS_QUALIFIER::BLOCK_STORE_WARP_TRANSPOSE>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_LDG,
+                      cub::BLOCK_SCAN_WARP_SCANS,
+                      cub::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };    // Tuning sm35
 
@@ -155,10 +155,10 @@ namespace __scan_by_key {
 
     typedef PtxPolicy<256,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_LDG,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS,
-                      CUB_NS_QUALIFIER::BLOCK_STORE_WARP_TRANSPOSE>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_LDG,
+                      cub::BLOCK_SCAN_WARP_SCANS,
+                      cub::BLOCK_STORE_WARP_TRANSPOSE>
         type;
   };    // Tuning sm52
 
@@ -177,11 +177,11 @@ namespace __scan_by_key {
     typedef T    value_type;
     typedef Size size_type;
 
-    typedef CUB_NS_QUALIFIER::KeyValuePair<size_type, value_type> size_value_pair_t;
-    typedef CUB_NS_QUALIFIER::KeyValuePair<key_type, value_type> key_value_pair_t;
+    typedef cub::KeyValuePair<size_type, value_type> size_value_pair_t;
+    typedef cub::KeyValuePair<key_type, value_type> key_value_pair_t;
 
-    typedef CUB_NS_QUALIFIER::ReduceByKeyScanTileState<value_type, size_type> ScanTileState;
-    typedef CUB_NS_QUALIFIER::ReduceBySegmentOp<ScanOp> ReduceBySegmentOp;
+    typedef cub::ReduceByKeyScanTileState<value_type, size_type> ScanTileState;
+    typedef cub::ReduceBySegmentOp<ScanOp> ReduceBySegmentOp;
 
     template <class Arch>
     struct PtxPlan : Tuning<Arch, key_type, value_type>::type
@@ -198,19 +198,19 @@ namespace __scan_by_key {
                                         ValuesOutputIt,
                                         value_type>::type BlockStoreValues;
 
-      typedef CUB_NS_QUALIFIER::BlockDiscontinuity<key_type,
+      typedef cub::BlockDiscontinuity<key_type,
                                       PtxPlan::BLOCK_THREADS,
                                       1,
                                       1,
                                       Arch::ver>
           BlockDiscontinuityKeys;
 
-      typedef CUB_NS_QUALIFIER::TilePrefixCallbackOp<size_value_pair_t,
+      typedef cub::TilePrefixCallbackOp<size_value_pair_t,
                                         ReduceBySegmentOp,
                                         ScanTileState,
                                         Arch::ver>
           TilePrefixCallback;
-      typedef CUB_NS_QUALIFIER::BlockScan<size_value_pair_t,
+      typedef cub::BlockScan<size_value_pair_t,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
                              1,
@@ -268,7 +268,7 @@ namespace __scan_by_key {
       ValuesLoadIt   values_load_it;
       ValuesOutputIt values_output_it;
 
-      CUB_NS_QUALIFIER::InequalityWrapper<EqualityOp> inequality_op;
+      cub::InequalityWrapper<EqualityOp> inequality_op;
       ReduceBySegmentOp                  scan_op;
 
 
@@ -673,7 +673,7 @@ namespace __scan_by_key {
     AgentPlan init_plan        = init_agent::get_plan();
 
     int tile_size = scan_by_key_plan.items_per_tile;
-    size_t num_tiles = CUB_NS_QUALIFIER::DivideAndRoundUp(num_items, tile_size);
+    size_t num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_size = core::vshmem_size(scan_by_key_plan.shared_memory_size,
                                            num_tiles);
@@ -683,7 +683,7 @@ namespace __scan_by_key {
     CUDA_CUB_RET_IF_FAIL(status);
 
     void *allocations[2] = {NULL, NULL};
-    status               = CUB_NS_QUALIFIER::AliasTemporaries(d_temp_storage,
+    status               = cub::AliasTemporaries(d_temp_storage,
                                    temp_storage_bytes,
                                    allocations,
                                    allocation_sizes);

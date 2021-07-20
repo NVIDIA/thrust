@@ -74,16 +74,16 @@ async_exclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                        InitialValueType init,
                        BinaryOp op)
 {
-  using Dispatch32 = CUB_NS_QUALIFIER::DispatchScan<ForwardIt,
-                                                    OutputIt,
-                                                    BinaryOp,
-                                                    InitialValueType,
-                                                    thrust::detail::int32_t>;
-  using Dispatch64 = CUB_NS_QUALIFIER::DispatchScan<ForwardIt,
-                                                    OutputIt,
-                                                    BinaryOp,
-                                                    InitialValueType,
-                                                    thrust::detail::int64_t>;
+  using Dispatch32 = cub::DispatchScan<ForwardIt,
+                                       OutputIt,
+                                       BinaryOp,
+                                       InitialValueType,
+                                       thrust::detail::int32_t>;
+  using Dispatch64 = cub::DispatchScan<ForwardIt,
+                                       OutputIt,
+                                       BinaryOp,
+                                       InitialValueType,
+                                       thrust::detail::int64_t>;
 
   auto const device_alloc = get_async_device_allocator(policy);
   unique_eager_event ev;

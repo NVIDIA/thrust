@@ -206,8 +206,8 @@ namespace __extrema {
               template get_max_blocks_per_sm<InputIt,
                                              OutputIt,
                                              Size,
-                                             CUB_NS_QUALIFIER::GridEvenShare<Size>,
-                                             CUB_NS_QUALIFIER::GridQueue<UnsignedSize>,
+                                             cub::GridEvenShare<Size>,
+                                             cub::GridQueue<UnsignedSize>,
                                              ReductionOp>(reduce_plan);
       CUDA_CUB_RET_IF_FAIL(max_blocks_per_sm.status());
 
@@ -218,7 +218,7 @@ namespace __extrema {
       int sm_oversubscription = 5;
       int max_blocks          = reduce_device_occupancy * sm_oversubscription;
 
-      CUB_NS_QUALIFIER::GridEvenShare<Size> even_share;
+      cub::GridEvenShare<Size> even_share;
       even_share.DispatchInit(num_items, max_blocks,
                               reduce_plan.items_per_tile);
 
@@ -233,13 +233,13 @@ namespace __extrema {
       size_t allocation_sizes[3] =
           {
               max_blocks * sizeof(T),                            // bytes needed for privatized block reductions
-              CUB_NS_QUALIFIER::GridQueue<UnsignedSize>::AllocationSize(),    // bytes needed for grid queue descriptor0
+              cub::GridQueue<UnsignedSize>::AllocationSize(),    // bytes needed for grid queue descriptor0
               vshmem_size                                        // size of virtualized shared memory storage
           };
-      status = CUB_NS_QUALIFIER::AliasTemporaries(d_temp_storage,
-                                                  temp_storage_bytes,
-                                                  allocations,
-                                                  allocation_sizes);
+      status = cub::AliasTemporaries(d_temp_storage,
+                                     temp_storage_bytes,
+                                     allocations,
+                                     allocation_sizes);
       CUDA_CUB_RET_IF_FAIL(status);
       if (d_temp_storage == NULL)
       {
@@ -247,21 +247,21 @@ namespace __extrema {
       }
 
       T *d_block_reductions = (T*) allocations[0];
-      CUB_NS_QUALIFIER::GridQueue<UnsignedSize> queue(allocations[1]);
+      cub::GridQueue<UnsignedSize> queue(allocations[1]);
       char *vshmem_ptr = vshmem_size > 0 ? (char *)allocations[2] : NULL;
 
 
       // Get grid size for device_reduce_sweep_kernel
       int reduce_grid_size = 0;
-      if (reduce_plan.grid_mapping == CUB_NS_QUALIFIER::GRID_MAPPING_RAKE)
+      if (reduce_plan.grid_mapping == cub::GRID_MAPPING_RAKE)
       {
         // Work is distributed evenly
         reduce_grid_size = even_share.grid_size;
       }
-      else if (reduce_plan.grid_mapping == CUB_NS_QUALIFIER::GRID_MAPPING_DYNAMIC)
+      else if (reduce_plan.grid_mapping == cub::GRID_MAPPING_DYNAMIC)
       {
         // Work is distributed dynamically
-        size_t num_tiles = CUB_NS_QUALIFIER::DivideAndRoundUp(num_items, reduce_plan.items_per_tile);
+        size_t num_tiles = cub::DivideAndRoundUp(num_items, reduce_plan.items_per_tile);
 
         // if not enough to fill the device with threadblocks
         // then fill the device with threadblocks

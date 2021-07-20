@@ -82,9 +82,9 @@ namespace __unique_by_key {
 
   template <int                     _BLOCK_THREADS,
             int                     _ITEMS_PER_THREAD = 1,
-            CUB_NS_QUALIFIER::BlockLoadAlgorithm _LOAD_ALGORITHM   = CUB_NS_QUALIFIER::BLOCK_LOAD_DIRECT,
-            CUB_NS_QUALIFIER::CacheLoadModifier  _LOAD_MODIFIER    = CUB_NS_QUALIFIER::LOAD_LDG,
-            CUB_NS_QUALIFIER::BlockScanAlgorithm _SCAN_ALGORITHM   = CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS>
+            cub::BlockLoadAlgorithm _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
+            cub::CacheLoadModifier  _LOAD_MODIFIER    = cub::LOAD_LDG,
+            cub::BlockScanAlgorithm _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
   struct PtxPolicy
   {
     enum
@@ -93,9 +93,9 @@ namespace __unique_by_key {
       ITEMS_PER_THREAD = _ITEMS_PER_THREAD,
       ITEMS_PER_TILE   = _BLOCK_THREADS * _ITEMS_PER_THREAD,
     };
-    static const CUB_NS_QUALIFIER::BlockLoadAlgorithm LOAD_ALGORITHM = _LOAD_ALGORITHM;
-    static const CUB_NS_QUALIFIER::CacheLoadModifier  LOAD_MODIFIER  = _LOAD_MODIFIER;
-    static const CUB_NS_QUALIFIER::BlockScanAlgorithm SCAN_ALGORITHM = _SCAN_ALGORITHM;
+    static const cub::BlockLoadAlgorithm LOAD_ALGORITHM = _LOAD_ALGORITHM;
+    static const cub::CacheLoadModifier  LOAD_MODIFIER  = _LOAD_MODIFIER;
+    static const cub::BlockScanAlgorithm SCAN_ALGORITHM = _SCAN_ALGORITHM;
   };    // struct PtxPolicy
 
   template<class,class>
@@ -133,9 +133,9 @@ namespace __unique_by_key {
 
     typedef PtxPolicy<64,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_LDG,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_LDG,
+                      cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning for sm52
 
@@ -153,9 +153,9 @@ namespace __unique_by_key {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_LDG,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_LDG,
+                      cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning for sm35
 
@@ -173,9 +173,9 @@ namespace __unique_by_key {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_DEFAULT,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_DEFAULT,
+                      cub::BLOCK_SCAN_WARP_SCANS>
         type;
   };    // Tuning for sm30
 
@@ -191,7 +191,7 @@ namespace __unique_by_key {
     typedef typename iterator_traits<KeyInputIt>::value_type key_type;
     typedef typename iterator_traits<ValInputIt>::value_type value_type;
 
-    typedef CUB_NS_QUALIFIER::ScanTileState<Size> ScanTileState;
+    typedef cub::ScanTileState<Size> ScanTileState;
 
     template <class Arch>
     struct PtxPlan : Tuning<Arch, key_type>::type
@@ -204,19 +204,19 @@ namespace __unique_by_key {
       typedef typename core::BlockLoad<PtxPlan, KeyLoadIt>::type BlockLoadKeys;
       typedef typename core::BlockLoad<PtxPlan, ValLoadIt>::type BlockLoadValues;
 
-      typedef CUB_NS_QUALIFIER::BlockDiscontinuity<key_type,
+      typedef cub::BlockDiscontinuity<key_type,
                                       PtxPlan::BLOCK_THREADS,
                                       1,
                                       1,
                                       Arch::ver>
           BlockDiscontinuityKeys;
 
-      typedef CUB_NS_QUALIFIER::TilePrefixCallbackOp<Size,
-                                        CUB_NS_QUALIFIER::Sum,
+      typedef cub::TilePrefixCallbackOp<Size,
+                                        cub::Sum,
                                         ScanTileState,
                                         Arch::ver>
           TilePrefixCallback;
-      typedef CUB_NS_QUALIFIER::BlockScan<Size,
+      typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
                              1,
@@ -278,7 +278,7 @@ namespace __unique_by_key {
       ValLoadIt                          values_in;
       KeyOutputIt                        keys_out;
       ValOutputIt                        values_out;
-      CUB_NS_QUALIFIER::InequalityWrapper<BinaryPred> predicate;
+      cub::InequalityWrapper<BinaryPred> predicate;
       Size                               num_items;
 
       //---------------------------------------------------------------------
@@ -443,7 +443,7 @@ namespace __unique_by_key {
         {
           TilePrefixCallback prefix_cb(tile_state,
                                        temp_storage.scan_storage.prefix,
-                                       CUB_NS_QUALIFIER::Sum(),
+                                       cub::Sum(),
                                        tile_idx);
           BlockScan(temp_storage.scan_storage.scan)
               .ExclusiveSum(selection_flags,
@@ -662,7 +662,7 @@ namespace __unique_by_key {
 
 
     int tile_size = unique_plan.items_per_tile;
-    size_t num_tiles = CUB_NS_QUALIFIER::DivideAndRoundUp(num_items, tile_size);
+    size_t num_tiles = cub::DivideAndRoundUp(num_items, tile_size);
 
     size_t vshmem_size = core::vshmem_size(unique_plan.shared_memory_size,
                                            num_tiles);
@@ -674,7 +674,7 @@ namespace __unique_by_key {
 
     void *allocations[2] = {NULL, NULL};
     //
-    status = CUB_NS_QUALIFIER::AliasTemporaries(d_temp_storage,
+    status = cub::AliasTemporaries(d_temp_storage,
                                    temp_storage_bytes,
                                    allocations,
                                    allocation_sizes);
