@@ -26,7 +26,9 @@ rm -f docs/overview.md
 rm -f docs/contributing/code_of_conduct.md
 rm -f docs/releases/changelog.md
 
-mkdir docs/api
+mkdir -p docs/api
+mkdir -p docs/contributing
+mkdir -p docs/releases
 
 # We need to copy these files into the `docs/` root because Jekyll doesn't let
 # you include content outside of its root.
