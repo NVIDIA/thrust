@@ -536,7 +536,7 @@ namespace core {
     max_blocks_per_sm_impl(K k, int block_threads)
     {
       int occ;
-      cudaError_t status = CUB_NS_QUALIFIER::MaxSmOccupancy(occ, k, block_threads);
+      cudaError_t status = cub::MaxSmOccupancy(occ, k, block_threads);
       return cuda_optional<int>(status == cudaSuccess ? occ : -1, status);
     }
 

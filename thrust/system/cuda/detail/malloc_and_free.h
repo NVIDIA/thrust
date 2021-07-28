@@ -36,9 +36,9 @@ namespace cuda_cub {
 #ifdef THRUST_CACHING_DEVICE_MALLOC
 #define __CUB_CACHING_MALLOC
 #ifndef __CUDA_ARCH__
-inline CUB_NS_QUALIFIER::CachingDeviceAllocator &get_allocator()
+inline cub::CachingDeviceAllocator &get_allocator()
 {
-  static CUB_NS_QUALIFIER::CachingDeviceAllocator g_allocator(true);
+  static cub::CachingDeviceAllocator g_allocator(true);
   return g_allocator;
 }
 #endif
@@ -56,7 +56,7 @@ void *malloc(execution_policy<DerivedPolicy> &, std::size_t n)
   if (THRUST_IS_HOST_CODE) {
     #if THRUST_INCLUDE_HOST_CODE
       #ifdef __CUB_CACHING_MALLOC
-        CUB_NS_QUALIFIER::CachingDeviceAllocator &alloc = get_allocator();
+        cub::CachingDeviceAllocator &alloc = get_allocator();
         cudaError_t status = alloc.DeviceAllocate(&result, n);
       #else
         cudaError_t status = cudaMalloc(&result, n);
@@ -85,7 +85,7 @@ void free(execution_policy<DerivedPolicy> &, Pointer ptr)
   if (THRUST_IS_HOST_CODE) {
     #if THRUST_INCLUDE_HOST_CODE
       #ifdef __CUB_CACHING_MALLOC
-        CUB_NS_QUALIFIER::CachingDeviceAllocator &alloc = get_allocator();
+        cub::CachingDeviceAllocator &alloc = get_allocator();
         cudaError_t status = alloc.DeviceFree(thrust::raw_pointer_cast(ptr));
       #else
         cudaError_t status = cudaFree(thrust::raw_pointer_cast(ptr));

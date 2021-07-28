@@ -293,12 +293,12 @@ invoke_radix_sort(
   cudaStream_t          stream
 , void*                 tmp_ptr
 , std::size_t&          tmp_size
-, CUB_NS_QUALIFIER::DoubleBuffer<T>& keys
+, cub::DoubleBuffer<T>& keys
 , Size&                 n
 , StrictWeakOrdering
 )
 {
-  return CUB_NS_QUALIFIER::DeviceRadixSort::SortKeys(
+  return cub::DeviceRadixSort::SortKeys(
     tmp_ptr
   , tmp_size
   , keys
@@ -319,12 +319,12 @@ invoke_radix_sort(
   cudaStream_t          stream
 , void*                 tmp_ptr
 , std::size_t&          tmp_size
-, CUB_NS_QUALIFIER::DoubleBuffer<T>& keys
+, cub::DoubleBuffer<T>& keys
 , Size&                 n
 , StrictWeakOrdering
 )
 {
-  return CUB_NS_QUALIFIER::DeviceRadixSort::SortKeysDescending(
+  return cub::DeviceRadixSort::SortKeysDescending(
     tmp_ptr
   , tmp_size
   , keys
@@ -366,7 +366,7 @@ auto async_stable_sort_n(
 
   unique_eager_event e;
 
-  CUB_NS_QUALIFIER::DoubleBuffer<T> keys(
+  cub::DoubleBuffer<T> keys(
     raw_pointer_cast(&*first), nullptr
   );
 

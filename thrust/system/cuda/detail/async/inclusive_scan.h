@@ -72,15 +72,15 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                        OutputIt out,
                        BinaryOp op)
 {
-  using Dispatch32 = CUB_NS_QUALIFIER::DispatchScan<ForwardIt,
+  using Dispatch32 = cub::DispatchScan<ForwardIt,
                                        OutputIt,
                                        BinaryOp,
-                                       CUB_NS_QUALIFIER::NullType,
+                                       cub::NullType,
                                        thrust::detail::int32_t>;
-  using Dispatch64 = CUB_NS_QUALIFIER::DispatchScan<ForwardIt,
+  using Dispatch64 = cub::DispatchScan<ForwardIt,
                                        OutputIt,
                                        BinaryOp,
-                                       CUB_NS_QUALIFIER::NullType,
+                                       cub::NullType,
                                        thrust::detail::int64_t>;
 
   auto const device_alloc = get_async_device_allocator(policy);
@@ -99,7 +99,7 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                   first,
                                   out,
                                   op,
-                                  CUB_NS_QUALIFIER::NullType{},
+                                  cub::NullType{},
                                   n_fixed,
                                   nullptr,
                                   THRUST_DEBUG_SYNC_FLAG));
@@ -146,7 +146,7 @@ async_inclusive_scan_n(execution_policy<DerivedPolicy>& policy,
                                  first,
                                  out,
                                  op,
-                                 CUB_NS_QUALIFIER::NullType{},
+                                 cub::NullType{},
                                  n_fixed,
                                  user_raw_stream,
                                  THRUST_DEBUG_SYNC_FLAG));

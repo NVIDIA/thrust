@@ -203,9 +203,9 @@ namespace __set_operations {
 
   template <int                      _BLOCK_THREADS,
             int                      _ITEMS_PER_THREAD = 1,
-            CUB_NS_QUALIFIER::BlockLoadAlgorithm  _LOAD_ALGORITHM   = CUB_NS_QUALIFIER::BLOCK_LOAD_DIRECT,
-            CUB_NS_QUALIFIER::CacheLoadModifier   _LOAD_MODIFIER    = CUB_NS_QUALIFIER::LOAD_LDG,
-            CUB_NS_QUALIFIER::BlockScanAlgorithm  _SCAN_ALGORITHM   = CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS>
+            cub::BlockLoadAlgorithm  _LOAD_ALGORITHM   = cub::BLOCK_LOAD_DIRECT,
+            cub::CacheLoadModifier   _LOAD_MODIFIER    = cub::LOAD_LDG,
+            cub::BlockScanAlgorithm  _SCAN_ALGORITHM   = cub::BLOCK_SCAN_WARP_SCANS>
   struct PtxPolicy
   {
     enum
@@ -215,9 +215,9 @@ namespace __set_operations {
       ITEMS_PER_TILE   = _BLOCK_THREADS * _ITEMS_PER_THREAD - 1
     };
 
-    static const CUB_NS_QUALIFIER::BlockLoadAlgorithm  LOAD_ALGORITHM  = _LOAD_ALGORITHM;
-    static const CUB_NS_QUALIFIER::CacheLoadModifier   LOAD_MODIFIER   = _LOAD_MODIFIER;
-    static const CUB_NS_QUALIFIER::BlockScanAlgorithm  SCAN_ALGORITHM  = _SCAN_ALGORITHM;
+    static const cub::BlockLoadAlgorithm  LOAD_ALGORITHM  = _LOAD_ALGORITHM;
+    static const cub::CacheLoadModifier   LOAD_MODIFIER   = _LOAD_MODIFIER;
+    static const cub::BlockScanAlgorithm  SCAN_ALGORITHM  = _SCAN_ALGORITHM;
   };    // PtxPolicy
 
   template<class Arch, class T, class U>
@@ -246,9 +246,9 @@ namespace __set_operations {
 
     typedef PtxPolicy<128,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_DEFAULT,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_DEFAULT,
+                      cub::BLOCK_SCAN_WARP_SCANS>
         type;
   }; // tuning sm30
 
@@ -273,9 +273,9 @@ namespace __set_operations {
 
     typedef PtxPolicy<256,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_DEFAULT,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_DEFAULT,
+                      cub::BLOCK_SCAN_WARP_SCANS>
         type;
   }; // tuning sm52
 
@@ -300,9 +300,9 @@ namespace __set_operations {
 
     typedef PtxPolicy<512,
                       ITEMS_PER_THREAD,
-                      CUB_NS_QUALIFIER::BLOCK_LOAD_WARP_TRANSPOSE,
-                      CUB_NS_QUALIFIER::LOAD_DEFAULT,
-                      CUB_NS_QUALIFIER::BLOCK_SCAN_WARP_SCANS>
+                      cub::BLOCK_LOAD_WARP_TRANSPOSE,
+                      cub::LOAD_DEFAULT,
+                      cub::BLOCK_SCAN_WARP_SCANS>
         type;
   }; // tuning sm60
 
@@ -326,7 +326,7 @@ namespace __set_operations {
     typedef key1_type  key_type;
     typedef value1_type value_type;
 
-    typedef CUB_NS_QUALIFIER::ScanTileState<Size> ScanTileState;
+    typedef cub::ScanTileState<Size> ScanTileState;
 
     template <class Arch>
     struct PtxPlan : Tuning<Arch, key_type, value_type>::type
@@ -343,13 +343,13 @@ namespace __set_operations {
       typedef typename core::BlockLoad<PtxPlan, ValuesLoadIt1>::type BlockLoadValues1;
       typedef typename core::BlockLoad<PtxPlan, ValuesLoadIt2>::type BlockLoadValues2;
 
-      typedef CUB_NS_QUALIFIER::TilePrefixCallbackOp<Size,
-                                        CUB_NS_QUALIFIER::Sum,
+      typedef cub::TilePrefixCallbackOp<Size,
+                                        cub::Sum,
                                         ScanTileState,
                                         Arch::ver>
           TilePrefixCallback;
 
-      typedef CUB_NS_QUALIFIER::BlockScan<Size,
+      typedef cub::BlockScan<Size,
                              PtxPlan::BLOCK_THREADS,
                              PtxPlan::SCAN_ALGORITHM,
                              1,
@@ -675,7 +675,7 @@ namespace __set_operations {
         {
           TilePrefixCallback prefix_cb(tile_state,
                                        storage.scan_storage.prefix,
-                                       CUB_NS_QUALIFIER::Sum(),
+                                       cub::Sum(),
                                        tile_idx);
 
           BlockScan(storage.scan_storage.scan)
