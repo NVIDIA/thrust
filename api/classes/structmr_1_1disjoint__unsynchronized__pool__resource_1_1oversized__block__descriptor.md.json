@@ -1,0 +1,273 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 188,
+    "bodyFile": "thrust/mr/disjoint_pool.h",
+    "bodyStart": 171,
+    "column": 1,
+    "file": "thrust/mr/disjoint_pool.h",
+    "line": 172
+  },
+  "name": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "baseClasses": [
+      {
+        "external": false,
+        "name": "mr::memory_resource< Upstream::pointer >",
+        "refid": "classmr_1_1memory__resource",
+        "url": "/api/classes/classmr_1_1memory__resource.html",
+        "virtual": "non-virtual",
+        "visibility": "public"
+      },
+      {
+        "external": true,
+        "name": "mr::validator2< Upstream, Bookkeeper >",
+        "virtual": "non-virtual",
+        "visibility": "private"
+      }
+    ],
+    "category": "classes",
+    "fullname": "mr::disjoint_unsynchronized_pool_resource",
+    "kind": "class",
+    "name": "mr::disjoint_unsynchronized_pool_resource",
+    "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
+    "title": "mr::disjoint_unsynchronized_pool_resource",
+    "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "mr",
+      "kind": "namespace",
+      "name": "mr",
+      "refid": "namespacemr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "mr",
+      "url": "/api/namespaces/namespacemr.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "mr::memory_resource< Upstream::pointer >",
+          "refid": "classmr_1_1memory__resource",
+          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "mr::validator2< Upstream, Bookkeeper >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::disjoint_unsynchronized_pool_resource",
+      "kind": "class",
+      "name": "mr::disjoint_unsynchronized_pool_resource",
+      "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
+      "title": "mr::disjoint_unsynchronized_pool_resource",
+      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-size",
+      "category": "attributes",
+      "const": false,
+      "definition": "std::size_t mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::oversized_block_descriptor::size",
+      "explicit": false,
+      "fullname": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor::size",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 173,
+        "column": 21,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 173
+      },
+      "name": "size",
+      "override": false,
+      "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor_1a859019f7cebe6fba8e2543f818719136",
+      "static": false,
+      "strong": false,
+      "title": "size",
+      "type": "std::size_t",
+      "typePlain": "std::size_t",
+      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-size",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-alignment",
+      "category": "attributes",
+      "const": false,
+      "definition": "std::size_t mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::oversized_block_descriptor::alignment",
+      "explicit": false,
+      "fullname": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor::alignment",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 174,
+        "column": 21,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 174
+      },
+      "name": "alignment",
+      "override": false,
+      "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor_1adb079cbf78d1247b91d2fad0ff758c0d",
+      "static": false,
+      "strong": false,
+      "title": "alignment",
+      "type": "std::size_t",
+      "typePlain": "std::size_t",
+      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-alignment",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-pointer",
+      "category": "attributes",
+      "const": false,
+      "definition": "void_ptr mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::oversized_block_descriptor::pointer",
+      "explicit": false,
+      "fullname": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor::pointer",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 175,
+        "column": 18,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 175
+      },
+      "name": "pointer",
+      "override": false,
+      "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor_1ad926e0fd80ca0529942cf27879070ea1",
+      "static": false,
+      "strong": false,
+      "title": "pointer",
+      "type": "void_ptr",
+      "typePlain": "void_ptr",
+      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-pointer",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const oversized_block_descriptor &other) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ bool mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::oversized_block_descriptor::operator==",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor::operator==",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 181,
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 178,
+        "column": 14,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 178
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "const oversized_block_descriptor &",
+          "typePlain": "const oversized_block_descriptor &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor_1a2271df4fb4e3c80a1f4e31c77394c02b",
+      "static": false,
+      "strong": false,
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<",
+      "argsString": "(const oversized_block_descriptor &other) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ bool mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::oversized_block_descriptor::operator<",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor::operator<",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 187,
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 184,
+        "column": 9,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 184
+      },
+      "name": "operator<",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "const oversized_block_descriptor &",
+          "typePlain": "const oversized_block_descriptor &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor_1a5d9e3a6fb672885087d9d9a32d85226d",
+      "static": false,
+      "strong": false,
+      "title": "operator<",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#function-operator<",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor",
+  "static": false,
+  "strong": false,
+  "title": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
+  "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
+  "visibility": "private"
+}

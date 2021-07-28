@@ -1,0 +1,36 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "iterator_traversal",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyFile": "thrust/iterator/iterator_traits.h",
+    "bodyStart": 54,
+    "column": 11,
+    "file": "thrust/iterator/iterator_traits.h",
+    "line": 54
+  },
+  "name": "iterator_traversal",
+  "override": false,
+  "parent": null,
+  "refid": "structiterator__traversal",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Iterator",
+      "typePlain": "typename Iterator"
+    }
+  ],
+  "title": "iterator_traversal",
+  "url": "/api/classes/structiterator__traversal.html",
+  "visibility": "public"
+}

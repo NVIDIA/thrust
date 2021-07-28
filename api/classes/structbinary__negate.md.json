@@ -1,0 +1,185 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "thrust::binary_function< Predicate::first_argument_type, Predicate::second_argument_type, bool >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/api/classes/structbinary__negate.html\">binary&#95;negate</a></code> is a function object adaptor: it is an Adaptable Binary Predicate that represents the logical negation of some other Adaptable Binary Predicate. That is: if <code>f</code> is an object of class <code>binary&#95;negate&lt;AdaptablePredicate&gt;</code>, then there exists an object <code>pred</code> of class <code>AdaptableBinaryPredicate</code> such that <code>f(x,y)</code> always returns the same value as <code>!pred(x,y)</code>. There is rarely any reason to construct a <code><a href=\"/api/classes/structbinary__negate.html\">binary&#95;negate</a></code> directly; it is almost always easier to use the helper function not2.",
+  "explicit": false,
+  "fullname": "binary_negate",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 1578,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1553,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 1557
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_object_adaptors",
+    "kind": "group",
+    "name": "function_object_adaptors",
+    "refid": "group__function__object__adaptors",
+    "title": "Function Object Adaptors",
+    "url": "/api/groups/group__function__object__adaptors.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_object_adaptors",
+      "kind": "group",
+      "name": "function_object_adaptors",
+      "refid": "group__function__object__adaptors",
+      "title": "Function Object Adaptors",
+      "url": "/api/groups/group__function__object__adaptors.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "binary_negate",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-binary_negate",
+      "argsString": "(Predicate p)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ binary_negate< Predicate >::binary_negate",
+      "deleted": false,
+      "details": "Constructor takes a <code>Predicate</code> object to negate. ",
+      "explicit": true,
+      "fullname": "binary_negate::binary_negate",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 1562,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1562,
+        "column": 12,
+        "file": "thrust/functional.h",
+        "line": 1562
+      },
+      "name": "binary_negate",
+      "override": false,
+      "paramList": [
+        {
+          "name": "p",
+          "text": "The <code>Predicate</code> object to negate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "p",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structbinary__negate_1a03a97992bde4d2d94f6bd434be1da1c1",
+      "static": false,
+      "strong": false,
+      "title": "binary_negate",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "/api/classes/structbinary__negate.html#function-binary_negate",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const typename Predicate::first_argument_type &x, const typename Predicate::second_argument_type &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ bool binary_negate< Predicate >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>!pred(x,y)</code>. ",
+      "explicit": false,
+      "fullname": "binary_negate::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 1571,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1568,
+        "column": 8,
+        "file": "thrust/functional.h",
+        "line": 1568
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "x",
+          "type": "const typename Predicate::first_argument_type &",
+          "typePlain": "const typename Predicate::first_argument_type &"
+        },
+        {
+          "name": "y",
+          "type": "const typename Predicate::second_argument_type &",
+          "typePlain": "const typename Predicate::second_argument_type &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structbinary__negate_1adb48821521ba2fb505092fc9322138aa",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ bool",
+      "url": "/api/classes/structbinary__negate.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structbinary__negate",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/binary_negate\">https://en.cppreference.com/w/cpp/utility/functional/binary_negate</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Predicate",
+      "typePlain": "typename Predicate"
+    }
+  ],
+  "title": "binary_negate",
+  "url": "/api/classes/structbinary__negate.html",
+  "visibility": "public"
+}

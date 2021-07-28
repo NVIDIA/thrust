@@ -1,0 +1,138 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "unimplemented",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/future.h",
+    "line": 69
+  },
+  "name": "unimplemented",
+  "override": false,
+  "parent": null,
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "unimplemented::no_unique_eager_event_type_found",
+      "kind": "struct",
+      "name": "unimplemented::no_unique_eager_event_type_found",
+      "refid": "structunimplemented_1_1no__unique__eager__event__type__found",
+      "title": "unimplemented::no_unique_eager_event_type_found",
+      "url": "/api/classes/structunimplemented_1_1no__unique__eager__event__type__found.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "unimplemented::no_unique_eager_future_type_found",
+      "kind": "struct",
+      "name": "unimplemented::no_unique_eager_future_type_found",
+      "refid": "structunimplemented_1_1no__unique__eager__future__type__found",
+      "title": "unimplemented::no_unique_eager_future_type_found",
+      "url": "/api/classes/structunimplemented_1_1no__unique__eager__future__type__found.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-unique_eager_event_type",
+      "argsString": "(...) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ no_unique_eager_event_type_found unimplemented::unique_eager_event_type",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "unimplemented::unique_eager_event_type",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/future.h",
+        "line": 75
+      },
+      "name": "unique_eager_event_type",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "...",
+          "typePlain": "..."
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "future_8h_1a430aad9a9d1aca44fc5aa8215d400c12",
+      "static": false,
+      "strong": false,
+      "title": "unique_eager_event_type",
+      "type": "__host__ no_unique_eager_event_type_found",
+      "typePlain": "__host__ no_unique_eager_event_type_found",
+      "url": "/api/namespaces/namespaceunimplemented.html#function-unique_eager_event_type",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-unique_eager_future_type",
+      "argsString": "(...) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ no_unique_eager_future_type_found unimplemented::unique_eager_future_type",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "unimplemented::unique_eager_future_type",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/future.h",
+        "line": 82
+      },
+      "name": "unique_eager_future_type",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "...",
+          "typePlain": "..."
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "future_8h_1a0ddaeb53df0cb8074a52878b231ba9f5",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "unique_eager_future_type",
+      "type": "__host__ no_unique_eager_future_type_found",
+      "typePlain": "__host__ no_unique_eager_future_type_found",
+      "url": "/api/namespaces/namespaceunimplemented.html#function-unique_eager_future_type",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespaceunimplemented",
+  "static": false,
+  "strong": false,
+  "title": "unimplemented",
+  "url": "/api/namespaces/namespaceunimplemented.html",
+  "visibility": "public"
+}

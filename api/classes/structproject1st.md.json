@@ -1,0 +1,244 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> is a function object that takes two arguments and returns its first argument; the second argument is unused. It is essentially a generalization of identity to the case of a Binary Function.\n\n\n\n```cpp\n#include <thrust/functional.h>\n#include <assert.h>\n...\nint x =  137;\nint y = -137;\nthrust::project1st<int> pj1;\nassert(x == pj1(x,y));\n```",
+  "explicit": false,
+  "fullname": "project1st",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 1402,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1378,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 1379
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "generalized_identity_operations",
+    "kind": "group",
+    "name": "generalized_identity_operations",
+    "refid": "group__generalized__identity__operations",
+    "title": "Generalized Identity Operations",
+    "url": "/api/groups/group__generalized__identity__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "generalized_identity_operations",
+      "kind": "group",
+      "name": "generalized_identity_operations",
+      "refid": "group__generalized__identity__operations",
+      "title": "Generalized Identity Operations",
+      "url": "/api/groups/group__generalized__identity__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "project1st",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T1 &lhs, const T2 &) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ constexpr const __device__ T1& project1st< T1, T2 >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>lhs</code>. ",
+      "explicit": false,
+      "fullname": "project1st::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 1401,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1398,
+        "column": 22,
+        "file": "thrust/functional.h",
+        "line": 1398
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        },
+        {
+          "name": "",
+          "type": "const T2 &",
+          "typePlain": "const T2 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structproject1st_1ad0ba67c1fbf8316c1301ae9744f4b855",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__host__ constexpr const __device__ T1 &",
+      "typePlain": "__host__ constexpr const __device__ T1 &",
+      "url": "/api/classes/structproject1st.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first_argument_type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "project1st< T1, T2 >::first_argument_type",
+      "explicit": false,
+      "fullname": "project1st::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1383,
+        "column": 14,
+        "file": "thrust/functional.h",
+        "line": 1383
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "refid": "structproject1st_1a001461425292db52101a810f73015fa0",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T1",
+      "typePlain": "T1",
+      "url": "/api/classes/structproject1st.html#typedef-first_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second_argument_type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "project1st< T1, T2 >::second_argument_type",
+      "explicit": false,
+      "fullname": "project1st::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1388,
+        "column": 14,
+        "file": "thrust/functional.h",
+        "line": 1388
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "refid": "structproject1st_1a16090956619370a0c1688bd5613e98bd",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T2",
+      "typePlain": "T2",
+      "url": "/api/classes/structproject1st.html#typedef-second_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result_type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "project1st< T1, T2 >::result_type",
+      "explicit": false,
+      "fullname": "project1st::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1393,
+        "column": 14,
+        "file": "thrust/functional.h",
+        "line": 1393
+      },
+      "name": "result_type",
+      "override": false,
+      "refid": "structproject1st_1aa8c09e24d9b630edea1539f775560a64",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "T1",
+      "typePlain": "T1",
+      "url": "/api/classes/structproject1st.html#typedef-result_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structproject1st",
+  "see": [
+    "<a href=\"/api/classes/structidentity.html\">identity</a>",
+    "<a href=\"/api/classes/structproject2nd.html\">project2nd</a>",
+    "<a href=\"/api/classes/structbinary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T1",
+      "typePlain": "typename T1"
+    },
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T2",
+      "typePlain": "typename T2"
+    }
+  ],
+  "title": "project1st",
+  "url": "/api/classes/structproject1st.html",
+  "visibility": "public"
+}

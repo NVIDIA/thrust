@@ -1,0 +1,67 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/api/classes/classiterator__core__access.html\">iterator&#95;core&#95;access</a></code> is the class which user iterator types derived from <code>thrust::iterator&#95;adaptor</code> or <code>thrust::iterator&#95;facade</code> must befriend to allow it to access their private interface. ",
+  "explicit": false,
+  "fullname": "iterator_core_access",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/iterator/iterator_facade.h>",
+  "inline": false,
+  "kind": "class",
+  "location": {
+    "bodyEnd": 223,
+    "bodyFile": "thrust/iterator/iterator_facade.h",
+    "bodyStart": 60,
+    "column": 1,
+    "file": "thrust/iterator/iterator_facade.h",
+    "line": 61
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "fancyiterator",
+    "kind": "group",
+    "name": "fancyiterator",
+    "refid": "group__fancyiterator",
+    "title": "Fancy Iterators",
+    "url": "/api/groups/group__fancyiterator.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "iterators",
+      "kind": "group",
+      "name": "iterators",
+      "refid": "group__iterators",
+      "title": "Iterators",
+      "url": "/api/groups/group__iterators.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "fancyiterator",
+      "kind": "group",
+      "name": "fancyiterator",
+      "refid": "group__fancyiterator",
+      "title": "Fancy Iterators",
+      "url": "/api/groups/group__fancyiterator.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "iterator_core_access",
+  "override": false,
+  "parent": null,
+  "refid": "classiterator__core__access",
+  "static": false,
+  "strong": false,
+  "title": "iterator_core_access",
+  "url": "/api/classes/classiterator__core__access.html",
+  "visibility": "public"
+}

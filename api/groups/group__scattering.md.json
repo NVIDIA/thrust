@@ -1,0 +1,931 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "scattering",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "copying",
+    "kind": "group",
+    "name": "copying",
+    "refid": "group__copying",
+    "title": "Copying",
+    "url": "/api/groups/group__copying.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "name": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "copying",
+      "kind": "group",
+      "name": "copying",
+      "refid": "group__copying",
+      "title": "Copying",
+      "url": "/api/groups/group__copying.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "scattering",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "copying",
+    "kind": "group",
+    "name": "copying",
+    "refid": "group__copying",
+    "title": "Copying",
+    "url": "/api/groups/group__copying.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "algorithms",
+      "kind": "group",
+      "name": "algorithms",
+      "refid": "group__algorithms",
+      "title": "Algorithms",
+      "url": "/api/groups/group__algorithms.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "copying",
+      "kind": "group",
+      "name": "copying",
+      "refid": "group__copying",
+      "title": "Copying",
+      "url": "/api/groups/group__copying.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-scatter",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first, InputIterator1 last, InputIterator2 map, RandomAccessIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void scatter",
+      "deleted": false,
+      "details": "<code>scatter</code> copies elements from a source range into an output array according to a map. For each iterator <code>i</code> in the range [<code>first</code>, <code>last</code>), the value <code>&#42;i</code> is assigned to <code>output[&#42;(map + (i - first))]</code>. The output iterator must permit random access. If the same index appears more than once in the range <code>[map, map + (last - first))</code>, the result is undefined.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>scatter</code> to reorder a range using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/scatter.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\n// mark even indices with a 1; odd indices with a 0\nint values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};\nthrust::device_vector<int> d_values(values, values + 10);\n\n// scatter all even indices into the first half of the\n// range, and odd indices vice versa\nint map[10]   = {0, 5, 1, 6, 2, 7, 3, 8, 4, 9};\nthrust::device_vector<int> d_map(map, map + 10);\n\nthrust::device_vector<int> d_output(10);\nthrust::scatter(thrust::device,\n                d_values.begin(), d_values.end(),\n                d_map.begin(), d_output.begin());\n// d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}\n```",
+      "explicit": false,
+      "fullname": "scattering::scatter",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 8,
+        "file": "thrust/scatter.h",
+        "line": 92
+      },
+      "name": "scatter",
+      "note": [
+        "<code>scatter</code> is the inverse of thrust::gather. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "Beginning of the sequence of values to scatter. "
+        },
+        {
+          "name": "last",
+          "text": "End of the sequence of values to scatter. "
+        },
+        {
+          "name": "map",
+          "text": "Beginning of the sequence of output indices. "
+        },
+        {
+          "name": "result",
+          "text": "Destination of the source elements."
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        }
+      ],
+      "pre": [
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[first,last)</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[map,map + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The expression <code>result[&#42;i]</code> shall be valid for all iterators in the range <code>[map,map + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "refid": "group__scattering_1ga66df295696eae8fc5144a124c0bc5f49",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a>."
+        }
+      ],
+      "title": "scatter",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "/api/groups/group__scattering.html#function-scatter",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-scatter",
+      "argsString": "(InputIterator1 first, InputIterator1 last, InputIterator2 map, RandomAccessIterator result)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void scatter",
+      "deleted": false,
+      "details": "<code>scatter</code> copies elements from a source range into an output array according to a map. For each iterator <code>i</code> in the range [<code>first</code>, <code>last</code>), the value <code>&#42;i</code> is assigned to <code>output[&#42;(map + (i - first))]</code>. The output iterator must permit random access. If the same index appears more than once in the range <code>[map, map + (last - first))</code>, the result is undefined.\n\n\nThe following code snippet demonstrates how to use <code>scatter</code> to reorder a range.\n\n\n\n```cpp\n#include <thrust/scatter.h>\n#include <thrust/device_vector.h>\n...\n// mark even indices with a 1; odd indices with a 0\nint values[10] = {1, 0, 1, 0, 1, 0, 1, 0, 1, 0};\nthrust::device_vector<int> d_values(values, values + 10);\n\n// scatter all even indices into the first half of the\n// range, and odd indices vice versa\nint map[10]   = {0, 5, 1, 6, 2, 7, 3, 8, 4, 9};\nthrust::device_vector<int> d_map(map, map + 10);\n\nthrust::device_vector<int> d_output(10);\nthrust::scatter(d_values.begin(), d_values.end(),\n                d_map.begin(), d_output.begin());\n// d_output is now {1, 1, 1, 1, 1, 0, 0, 0, 0, 0}\n```",
+      "explicit": false,
+      "fullname": "scattering::scatter",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 8,
+        "file": "thrust/scatter.h",
+        "line": 148
+      },
+      "name": "scatter",
+      "note": [
+        "<code>scatter</code> is the inverse of thrust::gather. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "Beginning of the sequence of values to scatter. "
+        },
+        {
+          "name": "last",
+          "text": "End of the sequence of values to scatter. "
+        },
+        {
+          "name": "map",
+          "text": "Beginning of the sequence of output indices. "
+        },
+        {
+          "name": "result",
+          "text": "Destination of the source elements."
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "result",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        }
+      ],
+      "pre": [
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[first,last)</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[map,map + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The expression <code>result[&#42;i]</code> shall be valid for all iterators in the range <code>[map,map + (last - first))</code>."
+      ],
+      "pureVirtual": false,
+      "refid": "group__scattering_1gacb943e0571ef59fb90a75834286a6359",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a>."
+        }
+      ],
+      "title": "scatter",
+      "type": "void",
+      "typePlain": "void",
+      "url": "/api/groups/group__scattering.html#function-scatter",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-scatter_if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first, InputIterator1 last, InputIterator2 map, InputIterator3 stencil, RandomAccessIterator output)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void scatter_if",
+      "deleted": false,
+      "details": "<code>scatter&#95;if</code> conditionally copies elements from a source range into an output array according to a map. For each iterator <code>i</code> in the range <code>[first, last)</code> such that <code>&#42;(stencil + (i - first))</code> is true, the value <code>&#42;i</code> is assigned to <code>output[&#42;(map + (i - first))]</code>. The output iterator must permit random access. If the same index appears more than once in the range <code>[map, map + (last - first))</code> the result is undefined.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/scatter.h>\n#include <thrust/execution_policy.h>\n...\nint V[8] = {10, 20, 30, 40, 50, 60, 70, 80};\nint M[8] = {0, 5, 1, 6, 2, 7, 3, 4};\nint S[8] = {1, 0, 1, 0, 1, 0, 1, 0};\nint D[8] = {0, 0, 0, 0, 0, 0, 0, 0};\n\nthrust::scatter_if(thrust::host, V, V + 8, M, S, D);\n\n// D contains [10, 30, 50, 70, 0, 0, 0, 0];\n```",
+      "explicit": false,
+      "fullname": "scattering::scatter_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 8,
+        "file": "thrust/scatter.h",
+        "line": 207
+      },
+      "name": "scatter_if",
+      "note": [
+        "<code>scatter&#95;if</code> is the inverse of thrust::gather_if. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "Beginning of the sequence of values to scatter. "
+        },
+        {
+          "name": "last",
+          "text": "End of the sequence of values to scatter. "
+        },
+        {
+          "name": "map",
+          "text": "Beginning of the sequence of output indices. "
+        },
+        {
+          "name": "stencil",
+          "text": "Beginning of the sequence of predicate values. "
+        },
+        {
+          "name": "output",
+          "text": "Beginning of the destination range."
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator3",
+          "typePlain": "InputIterator3"
+        },
+        {
+          "name": "output",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        }
+      ],
+      "pre": [
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[first,last)</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[map,map + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[stencil,stencil + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The expression <code>result[&#42;i]</code> shall be valid for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code> for which the following condition holds: <code>&#42;(stencil + i) != false</code>."
+      ],
+      "pureVirtual": false,
+      "refid": "group__scattering_1ga11cfd4caa174046df59a9890e11f3dab",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator3",
+          "typePlain": "typename InputIterator3"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator3",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator3's</code><code>value&#95;type</code> must be convertible to <code>bool</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a>."
+        }
+      ],
+      "title": "scatter_if",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "/api/groups/group__scattering.html#function-scatter_if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-scatter_if",
+      "argsString": "(InputIterator1 first, InputIterator1 last, InputIterator2 map, InputIterator3 stencil, RandomAccessIterator output)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void scatter_if",
+      "deleted": false,
+      "details": "<code>scatter&#95;if</code> conditionally copies elements from a source range into an output array according to a map. For each iterator <code>i</code> in the range <code>[first, last)</code> such that <code>&#42;(stencil + (i - first))</code> is true, the value <code>&#42;i</code> is assigned to <code>output[&#42;(map + (i - first))]</code>. The output iterator must permit random access. If the same index appears more than once in the range <code>[map, map + (last - first))</code> the result is undefined.\n\n\n\n```cpp\n#include <thrust/scatter.h>\n...\nint V[8] = {10, 20, 30, 40, 50, 60, 70, 80};\nint M[8] = {0, 5, 1, 6, 2, 7, 3, 4};\nint S[8] = {1, 0, 1, 0, 1, 0, 1, 0};\nint D[8] = {0, 0, 0, 0, 0, 0, 0, 0};\n\nthrust::scatter_if(V, V + 8, M, S, D);\n\n// D contains [10, 30, 50, 70, 0, 0, 0, 0];\n```",
+      "explicit": false,
+      "fullname": "scattering::scatter_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 8,
+        "file": "thrust/scatter.h",
+        "line": 261
+      },
+      "name": "scatter_if",
+      "note": [
+        "<code>scatter&#95;if</code> is the inverse of thrust::gather_if. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "Beginning of the sequence of values to scatter. "
+        },
+        {
+          "name": "last",
+          "text": "End of the sequence of values to scatter. "
+        },
+        {
+          "name": "map",
+          "text": "Beginning of the sequence of output indices. "
+        },
+        {
+          "name": "stencil",
+          "text": "Beginning of the sequence of predicate values. "
+        },
+        {
+          "name": "output",
+          "text": "Beginning of the destination range."
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator3",
+          "typePlain": "InputIterator3"
+        },
+        {
+          "name": "output",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        }
+      ],
+      "pre": [
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[first,last)</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[map,map + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[stencil,stencil + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The expression <code>result[&#42;i]</code> shall be valid for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code> for which the following condition holds: <code>&#42;(stencil + i) != false</code>."
+      ],
+      "pureVirtual": false,
+      "refid": "group__scattering_1ga4a29c1a2365cc826a14994778e47886e",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator3",
+          "typePlain": "typename InputIterator3"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator3",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator3's</code><code>value&#95;type</code> must be convertible to <code>bool</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a>."
+        }
+      ],
+      "title": "scatter_if",
+      "type": "void",
+      "typePlain": "void",
+      "url": "/api/groups/group__scattering.html#function-scatter_if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-scatter_if",
+      "argsString": "(const thrust::detail::execution_policy_base< DerivedPolicy > &exec, InputIterator1 first, InputIterator1 last, InputIterator2 map, InputIterator3 stencil, RandomAccessIterator output, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ void scatter_if",
+      "deleted": false,
+      "details": "<code>scatter&#95;if</code> conditionally copies elements from a source range into an output array according to a map. For each iterator <code>i</code> in the range <code>[first, last)</code> such that <code>pred(&#42;(stencil + (i - first)))</code> is <code>true</code>, the value <code>&#42;i</code> is assigned to <code>output[&#42;(map + (i - first))]</code>. The output iterator must permit random access. If the same index appears more than once in the range <code>[map, map + (last - first))</code> the result is undefined.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\n\n```cpp\n#include <thrust/scatter.h>\n#include <thrust/execution_policy.h>\n\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n\n...\n\nint V[8] = {10, 20, 30, 40, 50, 60, 70, 80};\nint M[8] = {0, 5, 1, 6, 2, 7, 3, 4};\nint S[8] = {2, 1, 2, 1, 2, 1, 2, 1};\nint D[8] = {0, 0, 0, 0, 0, 0, 0, 0};\n\nis_even pred;\nthrust::scatter_if(thrust::host, V, V + 8, M, S, D, pred);\n\n// D contains [10, 30, 50, 70, 0, 0, 0, 0];\n```",
+      "explicit": false,
+      "fullname": "scattering::scatter_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 8,
+        "file": "thrust/scatter.h",
+        "line": 336
+      },
+      "name": "scatter_if",
+      "note": [
+        "<code>scatter&#95;if</code> is the inverse of thrust::gather_if. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "exec",
+          "text": "The execution policy to use for parallelization. "
+        },
+        {
+          "name": "first",
+          "text": "Beginning of the sequence of values to scatter. "
+        },
+        {
+          "name": "last",
+          "text": "End of the sequence of values to scatter. "
+        },
+        {
+          "name": "map",
+          "text": "Beginning of the sequence of output indices. "
+        },
+        {
+          "name": "stencil",
+          "text": "Beginning of the sequence of predicate values. "
+        },
+        {
+          "name": "output",
+          "text": "Beginning of the destination range. "
+        },
+        {
+          "name": "pred",
+          "text": "Predicate to apply to the stencil values."
+        }
+      ],
+      "params": [
+        {
+          "name": "exec",
+          "type": "const thrust::detail::execution_policy_base< DerivedPolicy > &",
+          "typePlain": "const thrust::detail::execution_policy_base< DerivedPolicy > &"
+        },
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator3",
+          "typePlain": "InputIterator3"
+        },
+        {
+          "name": "output",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[first,last)</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[map,map + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[stencil,stencil + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The expression <code>result[&#42;i]</code> shall be valid for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code> for which the following condition holds: <code>pred(&#42;(stencil + i)) != false</code>."
+      ],
+      "pureVirtual": false,
+      "refid": "group__scattering_1ga8e1817d57c0439c42190ce6b2d83bf84",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator3",
+          "typePlain": "typename InputIterator3"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "DerivedPolicy",
+          "text": "The name of the derived execution policy. "
+        },
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator3",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator3's</code><code>value&#95;type</code> must be convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "scatter_if",
+      "type": "__host__ __device__ void",
+      "typePlain": "__host__ __device__ void",
+      "url": "/api/groups/group__scattering.html#function-scatter_if",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-scatter_if",
+      "argsString": "(InputIterator1 first, InputIterator1 last, InputIterator2 map, InputIterator3 stencil, RandomAccessIterator output, Predicate pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void scatter_if",
+      "deleted": false,
+      "details": "<code>scatter&#95;if</code> conditionally copies elements from a source range into an output array according to a map. For each iterator <code>i</code> in the range <code>[first, last)</code> such that <code>pred(&#42;(stencil + (i - first)))</code> is <code>true</code>, the value <code>&#42;i</code> is assigned to <code>output[&#42;(map + (i - first))]</code>. The output iterator must permit random access. If the same index appears more than once in the range <code>[map, map + (last - first))</code> the result is undefined.\n\n\n\n```cpp\n#include <thrust/scatter.h>\n\nstruct is_even\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return (x % 2) == 0;\n  }\n};\n\n...\n\nint V[8] = {10, 20, 30, 40, 50, 60, 70, 80};\nint M[8] = {0, 5, 1, 6, 2, 7, 3, 4};\nint S[8] = {2, 1, 2, 1, 2, 1, 2, 1};\nint D[8] = {0, 0, 0, 0, 0, 0, 0, 0};\n\nis_even pred;\nthrust::scatter_if(V, V + 8, M, S, D, pred);\n\n// D contains [10, 30, 50, 70, 0, 0, 0, 0];\n```",
+      "explicit": false,
+      "fullname": "scattering::scatter_if",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 8,
+        "file": "thrust/scatter.h",
+        "line": 406
+      },
+      "name": "scatter_if",
+      "note": [
+        "<code>scatter&#95;if</code> is the inverse of thrust::gather_if. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "first",
+          "text": "Beginning of the sequence of values to scatter. "
+        },
+        {
+          "name": "last",
+          "text": "End of the sequence of values to scatter. "
+        },
+        {
+          "name": "map",
+          "text": "Beginning of the sequence of output indices. "
+        },
+        {
+          "name": "stencil",
+          "text": "Beginning of the sequence of predicate values. "
+        },
+        {
+          "name": "output",
+          "text": "Beginning of the destination range. "
+        },
+        {
+          "name": "pred",
+          "text": "Predicate to apply to the stencil values."
+        }
+      ],
+      "params": [
+        {
+          "name": "first",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "last",
+          "type": "InputIterator1",
+          "typePlain": "InputIterator1"
+        },
+        {
+          "name": "map",
+          "type": "InputIterator2",
+          "typePlain": "InputIterator2"
+        },
+        {
+          "name": "stencil",
+          "type": "InputIterator3",
+          "typePlain": "InputIterator3"
+        },
+        {
+          "name": "output",
+          "type": "RandomAccessIterator",
+          "typePlain": "RandomAccessIterator"
+        },
+        {
+          "name": "pred",
+          "type": "Predicate",
+          "typePlain": "Predicate"
+        }
+      ],
+      "pre": [
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[first,last)</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[map,map + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The iterator <code>result + i</code> shall not refer to any element referenced by any iterator <code>j</code> in the range <code>[stencil,stencil + (last - first))</code> for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code>.",
+        "The expression <code>result[&#42;i]</code> shall be valid for all iterators <code>i</code> in the range <code>[map,map + (last - first))</code> for which the following condition holds: <code>pred(&#42;(stencil + i)) != false</code>."
+      ],
+      "pureVirtual": false,
+      "refid": "group__scattering_1gadfa83ccd6b1d73b29350af57d5779c45",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename InputIterator1",
+          "typePlain": "typename InputIterator1"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator2",
+          "typePlain": "typename InputIterator2"
+        },
+        {
+          "name": "",
+          "type": "typename InputIterator3",
+          "typePlain": "typename InputIterator3"
+        },
+        {
+          "name": "",
+          "type": "typename RandomAccessIterator",
+          "typePlain": "typename RandomAccessIterator"
+        },
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "InputIterator1",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator1's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>value&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator2",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator2's</code><code>value&#95;type</code> must be convertible to <code>RandomAccessIterator's</code><code>difference&#95;type</code>. "
+        },
+        {
+          "name": "InputIterator3",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/input_iterator\">Input Iterator</a> and <code>InputIterator3's</code><code>value&#95;type</code> must be convertible to <code>Predicate's</code><code>argument&#95;type</code>. "
+        },
+        {
+          "name": "RandomAccessIterator",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/iterator/random_access_iterator\">Random Access iterator</a>. "
+        },
+        {
+          "name": "Predicate",
+          "text": "must be a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/predicate\">Predicate</a>."
+        }
+      ],
+      "title": "scatter_if",
+      "type": "void",
+      "typePlain": "void",
+      "url": "/api/groups/group__scattering.html#function-scatter_if",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__scattering",
+  "static": false,
+  "strong": false,
+  "title": "Scattering",
+  "url": "/api/groups/group__scattering.html",
+  "visibility": "public"
+}

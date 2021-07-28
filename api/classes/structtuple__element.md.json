@@ -1,0 +1,100 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "This convenience metafunction is included for compatibility with <code>tuple</code>. It returns either the type of a <code>pair's</code><code>first&#95;type</code> or <code>second&#95;type</code> in its nested type, <code>type</code>.\n\n\nThis metafunction returns the type of a <code>tuple's</code><code>N</code>th element.",
+  "explicit": false,
+  "fullname": "tuple_element",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/pair.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyFile": "thrust/pair.h",
+    "bodyStart": 230,
+    "column": 13,
+    "file": "thrust/pair.h",
+    "line": 230
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "tuple",
+    "kind": "group",
+    "name": "tuple",
+    "refid": "group__tuple",
+    "title": "Tuple",
+    "url": "/api/groups/group__tuple.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "name": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "tuple",
+      "kind": "group",
+      "name": "tuple",
+      "refid": "group__tuple",
+      "title": "Tuple",
+      "url": "/api/groups/group__tuple.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "tuple_element",
+  "override": false,
+  "parent": null,
+  "refid": "structtuple__element",
+  "see": [
+    "<a href=\"/api/classes/structpair.html\">pair</a>",
+    "<a href=\"/api/classes/classtuple.html\">tuple</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "N",
+      "type": "size_t",
+      "typePlain": "size_t"
+    },
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "N",
+      "text": "This parameter selects the member of interest. "
+    },
+    {
+      "name": "T",
+      "text": "A <code>pair</code> type of interest."
+    },
+    {
+      "name": "N",
+      "text": "This parameter selects the element of interest. "
+    },
+    {
+      "name": "T",
+      "text": "A <code>tuple</code> type of interest."
+    }
+  ],
+  "title": "tuple_element",
+  "url": "/api/classes/structtuple__element.html",
+  "visibility": "public"
+}

@@ -1,0 +1,240 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "async::unimplemented",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/async/scan.h",
+    "line": 47
+  },
+  "name": "async::unimplemented",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "async",
+    "kind": "namespace",
+    "name": "async",
+    "refid": "namespaceasync",
+    "title": "async",
+    "url": "/api/namespaces/namespaceasync.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "async",
+      "kind": "namespace",
+      "name": "async",
+      "refid": "namespaceasync",
+      "title": "async",
+      "url": "/api/namespaces/namespaceasync.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-async_inclusive_scan",
+      "argsString": "(thrust::execution_policy< DerivedPolicy > &, ForwardIt, Sentinel, OutputIt, BinaryOp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "event<DerivedPolicy> async::unimplemented::async_inclusive_scan",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "async::unimplemented::async_inclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 66,
+        "bodyFile": "thrust/async/scan.h",
+        "bodyStart": 55,
+        "column": 1,
+        "file": "thrust/async/scan.h",
+        "line": 55
+      },
+      "name": "async_inclusive_scan",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "thrust::execution_policy< DerivedPolicy > &",
+          "typePlain": "thrust::execution_policy< DerivedPolicy > &"
+        },
+        {
+          "name": "",
+          "type": "ForwardIt",
+          "typePlain": "ForwardIt"
+        },
+        {
+          "name": "",
+          "type": "Sentinel",
+          "typePlain": "Sentinel"
+        },
+        {
+          "name": "",
+          "type": "OutputIt",
+          "typePlain": "OutputIt"
+        },
+        {
+          "name": "",
+          "type": "BinaryOp",
+          "typePlain": "BinaryOp"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "async_2scan_8h_1a9c0f839426dcd200fe9b2eed170ddbee",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIt",
+          "typePlain": "typename ForwardIt"
+        },
+        {
+          "name": "",
+          "type": "typename Sentinel",
+          "typePlain": "typename Sentinel"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIt",
+          "typePlain": "typename OutputIt"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryOp",
+          "typePlain": "typename BinaryOp"
+        }
+      ],
+      "title": "async_inclusive_scan",
+      "type": "event< DerivedPolicy >",
+      "typePlain": "event< DerivedPolicy >",
+      "url": "/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_inclusive_scan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-async_exclusive_scan",
+      "argsString": "(thrust::execution_policy< DerivedPolicy > &, ForwardIt, Sentinel, OutputIt, InitialValueType, BinaryOp)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "event<DerivedPolicy> async::unimplemented::async_exclusive_scan",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "async::unimplemented::async_exclusive_scan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 87,
+        "bodyFile": "thrust/async/scan.h",
+        "bodyStart": 75,
+        "column": 1,
+        "file": "thrust/async/scan.h",
+        "line": 75
+      },
+      "name": "async_exclusive_scan",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "thrust::execution_policy< DerivedPolicy > &",
+          "typePlain": "thrust::execution_policy< DerivedPolicy > &"
+        },
+        {
+          "name": "",
+          "type": "ForwardIt",
+          "typePlain": "ForwardIt"
+        },
+        {
+          "name": "",
+          "type": "Sentinel",
+          "typePlain": "Sentinel"
+        },
+        {
+          "name": "",
+          "type": "OutputIt",
+          "typePlain": "OutputIt"
+        },
+        {
+          "name": "",
+          "type": "InitialValueType",
+          "typePlain": "InitialValueType"
+        },
+        {
+          "name": "",
+          "type": "BinaryOp",
+          "typePlain": "BinaryOp"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "async_2scan_8h_1ac32b7db378632af10e94742c614ff63b",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename DerivedPolicy",
+          "typePlain": "typename DerivedPolicy"
+        },
+        {
+          "name": "",
+          "type": "typename ForwardIt",
+          "typePlain": "typename ForwardIt"
+        },
+        {
+          "name": "",
+          "type": "typename Sentinel",
+          "typePlain": "typename Sentinel"
+        },
+        {
+          "name": "",
+          "type": "typename OutputIt",
+          "typePlain": "typename OutputIt"
+        },
+        {
+          "name": "",
+          "type": "typename InitialValueType",
+          "typePlain": "typename InitialValueType"
+        },
+        {
+          "name": "",
+          "type": "typename BinaryOp",
+          "typePlain": "typename BinaryOp"
+        }
+      ],
+      "title": "async_exclusive_scan",
+      "type": "event< DerivedPolicy >",
+      "typePlain": "event< DerivedPolicy >",
+      "url": "/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_exclusive_scan",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespaceasync_1_1unimplemented",
+  "static": false,
+  "strong": false,
+  "title": "async::unimplemented",
+  "url": "/api/namespaces/namespaceasync_1_1unimplemented.html",
+  "visibility": "public"
+}

@@ -1,0 +1,65 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "unique_eager_event_type_detail",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/future.h",
+    "line": 87
+  },
+  "name": "unique_eager_event_type_detail",
+  "override": false,
+  "parent": null,
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-select",
+      "category": "types",
+      "const": false,
+      "definition": "using unique_eager_event_type_detail::select = typedef decltype( unique_eager_event_type(std::declval<System>()) )",
+      "explicit": false,
+      "fullname": "unique_eager_event_type_detail::select",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/future.h",
+        "bodyStart": 94,
+        "column": 1,
+        "file": "thrust/future.h",
+        "line": 92
+      },
+      "name": "select",
+      "override": false,
+      "refid": "future_8h_1a7f5d4d818d4358ba27dcaa7836bec305",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename System",
+          "typePlain": "typename System"
+        }
+      ],
+      "title": "select",
+      "type": "decltype(unique_eager_event_type(std::declval< System >()))",
+      "typePlain": "decltype(unique_eager_event_type(std::declval< System >()))",
+      "url": "/api/namespaces/namespaceunique__eager__event__type__detail.html#using-select",
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespaceunique__eager__event__type__detail",
+  "static": false,
+  "strong": false,
+  "title": "unique_eager_event_type_detail",
+  "url": "/api/namespaces/namespaceunique__eager__event__type__detail.html",
+  "visibility": "public"
+}

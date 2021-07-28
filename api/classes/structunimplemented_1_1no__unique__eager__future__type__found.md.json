@@ -1,0 +1,53 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "unimplemented::no_unique_eager_future_type_found",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 77,
+    "bodyFile": "thrust/future.h",
+    "bodyStart": 77,
+    "column": 40,
+    "file": "thrust/future.h",
+    "line": 77
+  },
+  "name": "unimplemented::no_unique_eager_future_type_found",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "unimplemented",
+    "kind": "namespace",
+    "name": "unimplemented",
+    "refid": "namespaceunimplemented",
+    "title": "unimplemented",
+    "url": "/api/namespaces/namespaceunimplemented.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "unimplemented",
+      "kind": "namespace",
+      "name": "unimplemented",
+      "refid": "namespaceunimplemented",
+      "title": "unimplemented",
+      "url": "/api/namespaces/namespaceunimplemented.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structunimplemented_1_1no__unique__eager__future__type__found",
+  "static": false,
+  "strong": false,
+  "title": "unimplemented::no_unique_eager_future_type_found",
+  "url": "/api/classes/structunimplemented_1_1no__unique__eager__future__type__found.html",
+  "visibility": "public"
+}

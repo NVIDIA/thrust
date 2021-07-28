@@ -1,0 +1,242 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/api/classes/structnot__equal__to.html\">not&#95;equal&#95;to</a></code> is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>not&#95;equal&#95;to&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>true</code> if <code>x != y</code> and <code>false</code> otherwise.",
+  "explicit": false,
+  "fullname": "not_equal_to",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 686,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 661,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 662
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "comparison_operations",
+    "kind": "group",
+    "name": "comparison_operations",
+    "refid": "group__comparison__operations",
+    "title": "Comparison Operations",
+    "url": "/api/groups/group__comparison__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "comparison_operations",
+      "kind": "group",
+      "name": "comparison_operations",
+      "refid": "group__comparison__operations",
+      "title": "Comparison Operations",
+      "url": "/api/groups/group__comparison__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "not_equal_to",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T &lhs, const T &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool not_equal_to< T >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>lhs != rhs</code>. ",
+      "explicit": false,
+      "fullname": "not_equal_to::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 685,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 682,
+        "column": 18,
+        "file": "thrust/functional.h",
+        "line": 682
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        },
+        {
+          "name": "rhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structnot__equal__to_1a2eee2b033559982ba72ef325efbb4dcd",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "url": "/api/classes/structnot__equal__to.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first_argument_type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "not_equal_to< T >::first_argument_type",
+      "explicit": false,
+      "fullname": "not_equal_to::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 666,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 666
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "refid": "structnot__equal__to_1a1408174718452c355dc23fc6fcb86f64",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/api/classes/structnot__equal__to.html#typedef-first_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second_argument_type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "not_equal_to< T >::second_argument_type",
+      "explicit": false,
+      "fullname": "not_equal_to::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 671,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 671
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "refid": "structnot__equal__to_1a90d1cd65fb196900577a969c4f77cec7",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/api/classes/structnot__equal__to.html#typedef-second_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result_type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "not_equal_to< T >::result_type",
+      "explicit": false,
+      "fullname": "not_equal_to::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 676,
+        "column": 16,
+        "file": "thrust/functional.h",
+        "line": 676
+      },
+      "name": "result_type",
+      "override": false,
+      "refid": "structnot__equal__to_1a8d8f1d1c87a0681854fb55703d43d5b7",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "/api/classes/structnot__equal__to.html#typedef-result_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structnot__equal__to",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/not_equal_to\">https://en.cppreference.com/w/cpp/utility/functional/not_equal_to</a>",
+    "<a href=\"/api/classes/structbinary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T",
+      "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/concepts/equality_comparable\">Equality Comparable</a>."
+    }
+  ],
+  "title": "not_equal_to",
+  "url": "/api/classes/structnot__equal__to.html",
+  "visibility": "public"
+}

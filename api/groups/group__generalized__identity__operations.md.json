@@ -1,0 +1,203 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "generalized_identity_operations",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "generalized_identity_operations",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "identity",
+      "kind": "struct",
+      "name": "identity",
+      "refid": "structidentity",
+      "title": "identity",
+      "url": "/api/classes/structidentity.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "identity< void >",
+      "kind": "struct",
+      "name": "identity< void >",
+      "refid": "structidentity_3_01void_01_4",
+      "title": "identity< void >",
+      "url": "/api/classes/structidentity_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "maximum",
+      "kind": "struct",
+      "name": "maximum",
+      "refid": "structmaximum",
+      "title": "maximum",
+      "url": "/api/classes/structmaximum.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "maximum< void >",
+      "kind": "struct",
+      "name": "maximum< void >",
+      "refid": "structmaximum_3_01void_01_4",
+      "title": "maximum< void >",
+      "url": "/api/classes/structmaximum_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "minimum",
+      "kind": "struct",
+      "name": "minimum",
+      "refid": "structminimum",
+      "title": "minimum",
+      "url": "/api/classes/structminimum.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "minimum< void >",
+      "kind": "struct",
+      "name": "minimum< void >",
+      "refid": "structminimum_3_01void_01_4",
+      "title": "minimum< void >",
+      "url": "/api/classes/structminimum_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "project1st",
+      "kind": "struct",
+      "name": "project1st",
+      "refid": "structproject1st",
+      "title": "project1st",
+      "url": "/api/classes/structproject1st.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "project1st< void, void >",
+      "kind": "struct",
+      "name": "project1st< void, void >",
+      "refid": "structproject1st_3_01void_00_01void_01_4",
+      "title": "project1st< void, void >",
+      "url": "/api/classes/structproject1st_3_01void_00_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "project2nd",
+      "kind": "struct",
+      "name": "project2nd",
+      "refid": "structproject2nd",
+      "title": "project2nd",
+      "url": "/api/classes/structproject2nd.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "project2nd< void, void >",
+      "kind": "struct",
+      "name": "project2nd< void, void >",
+      "refid": "structproject2nd_3_01void_00_01void_01_4",
+      "title": "project2nd< void, void >",
+      "url": "/api/classes/structproject2nd_3_01void_00_01void_01_4.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__generalized__identity__operations",
+  "static": false,
+  "strong": false,
+  "title": "Generalized Identity Operations",
+  "url": "/api/groups/group__generalized__identity__operations.html",
+  "visibility": "public"
+}

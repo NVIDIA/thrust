@@ -1,0 +1,78 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "std::is_void< invoke_result_t< F, U... > >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 296,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 295,
+    "column": 17,
+    "file": "thrust/optional.h",
+    "line": 296
+  },
+  "name": "detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "name": "detail",
+    "refid": "namespacedetail",
+    "summary": "\\exclude ",
+    "title": "detail",
+    "url": "/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structdetail_1_1returns__void__impl_3_01F_00_01void__t_3_01invoke__result__t_3_01F_00_01U_8_8_8_01_4_01_4_00_01U_8_8_8_01_4",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class F",
+      "typePlain": "class F"
+    },
+    {
+      "name": "U",
+      "type": "class...",
+      "typePlain": "class..."
+    }
+  ],
+  "title": "detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
+  "url": "/api/classes/structdetail_1_1returns__void__impl_3_01f_00_01void__t_3_01invoke__result__t_3_01f_00_01u_8_8_8_01_4_01_4_00_01u_8_8_8_01_4.html",
+  "visibility": "public"
+}

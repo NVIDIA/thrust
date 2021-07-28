@@ -1,0 +1,186 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<code>test&#95;namespace</code> is a namespace intended to exercise and test Doxybook rendering. ",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::test_namespace",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 24,
+    "file": "thrust/doxybook_test.h",
+    "line": 175
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "test",
+    "kind": "group",
+    "name": "test",
+    "refid": "group__test",
+    "title": "Test",
+    "url": "/api/groups/group__test.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "test",
+      "kind": "group",
+      "name": "test",
+      "refid": "group__test",
+      "title": "Test",
+      "url": "/api/groups/group__test.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::test_namespace",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "name": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "name": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-test_constant",
+      "category": "attributes",
+      "const": false,
+      "definition": "constexpr int thrust::test_namespace::test_constant",
+      "explicit": false,
+      "fullname": "thrust::test_namespace::test_constant",
+      "hasDetails": false,
+      "initializer": "= 12",
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/doxybook_test.h",
+        "bodyStart": 177,
+        "column": 22,
+        "file": "thrust/doxybook_test.h",
+        "line": 177
+      },
+      "name": "test_constant",
+      "override": false,
+      "refid": "namespacethrust_1_1test__namespace_1a3ce473e9a994e402be0c21937105a10d",
+      "static": false,
+      "strong": false,
+      "title": "test_constant",
+      "type": "constexpr int",
+      "typePlain": "constexpr int",
+      "url": "/api/namespaces/namespacethrust_1_1test__namespace.html#variable-test_constant",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "brief": "<code>test&#95;struct</code> is a struct intended to exercise and test Doxybook rendering. ",
+      "category": "classes",
+      "fullname": "thrust::test_namespace::test_struct",
+      "kind": "struct",
+      "name": "thrust::test_namespace::test_struct",
+      "refid": "structthrust_1_1test__namespace_1_1test__struct",
+      "summary": "test_struct is a struct intended to exercise and test Doxybook rendering. ",
+      "title": "thrust::test_namespace::test_struct",
+      "url": "/api/classes/structthrust_1_1test__namespace_1_1test__struct.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-test_nested_function",
+      "argsString": "(T t, U u) noexcept(noexcept(t+u)) -> decltype(t+u)",
+      "brief": "<code>nested&#95;function</code> is a function intended to exercise and test Doxybook rendering. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "auto thrust::test_namespace::test_nested_function",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::test_namespace::test_nested_function",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 184,
+        "bodyFile": "thrust/doxybook_test.h",
+        "bodyStart": 183,
+        "column": 6,
+        "file": "thrust/doxybook_test.h",
+        "line": 183
+      },
+      "name": "test_nested_function",
+      "override": false,
+      "params": [
+        {
+          "name": "t",
+          "type": "T",
+          "typePlain": "T"
+        },
+        {
+          "name": "u",
+          "type": "U",
+          "typePlain": "U"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "namespacethrust_1_1test__namespace_1a4efcf9543feb08fcaa58f790b22fbe0b",
+      "static": false,
+      "strong": false,
+      "summary": "nested_function is a function intended to exercise and test Doxybook rendering. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        }
+      ],
+      "title": "test_nested_function",
+      "type": "auto",
+      "typePlain": "auto",
+      "url": "/api/namespaces/namespacethrust_1_1test__namespace.html#function-test_nested_function",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespacethrust_1_1test__namespace",
+  "static": false,
+  "strong": false,
+  "summary": "test_namespace is a namespace intended to exercise and test Doxybook rendering. ",
+  "title": "thrust::test_namespace",
+  "url": "/api/namespaces/namespacethrust_1_1test__namespace.html",
+  "visibility": "public"
+}

@@ -1,0 +1,106 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::optional_operations_base< T >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "derivedClasses": [
+    {
+      "external": false,
+      "name": "detail::optional_move_base< T, bool >",
+      "refid": "structdetail_1_1optional__move__base",
+      "url": "/api/classes/structdetail_1_1optional__move__base.html",
+      "virtual": "non-virtual",
+      "visibility": "public"
+    },
+    {
+      "external": false,
+      "name": "detail::optional_move_base< T, false >",
+      "refid": "structdetail_1_1optional__move__base_3_01T_00_01false_01_4",
+      "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+      "virtual": "non-virtual",
+      "visibility": "public"
+    },
+    {
+      "external": false,
+      "name": "detail::optional_move_base< T >",
+      "refid": "structdetail_1_1optional__move__base",
+      "url": "/api/classes/structdetail_1_1optional__move__base.html",
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "explicit": false,
+  "fullname": "detail::optional_copy_base",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 542,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 540,
+    "column": 51,
+    "file": "thrust/optional.h",
+    "line": 540
+  },
+  "name": "detail::optional_copy_base",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "name": "detail",
+    "refid": "namespacedetail",
+    "summary": "\\exclude ",
+    "title": "detail",
+    "url": "/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structdetail_1_1optional__copy__base",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    },
+    {
+      "defval": "std::is_trivially_copy_constructible< T >::value",
+      "defvalPlain": "std::is_trivially_copy_constructible< T >::value",
+      "name": "",
+      "type": "bool",
+      "typePlain": "bool"
+    }
+  ],
+  "title": "detail::optional_copy_base",
+  "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+  "visibility": "public"
+}

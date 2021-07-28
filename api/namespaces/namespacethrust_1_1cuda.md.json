@@ -1,0 +1,52 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<code>thrust::cuda</code> is a top-level alias for <code>thrust::system::cuda</code>. ",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::cuda",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/cuda/memory.h",
+    "line": 95
+  },
+  "name": "thrust::cuda",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "name": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "name": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespacethrust_1_1cuda",
+  "static": false,
+  "strong": false,
+  "summary": "thrust::cuda is a top-level alias for thrust::system::cuda. ",
+  "title": "thrust::cuda",
+  "url": "/api/namespaces/namespacethrust_1_1cuda.html",
+  "visibility": "public"
+}

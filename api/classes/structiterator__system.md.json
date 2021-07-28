@@ -1,0 +1,36 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "iterator_system",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyFile": "thrust/iterator/iterator_traits.h",
+    "bodyStart": 56,
+    "column": 11,
+    "file": "thrust/iterator/iterator_traits.h",
+    "line": 56
+  },
+  "name": "iterator_system",
+  "override": false,
+  "parent": null,
+  "refid": "structiterator__system",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Iterator",
+      "typePlain": "typename Iterator"
+    }
+  ],
+  "title": "iterator_system",
+  "url": "/api/classes/structiterator__system.html",
+  "visibility": "public"
+}

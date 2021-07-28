@@ -1,0 +1,341 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "thrust::mr::stateless_resource_allocator< T, device_ptr_memory_resource< device_memory_resource > >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "brief": "An allocator which creates new elements in memory accessible by devices. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "device_allocator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/device_allocator.h>",
+  "inline": false,
+  "kind": "class",
+  "location": {
+    "bodyEnd": 137,
+    "bodyFile": "thrust/device_allocator.h",
+    "bodyStart": 92,
+    "column": 1,
+    "file": "thrust/device_allocator.h",
+    "line": 97
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "allocators",
+    "kind": "group",
+    "name": "allocators",
+    "refid": "group__allocators",
+    "title": "Allocators",
+    "url": "/api/groups/group__allocators.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "name": "memory_management",
+      "refid": "group__memory__management",
+      "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "title": "Memory Management",
+      "url": "/api/groups/group__memory__management.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "allocators",
+      "kind": "group",
+      "name": "allocators",
+      "refid": "group__allocators",
+      "title": "Allocators",
+      "url": "/api/groups/group__allocators.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "device_allocator",
+  "override": false,
+  "parent": null,
+  "privateTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-base",
+      "category": "types",
+      "const": false,
+      "definition": "typedef thrust::mr::stateless_resource_allocator< T, device_ptr_memory_resource<device_memory_resource> > device_allocator< T >::base",
+      "explicit": false,
+      "fullname": "device_allocator::base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 101,
+        "column": 2,
+        "file": "thrust/device_allocator.h",
+        "line": 101
+      },
+      "name": "base",
+      "override": false,
+      "refid": "classdevice__allocator_1addeee835d3c235750c0f8dba808daef3",
+      "static": false,
+      "strong": false,
+      "title": "base",
+      "type": "thrust::mr::stateless_resource_allocator< T, <a href=\"/api/classes/classdevice__ptr__memory__resource.html\">device_ptr_memory_resource</a>< device_memory_resource > >",
+      "typePlain": "thrust::mr::stateless_resource_allocator< T, device_ptr_memory_resource< device_memory_resource > >",
+      "url": "/api/classes/classdevice__allocator.html#typedef-base",
+      "visibility": "private"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "device_allocator::rebind",
+      "kind": "struct",
+      "name": "device_allocator::rebind",
+      "refid": "structdevice__allocator_1_1rebind",
+      "title": "device_allocator::rebind",
+      "url": "/api/classes/structdevice__allocator_1_1rebind.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-device_allocator",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ device_allocator< T >::device_allocator",
+      "deleted": false,
+      "details": "Default constructor has no effect. ",
+      "explicit": false,
+      "fullname": "device_allocator::device_allocator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 119,
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 119,
+        "column": 5,
+        "file": "thrust/device_allocator.h",
+        "line": 119
+      },
+      "name": "device_allocator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classdevice__allocator_1af68e4a51cb31f1d3bb031bfe8f1bc8a5",
+      "static": false,
+      "strong": false,
+      "title": "device_allocator",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "/api/classes/classdevice__allocator.html#function-device_allocator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device_allocator",
+      "argsString": "(const device_allocator &other)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ device_allocator< T >::device_allocator",
+      "deleted": false,
+      "details": "Copy constructor has no effect. ",
+      "explicit": false,
+      "fullname": "device_allocator::device_allocator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 123,
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 123,
+        "column": 5,
+        "file": "thrust/device_allocator.h",
+        "line": 123
+      },
+      "name": "device_allocator",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "const <a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a> &",
+          "typePlain": "const device_allocator &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classdevice__allocator_1aa4ef67c48fb814f1f18165688376e601",
+      "static": false,
+      "strong": false,
+      "title": "device_allocator",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "/api/classes/classdevice__allocator.html#function-device_allocator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device_allocator",
+      "argsString": "(const device_allocator< U > &other)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ device_allocator< T >::device_allocator",
+      "deleted": false,
+      "details": "Constructor from other <code><a href=\"/api/classes/classdevice__allocator.html\">device&#95;allocator</a></code> has no effect. ",
+      "explicit": false,
+      "fullname": "device_allocator::device_allocator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 128,
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 128,
+        "column": 5,
+        "file": "thrust/device_allocator.h",
+        "line": 128
+      },
+      "name": "device_allocator",
+      "override": false,
+      "params": [
+        {
+          "name": "other",
+          "type": "const <a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a>< U > &",
+          "typePlain": "const device_allocator< U > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classdevice__allocator_1a2cfd792e239c3bb0a9252ef1039433cc",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename U",
+          "typePlain": "typename U"
+        }
+      ],
+      "title": "device_allocator",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "/api/classes/classdevice__allocator.html#function-device_allocator",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const device_allocator &)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "device_allocator& device_allocator< T >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "device_allocator::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 23,
+        "file": "thrust/device_allocator.h",
+        "line": 131
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "const <a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a> &",
+          "typePlain": "const device_allocator &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classdevice__allocator_1a993821d339cdfa4d771ca7e8a774e4c4",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "<a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a> &",
+      "typePlain": "device_allocator &",
+      "url": "/api/classes/classdevice__allocator.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-~device_allocator",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ device_allocator< T >::~device_allocator",
+      "deleted": false,
+      "details": "Destructor has no effect. ",
+      "explicit": false,
+      "fullname": "device_allocator::~device_allocator",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 136,
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 136,
+        "column": 5,
+        "file": "thrust/device_allocator.h",
+        "line": 136
+      },
+      "name": "~device_allocator",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classdevice__allocator_1a9ae7f6d0d86082bc8ddb34a931ce6edb",
+      "static": false,
+      "strong": false,
+      "title": "~device_allocator",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "/api/classes/classdevice__allocator.html#function-~device_allocator",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "classdevice__allocator",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/named_req/Allocator\">https://en.cppreference.com/w/cpp/named_req/Allocator</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "summary": "An allocator which creates new elements in memory accessible by devices. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "title": "device_allocator",
+  "url": "/api/classes/classdevice__allocator.html",
+  "visibility": "public"
+}

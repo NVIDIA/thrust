@@ -1,0 +1,75 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::test_class::test_nested_struct",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 54,
+    "bodyFile": "thrust/doxybook_test.h",
+    "bodyStart": 54,
+    "column": 27,
+    "file": "thrust/doxybook_test.h",
+    "line": 54
+  },
+  "name": "thrust::test_class::test_nested_struct",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>test&#95;class</code> is a class intended to exercise and test Doxybook rendering. ",
+    "category": "classes",
+    "fullname": "thrust::test_class",
+    "kind": "class",
+    "name": "thrust::test_class",
+    "refid": "classthrust_1_1test__class",
+    "summary": "test_class is a class intended to exercise and test Doxybook rendering. ",
+    "title": "thrust::test_class",
+    "url": "/api/classes/classthrust_1_1test__class.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "name": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>test&#95;class</code> is a class intended to exercise and test Doxybook rendering. ",
+      "category": "classes",
+      "fullname": "thrust::test_class",
+      "kind": "class",
+      "name": "thrust::test_class",
+      "refid": "classthrust_1_1test__class",
+      "summary": "test_class is a class intended to exercise and test Doxybook rendering. ",
+      "title": "thrust::test_class",
+      "url": "/api/classes/classthrust_1_1test__class.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structthrust_1_1test__class_1_1test__nested__struct",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Z",
+      "typePlain": "typename Z"
+    }
+  ],
+  "title": "thrust::test_class::test_nested_struct",
+  "url": "/api/classes/structthrust_1_1test__class_1_1test__nested__struct.html",
+  "visibility": "public"
+}

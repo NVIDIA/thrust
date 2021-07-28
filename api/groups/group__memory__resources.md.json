@@ -1,0 +1,881 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "memory_resources",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+    "category": "modules",
+    "fullname": "memory_management",
+    "kind": "group",
+    "name": "memory_management",
+    "refid": "group__memory__management",
+    "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+    "title": "Memory Management",
+    "url": "/api/groups/group__memory__management.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "name": "memory_management",
+      "refid": "group__memory__management",
+      "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "title": "Memory Management",
+      "url": "/api/groups/group__memory__management.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "memory_resources",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+    "category": "modules",
+    "fullname": "memory_management",
+    "kind": "group",
+    "name": "memory_management",
+    "refid": "group__memory__management",
+    "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+    "title": "Memory Management",
+    "url": "/api/groups/group__memory__management.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "name": "memory_management",
+      "refid": "group__memory__management",
+      "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "title": "Memory Management",
+      "url": "/api/groups/group__memory__management.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "mr::memory_resource< Upstream::pointer >",
+          "refid": "classmr_1_1memory__resource",
+          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "mr::validator2< Upstream, Bookkeeper >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::disjoint_unsynchronized_pool_resource",
+      "kind": "class",
+      "name": "mr::disjoint_unsynchronized_pool_resource",
+      "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
+      "title": "mr::disjoint_unsynchronized_pool_resource",
+      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "mr::memory_resource< Upstream::pointer >",
+          "refid": "classmr_1_1memory__resource",
+          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::disjoint_synchronized_pool_resource",
+      "kind": "struct",
+      "name": "mr::disjoint_synchronized_pool_resource",
+      "refid": "structmr_1_1disjoint__synchronized__pool__resource",
+      "title": "mr::disjoint_synchronized_pool_resource",
+      "url": "/api/classes/structmr_1_1disjoint__synchronized__pool__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "derivedClasses": [
+        {
+          "external": false,
+          "name": "mr::fancy_pointer_resource< Upstream, Pointer >",
+          "refid": "classmr_1_1fancy__pointer__resource",
+          "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": false,
+          "name": "mr::polymorphic_adaptor_resource< Pointer >",
+          "refid": "classmr_1_1polymorphic__adaptor__resource",
+          "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "fullname": "mr::memory_resource",
+      "kind": "class",
+      "name": "mr::memory_resource",
+      "refid": "classmr_1_1memory__resource",
+      "title": "mr::memory_resource",
+      "url": "/api/classes/classmr_1_1memory__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "mr::memory_resource< void * >",
+      "kind": "class",
+      "name": "mr::memory_resource< void * >",
+      "refid": "classmr_1_1memory__resource_3_01void_01_5_01_4",
+      "title": "mr::memory_resource< void * >",
+      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "mr::memory_resource<>",
+          "refid": "classmr_1_1memory__resource",
+          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::new_delete_resource",
+      "kind": "class",
+      "name": "mr::new_delete_resource",
+      "refid": "classmr_1_1new__delete__resource",
+      "title": "mr::new_delete_resource",
+      "url": "/api/classes/classmr_1_1new__delete__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "mr::memory_resource< Upstream::pointer >",
+          "refid": "classmr_1_1memory__resource",
+          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "mr::validator< Upstream >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::unsynchronized_pool_resource",
+      "kind": "class",
+      "name": "mr::unsynchronized_pool_resource",
+      "refid": "classmr_1_1unsynchronized__pool__resource",
+      "title": "mr::unsynchronized_pool_resource",
+      "url": "/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "mr::pool_options",
+      "kind": "struct",
+      "name": "mr::pool_options",
+      "refid": "structmr_1_1pool__options",
+      "title": "mr::pool_options",
+      "url": "/api/classes/structmr_1_1pool__options.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "mr::memory_resource< Upstream::pointer >",
+          "refid": "classmr_1_1memory__resource",
+          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::synchronized_pool_resource",
+      "kind": "struct",
+      "name": "mr::synchronized_pool_resource",
+      "refid": "structmr_1_1synchronized__pool__resource",
+      "title": "mr::synchronized_pool_resource",
+      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-tls_disjoint_pool",
+      "argsString": "(Upstream *upstream=NULL, Bookkeeper *bookkeeper=NULL)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper>& mr::tls_disjoint_pool",
+      "deleted": false,
+      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html\">disjoint&#95;unsynchronized&#95;pool&#95;resource</a></code>,",
+      "explicit": false,
+      "fullname": "memory_resources::tls_disjoint_pool",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 60,
+        "bodyFile": "thrust/mr/disjoint_tls_pool.h",
+        "bodyStart": 50,
+        "column": 52,
+        "file": "thrust/mr/disjoint_tls_pool.h",
+        "line": 50
+      },
+      "name": "tls_disjoint_pool",
+      "override": false,
+      "paramList": [
+        {
+          "name": "upstream",
+          "text": "the first argument to the constructor, if invoked "
+        },
+        {
+          "name": "bookkeeper",
+          "text": "the second argument to the constructor, if invoked "
+        }
+      ],
+      "params": [
+        {
+          "defval": "NULL",
+          "defvalPlain": "NULL",
+          "name": "upstream",
+          "type": "Upstream *",
+          "typePlain": "Upstream *"
+        },
+        {
+          "defval": "NULL",
+          "defvalPlain": "NULL",
+          "name": "bookkeeper",
+          "type": "Bookkeeper *",
+          "typePlain": "Bookkeeper *"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__memory__resources_1gac8f3cb3907116695b4b61f57ca5e18aa",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Upstream",
+          "typePlain": "typename Upstream"
+        },
+        {
+          "name": "",
+          "type": "typename Bookkeeper",
+          "typePlain": "typename Bookkeeper"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "Upstream",
+          "text": "the first template argument to the pool template "
+        },
+        {
+          "name": "Bookkeeper",
+          "text": "the second template argument to the pool template "
+        }
+      ],
+      "title": "tls_disjoint_pool",
+      "type": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper > &",
+      "typePlain": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper > &",
+      "url": "/api/groups/group__memory__resources.html#function-tls_disjoint_pool",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const memory_resource< Pointer > &lhs, const memory_resource< Pointer > &rhs) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool mr::operator==",
+      "deleted": false,
+      "details": "Compares the memory resources for equality, first by identity, then by <code>is&#95;equal</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 188,
+        "bodyFile": "thrust/mr/memory_resource.h",
+        "bodyStart": 185,
+        "column": 6,
+        "file": "thrust/mr/memory_resource.h",
+        "line": 185
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const memory_resource< Pointer > &",
+          "typePlain": "const memory_resource< Pointer > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const memory_resource< Pointer > &",
+          "typePlain": "const memory_resource< Pointer > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__memory__resources_1gaf36c303bc788116710ee5eb869ea2f8e",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/api/groups/group__memory__resources.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const memory_resource< Pointer > &lhs, const memory_resource< Pointer > &rhs) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool mr::operator!=",
+      "deleted": false,
+      "details": "Compares the memory resources for inequality, first by identity, then by <code>is&#95;equal</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 197,
+        "bodyFile": "thrust/mr/memory_resource.h",
+        "bodyStart": 194,
+        "column": 6,
+        "file": "thrust/mr/memory_resource.h",
+        "line": 194
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const memory_resource< Pointer > &",
+          "typePlain": "const memory_resource< Pointer > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const memory_resource< Pointer > &",
+          "typePlain": "const memory_resource< Pointer > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__memory__resources_1gac03511626f7ba0c72da64bb5625d0452",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/api/groups/group__memory__resources.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-get_global_resource",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ MR* mr::get_global_resource",
+      "deleted": false,
+      "details": "Returns a global instance of <code>MR</code>, created as a function local static variable.",
+      "explicit": false,
+      "fullname": "memory_resources::get_global_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 210,
+        "bodyFile": "thrust/mr/memory_resource.h",
+        "bodyStart": 206,
+        "column": 5,
+        "file": "thrust/mr/memory_resource.h",
+        "line": 206
+      },
+      "name": "get_global_resource",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "group__memory__resources_1ga5a121e83b4a878698251df4aea5788d3",
+      "returns": [
+        "a pointer to a global instance of <code>MR</code>. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename MR",
+          "typePlain": "typename MR"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "MR",
+          "text": "type of a memory resource to get an instance from. Must be <code>DefaultConstructible</code>. "
+        }
+      ],
+      "title": "get_global_resource",
+      "type": "__host__ MR *",
+      "typePlain": "__host__ MR *",
+      "url": "/api/groups/group__memory__resources.html#function-get_global_resource",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-tls_pool",
+      "argsString": "(Upstream *upstream=NULL)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ thrust::mr::unsynchronized_pool_resource<Upstream>& mr::tls_pool",
+      "deleted": false,
+      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized&#95;pool&#95;resource</a></code>,",
+      "explicit": false,
+      "fullname": "memory_resources::tls_pool",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 55,
+        "bodyFile": "thrust/mr/tls_pool.h",
+        "bodyStart": 47,
+        "column": 43,
+        "file": "thrust/mr/tls_pool.h",
+        "line": 47
+      },
+      "name": "tls_pool",
+      "override": false,
+      "paramList": [
+        {
+          "name": "upstream",
+          "text": "the argument to the constructor, if invoked "
+        }
+      ],
+      "params": [
+        {
+          "defval": "NULL",
+          "defvalPlain": "NULL",
+          "name": "upstream",
+          "type": "Upstream *",
+          "typePlain": "Upstream *"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__memory__resources_1ga5d59189bb1ce386d88e0c8938749e530",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Upstream",
+          "typePlain": "typename Upstream"
+        },
+        {
+          "name": "",
+          "type": "typename Bookkeeper",
+          "typePlain": "typename Bookkeeper"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "Upstream",
+          "text": "the template argument to the pool template "
+        }
+      ],
+      "title": "tls_pool",
+      "type": "__host__ thrust::mr::unsynchronized_pool_resource< Upstream > &",
+      "typePlain": "__host__ thrust::mr::unsynchronized_pool_resource< Upstream > &",
+      "url": "/api/groups/group__memory__resources.html#function-tls_pool",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource system::cpp::memory_resource",
+      "details": "The memory resource for the Standard C++ system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::pointer</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/cpp/memory_resource.h",
+        "bodyStart": 56,
+        "column": 33,
+        "file": "thrust/system/cpp/memory_resource.h",
+        "line": 56
+      },
+      "name": "memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga3e76ae71c528c3acc8e68308501d7fc4",
+      "static": false,
+      "strong": false,
+      "title": "memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::universal_native_resource system::cpp::universal_memory_resource",
+      "details": "The unified memory resource for the Standard C++ system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::universal&#95;pointer</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::universal_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/cpp/memory_resource.h",
+        "bodyStart": 60,
+        "column": 43,
+        "file": "thrust/system/cpp/memory_resource.h",
+        "line": 60
+      },
+      "name": "universal_memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1gab900d1f3a691cee89a9c53a2645b4065",
+      "static": false,
+      "strong": false,
+      "title": "universal_memory_resource",
+      "type": "detail::universal_native_resource",
+      "typePlain": "detail::universal_native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_host_pinned_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource system::cpp::universal_host_pinned_memory_resource",
+      "details": "An alias for <code>cpp::universal&#95;memory&#95;resource</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::universal_host_pinned_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/cpp/memory_resource.h",
+        "bodyStart": 62,
+        "column": 33,
+        "file": "thrust/system/cpp/memory_resource.h",
+        "line": 62
+      },
+      "name": "universal_host_pinned_memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga90ecbfc39a006802f63b4d8e1c891f38",
+      "static": false,
+      "strong": false,
+      "title": "universal_host_pinned_memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource system::omp::memory_resource",
+      "details": "The memory resource for the OpenMP system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>omp::pointer</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/omp/memory_resource.h",
+        "bodyStart": 56,
+        "column": 33,
+        "file": "thrust/system/omp/memory_resource.h",
+        "line": 56
+      },
+      "name": "memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga8470918f2263cf64786e5390e5e672ae",
+      "static": false,
+      "strong": false,
+      "title": "memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::universal_native_resource system::omp::universal_memory_resource",
+      "details": "The unified memory resource for the OpenMP system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>omp::universal&#95;pointer</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::universal_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/omp/memory_resource.h",
+        "bodyStart": 60,
+        "column": 43,
+        "file": "thrust/system/omp/memory_resource.h",
+        "line": 60
+      },
+      "name": "universal_memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1gae6e805113b058920f28cb31c23de346f",
+      "static": false,
+      "strong": false,
+      "title": "universal_memory_resource",
+      "type": "detail::universal_native_resource",
+      "typePlain": "detail::universal_native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_host_pinned_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource system::omp::universal_host_pinned_memory_resource",
+      "details": "An alias for <code>omp::universal&#95;memory&#95;resource</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::universal_host_pinned_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/omp/memory_resource.h",
+        "bodyStart": 62,
+        "column": 33,
+        "file": "thrust/system/omp/memory_resource.h",
+        "line": 62
+      },
+      "name": "universal_host_pinned_memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga5eeaf46d1394b3b35cfbfd16149d1ce1",
+      "static": false,
+      "strong": false,
+      "title": "universal_host_pinned_memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource system::tbb::memory_resource",
+      "details": "The memory resource for the TBB system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>tbb::pointer</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/tbb/memory_resource.h",
+        "bodyStart": 56,
+        "column": 33,
+        "file": "thrust/system/tbb/memory_resource.h",
+        "line": 56
+      },
+      "name": "memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga51feb7555d23b6ccad0e3ebf24a62301",
+      "static": false,
+      "strong": false,
+      "title": "memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::universal_native_resource system::tbb::universal_memory_resource",
+      "details": "The unified memory resource for the TBB system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>tbb::universal&#95;pointer</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::universal_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/tbb/memory_resource.h",
+        "bodyStart": 60,
+        "column": 43,
+        "file": "thrust/system/tbb/memory_resource.h",
+        "line": 60
+      },
+      "name": "universal_memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga817e927d16b92ef40137ce0d783d0484",
+      "static": false,
+      "strong": false,
+      "title": "universal_memory_resource",
+      "type": "detail::universal_native_resource",
+      "typePlain": "detail::universal_native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_host_pinned_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource system::tbb::universal_host_pinned_memory_resource",
+      "details": "An alias for <code>tbb::universal&#95;memory&#95;resource</code>. ",
+      "explicit": false,
+      "fullname": "memory_resources::universal_host_pinned_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/tbb/memory_resource.h",
+        "bodyStart": 62,
+        "column": 33,
+        "file": "thrust/system/tbb/memory_resource.h",
+        "line": 62
+      },
+      "name": "universal_host_pinned_memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga45ae4a8b92905f86aecc6c5e94d0dbe0",
+      "static": false,
+      "strong": false,
+      "title": "universal_host_pinned_memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal_ptr",
+      "category": "types",
+      "const": false,
+      "definition": "using universal_ptr =  thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::universal_pointer<T>",
+      "details": "<code>universal&#95;ptr</code> stores a pointer to an object allocated in memory accessible to both hosts and devices.\n\nAlgorithms dispatched with this type of pointer will be dispatched to either host or device, depending on which backend you are using. Explicit policies (<code>thrust::device</code>, etc) can be used to specify where an algorithm should be run.\n\n<code>universal&#95;ptr</code> has pointer semantics: it may be dereferenced safely from both hosts and devices and may be manipulated with pointer arithmetic.\n\n<code>universal&#95;ptr</code> can be created with <code>universal&#95;allocator</code> or by explicitly calling its constructor with a raw pointer.\n\nThe raw pointer encapsulated by a <code>universal&#95;ptr</code> may be obtained by either its <code>get</code> method or the <code>raw&#95;pointer&#95;cast</code> free function.",
+      "explicit": false,
+      "fullname": "memory_resources::universal_ptr",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/universal_allocator.h",
+        "bodyStart": 72,
+        "column": 1,
+        "file": "thrust/universal_allocator.h",
+        "line": 71
+      },
+      "name": "universal_ptr",
+      "note": [
+        "<code>universal&#95;ptr</code> is not a smart pointer; it is the programmer's responsibility to deallocate memory pointed to by <code>universal&#95;ptr</code>."
+      ],
+      "override": false,
+      "refid": "group__memory__resources_1ga08da7013e607007d10b3da339ff4d236",
+      "see": [
+        "host_ptr For the documentation of the complete interface which is shared by <code><a href=\"/api/groups/group__memory__resources.html#using-universal_ptr\">universal&#95;ptr</a></code>. ",
+        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "universal_ptr",
+      "type": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::universal_pointer< T >",
+      "typePlain": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::universal_pointer< T >",
+      "url": "/api/groups/group__memory__resources.html#using-universal_ptr",
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__memory__resources",
+  "static": false,
+  "strong": false,
+  "title": "Memory Resources",
+  "url": "/api/groups/group__memory__resources.html",
+  "visibility": "public"
+}

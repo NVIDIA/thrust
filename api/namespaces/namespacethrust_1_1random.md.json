@@ -1,0 +1,76 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::random",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/random.h",
+    "line": 45
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "random",
+    "kind": "group",
+    "name": "random",
+    "refid": "group__random",
+    "title": "Random Number Generation",
+    "url": "/api/groups/group__random.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random",
+      "kind": "group",
+      "name": "random",
+      "refid": "group__random",
+      "title": "Random Number Generation",
+      "url": "/api/groups/group__random.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "thrust::random",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "thrust",
+    "kind": "namespace",
+    "name": "thrust",
+    "refid": "namespacethrust",
+    "title": "thrust",
+    "url": "/api/namespaces/namespacethrust.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "name": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespacethrust_1_1random",
+  "static": false,
+  "strong": false,
+  "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+  "title": "thrust::random",
+  "url": "/api/namespaces/namespacethrust_1_1random.html",
+  "visibility": "public"
+}

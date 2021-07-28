@@ -1,0 +1,344 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "allocators",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+    "category": "modules",
+    "fullname": "memory_management",
+    "kind": "group",
+    "name": "memory_management",
+    "refid": "group__memory__management",
+    "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+    "title": "Memory Management",
+    "url": "/api/groups/group__memory__management.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "name": "memory_management",
+      "refid": "group__memory__management",
+      "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "title": "Memory Management",
+      "url": "/api/groups/group__memory__management.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "allocators",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+    "category": "modules",
+    "fullname": "memory_management",
+    "kind": "group",
+    "name": "memory_management",
+    "refid": "group__memory__management",
+    "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+    "title": "Memory Management",
+    "url": "/api/groups/group__memory__management.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "name": "memory_management",
+      "refid": "group__memory__management",
+      "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "title": "Memory Management",
+      "url": "/api/groups/group__memory__management.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::mr::memory_resource< device_ptr< void > >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "device_ptr_memory_resource",
+      "kind": "class",
+      "name": "device_ptr_memory_resource",
+      "refid": "classdevice__ptr__memory__resource",
+      "title": "device_ptr_memory_resource",
+      "url": "/api/classes/classdevice__ptr__memory__resource.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::mr::stateless_resource_allocator< T, device_ptr_memory_resource< device_memory_resource > >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "brief": "An allocator which creates new elements in memory accessible by devices. ",
+      "category": "classes",
+      "fullname": "device_allocator",
+      "kind": "class",
+      "name": "device_allocator",
+      "refid": "classdevice__allocator",
+      "summary": "An allocator which creates new elements in memory accessible by devices. ",
+      "title": "device_allocator",
+      "url": "/api/classes/classdevice__allocator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "device_malloc_allocator",
+      "kind": "class",
+      "name": "device_malloc_allocator",
+      "refid": "classdevice__malloc__allocator",
+      "title": "device_malloc_allocator",
+      "url": "/api/classes/classdevice__malloc__allocator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "device_new_allocator",
+      "kind": "class",
+      "name": "device_new_allocator",
+      "refid": "classdevice__new__allocator",
+      "title": "device_new_allocator",
+      "url": "/api/classes/classdevice__new__allocator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "mr::validator< MR >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::allocator",
+      "kind": "class",
+      "name": "mr::allocator",
+      "refid": "classmr_1_1allocator",
+      "title": "mr::allocator",
+      "url": "/api/classes/classmr_1_1allocator.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::mr::allocator< T, Upstream >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::stateless_resource_allocator",
+      "kind": "class",
+      "name": "mr::stateless_resource_allocator",
+      "refid": "classmr_1_1stateless__resource__allocator",
+      "title": "mr::stateless_resource_allocator",
+      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const allocator< T, MR > &lhs, const allocator< T, MR > &rhs) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool mr::operator==",
+      "deleted": false,
+      "details": "Compares the allocators for equality by comparing the underlying memory resources. ",
+      "explicit": false,
+      "fullname": "allocators::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 162,
+        "bodyFile": "thrust/mr/allocator.h",
+        "bodyStart": 159,
+        "column": 6,
+        "file": "thrust/mr/allocator.h",
+        "line": 159
+      },
+      "name": "operator==",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const allocator< T, MR > &",
+          "typePlain": "const allocator< T, MR > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const allocator< T, MR > &",
+          "typePlain": "const allocator< T, MR > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__allocators_1gac097fd91d6a8c93192932c44b9c503ed",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename MR",
+          "typePlain": "typename MR"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/api/groups/group__allocators.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const allocator< T, MR > &lhs, const allocator< T, MR > &rhs) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool mr::operator!=",
+      "deleted": false,
+      "details": "Compares the allocators for inequality by comparing the underlying memory resources. ",
+      "explicit": false,
+      "fullname": "allocators::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 170,
+        "bodyFile": "thrust/mr/allocator.h",
+        "bodyStart": 167,
+        "column": 6,
+        "file": "thrust/mr/allocator.h",
+        "line": 167
+      },
+      "name": "operator!=",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const allocator< T, MR > &",
+          "typePlain": "const allocator< T, MR > &"
+        },
+        {
+          "name": "rhs",
+          "type": "const allocator< T, MR > &",
+          "typePlain": "const allocator< T, MR > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__allocators_1gac7ba2c7a5441f699dc24402415189102",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename MR",
+          "typePlain": "typename MR"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/api/groups/group__allocators.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-polymorphic_allocator",
+      "category": "types",
+      "const": false,
+      "definition": "using mr::polymorphic_allocator = typedef allocator<T, polymorphic_adaptor_resource<Pointer> >",
+      "explicit": false,
+      "fullname": "allocators::polymorphic_allocator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/mr/allocator.h",
+        "bodyStart": 175,
+        "column": 1,
+        "file": "thrust/mr/allocator.h",
+        "line": 175
+      },
+      "name": "polymorphic_allocator",
+      "override": false,
+      "refid": "group__allocators_1gaf45ba56b29e368eb26c185d72ff40f13",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename Pointer",
+          "typePlain": "typename Pointer"
+        }
+      ],
+      "title": "polymorphic_allocator",
+      "type": "allocator< T, polymorphic_adaptor_resource< Pointer > >",
+      "typePlain": "allocator< T, polymorphic_adaptor_resource< Pointer > >",
+      "url": "/api/groups/group__allocators.html#using-polymorphic_allocator",
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__allocators",
+  "static": false,
+  "strong": false,
+  "title": "Allocators",
+  "url": "/api/groups/group__allocators.html",
+  "visibility": "public"
+}

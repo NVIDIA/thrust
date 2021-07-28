@@ -1,0 +1,215 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "mr::disjoint_unsynchronized_pool_resource::equal_pointers",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 206,
+    "bodyFile": "thrust/mr/disjoint_pool.h",
+    "bodyStart": 190,
+    "column": 1,
+    "file": "thrust/mr/disjoint_pool.h",
+    "line": 191
+  },
+  "name": "mr::disjoint_unsynchronized_pool_resource::equal_pointers",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "baseClasses": [
+      {
+        "external": false,
+        "name": "mr::memory_resource< Upstream::pointer >",
+        "refid": "classmr_1_1memory__resource",
+        "url": "/api/classes/classmr_1_1memory__resource.html",
+        "virtual": "non-virtual",
+        "visibility": "public"
+      },
+      {
+        "external": true,
+        "name": "mr::validator2< Upstream, Bookkeeper >",
+        "virtual": "non-virtual",
+        "visibility": "private"
+      }
+    ],
+    "category": "classes",
+    "fullname": "mr::disjoint_unsynchronized_pool_resource",
+    "kind": "class",
+    "name": "mr::disjoint_unsynchronized_pool_resource",
+    "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
+    "title": "mr::disjoint_unsynchronized_pool_resource",
+    "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "mr",
+      "kind": "namespace",
+      "name": "mr",
+      "refid": "namespacemr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "mr",
+      "url": "/api/namespaces/namespacemr.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "mr::memory_resource< Upstream::pointer >",
+          "refid": "classmr_1_1memory__resource",
+          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "mr::validator2< Upstream, Bookkeeper >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::disjoint_unsynchronized_pool_resource",
+      "kind": "class",
+      "name": "mr::disjoint_unsynchronized_pool_resource",
+      "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
+      "title": "mr::disjoint_unsynchronized_pool_resource",
+      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+      "visibility": "public"
+    }
+  ],
+  "privateAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-p",
+      "category": "attributes",
+      "const": false,
+      "definition": "void_ptr mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::equal_pointers::p",
+      "explicit": false,
+      "fullname": "mr::disjoint_unsynchronized_pool_resource::equal_pointers::p",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 205,
+        "column": 18,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 205
+      },
+      "name": "p",
+      "override": false,
+      "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers_1a297238b4862780e9f4612ba62b57f8dd",
+      "static": false,
+      "strong": false,
+      "title": "p",
+      "type": "void_ptr",
+      "typePlain": "void_ptr",
+      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#variable-p",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-equal_pointers",
+      "argsString": "(void_ptr p)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::equal_pointers::equal_pointers",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "mr::disjoint_unsynchronized_pool_resource::equal_pointers::equal_pointers",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 196,
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 194,
+        "column": 9,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 194
+      },
+      "name": "equal_pointers",
+      "override": false,
+      "params": [
+        {
+          "name": "p",
+          "type": "void_ptr",
+          "typePlain": "void_ptr"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers_1a08a7eba436c383315ce9104b079f9d6a",
+      "static": false,
+      "strong": false,
+      "title": "equal_pointers",
+      "type": "__host__ __device__",
+      "typePlain": "__host__ __device__",
+      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#function-equal_pointers",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const oversized_block_descriptor &desc) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__host__ __device__ bool mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >::equal_pointers::operator()",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "mr::disjoint_unsynchronized_pool_resource::equal_pointers::operator()",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 202,
+        "bodyFile": "thrust/mr/disjoint_pool.h",
+        "bodyStart": 199,
+        "column": 14,
+        "file": "thrust/mr/disjoint_pool.h",
+        "line": 199
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "desc",
+          "type": "const oversized_block_descriptor &",
+          "typePlain": "const oversized_block_descriptor &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers_1a62e557bea06c3be987c878f1260c03bf",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers",
+  "static": false,
+  "strong": false,
+  "title": "mr::disjoint_unsynchronized_pool_resource::equal_pointers",
+  "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html",
+  "visibility": "private"
+}

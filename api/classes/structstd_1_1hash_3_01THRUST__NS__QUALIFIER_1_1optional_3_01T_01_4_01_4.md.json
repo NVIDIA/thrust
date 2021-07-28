@@ -1,0 +1,104 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 2884,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 2875,
+    "column": 25,
+    "file": "thrust/optional.h",
+    "line": 2875
+  },
+  "name": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "std",
+    "kind": "namespace",
+    "name": "std",
+    "refid": "namespacestd",
+    "title": "std",
+    "url": "/api/namespaces/namespacestd.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "std",
+      "kind": "namespace",
+      "name": "std",
+      "refid": "namespacestd",
+      "title": "std",
+      "url": "/api/namespaces/namespacestd.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const THRUST_NS_QUALIFIER::optional< T > &o) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ ::std::size_t std::hash< THRUST_NS_QUALIFIER::optional< T > >::operator()",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "std::hash< THRUST_NS_QUALIFIER::optional< T > >::operator()",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2883,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2878,
+        "column": 17,
+        "file": "thrust/optional.h",
+        "line": 2878
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "o",
+          "type": "const THRUST_NS_QUALIFIER::optional< T > &",
+          "typePlain": "const THRUST_NS_QUALIFIER::optional< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structstd_1_1hash_3_01THRUST__NS__QUALIFIER_1_1optional_3_01T_01_4_01_4_1a8e178308b8733abd9a0fe86e98c0b6fd",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ ::std::size_t",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ ::std::size_t",
+      "url": "/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structstd_1_1hash_3_01THRUST__NS__QUALIFIER_1_1optional_3_01T_01_4_01_4",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    }
+  ],
+  "title": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
+  "url": "/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
+  "visibility": "public"
+}

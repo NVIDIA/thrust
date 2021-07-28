@@ -1,0 +1,353 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "function_object_adaptors",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_objects",
+    "kind": "group",
+    "name": "function_objects",
+    "refid": "group__function__objects",
+    "title": "Function Objects",
+    "url": "/api/groups/group__function__objects.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/api/groups/group__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "function_object_adaptors",
+  "namespaces": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "function_objects",
+    "kind": "group",
+    "name": "function_objects",
+    "refid": "group__function__objects",
+    "title": "Function Objects",
+    "url": "/api/groups/group__function__objects.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/api/groups/group__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "unary_function",
+      "kind": "struct",
+      "name": "unary_function",
+      "refid": "structunary__function",
+      "title": "unary_function",
+      "url": "/api/classes/structunary__function.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "binary_function",
+      "kind": "struct",
+      "name": "binary_function",
+      "refid": "structbinary__function",
+      "title": "binary_function",
+      "url": "/api/classes/structbinary__function.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::unary_function< Predicate::argument_type, bool >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "unary_negate",
+      "kind": "struct",
+      "name": "unary_negate",
+      "refid": "structunary__negate",
+      "title": "unary_negate",
+      "url": "/api/classes/structunary__negate.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::binary_function< Predicate::first_argument_type, Predicate::second_argument_type, bool >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "binary_negate",
+      "kind": "struct",
+      "name": "binary_negate",
+      "refid": "structbinary__negate",
+      "title": "binary_negate",
+      "url": "/api/classes/structbinary__negate.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "zip_function",
+      "kind": "class",
+      "name": "zip_function",
+      "refid": "classzip__function",
+      "title": "zip_function",
+      "url": "/api/classes/classzip__function.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-not1",
+      "argsString": "(const Predicate &pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ unary_negate<Predicate> not1",
+      "deleted": false,
+      "details": "<code>not1</code> is a helper function to simplify the creation of Adaptable Predicates: it takes an Adaptable Predicate <code>pred</code> as an argument and returns a new Adaptable Predicate that represents the negation of <code>pred</code>. That is: if <code>pred</code> is an object of a type which models Adaptable Predicate, then the the type of the result <code>npred</code> of <code>not1(pred)</code> is also a model of Adaptable Predicate and <code>npred(x)</code> always returns the same value as <code>!pred(x)</code>.",
+      "explicit": false,
+      "fullname": "function_object_adaptors::not1",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 16,
+        "file": "thrust/functional.h",
+        "line": 1540
+      },
+      "name": "not1",
+      "override": false,
+      "paramList": [
+        {
+          "name": "pred",
+          "text": "The Adaptable Predicate to negate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "pred",
+          "type": "const Predicate &",
+          "typePlain": "const Predicate &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__function__object__adaptors_1ga768c5929b8c87778aea5bfeb17375e3c",
+      "returns": [
+        "A new object, <code>npred</code> such that <code>npred(x)</code> always returns the same value as <code>!pred(x)</code>."
+      ],
+      "see": [
+        "<a href=\"/api/classes/structunary__negate.html\">unary_negate</a>",
+        "<a href=\"/api/groups/group__function__object__adaptors.html#function-not2\">not2</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Predicate",
+          "typePlain": "typename Predicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "Predicate",
+          "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_negate\">Adaptable Predicate</a>."
+        }
+      ],
+      "title": "not1",
+      "type": "__host__ __device__ <a href=\"/api/classes/structunary__negate.html\">unary_negate</a>< Predicate >",
+      "typePlain": "__host__ __device__ unary_negate< Predicate >",
+      "url": "/api/groups/group__function__object__adaptors.html#function-not1",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-not2",
+      "argsString": "(const BinaryPredicate &pred)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ binary_negate<BinaryPredicate> not2",
+      "deleted": false,
+      "details": "<code>not2</code> is a helper function to simplify the creation of Adaptable Binary Predicates: it takes an Adaptable Binary Predicate <code>pred</code> as an argument and returns a new Adaptable Binary Predicate that represents the negation of <code>pred</code>. That is: if <code>pred</code> is an object of a type which models Adaptable Binary Predicate, then the the type of the result <code>npred</code> of <code>not2(pred)</code> is also a model of Adaptable Binary Predicate and <code>npred(x,y)</code> always returns the same value as <code>!pred(x,y)</code>.",
+      "explicit": false,
+      "fullname": "function_object_adaptors::not2",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 17,
+        "file": "thrust/functional.h",
+        "line": 1598
+      },
+      "name": "not2",
+      "override": false,
+      "paramList": [
+        {
+          "name": "pred",
+          "text": "The Adaptable Binary Predicate to negate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "pred",
+          "type": "const BinaryPredicate &",
+          "typePlain": "const BinaryPredicate &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__function__object__adaptors_1gaaeae7290b1d55859610b6376e26e002a",
+      "returns": [
+        "A new object, <code>npred</code> such that <code>npred(x,y)</code> always returns the same value as <code>!pred(x,y)</code>."
+      ],
+      "see": [
+        "<a href=\"/api/classes/structbinary__negate.html\">binary_negate</a>",
+        "<a href=\"/api/groups/group__function__object__adaptors.html#function-not1\">not1</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename BinaryPredicate",
+          "typePlain": "typename BinaryPredicate"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "Binary",
+          "text": "Predicate is a model of <a href=\"https://en.cppreference.com/w/cpp/utility/functional/AdaptableBinaryPredicate\">Adaptable Binary Predicate</a>."
+        }
+      ],
+      "title": "not2",
+      "type": "__host__ __device__ <a href=\"/api/classes/structbinary__negate.html\">binary_negate</a>< BinaryPredicate >",
+      "typePlain": "__host__ __device__ binary_negate< BinaryPredicate >",
+      "url": "/api/groups/group__function__object__adaptors.html#function-not2",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-make_zip_function",
+      "argsString": "(Function &&fun)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ zip_function<typename std::decay<Function>::type> make_zip_function",
+      "deleted": false,
+      "details": "<code>make&#95;zip&#95;function</code> creates a <code><a href=\"/api/classes/classzip__function.html\">zip&#95;function</a></code> from a function object.",
+      "explicit": false,
+      "fullname": "function_object_adaptors::make_zip_function",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 200,
+        "bodyFile": "thrust/zip_function.h",
+        "bodyStart": 196,
+        "column": 1,
+        "file": "thrust/zip_function.h",
+        "line": 196
+      },
+      "name": "make_zip_function",
+      "override": false,
+      "paramList": [
+        {
+          "name": "fun",
+          "text": "The N-ary function object. "
+        }
+      ],
+      "params": [
+        {
+          "name": "fun",
+          "type": "Function &&",
+          "typePlain": "Function &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__function__object__adaptors_1gab496bad909ced8d1e3167864fd00d533",
+      "returns": [
+        "A <code><a href=\"/api/classes/classzip__function.html\">zip&#95;function</a></code> that takes a N-tuple."
+      ],
+      "see": [
+        "<a href=\"/api/classes/classzip__function.html\">zip_function</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Function",
+          "typePlain": "typename Function"
+        }
+      ],
+      "title": "make_zip_function",
+      "type": "__host__ __device__ <a href=\"/api/classes/classzip__function.html\">zip_function</a>< typename std::decay< Function >::type >",
+      "typePlain": "__host__ __device__ zip_function< typename std::decay< Function >::type >",
+      "url": "/api/groups/group__function__object__adaptors.html#function-make_zip_function",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__function__object__adaptors",
+  "static": false,
+  "strong": false,
+  "title": "Function Object Adaptors",
+  "url": "/api/groups/group__function__object__adaptors.html",
+  "visibility": "public"
+}

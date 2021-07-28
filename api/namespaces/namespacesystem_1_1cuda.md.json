@@ -1,0 +1,227 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "system::cuda",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/cuda/error.h",
+    "line": 35
+  },
+  "name": "system::cuda",
+  "namespaces": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "system::cuda::errc",
+      "kind": "namespace",
+      "name": "system::cuda::errc",
+      "refid": "namespacesystem_1_1cuda_1_1errc",
+      "title": "system::cuda::errc",
+      "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
+      "visibility": "public"
+    }
+  ],
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "system",
+    "kind": "namespace",
+    "name": "system",
+    "refid": "namespacesystem",
+    "title": "system",
+    "url": "/api/namespaces/namespacesystem.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "system",
+      "kind": "namespace",
+      "name": "system",
+      "refid": "namespacesystem",
+      "title": "system",
+      "url": "/api/namespaces/namespacesystem.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "system::cuda::ready_future",
+      "kind": "struct",
+      "name": "system::cuda::ready_future",
+      "refid": "structsystem_1_1cuda_1_1ready__future",
+      "title": "system::cuda::ready_future",
+      "url": "/api/classes/structsystem_1_1cuda_1_1ready__future.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "system::cuda::unique_eager_future",
+      "kind": "struct",
+      "name": "system::cuda::unique_eager_future",
+      "refid": "structsystem_1_1cuda_1_1unique__eager__future",
+      "title": "system::cuda::unique_eager_future",
+      "url": "/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-when_all",
+      "argsString": "(Events &&... evs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ unique_eager_event system::cuda::when_all",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "system::cuda::when_all",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 20,
+        "file": "thrust/system/cuda/future.h",
+        "line": 33
+      },
+      "name": "when_all",
+      "override": false,
+      "params": [
+        {
+          "name": "evs",
+          "type": "Events &&...",
+          "typePlain": "Events &&..."
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "system_2cuda_2future_8h_1a73c7cdad2062448213792162e5c99d22",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "Events",
+          "type": "typename...",
+          "typePlain": "typename..."
+        }
+      ],
+      "title": "when_all",
+      "type": "__host__ unique_eager_event",
+      "typePlain": "__host__ unique_eager_event",
+      "url": "/api/namespaces/namespacesystem_1_1cuda.html#function-when_all",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::device_memory_resource system::cuda::memory_resource",
+      "details": "The memory resource for the CUDA system. Uses <code>cudaMalloc</code> and wraps the result with <code>cuda::pointer</code>. ",
+      "explicit": false,
+      "fullname": "system::cuda::memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/cuda/memory_resource.h",
+        "bodyStart": 103,
+        "column": 40,
+        "file": "thrust/system/cuda/memory_resource.h",
+        "line": 103
+      },
+      "name": "memory_resource",
+      "override": false,
+      "refid": "system_2cuda_2memory__resource_8h_1a20cf48e698a6fca8fe07d46dbe136a81",
+      "static": false,
+      "strong": false,
+      "title": "memory_resource",
+      "type": "detail::device_memory_resource",
+      "typePlain": "detail::device_memory_resource",
+      "url": "/api/namespaces/namespacesystem_1_1cuda.html#typedef-memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::managed_memory_resource system::cuda::universal_memory_resource",
+      "details": "The universal memory resource for the CUDA system. Uses <code>cudaMallocManaged</code> and wraps the result with <code>cuda::universal&#95;pointer</code>. ",
+      "explicit": false,
+      "fullname": "system::cuda::universal_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/cuda/memory_resource.h",
+        "bodyStart": 108,
+        "column": 41,
+        "file": "thrust/system/cuda/memory_resource.h",
+        "line": 108
+      },
+      "name": "universal_memory_resource",
+      "override": false,
+      "refid": "system_2cuda_2memory__resource_8h_1a59a581f4fa455eb13f8fe3daa733fd79",
+      "static": false,
+      "strong": false,
+      "title": "universal_memory_resource",
+      "type": "detail::managed_memory_resource",
+      "typePlain": "detail::managed_memory_resource",
+      "url": "/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_host_pinned_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::pinned_memory_resource system::cuda::universal_host_pinned_memory_resource",
+      "details": "The host pinned memory resource for the CUDA system. Uses <code>cudaMallocHost</code> and wraps the result with <code>cuda::universal&#95;pointer</code>. ",
+      "explicit": false,
+      "fullname": "system::cuda::universal_host_pinned_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/cuda/memory_resource.h",
+        "bodyStart": 113,
+        "column": 40,
+        "file": "thrust/system/cuda/memory_resource.h",
+        "line": 113
+      },
+      "name": "universal_host_pinned_memory_resource",
+      "override": false,
+      "refid": "system_2cuda_2memory__resource_8h_1ad7204af472c4edd8540846fdde70ae0b",
+      "static": false,
+      "strong": false,
+      "title": "universal_host_pinned_memory_resource",
+      "type": "detail::pinned_memory_resource",
+      "typePlain": "detail::pinned_memory_resource",
+      "url": "/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_host_pinned_memory_resource",
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespacesystem_1_1cuda",
+  "static": false,
+  "strong": false,
+  "title": "system::cuda",
+  "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+  "visibility": "public"
+}

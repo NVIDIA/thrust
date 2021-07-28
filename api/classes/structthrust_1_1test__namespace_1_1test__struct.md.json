@@ -1,0 +1,160 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<code>test&#95;struct</code> is a struct intended to exercise and test Doxybook rendering. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "thrust::test_namespace::test_struct",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/doxybook_test.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 198,
+    "bodyFile": "thrust/doxybook_test.h",
+    "bodyStart": 190,
+    "column": 1,
+    "file": "thrust/doxybook_test.h",
+    "line": 191
+  },
+  "name": "thrust::test_namespace::test_struct",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "<code>test&#95;namespace</code> is a namespace intended to exercise and test Doxybook rendering. ",
+    "category": "namespaces",
+    "fullname": "thrust::test_namespace",
+    "kind": "namespace",
+    "name": "thrust::test_namespace",
+    "refid": "namespacethrust_1_1test__namespace",
+    "summary": "test_namespace is a namespace intended to exercise and test Doxybook rendering. ",
+    "title": "thrust::test_namespace",
+    "url": "/api/namespaces/namespacethrust_1_1test__namespace.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "thrust",
+      "kind": "namespace",
+      "name": "thrust",
+      "refid": "namespacethrust",
+      "title": "thrust",
+      "url": "/api/namespaces/namespacethrust.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "brief": "<code>test&#95;namespace</code> is a namespace intended to exercise and test Doxybook rendering. ",
+      "category": "namespaces",
+      "fullname": "thrust::test_namespace",
+      "kind": "namespace",
+      "name": "thrust::test_namespace",
+      "refid": "namespacethrust_1_1test__namespace",
+      "summary": "test_namespace is a namespace intended to exercise and test Doxybook rendering. ",
+      "title": "thrust::test_namespace",
+      "url": "/api/namespaces/namespacethrust_1_1test__namespace.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(test_struct const &)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "test_struct& thrust::test_namespace::test_struct< Z >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::test_namespace::test_struct::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 15,
+        "file": "thrust/doxybook_test.h",
+        "line": 192
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "<a href=\"/api/classes/structthrust_1_1test__namespace_1_1test__struct.html\">test_struct</a> const &",
+          "typePlain": "test_struct const &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structthrust_1_1test__namespace_1_1test__struct_1a980d86e1498f7393997fb1e955272909",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "<a href=\"/api/classes/structthrust_1_1test__namespace_1_1test__struct.html\">test_struct</a> &",
+      "typePlain": "test_struct &",
+      "url": "/api/classes/structthrust_1_1test__namespace_1_1test__struct.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<",
+      "argsString": "(test_struct const &t)",
+      "brief": "<code>operator&lt;</code> is a function intended to exercise and test Doxybook rendering. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "bool thrust::test_namespace::test_struct< Z >::operator<",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::test_namespace::test_struct::operator<",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/doxybook_test.h",
+        "line": 197
+      },
+      "name": "operator<",
+      "override": false,
+      "params": [
+        {
+          "name": "t",
+          "type": "<a href=\"/api/classes/structthrust_1_1test__namespace_1_1test__struct.html\">test_struct</a> const &",
+          "typePlain": "test_struct const &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structthrust_1_1test__namespace_1_1test__struct_1ae5af0c37b2bcddd7a7a46eb6d606213b",
+      "static": false,
+      "strong": false,
+      "summary": "operator< is a function intended to exercise and test Doxybook rendering. ",
+      "title": "operator<",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "/api/classes/structthrust_1_1test__namespace_1_1test__struct.html#function-operator<",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structthrust_1_1test__namespace_1_1test__struct",
+  "static": false,
+  "strong": false,
+  "summary": "test_struct is a struct intended to exercise and test Doxybook rendering. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Z",
+      "typePlain": "typename Z"
+    }
+  ],
+  "title": "thrust::test_namespace::test_struct",
+  "url": "/api/classes/structthrust_1_1test__namespace_1_1test__struct.html",
+  "visibility": "public"
+}

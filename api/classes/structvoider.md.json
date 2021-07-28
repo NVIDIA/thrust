@@ -1,0 +1,103 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "voider",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 41,
+    "bodyFile": "thrust/type_traits/void_t.h",
+    "bodyStart": 41,
+    "column": 24,
+    "file": "thrust/type_traits/void_t.h",
+    "line": 41
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "type_traits",
+    "kind": "group",
+    "name": "type_traits",
+    "refid": "group__type__traits",
+    "title": "Type Traits",
+    "url": "/api/groups/group__type__traits.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "name": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "type_traits",
+      "kind": "group",
+      "name": "type_traits",
+      "refid": "group__type__traits",
+      "title": "Type Traits",
+      "url": "/api/groups/group__type__traits.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "voider",
+  "override": false,
+  "parent": null,
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-type",
+      "category": "types",
+      "const": false,
+      "definition": "using voider<... >::type =  void",
+      "explicit": false,
+      "fullname": "voider::type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/type_traits/void_t.h",
+        "bodyStart": 41,
+        "column": 24,
+        "file": "thrust/type_traits/void_t.h",
+        "line": 41
+      },
+      "name": "type",
+      "override": false,
+      "refid": "structvoider_1adf446ae2396694b870dc22e8f95ffd60",
+      "static": false,
+      "strong": false,
+      "title": "type",
+      "type": "void",
+      "typePlain": "void",
+      "url": "/api/classes/structvoider.html#using-type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structvoider",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename...",
+      "typePlain": "typename..."
+    }
+  ],
+  "title": "voider",
+  "url": "/api/classes/structvoider.html",
+  "visibility": "public"
+}

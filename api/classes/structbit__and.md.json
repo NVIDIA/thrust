@@ -1,0 +1,241 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/api/classes/structbit__and.html\">bit&#95;and</a></code> is a function object. Specifically, it is an Adaptable Binary Function. If <code>f</code> is an object of class <code>bit&#95;and&lt;T&gt;</code>, and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>x&y</code>.\n\n\nThe following code snippet demonstrates how to use <code><a href=\"/api/classes/structbit__and.html\">bit&#95;and</a></code> to take the bitwise AND of one <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> of <code>ints</code> by another.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/functional.h>\n#include <thrust/sequence.h>\n#include <thrust/fill.h>\n#include <thrust/transform.h>\n...\nconst int N = 1000;\nthrust::device_vector<int> V1(N);\nthrust::device_vector<int> V2(N);\nthrust::device_vector<int> V3(N);\n\nthrust::sequence(V1.begin(), V1.end(), 1);\nthrust::fill(V2.begin(), V2.end(), 13);\n\nthrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),\n                  thrust::bit_and<int>());\n// V3 is now {1&13, 2&13, 3&13, ..., 1000%13}\n```",
+  "explicit": false,
+  "fullname": "bit_and",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 1066,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1041,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 1042
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "bitwise_operations",
+    "kind": "group",
+    "name": "bitwise_operations",
+    "refid": "group__bitwise__operations",
+    "title": "Bitwise Operations",
+    "url": "/api/groups/group__bitwise__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "bitwise_operations",
+      "kind": "group",
+      "name": "bitwise_operations",
+      "refid": "group__bitwise__operations",
+      "title": "Bitwise Operations",
+      "url": "/api/groups/group__bitwise__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "bit_and",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T &lhs, const T &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ T bit_and< T >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>lhs & rhs</code>. ",
+      "explicit": false,
+      "fullname": "bit_and::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 1065,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1062,
+        "column": 15,
+        "file": "thrust/functional.h",
+        "line": 1062
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        },
+        {
+          "name": "rhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structbit__and_1abd49f94b92bfaba2a45b28368531b651",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "url": "/api/classes/structbit__and.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first_argument_type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "bit_and< T >::first_argument_type",
+      "explicit": false,
+      "fullname": "bit_and::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1046,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1046
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "refid": "structbit__and_1acc988020acc6dcbb1afc578cb8dca836",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/api/classes/structbit__and.html#typedef-first_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second_argument_type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "bit_and< T >::second_argument_type",
+      "explicit": false,
+      "fullname": "bit_and::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1051,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1051
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "refid": "structbit__and_1af6e532f7ecbbd0b095f55b2e4449c091",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/api/classes/structbit__and.html#typedef-second_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result_type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "bit_and< T >::result_type",
+      "explicit": false,
+      "fullname": "bit_and::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1056,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1056
+      },
+      "name": "result_type",
+      "override": false,
+      "refid": "structbit__and_1a306099aefe18f834414edc502ab99071",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/api/classes/structbit__and.html#typedef-result_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structbit__and",
+  "see": [
+    "<a href=\"/api/classes/structbinary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T",
+      "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and if <code>x</code> and <code>y</code> are objects of type <code>T</code>, then <code>x&y</code> must be defined and must have a return type that is convertible to <code>T</code>."
+    }
+  ],
+  "title": "bit_and",
+  "url": "/api/classes/structbit__and.html",
+  "visibility": "public"
+}

@@ -1,0 +1,184 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "detail::zip_detail",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 20,
+    "file": "thrust/zip_function.h",
+    "line": 32
+  },
+  "name": "detail::zip_detail",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "name": "detail",
+    "refid": "namespacedetail",
+    "summary": "\\exclude ",
+    "title": "detail",
+    "url": "/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-apply_impl",
+      "argsString": "(Function &&func, Tuple &&args, index_sequence< Is... >)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__decltype(auto) __device__ detail::zip_detail::apply_impl",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::zip_detail::apply_impl",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 42,
+        "bodyFile": "thrust/zip_function.h",
+        "bodyStart": 39,
+        "column": 10,
+        "file": "thrust/zip_function.h",
+        "line": 39
+      },
+      "name": "apply_impl",
+      "override": false,
+      "params": [
+        {
+          "name": "func",
+          "type": "Function &&",
+          "typePlain": "Function &&"
+        },
+        {
+          "name": "args",
+          "type": "Tuple &&",
+          "typePlain": "Tuple &&"
+        },
+        {
+          "name": "",
+          "type": "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>< Is... >",
+          "typePlain": "index_sequence< Is... >"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "zip__function_8h_1a7c787a46b7e89619053f6eb8a272daed",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Function",
+          "typePlain": "typename Function"
+        },
+        {
+          "name": "",
+          "type": "typename Tuple",
+          "typePlain": "typename Tuple"
+        },
+        {
+          "name": "Is",
+          "type": "std::size_t...",
+          "typePlain": "std::size_t..."
+        }
+      ],
+      "title": "apply_impl",
+      "type": "__host__decltype(auto) __device__",
+      "typePlain": "__host__decltype(auto) __device__",
+      "url": "/api/namespaces/namespacedetail_1_1zip__detail.html#function-apply_impl",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-apply",
+      "argsString": "(Function &&func, Tuple &&args)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__decltype(auto) __device__ detail::zip_detail::apply",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::zip_detail::apply",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 50,
+        "bodyFile": "thrust/zip_function.h",
+        "bodyStart": 46,
+        "column": 10,
+        "file": "thrust/zip_function.h",
+        "line": 46
+      },
+      "name": "apply",
+      "override": false,
+      "params": [
+        {
+          "name": "func",
+          "type": "Function &&",
+          "typePlain": "Function &&"
+        },
+        {
+          "name": "args",
+          "type": "Tuple &&",
+          "typePlain": "Tuple &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "zip__function_8h_1a5a0cfb006989b7a3e7461ba4cbb5cc07",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename Function",
+          "typePlain": "typename Function"
+        },
+        {
+          "name": "",
+          "type": "typename Tuple",
+          "typePlain": "typename Tuple"
+        }
+      ],
+      "title": "apply",
+      "type": "__host__decltype(auto) __device__",
+      "typePlain": "__host__decltype(auto) __device__",
+      "url": "/api/namespaces/namespacedetail_1_1zip__detail.html#function-apply",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespacedetail_1_1zip__detail",
+  "static": false,
+  "strong": false,
+  "title": "detail::zip_detail",
+  "url": "/api/namespaces/namespacedetail_1_1zip__detail.html",
+  "visibility": "public"
+}

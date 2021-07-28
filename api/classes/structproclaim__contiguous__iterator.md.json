@@ -1,0 +1,88 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "false_type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "brief": "Customization point that can be customized to indicate that an iterator type <code>Iterator</code> satisfies <a href=\"https://en.cppreference.com/w/cpp/named_req/ContiguousIterator\">ContiguousIterator</a>, aka it points to elements that are contiguous in memory. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "proclaim_contiguous_iterator",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/type_traits/is_contiguous_iterator.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 110,
+    "bodyFile": "thrust/type_traits/is_contiguous_iterator.h",
+    "bodyStart": 110,
+    "column": 46,
+    "file": "thrust/type_traits/is_contiguous_iterator.h",
+    "line": 110
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "type_traits",
+    "kind": "group",
+    "name": "type_traits",
+    "refid": "group__type__traits",
+    "title": "Type Traits",
+    "url": "/api/groups/group__type__traits.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "name": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "type_traits",
+      "kind": "group",
+      "name": "type_traits",
+      "refid": "group__type__traits",
+      "title": "Type Traits",
+      "url": "/api/groups/group__type__traits.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "proclaim_contiguous_iterator",
+  "override": false,
+  "parent": null,
+  "refid": "structproclaim__contiguous__iterator",
+  "see": [
+    "<a href=\"/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>",
+    "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator\">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "summary": "Customization point that can be customized to indicate that an iterator type Iterator satisfies ContiguousIterator, aka it points to elements that are contiguous in memory. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Iterator",
+      "typePlain": "typename Iterator"
+    }
+  ],
+  "title": "proclaim_contiguous_iterator",
+  "url": "/api/classes/structproclaim__contiguous__iterator.html",
+  "visibility": "public"
+}

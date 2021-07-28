@@ -1,0 +1,62 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "omp",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/omp/memory.h",
+    "line": 91
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "system_backends",
+    "kind": "group",
+    "name": "system_backends",
+    "refid": "group__system__backends",
+    "title": "Systems",
+    "url": "/api/groups/group__system__backends.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system",
+      "kind": "group",
+      "name": "system",
+      "refid": "group__system",
+      "title": "System",
+      "url": "/api/groups/group__system.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system_backends",
+      "kind": "group",
+      "name": "system_backends",
+      "refid": "group__system__backends",
+      "title": "Systems",
+      "url": "/api/groups/group__system__backends.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "omp",
+  "override": false,
+  "parent": null,
+  "refid": "namespaceomp",
+  "static": false,
+  "strong": false,
+  "title": "omp",
+  "url": "/api/namespaces/namespaceomp.html",
+  "visibility": "public"
+}
