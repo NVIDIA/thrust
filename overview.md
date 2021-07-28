@@ -147,19 +147,6 @@ For non-CMake projects, compile with:
   - `-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_XXX`, where `XXX` is
     `CPP`, `OMP`, `TBB`, or `CUDA` (default).
 
-## Supported Compilers
-
-Thrust is regularly tested using the specified versions of the following
-  compilers.
-Unsupported versions may emit deprecation warnings, which can be
-  silenced by defining `THRUST_IGNORE_DEPRECATED_COMPILER` during compilation.
-
-- NVCC 11.0+
-- NVC++ 20.9+
-- GCC 5+
-- Clang 7+
-- MSVC 2019+ (19.20/16.0/14.20)
-
 ## CI Status
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.3.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.3.1-devel/badge/icon?subject=NVCC%2011.3.1%20%2B%20GCC%207%20build%20and%20device%20tests'></a>
