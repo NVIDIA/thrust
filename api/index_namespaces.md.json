@@ -363,19 +363,6 @@
           "title": "thrust::tbb",
           "url": "/api/namespaces/namespacethrust_1_1tbb.html",
           "visibility": "public"
-        },
-        {
-          "anchor": "",
-          "brief": "<code>test&#95;namespace</code> is a namespace intended to exercise and test Doxybook rendering. ",
-          "category": "namespaces",
-          "fullname": "thrust::test_namespace",
-          "kind": "namespace",
-          "name": "thrust::test_namespace",
-          "refid": "namespacethrust_1_1test__namespace",
-          "summary": "test_namespace is a namespace intended to exercise and test Doxybook rendering. ",
-          "title": "thrust::test_namespace",
-          "url": "/api/namespaces/namespacethrust_1_1test__namespace.html",
-          "visibility": "public"
         }
       ],
       "fullname": "thrust",

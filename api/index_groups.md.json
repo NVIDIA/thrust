@@ -677,17 +677,6 @@
     {
       "anchor": "",
       "category": "modules",
-      "fullname": "test",
-      "kind": "group",
-      "name": "test",
-      "refid": "group__test",
-      "title": "Test",
-      "url": "/api/groups/group__test.html",
-      "visibility": "public"
-    },
-    {
-      "anchor": "",
-      "category": "modules",
       "children": [
         {
           "anchor": "",

@@ -1,3 +1,5 @@
+# Changelog
+
 ## Thrust 1.13.1 (CUDA Toolkit 11.5)
 
 Thrust 1.13.1 is a minor release accompanying the CUDA Toolkit 11.5.

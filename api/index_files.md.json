@@ -272,19 +272,6 @@
           "visibility": "public"
         },
         {
-          "anchor": "#file-doxybook_test.h",
-          "brief": "Test case for Doxybook rendering. ",
-          "category": "files",
-          "fullname": "thrust/doxybook_test.h",
-          "kind": "file",
-          "name": "thrust/doxybook_test.h",
-          "refid": "doxybook__test_8h",
-          "summary": "Test case for Doxybook rendering. ",
-          "title": "thrust/doxybook_test.h",
-          "url": "/api/files/doxybook__test_8h.html#file-doxybook_test.h",
-          "visibility": "public"
-        },
-        {
           "anchor": "#file-equal.h",
           "brief": "Equality between ranges. ",
           "category": "files",
