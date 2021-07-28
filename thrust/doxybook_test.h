@@ -55,7 +55,7 @@ public:
 
   int test_member_variable = 0; ///< A test member variable.
 
-  [[deprecated]] constexpr int test_member_constant = 42; ///< A test member constant.
+  [[deprecated]] static constexpr int test_member_constant = 42; ///< A test member constant.
 
   template <typename X, typename Y>
   using test_type_alias = test_class<X, Y>;
@@ -75,32 +75,35 @@ public:
   __host__ __device__ constexpr
   test_class(int);
 
-  /*! \brief \c test_member_function is a function intended to exercise and
-   *  test Doxybook rendering.
+  /*! \brief \c test_member_function is a function intended to exercise
+   *  and test Doxybook rendering.
    */
   __host__ __device__ constexpr
-  virtual int test_member_function() = 0;
+  int test_member_function() = 0;
+
+  /*! \brief \c test_virtual_member_function is a function intended to exercise
+   *  and test Doxybook rendering.
+   */
+  __host__ __device__
+  virtual int test_virtual_member_function() = 0;
 
   /*! \brief \c test_parameter_overflow_member_function is a function intended
    *  to test Doxybook's rendering of function and template parameters that exceed
    *  the length of a line.
    */
-  template <typename T = test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>,
-            typename U = test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>,
-            typename V = test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>>
+  template <typename A = test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>,
+            typename B = test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>,
+            typename C = test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>>
   test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int>
-  test_parameter_overflow_member_function(test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> t,
-                                          test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> u,
-                                          test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> v);
+  test_parameter_overflow_member_function(test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> a,
+                                          test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> b,
+                                          test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int, int, int, int> c);
 
   template <typename Z>
   friend void test_friend_function() {}
 
   template <typename Z>
   friend void test_predefined_friend_function();
-
-  template <typename Z>
-  friend class test_friend_class {};
 
   template <typename... Z>
   friend struct thrust::test_predefined_friend_struct;
@@ -167,7 +170,7 @@ enum class test_enum {
 /*! \brief \c test_alias is a type alias intended to exercise and test Doxybook
  * rendering.
  */
-using test_alias = test_class;
+using test_alias = test_class<int, double>;
 
 /*! \brief \c test_namespace is a namespace intended to exercise and test
  *  Doxybook rendering.
