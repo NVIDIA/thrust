@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
 ###############################################################################
-# Copyright (c) 2018 NVIDIA Corporation
+# Copyright (c) 2018-2021 NVIDIA Corporation
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,4 +20,5 @@ SCRIPT_PATH=$(cd $(dirname ${0}); pwd -P)
 
 cd ${SCRIPT_PATH}/..
 
+bundle install
 bundle exec jekyll serve --incremental --profile --verbose
