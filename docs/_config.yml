@@ -38,7 +38,7 @@ defaults:
       path: contributing/code_of_conduct.md
     values:
       parent: Contributing
-      nav_order: 0
+      nav_order: 2
   -
     scope:
       path: releases/changelog.md

@@ -1,3 +1,5 @@
+# Changelog
+
 ## Thrust 1.15.0
 
 ### Summary
@@ -33,8 +35,6 @@ on the calling GPU thread instead of launching a device-wide kernel.
   header. Thanks to Philip Deegan (@PhilipDeegan) for this contribution.
 
 ## Thrust 1.14.0 (NVIDIA HPC SDK 21.9)
-
-### Summary
 
 Thrust 1.14.0 is a major release accompanying the NVIDIA HPC SDK 21.9.
 
