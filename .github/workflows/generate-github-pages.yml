@@ -1,0 +1,24 @@
+name: Generate GitHub Pages
+
+on:
+  push:
+    branches:
+      - feature/new-docs
+
+jobs:
+  generate-github-pages:
+    runs-on: ubuntu-latest
+    container: gpuci/cccl:cuda11.3.1-devel-ubuntu20.04-gcc9
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Generate documentation markdown
+        run: ./docs/generate_markdown.bash
+      - name: Deploy generated documentation markdown to gh-pages branch
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/feature/new-docs'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+          enable_jekyll: true
+          commit_message: "Deploy Docs: ${{ github.event.head_commit.message }}"
