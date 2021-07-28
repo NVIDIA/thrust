@@ -14,7 +14,7 @@
   "location": {
     "column": 24,
     "file": "thrust/doxybook_test.h",
-    "line": 175
+    "line": 178
   },
   "module": {
     "anchor": "",
@@ -81,10 +81,10 @@
       "kind": "variable",
       "location": {
         "bodyFile": "thrust/doxybook_test.h",
-        "bodyStart": 177,
+        "bodyStart": 180,
         "column": 22,
         "file": "thrust/doxybook_test.h",
-        "line": 177
+        "line": 180
       },
       "name": "test_constant",
       "override": false,
@@ -130,12 +130,12 @@
       "inline": false,
       "kind": "function",
       "location": {
-        "bodyEnd": 184,
+        "bodyEnd": 187,
         "bodyFile": "thrust/doxybook_test.h",
-        "bodyStart": 183,
+        "bodyStart": 186,
         "column": 6,
         "file": "thrust/doxybook_test.h",
-        "line": 183
+        "line": 186
       },
       "name": "test_nested_function",
       "override": false,

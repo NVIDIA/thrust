@@ -19,10 +19,10 @@
       "kind": "define",
       "location": {
         "bodyFile": "thrust/doxybook_test.h",
-        "bodyStart": 205,
+        "bodyStart": 208,
         "column": 9,
         "file": "thrust/doxybook_test.h",
-        "line": 205
+        "line": 208
       },
       "name": "THRUST_TEST_MACRO",
       "override": false,
@@ -184,7 +184,7 @@
       "location": {
         "column": 6,
         "file": "thrust/doxybook_test.h",
-        "line": 143
+        "line": 146
       },
       "name": "test_function",
       "override": false,
@@ -237,7 +237,7 @@
       "location": {
         "column": 1,
         "file": "thrust/doxybook_test.h",
-        "line": 154
+        "line": 157
       },
       "name": "test_parameter_overflow_function",
       "override": false,
@@ -354,12 +354,12 @@
       "inline": false,
       "kind": "enum",
       "location": {
-        "bodyEnd": 165,
+        "bodyEnd": 168,
         "bodyFile": "thrust/doxybook_test.h",
-        "bodyStart": 161,
+        "bodyStart": 164,
         "column": 21,
         "file": "thrust/doxybook_test.h",
-        "line": 161
+        "line": 164
       },
       "name": "test_enum",
       "override": false,
@@ -377,7 +377,7 @@
       "brief": "<code>test&#95;alias</code> is a type alias intended to exercise and test Doxybook rendering. ",
       "category": "types",
       "const": false,
-      "definition": "using thrust::test_alias = typedef test_class",
+      "definition": "using thrust::test_alias = typedef test_class<int, double>",
       "explicit": false,
       "fullname": "test::test_alias",
       "hasDetails": false,
@@ -385,20 +385,20 @@
       "kind": "using",
       "location": {
         "bodyFile": "thrust/doxybook_test.h",
-        "bodyStart": 170,
+        "bodyStart": 173,
         "column": 1,
         "file": "thrust/doxybook_test.h",
-        "line": 170
+        "line": 173
       },
       "name": "test_alias",
       "override": false,
-      "refid": "group__test_1ga062cb8b6e3d73cad8d0c545812d0b7ae",
+      "refid": "group__test_1gab16dbcf962bc668f65088abc759f579d",
       "static": false,
       "strong": false,
       "summary": "test_alias is a type alias intended to exercise and test Doxybook rendering. ",
       "title": "test_alias",
-      "type": "test_class",
-      "typePlain": "test_class",
+      "type": "test_class< int, double >",
+      "typePlain": "test_class< int, double >",
       "url": "/api/groups/group__test.html#using-test_alias",
       "visibility": "public"
     }

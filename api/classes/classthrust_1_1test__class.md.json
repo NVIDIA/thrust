@@ -10,49 +10,6 @@
   "friends": [
     {
       "abstract": false,
-      "anchor": "#friend-test_friend_class",
-      "argsString": "",
-      "category": "friends",
-      "const": false,
-      "default": false,
-      "definition": "friend class test_friend_class",
-      "deleted": false,
-      "explicit": false,
-      "fullname": "thrust::test_class::test_friend_class",
-      "hasDetails": true,
-      "initializer": "{}",
-      "inline": false,
-      "kind": "friend",
-      "location": {
-        "bodyFile": "thrust/doxybook_test.h",
-        "bodyStart": 103,
-        "column": 3,
-        "file": "thrust/doxybook_test.h",
-        "line": 103
-      },
-      "name": "test_friend_class",
-      "override": false,
-      "params": [],
-      "pureVirtual": false,
-      "refid": "classthrust_1_1test__class_1af498761974899fc9779f257d35969e5f",
-      "static": false,
-      "strong": false,
-      "templateParams": [
-        {
-          "name": "",
-          "type": "typename Z",
-          "typePlain": "typename Z"
-        }
-      ],
-      "title": "test_friend_class",
-      "type": "class",
-      "typePlain": "class",
-      "url": "/api/classes/classthrust_1_1test__class.html#friend-test_friend_class",
-      "virtual": false,
-      "visibility": "public"
-    },
-    {
-      "abstract": false,
       "anchor": "#friend-thrusttest_predefined_friend_struct",
       "argsString": "",
       "category": "friends",
@@ -67,10 +24,10 @@
       "kind": "friend",
       "location": {
         "bodyFile": "thrust/doxybook_test.h",
-        "bodyStart": 106,
+        "bodyStart": 109,
         "column": 3,
         "file": "thrust/doxybook_test.h",
-        "line": 106
+        "line": 109
       },
       "name": "thrust::test_predefined_friend_struct",
       "override": false,
@@ -108,12 +65,12 @@
       "inline": true,
       "kind": "friend",
       "location": {
-        "bodyEnd": 97,
+        "bodyEnd": 103,
         "bodyFile": "thrust/doxybook_test.h",
-        "bodyStart": 97,
+        "bodyStart": 103,
         "column": 15,
         "file": "thrust/doxybook_test.h",
-        "line": 97
+        "line": 103
       },
       "name": "test_friend_function",
       "override": false,
@@ -154,7 +111,7 @@
       "location": {
         "column": 15,
         "file": "thrust/doxybook_test.h",
-        "line": 100
+        "line": 106
       },
       "name": "test_predefined_friend_function",
       "override": false,
@@ -186,7 +143,7 @@
   "inline": false,
   "kind": "class",
   "location": {
-    "bodyEnd": 118,
+    "bodyEnd": 121,
     "bodyFile": "thrust/doxybook_test.h",
     "bodyStart": 50,
     "column": 1,
@@ -275,7 +232,7 @@
       "location": {
         "column": 8,
         "file": "thrust/doxybook_test.h",
-        "line": 117
+        "line": 120
       },
       "name": "test_protected_member_function",
       "override": false,
@@ -342,14 +299,14 @@
       "location": {
         "bodyFile": "thrust/doxybook_test.h",
         "bodyStart": 58,
-        "column": 18,
+        "column": 25,
         "file": "thrust/doxybook_test.h",
         "line": 58
       },
       "name": "test_member_constant",
       "override": false,
       "refid": "classthrust_1_1test__class_1abfd906a24cf8eaa461602d275971b7bf",
-      "static": false,
+      "static": true,
       "strong": false,
       "summary": "A test member constant. ",
       "title": "test_member_constant",
@@ -455,7 +412,7 @@
       "category": "functions",
       "const": false,
       "default": false,
-      "definition": "__host__ constexpr virtual __device__ int thrust::test_class< T, U >::test_member_function",
+      "definition": "__host__ constexpr __device__ int thrust::test_class< T, U >::test_member_function",
       "deleted": false,
       "explicit": false,
       "fullname": "thrust::test_class::test_member_function",
@@ -463,7 +420,7 @@
       "inline": false,
       "kind": "function",
       "location": {
-        "column": 15,
+        "column": 7,
         "file": "thrust/doxybook_test.h",
         "line": 82
       },
@@ -471,21 +428,56 @@
       "override": false,
       "params": [],
       "pureVirtual": true,
-      "refid": "classthrust_1_1test__class_1afefcc179ad36e66e58546149bed34035",
+      "refid": "classthrust_1_1test__class_1ad7742997ac9e0a3c7c782ab2f191ca0f",
       "static": false,
       "strong": false,
       "summary": "test_member_function is a function intended to exercise and test Doxybook rendering. ",
       "title": "test_member_function",
-      "type": "__host__ constexpr virtual __device__ int",
-      "typePlain": "__host__ constexpr virtual __device__ int",
+      "type": "__host__ constexpr __device__ int",
+      "typePlain": "__host__ constexpr __device__ int",
       "url": "/api/classes/classthrust_1_1test__class.html#function-test_member_function",
       "virtual": true,
       "visibility": "public"
     },
     {
       "abstract": false,
+      "anchor": "#function-test_virtual_member_function",
+      "argsString": "()=0",
+      "brief": "<code>test&#95;virtual&#95;member&#95;function</code> is a function intended to exercise and test Doxybook rendering. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ virtual __device__ int thrust::test_class< T, U >::test_virtual_member_function",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "thrust::test_class::test_virtual_member_function",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 15,
+        "file": "thrust/doxybook_test.h",
+        "line": 88
+      },
+      "name": "test_virtual_member_function",
+      "override": false,
+      "params": [],
+      "pureVirtual": true,
+      "refid": "classthrust_1_1test__class_1a039e9e33ef24ade33126a7e46a623d4f",
+      "static": false,
+      "strong": false,
+      "summary": "test_virtual_member_function is a function intended to exercise and test Doxybook rendering. ",
+      "title": "test_virtual_member_function",
+      "type": "__host__ virtual __device__ int",
+      "typePlain": "__host__ virtual __device__ int",
+      "url": "/api/classes/classthrust_1_1test__class.html#function-test_virtual_member_function",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
       "anchor": "#function-test_parameter_overflow_member_function",
-      "argsString": "(test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > t, test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > u, test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > v)",
+      "argsString": "(test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > a, test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > b, test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > c)",
       "brief": "<code>test&#95;parameter&#95;overflow&#95;member&#95;function</code> is a function intended to test Doxybook's rendering of function and template parameters that exceed the length of a line. ",
       "category": "functions",
       "const": false,
@@ -500,29 +492,29 @@
       "location": {
         "column": 3,
         "file": "thrust/doxybook_test.h",
-        "line": 92
+        "line": 98
       },
       "name": "test_parameter_overflow_member_function",
       "override": false,
       "params": [
         {
-          "name": "t",
+          "name": "a",
           "type": "<a href=\"/api/classes/structthrust_1_1test__predefined__friend__struct.html\">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int >",
           "typePlain": "test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int >"
         },
         {
-          "name": "u",
+          "name": "b",
           "type": "<a href=\"/api/classes/structthrust_1_1test__predefined__friend__struct.html\">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int >",
           "typePlain": "test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int >"
         },
         {
-          "name": "v",
+          "name": "c",
           "type": "<a href=\"/api/classes/structthrust_1_1test__predefined__friend__struct.html\">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int >",
           "typePlain": "test_predefined_friend_struct< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int >"
         }
       ],
       "pureVirtual": false,
-      "refid": "classthrust_1_1test__class_1a1c1f70f4e29f69f1c7623542b3e29daf",
+      "refid": "classthrust_1_1test__class_1a538352b883b5b23687cba75ad1e4fd1b",
       "static": false,
       "strong": false,
       "summary": "test_parameter_overflow_member_function is a function intended to test Doxybook's rendering of function and template parameters that exceed the length of a line. ",
@@ -531,22 +523,22 @@
           "defval": "<a href=\"/api/classes/structthrust_1_1test__predefined__friend__struct.html\">test_predefined_friend_struct</a><int, int, int, int, int, int, int, int, int, int, int, int>",
           "defvalPlain": "test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>",
           "name": "",
-          "type": "typename T",
-          "typePlain": "typename T"
+          "type": "typename A",
+          "typePlain": "typename A"
         },
         {
           "defval": "<a href=\"/api/classes/structthrust_1_1test__predefined__friend__struct.html\">test_predefined_friend_struct</a><int, int, int, int, int, int, int, int, int, int, int, int>",
           "defvalPlain": "test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>",
           "name": "",
-          "type": "typename U",
-          "typePlain": "typename U"
+          "type": "typename B",
+          "typePlain": "typename B"
         },
         {
           "defval": "<a href=\"/api/classes/structthrust_1_1test__predefined__friend__struct.html\">test_predefined_friend_struct</a><int, int, int, int, int, int, int, int, int, int, int, int>",
           "defvalPlain": "test_predefined_friend_struct<int, int, int, int, int, int, int, int, int, int, int, int>",
           "name": "",
-          "type": "typename V",
-          "typePlain": "typename V"
+          "type": "typename C",
+          "typePlain": "typename C"
         }
       ],
       "title": "test_parameter_overflow_member_function",

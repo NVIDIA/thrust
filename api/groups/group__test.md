@@ -87,7 +87,7 @@ Type Alias <code>test&#95;alias</code>
 </h3>
 
 <code class="doxybook">
-<span>using <b>test_alias</b> = test&#95;class;</span></code>
+<span>using <b>test_alias</b> = test&#95;class&lt; int, double &gt;;</span></code>
 <code>test&#95;alias</code> is a type alias intended to exercise and test Doxybook rendering. 
 
 

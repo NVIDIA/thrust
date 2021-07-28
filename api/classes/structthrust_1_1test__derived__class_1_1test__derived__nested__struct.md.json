@@ -11,12 +11,12 @@
   "inline": false,
   "kind": "struct",
   "location": {
-    "bodyEnd": 126,
+    "bodyEnd": 129,
     "bodyFile": "thrust/doxybook_test.h",
-    "bodyStart": 126,
+    "bodyStart": 129,
     "column": 35,
     "file": "thrust/doxybook_test.h",
-    "line": 126
+    "line": 129
   },
   "name": "thrust::test_derived_class::test_derived_nested_struct",
   "override": false,

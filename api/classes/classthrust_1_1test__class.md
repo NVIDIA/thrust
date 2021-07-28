@@ -30,28 +30,27 @@ test_function
 <span>&nbsp;&nbsp;template &lt;typename Z&gt;</span>
 <span>&nbsp;&nbsp;struct <b><a href="/api/classes/structthrust_1_1test__class_1_1test__nested__struct.html">test&#95;nested&#95;struct</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;template &lt;typename Z&gt;</span>
-<span>&nbsp;&nbsp;friend class <b>test&#95;friend&#95;class</b>;</span>
-<br>
 <span>&nbsp;&nbsp;template &lt;typename... Z&gt;</span>
 <span>&nbsp;&nbsp;friend struct <b>thrust::test&#95;predefined&#95;friend&#95;struct</b>;</span>
 <br>
 <span class="doxybook-comment">&nbsp;&nbsp;/* A test member variable.  */</span><span>&nbsp;&nbsp;int <b><a href="/api/classes/classthrust_1_1test__class.html#variable-test_member_variable">test&#95;member&#95;variable</a></b> = <i>see below</i>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* A test member constant.  */</span><span>&nbsp;&nbsp;constexpr int <b><a href="/api/classes/classthrust_1_1test__class.html#variable-test_member_constant">test&#95;member&#95;constant</a></b> = <i>see below</i>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* A test member constant.  */</span><span>&nbsp;&nbsp;static constexpr int <b><a href="/api/classes/classthrust_1_1test__class.html#variable-test_member_constant">test&#95;member&#95;constant</a></b> = <i>see below</i>;</span>
 <br>
 <span class="doxybook-comment">&nbsp;&nbsp;/* Construct an empty test class.  */</span><span>&nbsp;&nbsp;<b><a href="/api/classes/classthrust_1_1test__class.html#function-test_class">test&#95;class</a></b>() = default;</span>
 <br>
 <span class="doxybook-comment">&nbsp;&nbsp;/* Construct a test class.  */</span><span>&nbsp;&nbsp;__host__ constexpr __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classthrust_1_1test__class.html#function-test_class">test&#95;class</a></b>(int);</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* <code>test&#95;member&#95;function</code> is a function intended to exercise and test Doxybook rendering.  */</span><span>&nbsp;&nbsp;virtual __host__ constexpr virtual __device__ int </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classthrust_1_1test__class.html#function-test_member_function">test&#95;member&#95;function</a></b>() = 0;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* <code>test&#95;member&#95;function</code> is a function intended to exercise and test Doxybook rendering.  */</span><span>&nbsp;&nbsp;virtual __host__ constexpr __device__ int </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classthrust_1_1test__class.html#function-test_member_function">test&#95;member&#95;function</a></b>() = 0;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* <code>test&#95;parameter&#95;overflow&#95;member&#95;function</code> is a function intended to test Doxybook's rendering of function and template parameters that exceed the length of a line.  */</span><span>&nbsp;&nbsp;template &lt;typename T = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename U = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename V = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;&gt;</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classthrust_1_1test__class.html#function-test_parameter_overflow_member_function">test&#95;parameter&#95;overflow&#95;member&#95;function</a></b>(<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > t,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > u,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > v);</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* <code>test&#95;virtual&#95;member&#95;function</code> is a function intended to exercise and test Doxybook rendering.  */</span><span>&nbsp;&nbsp;virtual __host__ virtual __device__ int </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classthrust_1_1test__class.html#function-test_virtual_member_function">test&#95;virtual&#95;member&#95;function</a></b>() = 0;</span>
+<br>
+<span class="doxybook-comment">&nbsp;&nbsp;/* <code>test&#95;parameter&#95;overflow&#95;member&#95;function</code> is a function intended to test Doxybook's rendering of function and template parameters that exceed the length of a line.  */</span><span>&nbsp;&nbsp;template &lt;typename A = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename B = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename C = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;&gt;</span>
+<span>&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classthrust_1_1test__class.html#function-test_parameter_overflow_member_function">test&#95;parameter&#95;overflow&#95;member&#95;function</a></b>(<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > a,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > b,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > c);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename Z&gt;</span>
 <span>&nbsp;&nbsp;friend void </span>
@@ -112,7 +111,7 @@ Variable <code>thrust::test&#95;class::thrust::test&#95;class::test&#95;member&#
 </h3>
 
 <code class="doxybook">
-<span>constexpr int <b>test_member_constant</b> = 42;</span></code>
+<span>static constexpr int <b>test_member_constant</b> = 42;</span></code>
 A test member constant. 
 
 
@@ -139,20 +138,28 @@ Function <code>thrust::test&#95;class::&gt;::test&#95;member&#95;function</code>
 </h3>
 
 <code class="doxybook">
-<span>virtual __host__ constexpr virtual __device__ int </span><span><b>test_member_function</b>() = 0;</span></code>
+<span>virtual __host__ constexpr __device__ int </span><span><b>test_member_function</b>() = 0;</span></code>
 <code>test&#95;member&#95;function</code> is a function intended to exercise and test Doxybook rendering. 
+
+<h3 id="function-test_virtual_member_function">
+Function <code>thrust::test&#95;class::&gt;::test&#95;virtual&#95;member&#95;function</code>
+</h3>
+
+<code class="doxybook">
+<span>virtual __host__ virtual __device__ int </span><span><b>test_virtual_member_function</b>() = 0;</span></code>
+<code>test&#95;virtual&#95;member&#95;function</code> is a function intended to exercise and test Doxybook rendering. 
 
 <h3 id="function-test_parameter_overflow_member_function">
 Function <code>thrust::test&#95;class::&gt;::test&#95;parameter&#95;overflow&#95;member&#95;function</code>
 </h3>
 
 <code class="doxybook">
-<span>template &lt;typename T = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;,</span>
-<span>&nbsp;&nbsp;typename U = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;,</span>
-<span>&nbsp;&nbsp;typename V = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;&gt;</span>
-<span><a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > </span><span><b>test_parameter_overflow_member_function</b>(<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > t,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > u,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > v);</span></code>
+<span>template &lt;typename A = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;,</span>
+<span>&nbsp;&nbsp;typename B = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;,</span>
+<span>&nbsp;&nbsp;typename C = test&#95;predefined&#95;friend&#95;struct&lt;int, int, int, int, int, int, int, int, int, int, int, int&gt;&gt;</span>
+<span><a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > </span><span><b>test_parameter_overflow_member_function</b>(<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > a,</span>
+<span>&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > b,</span>
+<span>&nbsp;&nbsp;<a href="/api/classes/structthrust_1_1test__predefined__friend__struct.html">test_predefined_friend_struct</a>< int, int, int, int, int, int, int, int, int, int, int, int, int, int, int > c);</span></code>
 <code>test&#95;parameter&#95;overflow&#95;member&#95;function</code> is a function intended to test Doxybook's rendering of function and template parameters that exceed the length of a line. 
 
 

@@ -101,7 +101,7 @@ Type Alias <code>test&#95;alias</code>
 </h3>
 
 <code class="doxybook">
-<span>using <b>test_alias</b> = &lt;a href="/api/classes/classthrust&#95;1&#95;1test&#95;&#95;class.html"&gt;test&#95;class&lt;/a&gt;;</span></code>
+<span>using <b>test_alias</b> = &lt;a href="/api/classes/classthrust&#95;1&#95;1test&#95;&#95;class.html"&gt;test&#95;class&lt;/a&gt;&lt; int, double &gt;;</span></code>
 <code>test&#95;alias</code> is a type alias intended to exercise and test Doxybook rendering. 
 
 

@@ -11,12 +11,12 @@
   "inline": false,
   "kind": "class",
   "location": {
-    "bodyEnd": 111,
+    "bodyEnd": 114,
     "bodyFile": "thrust/doxybook_test.h",
-    "bodyStart": 111,
+    "bodyStart": 114,
     "column": 36,
     "file": "thrust/doxybook_test.h",
-    "line": 111
+    "line": 114
   },
   "name": "thrust::test_class::test_protected_nested_class",
   "override": false,
