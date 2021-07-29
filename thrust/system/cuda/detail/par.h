@@ -48,6 +48,7 @@ private:
   cudaStream_t stream;
 
 public:
+  __thrust_exec_check_disable__
   __host__ __device__
   execute_on_stream_base(cudaStream_t stream_ = default_stream())
       : stream(stream_){}
