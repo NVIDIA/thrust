@@ -1,3 +1,42 @@
+# Thrust 1.14.0 (NVIDIA HPC SDK 21.9)
+
+## Summary
+
+Thrust 1.14.0 is a major release accompanying the NVIDIA HPC SDK 21.9.
+
+This release adds the ability to wrap the `thrust::` namespace in an external
+namespace, providing a workaround for a variety of shared library linking
+issues. Thrust also learned to detect when CUB's symbols are in a wrapped
+namespace and properly import them. To enable this feature, use
+`#define THRUST_CUB_WRAPPED_NAMESPACE foo` to wrap both Thrust and CUB in the
+`foo::` namespace. See `thrust/detail/config/namespace.h` for details and more
+namespace options.
+
+Several bugfixes are also included: The `tuple_size` and `tuple_element` helpers
+now support cv-qualified types. `scan_by_key` uses less memory.
+`thrust::iterator_traits` is better integrated with `std::iterator_traits`.
+See below for more details and references.
+
+## New Features
+
+- NVIDIA/thrust#1464: Add preprocessor hooks that allow `thrust::` to be wrapped
+  in an external namespace, and support cases when CUB is wrapped in an external
+  namespace.
+
+## Bug Fixes
+
+- NVIDIA/thrust#1457: Support cv-qualified types in `thrust::tuple_size` and
+  `thrust::tuple_element`. Thanks to Jake Hemstad for this contribution.
+- NVIDIA/thrust#1471: Fixed excessive memory allocation in `scan_by_key`. Thanks
+  to Lilo Huang for this contribution.
+- NVIDIA/thrust#1476: Removed dead code from the `expand` example. Thanks to
+  Lilo Huang for this contribution.
+- NVIDIA/thrust#1488: Fixed the path to the installed CUB headers in the CMake
+  `find_package` configuration files.
+- NVIDIA/thrust#1491: Fallback to `std::iterator_traits` when no
+  `thrust::iterator_traits` specialization exists for an iterator type. Thanks
+  to Divye Gala for this contribution.
+
 # Thrust 1.13.1 (CUDA Toolkit 11.5)
 
 Thrust 1.13.1 is a minor release accompanying the CUDA Toolkit 11.5.
