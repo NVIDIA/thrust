@@ -8,6 +8,14 @@
 
 THRUST_DISABLE_MSVC_POSSIBLE_LOSS_OF_DATA_WARNING_BEGIN
 
+template <typename T>
+void TestCountingDefaultConstructor(void)
+{
+  thrust::counting_iterator<T> iter0;
+  ASSERT_EQUAL(*iter0, T{});
+}
+DECLARE_GENERIC_UNITTEST(TestCountingDefaultConstructor);
+
 void TestCountingIteratorCopyConstructor(void)
 {
     thrust::counting_iterator<int> iter0(100);
