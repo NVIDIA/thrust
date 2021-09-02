@@ -28,9 +28,13 @@
 
 #include <thrust/detail/config.h>
 
+#include <thrust/advance.h>
+
 #include <thrust/system/cuda/config.h>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system/cuda/detail/cross_system.h>
+
+#include <cub/detail/cdp_dispatch.cuh>
 
 THRUST_NAMESPACE_BEGIN
 
@@ -117,22 +121,11 @@ copy(execution_policy<System> &system,
      InputIterator             last,
      OutputIterator            result)
 {
-  OutputIterator ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __copy::device_to_device(system, first, last, result);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::copy(cvt_to_seq(derived_cast(system)),
-                       first,
-                       last,
-                       result);
-#endif
-  }
-
-  return ret;
+  CUB_CDP_DISPATCH(
+    (result = __copy::device_to_device(system, first, last, result);),
+    (result =
+       thrust::copy(cvt_to_seq(derived_cast(system)), first, last, result);));
+  return result;
 }    // end copy()
 
 __thrust_exec_check_disable__
@@ -146,19 +139,14 @@ copy_n(execution_policy<System> &system,
        Size                      n,
        OutputIterator            result)
 {
-  OutputIterator ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __copy::device_to_device(system, first, first + n, result);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::copy_n(cvt_to_seq(derived_cast(system)), first, n, result);
-#endif
-  }
-
-  return ret;
+  CUB_CDP_DISPATCH(
+    (result = __copy::device_to_device(system,
+                                       first,
+                                       thrust::next(first, n),
+                                       result);),
+    (result =
+       thrust::copy_n(cvt_to_seq(derived_cast(system)), first, n, result);));
+  return result;
 } // end copy_n()
 #endif
 

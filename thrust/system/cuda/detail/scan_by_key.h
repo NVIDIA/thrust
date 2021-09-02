@@ -40,6 +40,7 @@
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
 
+#include <cub/detail/cdp_dispatch.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -607,7 +608,7 @@ namespace __scan_by_key {
     T         init;
     ScanOp    scan_op;
 
-    THRUST_RUNTIME_FUNCTION
+    CUB_RUNTIME_FUNCTION
     AddInitToScan(T init_, ScanOp scan_op_)
         : init(init_), scan_op(scan_op_) {}
 
@@ -632,7 +633,7 @@ namespace __scan_by_key {
             class ScanOp,
             class Size,
             class AddInitToScan>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  CUB_RUNTIME_FUNCTION cudaError_t
   doit_step(void *         d_temp_storage,
             size_t &       temp_storage_bytes,
             KeysInputIt    keys_input_it,
@@ -725,7 +726,7 @@ namespace __scan_by_key {
             typename EqualityOp,
             typename ScanOp,
             typename AddInitToScan>
-  THRUST_RUNTIME_FUNCTION
+  CUB_RUNTIME_FUNCTION
   ValuesOutputIt scan_by_key(execution_policy<Derived>& policy,
                              KeysInputIt                keys_first,
                              KeysInputIt                keys_last,
@@ -802,36 +803,29 @@ inclusive_scan_by_key(execution_policy<Derived> &policy,
                       KeyInputIt                 key_first,
                       KeyInputIt                 key_last,
                       ValInputIt                 value_first,
-                      ValOutputIt                value_result,
+                      ValOutputIt                result,
                       BinaryPred                 binary_pred,
                       ScanOp                     scan_op)
 {
-  ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    typedef typename iterator_traits<ValInputIt>::value_type T;
-    ret = __scan_by_key::scan_by_key<thrust::detail::true_type>(policy,
-                                                        key_first,
-                                                        key_last,
-                                                        value_first,
-                                                        value_result,
-                                                        binary_pred,
-                                                        scan_op,
-                                                        __scan_by_key::DoNothing<T>());
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
-                                        key_first,
-                                        key_last,
-                                        value_first,
-                                        value_result,
-                                        binary_pred,
-                                        scan_op);
-#endif
-  }
-  return ret;
+  CUB_CDP_DISPATCH(
+    (using no_op_t = __scan_by_key::DoNothing<iterator_value_t<ValInputIt>>;
+     result =
+       __scan_by_key::scan_by_key<thrust::detail::true_type>(policy,
+                                                             key_first,
+                                                             key_last,
+                                                             value_first,
+                                                             result,
+                                                             binary_pred,
+                                                             scan_op,
+                                                             no_op_t{});),
+    (result = thrust::inclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
+                                            key_first,
+                                            key_last,
+                                            value_first,
+                                            result,
+                                            binary_pred,
+                                            scan_op);));
+  return result;
 }
 
 template <class Derived,
@@ -895,38 +889,30 @@ exclusive_scan_by_key(execution_policy<Derived> &policy,
                       KeyInputIt                 key_first,
                       KeyInputIt                 key_last,
                       ValInputIt                 value_first,
-                      ValOutputIt                value_result,
+                      ValOutputIt                result,
                       Init                       init,
                       BinaryPred                 binary_pred,
                       ScanOp                     scan_op)
 {
-  ValOutputIt ret = value_result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __scan_by_key::scan_by_key<thrust::detail::false_type>(
-        policy,
-        key_first,
-        key_last,
-        value_first,
-        value_result,
-        binary_pred,
-        scan_op,
-        __scan_by_key::AddInitToScan<Init, ScanOp>(init, scan_op));
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
-                                        key_first,
-                                        key_last,
-                                        value_first,
-                                        value_result,
-                                        init,
-                                        binary_pred,
-                                        scan_op);
-#endif
-  }
-  return ret;
+  CUB_CDP_DISPATCH(
+    (result = __scan_by_key::scan_by_key<thrust::detail::false_type>(
+       policy,
+       key_first,
+       key_last,
+       value_first,
+       result,
+       binary_pred,
+       scan_op,
+       __scan_by_key::AddInitToScan<Init, ScanOp>(init, scan_op));),
+    (result = thrust::exclusive_scan_by_key(cvt_to_seq(derived_cast(policy)),
+                                            key_first,
+                                            key_last,
+                                            value_first,
+                                            result,
+                                            init,
+                                            binary_pred,
+                                            scan_op);));
+  return result;
 }
 
 template <class Derived,

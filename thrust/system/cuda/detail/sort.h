@@ -48,6 +48,8 @@
 #include <thrust/detail/alignment.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
 
+#include <cub/detail/cdp_dispatch.cuh>
+
 THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
@@ -1146,7 +1148,7 @@ namespace __merge_sort {
             class ItemsIt,
             class Size,
             class CompareOp>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  CUB_RUNTIME_FUNCTION cudaError_t
   doit_step(void*        d_temp_storage,
             size_t&      temp_storage_bytes,
             KeysIt       keys,
@@ -1275,7 +1277,7 @@ namespace __merge_sort {
             typename KeysIt,
             typename ItemsIt,
             typename CompareOp>
-  THRUST_RUNTIME_FUNCTION
+  CUB_RUNTIME_FUNCTION
   void merge_sort(execution_policy<Derived>& policy,
                   KeysIt                     keys_first,
                   KeysIt                     keys_last,
@@ -1332,7 +1334,7 @@ namespace __radix_sort {
   struct dispatch<thrust::detail::false_type, thrust::less<K> >
   {
     template <class Key, class Item, class Size>
-    THRUST_RUNTIME_FUNCTION static cudaError_t
+    CUB_RUNTIME_FUNCTION static cudaError_t
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
@@ -1357,7 +1359,7 @@ namespace __radix_sort {
   struct dispatch<thrust::detail::false_type, thrust::greater<K> >
   {
     template <class Key, class Item, class Size>
-    THRUST_RUNTIME_FUNCTION static cudaError_t
+    CUB_RUNTIME_FUNCTION static cudaError_t
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
@@ -1382,7 +1384,7 @@ namespace __radix_sort {
   struct dispatch<thrust::detail::true_type, thrust::less<K> >
   {
     template <class Key, class Item, class Size>
-    THRUST_RUNTIME_FUNCTION static cudaError_t
+    CUB_RUNTIME_FUNCTION static cudaError_t
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
@@ -1408,7 +1410,7 @@ namespace __radix_sort {
   struct dispatch<thrust::detail::true_type, thrust::greater<K> >
   {
     template <class Key, class Item, class Size>
-    THRUST_RUNTIME_FUNCTION static cudaError_t
+    CUB_RUNTIME_FUNCTION static cudaError_t
     doit(void*                    d_temp_storage,
          size_t&                  temp_storage_bytes,
          cub::DoubleBuffer<Key>&  keys_buffer,
@@ -1435,7 +1437,7 @@ namespace __radix_sort {
             typename Item,
             typename Size,
             typename CompareOp>
-  THRUST_RUNTIME_FUNCTION
+  CUB_RUNTIME_FUNCTION
   void radix_sort(execution_policy<Derived>& policy,
                   Key*                       keys,
                   Item*                      items,
@@ -1542,7 +1544,7 @@ namespace __smart_sort {
             class KeysIt,
             class ItemsIt,
             class CompareOp>
-  THRUST_RUNTIME_FUNCTION typename enable_if_comparison_sort<KeysIt, CompareOp>::type
+  CUB_RUNTIME_FUNCTION typename enable_if_comparison_sort<KeysIt, CompareOp>::type
   smart_sort(Policy&   policy,
              KeysIt    keys_first,
              KeysIt    keys_last,
@@ -1563,7 +1565,7 @@ namespace __smart_sort {
             class KeysIt,
             class ItemsIt,
             class CompareOp>
-  THRUST_RUNTIME_FUNCTION typename enable_if_primitive_sort<KeysIt, CompareOp>::type
+  CUB_RUNTIME_FUNCTION typename enable_if_primitive_sort<KeysIt, CompareOp>::type
   smart_sort(execution_policy<Policy>& policy,
              KeysIt                    keys_first,
              KeysIt                    keys_last,
@@ -1627,18 +1629,15 @@ sort(execution_policy<Derived>& policy,
      ItemsIt                    last,
      CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
-    typedef typename thrust::iterator_value<ItemsIt>::type item_type;
-    __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::false_type>(
-        policy, first, last, (item_type*)NULL, compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    thrust::sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
-#endif
-  }
+  CUB_CDP_DISPATCH(
+    (using item_t = thrust::iterator_value_t<ItemsIt>; item_t *null_ = nullptr;
+     __smart_sort::smart_sort<thrust::detail::false_type,
+                              thrust::detail::false_type>(policy,
+                                                          first,
+                                                          last,
+                                                          null_,
+                                                          compare_op);),
+    (thrust::sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);));
 }
 
 __thrust_exec_check_disable__
@@ -1649,18 +1648,18 @@ stable_sort(execution_policy<Derived>& policy,
             ItemsIt                    last,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
-    typedef typename thrust::iterator_value<ItemsIt>::type item_type;
-    __smart_sort::smart_sort<thrust::detail::false_type, thrust::detail::true_type>(
-        policy, first, last, (item_type*)NULL, compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    thrust::stable_sort(cvt_to_seq(derived_cast(policy)), first, last, compare_op);
-#endif
-  }
+  CUB_CDP_DISPATCH(
+    (using item_t = thrust::iterator_value_t<ItemsIt>; item_t *null_ = nullptr;
+     __smart_sort::smart_sort<thrust::detail::false_type,
+                              thrust::detail::true_type>(policy,
+                                                         first,
+                                                         last,
+                                                         null_,
+                                                         compare_op);),
+    (thrust::stable_sort(cvt_to_seq(derived_cast(policy)),
+                         first,
+                         last,
+                         compare_op);));
 }
 
 __thrust_exec_check_disable__
@@ -1672,18 +1671,18 @@ sort_by_key(execution_policy<Derived>& policy,
             ValuesIt                   values,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
-    __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::false_type>(
-        policy, keys_first, keys_last, values, compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    thrust::sort_by_key(
-        cvt_to_seq(derived_cast(policy)), keys_first, keys_last, values, compare_op);
-#endif
-  }
+  CUB_CDP_DISPATCH(
+    (__smart_sort::smart_sort<thrust::detail::true_type,
+                              thrust::detail::false_type>(policy,
+                                                          keys_first,
+                                                          keys_last,
+                                                          values,
+                                                          compare_op);),
+    (thrust::sort_by_key(cvt_to_seq(derived_cast(policy)),
+                         keys_first,
+                         keys_last,
+                         values,
+                         compare_op);));
 }
 
 __thrust_exec_check_disable__
@@ -1698,18 +1697,18 @@ stable_sort_by_key(execution_policy<Derived> &policy,
             ValuesIt                   values,
             CompareOp                  compare_op)
 {
-  if (__THRUST_HAS_CUDART__)
-  {
-    __smart_sort::smart_sort<thrust::detail::true_type, thrust::detail::true_type>(
-        policy, keys_first, keys_last, values, compare_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    thrust::stable_sort_by_key(
-        cvt_to_seq(derived_cast(policy)), keys_first, keys_last, values, compare_op);
-#endif
-  }
+  CUB_CDP_DISPATCH(
+    (__smart_sort::smart_sort<thrust::detail::true_type,
+                              thrust::detail::true_type>(policy,
+                                                         keys_first,
+                                                         keys_last,
+                                                         values,
+                                                         compare_op);),
+    (thrust::stable_sort_by_key(cvt_to_seq(derived_cast(policy)),
+                                keys_first,
+                                keys_last,
+                                values,
+                                compare_op);));
 }
 
 // API with default comparator

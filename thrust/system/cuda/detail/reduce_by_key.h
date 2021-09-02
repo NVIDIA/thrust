@@ -48,6 +48,7 @@
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
+#include <cub/detail/cdp_dispatch.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -867,7 +868,7 @@ namespace __reduce_by_key {
             class EqualityOp,
             class ReductionOp,
             class Size>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  CUB_RUNTIME_FUNCTION cudaError_t
   doit_step(void *          d_temp_storage,
             size_t &        temp_storage_bytes,
             KeysInputIt     keys_input_it,
@@ -969,7 +970,7 @@ namespace __reduce_by_key {
             typename ValuesOutputIt,
             typename EqualityOp,
             typename ReductionOp>
-  THRUST_RUNTIME_FUNCTION
+  CUB_RUNTIME_FUNCTION
   pair<KeysOutputIt, ValuesOutputIt>
   reduce_by_key(execution_policy<Derived>& policy,
                 KeysInputIt                keys_first,
@@ -1078,31 +1079,24 @@ reduce_by_key(execution_policy<Derived> &policy,
               BinaryPred                 binary_pred,
               BinaryOp                   binary_op)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_output, values_output);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __reduce_by_key::reduce_by_key(policy,
-                                         keys_first,
-                                         keys_last,
-                                         values_first,
-                                         keys_output,
-                                         values_output,
-                                         binary_pred,
-                                         binary_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                keys_output,
-                                values_output,
-                                binary_pred,
-                                binary_op);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_output, values_output);
+  CUB_CDP_DISPATCH((ret = __reduce_by_key::reduce_by_key(policy,
+                                                         keys_first,
+                                                         keys_last,
+                                                         values_first,
+                                                         keys_output,
+                                                         values_output,
+                                                         binary_pred,
+                                                         binary_op);),
+                   (ret =
+                      thrust::reduce_by_key(cvt_to_seq(derived_cast(policy)),
+                                            keys_first,
+                                            keys_last,
+                                            values_first,
+                                            keys_output,
+                                            values_output,
+                                            binary_pred,
+                                            binary_op);));
   return ret;
 }
 

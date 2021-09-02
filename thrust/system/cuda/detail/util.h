@@ -81,7 +81,7 @@ synchronize_stream(execution_policy<Derived> &policy)
     #endif
   } else {
     #if THRUST_INCLUDE_DEVICE_CODE
-      #if __THRUST_HAS_CUDART__
+      #ifdef CUB_RUNTIME_ENABLED
         THRUST_UNUSED_VAR(policy);
         cudaDeviceSynchronize();
         result = cudaGetLastError();
@@ -179,11 +179,18 @@ terminate()
 __host__  __device__
 inline void throw_on_error(cudaError_t status)
 {
-#if __THRUST_HAS_CUDART__
   // Clear the global CUDA error state which may have been set by the last
   // call. Otherwise, errors may "leak" to unrelated kernel launches.
+#ifdef CUB_RUNTIME_ENABLED
   cudaGetLastError();
-#endif
+#else
+  if (THRUST_IS_HOST_CODE)
+  {
+  #if THRUST_INCLUDE_HOST_CODE
+    cudaGetLastError();
+  #endif // host code
+  }
+#endif // CUDART check
 
   if (cudaSuccess != status)
   {
@@ -193,7 +200,7 @@ inline void throw_on_error(cudaError_t status)
       #endif
     } else {
       #if THRUST_INCLUDE_DEVICE_CODE
-        #if __THRUST_HAS_CUDART__
+        #ifdef CUB_RUNTIME_ENABLED
           printf("Thrust CUDA backend error: %s: %s\n",
                  cudaGetErrorName(status),
                  cudaGetErrorString(status));
@@ -210,11 +217,18 @@ inline void throw_on_error(cudaError_t status)
 __host__ __device__
 inline void throw_on_error(cudaError_t status, char const *msg)
 {
-#if __THRUST_HAS_CUDART__
   // Clear the global CUDA error state which may have been set by the last
   // call. Otherwise, errors may "leak" to unrelated kernel launches.
+#ifdef CUB_RUNTIME_ENABLED
   cudaGetLastError();
-#endif
+#else
+  if (THRUST_IS_HOST_CODE)
+  {
+  #if THRUST_INCLUDE_HOST_CODE
+    cudaGetLastError();
+  #endif // host code
+  }
+#endif // CUDART check
 
   if (cudaSuccess != status)
   {
@@ -224,7 +238,7 @@ inline void throw_on_error(cudaError_t status, char const *msg)
       #endif
     } else {
       #if THRUST_INCLUDE_DEVICE_CODE
-        #if __THRUST_HAS_CUDART__
+        #ifdef CUB_RUNTIME_ENABLED
           printf("Thrust CUDA backend error: %s: %s: %s\n",
                  cudaGetErrorName(status),
                  cudaGetErrorString(status),

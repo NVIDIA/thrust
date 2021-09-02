@@ -259,10 +259,10 @@ namespace core {
       int shared_memory_size;
       int grid_size;
 
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       AgentPlan() {}
 
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       AgentPlan(int block_threads_,
                 int items_per_thread_,
                 int shared_memory_size_,
@@ -275,7 +275,7 @@ namespace core {
       {
       }
 
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       AgentPlan(AgentPlan const& plan)
           : block_threads(plan.block_threads),
             items_per_thread(plan.items_per_thread),
@@ -284,7 +284,7 @@ namespace core {
             grid_size(plan.grid_size) {}
 
       template <class PtxPlan>
-      THRUST_RUNTIME_FUNCTION
+      CUB_RUNTIME_FUNCTION
       AgentPlan(PtxPlan,
                 typename thrust::detail::disable_if_convertible<
                     PtxPlan,
@@ -325,7 +325,7 @@ namespace core {
     struct get_agent_plan_impl<Agent,typelist<SM,_1,_2,_3,_4,_5,_6,_7,_8,_9> >
     {
       typedef typename get_plan<Agent>::type Plan;
-      Plan THRUST_RUNTIME_FUNCTION
+      Plan CUB_RUNTIME_FUNCTION
       static get(int ptx_version)
       {
         if (ptx_version >= SM::ver)
@@ -341,7 +341,7 @@ namespace core {
     struct get_agent_plan_impl<Agent,typelist<lowest_supported_sm_arch> >
     {
       typedef typename get_plan<Agent>::type Plan;
-      Plan THRUST_RUNTIME_FUNCTION
+      Plan CUB_RUNTIME_FUNCTION
       static get(int /* ptx_version */)
       {
         typedef typename get_plan<Agent>::type Plan;
@@ -350,16 +350,16 @@ namespace core {
     };
 
     template <class Agent>
-    typename get_plan<Agent>::type THRUST_RUNTIME_FUNCTION
+    typename get_plan<Agent>::type CUB_RUNTIME_FUNCTION
     get_agent_plan(int ptx_version)
     {
       // Use one path, with Agent::ptx_plan, for device code where device-side
       // kernel launches are supported. The other path, with
       // get_agent_plan_impl::get(version), is for host code and for device
-      // code without device-side kernel launches. NVCC and Feta check for
+      // code without device-side kernel launches. NVCC and NVC++ check for
       // these situations differently.
       #ifdef __NVCOMPILER_CUDA__
-        #ifdef __THRUST_HAS_CUDART__
+        #ifdef CUB_RUNTIME_ENABLED
           if (CUB_IS_DEVICE_CODE) {
             return typename get_plan<Agent>::type(typename Agent::ptx_plan());
           } else
@@ -368,7 +368,7 @@ namespace core {
           return get_agent_plan_impl<Agent, sm_list>::get(ptx_version);
         }
       #else
-        #if (CUB_PTX_ARCH > 0) && defined(__THRUST_HAS_CUDART__)
+        #if (CUB_PTX_ARCH > 0) && defined(CUB_RUNTIME_ENABLED)
           typedef typename get_plan<Agent>::type Plan;
           THRUST_UNUSED_VAR(ptx_version);
           // We're on device, use default policy
@@ -441,7 +441,7 @@ namespace core {
   }
 
   template <class Agent>
-  AgentPlan THRUST_RUNTIME_FUNCTION
+  AgentPlan CUB_RUNTIME_FUNCTION
   get_agent_plan(cudaStream_t s = 0, void *ptr = 0)
   {
     return xget_agent_plan_impl<Agent>(get_agent_plan_kernel<Agent>,
@@ -460,8 +460,8 @@ namespace core {
   /////////////////////////
   /////////////////////////
 
-  THRUST_RUNTIME_FUNCTION
-  int get_sm_count()
+  CUB_RUNTIME_FUNCTION
+  inline int get_sm_count()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -479,8 +479,8 @@ namespace core {
     return i32value;
   }
 
-  size_t THRUST_RUNTIME_FUNCTION
-  get_max_shared_memory_per_block()
+  CUB_RUNTIME_FUNCTION
+  inline std::size_t get_max_shared_memory_per_block()
   {
     int dev_id;
     cuda_cub::throw_on_error(cudaGetDevice(&dev_id),
@@ -496,11 +496,11 @@ namespace core {
                              "get_max_shared_memory_per_block :"
                              "failed to get max shared memory per block");
 
-    return static_cast<size_t>(i32value);
+    return static_cast<std::size_t>(i32value);
   }
 
-  size_t THRUST_RUNTIME_FUNCTION
-  virtual_shmem_size(size_t shmem_per_block)
+  CUB_RUNTIME_FUNCTION
+  inline std::size_t virtual_shmem_size(size_t shmem_per_block)
   {
     size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -509,8 +509,8 @@ namespace core {
       return 0;
   }
 
-  size_t THRUST_RUNTIME_FUNCTION
-  vshmem_size(size_t shmem_per_block, size_t num_blocks)
+  CUB_RUNTIME_FUNCTION
+  inline std::size_t vshmem_size(size_t shmem_per_block, size_t num_blocks)
   {
     size_t max_shmem_per_block = core::get_max_shared_memory_per_block();
     if (shmem_per_block > max_shmem_per_block)
@@ -628,16 +628,16 @@ namespace core {
     __host__ __device__ operator T const &() const { return value_; }
   };
 
-  cuda_optional<int> THRUST_RUNTIME_FUNCTION
-  get_ptx_version()
+  CUB_RUNTIME_FUNCTION
+  inline cuda_optional<int> get_ptx_version()
   {
     int ptx_version = 0;
     cudaError_t status = cub::PtxVersion(ptx_version);
     return cuda_optional<int>(ptx_version, status);
   }
 
-  cudaError_t THRUST_RUNTIME_FUNCTION
-  sync_stream(cudaStream_t stream)
+  CUB_RUNTIME_FUNCTION
+  inline cudaError_t sync_stream(cudaStream_t stream)
   {
     return cub::SyncStream(stream);
   }
@@ -746,7 +746,7 @@ namespace core {
   }
 
   template <int           ALLOCATIONS>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  CUB_RUNTIME_FUNCTION cudaError_t
   alias_storage(void*   storage_ptr,
                 size_t& storage_size,
                 void* (&allocations)[ALLOCATIONS],

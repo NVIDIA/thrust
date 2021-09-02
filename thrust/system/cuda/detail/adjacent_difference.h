@@ -44,6 +44,7 @@
 #include <thrust/detail/mpl/math.h>
 #include <thrust/detail/minmax.h>
 
+#include <cub/detail/cdp_dispatch.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -363,7 +364,7 @@ namespace __adjacent_difference {
             class OutputIt,
             class BinaryOp,
             class Size>
-  cudaError_t THRUST_RUNTIME_FUNCTION
+  cudaError_t CUB_RUNTIME_FUNCTION
   doit_step(void *       d_temp_storage,
             size_t &     temp_storage_bytes,
             InputIt      first,
@@ -437,7 +438,7 @@ namespace __adjacent_difference {
             typename InputIt,
             typename OutputIt,
             typename BinaryOp>
-  OutputIt THRUST_RUNTIME_FUNCTION
+  OutputIt CUB_RUNTIME_FUNCTION
   adjacent_difference(execution_policy<Derived>& policy,
                       InputIt                    first,
                       InputIt                    last,
@@ -491,27 +492,18 @@ adjacent_difference(execution_policy<Derived> &policy,
                     OutputIt                   result,
                     BinaryOp                   binary_op)
 {
-  OutputIt ret = result;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __adjacent_difference::adjacent_difference(policy,
-        first,
-        last,
-        result,
-        binary_op);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::adjacent_difference(cvt_to_seq(derived_cast(policy)),
-                                      first,
-                                      last,
-                                      result,
-                                      binary_op);
-#endif
-  }
-
-  return ret;
+  CUB_CDP_DISPATCH(
+    (result = __adjacent_difference::adjacent_difference(policy,
+                                                         first,
+                                                         last,
+                                                         result,
+                                                         binary_op);),
+    (result = thrust::adjacent_difference(cvt_to_seq(derived_cast(policy)),
+                                          first,
+                                          last,
+                                          result,
+                                          binary_op);));
+  return result;
 }
 
 template <class Derived,

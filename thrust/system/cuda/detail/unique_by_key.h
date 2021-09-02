@@ -45,6 +45,7 @@
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
+#include <cub/detail/cdp_dispatch.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -623,7 +624,7 @@ namespace __unique_by_key {
             class BinaryPred,
             class Size,
             class NumSelectedOutIt>
-  static cudaError_t THRUST_RUNTIME_FUNCTION
+  static cudaError_t CUB_RUNTIME_FUNCTION
   doit_step(void *           d_temp_storage,
             size_t &         temp_storage_bytes,
             KeyInputIt       keys_in,
@@ -718,7 +719,7 @@ namespace __unique_by_key {
             typename KeyOutputIt,
             typename ValOutputIt,
             typename BinaryPred>
-  THRUST_RUNTIME_FUNCTION
+  CUB_RUNTIME_FUNCTION
   pair<KeyOutputIt, ValOutputIt>
   unique_by_key(execution_policy<Derived>& policy,
                 KeyInputIt                 keys_first,
@@ -824,29 +825,22 @@ unique_by_key_copy(execution_policy<Derived> &policy,
                    ValOutputIt                values_result,
                    BinaryPred                 binary_pred)
 {
-  pair<KeyOutputIt, ValOutputIt> ret = thrust::make_pair(keys_result, values_result);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __unique_by_key::unique_by_key(policy,
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                keys_result,
-                                values_result,
-                                binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
-                                     keys_first,
-                                     keys_last,
-                                     values_first,
-                                     keys_result,
-                                     values_result,
-                                     binary_pred);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_result, values_result);
+  CUB_CDP_DISPATCH(
+    (ret = __unique_by_key::unique_by_key(policy,
+                                          keys_first,
+                                          keys_last,
+                                          values_first,
+                                          keys_result,
+                                          values_result,
+                                          binary_pred);),
+    (ret = thrust::unique_by_key_copy(cvt_to_seq(derived_cast(policy)),
+                                      keys_first,
+                                      keys_last,
+                                      values_first,
+                                      keys_result,
+                                      values_result,
+                                      binary_pred);));
   return ret;
 }
 
@@ -884,27 +878,20 @@ unique_by_key(execution_policy<Derived> &policy,
               ValInputIt                 values_first,
               BinaryPred                 binary_pred)
 {
-  pair<KeyInputIt, ValInputIt> ret = thrust::make_pair(keys_first, values_first);
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = cuda_cub::unique_by_key_copy(policy,
-                                       keys_first,
-                                       keys_last,
-                                       values_first,
-                                       keys_first,
-                                       values_first,
-                                       binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
-                                keys_first,
-                                keys_last,
-                                values_first,
-                                binary_pred);
-#endif
-  }
+  auto ret = thrust::make_pair(keys_first, values_first);
+  CUB_CDP_DISPATCH(
+    (ret = cuda_cub::unique_by_key_copy(policy,
+                                         keys_first,
+                                         keys_last,
+                                         values_first,
+                                         keys_first,
+                                         values_first,
+                                         binary_pred);),
+    (ret = thrust::unique_by_key(cvt_to_seq(derived_cast(policy)),
+                                  keys_first,
+                                  keys_last,
+                                  values_first,
+                                  binary_pred);));
   return ret;
 }
 

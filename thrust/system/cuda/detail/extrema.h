@@ -38,6 +38,7 @@
 #include <thrust/pair.h>
 #include <thrust/distance.h>
 
+#include <cub/detail/cdp_dispatch.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -149,7 +150,7 @@ namespace __extrema {
             class OutputIt,
             class Size,
             class ReductionOp>
-  cudaError_t THRUST_RUNTIME_FUNCTION
+  cudaError_t CUB_RUNTIME_FUNCTION
   doit_step(void *       d_temp_storage,
             size_t &     temp_storage_bytes,
             InputIt      input_it,
@@ -311,7 +312,7 @@ namespace __extrema {
             typename Size,
             typename BinaryOp,
             typename T>
-  THRUST_RUNTIME_FUNCTION
+  CUB_RUNTIME_FUNCTION
   T extrema(execution_policy<Derived>& policy,
             InputIt                    first,
             Size                       num_items,
@@ -370,7 +371,7 @@ namespace __extrema {
             class Derived,
             class ItemsIt,
             class BinaryPred>
-  ItemsIt THRUST_RUNTIME_FUNCTION
+  ItemsIt CUB_RUNTIME_FUNCTION
   element(execution_policy<Derived> &policy,
           ItemsIt                    first,
           ItemsIt                    last,
@@ -418,24 +419,16 @@ min_element(execution_policy<Derived> &policy,
             ItemsIt                    last,
             BinaryPred                 binary_pred)
 {
-  ItemsIt ret = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __extrema::element<__extrema::arg_min_f>(policy,
-                                                   first,
-                                                   last,
-                                                   binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::min_element(cvt_to_seq(derived_cast(policy)),
-                              first,
-                              last,
-                              binary_pred);
-#endif
-  }
-  return ret;
+  CUB_CDP_DISPATCH((last =
+                      __extrema::element<__extrema::arg_min_f>(policy,
+                                                               first,
+                                                               last,
+                                                               binary_pred);),
+                   (last = thrust::min_element(cvt_to_seq(derived_cast(policy)),
+                                               first,
+                                               last,
+                                               binary_pred);));
+  return last;
 }
 
 template <class Derived,
@@ -461,24 +454,16 @@ max_element(execution_policy<Derived> &policy,
             ItemsIt                    last,
             BinaryPred                 binary_pred)
 {
-  ItemsIt ret = first;
-  if (__THRUST_HAS_CUDART__)
-  {
-    ret = __extrema::element<__extrema::arg_max_f>(policy,
-                                                   first,
-                                                   last,
-                                                   binary_pred);
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::max_element(cvt_to_seq(derived_cast(policy)),
-                              first,
-                              last,
-                              binary_pred);
-#endif
-  }
-  return ret;
+  CUB_CDP_DISPATCH((last =
+                      __extrema::element<__extrema::arg_max_f>(policy,
+                                                               first,
+                                                               last,
+                                                               binary_pred);),
+                   (last = thrust::max_element(cvt_to_seq(derived_cast(policy)),
+                                               first,
+                                               last,
+                                               binary_pred);));
+  return last;
 }
 
 template <class Derived,
@@ -504,51 +489,46 @@ minmax_element(execution_policy<Derived> &policy,
                ItemsIt                    last,
                BinaryPred                 binary_pred)
 {
-  pair<ItemsIt, ItemsIt> ret = thrust::make_pair(first, first);
-
-  if (__THRUST_HAS_CUDART__)
+  auto ret = thrust::make_pair(last, last);
+  if (first == last)
   {
-    if (first == last)
-      return thrust::make_pair(last, last);
-
-    typedef typename iterator_traits<ItemsIt>::value_type      InputType;
-    typedef typename iterator_traits<ItemsIt>::difference_type IndexType;
-
-    IndexType num_items = static_cast<IndexType>(thrust::distance(first, last));
-
-
-    typedef tuple<ItemsIt, counting_iterator_t<IndexType> > iterator_tuple;
-    typedef zip_iterator<iterator_tuple> zip_iterator;
-
-    iterator_tuple iter_tuple = thrust::make_tuple(first, counting_iterator_t<IndexType>(0));
-
-
-    typedef __extrema::arg_minmax_f<InputType, IndexType, BinaryPred> arg_minmax_t;
-    typedef typename arg_minmax_t::two_pairs_type  two_pairs_type;
-    typedef typename arg_minmax_t::duplicate_tuple duplicate_t;
-    typedef transform_input_iterator_t<two_pairs_type,
-                                       zip_iterator,
-                                       duplicate_t>
-        transform_t;
-
-    zip_iterator   begin  = make_zip_iterator(iter_tuple);
-    two_pairs_type result = __extrema::extrema(policy,
-                                               transform_t(begin, duplicate_t()),
-                                               num_items,
-                                               arg_minmax_t(binary_pred),
-                                               (two_pairs_type *)(NULL));
-    ret = thrust::make_pair(first + get<1>(get<0>(result)),
-                    first + get<1>(get<1>(result)));
+    return ret;
   }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    ret = thrust::minmax_element(cvt_to_seq(derived_cast(policy)),
-                                 first,
-                                 last,
-                                 binary_pred);
-#endif
-  }
+
+  CUB_CDP_DISPATCH(
+    (using InputType = typename iterator_traits<ItemsIt>::value_type;
+     using IndexType = typename iterator_traits<ItemsIt>::difference_type;
+
+     const auto num_items =
+       static_cast<IndexType>(thrust::distance(first, last));
+
+     using iterator_tuple = tuple<ItemsIt, counting_iterator_t<IndexType>>;
+     using zip_iterator   = zip_iterator<iterator_tuple>;
+
+     iterator_tuple iter_tuple =
+       thrust::make_tuple(first, counting_iterator_t<IndexType>(0));
+
+     using arg_minmax_t =
+       __extrema::arg_minmax_f<InputType, IndexType, BinaryPred>;
+     using two_pairs_type = typename arg_minmax_t::two_pairs_type;
+     using duplicate_t    = typename arg_minmax_t::duplicate_tuple;
+     using transform_t =
+       transform_input_iterator_t<two_pairs_type, zip_iterator, duplicate_t>;
+
+     zip_iterator   begin = make_zip_iterator(iter_tuple);
+     two_pairs_type result =
+       __extrema::extrema(policy,
+                          transform_t(begin, duplicate_t()),
+                          num_items,
+                          arg_minmax_t(binary_pred),
+                          (two_pairs_type *)(NULL));
+     ret = thrust::make_pair(first + get<1>(get<0>(result)),
+                             first + get<1>(get<1>(result)));),
+    // CDP Sequential impl:
+    (ret = thrust::minmax_element(cvt_to_seq(derived_cast(policy)),
+                                  first,
+                                  last,
+                                  binary_pred);));
   return ret;
 }
 

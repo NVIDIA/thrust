@@ -37,6 +37,8 @@
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
 #include <thrust/system/cuda/detail/par_to_seq.h>
 
+#include <cub/detail/cdp_dispatch.cuh>
+
 THRUST_NAMESPACE_BEGIN
 
 namespace cuda_cub {
@@ -122,7 +124,7 @@ namespace __parallel_for {
 
   template <class F,
             class Size>
-  THRUST_RUNTIME_FUNCTION cudaError_t
+  CUB_RUNTIME_FUNCTION cudaError_t
   parallel_for(Size         num_items,
                F            f,
                cudaStream_t stream)
@@ -155,21 +157,19 @@ parallel_for(execution_policy<Derived> &policy,
              Size                       count)
 {
   if (count == 0)
+  {
     return;
+  }
 
-  if (__THRUST_HAS_CUDART__)
-  {
-    cudaStream_t stream = cuda_cub::stream(policy);
-    cudaError_t  status = __parallel_for::parallel_for(count, f, stream);
-    cuda_cub::throw_on_error(status, "parallel_for failed");
-  }
-  else
-  {
-#if !__THRUST_HAS_CUDART__
-    for (Size idx = 0; idx != count; ++idx)
-      f(idx);
-#endif
-  }
+  CUB_CDP_DISPATCH((cudaStream_t stream = cuda_cub::stream(policy);
+                    cudaError_t  status =
+                      __parallel_for::parallel_for(count, f, stream);
+                    cuda_cub::throw_on_error(status, "parallel_for failed");),
+                   // CDP sequential impl:
+                   (for (Size idx = 0; idx != count; ++idx)
+                    {
+                      f(idx);
+                    }));
 }
 
 }    // namespace cuda_cub
