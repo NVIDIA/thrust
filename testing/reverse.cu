@@ -73,6 +73,12 @@ DECLARE_UNITTEST(TestReverseDispatchImplicit);
 template<typename Vector>
 void TestReverseCopySimple(void)
 {
+  if (__GNUC__ == 8 || __GNUC__ == 9) {
+    if (typeid(Vector) == typeid(thrust::host_vector<custom_numeric>)) {
+      KNOWN_FAILURE
+    }
+  }
+  
   typedef typename Vector::iterator   Iterator;
 
   Vector input(5);
