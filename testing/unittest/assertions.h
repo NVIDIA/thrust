@@ -112,6 +112,27 @@ template<typename T>
   typedef typename value_type<T>::type type;
 };
 
+// Convert to a printable representation. Default is passthrough:
+template <typename T>
+T print_cast(T t)
+{
+  return t;
+}
+
+// Print chars as ints:
+int print_cast(char c)
+{
+  return static_cast<int>(c);
+}
+
+// Unwrap device references:
+template <typename T>
+auto print_cast(THRUST_NS_QUALIFIER::device_reference<T> t)
+  -> decltype(print_cast(std::declval<T>()))
+{
+  return print_cast(static_cast<T>(t));
+}
+
 ////
 // check scalar values
 template <typename T1, typename T2>
@@ -121,20 +142,8 @@ void assert_equal(T1 a, T2 b,
     if(!(a == b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << "values are not equal: " << a << " " << b;
+        f << "values are not equal: " << print_cast(a) << " " << print_cast(b);
         f << " [type='" << type_name<T1>() << "']";
-        throw f;
-    }
-}
-
-void assert_equal(char a, char b,
-                  const std::string& filename = "unknown", int lineno = -1)
-{
-    if(!(a == b)){
-        unittest::UnitTestFailure f;
-        f << "[" << filename << ":" << lineno << "] ";
-        f << "values are not equal: " << int(a) << " " << int(b);
-        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -162,20 +171,8 @@ void assert_not_equal(T1 a, T2 b,
     if(a == b){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << "values are equal: " << a << " " << b;
+        f << "values are equal: " << print_cast(a) << " " << print_cast(b);
         f << " [type='" << type_name<T1>() << "']";
-        throw f;
-    }
-}
-
-void assert_not_equal(char a, char b,
-                      const std::string& filename = "unknown", int lineno = -1)
-{
-    if(a == b){
-        unittest::UnitTestFailure f;
-        f << "[" << filename << ":" << lineno << "] ";
-        f << "values are equal: " << int(a) << " " << int(b);
-        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -201,20 +198,8 @@ void assert_less(T1 a, T2 b,
     if(!(a < b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is greater or equal to " << b;
+        f << print_cast(a) << " is greater or equal to " << print_cast(b);
         f << " [type='" << type_name<T1>() << "']";
-        throw f;
-    }
-}
-
-void assert_less(char a, char b,
-                 const std::string& filename = "unknown", int lineno = -1)
-{
-    if(!(a < b)){
-        unittest::UnitTestFailure f;
-        f << "[" << filename << ":" << lineno << "] ";
-        f << int(a) << " is greater than or equal to " << int(b);
-        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -226,20 +211,8 @@ void assert_greater(T1 a, T2 b,
     if(!(a > b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is less than or equal to " << b;
+        f << print_cast(a) << " is less than or equal to " << print_cast(b);
         f << " [type='" << type_name<T1>() << "']";
-        throw f;
-    }
-}
-
-void assert_greater(char a, char b,
-                    const std::string& filename = "unknown", int lineno = -1)
-{
-    if(!(a > b)){
-        unittest::UnitTestFailure f;
-        f << "[" << filename << ":" << lineno << "] ";
-        f << int(a) << " is less than or equal to " << int(b);
-        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -251,20 +224,8 @@ void assert_lequal(T1 a, T2 b,
     if(!(a <= b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is greater than " << b;
+        f << print_cast(a) << " is greater than " << print_cast(b);
         f << " [type='" << type_name<T1>() << "']";
-        throw f;
-    }
-}
-
-void assert_lequal(char a, char b,
-                   const std::string& filename = "unknown", int lineno = -1)
-{
-    if(!(a <= b)){
-        unittest::UnitTestFailure f;
-        f << "[" << filename << ":" << lineno << "] ";
-        f << int(a) << " is greater than " << int(b);
-        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -276,20 +237,8 @@ void assert_gequal(T1 a, T2 b,
     if(!(a >= b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
-        f << a << " is less than " << b;
+        f << print_cast(a) << " is less than " << print_cast(b);
         f << " [type='" << type_name<T1>() << "']";
-        throw f;
-    }
-}
-
-void assert_gequal(char a, char b,
-                   const std::string& filename = "unknown", int lineno = -1)
-{
-    if(!(a >= b)){
-        unittest::UnitTestFailure f;
-        f << "[" << filename << ":" << lineno << "] ";
-        f << int(a) << " is less than " << int(b);
-        f << " [type='" << type_name<char>() << "']";
         throw f;
     }
 }
@@ -428,14 +377,7 @@ void assert_equal(ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterat
 
         if(mismatches <= MAX_OUTPUT_LINES)
         {
-          THRUST_IF_CONSTEXPR(sizeof(InputType) == 1)
-          {
-            f << "  [" << i << "] " << *first1 + InputType() << "  " << *first2 + InputType() << "\n"; // unprintable chars are a problem
-          }
-          else
-          {
-            f << "  [" << i << "] " << *first1 << "  " << *first2 << "\n";
-          }
+          f << "  [" << i << "] " << print_cast(*first1) << "  " << print_cast(*first2) << "\n";
         }
       }
 
