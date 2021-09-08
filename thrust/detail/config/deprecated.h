@@ -31,6 +31,7 @@
 #  define THRUST_DEPRECATED
 #elif THRUST_CPP_DIALECT >= 2014
 #  define THRUST_DEPRECATED [[deprecated]]
+#  define THRUST_DEPRECATED_MSG(msg) [[deprecated(msg)]]
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
 #  define THRUST_DEPRECATED __declspec(deprecated)
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
@@ -39,4 +40,8 @@
 #  define THRUST_DEPRECATED __attribute__((deprecated))
 #else
 #  define THRUST_DEPRECATED
+#endif
+
+#ifndef THRUST_DEPRECATED_MSG
+#define THRUST_DEPRECATED_MSG(msg) THRUST_DEPRECATED
 #endif
