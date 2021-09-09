@@ -152,6 +152,7 @@ endforeach()
 
 # Add specialized tests:
 add_subdirectory(async)
+add_subdirectory(compile)
 add_subdirectory(cmake)
 add_subdirectory(cpp)
 add_subdirectory(cuda)

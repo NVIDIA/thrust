@@ -14,12 +14,15 @@ endfunction()
 # Enable RDC for a CUDA target. Encapsulates compiler hacks:
 function(thrust_enable_rdc_for_cuda_target target_name)
   if ("NVCXX" STREQUAL "${CMAKE_CUDA_COMPILER_ID}")
-    set_target_properties(${target_name} PROPERTIES
-      COMPILE_FLAGS "-gpu=rdc"
-    )
+    target_compile_options(${target_name} PUBLIC "-gpu=rdc")
   else()
     set_target_properties(${target_name} PROPERTIES
       CUDA_SEPARABLE_COMPILATION ON
     )
   endif()
+
+  # Enable deprecated fork/join CDP when RDC is enabled.
+  target_compile_definitions(${target_name} PUBLIC
+    "THRUST_IGNORE_DEPRECATED_FORK_JOIN_CDP"
+  )
 endfunction()

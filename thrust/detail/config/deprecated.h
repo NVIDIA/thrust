@@ -27,21 +27,27 @@
 #  define THRUST_IGNORE_DEPRECATED_API
 #endif
 
-#ifdef THRUST_IGNORE_DEPRECATED_API
-#  define THRUST_DEPRECATED
-#elif THRUST_CPP_DIALECT >= 2014
-#  define THRUST_DEPRECATED [[deprecated]]
-#  define THRUST_DEPRECATED_MSG(msg) [[deprecated(msg)]]
+#if THRUST_CPP_DIALECT >= 2014
+#  define THRUST_DEPRECATED_IMPL [[deprecated]]
+#  define THRUST_DEPRECATED_MSG_IMPL(msg) [[deprecated(msg)]]
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_MSVC
-#  define THRUST_DEPRECATED __declspec(deprecated)
+#  define THRUST_DEPRECATED_IMPL __declspec(deprecated)
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_CLANG
-#  define THRUST_DEPRECATED __attribute__((deprecated))
+#  define THRUST_DEPRECATED_IMPL __attribute__((deprecated))
 #elif THRUST_HOST_COMPILER == THRUST_HOST_COMPILER_GCC
-#  define THRUST_DEPRECATED __attribute__((deprecated))
+#  define THRUST_DEPRECATED_IMPL __attribute__((deprecated))
 #else
-#  define THRUST_DEPRECATED
+#  define THRUST_DEPRECATED_IMPL
 #endif
 
-#ifndef THRUST_DEPRECATED_MSG
-#define THRUST_DEPRECATED_MSG(msg) THRUST_DEPRECATED
+#ifndef THRUST_DEPRECATED_MSG_IMPL
+#define THRUST_DEPRECATED_MSG_IMPL(msg) THRUST_DEPRECATED_IMPL
+#endif
+
+#ifndef THRUST_IGNORE_DEPRECATED_API
+#  define THRUST_DEPRECATED THRUST_DEPRECATED_IMPL
+#  define THRUST_DEPRECATED_MSG(msg) THRUST_DEPRECATED_MSG_IMPL(msg)
+#else
+#  define THRUST_DEPRECATED
+#  define THRUST_DEPRECATED_MSG(msg)
 #endif

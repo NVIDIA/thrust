@@ -43,11 +43,11 @@
 #include <thrust/system/cuda/detail/make_unsigned_special.h>
 #include <thrust/functional.h>
 #include <thrust/system/cuda/detail/core/agent_launcher.h>
+#include <thrust/system/cuda/detail/core/cdp_dispatch.h>
 #include <thrust/detail/minmax.h>
 #include <thrust/distance.h>
 #include <thrust/detail/alignment.h>
 
-#include <cub/detail/cdp_dispatch.cuh>
 #include <cub/util_math.cuh>
 
 THRUST_NAMESPACE_BEGIN
@@ -1012,6 +1012,7 @@ template <typename Derived,
           typename Size,
           typename T,
           typename BinaryOp>
+THRUST_DEPRECATED_FORK_JOIN_CDP
 __host__ __device__
 T reduce_n(execution_policy<Derived>& policy,
            InputIt                    first,
@@ -1019,16 +1020,17 @@ T reduce_n(execution_policy<Derived>& policy,
            T                          init,
            BinaryOp                   binary_op)
 {
-  CUB_CDP_DISPATCH((init = thrust::cuda_cub::detail::reduce_n_impl(policy,
-                                                                   first,
-                                                                   num_items,
-                                                                   init,
-                                                                   binary_op);),
-                   (init = thrust::reduce(cvt_to_seq(derived_cast(policy)),
-                                          first,
-                                          first + num_items,
-                                          init,
-                                          binary_op);));
+  THRUST_CDP_DISPATCH((init =
+                         thrust::cuda_cub::detail::reduce_n_impl(policy,
+                                                                 first,
+                                                                 num_items,
+                                                                 init,
+                                                                 binary_op);),
+                      (init = thrust::reduce(cvt_to_seq(derived_cast(policy)),
+                                             first,
+                                             first + num_items,
+                                             init,
+                                             binary_op);));
   return init;
 }
 

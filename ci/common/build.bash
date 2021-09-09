@@ -198,7 +198,8 @@ append CTEST_FLAGS "--output-on-failure"
 CTEST_EXCLUSION_REGEXES=()
 
 if [[ "${BUILD_TYPE}" == "cpu" ]]; then
-  CTEST_EXCLUSION_REGEXES+=("^cub" "^thrust.*cuda")
+  # Exclude tests that require a CUDA device to succeed.
+  CTEST_EXCLUSION_REGEXES+=("^cub" "^thrust.*cuda" "fork_join_cdp")
 fi
 
 if [[ -n "${CTEST_EXCLUSION_REGEXES[@]}" ]]; then
