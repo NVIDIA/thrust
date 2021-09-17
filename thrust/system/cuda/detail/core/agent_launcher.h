@@ -28,6 +28,8 @@
 
 #include <thrust/detail/config.h>
 
+#include <cub/detail/device_synchronize.cuh>
+
 #if THRUST_DEVICE_COMPILER == THRUST_DEVICE_COMPILER_NVCC
 #include <thrust/system/cuda/detail/guarded_cuda_runtime_api.h>
 #include <thrust/system/cuda/detail/core/triple_chevron_launch.h>
@@ -521,7 +523,7 @@ namespace core {
       {
         if (THRUST_IS_DEVICE_CODE) {
           #if THRUST_INCLUDE_DEVICE_CODE
-            cudaDeviceSynchronize();
+            cub::detail::device_synchronize();
           #endif
         } else {
           #if THRUST_INCLUDE_HOST_CODE
