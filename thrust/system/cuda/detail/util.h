@@ -29,10 +29,12 @@
 #include <cstdio>
 #include <thrust/detail/config.h>
 #include <thrust/iterator/iterator_traits.h>
-#include <cub/util_arch.cuh>
 #include <thrust/system/cuda/detail/execution_policy.h>
 #include <thrust/system_error.h>
 #include <thrust/system/cuda/error.h>
+
+#include <cub/detail/device_synchronize.cuh>
+#include <cub/util_arch.cuh>
 
 THRUST_NAMESPACE_BEGIN
 
@@ -83,7 +85,7 @@ synchronize_stream(execution_policy<Derived> &policy)
     #if THRUST_INCLUDE_DEVICE_CODE
       #if __THRUST_HAS_CUDART__
         THRUST_UNUSED_VAR(policy);
-        cudaDeviceSynchronize();
+        cub::detail::device_synchronize();
         result = cudaGetLastError();
       #else
         THRUST_UNUSED_VAR(policy);
