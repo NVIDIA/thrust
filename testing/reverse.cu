@@ -75,7 +75,7 @@ void TestReverseCopySimple(void)
 {
   if (__GNUC__ == 8 || __GNUC__ == 9) {
     if (typeid(Vector) == typeid(thrust::host_vector<custom_numeric>)) {
-      KNOWN_FAILURE
+      KNOWN_FAILURE // WAR NVBug 2481122
     }
   }
   
