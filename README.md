@@ -1,7 +1,6 @@
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=gcc,CXX_VER=9,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.0-devel/badge/icon'></a>
 
-Thrust: Code at the speed of light
-==================================
+# Thrust: Code at the speed of light
 
 Thrust is a C++ parallel programming library which resembles the C++ Standard
 Library. Thrust's **high-level** interface greatly enhances
@@ -12,14 +11,21 @@ software. Develop **high-performance** applications rapidly with Thrust!
 
 Thrust is included in the NVIDIA HPC SDK and the CUDA Toolkit.
 
-Quick Start: Using Thrust From Your Project
--------------------------------------------
+## Quick Start
 
-To use Thrust from your project, first recursively clone the Thrust Github repository:
+### Getting the Thrust Source Code
+
+The CUDA Toolkit provides a recent release of the Thrust source code in
+`include/thrust`. This will be suitable for most users.
+
+Users that wish to contribute to Thrust or try out newer features should
+recursively clone the Thrust Github repository:
 
 ```
 git clone --recursive https://github.com/NVIDIA/thrust.git
 ```
+
+### Using Thrust From Your Project
 
 Thrust is a header-only library; there is no need to build or install the project
 unless you want to run the Thrust unit tests.
@@ -39,8 +45,7 @@ For non-CMake projects, compile with:
   - `-DTHRUST_DEVICE_SYSTEM=THRUST_DEVICE_SYSTEM_XXX`, where `XXX` is
     `CPP`, `OMP`, `TBB`, or `CUDA` (default).
 
-Examples
---------
+### Examples
 
 Thrust is best explained through examples. The following source code
 generates random numbers serially and then transfers them to a parallel
@@ -98,8 +103,16 @@ int main(void)
 }
 ```
 
-CI Status
----------
+Additional usage examples can be found in the [`examples/`](examples/) and
+[`testing/`](testing/) directories of the Github repo.
+
+## Documentation Resources
+
+- [API Reference](https://thrust.github.io/doc/modules.html)
+- [Examples](https://github.com/NVIDIA/thrust/tree/main/examples)
+- [User Support](https://github.com/NVIDIA/thrust/discussions)
+
+## CI Status
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.3.1-devel/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-gpu-build/CXX_TYPE=gcc,CXX_VER=7,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=cuda,SDK_VER=11.3.1-devel/badge/icon?subject=NVCC%2011.3.1%20%2B%20GCC%207%20build%20and%20device%20tests'></a>
 
@@ -129,8 +142,7 @@ CI Status
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=21.5,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=21.5-devel-cuda11.3/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=21.5,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=21.5-devel-cuda11.3/badge/icon?subject=NVC%2B%2B%2021.5%20build%20and%20host%20tests'></a>
 
-Supported Compilers
--------------------
+## Supported Compilers
 
 Thrust is regularly tested using the specified versions of the following
 compilers. Unsupported versions may emit deprecation warnings, which can be
@@ -142,8 +154,7 @@ silenced by defining THRUST_IGNORE_DEPRECATED_COMPILER during compilation.
 - Clang 7+
 - MSVC 2019+ (19.20/16.0/14.20)
 
-Releases
---------
+## Releases
 
 Thrust is distributed with the NVIDIA HPC SDK and the CUDA Toolkit in addition
 to GitHub.
@@ -194,8 +205,7 @@ See the [changelog](CHANGELOG.md) for details about specific releases.
 | 1.1.0             |                                         |
 | 1.0.0             |                                         |
 
-Development Process
--------------------
+## Development Process
 
 Thrust uses the [CMake build system](https://cmake.org/) to build unit tests,
 examples, and header tests. To build Thrust as a developer, the following

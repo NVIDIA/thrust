@@ -5,7 +5,3 @@ norm example.
 
 These examples are also available online:
   https://github.com/NVIDIA/thrust/tree/main/examples
-
-For additional information refer to the Quick Start Guide:
-  https://github.com/NVIDIA/thrust/wiki/Quick-Start-Guide
-
