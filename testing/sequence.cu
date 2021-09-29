@@ -152,8 +152,8 @@ void TestSequenceNoSizeTConversion()
     for (std::size_t i = 0; i < m.size(); ++i)
     {
         const ::Vector v = m[i];
-        ASSERT_EQUAL(v.x, i);
-        ASSERT_EQUAL(v.y, 2 * i);
+        ASSERT_EQUAL(static_cast<std::size_t>(v.x), i);
+        ASSERT_EQUAL(static_cast<std::size_t>(v.y), 2 * i);
     }
 }
 DECLARE_UNITTEST(TestSequenceNoSizeTConversion);
