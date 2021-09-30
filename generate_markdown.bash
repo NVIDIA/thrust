@@ -52,9 +52,6 @@ cd ${SCRIPT_PATH}/..
 
 rm -rf build_doxygen_xml
 rm -rf docs/api
-rm -f docs/overview.md
-rm -f docs/contributing/code_of_conduct.md
-rm -f docs/releases/changelog.md
 
 mkdir -p docs/api
 mkdir -p docs/contributing
