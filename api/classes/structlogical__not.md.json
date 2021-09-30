@@ -1,0 +1,237 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/thrust/api/classes/structlogical__not.html\">logical&#95;not</a></code> is a function object. Specifically, it is an Adaptable Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>logical&#95;not&lt;T&gt;</code> and <code>x</code> is an object of class <code>T</code> (where <code>T</code> is convertible to <code>bool</code>) then <code>f(x)</code> returns <code>true</code> if and only if <code>x</code> is <code>false</code>.\n\n\nThe following code snippet demonstrates how to use <code><a href=\"/thrust/api/classes/structlogical__not.html\">logical&#95;not</a></code> to transform a <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> of <code>bools</code> into its logical complement.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/transform.h>\n#include <thrust/functional.h>\n...\nthrust::device_vector<bool> V;\n...\nthrust::transform(V.begin(), V.end(), V.begin(), thrust::logical_not<bool>());\n// The elements of V are now the logical complement of what they were prior\n```",
+  "explicit": false,
+  "fullname": "logical_not",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 996,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 971,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 972
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "logical_operations",
+    "kind": "group",
+    "name": "logical_operations",
+    "refid": "group__logical__operations",
+    "title": "Logical Operations",
+    "url": "/thrust/api/groups/group__logical__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "logical_operations",
+      "kind": "group",
+      "name": "logical_operations",
+      "refid": "group__logical__operations",
+      "title": "Logical Operations",
+      "url": "/thrust/api/groups/group__logical__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "logical_not",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T &x) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool logical_not< T >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>!x</code>. ",
+      "explicit": false,
+      "fullname": "logical_not::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 995,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 992,
+        "column": 18,
+        "file": "thrust/functional.h",
+        "line": 992
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "x",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structlogical__not_1a1fb263e88108fb0494327d33365cce21",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "url": "/thrust/api/classes/structlogical__not.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first_argument_type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "logical_not< T >::first_argument_type",
+      "explicit": false,
+      "fullname": "logical_not::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 976,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 976
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "refid": "structlogical__not_1a06755ca45ce55fc52fc6e66cb5fc43b5",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structlogical__not.html#typedef-first_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second_argument_type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "logical_not< T >::second_argument_type",
+      "explicit": false,
+      "fullname": "logical_not::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 981,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 981
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "refid": "structlogical__not_1a5dff742b1eaa144602a3001caf9a00e8",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structlogical__not.html#typedef-second_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result_type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "logical_not< T >::result_type",
+      "explicit": false,
+      "fullname": "logical_not::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 986,
+        "column": 16,
+        "file": "thrust/functional.h",
+        "line": 986
+      },
+      "name": "result_type",
+      "override": false,
+      "refid": "structlogical__not_1a89a9650efee373e80a2a885d2398d687",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "/thrust/api/classes/structlogical__not.html#typedef-result_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structlogical__not",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/logical_not\">https://en.cppreference.com/w/cpp/utility/functional/logical_not</a>",
+    "<a href=\"/thrust/api/classes/structunary__function.html\">unary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T",
+      "text": "must be convertible to <code>bool</code>."
+    }
+  ],
+  "title": "logical_not",
+  "url": "/thrust/api/classes/structlogical__not.html",
+  "visibility": "public"
+}

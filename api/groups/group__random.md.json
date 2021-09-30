@@ -1,0 +1,94 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "random",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random_number_engine_adaptors",
+      "kind": "group",
+      "name": "random_number_engine_adaptors",
+      "refid": "group__random__number__engine__adaptors",
+      "title": "Random Number Engine Adaptor Class Templates",
+      "url": "/thrust/api/groups/group__random__number__engine__adaptors.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "random_number_engine_templates",
+      "kind": "group",
+      "name": "random_number_engine_templates",
+      "refid": "group__random__number__engine__templates",
+      "title": "Random Number Engine Class Templates",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "Random_number_distributions",
+      "kind": "group",
+      "name": "Random_number_distributions",
+      "refid": "group__random__number__distributions",
+      "title": "Random Number Distributions Class Templates",
+      "url": "/thrust/api/groups/group__random__number__distributions.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "Predefined_random",
+      "kind": "group",
+      "name": "Predefined_random",
+      "refid": "group__predefined__random",
+      "title": "Random Number Engines with Predefined Parameters",
+      "url": "/thrust/api/groups/group__predefined__random.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "name": "random",
+  "namespaces": [
+    {
+      "anchor": "",
+      "brief": "<code>thrust::random</code> is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level <code>thrust</code> namespace for easy access. ",
+      "category": "namespaces",
+      "fullname": "thrust::random",
+      "kind": "namespace",
+      "name": "thrust::random",
+      "refid": "namespacethrust_1_1random",
+      "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
+      "title": "thrust::random",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1random.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "random",
+      "kind": "namespace",
+      "name": "random",
+      "refid": "namespacerandom",
+      "title": "random",
+      "url": "/thrust/api/namespaces/namespacerandom.html",
+      "visibility": "public"
+    }
+  ],
+  "override": false,
+  "parent": null,
+  "refid": "group__random",
+  "static": false,
+  "strong": false,
+  "title": "Random Number Generation",
+  "url": "/thrust/api/groups/group__random.html",
+  "visibility": "public"
+}

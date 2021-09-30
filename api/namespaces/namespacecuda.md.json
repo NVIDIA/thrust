@@ -1,0 +1,94 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "cuda",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/cuda/error.h",
+    "line": 172
+  },
+  "name": "cuda",
+  "override": false,
+  "parent": null,
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-event",
+      "category": "types",
+      "const": false,
+      "definition": "using cuda::event = typedef unique_eager_event",
+      "explicit": false,
+      "fullname": "cuda::event",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/cuda/future.h",
+        "bodyStart": 45,
+        "column": 1,
+        "file": "thrust/system/cuda/future.h",
+        "line": 45
+      },
+      "name": "event",
+      "override": false,
+      "refid": "system_2cuda_2future_8h_1a9e10debbb5a418398e3124a96267bd63",
+      "static": false,
+      "strong": false,
+      "title": "event",
+      "type": "unique_eager_event",
+      "typePlain": "unique_eager_event",
+      "url": "/thrust/api/namespaces/namespacecuda.html#using-event",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-future",
+      "category": "types",
+      "const": false,
+      "definition": "using cuda::future = typedef unique_eager_future<T>",
+      "explicit": false,
+      "fullname": "cuda::future",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/cuda/future.h",
+        "bodyStart": 48,
+        "column": 13,
+        "file": "thrust/system/cuda/future.h",
+        "line": 48
+      },
+      "name": "future",
+      "override": false,
+      "refid": "system_2cuda_2future_8h_1a873b31e687080b3722ff31171c8dddd1",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "future",
+      "type": "unique_eager_future< T >",
+      "typePlain": "unique_eager_future< T >",
+      "url": "/thrust/api/namespaces/namespacecuda.html#using-future",
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespacecuda",
+  "static": false,
+  "strong": false,
+  "title": "cuda",
+  "url": "/thrust/api/namespaces/namespacecuda.html",
+  "visibility": "public"
+}

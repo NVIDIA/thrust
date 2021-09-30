@@ -1,0 +1,369 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "defines": [
+    {
+      "abstract": false,
+      "anchor": "#define-thrust_unary_functor_void_specialization",
+      "category": "defines",
+      "const": false,
+      "definition": "",
+      "explicit": false,
+      "fullname": "THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION",
+      "hasDetails": false,
+      "initializer": "  template <>                                                                  \\\n  struct func<void>                                                            \\\n  {                                                                            \\\n    using is_transparent = void;                                               \\\n    __thrust_exec_check_disable__                                              \\\n    template <typename T>                                                      \\\n    __host__ __device__                                                        \\\n    constexpr auto operator()(T&& x) const                                     \\\n      noexcept(noexcept(impl)) THRUST_TRAILING_RETURN(decltype(impl))          \\\n    {                                                                          \\\n      return impl;                                                             \\\n    }                                                                          \\\n  }",
+      "inline": false,
+      "kind": "define",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 141,
+        "column": 9,
+        "file": "thrust/functional.h",
+        "line": 141
+      },
+      "name": "THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION",
+      "override": false,
+      "params": [
+        {
+          "name": "func",
+          "type": "",
+          "typePlain": ""
+        },
+        {
+          "name": "impl",
+          "type": "",
+          "typePlain": ""
+        }
+      ],
+      "refid": "group__arithmetic__operations_1gac46e27c3732036bbe3d2b9c896a701c2",
+      "static": false,
+      "strong": false,
+      "title": "THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html#define-thrust_unary_functor_void_specialization",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#define-thrust_binary_functor_void_specialization",
+      "category": "defines",
+      "const": false,
+      "definition": "",
+      "explicit": false,
+      "fullname": "THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION",
+      "hasDetails": false,
+      "initializer": "  template <>                                                                  \\\n  struct func<void>                                                            \\\n  {                                                                            \\\n    using is_transparent = void;                                               \\\n    __thrust_exec_check_disable__                                              \\\n    template <typename T1, typename T2>                                        \\\n    __host__ __device__                                                        \\\n    constexpr auto operator()(T1&& t1, T2&& t2) const                          \\\n      noexcept(noexcept(impl)) THRUST_TRAILING_RETURN(decltype(impl))          \\\n    {                                                                          \\\n      return impl;                                                             \\\n    }                                                                          \\\n  }",
+      "inline": false,
+      "kind": "define",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 156,
+        "column": 9,
+        "file": "thrust/functional.h",
+        "line": 156
+      },
+      "name": "THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION",
+      "override": false,
+      "params": [
+        {
+          "name": "func",
+          "type": "",
+          "typePlain": ""
+        },
+        {
+          "name": "impl",
+          "type": "",
+          "typePlain": ""
+        }
+      ],
+      "refid": "group__arithmetic__operations_1ga14f2b9645c6bdec42380ffce929d4922",
+      "static": false,
+      "strong": false,
+      "title": "THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html#define-thrust_binary_functor_void_specialization",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#define-thrust_binary_functor_void_specialization_op",
+      "category": "defines",
+      "const": false,
+      "definition": "",
+      "explicit": false,
+      "fullname": "THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP",
+      "hasDetails": false,
+      "initializer": "  THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION(                                   \\\n    func, THRUST_FWD(t1) op THRUST_FWD(t2))",
+      "inline": false,
+      "kind": "define",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 171,
+        "column": 9,
+        "file": "thrust/functional.h",
+        "line": 171
+      },
+      "name": "THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP",
+      "override": false,
+      "params": [
+        {
+          "name": "func",
+          "type": "",
+          "typePlain": ""
+        },
+        {
+          "name": "op",
+          "type": "",
+          "typePlain": ""
+        }
+      ],
+      "refid": "group__arithmetic__operations_1ga1184b27f800930fc1f2882e8fafd2036",
+      "static": false,
+      "strong": false,
+      "title": "THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html#define-thrust_binary_functor_void_specialization_op",
+      "visibility": "public"
+    }
+  ],
+  "definition": "",
+  "explicit": false,
+  "fullname": "arithmetic_operations",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "arithmetic_operations",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "plus",
+      "kind": "struct",
+      "name": "plus",
+      "refid": "structplus",
+      "title": "plus",
+      "url": "/thrust/api/classes/structplus.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "plus< void >",
+      "kind": "struct",
+      "name": "plus< void >",
+      "refid": "structplus_3_01void_01_4",
+      "title": "plus< void >",
+      "url": "/thrust/api/classes/structplus_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "minus",
+      "kind": "struct",
+      "name": "minus",
+      "refid": "structminus",
+      "title": "minus",
+      "url": "/thrust/api/classes/structminus.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "minus< void >",
+      "kind": "struct",
+      "name": "minus< void >",
+      "refid": "structminus_3_01void_01_4",
+      "title": "minus< void >",
+      "url": "/thrust/api/classes/structminus_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "multiplies",
+      "kind": "struct",
+      "name": "multiplies",
+      "refid": "structmultiplies",
+      "title": "multiplies",
+      "url": "/thrust/api/classes/structmultiplies.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "multiplies< void >",
+      "kind": "struct",
+      "name": "multiplies< void >",
+      "refid": "structmultiplies_3_01void_01_4",
+      "title": "multiplies< void >",
+      "url": "/thrust/api/classes/structmultiplies_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "divides",
+      "kind": "struct",
+      "name": "divides",
+      "refid": "structdivides",
+      "title": "divides",
+      "url": "/thrust/api/classes/structdivides.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "divides< void >",
+      "kind": "struct",
+      "name": "divides< void >",
+      "refid": "structdivides_3_01void_01_4",
+      "title": "divides< void >",
+      "url": "/thrust/api/classes/structdivides_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "modulus",
+      "kind": "struct",
+      "name": "modulus",
+      "refid": "structmodulus",
+      "title": "modulus",
+      "url": "/thrust/api/classes/structmodulus.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "modulus< void >",
+      "kind": "struct",
+      "name": "modulus< void >",
+      "refid": "structmodulus_3_01void_01_4",
+      "title": "modulus< void >",
+      "url": "/thrust/api/classes/structmodulus_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "negate",
+      "kind": "struct",
+      "name": "negate",
+      "refid": "structnegate",
+      "title": "negate",
+      "url": "/thrust/api/classes/structnegate.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "negate< void >",
+      "kind": "struct",
+      "name": "negate< void >",
+      "refid": "structnegate_3_01void_01_4",
+      "title": "negate< void >",
+      "url": "/thrust/api/classes/structnegate_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "square",
+      "kind": "struct",
+      "name": "square",
+      "refid": "structsquare",
+      "title": "square",
+      "url": "/thrust/api/classes/structsquare.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "square< void >",
+      "kind": "struct",
+      "name": "square< void >",
+      "refid": "structsquare_3_01void_01_4",
+      "title": "square< void >",
+      "url": "/thrust/api/classes/structsquare_3_01void_01_4.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__arithmetic__operations",
+  "static": false,
+  "strong": false,
+  "title": "Arithmetic Operations",
+  "url": "/thrust/api/groups/group__arithmetic__operations.html",
+  "visibility": "public"
+}

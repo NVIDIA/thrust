@@ -1,0 +1,225 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "comparison_operations",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "comparison_operations",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "equal_to",
+      "kind": "struct",
+      "name": "equal_to",
+      "refid": "structequal__to",
+      "title": "equal_to",
+      "url": "/thrust/api/classes/structequal__to.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "equal_to< void >",
+      "kind": "struct",
+      "name": "equal_to< void >",
+      "refid": "structequal__to_3_01void_01_4",
+      "title": "equal_to< void >",
+      "url": "/thrust/api/classes/structequal__to_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "not_equal_to",
+      "kind": "struct",
+      "name": "not_equal_to",
+      "refid": "structnot__equal__to",
+      "title": "not_equal_to",
+      "url": "/thrust/api/classes/structnot__equal__to.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "not_equal_to< void >",
+      "kind": "struct",
+      "name": "not_equal_to< void >",
+      "refid": "structnot__equal__to_3_01void_01_4",
+      "title": "not_equal_to< void >",
+      "url": "/thrust/api/classes/structnot__equal__to_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "greater",
+      "kind": "struct",
+      "name": "greater",
+      "refid": "structgreater",
+      "title": "greater",
+      "url": "/thrust/api/classes/structgreater.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "greater< void >",
+      "kind": "struct",
+      "name": "greater< void >",
+      "refid": "structgreater_3_01void_01_4",
+      "title": "greater< void >",
+      "url": "/thrust/api/classes/structgreater_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "less",
+      "kind": "struct",
+      "name": "less",
+      "refid": "structless",
+      "title": "less",
+      "url": "/thrust/api/classes/structless.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "less< void >",
+      "kind": "struct",
+      "name": "less< void >",
+      "refid": "structless_3_01void_01_4",
+      "title": "less< void >",
+      "url": "/thrust/api/classes/structless_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "greater_equal",
+      "kind": "struct",
+      "name": "greater_equal",
+      "refid": "structgreater__equal",
+      "title": "greater_equal",
+      "url": "/thrust/api/classes/structgreater__equal.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "greater_equal< void >",
+      "kind": "struct",
+      "name": "greater_equal< void >",
+      "refid": "structgreater__equal_3_01void_01_4",
+      "title": "greater_equal< void >",
+      "url": "/thrust/api/classes/structgreater__equal_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "less_equal",
+      "kind": "struct",
+      "name": "less_equal",
+      "refid": "structless__equal",
+      "title": "less_equal",
+      "url": "/thrust/api/classes/structless__equal.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "less_equal< void >",
+      "kind": "struct",
+      "name": "less_equal< void >",
+      "refid": "structless__equal_3_01void_01_4",
+      "title": "less_equal< void >",
+      "url": "/thrust/api/classes/structless__equal_3_01void_01_4.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__comparison__operations",
+  "static": false,
+  "strong": false,
+  "title": "Comparison Operations",
+  "url": "/thrust/api/groups/group__comparison__operations.html",
+  "visibility": "public"
+}

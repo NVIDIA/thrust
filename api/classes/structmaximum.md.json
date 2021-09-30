@@ -1,0 +1,243 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code>maximum</code> is a function object that takes two arguments and returns the greater of the two. Specifically, it is an Adaptable Binary Function. If <code>f</code> is an object of class <code>maximum&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code><code>f(x,y)</code> returns <code>x</code> if <code>x &gt; y</code> and <code>y</code>, otherwise.\n\n\nThe following code snippet demonstrates that <code>maximum</code> returns its greater argument.\n\n\n\n```cpp\n#include <thrust/functional.h>\n#include <assert.h>\n...\nint x =  137;\nint y = -137;\nthrust::maximum<int> mx;\nassert(x == mx(x,y));\n```",
+  "explicit": false,
+  "fullname": "maximum",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 1297,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1272,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 1273
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "generalized_identity_operations",
+    "kind": "group",
+    "name": "generalized_identity_operations",
+    "refid": "group__generalized__identity__operations",
+    "title": "Generalized Identity Operations",
+    "url": "/thrust/api/groups/group__generalized__identity__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "generalized_identity_operations",
+      "kind": "group",
+      "name": "generalized_identity_operations",
+      "refid": "group__generalized__identity__operations",
+      "title": "Generalized Identity Operations",
+      "url": "/thrust/api/groups/group__generalized__identity__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "maximum",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T &lhs, const T &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ T maximum< T >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>rhs &lt; lhs ? lhs : rhs</code>. ",
+      "explicit": false,
+      "fullname": "maximum::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 1296,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1293,
+        "column": 15,
+        "file": "thrust/functional.h",
+        "line": 1293
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        },
+        {
+          "name": "rhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structmaximum_1a7f3e8e94960446cf1e687c84381beea8",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "url": "/thrust/api/classes/structmaximum.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first_argument_type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "maximum< T >::first_argument_type",
+      "explicit": false,
+      "fullname": "maximum::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1277,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1277
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "refid": "structmaximum_1af69bef8c5d16cbb85d0694ca5288cb75",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structmaximum.html#typedef-first_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second_argument_type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "maximum< T >::second_argument_type",
+      "explicit": false,
+      "fullname": "maximum::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1282,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1282
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "refid": "structmaximum_1aef3c670be6a0fd596ad08c2da6d3ff2d",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structmaximum.html#typedef-second_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result_type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "maximum< T >::result_type",
+      "explicit": false,
+      "fullname": "maximum::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1287,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1287
+      },
+      "name": "result_type",
+      "override": false,
+      "refid": "structmaximum_1a7e9d4353bc7c216b74b278804721aab9",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structmaximum.html#typedef-result_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structmaximum",
+  "see": [
+    "<a href=\"/thrust/api/classes/structminimum.html\">minimum</a>",
+    "min ",
+    "<a href=\"/thrust/api/classes/structbinary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T",
+      "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+    }
+  ],
+  "title": "maximum",
+  "url": "/thrust/api/classes/structmaximum.html",
+  "visibility": "public"
+}

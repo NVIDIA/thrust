@@ -1,0 +1,35 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "container_classes",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "host_containers",
+      "kind": "group",
+      "name": "host_containers",
+      "refid": "group__host__containers",
+      "title": "Host Containers",
+      "url": "/thrust/api/groups/group__host__containers.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "name": "container_classes",
+  "override": false,
+  "parent": null,
+  "refid": "group__container__classes",
+  "static": false,
+  "strong": false,
+  "title": "Container Classes",
+  "url": "/thrust/api/groups/group__container__classes.html",
+  "visibility": "public"
+}

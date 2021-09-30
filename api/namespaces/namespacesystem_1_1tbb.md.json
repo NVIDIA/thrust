@@ -1,0 +1,631 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "system::tbb",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/system/tbb/memory.h",
+    "line": 34
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "system_backends",
+    "kind": "group",
+    "name": "system_backends",
+    "refid": "group__system__backends",
+    "title": "Systems",
+    "url": "/thrust/api/groups/group__system__backends.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system",
+      "kind": "group",
+      "name": "system",
+      "refid": "group__system",
+      "title": "System",
+      "url": "/thrust/api/groups/group__system.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system_backends",
+      "kind": "group",
+      "name": "system_backends",
+      "refid": "group__system__backends",
+      "title": "Systems",
+      "url": "/thrust/api/groups/group__system__backends.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "system::tbb",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "system",
+    "kind": "namespace",
+    "name": "system",
+    "refid": "namespacesystem",
+    "title": "system",
+    "url": "/thrust/api/namespaces/namespacesystem.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "system",
+      "kind": "namespace",
+      "name": "system",
+      "refid": "namespacesystem",
+      "title": "system",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-malloc",
+      "argsString": "(std::size_t n)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "pointer<void> system::tbb::malloc",
+      "deleted": false,
+      "details": "Allocates an area of memory available to Thrust's <code>tbb</code> system. \nAllocates a typed area of memory available to Thrust's <code>tbb</code> system. ",
+      "explicit": false,
+      "fullname": "system::tbb::malloc",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "column": 16,
+        "file": "thrust/system/tbb/memory.h",
+        "line": 46
+      },
+      "name": "malloc",
+      "note": [
+        "The <code>tbb::pointer&lt;void&gt;</code> returned by this function must be deallocated with <code>tbb::free</code>. ",
+        "The <code>tbb::pointer&lt;T&gt;</code> returned by this function must be deallocated with <code>tbb::free</code>. "
+      ],
+      "override": false,
+      "paramList": [
+        {
+          "name": "n",
+          "text": "Number of bytes to allocate. "
+        },
+        {
+          "name": "n",
+          "text": "Number of elements to allocate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "n",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "system_2tbb_2memory_8h_1a8ee30536fff401a08f58ec78cfea79c0",
+      "returns": [
+        "A <code>tbb::pointer&lt;void&gt;</code> pointing to the beginning of the newly allocated memory. A null <code>tbb::pointer&lt;void&gt;</code> is returned if an error occurs. ",
+        "A <code>tbb::pointer&lt;T&gt;</code> pointing to the beginning of the newly allocated memory. A null <code>tbb::pointer&lt;T&gt;</code> is returned if an error occurs. "
+      ],
+      "see": [
+        "tbb::free ",
+        "std::malloc",
+        "tbb::free ",
+        "std::malloc "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "malloc",
+      "type": "<a href=\"/thrust/api/groups/group__system__backends.html#using-pointer\">pointer</a>< void >",
+      "typePlain": "pointer< void >",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html#function-malloc",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-free",
+      "argsString": "(pointer< void > ptr)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "void system::tbb::free",
+      "deleted": false,
+      "details": "Deallocates an area of memory previously allocated by <code>tbb::malloc</code>. ",
+      "explicit": false,
+      "fullname": "system::tbb::free",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "column": 13,
+        "file": "thrust/system/tbb/memory.h",
+        "line": 67
+      },
+      "name": "free",
+      "override": false,
+      "paramList": [
+        {
+          "name": "ptr",
+          "text": "A <code>tbb::pointer&lt;void&gt;</code> pointing to the beginning of an area of memory previously allocated with <code>tbb::malloc</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "ptr",
+          "type": "<a href=\"/thrust/api/groups/group__system__backends.html#using-pointer\">pointer</a>< void >",
+          "typePlain": "pointer< void >"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "system_2tbb_2memory_8h_1ad9b3eb3fd9c5e81ccb3dcf44f332fbf7",
+      "see": [
+        "tbb::malloc ",
+        "std::free "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "free",
+      "type": "void",
+      "typePlain": "void",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html#function-free",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-allocator",
+      "category": "types",
+      "const": false,
+      "definition": "using system::tbb::allocator = typedef thrust::mr::stateless_resource_allocator< T, thrust::system::tbb::memory_resource >",
+      "details": "<code>tbb::allocator</code> is the default allocator used by the <code>tbb</code> system's containers such as <code>tbb::vector</code> if no user-specified allocator is provided. <code>tbb::allocator</code> allocates (deallocates) storage with <code>tbb::malloc</code> (<code>tbb::free</code>). ",
+      "explicit": false,
+      "fullname": "system::tbb::allocator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/tbb/memory.h",
+        "bodyStart": 77,
+        "column": 1,
+        "file": "thrust/system/tbb/memory.h",
+        "line": 75
+      },
+      "name": "allocator",
+      "override": false,
+      "refid": "system_2tbb_2memory_8h_1a893a605ed02a9c93b8685c1912437dd6",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "allocator",
+      "type": "thrust::mr::stateless_resource_allocator< T, thrust::system::tbb::memory_resource >",
+      "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::tbb::memory_resource >",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html#using-allocator",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal_allocator",
+      "category": "types",
+      "const": false,
+      "definition": "using system::tbb::universal_allocator = typedef thrust::mr::stateless_resource_allocator< T, thrust::system::tbb::universal_memory_resource >",
+      "details": "<code>tbb::universal&#95;allocator</code> allocates memory that can be used by the <code>tbb</code> system and host systems. ",
+      "explicit": false,
+      "fullname": "system::tbb::universal_allocator",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/tbb/memory.h",
+        "bodyStart": 85,
+        "column": 1,
+        "file": "thrust/system/tbb/memory.h",
+        "line": 83
+      },
+      "name": "universal_allocator",
+      "override": false,
+      "refid": "system_2tbb_2memory_8h_1a502b9614a8b113975e7adecbef563fc5",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "universal_allocator",
+      "type": "thrust::mr::stateless_resource_allocator< T, thrust::system::tbb::universal_memory_resource >",
+      "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::tbb::universal_memory_resource >",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html#using-universal_allocator",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource system::tbb::memory_resource",
+      "details": "The memory resource for the TBB system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>tbb::pointer</code>. ",
+      "explicit": false,
+      "fullname": "system::tbb::memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/tbb/memory_resource.h",
+        "bodyStart": 56,
+        "column": 33,
+        "file": "thrust/system/tbb/memory_resource.h",
+        "line": 56
+      },
+      "name": "memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga51feb7555d23b6ccad0e3ebf24a62301",
+      "static": false,
+      "strong": false,
+      "title": "memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::universal_native_resource system::tbb::universal_memory_resource",
+      "details": "The unified memory resource for the TBB system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>tbb::universal&#95;pointer</code>. ",
+      "explicit": false,
+      "fullname": "system::tbb::universal_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/tbb/memory_resource.h",
+        "bodyStart": 60,
+        "column": 43,
+        "file": "thrust/system/tbb/memory_resource.h",
+        "line": 60
+      },
+      "name": "universal_memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga817e927d16b92ef40137ce0d783d0484",
+      "static": false,
+      "strong": false,
+      "title": "universal_memory_resource",
+      "type": "detail::universal_native_resource",
+      "typePlain": "detail::universal_native_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-universal_host_pinned_memory_resource",
+      "category": "types",
+      "const": false,
+      "definition": "typedef detail::native_resource system::tbb::universal_host_pinned_memory_resource",
+      "details": "An alias for <code>tbb::universal&#95;memory&#95;resource</code>. ",
+      "explicit": false,
+      "fullname": "system::tbb::universal_host_pinned_memory_resource",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/system/tbb/memory_resource.h",
+        "bodyStart": 62,
+        "column": 33,
+        "file": "thrust/system/tbb/memory_resource.h",
+        "line": 62
+      },
+      "name": "universal_host_pinned_memory_resource",
+      "override": false,
+      "refid": "group__memory__resources_1ga45ae4a8b92905f86aecc6c5e94d0dbe0",
+      "static": false,
+      "strong": false,
+      "title": "universal_host_pinned_memory_resource",
+      "type": "detail::native_resource",
+      "typePlain": "detail::native_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-pointer",
+      "category": "types",
+      "const": false,
+      "definition": "using system::tbb::pointer = typedef thrust::pointer< T, thrust::system::tbb::tag, thrust::tagged_reference<T, thrust::system::tbb::tag> >",
+      "details": "<code>tbb::pointer</code> stores a pointer to an object allocated in memory accessible by the <code>tbb</code> system. This type provides type safety when dispatching algorithms on ranges resident in <code>tbb</code> memory.\n\n<code>tbb::pointer</code> has pointer semantics: it may be dereferenced and manipulated with pointer arithmetic.\n\n<code>tbb::pointer</code> can be created with the function <code>tbb::malloc</code>, or by explicitly calling its constructor with a raw pointer.\n\nThe raw pointer encapsulated by a <code>tbb::pointer</code> may be obtained by eiter its <code>get</code> member function or the <code>raw&#95;pointer&#95;cast</code> function.",
+      "explicit": false,
+      "fullname": "system::tbb::pointer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/tbb/pointer.h",
+        "bodyStart": 60,
+        "column": 1,
+        "file": "thrust/system/tbb/pointer.h",
+        "line": 56
+      },
+      "name": "pointer",
+      "note": [
+        "<code>tbb::pointer</code> is not a \"smart\" pointer; it is the programmer's responsibility to deallocate memory pointed to by <code>tbb::pointer</code>."
+      ],
+      "override": false,
+      "refid": "group__system__backends_1ga726e3824c3283010f8bb8ba057f27450",
+      "see": [
+        "tbb::malloc ",
+        "tbb::free ",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "specifies the type of the pointee."
+        }
+      ],
+      "title": "pointer",
+      "type": "thrust::pointer< T, thrust::system::tbb::tag, thrust::tagged_reference< T, thrust::system::tbb::tag > >",
+      "typePlain": "thrust::pointer< T, thrust::system::tbb::tag, thrust::tagged_reference< T, thrust::system::tbb::tag > >",
+      "url": "/thrust/api/groups/group__system__backends.html#using-pointer",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal_pointer",
+      "category": "types",
+      "const": false,
+      "definition": "using system::tbb::universal_pointer = typedef thrust::pointer< T, thrust::system::tbb::tag, typename std::add_lvalue_reference<T>::type >",
+      "details": "<code>tbb::universal&#95;pointer</code> stores a pointer to an object allocated in memory accessible by the <code>tbb</code> system and host systems.\n\n<code>tbb::universal&#95;pointer</code> has pointer semantics: it may be dereferenced and manipulated with pointer arithmetic.\n\n<code>tbb::universal&#95;pointer</code> can be created with <code>tbb::universal&#95;allocator</code> or by explicitly calling its constructor with a raw pointer.\n\nThe raw pointer encapsulated by a <code>tbb::universal&#95;pointer</code> may be obtained by eiter its <code>get</code> member function or the <code>raw&#95;pointer&#95;cast</code> function.",
+      "explicit": false,
+      "fullname": "system::tbb::universal_pointer",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/tbb/pointer.h",
+        "bodyStart": 89,
+        "column": 1,
+        "file": "thrust/system/tbb/pointer.h",
+        "line": 85
+      },
+      "name": "universal_pointer",
+      "note": [
+        "<code>tbb::universal&#95;pointer</code> is not a \"smart\" pointer; it is the programmer's responsibility to deallocate memory pointed to by <code>tbb::universal&#95;pointer</code>."
+      ],
+      "override": false,
+      "refid": "group__system__backends_1ga76b32360d217297ac939c722d4dd0060",
+      "see": [
+        "tbb::universal_allocator ",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "specifies the type of the pointee."
+        }
+      ],
+      "title": "universal_pointer",
+      "type": "thrust::pointer< T, thrust::system::tbb::tag, typename std::add_lvalue_reference< T >::type >",
+      "typePlain": "thrust::pointer< T, thrust::system::tbb::tag, typename std::add_lvalue_reference< T >::type >",
+      "url": "/thrust/api/groups/group__system__backends.html#using-universal_pointer",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-reference",
+      "category": "types",
+      "const": false,
+      "definition": "using system::tbb::reference = typedef thrust::tagged_reference<T, thrust::system::tbb::tag>",
+      "details": "<code>reference</code> is a wrapped reference to an object stored in memory available to the <code>tbb</code> system. <code>reference</code> is the type of the result of dereferencing a <code>tbb::pointer</code>.",
+      "explicit": false,
+      "fullname": "system::tbb::reference",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/tbb/pointer.h",
+        "bodyStart": 98,
+        "column": 1,
+        "file": "thrust/system/tbb/pointer.h",
+        "line": 98
+      },
+      "name": "reference",
+      "override": false,
+      "refid": "group__system__backends_1ga0352f04f75b141b9f05a8617173550d5",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "Specifies the type of the referenced object. "
+        }
+      ],
+      "title": "reference",
+      "type": "thrust::tagged_reference< T, thrust::system::tbb::tag >",
+      "typePlain": "thrust::tagged_reference< T, thrust::system::tbb::tag >",
+      "url": "/thrust/api/groups/group__system__backends.html#using-reference",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-vector",
+      "category": "types",
+      "const": false,
+      "definition": "using system::tbb::vector = typedef thrust::detail::vector_base<T, Allocator>",
+      "details": "<code>tbb::vector</code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code>tbb::vector</code> may vary dynamically; memory management is automatic. The elements contained in a <code>tbb::vector</code> reside in memory accessible by the <code>tbb</code> system.",
+      "explicit": false,
+      "fullname": "system::tbb::vector",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/tbb/vector.h",
+        "bodyStart": 51,
+        "column": 1,
+        "file": "thrust/system/tbb/vector.h",
+        "line": 51
+      },
+      "name": "vector",
+      "override": false,
+      "refid": "tbb_2vector_8h_1acfccaeaaf0e5d5a8221a8528a4625487",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
+        "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>tbb::vector</code>. ",
+        "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>",
+        "universal_vector "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "defval": "thrust::system::tbb::allocator<T>",
+          "defvalPlain": "thrust::system::tbb::allocator<T>",
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "The element type of the <code>tbb::vector</code>. "
+        },
+        {
+          "name": "Allocator",
+          "text": "The allocator type of the <code>tbb::vector</code>. Defaults to <code>tbb::allocator</code>."
+        }
+      ],
+      "title": "vector",
+      "type": "thrust::detail::vector_base< T, Allocator >",
+      "typePlain": "thrust::detail::vector_base< T, Allocator >",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html#using-vector",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#using-universal_vector",
+      "category": "types",
+      "const": false,
+      "definition": "using system::tbb::universal_vector = typedef thrust::detail::vector_base<T, Allocator>",
+      "details": "<code>tbb::universal&#95;vector</code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code>tbb::universal&#95;vector</code> may vary dynamically; memory management is automatic. The elements contained in a <code>tbb::universal&#95;vector</code> reside in memory accessible by the <code>tbb</code> system and host systems.",
+      "explicit": false,
+      "fullname": "system::tbb::universal_vector",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/system/tbb/vector.h",
+        "bodyStart": 72,
+        "column": 1,
+        "file": "thrust/system/tbb/vector.h",
+        "line": 72
+      },
+      "name": "universal_vector",
+      "override": false,
+      "refid": "tbb_2vector_8h_1a3267c9a29fe026ba45ed21ef544bdff2",
+      "see": [
+        "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
+        "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>tbb::universal&#95;vector</code>",
+        "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>",
+        "universal_vector "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "defval": "thrust::system::tbb::universal_allocator<T>",
+          "defvalPlain": "thrust::system::tbb::universal_allocator<T>",
+          "name": "",
+          "type": "typename Allocator",
+          "typePlain": "typename Allocator"
+        }
+      ],
+      "templateParamsList": [
+        {
+          "name": "T",
+          "text": "The element type of the <code>tbb::universal&#95;vector</code>. "
+        },
+        {
+          "name": "Allocator",
+          "text": "The allocator type of the <code>tbb::universal&#95;vector</code>. Defaults to <code>tbb::universal&#95;allocator</code>."
+        }
+      ],
+      "title": "universal_vector",
+      "type": "thrust::detail::vector_base< T, Allocator >",
+      "typePlain": "thrust::detail::vector_base< T, Allocator >",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html#using-universal_vector",
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespacesystem_1_1tbb",
+  "static": false,
+  "strong": false,
+  "title": "system::tbb",
+  "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html",
+  "visibility": "public"
+}

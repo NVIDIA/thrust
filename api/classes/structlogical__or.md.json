@@ -1,0 +1,242 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/thrust/api/classes/structlogical__or.html\">logical&#95;or</a></code> is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>logical&#95;or&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code> (where <code>T</code> is convertible to <code>bool</code>) then <code>f(x,y)</code> returns <code>true</code> if and only if either <code>x</code> or <code>y</code> are <code>true</code>.",
+  "explicit": false,
+  "fullname": "logical_or",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 941,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 916,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 917
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "logical_operations",
+    "kind": "group",
+    "name": "logical_operations",
+    "refid": "group__logical__operations",
+    "title": "Logical Operations",
+    "url": "/thrust/api/groups/group__logical__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "logical_operations",
+      "kind": "group",
+      "name": "logical_operations",
+      "refid": "group__logical__operations",
+      "title": "Logical Operations",
+      "url": "/thrust/api/groups/group__logical__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "logical_or",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T &lhs, const T &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool logical_or< T >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>lhs || rhs</code>. ",
+      "explicit": false,
+      "fullname": "logical_or::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 940,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 937,
+        "column": 18,
+        "file": "thrust/functional.h",
+        "line": 937
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        },
+        {
+          "name": "rhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structlogical__or_1a46227742bafac09cff3e6abe54fd6d4d",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "url": "/thrust/api/classes/structlogical__or.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first_argument_type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "logical_or< T >::first_argument_type",
+      "explicit": false,
+      "fullname": "logical_or::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 921,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 921
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "refid": "structlogical__or_1a09487b7e815cba2c5448e943e6df5b7f",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structlogical__or.html#typedef-first_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second_argument_type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "logical_or< T >::second_argument_type",
+      "explicit": false,
+      "fullname": "logical_or::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 926,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 926
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "refid": "structlogical__or_1ae9fd9057123ba9a927a0018a73874a24",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structlogical__or.html#typedef-second_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result_type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "logical_or< T >::result_type",
+      "explicit": false,
+      "fullname": "logical_or::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 931,
+        "column": 16,
+        "file": "thrust/functional.h",
+        "line": 931
+      },
+      "name": "result_type",
+      "override": false,
+      "refid": "structlogical__or_1ac9d23a6a3159881b242bbe352fcce449",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "/thrust/api/classes/structlogical__or.html#typedef-result_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structlogical__or",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/logical_or\">https://en.cppreference.com/w/cpp/utility/functional/logical_or</a>",
+    "<a href=\"/thrust/api/classes/structbinary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T",
+      "text": "must be convertible to <code>bool</code>."
+    }
+  ],
+  "title": "logical_or",
+  "url": "/thrust/api/classes/structlogical__or.html",
+  "visibility": "public"
+}

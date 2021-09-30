@@ -1,0 +1,129 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "The <code>rebind</code> metafunction provides the type of an <code><a href=\"/thrust/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless&#95;resource&#95;allocator</a></code> instantiated with another type.",
+  "explicit": false,
+  "fullname": "mr::stateless_resource_allocator::rebind",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/mr/allocator.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 217,
+    "bodyFile": "thrust/mr/allocator.h",
+    "bodyStart": 212,
+    "column": 1,
+    "file": "thrust/mr/allocator.h",
+    "line": 213
+  },
+  "name": "mr::stateless_resource_allocator::rebind",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "baseClasses": [
+      {
+        "external": true,
+        "name": "thrust::mr::allocator< T, Upstream >",
+        "virtual": "non-virtual",
+        "visibility": "public"
+      }
+    ],
+    "category": "classes",
+    "fullname": "mr::stateless_resource_allocator",
+    "kind": "class",
+    "name": "mr::stateless_resource_allocator",
+    "refid": "classmr_1_1stateless__resource__allocator",
+    "title": "mr::stateless_resource_allocator",
+    "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "mr",
+      "kind": "namespace",
+      "name": "mr",
+      "refid": "namespacemr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "mr",
+      "url": "/thrust/api/namespaces/namespacemr.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": true,
+          "name": "thrust::mr::allocator< T, Upstream >",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::stateless_resource_allocator",
+      "kind": "class",
+      "name": "mr::stateless_resource_allocator",
+      "refid": "classmr_1_1stateless__resource__allocator",
+      "title": "mr::stateless_resource_allocator",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html",
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-other",
+      "category": "types",
+      "const": false,
+      "definition": "typedef stateless_resource_allocator<U, Upstream> mr::stateless_resource_allocator< T, Upstream >::rebind< U >::other",
+      "details": "The typedef <code>other</code> gives the type of the rebound <code><a href=\"/thrust/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless&#95;resource&#95;allocator</a></code>. ",
+      "explicit": false,
+      "fullname": "mr::stateless_resource_allocator::rebind::other",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/mr/allocator.h",
+        "bodyStart": 216,
+        "column": 46,
+        "file": "thrust/mr/allocator.h",
+        "line": 216
+      },
+      "name": "other",
+      "override": false,
+      "refid": "structmr_1_1stateless__resource__allocator_1_1rebind_1a4094193840f7ba13b2013a40190fc744",
+      "static": false,
+      "strong": false,
+      "title": "other",
+      "type": "<a href=\"/thrust/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a>< U, Upstream >",
+      "typePlain": "stateless_resource_allocator< U, Upstream >",
+      "url": "/thrust/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html#typedef-other",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structmr_1_1stateless__resource__allocator_1_1rebind",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename U",
+      "typePlain": "typename U"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "U",
+      "text": "the other type to use for instantiation. "
+    }
+  ],
+  "title": "mr::stateless_resource_allocator::rebind",
+  "url": "/thrust/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html",
+  "visibility": "public"
+}

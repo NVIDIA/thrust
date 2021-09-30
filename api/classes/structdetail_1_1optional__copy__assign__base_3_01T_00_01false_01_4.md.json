@@ -1,0 +1,267 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "detail::optional_move_base< T >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "detail::optional_copy_assign_base< T, false >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 625,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 606,
+    "column": 53,
+    "file": "thrust/optional.h",
+    "line": 606
+  },
+  "name": "detail::optional_copy_assign_base< T, false >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "name": "detail",
+    "refid": "namespacedetail",
+    "summary": "\\exclude ",
+    "title": "detail",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-optional_copy_assign_base",
+      "argsString": "()=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ detail::optional_copy_assign_base< T, false >::optional_copy_assign_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_copy_assign_base< T, false >::optional_copy_assign_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 610
+      },
+      "name": "optional_copy_assign_base",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4_1a0f4a41aee4f4648584d2e61c2d695190",
+      "static": false,
+      "strong": false,
+      "title": "optional_copy_assign_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html#function-optional_copy_assign_base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional_copy_assign_base",
+      "argsString": "(const optional_copy_assign_base &rhs)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ detail::optional_copy_assign_base< T, false >::optional_copy_assign_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_copy_assign_base< T, false >::optional_copy_assign_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 612
+      },
+      "name": "optional_copy_assign_base",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const optional_copy_assign_base &",
+          "typePlain": "const optional_copy_assign_base &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4_1a2d249dc3ddf0db9025b07cffc5bbd203",
+      "static": false,
+      "strong": false,
+      "title": "optional_copy_assign_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html#function-optional_copy_assign_base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional_copy_assign_base",
+      "argsString": "(optional_copy_assign_base &&rhs)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ detail::optional_copy_assign_base< T, false >::optional_copy_assign_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_copy_assign_base< T, false >::optional_copy_assign_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 615
+      },
+      "name": "optional_copy_assign_base",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "optional_copy_assign_base &&",
+          "typePlain": "optional_copy_assign_base &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4_1ac72105bfd422d9360e5e9305d319f6fd",
+      "static": false,
+      "strong": false,
+      "title": "optional_copy_assign_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html#function-optional_copy_assign_base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const optional_copy_assign_base &rhs)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional_copy_assign_base& detail::optional_copy_assign_base< T, false >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_copy_assign_base< T, false >::operator=",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 621,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 618,
+        "column": 29,
+        "file": "thrust/optional.h",
+        "line": 618
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const optional_copy_assign_base &",
+          "typePlain": "const optional_copy_assign_base &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4_1aa086f74ff5e55f0e1cdda5fbfeca81a1",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ optional_copy_assign_base &",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional_copy_assign_base &",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(optional_copy_assign_base &&rhs)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ optional_copy_assign_base& detail::optional_copy_assign_base< T, false >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_copy_assign_base< T, false >::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 624
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "optional_copy_assign_base &&",
+          "typePlain": "optional_copy_assign_base &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4_1a72bbd75b40648b18eba32da2d8f8a99c",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ optional_copy_assign_base &",
+      "typePlain": "__thrust_exec_check_disable__ optional_copy_assign_base &",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    }
+  ],
+  "title": "detail::optional_copy_assign_base< T, false >",
+  "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+  "visibility": "public"
+}
