@@ -72,12 +72,12 @@ doxygen docs/doxygen_config.dox
 # `nvidia.github.io/thrust`. When we're building locally, the root is normally
 # just `localhost`.
 if [[ "${LOCAL}" == 1 ]]; then
-  BASE_URL_FLAG=--config-data '{"baseURL": "/api/"}'
+  BASE_URL='{"baseURL": "/api/"}'
 else
-  BASE_URL_FLAG=--config-data '{"baseURL": "/thrust/api/"}'
+  BASE_URL='{"baseURL": "/thrust/api/"}'
 fi
 
-doxybook2 -d -i build_doxygen_xml -o docs/api -c docs/doxybook_config.json ${BASE_URL_FLAG} -t docs/doxybook_templates
+doxybook2 -d -i build_doxygen_xml -o docs/api -c docs/doxybook_config.json --config-data ${BASE_URL} -t docs/doxybook_templates
 
 # Doxygen and Doxybook don't give us a way to disable all the things we'd like,
 # so it's important to purge Doxybook Markdown output that we don't need:

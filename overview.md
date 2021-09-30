@@ -177,7 +177,7 @@ For non-CMake projects, compile with:
 
 <a href='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=21.5,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=21.5-devel-cuda11.3/'><img src='https://gpuci.gpuopenanalytics.com/job/nvidia/job/thrust/job/branch/job/thrust-cpu-build/CXX_TYPE=nvcxx,CXX_VER=21.5,OS_TYPE=ubuntu,OS_VER=20.04,SDK_TYPE=nvhpc,SDK_VER=21.5-devel-cuda11.3/badge/icon?subject=NVC%2B%2B%2021.5%20build%20and%20host%20tests'></a>
 
-## Development Process
+## Developing Thrust
 
 Thrust uses the [CMake build system] to build unit tests, examples, and header
   tests.
@@ -230,15 +230,13 @@ Thrust is an open source project developed on [GitHub].
 Thrust is distributed under the [Apache License v2.0 with LLVM Exceptions];
   some parts are distributed under the [Apache License v2.0] and the
   [Boost License v1.0].
-See the [licensing section] for more details.
 
 
 
 [GitHub]: https://github.com/nvidia/thrust
 
-[CMake section]: https://nvidia.github.io/thrust/setup/cmake.html
+[CMake section]: https://nvidia.github.io/thrust/setup/cmake_options.html
 [contributing section]: https://nvidia.github.io/thrust/contributing.html
-[licensing section]: https://nvidia.github.io/thrust/licensing.html
 
 [CMake build system]: https://cmake.org
 
