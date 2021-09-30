@@ -27,7 +27,7 @@
         "external": false,
         "name": "mr::memory_resource< Upstream::pointer >",
         "refid": "classmr_1_1memory__resource",
-        "url": "/api/classes/classmr_1_1memory__resource.html",
+        "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
         "virtual": "non-virtual",
         "visibility": "public"
       },
@@ -44,7 +44,7 @@
     "name": "mr::disjoint_unsynchronized_pool_resource",
     "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
     "title": "mr::disjoint_unsynchronized_pool_resource",
-    "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+    "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -58,7 +58,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     },
     {
@@ -68,7 +68,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -85,7 +85,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource",
       "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
       "title": "mr::disjoint_unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
       "visibility": "public"
     }
   ],
@@ -116,7 +116,7 @@
       "title": "p",
       "type": "void_ptr",
       "typePlain": "void_ptr",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#variable-p",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#variable-p",
       "visibility": "private"
     }
   ],
@@ -159,7 +159,7 @@
       "title": "equal_pointers",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#function-equal_pointers",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#function-equal_pointers",
       "virtual": false,
       "visibility": "public"
     },
@@ -201,7 +201,7 @@
       "title": "operator()",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#function-operator()",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -210,6 +210,6 @@
   "static": false,
   "strong": false,
   "title": "mr::disjoint_unsynchronized_pool_resource::equal_pointers",
-  "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html",
+  "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html",
   "visibility": "private"
 }

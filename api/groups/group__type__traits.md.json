@@ -7,14 +7,14 @@
     {
       "abstract": false,
       "anchor": "#define-thrust_proclaim_contiguous_iterator",
-      "brief": "Declares that the iterator <code>Iterator</code> is <a href=\"https://en.cppreference.com/w/cpp/named_req/ContiguousIterator\">ContiguousIterator</a> by specializing <code><a href=\"/api/classes/structproclaim__contiguous__iterator.html\">proclaim&#95;contiguous&#95;iterator</a></code>. ",
+      "brief": "Declares that the iterator <code>Iterator</code> is <a href=\"https://en.cppreference.com/w/cpp/named_req/ContiguousIterator\">ContiguousIterator</a> by specializing <code><a href=\"/thrust/api/classes/structproclaim__contiguous__iterator.html\">proclaim&#95;contiguous&#95;iterator</a></code>. ",
       "category": "defines",
       "const": false,
       "definition": "",
       "explicit": false,
       "fullname": "THRUST_PROCLAIM_CONTIGUOUS_ITERATOR",
       "hasDetails": true,
-      "initializer": "  THRUST_NAMESPACE_BEGIN                                                      \\\n  template <>                                                                 \\\n  struct <a href=\"/api/classes/structproclaim__contiguous__iterator.html\">proclaim_contiguous_iterator</a><Iterator>                               \\\n      : THRUST_NS_QUALIFIER::true_type {};                                    \\\n  THRUST_NAMESPACE_END                                                        \\",
+      "initializer": "  THRUST_NAMESPACE_BEGIN                                                      \\\n  template <>                                                                 \\\n  struct <a href=\"/thrust/api/classes/structproclaim__contiguous__iterator.html\">proclaim_contiguous_iterator</a><Iterator>                               \\\n      : THRUST_NS_QUALIFIER::true_type {};                                    \\\n  THRUST_NAMESPACE_END                                                        \\",
       "inline": false,
       "kind": "define",
       "location": {
@@ -35,27 +35,27 @@
       ],
       "refid": "group__type__traits_1ga6481610468498fdee166a05ec3f6e270",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>",
-        "<a href=\"/api/classes/structproclaim__contiguous__iterator.html\">proclaim_contiguous_iterator</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__contiguous__iterator.html\">proclaim_contiguous_iterator</a>"
       ],
       "static": false,
       "strong": false,
       "summary": "Declares that the iterator Iterator is ContiguousIterator by specializing proclaim_contiguous_iterator. ",
       "title": "THRUST_PROCLAIM_CONTIGUOUS_ITERATOR",
-      "url": "/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator",
+      "url": "/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator",
       "visibility": "public"
     },
     {
       "abstract": false,
       "anchor": "#define-thrust_proclaim_trivially_relocatable",
-      "brief": "Declares that the type <code>T</code> is <a href=\"https://wg21.link/P1144\">_TriviallyRelocatable_</a>, aka it can be bitwise copied with a facility like <a href=\"https://en.cppreference.com/w/cpp/string/byte/memcpy\"><code>std::memcpy</code></a>, by specializing <code><a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim&#95;trivially&#95;relocatable</a></code>. ",
+      "brief": "Declares that the type <code>T</code> is <a href=\"https://wg21.link/P1144\">_TriviallyRelocatable_</a>, aka it can be bitwise copied with a facility like <a href=\"https://en.cppreference.com/w/cpp/string/byte/memcpy\"><code>std::memcpy</code></a>, by specializing <code><a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim&#95;trivially&#95;relocatable</a></code>. ",
       "category": "defines",
       "const": false,
       "definition": "",
       "explicit": false,
       "fullname": "THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE",
       "hasDetails": true,
-      "initializer": "  THRUST_NAMESPACE_BEGIN                                                      \\\n  template <>                                                                 \\\n  struct <a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a><T> : THRUST_NS_QUALIFIER::true_type   \\\n  {};                                                                         \\\n  THRUST_NAMESPACE_END                                                        \\",
+      "initializer": "  THRUST_NAMESPACE_BEGIN                                                      \\\n  template <>                                                                 \\\n  struct <a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a><T> : THRUST_NS_QUALIFIER::true_type   \\\n  {};                                                                         \\\n  THRUST_NAMESPACE_END                                                        \\",
       "inline": false,
       "kind": "define",
       "location": {
@@ -76,16 +76,16 @@
       ],
       "refid": "group__type__traits_1gafaa6e65861d2a568ea736856eca5d351",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
-        "<a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>"
       ],
       "static": false,
       "strong": false,
       "summary": "Declares that the type T is TriviallyRelocatable, aka it can be bitwise copied with a facility like std::memcpy, by specializing proclaim_trivially_relocatable. ",
       "title": "THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE",
-      "url": "/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable",
+      "url": "/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable",
       "visibility": "public"
     }
   ],
@@ -104,7 +104,7 @@
     "name": "utility",
     "refid": "group__utility",
     "title": "Utility",
-    "url": "/api/groups/group__utility.html",
+    "url": "/thrust/api/groups/group__utility.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -116,7 +116,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],
@@ -130,7 +130,7 @@
     "name": "utility",
     "refid": "group__utility",
     "title": "Utility",
-    "url": "/api/groups/group__utility.html",
+    "url": "/thrust/api/groups/group__utility.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -142,7 +142,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],
@@ -157,7 +157,7 @@
       "explicit": false,
       "fullname": "type_traits::is_contiguous_iterator_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a><Iterator>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a><Iterator>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -171,9 +171,9 @@
       "override": false,
       "refid": "group__type__traits_1ga1d21641bf7dc946d0c8ef3c9fc0e260c",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>",
-        "<a href=\"/api/classes/structproclaim__contiguous__iterator.html\">proclaim_contiguous_iterator</a>",
-        "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator\">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__contiguous__iterator.html\">proclaim_contiguous_iterator</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator\">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>"
       ],
       "static": false,
       "strong": false,
@@ -188,7 +188,7 @@
       "title": "is_contiguous_iterator_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_contiguous_iterator_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_contiguous_iterator_v",
       "visibility": "public"
     },
     {
@@ -201,7 +201,7 @@
       "explicit": false,
       "fullname": "type_traits::is_execution_policy_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_execution_policy\">is_execution_policy</a><T>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_execution_policy\">is_execution_policy</a><T>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -227,7 +227,7 @@
       "title": "is_execution_policy_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_execution_policy_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_execution_policy_v",
       "visibility": "public"
     },
     {
@@ -240,7 +240,7 @@
       "explicit": false,
       "fullname": "type_traits::is_operator_less_function_object_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a><T>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a><T>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -254,10 +254,10 @@
       "override": false,
       "refid": "group__type__traits_1ga104145169072f3e7d13211185ea66b11",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
       ],
       "static": false,
       "strong": false,
@@ -272,7 +272,7 @@
       "title": "is_operator_less_function_object_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_operator_less_function_object_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_operator_less_function_object_v",
       "visibility": "public"
     },
     {
@@ -285,7 +285,7 @@
       "explicit": false,
       "fullname": "type_traits::is_operator_greater_function_object_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a><T>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a><T>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -299,10 +299,10 @@
       "override": false,
       "refid": "group__type__traits_1gac8db6251fabf3507bbbefb0da705139a",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
       ],
       "static": false,
       "strong": false,
@@ -317,7 +317,7 @@
       "title": "is_operator_greater_function_object_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_operator_greater_function_object_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_operator_greater_function_object_v",
       "visibility": "public"
     },
     {
@@ -330,7 +330,7 @@
       "explicit": false,
       "fullname": "type_traits::is_operator_less_or_greater_function_object_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a><T>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a><T>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -344,10 +344,10 @@
       "override": false,
       "refid": "group__type__traits_1ga1b04a404921df8986b3ce1644ad95638",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
       ],
       "static": false,
       "strong": false,
@@ -362,7 +362,7 @@
       "title": "is_operator_less_or_greater_function_object_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_operator_less_or_greater_function_object_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_operator_less_or_greater_function_object_v",
       "visibility": "public"
     },
     {
@@ -375,7 +375,7 @@
       "explicit": false,
       "fullname": "type_traits::is_operator_plus_function_object_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a><T>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a><T>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -389,10 +389,10 @@
       "override": false,
       "refid": "group__type__traits_1gaa5d97cf4129fd585f9798c7b328b405c",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>"
       ],
       "static": false,
       "strong": false,
@@ -407,7 +407,7 @@
       "title": "is_operator_plus_function_object_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_operator_plus_function_object_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_operator_plus_function_object_v",
       "visibility": "public"
     },
     {
@@ -420,7 +420,7 @@
       "explicit": false,
       "fullname": "type_traits::is_trivially_relocatable_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a><T>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a><T>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -434,11 +434,11 @@
       "override": false,
       "refid": "group__type__traits_1gaadbf3eecf7041f00623116966e2a0d2e",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
-        "<a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
       ],
       "static": false,
       "strong": false,
@@ -453,7 +453,7 @@
       "title": "is_trivially_relocatable_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_trivially_relocatable_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_trivially_relocatable_v",
       "visibility": "public"
     },
     {
@@ -466,7 +466,7 @@
       "explicit": false,
       "fullname": "type_traits::is_trivially_relocatable_to_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a><From, To>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a><From, To>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -480,11 +480,11 @@
       "override": false,
       "refid": "group__type__traits_1ga976874b6d201324374a425ea3e149717",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
-        "<a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
       ],
       "static": false,
       "strong": false,
@@ -504,7 +504,7 @@
       "title": "is_trivially_relocatable_to_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_trivially_relocatable_to_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_trivially_relocatable_to_v",
       "visibility": "public"
     },
     {
@@ -517,7 +517,7 @@
       "explicit": false,
       "fullname": "type_traits::is_indirectly_trivially_relocate_to_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a><FromIterator, ToIterator>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a><FromIterator, ToIterator>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -531,11 +531,11 @@
       "override": false,
       "refid": "group__type__traits_1gabcd6afbaf75214214871bb792dc76cb6",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
-        "<a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
       ],
       "static": false,
       "strong": false,
@@ -555,7 +555,7 @@
       "title": "is_indirectly_trivially_relocate_to_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-is_indirectly_trivially_relocate_to_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-is_indirectly_trivially_relocate_to_v",
       "visibility": "public"
     },
     {
@@ -568,7 +568,7 @@
       "explicit": false,
       "fullname": "type_traits::conjunction_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-conjunction\">conjunction</a><Ts...>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-conjunction\">conjunction</a><Ts...>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -582,8 +582,8 @@
       "override": false,
       "refid": "group__type__traits_1ga5672914b2f1f9c1c4c50ded53a8db2e3",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-conjunction\">conjunction</a>",
-        "<a href=\"/api/classes/structconjunction__value.html\">conjunction_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-conjunction\">conjunction</a>",
+        "<a href=\"/thrust/api/classes/structconjunction__value.html\">conjunction_value</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/conjunction\"><code>std::conjunction</code></a>"
       ],
       "static": false,
@@ -599,7 +599,7 @@
       "title": "conjunction_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-conjunction_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-conjunction_v",
       "visibility": "public"
     },
     {
@@ -612,7 +612,7 @@
       "explicit": false,
       "fullname": "type_traits::disjunction_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-disjunction\">disjunction</a><Ts...>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-disjunction\">disjunction</a><Ts...>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -626,8 +626,8 @@
       "override": false,
       "refid": "group__type__traits_1gabb3abcd15bf9ea4a0629b7e03498e1e1",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-disjunction\">disjunction</a>",
-        "<a href=\"/api/classes/structdisjunction__value.html\">disjunction_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-disjunction\">disjunction</a>",
+        "<a href=\"/thrust/api/classes/structdisjunction__value.html\">disjunction_value</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/disjunction\"><code>std::disjunction</code></a>"
       ],
       "static": false,
@@ -643,7 +643,7 @@
       "title": "disjunction_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-disjunction_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-disjunction_v",
       "visibility": "public"
     },
     {
@@ -656,7 +656,7 @@
       "explicit": false,
       "fullname": "type_traits::negation_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/groups/group__type__traits.html#using-negation\">negation</a><T>::value",
+      "initializer": "= <a href=\"/thrust/api/groups/group__type__traits.html#using-negation\">negation</a><T>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -670,8 +670,8 @@
       "override": false,
       "refid": "group__type__traits_1ga3bef7b75bd1375e11a158bc94cbc4fa3",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-negation\">negation</a>",
-        "<a href=\"/api/classes/structnegation__value.html\">negation_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-negation\">negation</a>",
+        "<a href=\"/thrust/api/classes/structnegation__value.html\">negation_value</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/negation\"><code>std::negation</code></a>"
       ],
       "static": false,
@@ -687,7 +687,7 @@
       "title": "negation_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-negation_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-negation_v",
       "visibility": "public"
     },
     {
@@ -700,7 +700,7 @@
       "explicit": false,
       "fullname": "type_traits::conjunction_value_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/classes/structconjunction__value.html\">conjunction_value</a><Bs...>::value",
+      "initializer": "= <a href=\"/thrust/api/classes/structconjunction__value.html\">conjunction_value</a><Bs...>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -714,8 +714,8 @@
       "override": false,
       "refid": "group__type__traits_1ga24c201ff064f802b95c1198191b0220a",
       "see": [
-        "<a href=\"/api/classes/structconjunction__value.html\">conjunction_value</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-conjunction\">conjunction</a>",
+        "<a href=\"/thrust/api/classes/structconjunction__value.html\">conjunction_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-conjunction\">conjunction</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/conjunction\"><code>std::conjunction</code></a>"
       ],
       "static": false,
@@ -731,7 +731,7 @@
       "title": "conjunction_value_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-conjunction_value_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-conjunction_value_v",
       "visibility": "public"
     },
     {
@@ -744,7 +744,7 @@
       "explicit": false,
       "fullname": "type_traits::disjunction_value_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/classes/structdisjunction__value.html\">disjunction_value</a><Bs...>::value",
+      "initializer": "= <a href=\"/thrust/api/classes/structdisjunction__value.html\">disjunction_value</a><Bs...>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -758,8 +758,8 @@
       "override": false,
       "refid": "group__type__traits_1ga69726e1944d061a4b41ee49b69c71f37",
       "see": [
-        "<a href=\"/api/classes/structdisjunction__value.html\">disjunction_value</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-disjunction\">disjunction</a>",
+        "<a href=\"/thrust/api/classes/structdisjunction__value.html\">disjunction_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-disjunction\">disjunction</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/disjunction\"><code>std::disjunction</code></a>"
       ],
       "static": false,
@@ -775,7 +775,7 @@
       "title": "disjunction_value_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-disjunction_value_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-disjunction_value_v",
       "visibility": "public"
     },
     {
@@ -788,7 +788,7 @@
       "explicit": false,
       "fullname": "type_traits::negation_value_v",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/classes/structnegation__value.html\">negation_value</a><B>::value",
+      "initializer": "= <a href=\"/thrust/api/classes/structnegation__value.html\">negation_value</a><B>::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -802,8 +802,8 @@
       "override": false,
       "refid": "group__type__traits_1ga288e2f0f3fde973963159dc432947177",
       "see": [
-        "<a href=\"/api/classes/structnegation__value.html\">negation_value</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-negation\">negation</a>",
+        "<a href=\"/thrust/api/classes/structnegation__value.html\">negation_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-negation\">negation</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/negation\"><code>std::negation</code></a>"
       ],
       "static": false,
@@ -819,7 +819,7 @@
       "title": "negation_value_v",
       "type": "constexpr bool",
       "typePlain": "constexpr bool",
-      "url": "/api/groups/group__type__traits.html#variable-negation_value_v",
+      "url": "/thrust/api/groups/group__type__traits.html#variable-negation_value_v",
       "visibility": "public"
     }
   ],
@@ -842,7 +842,7 @@
       "refid": "structproclaim__contiguous__iterator",
       "summary": "Customization point that can be customized to indicate that an iterator type Iterator satisfies ContiguousIterator, aka it points to elements that are contiguous in memory. ",
       "title": "proclaim_contiguous_iterator",
-      "url": "/api/classes/structproclaim__contiguous__iterator.html",
+      "url": "/thrust/api/classes/structproclaim__contiguous__iterator.html",
       "visibility": "public"
     },
     {
@@ -863,7 +863,7 @@
       "refid": "structproclaim__trivially__relocatable",
       "summary": "customization point that can be specialized customized to indicate that a type T is TriviallyRelocatable, aka it can be bitwise copied with a facility like std::memcpy. ",
       "title": "proclaim_trivially_relocatable",
-      "url": "/api/classes/structproclaim__trivially__relocatable.html",
+      "url": "/thrust/api/classes/structproclaim__trivially__relocatable.html",
       "visibility": "public"
     },
     {
@@ -876,7 +876,7 @@
       "refid": "structconjunction__value",
       "summary": "std::integral_constant whose value is (... && Bs). ",
       "title": "conjunction_value",
-      "url": "/api/classes/structconjunction__value.html",
+      "url": "/thrust/api/classes/structconjunction__value.html",
       "visibility": "public"
     },
     {
@@ -889,7 +889,7 @@
       "refid": "structdisjunction__value",
       "summary": "std::integral_constant whose value is (... || Bs). ",
       "title": "disjunction_value",
-      "url": "/api/classes/structdisjunction__value.html",
+      "url": "/thrust/api/classes/structdisjunction__value.html",
       "visibility": "public"
     },
     {
@@ -902,7 +902,7 @@
       "refid": "structnegation__value",
       "summary": "std::integral_constant whose value is !Bs. ",
       "title": "negation_value",
-      "url": "/api/classes/structnegation__value.html",
+      "url": "/thrust/api/classes/structnegation__value.html",
       "visibility": "public"
     },
     {
@@ -915,7 +915,7 @@
       "refid": "structremove__cvref",
       "summary": "UnaryTypeTrait that removes const-volatile qualifiers and references from T. Equivalent to remove_cv_t<remove_reference_t<T>>. ",
       "title": "remove_cvref",
-      "url": "/api/classes/structremove__cvref.html",
+      "url": "/thrust/api/classes/structremove__cvref.html",
       "visibility": "public"
     },
     {
@@ -926,7 +926,7 @@
       "name": "voider",
       "refid": "structvoider",
       "title": "voider",
-      "url": "/api/classes/structvoider.html",
+      "url": "/thrust/api/classes/structvoider.html",
       "visibility": "public"
     }
   ],
@@ -955,13 +955,13 @@
       "refid": "group__type__traits_1ga58053a1185cfbe49e0e62462c5d5f824",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/language/constant_expression#Integral_constant_expression\">_integral constants_</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence_push_front\">integer_sequence_push_front</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence_push_back\">integer_sequence_push_back</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence_push_front\">integer_sequence_push_front</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence_push_back\">integer_sequence_push_back</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/utility/integer_sequence\"><code>std::integer&#95;sequence</code></a>"
       ],
       "static": false,
@@ -982,7 +982,7 @@
       "title": "integer_sequence",
       "type": "std::integer_sequence< T, Is... >",
       "typePlain": "std::integer_sequence< T, Is... >",
-      "url": "/api/groups/group__type__traits.html#using-integer_sequence",
+      "url": "/thrust/api/groups/group__type__traits.html#using-integer_sequence",
       "visibility": "public"
     },
     {
@@ -1008,13 +1008,13 @@
       "override": false,
       "refid": "group__type__traits_1ga3d4718cfedefc52260ba7b15da011075",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence_push_front\">integer_sequence_push_front</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence_push_back\">integer_sequence_push_back</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence_push_front\">integer_sequence_push_front</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence_push_back\">integer_sequence_push_back</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/utility/integer_sequence\"><code>std::index&#95;sequence</code></a>"
       ],
       "static": false,
@@ -1030,7 +1030,7 @@
       "title": "index_sequence",
       "type": "std::index_sequence< Is... >",
       "typePlain": "std::index_sequence< Is... >",
-      "url": "/api/groups/group__type__traits.html#using-index_sequence",
+      "url": "/thrust/api/groups/group__type__traits.html#using-index_sequence",
       "visibility": "public"
     },
     {
@@ -1056,11 +1056,11 @@
       "override": false,
       "refid": "group__type__traits_1ga8476ee86e5283a7de8b9488585f8b7d2",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/utility/integer_sequence\"><code>std::make&#95;integer&#95;sequence</code></a>"
       ],
       "static": false,
@@ -1081,7 +1081,7 @@
       "title": "make_integer_sequence",
       "type": "std::make_integer_sequence< T, N >",
       "typePlain": "std::make_integer_sequence< T, N >",
-      "url": "/api/groups/group__type__traits.html#using-make_integer_sequence",
+      "url": "/thrust/api/groups/group__type__traits.html#using-make_integer_sequence",
       "visibility": "public"
     },
     {
@@ -1107,11 +1107,11 @@
       "override": false,
       "refid": "group__type__traits_1ga547a8ac014e6931710a4c58aea196bf4",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/utility/integer_sequence\"><code>std::make&#95;index&#95;sequence</code></a>"
       ],
       "static": false,
@@ -1127,7 +1127,7 @@
       "title": "make_index_sequence",
       "type": "std::make_index_sequence< N >",
       "typePlain": "std::make_index_sequence< N >",
-      "url": "/api/groups/group__type__traits.html#using-make_index_sequence",
+      "url": "/thrust/api/groups/group__type__traits.html#using-make_index_sequence",
       "visibility": "public"
     },
     {
@@ -1153,11 +1153,11 @@
       "override": false,
       "refid": "group__type__traits_1ga82760d247ffe7cb322ba601e4fa1057a",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>"
       ],
       "static": false,
       "strong": false,
@@ -1177,7 +1177,7 @@
       "title": "make_reversed_integer_sequence",
       "type": "typename detail::make_reversed_integer_sequence_impl< T, N >::type",
       "typePlain": "typename detail::make_reversed_integer_sequence_impl< T, N >::type",
-      "url": "/api/groups/group__type__traits.html#using-make_reversed_integer_sequence",
+      "url": "/thrust/api/groups/group__type__traits.html#using-make_reversed_integer_sequence",
       "visibility": "public"
     },
     {
@@ -1203,11 +1203,11 @@
       "override": false,
       "refid": "group__type__traits_1ga207a65f277a607caa40d2cce60970110",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_index_sequence\">make_reversed_index_sequence</a>"
       ],
       "static": false,
       "strong": false,
@@ -1220,9 +1220,9 @@
         }
       ],
       "title": "make_reversed_index_sequence",
-      "type": "<a href=\"/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>< std::size_t, N >",
+      "type": "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_reversed_integer_sequence\">make_reversed_integer_sequence</a>< std::size_t, N >",
       "typePlain": "make_reversed_integer_sequence< std::size_t, N >",
-      "url": "/api/groups/group__type__traits.html#using-make_reversed_index_sequence",
+      "url": "/thrust/api/groups/group__type__traits.html#using-make_reversed_index_sequence",
       "visibility": "public"
     },
     {
@@ -1248,10 +1248,10 @@
       "override": false,
       "refid": "group__type__traits_1ga057cfcd42ffaf26b4d39986bc13f69fd",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>"
       ],
       "static": false,
       "strong": false,
@@ -1276,7 +1276,7 @@
       "title": "integer_sequence_push_front",
       "type": "typename detail::integer_sequence_push_front_impl< T, Value, Sequence >::type",
       "typePlain": "typename detail::integer_sequence_push_front_impl< T, Value, Sequence >::type",
-      "url": "/api/groups/group__type__traits.html#using-integer_sequence_push_front",
+      "url": "/thrust/api/groups/group__type__traits.html#using-integer_sequence_push_front",
       "visibility": "public"
     },
     {
@@ -1302,10 +1302,10 @@
       "override": false,
       "refid": "group__type__traits_1ga663141cff59ca11699fb5fef703ca956",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-integer_sequence\">integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_integer_sequence\">make_integer_sequence</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-make_index_sequence\">make_index_sequence</a>"
       ],
       "static": false,
       "strong": false,
@@ -1330,7 +1330,7 @@
       "title": "integer_sequence_push_back",
       "type": "typename detail::integer_sequence_push_back_impl< T, Value, Sequence >::type",
       "typePlain": "typename detail::integer_sequence_push_back_impl< T, Value, Sequence >::type",
-      "url": "/api/groups/group__type__traits.html#using-integer_sequence_push_back",
+      "url": "/thrust/api/groups/group__type__traits.html#using-integer_sequence_push_back",
       "visibility": "public"
     },
     {
@@ -1356,9 +1356,9 @@
       "override": false,
       "refid": "group__type__traits_1ga80dc92385df42df76d103cd3a490aab0",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-is_contiguous_iterator_v\">is_contiguous_iterator_v</a>",
-        "<a href=\"/api/classes/structproclaim__contiguous__iterator.html\">proclaim_contiguous_iterator</a>",
-        "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator\">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-is_contiguous_iterator_v\">is_contiguous_iterator_v</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__contiguous__iterator.html\">proclaim_contiguous_iterator</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator\">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>"
       ],
       "static": false,
       "strong": false,
@@ -1373,7 +1373,7 @@
       "title": "is_contiguous_iterator",
       "type": "detail::is_contiguous_iterator_impl< Iterator >",
       "typePlain": "detail::is_contiguous_iterator_impl< Iterator >",
-      "url": "/api/groups/group__type__traits.html#using-is_contiguous_iterator",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_contiguous_iterator",
       "visibility": "public"
     },
     {
@@ -1411,7 +1411,7 @@
       "title": "is_execution_policy",
       "type": "detail::is_base_of< detail::execution_policy_marker, T >",
       "typePlain": "detail::is_base_of< detail::execution_policy_marker, T >",
-      "url": "/api/groups/group__type__traits.html#using-is_execution_policy",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_execution_policy",
       "visibility": "public"
     },
     {
@@ -1437,10 +1437,10 @@
       "override": false,
       "refid": "group__type__traits_1gacd633504e0167167807ec9d35d71b9c1",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-is_operator_less_function_object_v\">is_operator_less_function_object_v</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-is_operator_less_function_object_v\">is_operator_less_function_object_v</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
       ],
       "static": false,
       "strong": false,
@@ -1455,7 +1455,7 @@
       "title": "is_operator_less_function_object",
       "type": "detail::is_operator_less_function_object_impl< T >",
       "typePlain": "detail::is_operator_less_function_object_impl< T >",
-      "url": "/api/groups/group__type__traits.html#using-is_operator_less_function_object",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object",
       "visibility": "public"
     },
     {
@@ -1481,10 +1481,10 @@
       "override": false,
       "refid": "group__type__traits_1ga354b453919716fd8616fa2c4cd688b6b",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-is_operator_greater_function_object_v\">is_operator_greater_function_object_v</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-is_operator_greater_function_object_v\">is_operator_greater_function_object_v</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
       ],
       "static": false,
       "strong": false,
@@ -1499,7 +1499,7 @@
       "title": "is_operator_greater_function_object",
       "type": "detail::is_operator_greater_function_object_impl< T >",
       "typePlain": "detail::is_operator_greater_function_object_impl< T >",
-      "url": "/api/groups/group__type__traits.html#using-is_operator_greater_function_object",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object",
       "visibility": "public"
     },
     {
@@ -1525,10 +1525,10 @@
       "override": false,
       "refid": "group__type__traits_1gaacc4f15485acd90b8018d4c818b244f5",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-is_operator_less_or_greater_function_object_v\">is_operator_less_or_greater_function_object_v</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-is_operator_less_or_greater_function_object_v\">is_operator_less_or_greater_function_object_v</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object\">is_operator_plus_function_object</a>"
       ],
       "static": false,
       "strong": false,
@@ -1543,7 +1543,7 @@
       "title": "is_operator_less_or_greater_function_object",
       "type": "integral_constant< bool, detail::is_operator_less_function_object_impl< T >::value||detail::is_operator_greater_function_object_impl< T >::value >",
       "typePlain": "integral_constant< bool, detail::is_operator_less_function_object_impl< T >::value||detail::is_operator_greater_function_object_impl< T >::value >",
-      "url": "/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object",
       "visibility": "public"
     },
     {
@@ -1569,10 +1569,10 @@
       "override": false,
       "refid": "group__type__traits_1ga1bb9ecc46da681069c8be8ca90ce2560",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-is_operator_plus_function_object_v\">is_operator_plus_function_object_v</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-is_operator_plus_function_object_v\">is_operator_plus_function_object_v</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_function_object\">is_operator_less_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_greater_function_object\">is_operator_greater_function_object</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_operator_less_or_greater_function_object\">is_operator_less_or_greater_function_object</a>"
       ],
       "static": false,
       "strong": false,
@@ -1587,7 +1587,7 @@
       "title": "is_operator_plus_function_object",
       "type": "detail::is_operator_plus_function_object_impl< T >",
       "typePlain": "detail::is_operator_plus_function_object_impl< T >",
-      "url": "/api/groups/group__type__traits.html#using-is_operator_plus_function_object",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_operator_plus_function_object",
       "visibility": "public"
     },
     {
@@ -1613,11 +1613,11 @@
       "override": false,
       "refid": "group__type__traits_1ga63c48e59d538eac161c9306d7eeb7991",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-is_trivially_relocatable_v\">is_trivially_relocatable_v</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
-        "<a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-is_trivially_relocatable_v\">is_trivially_relocatable_v</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
       ],
       "static": false,
       "strong": false,
@@ -1632,7 +1632,7 @@
       "title": "is_trivially_relocatable",
       "type": "detail::is_trivially_relocatable_impl< T >",
       "typePlain": "detail::is_trivially_relocatable_impl< T >",
-      "url": "/api/groups/group__type__traits.html#using-is_trivially_relocatable",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable",
       "visibility": "public"
     },
     {
@@ -1658,11 +1658,11 @@
       "override": false,
       "refid": "group__type__traits_1ga72b0a718db19371137ee0e55374b8abf",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-is_trivially_relocatable_to_v\">is_trivially_relocatable_to_v</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
-        "<a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-is_trivially_relocatable_to_v\">is_trivially_relocatable_to_v</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to\">is_indirectly_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
       ],
       "static": false,
       "strong": false,
@@ -1680,9 +1680,9 @@
         }
       ],
       "title": "is_trivially_relocatable_to",
-      "type": "integral_constant< bool, detail::is_same< From, To >::value &&<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>< To >::value >",
+      "type": "integral_constant< bool, detail::is_same< From, To >::value &&<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>< To >::value >",
       "typePlain": "integral_constant< bool, detail::is_same< From, To >::value &&is_trivially_relocatable< To >::value >",
-      "url": "/api/groups/group__type__traits.html#using-is_trivially_relocatable_to",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to",
       "visibility": "public"
     },
     {
@@ -1709,10 +1709,10 @@
       "refid": "group__type__traits_1gaeb94c1b335d2f07182a77360d4d02241",
       "see": [
         "is_indirectly_trivially_relocatable_to_v ",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
-        "<a href=\"/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
-        "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable\">is_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>",
+        "<a href=\"/thrust/api/classes/structproclaim__trivially__relocatable.html\">proclaim_trivially_relocatable</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable\">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>"
       ],
       "static": false,
       "strong": false,
@@ -1730,9 +1730,9 @@
         }
       ],
       "title": "is_indirectly_trivially_relocatable_to",
-      "type": "integral_constant< bool, <a href=\"/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>< FromIterator >::value &&<a href=\"/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>< ToIterator >::value &&<a href=\"/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>< typename thrust::iterator_traits< FromIterator >::value_type, typename thrust::iterator_traits< ToIterator >::value_type >::value >",
+      "type": "integral_constant< bool, <a href=\"/thrust/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>< FromIterator >::value &&<a href=\"/thrust/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>< ToIterator >::value &&<a href=\"/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to\">is_trivially_relocatable_to</a>< typename thrust::iterator_traits< FromIterator >::value_type, typename thrust::iterator_traits< ToIterator >::value_type >::value >",
       "typePlain": "integral_constant< bool, is_contiguous_iterator< FromIterator >::value &&is_contiguous_iterator< ToIterator >::value &&is_trivially_relocatable_to< typename thrust::iterator_traits< FromIterator >::value_type, typename thrust::iterator_traits< ToIterator >::value_type >::value >",
-      "url": "/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to",
+      "url": "/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to",
       "visibility": "public"
     },
     {
@@ -1758,8 +1758,8 @@
       "override": false,
       "refid": "group__type__traits_1ga61ee1c481b02c164552595e4ee9d1a81",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-conjunction_v\">conjunction_v</a>",
-        "<a href=\"/api/classes/structconjunction__value.html\">conjunction_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-conjunction_v\">conjunction_v</a>",
+        "<a href=\"/thrust/api/classes/structconjunction__value.html\">conjunction_value</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/conjunction\"><code>std::conjunction</code></a>"
       ],
       "static": false,
@@ -1775,7 +1775,7 @@
       "title": "conjunction",
       "type": "std::conjunction< Ts... >",
       "typePlain": "std::conjunction< Ts... >",
-      "url": "/api/groups/group__type__traits.html#using-conjunction",
+      "url": "/thrust/api/groups/group__type__traits.html#using-conjunction",
       "visibility": "public"
     },
     {
@@ -1801,8 +1801,8 @@
       "override": false,
       "refid": "group__type__traits_1ga3320154887ececb282bdef50a9228774",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-disjunction_v\">disjunction_v</a>",
-        "<a href=\"/api/classes/structdisjunction__value.html\">disjunction_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-disjunction_v\">disjunction_v</a>",
+        "<a href=\"/thrust/api/classes/structdisjunction__value.html\">disjunction_value</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/disjunction\"><code>std::disjunction</code></a>"
       ],
       "static": false,
@@ -1818,7 +1818,7 @@
       "title": "disjunction",
       "type": "std::disjunction< Ts... >",
       "typePlain": "std::disjunction< Ts... >",
-      "url": "/api/groups/group__type__traits.html#using-disjunction",
+      "url": "/thrust/api/groups/group__type__traits.html#using-disjunction",
       "visibility": "public"
     },
     {
@@ -1844,8 +1844,8 @@
       "override": false,
       "refid": "group__type__traits_1gae7303cce51081177cdbc795e0d4fdd33",
       "see": [
-        "<a href=\"/api/groups/group__type__traits.html#variable-negation_v\">negation_v</a>",
-        "<a href=\"/api/classes/structnegation__value.html\">negation_value</a>",
+        "<a href=\"/thrust/api/groups/group__type__traits.html#variable-negation_v\">negation_v</a>",
+        "<a href=\"/thrust/api/classes/structnegation__value.html\">negation_value</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/types/negation\"><code>std::negation</code></a>"
       ],
       "static": false,
@@ -1861,7 +1861,7 @@
       "title": "negation",
       "type": "std::negation< T >",
       "typePlain": "std::negation< T >",
-      "url": "/api/groups/group__type__traits.html#using-negation",
+      "url": "/thrust/api/groups/group__type__traits.html#using-negation",
       "visibility": "public"
     },
     {
@@ -1904,9 +1904,9 @@
         }
       ],
       "title": "remove_cvref_t",
-      "type": "typename <a href=\"/api/classes/structremove__cvref.html\">remove_cvref</a>< T >::type",
+      "type": "typename <a href=\"/thrust/api/classes/structremove__cvref.html\">remove_cvref</a>< T >::type",
       "typePlain": "typename remove_cvref< T >::type",
-      "url": "/api/groups/group__type__traits.html#using-remove_cvref_t",
+      "url": "/thrust/api/groups/group__type__traits.html#using-remove_cvref_t",
       "visibility": "public"
     }
   ],
@@ -1914,6 +1914,6 @@
   "static": false,
   "strong": false,
   "title": "Type Traits",
-  "url": "/api/groups/group__type__traits.html",
+  "url": "/thrust/api/groups/group__type__traits.html",
   "visibility": "public"
 }

@@ -4,7 +4,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/classiterator__core__access.html\">iterator&#95;core&#95;access</a></code> is the class which user iterator types derived from <code>thrust::iterator&#95;adaptor</code> or <code>thrust::iterator&#95;facade</code> must befriend to allow it to access their private interface. ",
+  "details": "<code><a href=\"/thrust/api/classes/classiterator__core__access.html\">iterator&#95;core&#95;access</a></code> is the class which user iterator types derived from <code>thrust::iterator&#95;adaptor</code> or <code>thrust::iterator&#95;facade</code> must befriend to allow it to access their private interface. ",
   "explicit": false,
   "fullname": "iterator_core_access",
   "hasAdditionalMembers": false,
@@ -28,7 +28,7 @@
     "name": "fancyiterator",
     "refid": "group__fancyiterator",
     "title": "Fancy Iterators",
-    "url": "/api/groups/group__fancyiterator.html",
+    "url": "/thrust/api/groups/group__fancyiterator.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "fancyiterator",
       "refid": "group__fancyiterator",
       "title": "Fancy Iterators",
-      "url": "/api/groups/group__fancyiterator.html",
+      "url": "/thrust/api/groups/group__fancyiterator.html",
       "visibility": "public"
     }
   ],
@@ -62,6 +62,6 @@
   "static": false,
   "strong": false,
   "title": "iterator_core_access",
-  "url": "/api/classes/classiterator__core__access.html",
+  "url": "/thrust/api/classes/classiterator__core__access.html",
   "visibility": "public"
 }

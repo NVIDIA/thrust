@@ -14,7 +14,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-copy_if">copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-copy_if">copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -23,7 +23,7 @@ has_toc: false
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-copy_if">copy&#95;if</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-copy_if">copy&#95;if</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
@@ -33,7 +33,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-copy_if">copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-copy_if">copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 stencil,</span>
@@ -44,7 +44,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-copy_if">copy&#95;if</a></b>(InputIterator1 first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-copy_if">copy&#95;if</a></b>(InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 stencil,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -53,14 +53,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove">remove</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove">remove</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value);</span>
 <br>
@@ -68,7 +68,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -77,7 +77,7 @@ has_toc: false
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove&#95;copy</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove&#95;copy</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;const T & value);</span>
@@ -85,14 +85,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_if">remove&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_if">remove&#95;if</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove&#95;if</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
@@ -100,7 +100,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -109,7 +109,7 @@ has_toc: false
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
@@ -118,7 +118,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_if">remove&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;InputIterator stencil,</span>
@@ -127,7 +127,7 @@ has_toc: false
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_if">remove&#95;if</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove&#95;if</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;InputIterator stencil,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
@@ -137,7 +137,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 stencil,</span>
@@ -148,7 +148,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></b>(InputIterator1 first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></b>(InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 stencil,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -156,39 +156,39 @@ has_toc: false
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique">unique</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename ForwardIterator&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique">unique</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique">unique</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique">unique</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique&#95;copy</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique&#95;copy</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
 <br>
@@ -196,7 +196,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -205,7 +205,7 @@ has_toc: false
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique&#95;copy</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique&#95;copy</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
@@ -213,14 +213,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator1,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator2&gt;</span>
-<span>__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 > </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_by_key">unique&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 > </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key">unique&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator1 keys_first,</span>
 <span>&nbsp;&nbsp;ForwardIterator1 keys_last,</span>
 <span>&nbsp;&nbsp;ForwardIterator2 values_first);</span>
 <br>
 <span>template &lt;typename ForwardIterator1,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator2&gt;</span>
-<span>thrust::pair< ForwardIterator1, ForwardIterator2 > </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_by_key">unique&#95;by&#95;key</a></b>(ForwardIterator1 keys_first,</span>
+<span>thrust::pair< ForwardIterator1, ForwardIterator2 > </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key">unique&#95;by&#95;key</a></b>(ForwardIterator1 keys_first,</span>
 <span>&nbsp;&nbsp;ForwardIterator1 keys_last,</span>
 <span>&nbsp;&nbsp;ForwardIterator2 values_first);</span>
 <br>
@@ -228,7 +228,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator1,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator2,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 > </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_by_key">unique&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 > </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key">unique&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator1 keys_first,</span>
 <span>&nbsp;&nbsp;ForwardIterator1 keys_last,</span>
 <span>&nbsp;&nbsp;ForwardIterator2 values_first,</span>
@@ -237,7 +237,7 @@ has_toc: false
 <span>template &lt;typename ForwardIterator1,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator2,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>thrust::pair< ForwardIterator1, ForwardIterator2 > </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_by_key">unique&#95;by&#95;key</a></b>(ForwardIterator1 keys_first,</span>
+<span>thrust::pair< ForwardIterator1, ForwardIterator2 > </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key">unique&#95;by&#95;key</a></b>(ForwardIterator1 keys_first,</span>
 <span>&nbsp;&nbsp;ForwardIterator1 keys_last,</span>
 <span>&nbsp;&nbsp;ForwardIterator2 values_first,</span>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>
@@ -247,7 +247,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique&#95;by&#95;key&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique&#95;by&#95;key&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last,</span>
 <span>&nbsp;&nbsp;InputIterator2 values_first,</span>
@@ -258,7 +258,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique&#95;by&#95;key&#95;copy</a></b>(InputIterator1 keys_first,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique&#95;by&#95;key&#95;copy</a></b>(InputIterator1 keys_first,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last,</span>
 <span>&nbsp;&nbsp;InputIterator2 values_first,</span>
 <span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
@@ -270,7 +270,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique&#95;by&#95;key&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique&#95;by&#95;key&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last,</span>
 <span>&nbsp;&nbsp;InputIterator2 values_first,</span>
@@ -283,7 +283,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique&#95;by&#95;key&#95;copy</a></b>(InputIterator1 keys_first,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique&#95;by&#95;key&#95;copy</a></b>(InputIterator1 keys_first,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last,</span>
 <span>&nbsp;&nbsp;InputIterator2 values_first,</span>
 <span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
@@ -361,7 +361,7 @@ The ranges <code>[first, last)</code> and <code>[result, result + (last - first)
 <code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[first, last)</code>.
 
 **See**:
-<code><a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></code>
+<code><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></code>
 
 <h3 id="function-copy_if">
 Function <code>copy&#95;if</code>
@@ -424,7 +424,7 @@ The ranges <code>[first, last)</code> and <code>[result, result + (last - first)
 <code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[first, last)</code>.
 
 **See**:
-<code><a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></code>
+<code><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></code>
 
 <h3 id="function-copy_if">
 Function <code>copy&#95;if</code>
@@ -501,7 +501,7 @@ thrust::copy_if(thrust::host, data, data + N, stencil, result, is_even());
 <code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[stencil, stencil + (last-first))</code>.
 
 **See**:
-<code><a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></code>
+<code><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></code>
 
 <h3 id="function-copy_if">
 Function <code>copy&#95;if</code>
@@ -571,7 +571,7 @@ thrust::copy_if(data, data + N, stencil, result, is_even());
 <code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[stencil, stencil + (last-first))</code>.
 
 **See**:
-<code><a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></code>
+<code><a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove&#95;copy&#95;if</a></code>
 
 <h3 id="function-remove">
 Function <code>remove</code>
@@ -606,7 +606,7 @@ int *new_end = thrust::remove(A, A + N, 1);
 ```
 
 **Note**:
-The meaning of "removal" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href="/api/classes/classdevice__vector.html">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>.
+The meaning of "removal" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>.
 
 **Template Parameters**:
 * **`DerivedPolicy`** The name of the derived execution policy. 
@@ -624,9 +624,9 @@ A <code>ForwardIterator</code> pointing to the end of the resulting range of ele
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove">https://en.cppreference.com/w/cpp/algorithm/remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
 
 <h3 id="function-remove">
 Function <code>remove</code>
@@ -656,7 +656,7 @@ int *new_end = thrust::remove(A, A + N, 1);
 ```
 
 **Note**:
-The meaning of "removal" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href="/api/classes/classdevice__vector.html">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>.
+The meaning of "removal" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>.
 
 **Template Parameters**:
 * **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, and <code>ForwardIterator</code> is mutable. 
@@ -672,9 +672,9 @@ A <code>ForwardIterator</code> pointing to the end of the resulting range of ele
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove">https://en.cppreference.com/w/cpp/algorithm/remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
 
 <h3 id="function-remove_copy">
 Function <code>remove&#95;copy</code>
@@ -732,9 +732,9 @@ An OutputIterator pointing to the end of the resulting range of elements which a
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove_copy">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
 
 <h3 id="function-remove_copy">
 Function <code>remove&#95;copy</code>
@@ -785,9 +785,9 @@ An OutputIterator pointing to the end of the resulting range of elements which a
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove_copy">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
 
 <h3 id="function-remove_if">
 Function <code>remove&#95;if</code>
@@ -831,7 +831,7 @@ int *new_end = thrust::remove_if(thrust::host, A, A + N, is_even());
 ```
 
 **Note**:
-The meaning of "removal" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href="/api/classes/classdevice__vector.html">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>.
+The meaning of "removal" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>.
 
 **Template Parameters**:
 * **`DerivedPolicy`** The name of the derived execution policy. 
@@ -849,9 +849,9 @@ A ForwardIterator pointing to the end of the resulting range of elements for whi
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove">https://en.cppreference.com/w/cpp/algorithm/remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
 
 <h3 id="function-remove_if">
 Function <code>remove&#95;if</code>
@@ -890,7 +890,7 @@ int *new_end = thrust::remove_if(A, A + N, is_even());
 ```
 
 **Note**:
-The meaning of "removal" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href="/api/classes/classdevice__vector.html">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>.
+The meaning of "removal" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href="https://en.cppreference.com/w/cpp/container">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>.
 
 **Template Parameters**:
 * **`ForwardIterator`** is a model of <a href="https://en.cppreference.com/w/cpp/iterator/forward_iterator">Forward Iterator</a>, <code>ForwardIterator</code> is mutable, and <code>ForwardIterator's</code><code>value&#95;type</code> is convertible to <code>Predicate's</code><code>argument&#95;type</code>. 
@@ -906,9 +906,9 @@ A ForwardIterator pointing to the end of the resulting range of elements for whi
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove">https://en.cppreference.com/w/cpp/algorithm/remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
 
 <h3 id="function-remove_copy_if">
 Function <code>remove&#95;copy&#95;if</code>
@@ -975,9 +975,9 @@ An OutputIterator pointing to the end of the resulting range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove_copy">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
 
 <h3 id="function-remove_copy_if">
 Function <code>remove&#95;copy&#95;if</code>
@@ -1037,9 +1037,9 @@ An OutputIterator pointing to the end of the resulting range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove_copy">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
 
 <h3 id="function-remove_if">
 Function <code>remove&#95;if</code>
@@ -1102,9 +1102,9 @@ A ForwardIterator pointing to the end of the resulting range of elements for whi
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove">https://en.cppreference.com/w/cpp/algorithm/remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
 
 <h3 id="function-remove_if">
 Function <code>remove&#95;if</code>
@@ -1160,9 +1160,9 @@ A ForwardIterator pointing to the end of the resulting range of elements for whi
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove">https://en.cppreference.com/w/cpp/algorithm/remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if">remove_copy_if</a>
 
 <h3 id="function-remove_copy_if">
 Function <code>remove&#95;copy&#95;if</code>
@@ -1225,10 +1225,10 @@ An OutputIterator pointing to the end of the resulting range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove_copy">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
-* <a href="/api/groups/group__stream__compaction.html#function-copy_if">copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-copy_if">copy_if</a>
 
 <h3 id="function-remove_copy_if">
 Function <code>remove&#95;copy&#95;if</code>
@@ -1284,10 +1284,10 @@ An OutputIterator pointing to the end of the resulting range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/remove_copy">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove">remove</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
-* <a href="/api/groups/group__stream__compaction.html#function-copy_if">copy_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove">remove</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_copy">remove_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-remove_if">remove_if</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-copy_if">copy_if</a>
 
 <h3 id="function-unique">
 Function <code>unique</code>
@@ -1335,7 +1335,7 @@ The end of the unique range <code>[first, new&#95;last)</code>.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/unique">https://en.cppreference.com/w/cpp/algorithm/unique</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
 
 <h3 id="function-unique">
 Function <code>unique</code>
@@ -1376,7 +1376,7 @@ The end of the unique range <code>[first, new&#95;last)</code>.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/unique">https://en.cppreference.com/w/cpp/algorithm/unique</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
 
 <h3 id="function-unique">
 Function <code>unique</code>
@@ -1428,7 +1428,7 @@ The end of the unique range <code>[first, new&#95;last)</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/unique">https://en.cppreference.com/w/cpp/algorithm/unique</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
 
 <h3 id="function-unique">
 Function <code>unique</code>
@@ -1473,7 +1473,7 @@ The end of the unique range <code>[first, new&#95;last)</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/unique">https://en.cppreference.com/w/cpp/algorithm/unique</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
 
 <h3 id="function-unique_copy">
 Function <code>unique&#95;copy</code>
@@ -1530,7 +1530,7 @@ The range <code>[first,last)</code> and the range <code>[result, result + (last 
 The end of the unique range <code>[result, result&#95;end)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique">unique</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/unique_copy">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>
 
 <h3 id="function-unique_copy">
@@ -1581,7 +1581,7 @@ The range <code>[first,last)</code> and the range <code>[result, result + (last 
 The end of the unique range <code>[result, result&#95;end)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique">unique</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/unique_copy">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>
 
 <h3 id="function-unique_copy">
@@ -1641,7 +1641,7 @@ The range <code>[first,last)</code> and the range <code>[result, result + (last 
 The end of the unique range <code>[result, result&#95;end)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique">unique</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/unique_copy">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>
 
 <h3 id="function-unique_copy">
@@ -1694,7 +1694,7 @@ The range <code>[first,last)</code> and the range <code>[result, result + (last 
 The end of the unique range <code>[result, result&#95;end)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique">unique</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/unique_copy">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>
 
 <h3 id="function-unique_by_key">
@@ -1713,7 +1713,7 @@ Function <code>unique&#95;by&#95;key</code>
 
 The return value is a <code>pair</code> of iterators <code>(new&#95;keys&#95;last,new&#95;values&#95;last)</code> such that no two consecutive elements in the range <code>[keys&#95;first, new&#95;keys&#95;last)</code> are equal.
 
-This version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href="/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
+This version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href="/thrust/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -1755,9 +1755,9 @@ The range <code>[keys&#95;first, keys&#95;last)</code> and the range <code>[valu
 A pair of iterators at end of the ranges <code>[key&#95;first, keys&#95;new&#95;last)</code> and <code>[values&#95;first, values&#95;new&#95;last)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique">unique</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique_by_key_copy</a>
-* <a href="/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique_by_key_copy</a>
+* <a href="/thrust/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
 
 <h3 id="function-unique_by_key">
 Function <code>unique&#95;by&#95;key</code>
@@ -1773,7 +1773,7 @@ Function <code>unique&#95;by&#95;key</code>
 
 The return value is a <code>pair</code> of iterators <code>(new&#95;keys&#95;last,new&#95;values&#95;last)</code> such that no two consecutive elements in the range <code>[keys&#95;first, new&#95;keys&#95;last)</code> are equal.
 
-This version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href="/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
+This version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href="/thrust/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
 
 
 The following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates.
@@ -1810,9 +1810,9 @@ The range <code>[keys&#95;first, keys&#95;last)</code> and the range <code>[valu
 A pair of iterators at end of the ranges <code>[key&#95;first, keys&#95;new&#95;last)</code> and <code>[values&#95;first, values&#95;new&#95;last)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique">unique</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique_by_key_copy</a>
-* <a href="/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique_by_key_copy</a>
+* <a href="/thrust/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
 
 <h3 id="function-unique_by_key">
 Function <code>unique&#95;by&#95;key</code>
@@ -1830,7 +1830,7 @@ Function <code>unique&#95;by&#95;key</code>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span></code>
 <code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.
 
-This version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href="/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
+This version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href="/thrust/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -1875,9 +1875,9 @@ The range <code>[keys&#95;first, keys&#95;last)</code> and the range <code>[valu
 The end of the unique range <code>[first, new&#95;last)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique">unique</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique_by_key_copy</a>
-* <a href="/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique_by_key_copy</a>
+* <a href="/thrust/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
 
 <h3 id="function-unique_by_key">
 Function <code>unique&#95;by&#95;key</code>
@@ -1893,7 +1893,7 @@ Function <code>unique&#95;by&#95;key</code>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span></code>
 <code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.
 
-This version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href="/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
+This version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href="/thrust/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
 
 
 The following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates.
@@ -1933,9 +1933,9 @@ The range <code>[keys&#95;first, keys&#95;last)</code> and the range <code>[valu
 The end of the unique range <code>[first, new&#95;last)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique">unique</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique_by_key_copy</a>
-* <a href="/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique">unique</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy">unique_by_key_copy</a>
+* <a href="/thrust/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
 
 <h3 id="function-unique_by_key_copy">
 Function <code>unique&#95;by&#95;key&#95;copy</code>
@@ -1955,7 +1955,7 @@ Function <code>unique&#95;by&#95;key&#95;copy</code>
 <span>&nbsp;&nbsp;OutputIterator2 values_result);</span></code>
 <code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.
 
-This version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href="/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
+This version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href="/thrust/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -2003,9 +2003,9 @@ The input ranges shall not overlap either output range.
 A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_by_key">unique_by_key</a>
-* <a href="/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key">unique_by_key</a>
+* <a href="/thrust/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
 
 <h3 id="function-unique_by_key_copy">
 Function <code>unique&#95;by&#95;key&#95;copy</code>
@@ -2023,7 +2023,7 @@ Function <code>unique&#95;by&#95;key&#95;copy</code>
 <span>&nbsp;&nbsp;OutputIterator2 values_result);</span></code>
 <code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.
 
-This version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href="/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
+This version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href="/thrust/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
 
 
 The following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys.
@@ -2066,9 +2066,9 @@ The input ranges shall not overlap either output range.
 A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_by_key">unique_by_key</a>
-* <a href="/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key">unique_by_key</a>
+* <a href="/thrust/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
 
 <h3 id="function-unique_by_key_copy">
 Function <code>unique&#95;by&#95;key&#95;copy</code>
@@ -2090,7 +2090,7 @@ Function <code>unique&#95;by&#95;key&#95;copy</code>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span></code>
 <code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.
 
-This version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href="/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
+This version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href="/thrust/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
 
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
@@ -2141,9 +2141,9 @@ The input ranges shall not overlap either output range.
 A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_by_key">unique_by_key</a>
-* <a href="/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key">unique_by_key</a>
+* <a href="/thrust/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
 
 <h3 id="function-unique_by_key_copy">
 Function <code>unique&#95;by&#95;key&#95;copy</code>
@@ -2163,7 +2163,7 @@ Function <code>unique&#95;by&#95;key&#95;copy</code>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span></code>
 <code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.
 
-This version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href="/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
+This version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href="/thrust/api/classes/structproject1st.html">project1st</a></code> to reduce values with equal keys.
 
 
 The following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys.
@@ -2209,8 +2209,8 @@ The input ranges shall not overlap either output range.
 A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>.
 
 **See**:
-* <a href="/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
-* <a href="/api/groups/group__stream__compaction.html#function-unique_by_key">unique_by_key</a>
-* <a href="/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_copy">unique_copy</a>
+* <a href="/thrust/api/groups/group__stream__compaction.html#function-unique_by_key">unique_by_key</a>
+* <a href="/thrust/api/groups/group__reductions.html#function-reduce_by_key">reduce_by_key</a>
 
 

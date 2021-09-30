@@ -13,42 +13,42 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__logical.html#function-all_of">all&#95;of</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__logical.html#function-all_of">all&#95;of</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__logical.html#function-all_of">all&#95;of</a></b>(InputIterator first,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__logical.html#function-all_of">all&#95;of</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__logical.html#function-any_of">any&#95;of</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__logical.html#function-any_of">any&#95;of</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__logical.html#function-any_of">any&#95;of</a></b>(InputIterator first,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__logical.html#function-any_of">any&#95;of</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__logical.html#function-none_of">none&#95;of</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__logical.html#function-none_of">none&#95;of</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__logical.html#function-none_of">none&#95;of</a></b>(InputIterator first,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__logical.html#function-none_of">none&#95;of</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 </code>
@@ -102,9 +102,9 @@ thrust::all_of(thrust::host, A, A, thrust::identity<bool>()); // returns false
 <code>true</code>, if all elements satisfy the predicate; <code>false</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__logical.html#function-any_of">any_of</a>
-* <a href="/api/groups/group__logical.html#function-none_of">none_of</a>
-* <a href="/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
+* <a href="/thrust/api/groups/group__logical.html#function-any_of">any_of</a>
+* <a href="/thrust/api/groups/group__logical.html#function-none_of">none_of</a>
+* <a href="/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
 
 <h3 id="function-all_of">
 Function <code>all&#95;of</code>
@@ -146,9 +146,9 @@ thrust::all_of(A, A, thrust::identity<bool>()); // returns false
 <code>true</code>, if all elements satisfy the predicate; <code>false</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__logical.html#function-any_of">any_of</a>
-* <a href="/api/groups/group__logical.html#function-none_of">none_of</a>
-* <a href="/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
+* <a href="/thrust/api/groups/group__logical.html#function-any_of">any_of</a>
+* <a href="/thrust/api/groups/group__logical.html#function-none_of">none_of</a>
+* <a href="/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
 
 <h3 id="function-any_of">
 Function <code>any&#95;of</code>
@@ -199,9 +199,9 @@ thrust::any_of(thrust::host, A, A, thrust::identity<bool>()); // returns false
 <code>true</code>, if any element satisfies the predicate; <code>false</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__logical.html#function-all_of">all_of</a>
-* <a href="/api/groups/group__logical.html#function-none_of">none_of</a>
-* <a href="/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
+* <a href="/thrust/api/groups/group__logical.html#function-all_of">all_of</a>
+* <a href="/thrust/api/groups/group__logical.html#function-none_of">none_of</a>
+* <a href="/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
 
 <h3 id="function-any_of">
 Function <code>any&#95;of</code>
@@ -245,9 +245,9 @@ thrust::any_of(A, A, thrust::identity<bool>()); // returns false
 <code>true</code>, if any element satisfies the predicate; <code>false</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__logical.html#function-all_of">all_of</a>
-* <a href="/api/groups/group__logical.html#function-none_of">none_of</a>
-* <a href="/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
+* <a href="/thrust/api/groups/group__logical.html#function-all_of">all_of</a>
+* <a href="/thrust/api/groups/group__logical.html#function-none_of">none_of</a>
+* <a href="/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
 
 <h3 id="function-none_of">
 Function <code>none&#95;of</code>
@@ -298,9 +298,9 @@ thrust::none_of(thrust::host, A, A, thrust::identity<bool>()); // returns true
 <code>true</code>, if no element satisfies the predicate; <code>false</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__logical.html#function-all_of">all_of</a>
-* <a href="/api/groups/group__logical.html#function-any_of">any_of</a>
-* <a href="/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
+* <a href="/thrust/api/groups/group__logical.html#function-all_of">all_of</a>
+* <a href="/thrust/api/groups/group__logical.html#function-any_of">any_of</a>
+* <a href="/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
 
 <h3 id="function-none_of">
 Function <code>none&#95;of</code>
@@ -344,8 +344,8 @@ thrust::none_of(A, A, thrust::identity<bool>()); // returns true
 <code>true</code>, if no element satisfies the predicate; <code>false</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__logical.html#function-all_of">all_of</a>
-* <a href="/api/groups/group__logical.html#function-any_of">any_of</a>
-* <a href="/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
+* <a href="/thrust/api/groups/group__logical.html#function-all_of">all_of</a>
+* <a href="/thrust/api/groups/group__logical.html#function-any_of">any_of</a>
+* <a href="/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce">transform_reduce</a>
 
 

@@ -23,7 +23,7 @@
     "name": "system_backends",
     "refid": "group__system__backends",
     "title": "Systems",
-    "url": "/api/groups/group__system__backends.html",
+    "url": "/thrust/api/groups/group__system__backends.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -35,7 +35,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     },
     {
@@ -46,7 +46,7 @@
       "name": "system_backends",
       "refid": "group__system__backends",
       "title": "Systems",
-      "url": "/api/groups/group__system__backends.html",
+      "url": "/thrust/api/groups/group__system__backends.html",
       "visibility": "public"
     }
   ],
@@ -60,7 +60,7 @@
       "name": "system::cpp",
       "refid": "namespacesystem_1_1cpp",
       "title": "system::cpp",
-      "url": "/api/namespaces/namespacesystem_1_1cpp.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html",
       "visibility": "public"
     },
     {
@@ -71,7 +71,7 @@
       "name": "system::cuda",
       "refid": "namespacesystem_1_1cuda",
       "title": "system::cuda",
-      "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
       "visibility": "public"
     },
     {
@@ -82,7 +82,7 @@
       "name": "system::errc",
       "refid": "namespacesystem_1_1errc",
       "title": "system::errc",
-      "url": "/api/namespaces/namespacesystem_1_1errc.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html",
       "visibility": "public"
     },
     {
@@ -93,7 +93,7 @@
       "name": "system::omp",
       "refid": "namespacesystem_1_1omp",
       "title": "system::omp",
-      "url": "/api/namespaces/namespacesystem_1_1omp.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1omp.html",
       "visibility": "public"
     },
     {
@@ -104,7 +104,7 @@
       "name": "system::tbb",
       "refid": "namespacesystem_1_1tbb",
       "title": "system::tbb",
-      "url": "/api/namespaces/namespacesystem_1_1tbb.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html",
       "visibility": "public"
     }
   ],
@@ -121,7 +121,7 @@
       "refid": "classsystem_1_1error__category",
       "summary": "The class error_category serves as a base class for types used to identify the source and encoding of a particular category of error code. Classes may be derived from error_category to support categories of errors in addition to those defined in the C++ International Standard. ",
       "title": "system::error_category",
-      "url": "/api/classes/classsystem_1_1error__category.html",
+      "url": "/thrust/api/classes/classsystem_1_1error__category.html",
       "visibility": "public"
     },
     {
@@ -134,7 +134,7 @@
       "refid": "classsystem_1_1error__code",
       "summary": "The class error_code describes an object used to hold error code values, such as those originating from the operating system or other low-level application program interfaces. ",
       "title": "system::error_code",
-      "url": "/api/classes/classsystem_1_1error__code.html",
+      "url": "/thrust/api/classes/classsystem_1_1error__code.html",
       "visibility": "public"
     },
     {
@@ -147,7 +147,7 @@
       "refid": "classsystem_1_1error__condition",
       "summary": "The class error_condition describes an object used to hold values identifying error conditions. ",
       "title": "system::error_condition",
-      "url": "/api/classes/classsystem_1_1error__condition.html",
+      "url": "/thrust/api/classes/classsystem_1_1error__condition.html",
       "visibility": "public"
     },
     {
@@ -166,7 +166,7 @@
       "name": "system::is_error_code_enum",
       "refid": "structsystem_1_1is__error__code__enum",
       "title": "system::is_error_code_enum",
-      "url": "/api/classes/structsystem_1_1is__error__code__enum.html",
+      "url": "/thrust/api/classes/structsystem_1_1is__error__code__enum.html",
       "visibility": "public"
     },
     {
@@ -185,7 +185,7 @@
       "name": "system::is_error_code_enum< cuda::errc::errc_t >",
       "refid": "structsystem_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4",
       "title": "system::is_error_code_enum< cuda::errc::errc_t >",
-      "url": "/api/classes/structsystem_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4.html",
+      "url": "/thrust/api/classes/structsystem_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4.html",
       "visibility": "public"
     },
     {
@@ -204,7 +204,7 @@
       "name": "system::is_error_condition_enum",
       "refid": "structsystem_1_1is__error__condition__enum",
       "title": "system::is_error_condition_enum",
-      "url": "/api/classes/structsystem_1_1is__error__condition__enum.html",
+      "url": "/thrust/api/classes/structsystem_1_1is__error__condition__enum.html",
       "visibility": "public"
     },
     {
@@ -223,7 +223,7 @@
       "name": "system::is_error_condition_enum< errc::errc_t >",
       "refid": "structsystem_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4",
       "title": "system::is_error_condition_enum< errc::errc_t >",
-      "url": "/api/classes/structsystem_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4.html",
+      "url": "/thrust/api/classes/structsystem_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4.html",
       "visibility": "public"
     },
     {
@@ -236,7 +236,7 @@
           "visibility": "public"
         }
       ],
-      "brief": "The class <code>system&#95;error</code> describes an exception object used to report error conditions that have an associated <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
+      "brief": "The class <code>system&#95;error</code> describes an exception object used to report error conditions that have an associated <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
       "category": "classes",
       "fullname": "system::system_error",
       "kind": "class",
@@ -244,7 +244,7 @@
       "refid": "classsystem_1_1system__error",
       "summary": "The class system_error describes an exception object used to report error conditions that have an associated error_code. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
       "title": "system::system_error",
-      "url": "/api/classes/classsystem_1_1system__error.html",
+      "url": "/thrust/api/classes/classsystem_1_1system__error.html",
       "visibility": "public"
     }
   ],
@@ -289,9 +289,9 @@
       "static": false,
       "strong": false,
       "title": "cuda_category",
-      "type": "const <a href=\"/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
+      "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
       "typePlain": "const error_category &",
-      "url": "/api/namespaces/namespacesystem.html#function-cuda_category",
+      "url": "/thrust/api/namespaces/namespacesystem.html#function-cuda_category",
       "virtual": false,
       "visibility": "public"
     },
@@ -319,21 +319,21 @@
       "params": [
         {
           "name": "e",
-          "type": "<a href=\"/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t\">cuda::errc::errc_t</a>",
+          "type": "<a href=\"/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t\">cuda::errc::errc_t</a>",
           "typePlain": "cuda::errc::errc_t"
         }
       ],
       "pureVirtual": false,
       "refid": "error_8h_1ae5f60e182e1df54c6f2f578f429ce73b",
       "returns": [
-        "<code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a>(static&#95;cast&lt;int&gt;(e), cuda::error&#95;category())</code>"
+        "<code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a>(static&#95;cast&lt;int&gt;(e), cuda::error&#95;category())</code>"
       ],
       "static": false,
       "strong": false,
       "title": "make_error_code",
-      "type": "<a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a>",
+      "type": "<a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a>",
       "typePlain": "error_code",
-      "url": "/api/namespaces/namespacesystem.html#function-make_error_code",
+      "url": "/thrust/api/namespaces/namespacesystem.html#function-make_error_code",
       "virtual": false,
       "visibility": "public"
     },
@@ -361,21 +361,21 @@
       "params": [
         {
           "name": "e",
-          "type": "<a href=\"/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t\">cuda::errc::errc_t</a>",
+          "type": "<a href=\"/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t\">cuda::errc::errc_t</a>",
           "typePlain": "cuda::errc::errc_t"
         }
       ],
       "pureVirtual": false,
       "refid": "error_8h_1ad36069ec21e7eea181637b25367c0068",
       "returns": [
-        "<code><a href=\"/api/classes/classsystem_1_1error__condition.html\">error&#95;condition</a>(static&#95;cast&lt;int&gt;(e), cuda::error&#95;category())</code>. "
+        "<code><a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error&#95;condition</a>(static&#95;cast&lt;int&gt;(e), cuda::error&#95;category())</code>. "
       ],
       "static": false,
       "strong": false,
       "title": "make_error_condition",
-      "type": "<a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a>",
+      "type": "<a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a>",
       "typePlain": "error_condition",
-      "url": "/api/namespaces/namespacesystem.html#function-make_error_condition",
+      "url": "/thrust/api/namespaces/namespacesystem.html#function-make_error_condition",
       "virtual": false,
       "visibility": "public"
     },
@@ -400,7 +400,7 @@
       },
       "name": "generic_category",
       "note": [
-        "The object's <code>default&#95;error&#95;condition</code> and <code>equivalent</code> virtual functions shall behave as specified for the class <code><a href=\"/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code>. The object's <code>name</code> virtual function shall return a pointer to the string <code>\"generic\"</code>. "
+        "The object's <code>default&#95;error&#95;condition</code> and <code>equivalent</code> virtual functions shall behave as specified for the class <code><a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code>. The object's <code>name</code> virtual function shall return a pointer to the string <code>\"generic\"</code>. "
       ],
       "override": false,
       "params": [
@@ -413,14 +413,14 @@
       "pureVirtual": false,
       "refid": "group__system__diagnostics_1ga3cb888b01a7e820197e1dd65e7fd287d",
       "returns": [
-        "A reference to an object of a type derived from class <code><a href=\"/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code>. "
+        "A reference to an object of a type derived from class <code><a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code>. "
       ],
       "static": false,
       "strong": false,
       "title": "generic_category",
-      "type": "const <a href=\"/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
+      "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
       "typePlain": "const error_category &",
-      "url": "/api/groups/group__system__diagnostics.html#function-generic_category",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-generic_category",
       "virtual": false,
       "visibility": "public"
     },
@@ -446,7 +446,7 @@
       },
       "name": "system_category",
       "note": [
-        "The object's <code>equivalent</code> virtual functions shall behave as specified for class <code><a href=\"/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code>. The object's <code>name</code> virtual function shall return a pointer to the string <code>\"system\"</code>. The object's <code>default&#95;error&#95;condition</code> virtual function shall behave as follows:"
+        "The object's <code>equivalent</code> virtual functions shall behave as specified for class <code><a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code>. The object's <code>name</code> virtual function shall return a pointer to the string <code>\"system\"</code>. The object's <code>default&#95;error&#95;condition</code> virtual function shall behave as follows:"
       ],
       "override": false,
       "params": [
@@ -459,14 +459,14 @@
       "pureVirtual": false,
       "refid": "group__system__diagnostics_1ga290b49f29c3a13d06c6309c74a0cd8f1",
       "returns": [
-        "A reference to an object of a type derived from class <code><a href=\"/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code>. "
+        "A reference to an object of a type derived from class <code><a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code>. "
       ],
       "static": false,
       "strong": false,
       "title": "system_category",
-      "type": "const <a href=\"/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
+      "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
       "typePlain": "const error_category &",
-      "url": "/api/groups/group__system__diagnostics.html#function-system_category",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-system_category",
       "virtual": false,
       "visibility": "public"
     },
@@ -501,14 +501,14 @@
       "pureVirtual": false,
       "refid": "group__system__diagnostics_1ga7c441654e806779479bf4c802365e1b7",
       "returns": [
-        "<code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a>(static&#95;cast&lt;int&gt;(e), <a href=\"/api/groups/group__system__diagnostics.html#function-generic_category\">generic&#95;category()</a>)</code>"
+        "<code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a>(static&#95;cast&lt;int&gt;(e), <a href=\"/thrust/api/groups/group__system__diagnostics.html#function-generic_category\">generic&#95;category()</a>)</code>"
       ],
       "static": false,
       "strong": false,
       "title": "make_error_code",
-      "type": "<a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a>",
+      "type": "<a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a>",
       "typePlain": "error_code",
-      "url": "/api/groups/group__system__diagnostics.html#function-make_error_code",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-make_error_code",
       "virtual": false,
       "visibility": "public"
     },
@@ -536,12 +536,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         }
       ],
@@ -555,7 +555,7 @@
       "title": "operator<",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator<",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator<",
       "virtual": false,
       "visibility": "public"
     },
@@ -589,7 +589,7 @@
         },
         {
           "name": "ec",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         }
       ],
@@ -612,7 +612,7 @@
       "title": "operator<<",
       "type": "std::basic_ostream< charT, traits > &",
       "typePlain": "std::basic_ostream< charT, traits > &",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator<<",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -647,14 +647,14 @@
       "pureVirtual": false,
       "refid": "group__system__diagnostics_1ga5c7b53c4ec64168897b5b6f69292b063",
       "returns": [
-        "<code><a href=\"/api/classes/classsystem_1_1error__condition.html\">error&#95;condition</a>(static&#95;cast&lt;int&gt;(e), <a href=\"/api/groups/group__system__diagnostics.html#function-generic_category\">generic&#95;category()</a>)</code>. "
+        "<code><a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error&#95;condition</a>(static&#95;cast&lt;int&gt;(e), <a href=\"/thrust/api/groups/group__system__diagnostics.html#function-generic_category\">generic&#95;category()</a>)</code>. "
       ],
       "static": false,
       "strong": false,
       "title": "make_error_condition",
-      "type": "<a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a>",
+      "type": "<a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a>",
       "typePlain": "error_condition",
-      "url": "/api/groups/group__system__diagnostics.html#function-make_error_condition",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-make_error_condition",
       "virtual": false,
       "visibility": "public"
     },
@@ -682,12 +682,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         }
       ],
@@ -701,7 +701,7 @@
       "title": "operator<",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator<",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator<",
       "virtual": false,
       "visibility": "public"
     },
@@ -729,12 +729,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         }
       ],
@@ -748,7 +748,7 @@
       "title": "operator==",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator==",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -776,12 +776,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         }
       ],
@@ -795,7 +795,7 @@
       "title": "operator==",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator==",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -823,12 +823,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         }
       ],
@@ -842,7 +842,7 @@
       "title": "operator==",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator==",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -870,12 +870,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         }
       ],
@@ -889,7 +889,7 @@
       "title": "operator==",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator==",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -917,12 +917,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         }
       ],
@@ -936,7 +936,7 @@
       "title": "operator!=",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator!=",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -964,12 +964,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         }
       ],
@@ -983,7 +983,7 @@
       "title": "operator!=",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator!=",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1011,12 +1011,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
           "typePlain": "const error_code &"
         }
       ],
@@ -1030,7 +1030,7 @@
       "title": "operator!=",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator!=",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1058,12 +1058,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error_condition</a> &",
           "typePlain": "const error_condition &"
         }
       ],
@@ -1077,7 +1077,7 @@
       "title": "operator!=",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__system__diagnostics.html#function-operator!=",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     }
@@ -1086,6 +1086,6 @@
   "static": false,
   "strong": false,
   "title": "system",
-  "url": "/api/namespaces/namespacesystem.html",
+  "url": "/thrust/api/namespaces/namespacesystem.html",
   "visibility": "public"
 }

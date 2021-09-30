@@ -9,15 +9,15 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct mr::disjoint&#95;unsynchronized&#95;pool&#95;resource::oversized&#95;block&#95;descriptor {</span>
-<span>public:</span><span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-size">size</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-size">size</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-alignment">alignment</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-alignment">alignment</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;void_ptr <b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-pointer">pointer</a></b>;</span>
+<span>&nbsp;&nbsp;void_ptr <b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#variable-pointer">pointer</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#function-operator==">operator==</a></b>(const oversized_block_descriptor & other) const;</span>
+<span>&nbsp;&nbsp;__host__ __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#function-operator==">operator==</a></b>(const oversized_block_descriptor & other) const;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#function-operator<">operator&lt;</a></b>(const oversized_block_descriptor & other) const;</span>
+<span>&nbsp;&nbsp;__host__ __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html#function-operator<">operator&lt;</a></b>(const oversized_block_descriptor & other) const;</span>
 <span>};</span>
 </code>
 

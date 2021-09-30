@@ -28,7 +28,7 @@
     "name": "complex_numbers",
     "refid": "group__complex__numbers",
     "title": "Complex Numbers",
-    "url": "/api/groups/group__complex__numbers.html",
+    "url": "/thrust/api/groups/group__complex__numbers.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "numerics",
       "refid": "group__numerics",
       "title": "Numerics",
-      "url": "/api/groups/group__numerics.html",
+      "url": "/thrust/api/groups/group__numerics.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "complex_numbers",
       "refid": "group__complex__numbers",
       "title": "Complex Numbers",
-      "url": "/api/groups/group__complex__numbers.html",
+      "url": "/thrust/api/groups/group__complex__numbers.html",
       "visibility": "public"
     }
   ],
@@ -85,7 +85,7 @@
       "title": "data",
       "type": "detail::complex_storage< T, sizeof(T) *2 >::type",
       "typePlain": "detail::complex_storage< T, sizeof(T) *2 >::type",
-      "url": "/api/classes/structcomplex.html#variable-data",
+      "url": "/thrust/api/classes/structcomplex.html#variable-data",
       "visibility": "private"
     }
   ],
@@ -132,7 +132,7 @@
       "title": "complex",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structcomplex.html#function-complex",
+      "url": "/thrust/api/classes/structcomplex.html#function-complex",
       "virtual": false,
       "visibility": "public"
     },
@@ -187,7 +187,7 @@
       "title": "complex",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structcomplex.html#function-complex",
+      "url": "/thrust/api/classes/structcomplex.html#function-complex",
       "virtual": false,
       "visibility": "public"
     },
@@ -219,7 +219,7 @@
       "static": false,
       "strong": false,
       "title": "complex",
-      "url": "/api/classes/structcomplex.html#function-complex",
+      "url": "/thrust/api/classes/structcomplex.html#function-complex",
       "virtual": false,
       "visibility": "public"
     },
@@ -254,7 +254,7 @@
       "params": [
         {
           "name": "z",
-          "type": "const <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
           "typePlain": "const complex< T > &"
         }
       ],
@@ -263,7 +263,7 @@
       "static": false,
       "strong": false,
       "title": "complex",
-      "url": "/api/classes/structcomplex.html#function-complex",
+      "url": "/thrust/api/classes/structcomplex.html#function-complex",
       "virtual": false,
       "visibility": "public"
     },
@@ -298,7 +298,7 @@
       "params": [
         {
           "name": "z",
-          "type": "const <a href=\"/api/classes/structcomplex.html\">complex</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< U > &",
           "typePlain": "const complex< U > &"
         }
       ],
@@ -322,7 +322,7 @@
       "title": "complex",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structcomplex.html#function-complex",
+      "url": "/thrust/api/classes/structcomplex.html#function-complex",
       "virtual": false,
       "visibility": "public"
     },
@@ -368,7 +368,7 @@
       "title": "complex",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structcomplex.html#function-complex",
+      "url": "/thrust/api/classes/structcomplex.html#function-complex",
       "virtual": false,
       "visibility": "public"
     },
@@ -427,7 +427,7 @@
       "title": "complex",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structcomplex.html#function-complex",
+      "url": "/thrust/api/classes/structcomplex.html#function-complex",
       "virtual": false,
       "visibility": "public"
     },
@@ -471,9 +471,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a> &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a> &",
       "typePlain": "__host__ __device__ complex &",
-      "url": "/api/classes/structcomplex.html#function-operator=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -508,7 +508,7 @@
       "params": [
         {
           "name": "z",
-          "type": "const <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
           "typePlain": "const complex< T > &"
         }
       ],
@@ -517,9 +517,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "<a href=\"/api/classes/structcomplex.html\">complex</a> &",
+      "type": "<a href=\"/thrust/api/classes/structcomplex.html\">complex</a> &",
       "typePlain": "complex &",
-      "url": "/api/classes/structcomplex.html#function-operator=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -554,7 +554,7 @@
       "params": [
         {
           "name": "z",
-          "type": "const <a href=\"/api/classes/structcomplex.html\">complex</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< U > &",
           "typePlain": "const complex< U > &"
         }
       ],
@@ -576,9 +576,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a> &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a> &",
       "typePlain": "__host__ __device__ complex &",
-      "url": "/api/classes/structcomplex.html#function-operator=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -622,9 +622,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a> &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a> &",
       "typePlain": "__host__ __device__ complex &",
-      "url": "/api/classes/structcomplex.html#function-operator=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -681,9 +681,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a> &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a> &",
       "typePlain": "__host__ __device__ complex &",
-      "url": "/api/classes/structcomplex.html#function-operator=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -718,7 +718,7 @@
       "params": [
         {
           "name": "z",
-          "type": "const <a href=\"/api/classes/structcomplex.html\">complex</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< U > &",
           "typePlain": "const complex< U > &"
         }
       ],
@@ -740,9 +740,9 @@
         }
       ],
       "title": "operator+=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
       "typePlain": "__host__ __device__ complex< T > &",
-      "url": "/api/classes/structcomplex.html#function-operator+=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator+=",
       "virtual": false,
       "visibility": "public"
     },
@@ -777,7 +777,7 @@
       "params": [
         {
           "name": "z",
-          "type": "const <a href=\"/api/classes/structcomplex.html\">complex</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< U > &",
           "typePlain": "const complex< U > &"
         }
       ],
@@ -799,9 +799,9 @@
         }
       ],
       "title": "operator-=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
       "typePlain": "__host__ __device__ complex< T > &",
-      "url": "/api/classes/structcomplex.html#function-operator-=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator-=",
       "virtual": false,
       "visibility": "public"
     },
@@ -836,7 +836,7 @@
       "params": [
         {
           "name": "z",
-          "type": "const <a href=\"/api/classes/structcomplex.html\">complex</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< U > &",
           "typePlain": "const complex< U > &"
         }
       ],
@@ -858,9 +858,9 @@
         }
       ],
       "title": "operator*=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
       "typePlain": "__host__ __device__ complex< T > &",
-      "url": "/api/classes/structcomplex.html#function-operator*=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator*=",
       "virtual": false,
       "visibility": "public"
     },
@@ -895,7 +895,7 @@
       "params": [
         {
           "name": "z",
-          "type": "const <a href=\"/api/classes/structcomplex.html\">complex</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< U > &",
           "typePlain": "const complex< U > &"
         }
       ],
@@ -917,9 +917,9 @@
         }
       ],
       "title": "operator/=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
       "typePlain": "__host__ __device__ complex< T > &",
-      "url": "/api/classes/structcomplex.html#function-operator/=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator/=",
       "virtual": false,
       "visibility": "public"
     },
@@ -976,9 +976,9 @@
         }
       ],
       "title": "operator+=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
       "typePlain": "__host__ __device__ complex< T > &",
-      "url": "/api/classes/structcomplex.html#function-operator+=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator+=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1035,9 +1035,9 @@
         }
       ],
       "title": "operator-=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
       "typePlain": "__host__ __device__ complex< T > &",
-      "url": "/api/classes/structcomplex.html#function-operator-=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator-=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1094,9 +1094,9 @@
         }
       ],
       "title": "operator*=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
       "typePlain": "__host__ __device__ complex< T > &",
-      "url": "/api/classes/structcomplex.html#function-operator*=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator*=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1153,9 +1153,9 @@
         }
       ],
       "title": "operator/=",
-      "type": "__host__ __device__ <a href=\"/api/classes/structcomplex.html\">complex</a>< T > &",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
       "typePlain": "__host__ __device__ complex< T > &",
-      "url": "/api/classes/structcomplex.html#function-operator/=",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator/=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1192,7 +1192,7 @@
       "title": "real",
       "type": "__host__ __device__ T",
       "typePlain": "__host__ __device__ T",
-      "url": "/api/classes/structcomplex.html#function-real",
+      "url": "/thrust/api/classes/structcomplex.html#function-real",
       "virtual": false,
       "visibility": "public"
     },
@@ -1229,7 +1229,7 @@
       "title": "imag",
       "type": "__host__ __device__ T",
       "typePlain": "__host__ __device__ T",
-      "url": "/api/classes/structcomplex.html#function-imag",
+      "url": "/thrust/api/classes/structcomplex.html#function-imag",
       "virtual": false,
       "visibility": "public"
     },
@@ -1266,7 +1266,7 @@
       "title": "real",
       "type": "__host__ __device__ T",
       "typePlain": "__host__ __device__ T",
-      "url": "/api/classes/structcomplex.html#function-real",
+      "url": "/thrust/api/classes/structcomplex.html#function-real",
       "virtual": false,
       "visibility": "public"
     },
@@ -1303,7 +1303,7 @@
       "title": "imag",
       "type": "__host__ __device__ T",
       "typePlain": "__host__ __device__ T",
-      "url": "/api/classes/structcomplex.html#function-imag",
+      "url": "/thrust/api/classes/structcomplex.html#function-imag",
       "virtual": false,
       "visibility": "public"
     },
@@ -1352,7 +1352,7 @@
       "title": "real",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/structcomplex.html#function-real",
+      "url": "/thrust/api/classes/structcomplex.html#function-real",
       "virtual": false,
       "visibility": "public"
     },
@@ -1401,7 +1401,7 @@
       "title": "imag",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/structcomplex.html#function-imag",
+      "url": "/thrust/api/classes/structcomplex.html#function-imag",
       "virtual": false,
       "visibility": "public"
     },
@@ -1450,7 +1450,7 @@
       "title": "real",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/structcomplex.html#function-real",
+      "url": "/thrust/api/classes/structcomplex.html#function-real",
       "virtual": false,
       "visibility": "public"
     },
@@ -1499,7 +1499,7 @@
       "title": "imag",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/structcomplex.html#function-imag",
+      "url": "/thrust/api/classes/structcomplex.html#function-imag",
       "virtual": false,
       "visibility": "public"
     },
@@ -1536,7 +1536,7 @@
       "title": "operator std::complex< T >",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/structcomplex.html#function-operator-stdcomplex<-t->",
+      "url": "/thrust/api/classes/structcomplex.html#function-operator-stdcomplex<-t->",
       "virtual": false,
       "visibility": "public"
     }
@@ -1569,7 +1569,7 @@
       "title": "value_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structcomplex.html#typedef-value_type",
+      "url": "/thrust/api/classes/structcomplex.html#typedef-value_type",
       "visibility": "public"
     }
   ],
@@ -1590,6 +1590,6 @@
     }
   ],
   "title": "complex",
-  "url": "/api/classes/structcomplex.html",
+  "url": "/thrust/api/classes/structcomplex.html",
   "visibility": "public"
 }

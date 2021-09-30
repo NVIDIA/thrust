@@ -8,7 +8,7 @@ has_toc: false
 
 # Struct `device_execution_policy`
 
-<code><a href="/api/classes/structdevice__execution__policy.html">device&#95;execution&#95;policy</a></code> is the base class for all Thrust parallel execution policies which are derived from Thrust's default device backend system configured with the <code>THRUST&#95;DEVICE&#95;SYSTEM</code> macro.
+<code><a href="/thrust/api/classes/structdevice__execution__policy.html">device&#95;execution&#95;policy</a></code> is the base class for all Thrust parallel execution policies which are derived from Thrust's default device backend system configured with the <code>THRUST&#95;DEVICE&#95;SYSTEM</code> macro.
 
 Custom user-defined backends which wish to inherit the functionality of Thrust's device backend system should derive a policy from this type in order to interoperate with Thrust algorithm dispatch.
 
@@ -62,7 +62,7 @@ int main()
 
 **See**:
 * execution_policy 
-* <a href="/api/classes/structhost__execution__policy.html">host_execution_policy</a>
+* <a href="/thrust/api/classes/structhost__execution__policy.html">host_execution_policy</a>
 
 <code class="doxybook">
 <span>#include <thrust/execution_policy.h></span><br>

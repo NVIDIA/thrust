@@ -10,7 +10,7 @@ has_toc: false
 
 ## Groups
 
-* **[Complex Numbers](/api/groups/group__complex__numbers.html)**
+* **[Complex Numbers](/thrust/api/groups/group__complex__numbers.html)**
 
 <code class="doxybook">
 </code>

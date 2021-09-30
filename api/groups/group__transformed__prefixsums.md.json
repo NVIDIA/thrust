@@ -18,7 +18,7 @@
     "name": "prefixsums",
     "refid": "group__prefixsums",
     "title": "Prefix Sums",
-    "url": "/api/groups/group__prefixsums.html",
+    "url": "/thrust/api/groups/group__prefixsums.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "prefixsums",
       "refid": "group__prefixsums",
       "title": "Prefix Sums",
-      "url": "/api/groups/group__prefixsums.html",
+      "url": "/thrust/api/groups/group__prefixsums.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "prefixsums",
     "refid": "group__prefixsums",
     "title": "Prefix Sums",
-    "url": "/api/groups/group__prefixsums.html",
+    "url": "/thrust/api/groups/group__prefixsums.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "prefixsums",
       "refid": "group__prefixsums",
       "title": "Prefix Sums",
-      "url": "/api/groups/group__prefixsums.html",
+      "url": "/thrust/api/groups/group__prefixsums.html",
       "visibility": "public"
     }
   ],
@@ -172,8 +172,8 @@
         "The end of the output sequence."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__transformations.html#function-transform\">transform</a></code>",
-        "<code><a href=\"/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive&#95;scan</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__transformations.html#function-transform\">transform</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive&#95;scan</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -229,7 +229,7 @@
       "title": "transform_inclusive_scan",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__transformed__prefixsums.html#function-transform_inclusive_scan",
+      "url": "/thrust/api/groups/group__transformed__prefixsums.html#function-transform_inclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -313,8 +313,8 @@
         "The end of the output sequence."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__transformations.html#function-transform\">transform</a></code>",
-        "<code><a href=\"/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive&#95;scan</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__transformations.html#function-transform\">transform</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive&#95;scan</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -361,7 +361,7 @@
       "title": "transform_inclusive_scan",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__transformed__prefixsums.html#function-transform_inclusive_scan",
+      "url": "/thrust/api/groups/group__transformed__prefixsums.html#function-transform_inclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -463,8 +463,8 @@
         "The end of the output sequence."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__transformations.html#function-transform\">transform</a></code>",
-        "<code><a href=\"/api/groups/group__prefixsums.html#function-exclusive_scan\">exclusive&#95;scan</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__transformations.html#function-transform\">transform</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__prefixsums.html#function-exclusive_scan\">exclusive&#95;scan</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -529,7 +529,7 @@
       "title": "transform_exclusive_scan",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__transformed__prefixsums.html#function-transform_exclusive_scan",
+      "url": "/thrust/api/groups/group__transformed__prefixsums.html#function-transform_exclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -622,8 +622,8 @@
         "The end of the output sequence."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__transformations.html#function-transform\">transform</a></code>",
-        "<code><a href=\"/api/groups/group__prefixsums.html#function-exclusive_scan\">exclusive&#95;scan</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__transformations.html#function-transform\">transform</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__prefixsums.html#function-exclusive_scan\">exclusive&#95;scan</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -679,7 +679,7 @@
       "title": "transform_exclusive_scan",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__transformed__prefixsums.html#function-transform_exclusive_scan",
+      "url": "/thrust/api/groups/group__transformed__prefixsums.html#function-transform_exclusive_scan",
       "virtual": false,
       "visibility": "public"
     }
@@ -688,6 +688,6 @@
   "static": false,
   "strong": false,
   "title": "Transformed Prefix Sums",
-  "url": "/api/groups/group__transformed__prefixsums.html",
+  "url": "/thrust/api/groups/group__transformed__prefixsums.html",
   "visibility": "public"
 }

@@ -18,7 +18,7 @@
     "name": "reordering",
     "refid": "group__reordering",
     "title": "Reordering",
-    "url": "/api/groups/group__reordering.html",
+    "url": "/thrust/api/groups/group__reordering.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "reordering",
       "refid": "group__reordering",
       "title": "Reordering",
-      "url": "/api/groups/group__reordering.html",
+      "url": "/thrust/api/groups/group__reordering.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "reordering",
     "refid": "group__reordering",
     "title": "Reordering",
-    "url": "/api/groups/group__reordering.html",
+    "url": "/thrust/api/groups/group__reordering.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "reordering",
       "refid": "group__reordering",
       "title": "Reordering",
-      "url": "/api/groups/group__reordering.html",
+      "url": "/thrust/api/groups/group__reordering.html",
       "visibility": "public"
     }
   ],
@@ -152,8 +152,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partition\">https://en.cppreference.com/w/cpp/algorithm/partition</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -191,7 +191,7 @@
       "title": "partition",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__partitioning.html#function-partition",
+      "url": "/thrust/api/groups/group__partitioning.html#function-partition",
       "virtual": false,
       "visibility": "public"
     },
@@ -255,8 +255,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partition\">https://en.cppreference.com/w/cpp/algorithm/partition</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -285,7 +285,7 @@
       "title": "partition",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__partitioning.html#function-partition",
+      "url": "/thrust/api/groups/group__partitioning.html#function-partition",
       "virtual": false,
       "visibility": "public"
     },
@@ -370,8 +370,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partition\">https://en.cppreference.com/w/cpp/algorithm/partition</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -418,7 +418,7 @@
       "title": "partition",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__partitioning.html#function-partition",
+      "url": "/thrust/api/groups/group__partitioning.html#function-partition",
       "virtual": false,
       "visibility": "public"
     },
@@ -494,8 +494,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/partition\">https://en.cppreference.com/w/cpp/algorithm/partition</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -533,7 +533,7 @@
       "title": "partition",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__partitioning.html#function-partition",
+      "url": "/thrust/api/groups/group__partitioning.html#function-partition",
       "virtual": false,
       "visibility": "public"
     },
@@ -630,8 +630,8 @@
       ],
       "see": [
         "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -687,7 +687,7 @@
       "title": "partition_copy",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__partitioning.html#function-partition_copy",
+      "url": "/thrust/api/groups/group__partitioning.html#function-partition_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -775,8 +775,8 @@
       ],
       "see": [
         "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -823,7 +823,7 @@
       "title": "partition_copy",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__partitioning.html#function-partition_copy",
+      "url": "/thrust/api/groups/group__partitioning.html#function-partition_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -929,8 +929,8 @@
       ],
       "see": [
         "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -995,7 +995,7 @@
       "title": "partition_copy",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__partitioning.html#function-partition_copy",
+      "url": "/thrust/api/groups/group__partitioning.html#function-partition_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1092,8 +1092,8 @@
       ],
       "see": [
         "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1149,7 +1149,7 @@
       "title": "partition_copy",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__partitioning.html#function-partition_copy",
+      "url": "/thrust/api/groups/group__partitioning.html#function-partition_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1222,8 +1222,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_partition\">https://en.cppreference.com/w/cpp/algorithm/stable_partition</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1261,7 +1261,7 @@
       "title": "stable_partition",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__partitioning.html#function-stable_partition",
+      "url": "/thrust/api/groups/group__partitioning.html#function-stable_partition",
       "virtual": false,
       "visibility": "public"
     },
@@ -1325,8 +1325,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_partition\">https://en.cppreference.com/w/cpp/algorithm/stable_partition</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1355,7 +1355,7 @@
       "title": "stable_partition",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__partitioning.html#function-stable_partition",
+      "url": "/thrust/api/groups/group__partitioning.html#function-stable_partition",
       "virtual": false,
       "visibility": "public"
     },
@@ -1440,8 +1440,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_partition\">https://en.cppreference.com/w/cpp/algorithm/stable_partition</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1488,7 +1488,7 @@
       "title": "stable_partition",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__partitioning.html#function-stable_partition",
+      "url": "/thrust/api/groups/group__partitioning.html#function-stable_partition",
       "virtual": false,
       "visibility": "public"
     },
@@ -1564,8 +1564,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_partition\">https://en.cppreference.com/w/cpp/algorithm/stable_partition</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition_copy\">stable&#95;partition&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1603,7 +1603,7 @@
       "title": "stable_partition",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__partitioning.html#function-stable_partition",
+      "url": "/thrust/api/groups/group__partitioning.html#function-stable_partition",
       "virtual": false,
       "visibility": "public"
     },
@@ -1697,8 +1697,8 @@
       ],
       "see": [
         "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1754,7 +1754,7 @@
       "title": "stable_partition_copy",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__partitioning.html#function-stable_partition_copy",
+      "url": "/thrust/api/groups/group__partitioning.html#function-stable_partition_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1839,8 +1839,8 @@
       ],
       "see": [
         "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1887,7 +1887,7 @@
       "title": "stable_partition_copy",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__partitioning.html#function-stable_partition_copy",
+      "url": "/thrust/api/groups/group__partitioning.html#function-stable_partition_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1990,8 +1990,8 @@
       ],
       "see": [
         "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -2056,7 +2056,7 @@
       "title": "stable_partition_copy",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__partitioning.html#function-stable_partition_copy",
+      "url": "/thrust/api/groups/group__partitioning.html#function-stable_partition_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -2150,8 +2150,8 @@
       ],
       "see": [
         "<a href=\"http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf\">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2569.pdf</a>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition_copy\">partition&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-stable_partition\">stable&#95;partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -2207,7 +2207,7 @@
       "title": "stable_partition_copy",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__partitioning.html#function-stable_partition_copy",
+      "url": "/thrust/api/groups/group__partitioning.html#function-stable_partition_copy",
       "virtual": false,
       "visibility": "public"
     }
@@ -2216,6 +2216,6 @@
   "static": false,
   "strong": false,
   "title": "Partitioning",
-  "url": "/api/groups/group__partitioning.html",
+  "url": "/thrust/api/groups/group__partitioning.html",
   "visibility": "public"
 }

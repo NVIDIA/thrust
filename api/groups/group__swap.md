@@ -12,7 +12,7 @@ has_toc: false
 <code class="doxybook">
 <span>template &lt;typename Assignable1,</span>
 <span>&nbsp;&nbsp;typename Assignable2&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__swap.html#function-swap">swap</a></b>(Assignable1 & a,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__swap.html#function-swap">swap</a></b>(Assignable1 & a,</span>
 <span>&nbsp;&nbsp;Assignable2 & b);</span>
 </code>
 

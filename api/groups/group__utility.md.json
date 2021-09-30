@@ -15,7 +15,7 @@
       "name": "pair",
       "refid": "group__pair",
       "title": "Pair",
-      "url": "/api/groups/group__pair.html",
+      "url": "/thrust/api/groups/group__pair.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "swap",
       "refid": "group__swap",
       "title": "Swap",
-      "url": "/api/groups/group__swap.html",
+      "url": "/thrust/api/groups/group__swap.html",
       "visibility": "public"
     },
     {
@@ -37,7 +37,7 @@
       "name": "tuple",
       "refid": "group__tuple",
       "title": "Tuple",
-      "url": "/api/groups/group__tuple.html",
+      "url": "/thrust/api/groups/group__tuple.html",
       "visibility": "public"
     },
     {
@@ -48,7 +48,7 @@
       "name": "type_traits",
       "refid": "group__type__traits",
       "title": "Type Traits",
-      "url": "/api/groups/group__type__traits.html",
+      "url": "/thrust/api/groups/group__type__traits.html",
       "visibility": "public"
     }
   ],
@@ -63,6 +63,6 @@
   "static": false,
   "strong": false,
   "title": "Utility",
-  "url": "/api/groups/group__utility.html",
+  "url": "/thrust/api/groups/group__utility.html",
   "visibility": "public"
 }

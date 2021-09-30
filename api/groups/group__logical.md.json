@@ -18,7 +18,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -151,9 +151,9 @@
         "<code>true</code>, if all elements satisfy the predicate; <code>false</code>, otherwise."
       ],
       "see": [
-        "<a href=\"/api/groups/group__logical.html#function-any_of\">any_of</a>",
-        "<a href=\"/api/groups/group__logical.html#function-none_of\">none_of</a>",
-        "<a href=\"/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
+        "<a href=\"/thrust/api/groups/group__logical.html#function-any_of\">any_of</a>",
+        "<a href=\"/thrust/api/groups/group__logical.html#function-none_of\">none_of</a>",
+        "<a href=\"/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
       ],
       "static": false,
       "strong": false,
@@ -191,7 +191,7 @@
       "title": "all_of",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__logical.html#function-all_of",
+      "url": "/thrust/api/groups/group__logical.html#function-all_of",
       "virtual": false,
       "visibility": "public"
     },
@@ -254,9 +254,9 @@
         "<code>true</code>, if all elements satisfy the predicate; <code>false</code>, otherwise."
       ],
       "see": [
-        "<a href=\"/api/groups/group__logical.html#function-any_of\">any_of</a>",
-        "<a href=\"/api/groups/group__logical.html#function-none_of\">none_of</a>",
-        "<a href=\"/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
+        "<a href=\"/thrust/api/groups/group__logical.html#function-any_of\">any_of</a>",
+        "<a href=\"/thrust/api/groups/group__logical.html#function-none_of\">none_of</a>",
+        "<a href=\"/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
       ],
       "static": false,
       "strong": false,
@@ -285,7 +285,7 @@
       "title": "all_of",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__logical.html#function-all_of",
+      "url": "/thrust/api/groups/group__logical.html#function-all_of",
       "virtual": false,
       "visibility": "public"
     },
@@ -357,9 +357,9 @@
         "<code>true</code>, if any element satisfies the predicate; <code>false</code>, otherwise."
       ],
       "see": [
-        "<a href=\"/api/groups/group__logical.html#function-all_of\">all_of</a>",
-        "<a href=\"/api/groups/group__logical.html#function-none_of\">none_of</a>",
-        "<a href=\"/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
+        "<a href=\"/thrust/api/groups/group__logical.html#function-all_of\">all_of</a>",
+        "<a href=\"/thrust/api/groups/group__logical.html#function-none_of\">none_of</a>",
+        "<a href=\"/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
       ],
       "static": false,
       "strong": false,
@@ -397,7 +397,7 @@
       "title": "any_of",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__logical.html#function-any_of",
+      "url": "/thrust/api/groups/group__logical.html#function-any_of",
       "virtual": false,
       "visibility": "public"
     },
@@ -460,9 +460,9 @@
         "<code>true</code>, if any element satisfies the predicate; <code>false</code>, otherwise."
       ],
       "see": [
-        "<a href=\"/api/groups/group__logical.html#function-all_of\">all_of</a>",
-        "<a href=\"/api/groups/group__logical.html#function-none_of\">none_of</a>",
-        "<a href=\"/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
+        "<a href=\"/thrust/api/groups/group__logical.html#function-all_of\">all_of</a>",
+        "<a href=\"/thrust/api/groups/group__logical.html#function-none_of\">none_of</a>",
+        "<a href=\"/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
       ],
       "static": false,
       "strong": false,
@@ -491,7 +491,7 @@
       "title": "any_of",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__logical.html#function-any_of",
+      "url": "/thrust/api/groups/group__logical.html#function-any_of",
       "virtual": false,
       "visibility": "public"
     },
@@ -563,9 +563,9 @@
         "<code>true</code>, if no element satisfies the predicate; <code>false</code>, otherwise."
       ],
       "see": [
-        "<a href=\"/api/groups/group__logical.html#function-all_of\">all_of</a>",
-        "<a href=\"/api/groups/group__logical.html#function-any_of\">any_of</a>",
-        "<a href=\"/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
+        "<a href=\"/thrust/api/groups/group__logical.html#function-all_of\">all_of</a>",
+        "<a href=\"/thrust/api/groups/group__logical.html#function-any_of\">any_of</a>",
+        "<a href=\"/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
       ],
       "static": false,
       "strong": false,
@@ -603,7 +603,7 @@
       "title": "none_of",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__logical.html#function-none_of",
+      "url": "/thrust/api/groups/group__logical.html#function-none_of",
       "virtual": false,
       "visibility": "public"
     },
@@ -666,9 +666,9 @@
         "<code>true</code>, if no element satisfies the predicate; <code>false</code>, otherwise."
       ],
       "see": [
-        "<a href=\"/api/groups/group__logical.html#function-all_of\">all_of</a>",
-        "<a href=\"/api/groups/group__logical.html#function-any_of\">any_of</a>",
-        "<a href=\"/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
+        "<a href=\"/thrust/api/groups/group__logical.html#function-all_of\">all_of</a>",
+        "<a href=\"/thrust/api/groups/group__logical.html#function-any_of\">any_of</a>",
+        "<a href=\"/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
       ],
       "static": false,
       "strong": false,
@@ -697,7 +697,7 @@
       "title": "none_of",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__logical.html#function-none_of",
+      "url": "/thrust/api/groups/group__logical.html#function-none_of",
       "virtual": false,
       "visibility": "public"
     }
@@ -706,6 +706,6 @@
   "static": false,
   "strong": false,
   "title": "Logical",
-  "url": "/api/groups/group__logical.html",
+  "url": "/thrust/api/groups/group__logical.html",
   "visibility": "public"
 }

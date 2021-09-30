@@ -12,7 +12,7 @@ has_toc: false
 <br>
 <span>template &lt;typename System,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespaceunique__eager__future__type__detail.html#using-select">select</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespaceunique__eager__future__type__detail.html#using-select">select</a></b> = <i>see below</i>;</span>
 <span>} /* namespace unique&#95;eager&#95;future&#95;type&#95;detail */</span>
 </code>
 

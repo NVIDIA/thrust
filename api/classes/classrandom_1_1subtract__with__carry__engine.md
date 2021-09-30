@@ -21,7 +21,7 @@ This algorithm corresponds to a modular linear function of the form
 <code>TA(x&#95;i) = (a &#42; x&#95;i) mod b</code>, where <code>b</code> is of the form <code>m^r - m^s + 1</code> and <code>a = b - (b-1)/m</code>.
 
 **Note**:
-Inexperienced users should not use this class template directly. Instead, use <code>ranlux24&#95;base</code> or <code>ranlux48&#95;base</code>, which are instances of <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>.
+Inexperienced users should not use this class template directly. Instead, use <code>ranlux24&#95;base</code> or <code>ranlux48&#95;base</code>, which are instances of <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>.
 
 **Template Parameters**:
 * **`UIntType`** The type of unsigned integer to produce. 
@@ -40,27 +40,27 @@ Inexperienced users should not use this class template directly. Instead, use <c
 <span>&nbsp;&nbsp;size_t s,</span>
 <span>&nbsp;&nbsp;size_t r&gt;</span>
 <span>class random::subtract&#95;with&#95;carry&#95;engine {</span>
-<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the unsigned integer produced by this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result&#95;type</a></b>;</span>
+<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the unsigned integer produced by this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-word_size">word&#95;size</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-word_size">word&#95;size</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-short_lag">short&#95;lag</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-short_lag">short&#95;lag</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-long_lag">long&#95;lag</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-long_lag">long&#95;lag</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-min">min</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-min">min</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-max">max</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-max">max</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-default_seed">default&#95;seed</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-default_seed">default&#95;seed</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-subtract_with_carry_engine">subtract&#95;with&#95;carry&#95;engine</a></b>(<a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span>
+<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-subtract_with_carry_engine">subtract&#95;with&#95;carry&#95;engine</a></b>(<a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-seed">seed</a></b>(<a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-seed">seed</a></b>(<a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-operator()">operator()</a></b>(void);</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-operator()">operator()</a></b>(void);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-discard">discard</a></b>(unsigned long long z);</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-discard">discard</a></b>(unsigned long long z);</span>
 <span>};</span>
 </code>
 
@@ -72,7 +72,7 @@ Typedef <code>random::subtract&#95;with&#95;carry&#95;engine::result&#95;type</c
 
 <code class="doxybook">
 <span>typedef UIntType<b>result_type</b>;</span></code>
-The type of the unsigned integer produced by this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>. 
+The type of the unsigned integer produced by this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>. 
 
 
 ## Member Variables
@@ -106,24 +106,24 @@ Variable <code>random::subtract&#95;with&#95;carry&#95;engine::random::subtract&
 </h3>
 
 <code class="doxybook">
-<span>static const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b>min</b> = 0;</span></code>
-The smallest value this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. 
+<span>static const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b>min</b> = 0;</span></code>
+The smallest value this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. 
 
 <h3 id="variable-max">
 Variable <code>random::subtract&#95;with&#95;carry&#95;engine::random::subtract&#95;with&#95;carry&#95;engine::max</code>
 </h3>
 
 <code class="doxybook">
-<span>static const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b>max</b> = &lt;a href="/api/classes/structmodulus.html"&gt;modulus&lt;/a&gt; - 1;</span></code>
-The largest value this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. 
+<span>static const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b>max</b> = &lt;a href="/thrust/api/classes/structmodulus.html"&gt;modulus&lt;/a&gt; - 1;</span></code>
+The largest value this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. 
 
 <h3 id="variable-default_seed">
 Variable <code>random::subtract&#95;with&#95;carry&#95;engine::random::subtract&#95;with&#95;carry&#95;engine::default&#95;seed</code>
 </h3>
 
 <code class="doxybook">
-<span>static const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b>default_seed</b> = 19780503u;</span></code>
-The default seed of this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>. 
+<span>static const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> <b>default_seed</b> = 19780503u;</span></code>
+The default seed of this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>. 
 
 
 ## Member Functions
@@ -133,30 +133,30 @@ Function <code>random::subtract&#95;with&#95;carry&#95;engine::&gt;::subtract&#9
 </h3>
 
 <code class="doxybook">
-<span>explicit __host__ __device__ </span><span><b>subtract_with_carry_engine</b>(<a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span></code>
-This constructor, which optionally accepts a seed, initializes a new <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>.
+<span>explicit __host__ __device__ </span><span><b>subtract_with_carry_engine</b>(<a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span></code>
+This constructor, which optionally accepts a seed, initializes a new <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code>.
 
 **Function Parameters**:
-**`value`**: The seed used to intialize this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. 
+**`value`**: The seed used to intialize this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. 
 
 <h3 id="function-seed">
 Function <code>random::subtract&#95;with&#95;carry&#95;engine::&gt;::seed</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ void </span><span><b>seed</b>(<a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span></code>
-This method initializes this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state, and optionally accepts a seed value.
+<span>__host__ __device__ void </span><span><b>seed</b>(<a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span></code>
+This method initializes this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state, and optionally accepts a seed value.
 
 **Function Parameters**:
-**`value`**: The seed used to initializes this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. 
+**`value`**: The seed used to initializes this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. 
 
 <h3 id="function-operator()">
 Function <code>random::subtract&#95;with&#95;carry&#95;engine::&gt;::operator()</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(void);</span></code>
-This member function produces a new random value and updates this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. 
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(void);</span></code>
+This member function produces a new random value and updates this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. 
 
 **Returns**:
 A new random number. 
@@ -167,7 +167,7 @@ Function <code>random::subtract&#95;with&#95;carry&#95;engine::&gt;::discard</co
 
 <code class="doxybook">
 <span>__host__ __device__ void </span><span><b>discard</b>(unsigned long long z);</span></code>
-This member function advances this <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state a given number of times and discards the results.
+This member function advances this <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state a given number of times and discards the results.
 
 **Note**:
 This function is provided because an implementation may be able to accelerate it. 

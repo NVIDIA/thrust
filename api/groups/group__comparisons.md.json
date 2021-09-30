@@ -18,7 +18,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -189,7 +189,7 @@
       "title": "equal",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__comparisons.html#function-equal",
+      "url": "/thrust/api/groups/group__comparisons.html#function-equal",
       "virtual": false,
       "visibility": "public"
     },
@@ -281,7 +281,7 @@
       "title": "equal",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__comparisons.html#function-equal",
+      "url": "/thrust/api/groups/group__comparisons.html#function-equal",
       "virtual": false,
       "visibility": "public"
     },
@@ -409,7 +409,7 @@
       "title": "equal",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__comparisons.html#function-equal",
+      "url": "/thrust/api/groups/group__comparisons.html#function-equal",
       "virtual": false,
       "visibility": "public"
     },
@@ -519,7 +519,7 @@
       "title": "equal",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__comparisons.html#function-equal",
+      "url": "/thrust/api/groups/group__comparisons.html#function-equal",
       "virtual": false,
       "visibility": "public"
     }
@@ -528,6 +528,6 @@
   "static": false,
   "strong": false,
   "title": "Comparisons",
-  "url": "/api/groups/group__comparisons.html",
+  "url": "/thrust/api/groups/group__comparisons.html",
   "visibility": "public"
 }

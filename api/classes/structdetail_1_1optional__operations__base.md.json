@@ -18,7 +18,7 @@
       "external": false,
       "name": "detail::optional_copy_base< T, bool >",
       "refid": "structdetail_1_1optional__copy__base",
-      "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__base.html",
       "virtual": "non-virtual",
       "visibility": "public"
     },
@@ -26,7 +26,7 @@
       "external": false,
       "name": "detail::optional_copy_base< T, false >",
       "refid": "structdetail_1_1optional__copy__base_3_01T_00_01false_01_4",
-      "url": "/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
       "virtual": "non-virtual",
       "visibility": "public"
     },
@@ -34,7 +34,7 @@
       "external": false,
       "name": "detail::optional_copy_base< T >",
       "refid": "structdetail_1_1optional__copy__base",
-      "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__base.html",
       "virtual": "non-virtual",
       "visibility": "public"
     }
@@ -65,7 +65,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -79,7 +79,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -116,7 +116,7 @@
       "title": "hard_reset",
       "type": "__thrust_exec_check_disable__ __host__ __device__ void",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ void",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html#function-hard_reset",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-hard_reset",
       "virtual": false,
       "visibility": "public"
     },
@@ -165,7 +165,7 @@
       "title": "construct",
       "type": "__thrust_exec_check_disable__ __host__ __device__ void",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ void",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html#function-construct",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-construct",
       "virtual": false,
       "visibility": "public"
     },
@@ -214,7 +214,7 @@
       "title": "assign",
       "type": "__thrust_exec_check_disable__ __host__ __device__ void",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ void",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html#function-assign",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-assign",
       "virtual": false,
       "visibility": "public"
     },
@@ -250,7 +250,7 @@
       "title": "has_value",
       "type": "__thrust_exec_check_disable__ __host__ __device__ bool",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ bool",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html#function-has_value",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-has_value",
       "virtual": false,
       "visibility": "public"
     },
@@ -286,7 +286,7 @@
       "title": "get",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T &",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T &",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html#function-get",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-get",
       "virtual": false,
       "visibility": "public"
     },
@@ -322,7 +322,7 @@
       "title": "get",
       "type": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html#function-get",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-get",
       "virtual": false,
       "visibility": "public"
     },
@@ -358,7 +358,7 @@
       "title": "get",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T &&",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T &&",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html#function-get",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-get",
       "virtual": false,
       "visibility": "public"
     },
@@ -394,7 +394,7 @@
       "title": "get",
       "type": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &&",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &&",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html#function-get",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-get",
       "virtual": false,
       "visibility": "public"
     }
@@ -410,6 +410,6 @@
     }
   ],
   "title": "detail::optional_operations_base",
-  "url": "/api/classes/structdetail_1_1optional__operations__base.html",
+  "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
   "visibility": "public"
 }

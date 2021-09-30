@@ -12,7 +12,7 @@ has_toc: false
 
 Facilities for constructing simple functions inline. 
 
-Objects in the <code><a href="/api/namespaces/namespacethrust_1_1placeholders.html">thrust::placeholders</a></code> namespace may be used to create simple arithmetic functions inline in an algorithm invocation. Combining placeholders such as <code>&#95;1</code> and <code>&#95;2</code> with arithmetic operations such as <code>+</code> creates an unnamed function object which applies the operation to their arguments.
+Objects in the <code><a href="/thrust/api/namespaces/namespacethrust_1_1placeholders.html">thrust::placeholders</a></code> namespace may be used to create simple arithmetic functions inline in an algorithm invocation. Combining placeholders such as <code>&#95;1</code> and <code>&#95;2</code> with arithmetic operations such as <code>+</code> creates an unnamed function object which applies the operation to their arguments.
 
 The type of placeholder objects is implementation-defined.
 

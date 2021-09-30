@@ -13,7 +13,7 @@ has_toc: false
 A <code>uniform&#95;int&#95;distribution</code> random number distribution produces signed or unsigned integer uniform random numbers from a given range. 
 
 
-The following code snippet demonstrates examples of using a <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> with a random number engine to produce random integers drawn from a given range:
+The following code snippet demonstrates examples of using a <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> with a random number engine to produce random integers drawn from a given range:
 
 
 
@@ -61,35 +61,35 @@ int main(void)
 <span>#include <thrust/random/uniform_int_distribution.h></span><br>
 <span>template &lt;typename IntType = int&gt;</span>
 <span>class random::uniform&#95;int&#95;distribution {</span>
-<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the integer produced by this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code>.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result&#95;type</a></b>;</span>
+<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the integer produced by this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code>.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the object encapsulating this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> parameters.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the object encapsulating this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> parameters.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-uniform_int_distribution">uniform&#95;int&#95;distribution</a></b>(IntType a = 0,</span>
+<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-uniform_int_distribution">uniform&#95;int&#95;distribution</a></b>(IntType a = 0,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;IntType b = THRUST&#95;NS&#95;QUALIFIER::detail::integer&#95;traits&lt; IntType &gt;::const&#95;max);</span>
 <br>
-<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-uniform_int_distribution">uniform&#95;int&#95;distribution</a></b>(const <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span>
+<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-uniform_int_distribution">uniform&#95;int&#95;distribution</a></b>(const <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-reset">reset</a></b>(void);</span>
-<br>
-<span>&nbsp;&nbsp;template &lt;typename UniformRandomNumberGenerator&gt;</span>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-operator()">operator()</a></b>(UniformRandomNumberGenerator & urng);</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-reset">reset</a></b>(void);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename UniformRandomNumberGenerator&gt;</span>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-operator()">operator()</a></b>(UniformRandomNumberGenerator & urng,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-operator()">operator()</a></b>(UniformRandomNumberGenerator & urng);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-a">a</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;template &lt;typename UniformRandomNumberGenerator&gt;</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-operator()">operator()</a></b>(UniformRandomNumberGenerator & urng,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-b">b</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-a">a</a></b>(void) const;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-param">param</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-b">b</a></b>(void) const;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-param">param</a></b>(const <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-param">param</a></b>(void) const;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> min </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-thrust_prevent_macro_substitution">THRUST&#95;PREVENT&#95;MACRO&#95;SUBSTITUTION</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-param">param</a></b>(const <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> max </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1uniform__int__distribution.html#function-thrust_prevent_macro_substitution">THRUST&#95;PREVENT&#95;MACRO&#95;SUBSTITUTION</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> min </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-thrust_prevent_macro_substitution">THRUST&#95;PREVENT&#95;MACRO&#95;SUBSTITUTION</a></b>(void) const;</span>
+<br>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> max </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#function-thrust_prevent_macro_substitution">THRUST&#95;PREVENT&#95;MACRO&#95;SUBSTITUTION</a></b>(void) const;</span>
 <span>};</span>
 </code>
 
@@ -101,7 +101,7 @@ Typedef <code>random::uniform&#95;int&#95;distribution::result&#95;type</code>
 
 <code class="doxybook">
 <span>typedef IntType<b>result_type</b>;</span></code>
-The type of the integer produced by this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code>. 
+The type of the integer produced by this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code>. 
 
 <h3 id="typedef-param_type">
 Typedef <code>random::uniform&#95;int&#95;distribution::param&#95;type</code>
@@ -109,7 +109,7 @@ Typedef <code>random::uniform&#95;int&#95;distribution::param&#95;type</code>
 
 <code class="doxybook">
 <span>typedef thrust::pair< IntType, IntType ><b>param_type</b>;</span></code>
-The type of the object encapsulating this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> parameters. 
+The type of the object encapsulating this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> parameters. 
 
 
 ## Member Functions
@@ -121,7 +121,7 @@ Function <code>random::uniform&#95;int&#95;distribution::&gt;::uniform&#95;int&#
 <code class="doxybook">
 <span>explicit __host__ __device__ </span><span><b>uniform_int_distribution</b>(IntType a = 0,</span>
 <span>&nbsp;&nbsp;IntType b = THRUST&#95;NS&#95;QUALIFIER::detail::integer&#95;traits&lt; IntType &gt;::const&#95;max);</span></code>
-This constructor creates a new <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> from two values defining the range of the distribution.
+This constructor creates a new <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> from two values defining the range of the distribution.
 
 **Function Parameters**:
 * **`a`** The smallest integer to potentially produce. Defaults to <code>0</code>. 
@@ -132,8 +132,8 @@ Function <code>random::uniform&#95;int&#95;distribution::&gt;::uniform&#95;int&#
 </h3>
 
 <code class="doxybook">
-<span>explicit __host__ __device__ </span><span><b>uniform_int_distribution</b>(const <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span></code>
-This constructor creates a new <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> from a <code>param&#95;type</code> object encapsulating the range of the distribution.
+<span>explicit __host__ __device__ </span><span><b>uniform_int_distribution</b>(const <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span></code>
+This constructor creates a new <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> from a <code>param&#95;type</code> object encapsulating the range of the distribution.
 
 **Function Parameters**:
 **`parm`**: A <code>param&#95;type</code> object encapsulating the parameters (i.e., the range) of the distribution. 
@@ -152,8 +152,8 @@ Function <code>random::uniform&#95;int&#95;distribution::&gt;::operator()</code>
 
 <code class="doxybook">
 <span>template &lt;typename UniformRandomNumberGenerator&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(UniformRandomNumberGenerator & urng);</span></code>
-This method produces a new uniform random integer drawn from this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range using a <code>UniformRandomNumberGenerator</code> as a source of randomness.
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(UniformRandomNumberGenerator & urng);</span></code>
+This method produces a new uniform random integer drawn from this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range using a <code>UniformRandomNumberGenerator</code> as a source of randomness.
 
 **Function Parameters**:
 **`urng`**: The <code>UniformRandomNumberGenerator</code> to use as a source of randomness. 
@@ -164,78 +164,78 @@ Function <code>random::uniform&#95;int&#95;distribution::&gt;::operator()</code>
 
 <code class="doxybook">
 <span>template &lt;typename UniformRandomNumberGenerator&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(UniformRandomNumberGenerator & urng,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span></code>
-This method produces a new uniform random integer as if by creating a new <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> from the given <code>param&#95;type</code> object, and calling its <code>operator()</code> method with the given <code>UniformRandomNumberGenerator</code> as a source of randomness.
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(UniformRandomNumberGenerator & urng,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span></code>
+This method produces a new uniform random integer as if by creating a new <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> from the given <code>param&#95;type</code> object, and calling its <code>operator()</code> method with the given <code>UniformRandomNumberGenerator</code> as a source of randomness.
 
 **Function Parameters**:
 * **`urng`** The <code>UniformRandomNumberGenerator</code> to use as a source of randomness. 
-* **`parm`** A <code>param&#95;type</code> object encapsulating the parameters of the <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> to draw from. 
+* **`parm`** A <code>param&#95;type</code> object encapsulating the parameters of the <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> to draw from. 
 
 <h3 id="function-a">
 Function <code>random::uniform&#95;int&#95;distribution::&gt;::a</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span><b>a</b>(void) const;</span></code>
-This method returns the value of the parameter with which this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> was constructed.
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span><b>a</b>(void) const;</span></code>
+This method returns the value of the parameter with which this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> was constructed.
 
 **Returns**:
-The lower bound of this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range. 
+The lower bound of this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range. 
 
 <h3 id="function-b">
 Function <code>random::uniform&#95;int&#95;distribution::&gt;::b</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span><b>b</b>(void) const;</span></code>
-This method returns the value of the parameter with which this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> was constructed.
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> </span><span><b>b</b>(void) const;</span></code>
+This method returns the value of the parameter with which this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> was constructed.
 
 **Returns**:
-The upper bound of this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range. 
+The upper bound of this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range. 
 
 <h3 id="function-param">
 Function <code>random::uniform&#95;int&#95;distribution::&gt;::param</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> </span><span><b>param</b>(void) const;</span></code>
-This method returns a <code>param&#95;type</code> object encapsulating the parameters with which this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> was constructed.
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> </span><span><b>param</b>(void) const;</span></code>
+This method returns a <code>param&#95;type</code> object encapsulating the parameters with which this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> was constructed.
 
 **Returns**:
-A <code>param&#95;type</code> object enapsulating the range of this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code>. 
+A <code>param&#95;type</code> object enapsulating the range of this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code>. 
 
 <h3 id="function-param">
 Function <code>random::uniform&#95;int&#95;distribution::&gt;::param</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ void </span><span><b>param</b>(const <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span></code>
-This method changes the parameters of this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> using the values encapsulated in a given <code>param&#95;type</code> object.
+<span>__host__ __device__ void </span><span><b>param</b>(const <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-param_type">param_type</a> & parm);</span></code>
+This method changes the parameters of this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> using the values encapsulated in a given <code>param&#95;type</code> object.
 
 **Function Parameters**:
-**`parm`**: A <code>param&#95;type</code> object encapsulating the new range of this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code>. 
+**`parm`**: A <code>param&#95;type</code> object encapsulating the new range of this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code>. 
 
 <h3 id="function-THRUST_PREVENT_MACRO_SUBSTITUTION">
 Function <code>random::uniform&#95;int&#95;distribution::&gt;::THRUST&#95;PREVENT&#95;MACRO&#95;SUBSTITUTION</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> min </span><span><b>THRUST_PREVENT_MACRO_SUBSTITUTION</b>(void) const;</span></code>
-This method returns the smallest integer this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> can potentially produce.
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> min </span><span><b>THRUST_PREVENT_MACRO_SUBSTITUTION</b>(void) const;</span></code>
+This method returns the smallest integer this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> can potentially produce.
 
 **Returns**:
-The lower bound of this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range. 
+The lower bound of this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range. 
 
 <h3 id="function-THRUST_PREVENT_MACRO_SUBSTITUTION">
 Function <code>random::uniform&#95;int&#95;distribution::&gt;::THRUST&#95;PREVENT&#95;MACRO&#95;SUBSTITUTION</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> max </span><span><b>THRUST_PREVENT_MACRO_SUBSTITUTION</b>(void) const;</span></code>
-This method returns the largest integer this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> can potentially produce.
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html#typedef-result_type">result_type</a> max </span><span><b>THRUST_PREVENT_MACRO_SUBSTITUTION</b>(void) const;</span></code>
+This method returns the largest integer this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a></code> can potentially produce.
 
 **Returns**:
-The upper bound of this <code><a href="/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range. 
+The upper bound of this <code><a href="/thrust/api/classes/classrandom_1_1uniform__int__distribution.html">uniform&#95;int&#95;distribution</a>'s</code> range. 
 
 

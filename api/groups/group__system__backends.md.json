@@ -18,7 +18,7 @@
     "name": "system",
     "refid": "group__system",
     "title": "System",
-    "url": "/api/groups/group__system.html",
+    "url": "/thrust/api/groups/group__system.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
       "name": "system::cpp",
       "refid": "namespacesystem_1_1cpp",
       "title": "system::cpp",
-      "url": "/api/namespaces/namespacesystem_1_1cpp.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html",
       "visibility": "public"
     },
     {
@@ -57,7 +57,7 @@
       "refid": "namespacethrust_1_1cpp",
       "summary": "thrust::cpp is a top-level alias for thrust::system::cpp. ",
       "title": "thrust::cpp",
-      "url": "/api/namespaces/namespacethrust_1_1cpp.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1cpp.html",
       "visibility": "public"
     },
     {
@@ -68,12 +68,12 @@
       "name": "cpp",
       "refid": "namespacecpp",
       "title": "cpp",
-      "url": "/api/namespaces/namespacecpp.html",
+      "url": "/thrust/api/namespaces/namespacecpp.html",
       "visibility": "public"
     },
     {
       "anchor": "",
-      "brief": "<code>thrust::system::cuda</code> is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath <code><a href=\"/api/namespaces/namespacethrust_1_1system.html\">thrust::system</a></code> for import convenience but are also aliased in the top-level <code><a href=\"/api/namespaces/namespacethrust_1_1cuda.html\">thrust::cuda</a></code> namespace for easy access. ",
+      "brief": "<code>thrust::system::cuda</code> is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath <code><a href=\"/thrust/api/namespaces/namespacethrust_1_1system.html\">thrust::system</a></code> for import convenience but are also aliased in the top-level <code><a href=\"/thrust/api/namespaces/namespacethrust_1_1cuda.html\">thrust::cuda</a></code> namespace for easy access. ",
       "category": "namespaces",
       "fullname": "thrust::system::cuda",
       "kind": "namespace",
@@ -81,7 +81,7 @@
       "refid": "namespacethrust_1_1system_1_1cuda",
       "summary": "thrust::system::cuda is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath thrust::system for import convenience but are also aliased in the top-level thrust::cuda namespace for easy access. ",
       "title": "thrust::system::cuda",
-      "url": "/api/namespaces/namespacethrust_1_1system_1_1cuda.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1system_1_1cuda.html",
       "visibility": "public"
     },
     {
@@ -92,7 +92,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     },
     {
@@ -103,7 +103,7 @@
       "name": "system::omp",
       "refid": "namespacesystem_1_1omp",
       "title": "system::omp",
-      "url": "/api/namespaces/namespacesystem_1_1omp.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1omp.html",
       "visibility": "public"
     },
     {
@@ -116,7 +116,7 @@
       "refid": "namespacethrust_1_1omp",
       "summary": "thrust::omp is a top-level alias for thrust::system::omp. ",
       "title": "thrust::omp",
-      "url": "/api/namespaces/namespacethrust_1_1omp.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1omp.html",
       "visibility": "public"
     },
     {
@@ -127,7 +127,7 @@
       "name": "omp",
       "refid": "namespaceomp",
       "title": "omp",
-      "url": "/api/namespaces/namespaceomp.html",
+      "url": "/thrust/api/namespaces/namespaceomp.html",
       "visibility": "public"
     },
     {
@@ -138,7 +138,7 @@
       "name": "system::tbb",
       "refid": "namespacesystem_1_1tbb",
       "title": "system::tbb",
-      "url": "/api/namespaces/namespacesystem_1_1tbb.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html",
       "visibility": "public"
     },
     {
@@ -151,7 +151,7 @@
       "refid": "namespacethrust_1_1tbb",
       "summary": "thrust::tbb is a top-level alias for thrust::system::tbb. ",
       "title": "thrust::tbb",
-      "url": "/api/namespaces/namespacethrust_1_1tbb.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1tbb.html",
       "visibility": "public"
     },
     {
@@ -162,7 +162,7 @@
       "name": "tbb",
       "refid": "namespacetbb",
       "title": "tbb",
-      "url": "/api/namespaces/namespacetbb.html",
+      "url": "/thrust/api/namespaces/namespacetbb.html",
       "visibility": "public"
     }
   ],
@@ -175,7 +175,7 @@
     "name": "system",
     "refid": "group__system",
     "title": "System",
-    "url": "/api/groups/group__system.html",
+    "url": "/thrust/api/groups/group__system.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -187,7 +187,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     }
   ],
@@ -220,7 +220,7 @@
       "see": [
         "cpp::malloc ",
         "cpp::free ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -240,7 +240,7 @@
       "title": "pointer",
       "type": "thrust::pointer< T, thrust::system::cpp::tag, thrust::tagged_reference< T, thrust::system::cpp::tag > >",
       "typePlain": "thrust::pointer< T, thrust::system::cpp::tag, thrust::tagged_reference< T, thrust::system::cpp::tag > >",
-      "url": "/api/groups/group__system__backends.html#using-pointer",
+      "url": "/thrust/api/groups/group__system__backends.html#using-pointer",
       "visibility": "public"
     },
     {
@@ -270,7 +270,7 @@
       "refid": "group__system__backends_1ga5f71b6b61a680a8449cda6fcbe2f3f85",
       "see": [
         "cpp::universal_allocator ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -290,7 +290,7 @@
       "title": "universal_pointer",
       "type": "thrust::pointer< T, thrust::system::cpp::tag, typename std::add_lvalue_reference< T >::type >",
       "typePlain": "thrust::pointer< T, thrust::system::cpp::tag, typename std::add_lvalue_reference< T >::type >",
-      "url": "/api/groups/group__system__backends.html#using-universal_pointer",
+      "url": "/thrust/api/groups/group__system__backends.html#using-universal_pointer",
       "visibility": "public"
     },
     {
@@ -333,7 +333,7 @@
       "title": "reference",
       "type": "thrust::reference< T, thrust::system::cpp::tag >",
       "typePlain": "thrust::reference< T, thrust::system::cpp::tag >",
-      "url": "/api/groups/group__system__backends.html#using-reference",
+      "url": "/thrust/api/groups/group__system__backends.html#using-reference",
       "visibility": "public"
     },
     {
@@ -364,7 +364,7 @@
       "see": [
         "omp::malloc ",
         "omp::free ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -384,7 +384,7 @@
       "title": "pointer",
       "type": "thrust::pointer< T, thrust::system::omp::tag, thrust::tagged_reference< T, thrust::system::omp::tag > >",
       "typePlain": "thrust::pointer< T, thrust::system::omp::tag, thrust::tagged_reference< T, thrust::system::omp::tag > >",
-      "url": "/api/groups/group__system__backends.html#using-pointer",
+      "url": "/thrust/api/groups/group__system__backends.html#using-pointer",
       "visibility": "public"
     },
     {
@@ -414,7 +414,7 @@
       "refid": "group__system__backends_1gaa0dcd4c04faaf4a08e080099fe1aa203",
       "see": [
         "omp::universal_allocator ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -434,7 +434,7 @@
       "title": "universal_pointer",
       "type": "thrust::pointer< T, thrust::system::omp::tag, typename std::add_lvalue_reference< T >::type >",
       "typePlain": "thrust::pointer< T, thrust::system::omp::tag, typename std::add_lvalue_reference< T >::type >",
-      "url": "/api/groups/group__system__backends.html#using-universal_pointer",
+      "url": "/thrust/api/groups/group__system__backends.html#using-universal_pointer",
       "visibility": "public"
     },
     {
@@ -477,7 +477,7 @@
       "title": "reference",
       "type": "thrust::tagged_reference< T, thrust::system::omp::tag >",
       "typePlain": "thrust::tagged_reference< T, thrust::system::omp::tag >",
-      "url": "/api/groups/group__system__backends.html#using-reference",
+      "url": "/thrust/api/groups/group__system__backends.html#using-reference",
       "visibility": "public"
     },
     {
@@ -508,7 +508,7 @@
       "see": [
         "tbb::malloc ",
         "tbb::free ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -528,7 +528,7 @@
       "title": "pointer",
       "type": "thrust::pointer< T, thrust::system::tbb::tag, thrust::tagged_reference< T, thrust::system::tbb::tag > >",
       "typePlain": "thrust::pointer< T, thrust::system::tbb::tag, thrust::tagged_reference< T, thrust::system::tbb::tag > >",
-      "url": "/api/groups/group__system__backends.html#using-pointer",
+      "url": "/thrust/api/groups/group__system__backends.html#using-pointer",
       "visibility": "public"
     },
     {
@@ -558,7 +558,7 @@
       "refid": "group__system__backends_1ga76b32360d217297ac939c722d4dd0060",
       "see": [
         "tbb::universal_allocator ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -578,7 +578,7 @@
       "title": "universal_pointer",
       "type": "thrust::pointer< T, thrust::system::tbb::tag, typename std::add_lvalue_reference< T >::type >",
       "typePlain": "thrust::pointer< T, thrust::system::tbb::tag, typename std::add_lvalue_reference< T >::type >",
-      "url": "/api/groups/group__system__backends.html#using-universal_pointer",
+      "url": "/thrust/api/groups/group__system__backends.html#using-universal_pointer",
       "visibility": "public"
     },
     {
@@ -621,7 +621,7 @@
       "title": "reference",
       "type": "thrust::tagged_reference< T, thrust::system::tbb::tag >",
       "typePlain": "thrust::tagged_reference< T, thrust::system::tbb::tag >",
-      "url": "/api/groups/group__system__backends.html#using-reference",
+      "url": "/thrust/api/groups/group__system__backends.html#using-reference",
       "visibility": "public"
     }
   ],
@@ -629,6 +629,6 @@
   "static": false,
   "strong": false,
   "title": "Systems",
-  "url": "/api/groups/group__system__backends.html",
+  "url": "/thrust/api/groups/group__system__backends.html",
   "visibility": "public"
 }

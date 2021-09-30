@@ -11,20 +11,20 @@ has_toc: false
 
 ## Groups
 
-* **[Vectorized Searches](/api/groups/group__vectorized__binary__search.html)**
+* **[Vectorized Searches](/thrust/api/groups/group__vectorized__binary__search.html)**
 
 <code class="doxybook">
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename LessThanComparable&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const LessThanComparable & value);</span>
 <br>
 <span>template &lt;class ForwardIterator,</span>
 <span>&nbsp;&nbsp;class LessThanComparable&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const LessThanComparable & value);</span>
 <br>
@@ -32,7 +32,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename StrictWeakOrdering&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value,</span>
@@ -41,7 +41,7 @@ has_toc: false
 <span>template &lt;class ForwardIterator,</span>
 <span>&nbsp;&nbsp;class T,</span>
 <span>&nbsp;&nbsp;class StrictWeakOrdering&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value,</span>
 <span>&nbsp;&nbsp;StrictWeakOrdering comp);</span>
@@ -49,14 +49,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename LessThanComparable&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const LessThanComparable & value);</span>
 <br>
 <span>template &lt;class ForwardIterator,</span>
 <span>&nbsp;&nbsp;class LessThanComparable&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const LessThanComparable & value);</span>
 <br>
@@ -64,7 +64,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename StrictWeakOrdering&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value,</span>
@@ -73,7 +73,7 @@ has_toc: false
 <span>template &lt;class ForwardIterator,</span>
 <span>&nbsp;&nbsp;class T,</span>
 <span>&nbsp;&nbsp;class StrictWeakOrdering&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value,</span>
 <span>&nbsp;&nbsp;StrictWeakOrdering comp);</span>
@@ -81,14 +81,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename LessThanComparable&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const LessThanComparable & value);</span>
 <br>
 <span>template &lt;class ForwardIterator,</span>
 <span>&nbsp;&nbsp;class LessThanComparable&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></b>(ForwardIterator first,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const LessThanComparable & value);</span>
 <br>
@@ -96,7 +96,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename StrictWeakOrdering&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value,</span>
@@ -105,7 +105,7 @@ has_toc: false
 <span>template &lt;class ForwardIterator,</span>
 <span>&nbsp;&nbsp;class T,</span>
 <span>&nbsp;&nbsp;class StrictWeakOrdering&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></b>(ForwardIterator first,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value,</span>
 <span>&nbsp;&nbsp;StrictWeakOrdering comp);</span>
@@ -113,14 +113,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename LessThanComparable&gt;</span>
-<span>__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const LessThanComparable & value);</span>
 <br>
 <span>template &lt;class ForwardIterator,</span>
 <span>&nbsp;&nbsp;class LessThanComparable&gt;</span>
-<span>thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></b>(ForwardIterator first,</span>
+<span>thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const LessThanComparable & value);</span>
 <br>
@@ -128,7 +128,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename StrictWeakOrdering&gt;</span>
-<span>__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value,</span>
@@ -137,7 +137,7 @@ has_toc: false
 <span>template &lt;class ForwardIterator,</span>
 <span>&nbsp;&nbsp;class T,</span>
 <span>&nbsp;&nbsp;class StrictWeakOrdering&gt;</span>
-<span>thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></b>(ForwardIterator first,</span>
+<span>thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & value,</span>
 <span>&nbsp;&nbsp;StrictWeakOrdering comp);</span>
@@ -203,9 +203,9 @@ The furthermost iterator <code>i</code>, such that <code>&#42;i &lt; value</code
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/lower_bound">https://en.cppreference.com/w/cpp/algorithm/lower_bound</a>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-lower_bound">
 Function <code>lower&#95;bound</code>
@@ -258,9 +258,9 @@ The furthermost iterator <code>i</code>, such that <code>&#42;i &lt; value</code
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/lower_bound">https://en.cppreference.com/w/cpp/algorithm/lower_bound</a>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-lower_bound">
 Function <code>lower&#95;bound</code>
@@ -325,9 +325,9 @@ The furthermost iterator <code>i</code>, such that <code>comp(&#42;i, value)</co
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/lower_bound">https://en.cppreference.com/w/cpp/algorithm/lower_bound</a>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-lower_bound">
 Function <code>lower&#95;bound</code>
@@ -385,9 +385,9 @@ The furthermost iterator <code>i</code>, such that <code>comp(&#42;i, value)</co
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/lower_bound">https://en.cppreference.com/w/cpp/algorithm/lower_bound</a>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-upper_bound">
 Function <code>upper&#95;bound</code>
@@ -447,9 +447,9 @@ The furthermost iterator <code>i</code>, such that <code>value &lt; &#42;i</code
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/upper_bound">https://en.cppreference.com/w/cpp/algorithm/upper_bound</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-upper_bound">
 Function <code>upper&#95;bound</code>
@@ -502,9 +502,9 @@ The furthermost iterator <code>i</code>, such that <code>value &lt; &#42;i</code
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/upper_bound">https://en.cppreference.com/w/cpp/algorithm/upper_bound</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-upper_bound">
 Function <code>upper&#95;bound</code>
@@ -569,9 +569,9 @@ The furthermost iterator <code>i</code>, such that <code>comp(value, &#42;i)</co
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/upper_bound">https://en.cppreference.com/w/cpp/algorithm/upper_bound</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-upper_bound">
 Function <code>upper&#95;bound</code>
@@ -629,9 +629,9 @@ The furthermost iterator <code>i</code>, such that <code>comp(value, &#42;i)</co
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/upper_bound">https://en.cppreference.com/w/cpp/algorithm/upper_bound</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-binary_search">
 Function <code>binary&#95;search</code>
@@ -691,9 +691,9 @@ thrust::binary_search(thrust::device, input.begin(), input.end(), 9); // returns
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/binary_search">https://en.cppreference.com/w/cpp/algorithm/binary_search</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
 
 <h3 id="function-binary_search">
 Function <code>binary&#95;search</code>
@@ -746,9 +746,9 @@ thrust::binary_search(input.begin(), input.end(), 9); // returns false
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/binary_search">https://en.cppreference.com/w/cpp/algorithm/binary_search</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
 
 <h3 id="function-binary_search">
 Function <code>binary&#95;search</code>
@@ -813,9 +813,9 @@ thrust::binary_search(thrust::device, input.begin(), input.end(), 9, thrust::les
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/binary_search">https://en.cppreference.com/w/cpp/algorithm/binary_search</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
 
 <h3 id="function-binary_search">
 Function <code>binary&#95;search</code>
@@ -873,9 +873,9 @@ thrust::binary_search(input.begin(), input.end(), 9, thrust::less<int>()); // re
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/binary_search">https://en.cppreference.com/w/cpp/algorithm/binary_search</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-equal_range">equal&#95;range</a></code>
 
 <h3 id="function-equal_range">
 Function <code>equal&#95;range</code>
@@ -937,9 +937,9 @@ A <code>pair</code> of iterators <code>[i, j)</code> that define the range of eq
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/equal_range">https://en.cppreference.com/w/cpp/algorithm/equal_range</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-equal_range">
 Function <code>equal&#95;range</code>
@@ -994,9 +994,9 @@ A <code>pair</code> of iterators <code>[i, j)</code> that define the range of eq
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/equal_range">https://en.cppreference.com/w/cpp/algorithm/equal_range</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-equal_range">
 Function <code>equal&#95;range</code>
@@ -1063,9 +1063,9 @@ A <code>pair</code> of iterators <code>[i, j)</code> that define the range of eq
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/equal_range">https://en.cppreference.com/w/cpp/algorithm/equal_range</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 <h3 id="function-equal_range">
 Function <code>equal&#95;range</code>
@@ -1125,8 +1125,8 @@ A <code>pair</code> of iterators <code>[i, j)</code> that define the range of eq
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/equal_range">https://en.cppreference.com/w/cpp/algorithm/equal_range</a>
-* <code><a href="/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
-* <code><a href="/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-lower_bound">lower&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-upper_bound">upper&#95;bound</a></code>
+* <code><a href="/thrust/api/groups/group__binary__search.html#function-binary_search">binary&#95;search</a></code>
 
 

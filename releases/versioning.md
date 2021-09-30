@@ -46,21 +46,21 @@ After a release has been snapped from `main`, it will never be changed.
 
 The following tag names are used in the Thrust project:
 
-* `github/nvhpc-X.Y`: the tag that directly corresponds to what has been
+* `nvhpc-X.Y`: the tag that directly corresponds to what has been
   shipped in the NVIDIA HPC SDK release X.Y.
-* `github/cuda-X.Y`: the tag that directly corresponds to what has been shipped
+* `cuda-X.Y`: the tag that directly corresponds to what has been shipped
   in the CUDA Toolkit release X.Y.
-* `github/A.B.C`: the tag that directly corresponds to Thrust version A.B.C.
-* `github/A.B.C-rcN`: the tag that directly corresponds to Thrust version A.B.C
+* `A.B.C`: the tag that directly corresponds to Thrust version A.B.C.
+* `A.B.C-rcN`: the tag that directly corresponds to Thrust version A.B.C
   release candidate N.
 
 The following branch names are used in the Thrust project:
 
-* `github/main`: the "source of truth" development branch of Thrust.
-* `github/old-master`: the old "source of truth" branch, before unification of
+* `main`: the "source of truth" development branch of Thrust.
+* `old-master`: the old "source of truth" branch, before unification of
   public and internal repositories.
-* `github/feature/<name>`: feature branch for a feature under development.
-* `github/bug/<bug-system>/<bug-description>-<bug-id>`: bug fix branch, where
+* `feature/<name>`: feature branch for a feature under development.
+* `bug/<bug-system>/<bug-description>-<bug-id>`: bug fix branch, where
   `bug-system` is `github` or `nvidia`.
 
 On the rare occasion that we cannot do work in the open, for example when

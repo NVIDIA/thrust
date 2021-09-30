@@ -18,7 +18,7 @@
     "name": "reordering",
     "refid": "group__reordering",
     "title": "Reordering",
-    "url": "/api/groups/group__reordering.html",
+    "url": "/thrust/api/groups/group__reordering.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "reordering",
       "refid": "group__reordering",
       "title": "Reordering",
-      "url": "/api/groups/group__reordering.html",
+      "url": "/thrust/api/groups/group__reordering.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "reordering",
     "refid": "group__reordering",
     "title": "Reordering",
-    "url": "/api/groups/group__reordering.html",
+    "url": "/thrust/api/groups/group__reordering.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "reordering",
       "refid": "group__reordering",
       "title": "Reordering",
-      "url": "/api/groups/group__reordering.html",
+      "url": "/thrust/api/groups/group__reordering.html",
       "visibility": "public"
     }
   ],
@@ -163,7 +163,7 @@
         "<code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[first, last)</code>."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -210,7 +210,7 @@
       "title": "copy_if",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-copy_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -285,7 +285,7 @@
         "<code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[first, last)</code>."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -323,7 +323,7 @@
       "title": "copy_if",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-copy_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -417,7 +417,7 @@
         "<code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[stencil, stencil + (last-first))</code>."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -473,7 +473,7 @@
       "title": "copy_if",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-copy_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -558,7 +558,7 @@
         "<code>result + n</code>, where <code>n</code> is equal to the number of times <code>pred</code> evaluated to <code>true</code> in the range <code>[stencil, stencil + (last-first))</code>."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -605,7 +605,7 @@
       "title": "copy_if",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-copy_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -631,7 +631,7 @@
       },
       "name": "remove",
       "note": [
-        "The meaning of \"removal\" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>."
+        "The meaning of \"removal\" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>."
       ],
       "override": false,
       "paramList": [
@@ -681,9 +681,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -721,7 +721,7 @@
       "title": "remove",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove",
       "virtual": false,
       "visibility": "public"
     },
@@ -747,7 +747,7 @@
       },
       "name": "remove",
       "note": [
-        "The meaning of \"removal\" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>."
+        "The meaning of \"removal\" is somewhat subtle. <code>remove</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>, <code>remove(V.begin(), V.end(), 0)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove(S.begin(), S.end(), x), S.end())</code>."
       ],
       "override": false,
       "paramList": [
@@ -788,9 +788,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -819,7 +819,7 @@
       "title": "remove",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove",
       "virtual": false,
       "visibility": "public"
     },
@@ -904,9 +904,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -953,7 +953,7 @@
       "title": "remove_copy",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1029,9 +1029,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -1069,7 +1069,7 @@
       "title": "remove_copy",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1095,7 +1095,7 @@
       },
       "name": "remove_if",
       "note": [
-        "The meaning of \"removal\" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>."
+        "The meaning of \"removal\" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>."
       ],
       "override": false,
       "paramList": [
@@ -1145,9 +1145,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -1185,7 +1185,7 @@
       "title": "remove_if",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1211,7 +1211,7 @@
       },
       "name": "remove_if",
       "note": [
-        "The meaning of \"removal\" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>."
+        "The meaning of \"removal\" is somewhat subtle. <code>remove&#95;if</code> does not destroy any iterators, and does not change the distance between <code>first</code> and <code>last</code>. (There's no way that it could do anything of the sort.) So, for example, if <code>V</code> is a <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>, <code>remove&#95;if(V.begin(), V.end(), pred)</code> does not change <code>V.size()</code>: <code>V</code> will contain just as many elements as it did before. <code>remove&#95;if</code> returns an iterator that points to the end of the resulting range after elements have been removed from it; it follows that the elements after that iterator are of no interest, and may be discarded. If you are removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a>, you may simply erase them. That is, a reasonable way of removing elements from a <a href=\"https://en.cppreference.com/w/cpp/container\">Sequence</a> is <code>S.erase(remove&#95;if(S.begin(), S.end(), pred), S.end())</code>."
       ],
       "override": false,
       "paramList": [
@@ -1252,9 +1252,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -1283,7 +1283,7 @@
       "title": "remove_if",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1368,9 +1368,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -1417,7 +1417,7 @@
       "title": "remove_copy_if",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_copy_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1493,9 +1493,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -1533,7 +1533,7 @@
       "title": "remove_copy_if",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_copy_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1622,9 +1622,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -1671,7 +1671,7 @@
       "title": "remove_if",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1751,9 +1751,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove\">https://en.cppreference.com/w/cpp/algorithm/remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if\">remove_copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -1791,7 +1791,7 @@
       "title": "remove_if",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1885,10 +1885,10 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-copy_if\">copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-copy_if\">copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -1944,7 +1944,7 @@
       "title": "remove_copy_if",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_copy_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -2029,10 +2029,10 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/remove_copy\">https://en.cppreference.com/w/cpp/algorithm/remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-copy_if\">copy_if</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove\">remove</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_copy\">remove_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-remove_if\">remove_if</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-copy_if\">copy_if</a>"
       ],
       "static": false,
       "strong": false,
@@ -2079,7 +2079,7 @@
       "title": "remove_copy_if",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-remove_copy_if",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-remove_copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -2143,7 +2143,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique\">https://en.cppreference.com/w/cpp/algorithm/unique</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -2172,7 +2172,7 @@
       "title": "unique",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-unique",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique",
       "virtual": false,
       "visibility": "public"
     },
@@ -2227,7 +2227,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique\">https://en.cppreference.com/w/cpp/algorithm/unique</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -2247,7 +2247,7 @@
       "title": "unique",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-unique",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique",
       "virtual": false,
       "visibility": "public"
     },
@@ -2320,7 +2320,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique\">https://en.cppreference.com/w/cpp/algorithm/unique</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -2358,7 +2358,7 @@
       "title": "unique",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-unique",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique",
       "virtual": false,
       "visibility": "public"
     },
@@ -2422,7 +2422,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique\">https://en.cppreference.com/w/cpp/algorithm/unique</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -2451,7 +2451,7 @@
       "title": "unique",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-unique",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique",
       "virtual": false,
       "visibility": "public"
     },
@@ -2526,7 +2526,7 @@
         "The end of the unique range <code>[result, result&#95;end)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique_copy\">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>"
       ],
       "static": false,
@@ -2565,7 +2565,7 @@
       "title": "unique_copy",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -2631,7 +2631,7 @@
         "The end of the unique range <code>[result, result&#95;end)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique_copy\">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>"
       ],
       "static": false,
@@ -2661,7 +2661,7 @@
       "title": "unique_copy",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -2745,7 +2745,7 @@
         "The end of the unique range <code>[result, result&#95;end)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique_copy\">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>"
       ],
       "static": false,
@@ -2793,7 +2793,7 @@
       "title": "unique_copy",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -2868,7 +2868,7 @@
         "The end of the unique range <code>[result, result&#95;end)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/unique_copy\">https://en.cppreference.com/w/cpp/algorithm/unique_copy</a>"
       ],
       "static": false,
@@ -2907,7 +2907,7 @@
       "title": "unique_copy",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -2920,7 +2920,7 @@
       "default": false,
       "definition": "__host__ __device__ thrust::pair<ForwardIterator1,ForwardIterator2> unique_by_key",
       "deleted": false,
-      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThe return value is a <code>pair</code> of iterators <code>(new&#95;keys&#95;last,new&#95;values&#95;last)</code> such that no two consecutive elements in the range <code>[keys&#95;first, new&#95;keys&#95;last)</code> are equal.\n\nThis version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key(thrust::host, A, A + N, B);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
+      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThe return value is a <code>pair</code> of iterators <code>(new&#95;keys&#95;last,new&#95;values&#95;last)</code> such that no two consecutive elements in the range <code>[keys&#95;first, new&#95;keys&#95;last)</code> are equal.\n\nThis version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key(thrust::host, A, A + N, B);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
       "explicit": false,
       "fullname": "Stream_compaction::unique_by_key",
       "hasDetails": true,
@@ -2982,9 +2982,9 @@
         "A pair of iterators at end of the ranges <code>[key&#95;first, keys&#95;new&#95;last)</code> and <code>[values&#95;first, values&#95;new&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>",
-        "<a href=\"/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>",
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
       ],
       "static": false,
       "strong": false,
@@ -3022,7 +3022,7 @@
       "title": "unique_by_key",
       "type": "__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 >",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_by_key",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3035,7 +3035,7 @@
       "default": false,
       "definition": "thrust::pair<ForwardIterator1,ForwardIterator2> unique_by_key",
       "deleted": false,
-      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThe return value is a <code>pair</code> of iterators <code>(new&#95;keys&#95;last,new&#95;values&#95;last)</code> such that no two consecutive elements in the range <code>[keys&#95;first, new&#95;keys&#95;last)</code> are equal.\n\nThis version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key(A, A + N, B);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
+      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThe return value is a <code>pair</code> of iterators <code>(new&#95;keys&#95;last,new&#95;values&#95;last)</code> such that no two consecutive elements in the range <code>[keys&#95;first, new&#95;keys&#95;last)</code> are equal.\n\nThis version of <code>unique&#95;by&#95;key</code> uses <code>operator==</code> to test for equality and <code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key(A, A + N, B);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
       "explicit": false,
       "fullname": "Stream_compaction::unique_by_key",
       "hasDetails": true,
@@ -3088,9 +3088,9 @@
         "A pair of iterators at end of the ranges <code>[key&#95;first, keys&#95;new&#95;last)</code> and <code>[values&#95;first, values&#95;new&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>",
-        "<a href=\"/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>",
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
       ],
       "static": false,
       "strong": false,
@@ -3119,7 +3119,7 @@
       "title": "unique_by_key",
       "type": "thrust::pair< ForwardIterator1, ForwardIterator2 >",
       "typePlain": "thrust::pair< ForwardIterator1, ForwardIterator2 >",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_by_key",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3132,7 +3132,7 @@
       "default": false,
       "definition": "__host__ __device__ thrust::pair<ForwardIterator1,ForwardIterator2> unique_by_key",
       "deleted": false,
-      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThis version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key(thrust::host, keys, keys + N, values, binary_pred);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
+      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThis version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key(thrust::host, keys, keys + N, values, binary_pred);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
       "explicit": false,
       "fullname": "Stream_compaction::unique_by_key",
       "hasDetails": true,
@@ -3203,9 +3203,9 @@
         "The end of the unique range <code>[first, new&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>",
-        "<a href=\"/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>",
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
       ],
       "static": false,
       "strong": false,
@@ -3252,7 +3252,7 @@
       "title": "unique_by_key",
       "type": "__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< ForwardIterator1, ForwardIterator2 >",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_by_key",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3265,7 +3265,7 @@
       "default": false,
       "definition": "thrust::pair<ForwardIterator1,ForwardIterator2> unique_by_key",
       "deleted": false,
-      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThis version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key(keys, keys + N, values, binary_pred);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
+      "details": "<code>unique&#95;by&#95;key</code> is a generalization of <code>unique</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key</code> removes all but the first element of the group. Similarly, the corresponding values in the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are also removed.\n\nThis version of <code>unique&#95;by&#95;key</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key</code> to compact a sequence of key/value pairs to remove consecutive duplicates.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key(keys, keys + N, values, binary_pred);\n\n// The first four keys in A are now {1, 3, 2, 1} and new_end.first - A is 4.\n// The first four values in B are now {9, 8, 5, 3} and new_end.second - B is 4.\n```",
       "explicit": false,
       "fullname": "Stream_compaction::unique_by_key",
       "hasDetails": true,
@@ -3327,9 +3327,9 @@
         "The end of the unique range <code>[first, new&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>",
-        "<a href=\"/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique\">unique</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>",
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
       ],
       "static": false,
       "strong": false,
@@ -3367,7 +3367,7 @@
       "title": "unique_by_key",
       "type": "thrust::pair< ForwardIterator1, ForwardIterator2 >",
       "typePlain": "thrust::pair< ForwardIterator1, ForwardIterator2 >",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_by_key",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3380,7 +3380,7 @@
       "default": false,
       "definition": "__host__ __device__ thrust::pair<OutputIterator1,OutputIterator2> unique_by_key_copy",
       "deleted": false,
-      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key_copy(thrust::host, A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
+      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key_copy(thrust::host, A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
       "explicit": false,
       "fullname": "Stream_compaction::unique_by_key_copy",
       "hasDetails": true,
@@ -3460,9 +3460,9 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
       ],
       "static": false,
       "strong": false,
@@ -3518,7 +3518,7 @@
       "title": "unique_by_key_copy",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_by_key_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -3531,7 +3531,7 @@
       "default": false,
       "definition": "thrust::pair<OutputIterator1,OutputIterator2> unique_by_key_copy",
       "deleted": false,
-      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key_copy(A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
+      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses <code>operator==</code> to test for equality and <code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::unique_by_key_copy(A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
       "explicit": false,
       "fullname": "Stream_compaction::unique_by_key_copy",
       "hasDetails": true,
@@ -3602,9 +3602,9 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
       ],
       "static": false,
       "strong": false,
@@ -3651,7 +3651,7 @@
       "title": "unique_by_key_copy",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_by_key_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -3664,7 +3664,7 @@
       "default": false,
       "definition": "__host__ __device__ thrust::pair<OutputIterator1,OutputIterator2> unique_by_key_copy",
       "deleted": false,
-      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key_copy(thrust::host, A, A + N, B, C, D, binary_pred);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
+      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/unique.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key_copy(thrust::host, A, A + N, B, C, D, binary_pred);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
       "explicit": false,
       "fullname": "Stream_compaction::unique_by_key_copy",
       "hasDetails": true,
@@ -3753,9 +3753,9 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
       ],
       "static": false,
       "strong": false,
@@ -3820,7 +3820,7 @@
       "title": "unique_by_key_copy",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_by_key_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -3833,7 +3833,7 @@
       "default": false,
       "definition": "thrust::pair<OutputIterator1,OutputIterator2> unique_by_key_copy",
       "deleted": false,
-      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key_copy(A, A + N, B, C, D, binary_pred);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
+      "details": "<code>unique&#95;by&#95;key&#95;copy</code> is a generalization of <code>unique&#95;copy</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>unique&#95;by&#95;key&#95;copy</code> copies the first element of the group to a range beginning with <code>keys&#95;result</code> and the corresponding values from the range <code>[values&#95;first, values&#95;first + (keys&#95;last - keys&#95;first))</code> are copied to a range beginning with <code>values&#95;result</code>.\n\nThis version of <code>unique&#95;by&#95;key&#95;copy</code> uses the function object <code>binary&#95;pred</code> to test for equality and <code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>unique&#95;by&#95;key&#95;copy</code> to compact a sequence of key/value pairs and with equal keys.\n\n\n\n```cpp\n#include <thrust/unique.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nthrust::equal_to<int> binary_pred;\nnew_end = thrust::unique_by_key_copy(A, A + N, B, C, D, binary_pred);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 8, 5, 3} and new_end.second - D is 4.\n```",
       "explicit": false,
       "fullname": "Stream_compaction::unique_by_key_copy",
       "hasDetails": true,
@@ -3913,9 +3913,9 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;result, keys&#95;result&#95;last)</code> and <code>[values&#95;result, values&#95;result&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce_by_key\">reduce_by_key</a>"
       ],
       "static": false,
       "strong": false,
@@ -3971,7 +3971,7 @@
       "title": "unique_by_key_copy",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__stream__compaction.html#function-unique_by_key_copy",
+      "url": "/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy",
       "virtual": false,
       "visibility": "public"
     }
@@ -3980,6 +3980,6 @@
   "static": false,
   "strong": false,
   "title": "Stream Compaction",
-  "url": "/api/groups/group__stream__compaction.html",
+  "url": "/thrust/api/groups/group__stream__compaction.html",
   "visibility": "public"
 }

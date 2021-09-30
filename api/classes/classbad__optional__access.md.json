@@ -58,7 +58,7 @@
       "static": false,
       "strong": false,
       "title": "bad_optional_access",
-      "url": "/api/classes/classbad__optional__access.html#function-bad_optional_access",
+      "url": "/thrust/api/classes/classbad__optional__access.html#function-bad_optional_access",
       "virtual": false,
       "visibility": "public"
     },
@@ -94,7 +94,7 @@
       "title": "what",
       "type": "const __host__ char *",
       "typePlain": "const __host__ char *",
-      "url": "/api/classes/classbad__optional__access.html#function-what",
+      "url": "/thrust/api/classes/classbad__optional__access.html#function-what",
       "virtual": false,
       "visibility": "public"
     }
@@ -103,6 +103,6 @@
   "static": false,
   "strong": false,
   "title": "bad_optional_access",
-  "url": "/api/classes/classbad__optional__access.html",
+  "url": "/thrust/api/classes/classbad__optional__access.html",
   "visibility": "public"
 }

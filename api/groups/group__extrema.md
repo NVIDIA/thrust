@@ -12,73 +12,73 @@ has_toc: false
 <code class="doxybook">
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__extrema.html#function-min_element">min&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-min_element">min&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename ForwardIterator&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__extrema.html#function-min_element">min&#95;element</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-min_element">min&#95;element</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__extrema.html#function-min_element">min&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-min_element">min&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;BinaryPredicate comp);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__extrema.html#function-min_element">min&#95;element</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-min_element">min&#95;element</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;BinaryPredicate comp);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__extrema.html#function-max_element">max&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-max_element">max&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename ForwardIterator&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__extrema.html#function-max_element">max&#95;element</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-max_element">max&#95;element</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__extrema.html#function-max_element">max&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-max_element">max&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;BinaryPredicate comp);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__extrema.html#function-max_element">max&#95;element</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-max_element">max&#95;element</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;BinaryPredicate comp);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
-<span>__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/api/groups/group__extrema.html#function-minmax_element">minmax&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-minmax_element">minmax&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename ForwardIterator&gt;</span>
-<span>thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/api/groups/group__extrema.html#function-minmax_element">minmax&#95;element</a></b>(ForwardIterator first,</span>
+<span>thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-minmax_element">minmax&#95;element</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/api/groups/group__extrema.html#function-minmax_element">minmax&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-minmax_element">minmax&#95;element</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;BinaryPredicate comp);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/api/groups/group__extrema.html#function-minmax_element">minmax&#95;element</a></b>(ForwardIterator first,</span>
+<span>thrust::pair< ForwardIterator, ForwardIterator > </span><span><b><a href="/thrust/api/groups/group__extrema.html#function-minmax_element">minmax&#95;element</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;BinaryPredicate comp);</span>
 </code>
@@ -546,8 +546,8 @@ thrust::pair<int *, int *> result = thrust::minmax_element(thrust::host, data, d
 A pair of iterator pointing to the smallest and largest elements of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__extrema.html#function-min_element">min_element</a>
-* <a href="/api/groups/group__extrema.html#function-max_element">max_element</a>
+* <a href="/thrust/api/groups/group__extrema.html#function-min_element">min_element</a>
+* <a href="/thrust/api/groups/group__extrema.html#function-max_element">max_element</a>
 * <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf</a>
 
 <h3 id="function-minmax_element">
@@ -585,8 +585,8 @@ thrust::pair<int *, int *> result = thrust::minmax_element(data, data + 6);
 A pair of iterator pointing to the smallest and largest elements of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__extrema.html#function-min_element">min_element</a>
-* <a href="/api/groups/group__extrema.html#function-max_element">max_element</a>
+* <a href="/thrust/api/groups/group__extrema.html#function-min_element">min_element</a>
+* <a href="/thrust/api/groups/group__extrema.html#function-max_element">max_element</a>
 * <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf</a>
 
 <h3 id="function-minmax_element">
@@ -657,8 +657,8 @@ thrust::pair<key_value*,key_value*> extrema = thrust::minmax_element(thrust::hos
 A pair of iterator pointing to the smallest and largest elements of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__extrema.html#function-min_element">min_element</a>
-* <a href="/api/groups/group__extrema.html#function-max_element">max_element</a>
+* <a href="/thrust/api/groups/group__extrema.html#function-min_element">min_element</a>
+* <a href="/thrust/api/groups/group__extrema.html#function-max_element">max_element</a>
 * <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf</a>
 
 <h3 id="function-minmax_element">
@@ -721,8 +721,8 @@ thrust::pair<key_value*,key_value*> extrema = thrust::minmax_element(data, data 
 A pair of iterator pointing to the smallest and largest elements of the range <code>[first, last)</code>, if it is not an empty range; <code>last</code>, otherwise.
 
 **See**:
-* <a href="/api/groups/group__extrema.html#function-min_element">min_element</a>
-* <a href="/api/groups/group__extrema.html#function-max_element">max_element</a>
+* <a href="/thrust/api/groups/group__extrema.html#function-min_element">min_element</a>
+* <a href="/thrust/api/groups/group__extrema.html#function-max_element">max_element</a>
 * <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2005/n1840.pdf</a>
 
 

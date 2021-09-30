@@ -11,7 +11,7 @@ has_toc: false
 <span>template &lt;class F,</span>
 <span>&nbsp;&nbsp;class... Us&gt;</span>
 <span>struct detail::invoke&#95;result&#95;impl&lt; F, decltype(detail::invoke(std::declval&lt; F &gt;(), std::declval&lt; Us &gt;()...), void()), Us... &gt; {</span>
-<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/api/classes/structdetail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1_1declval_3_07c1f4caaa1db079732d0d4c8ba802ae7.html#using-type">type</a></b> = <i>see below</i>;</span>
+<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structdetail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1_1declval_3_07c1f4caaa1db079732d0d4c8ba802ae7.html#using-type">type</a></b> = <i>see below</i>;</span>
 <span>};</span>
 </code>
 

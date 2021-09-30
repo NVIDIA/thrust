@@ -79,7 +79,7 @@
       "title": "malloc",
       "type": "__host__ __device__ pointer< void >",
       "typePlain": "__host__ __device__ pointer< void >",
-      "url": "/api/namespaces/namespacecuda__cub.html#function-malloc",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#function-malloc",
       "virtual": false,
       "visibility": "public"
     },
@@ -129,7 +129,7 @@
       "title": "free",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/namespaces/namespacecuda__cub.html#function-free",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#function-free",
       "virtual": false,
       "visibility": "public"
     }
@@ -169,7 +169,7 @@
       "title": "allocator",
       "type": "thrust::mr::stateless_resource_allocator< T, thrust::system::cuda::memory_resource >",
       "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::cuda::memory_resource >",
-      "url": "/api/namespaces/namespacecuda__cub.html#using-allocator",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#using-allocator",
       "visibility": "public"
     },
     {
@@ -206,7 +206,7 @@
       "title": "universal_allocator",
       "type": "thrust::mr::stateless_resource_allocator< T, thrust::system::cuda::universal_memory_resource >",
       "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::cuda::universal_memory_resource >",
-      "url": "/api/namespaces/namespacecuda__cub.html#using-universal_allocator",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#using-universal_allocator",
       "visibility": "public"
     },
     {
@@ -237,7 +237,7 @@
       "see": [
         "cuda::malloc ",
         "cuda::free ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -257,7 +257,7 @@
       "title": "pointer",
       "type": "thrust::pointer< T, thrust::cuda_cub::tag, thrust::tagged_reference< T, thrust::cuda_cub::tag > >",
       "typePlain": "thrust::pointer< T, thrust::cuda_cub::tag, thrust::tagged_reference< T, thrust::cuda_cub::tag > >",
-      "url": "/api/namespaces/namespacecuda__cub.html#using-pointer",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#using-pointer",
       "visibility": "public"
     },
     {
@@ -287,7 +287,7 @@
       "refid": "cuda_2pointer_8h_1ae40ce48a7b7db3d7c7729ef446245393",
       "see": [
         "cuda::universal_allocator ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -307,7 +307,7 @@
       "title": "universal_pointer",
       "type": "thrust::pointer< T, thrust::cuda_cub::tag, typename std::add_lvalue_reference< T >::type >",
       "typePlain": "thrust::pointer< T, thrust::cuda_cub::tag, typename std::add_lvalue_reference< T >::type >",
-      "url": "/api/namespaces/namespacecuda__cub.html#using-universal_pointer",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#using-universal_pointer",
       "visibility": "public"
     },
     {
@@ -353,7 +353,7 @@
       "title": "reference",
       "type": "thrust::tagged_reference< T, thrust::cuda_cub::tag >",
       "typePlain": "thrust::tagged_reference< T, thrust::cuda_cub::tag >",
-      "url": "/api/namespaces/namespacecuda__cub.html#using-reference",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#using-reference",
       "visibility": "public"
     },
     {
@@ -380,8 +380,8 @@
       "refid": "cuda_2vector_8h_1a639210cca3ab199c45a578b22de9d4ef",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
-        "<a href=\"/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::vector</code>",
-        "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a>",
+        "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::vector</code>",
+        "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>",
         "universal_vector "
       ],
       "static": false,
@@ -413,7 +413,7 @@
       "title": "vector",
       "type": "thrust::detail::vector_base< T, Allocator >",
       "typePlain": "thrust::detail::vector_base< T, Allocator >",
-      "url": "/api/namespaces/namespacecuda__cub.html#using-vector",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#using-vector",
       "visibility": "public"
     },
     {
@@ -440,8 +440,8 @@
       "refid": "cuda_2vector_8h_1a3a53573cc11035d758db155227924a1d",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
-        "<a href=\"/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::universal&#95;vector</code>",
-        "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a>",
+        "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::universal&#95;vector</code>",
+        "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>",
         "universal_vector "
       ],
       "static": false,
@@ -473,7 +473,7 @@
       "title": "universal_vector",
       "type": "thrust::detail::vector_base< T, Allocator >",
       "typePlain": "thrust::detail::vector_base< T, Allocator >",
-      "url": "/api/namespaces/namespacecuda__cub.html#using-universal_vector",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html#using-universal_vector",
       "visibility": "public"
     }
   ],
@@ -481,6 +481,6 @@
   "static": false,
   "strong": false,
   "title": "cuda_cub",
-  "url": "/api/namespaces/namespacecuda__cub.html",
+  "url": "/thrust/api/namespaces/namespacecuda__cub.html",
   "visibility": "public"
 }

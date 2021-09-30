@@ -12,37 +12,37 @@ has_toc: false
 <span>&nbsp;&nbsp;typename Allocator,</span>
 <span>&nbsp;&nbsp;bool Uninitialized = false&gt;</span>
 <span>struct array&#95;allocator&#95;delete {</span>
-<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/api/classes/structarray__allocator__delete.html#using-allocator_type">allocator&#95;type</a></b> = <i>see below</i>;</span>
+<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structarray__allocator__delete.html#using-allocator_type">allocator&#95;type</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;using <b><a href="/api/classes/structarray__allocator__delete.html#using-pointer">pointer</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structarray__allocator__delete.html#using-pointer">pointer</a></b> = <i>see below</i>;</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename UAllocator&gt;</span>
-<span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-array_allocator_delete">array&#95;allocator&#95;delete</a></b>(UAllocator && other,</span>
+<span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-array_allocator_delete">array&#95;allocator&#95;delete</a></b>(UAllocator && other,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;std::size_t n);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename U,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename UAllocator&gt;</span>
-<span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-array_allocator_delete">array&#95;allocator&#95;delete</a></b>(array_allocator_delete< U, UAllocator > const & other);</span>
+<span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-array_allocator_delete">array&#95;allocator&#95;delete</a></b>(array_allocator_delete< U, UAllocator > const & other);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename U,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename UAllocator&gt;</span>
-<span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-array_allocator_delete">array&#95;allocator&#95;delete</a></b>(array_allocator_delete< U, UAllocator > && other);</span>
+<span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-array_allocator_delete">array&#95;allocator&#95;delete</a></b>(array_allocator_delete< U, UAllocator > && other);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename U,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename UAllocator&gt;</span>
-<span>&nbsp;&nbsp;array_allocator_delete & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-operator=">operator=</a></b>(array_allocator_delete< U, UAllocator > const & other);</span>
+<span>&nbsp;&nbsp;array_allocator_delete & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-operator=">operator=</a></b>(array_allocator_delete< U, UAllocator > const & other);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename U,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename UAllocator&gt;</span>
-<span>&nbsp;&nbsp;array_allocator_delete & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-operator=">operator=</a></b>(array_allocator_delete< U, UAllocator > && other);</span>
+<span>&nbsp;&nbsp;array_allocator_delete & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-operator=">operator=</a></b>(array_allocator_delete< U, UAllocator > && other);</span>
 <br>
-<span>&nbsp;&nbsp;void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-operator()">operator()</a></b>(pointer p);</span>
+<span>&nbsp;&nbsp;void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-operator()">operator()</a></b>(pointer p);</span>
 <br>
-<span>&nbsp;&nbsp;allocator_type & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-get_allocator">get&#95;allocator</a></b>();</span>
+<span>&nbsp;&nbsp;allocator_type & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-get_allocator">get&#95;allocator</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;allocator_type const  & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-get_allocator">get&#95;allocator</a></b>() const;</span>
+<span>&nbsp;&nbsp;allocator_type const  & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-get_allocator">get&#95;allocator</a></b>() const;</span>
 <br>
-<span>&nbsp;&nbsp;void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structarray__allocator__delete.html#function-swap">swap</a></b>(array_allocator_delete & other);</span>
+<span>&nbsp;&nbsp;void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structarray__allocator__delete.html#function-swap">swap</a></b>(array_allocator_delete & other);</span>
 <span>};</span>
 </code>
 

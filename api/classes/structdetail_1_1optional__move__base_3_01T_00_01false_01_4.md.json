@@ -39,7 +39,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -53,7 +53,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -87,7 +87,7 @@
       "title": "optional_move_base",
       "type": "__thrust_exec_check_disable__",
       "typePlain": "__thrust_exec_check_disable__",
-      "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-optional_move_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-optional_move_base",
       "virtual": false,
       "visibility": "public"
     },
@@ -126,7 +126,7 @@
       "title": "optional_move_base",
       "type": "__thrust_exec_check_disable__",
       "typePlain": "__thrust_exec_check_disable__",
-      "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-optional_move_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-optional_move_base",
       "virtual": false,
       "visibility": "public"
     },
@@ -168,7 +168,7 @@
       "title": "optional_move_base",
       "type": "__thrust_exec_check_disable__ __host__ __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__",
-      "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-optional_move_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-optional_move_base",
       "virtual": false,
       "visibility": "public"
     },
@@ -207,7 +207,7 @@
       "title": "operator=",
       "type": "__thrust_exec_check_disable__ optional_move_base &",
       "typePlain": "__thrust_exec_check_disable__ optional_move_base &",
-      "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-operator=",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -246,7 +246,7 @@
       "title": "operator=",
       "type": "__thrust_exec_check_disable__ optional_move_base &",
       "typePlain": "__thrust_exec_check_disable__ optional_move_base &",
-      "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-operator=",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     }
@@ -262,6 +262,6 @@
     }
   ],
   "title": "detail::optional_move_base< T, false >",
-  "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+  "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
   "visibility": "public"
 }

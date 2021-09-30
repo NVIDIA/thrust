@@ -4,7 +4,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "The <code>rebind</code> metafunction provides the type of a <code><a href=\"/api/classes/classdevice__allocator.html\">device&#95;allocator</a></code> instantiated with another type.",
+  "details": "The <code>rebind</code> metafunction provides the type of a <code><a href=\"/thrust/api/classes/classdevice__allocator.html\">device&#95;allocator</a></code> instantiated with another type.",
   "explicit": false,
   "fullname": "device_allocator::rebind",
   "hasAdditionalMembers": false,
@@ -40,7 +40,7 @@
     "refid": "classdevice__allocator",
     "summary": "An allocator which creates new elements in memory accessible by devices. ",
     "title": "device_allocator",
-    "url": "/api/classes/classdevice__allocator.html",
+    "url": "/thrust/api/classes/classdevice__allocator.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -62,7 +62,7 @@
       "refid": "classdevice__allocator",
       "summary": "An allocator which creates new elements in memory accessible by devices. ",
       "title": "device_allocator",
-      "url": "/api/classes/classdevice__allocator.html",
+      "url": "/thrust/api/classes/classdevice__allocator.html",
       "visibility": "public"
     }
   ],
@@ -73,7 +73,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef device_allocator<U> device_allocator< T >::rebind< U >::other",
-      "details": "The typedef <code>other</code> gives the type of the rebound <code><a href=\"/api/classes/classdevice__allocator.html\">device&#95;allocator</a></code>. ",
+      "details": "The typedef <code>other</code> gives the type of the rebound <code><a href=\"/thrust/api/classes/classdevice__allocator.html\">device&#95;allocator</a></code>. ",
       "explicit": false,
       "fullname": "device_allocator::rebind::other",
       "hasDetails": true,
@@ -92,9 +92,9 @@
       "static": false,
       "strong": false,
       "title": "other",
-      "type": "<a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a>< U >",
+      "type": "<a href=\"/thrust/api/classes/classdevice__allocator.html\">device_allocator</a>< U >",
       "typePlain": "device_allocator< U >",
-      "url": "/api/classes/structdevice__allocator_1_1rebind.html#typedef-other",
+      "url": "/thrust/api/classes/structdevice__allocator_1_1rebind.html#typedef-other",
       "visibility": "public"
     }
   ],
@@ -115,6 +115,6 @@
     }
   ],
   "title": "device_allocator::rebind",
-  "url": "/api/classes/structdevice__allocator_1_1rebind.html",
+  "url": "/thrust/api/classes/structdevice__allocator_1_1rebind.html",
   "visibility": "public"
 }

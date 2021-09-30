@@ -18,7 +18,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -153,11 +153,11 @@
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_difference\">https://en.cppreference.com/w/cpp/algorithm/set_difference</a>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -204,7 +204,7 @@
       "title": "set_difference",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_difference",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -291,11 +291,11 @@
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_difference\">https://en.cppreference.com/w/cpp/algorithm/set_difference</a>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -333,7 +333,7 @@
       "title": "set_difference",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_difference",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -438,11 +438,11 @@
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_difference\">https://en.cppreference.com/w/cpp/algorithm/set_difference</a>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -498,7 +498,7 @@
       "title": "set_difference",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_difference",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -594,11 +594,11 @@
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_difference\">https://en.cppreference.com/w/cpp/algorithm/set_difference</a>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -645,7 +645,7 @@
       "title": "set_difference",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_difference",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -741,11 +741,11 @@
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_intersection\">https://en.cppreference.com/w/cpp/algorithm/set_intersection</a>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -792,7 +792,7 @@
       "title": "set_intersection",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_intersection",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_intersection",
       "virtual": false,
       "visibility": "public"
     },
@@ -879,11 +879,11 @@
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_intersection\">https://en.cppreference.com/w/cpp/algorithm/set_intersection</a>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -921,7 +921,7 @@
       "title": "set_intersection",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_intersection",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_intersection",
       "virtual": false,
       "visibility": "public"
     },
@@ -1026,11 +1026,11 @@
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_intersection\">https://en.cppreference.com/w/cpp/algorithm/set_intersection</a>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1082,7 +1082,7 @@
       "title": "set_intersection",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_intersection",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_intersection",
       "virtual": false,
       "visibility": "public"
     },
@@ -1178,11 +1178,11 @@
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_intersection\">https://en.cppreference.com/w/cpp/algorithm/set_intersection</a>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1225,7 +1225,7 @@
       "title": "set_intersection",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_intersection",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_intersection",
       "virtual": false,
       "visibility": "public"
     },
@@ -1320,13 +1320,13 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference\">https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference</a>",
-        "<code><a href=\"/api/groups/group__merging.html#function-merge\">merge</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a></code>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference\">set&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference\">set&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1373,7 +1373,7 @@
       "title": "set_symmetric_difference",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_symmetric_difference",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -1459,13 +1459,13 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference\">https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference</a>",
-        "<code><a href=\"/api/groups/group__merging.html#function-merge\">merge</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a></code>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference\">set&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference\">set&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1503,7 +1503,7 @@
       "title": "set_symmetric_difference",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_symmetric_difference",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -1607,13 +1607,13 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference\">https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference</a>",
-        "<code><a href=\"/api/groups/group__merging.html#function-merge\">merge</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a></code>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference\">set&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference\">set&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1665,7 +1665,7 @@
       "title": "set_symmetric_difference",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_symmetric_difference",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -1760,13 +1760,13 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference\">https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference</a>",
-        "<code><a href=\"/api/groups/group__merging.html#function-merge\">merge</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a></code>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference\">set&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference\">set&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1809,7 +1809,7 @@
       "title": "set_symmetric_difference",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_symmetric_difference",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -1904,13 +1904,13 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_union\">https://en.cppreference.com/w/cpp/algorithm/set_union</a>",
-        "<code><a href=\"/api/groups/group__merging.html#function-merge\">merge</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a></code>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1957,7 +1957,7 @@
       "title": "set_union",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_union",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_union",
       "virtual": false,
       "visibility": "public"
     },
@@ -2043,13 +2043,13 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_union\">https://en.cppreference.com/w/cpp/algorithm/set_union</a>",
-        "<code><a href=\"/api/groups/group__merging.html#function-merge\">merge</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a></code>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -2087,7 +2087,7 @@
       "title": "set_union",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_union",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_union",
       "virtual": false,
       "visibility": "public"
     },
@@ -2191,13 +2191,13 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_union\">https://en.cppreference.com/w/cpp/algorithm/set_union</a>",
-        "<code><a href=\"/api/groups/group__merging.html#function-merge\">merge</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a></code>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -2253,7 +2253,7 @@
       "title": "set_union",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_union",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_union",
       "virtual": false,
       "visibility": "public"
     },
@@ -2348,13 +2348,13 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/set_union\">https://en.cppreference.com/w/cpp/algorithm/set_union</a>",
-        "<code><a href=\"/api/groups/group__merging.html#function-merge\">merge</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a></code>",
         "<code>includes</code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection\">set&#95;intersection</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference\">set&#95;symmetric&#95;difference</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -2401,7 +2401,7 @@
       "title": "set_union",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__set__operations.html#function-set_union",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_union",
       "virtual": false,
       "visibility": "public"
     },
@@ -2522,11 +2522,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -2600,7 +2600,7 @@
       "title": "set_difference_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_difference_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_difference_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -2712,11 +2712,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -2781,7 +2781,7 @@
       "title": "set_difference_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_difference_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_difference_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -2911,11 +2911,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -2998,7 +2998,7 @@
       "title": "set_difference_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_difference_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_difference_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3119,11 +3119,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -3197,7 +3197,7 @@
       "title": "set_difference_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_difference_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_difference_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3312,11 +3312,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -3381,7 +3381,7 @@
       "title": "set_intersection_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_intersection_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3487,11 +3487,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -3547,7 +3547,7 @@
       "title": "set_intersection_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_intersection_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3671,11 +3671,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -3749,7 +3749,7 @@
       "title": "set_intersection_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_intersection_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -3864,11 +3864,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -3933,7 +3933,7 @@
       "title": "set_intersection_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_intersection_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -4054,11 +4054,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -4132,7 +4132,7 @@
       "title": "set_symmetric_difference_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -4244,11 +4244,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -4313,7 +4313,7 @@
       "title": "set_symmetric_difference_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -4443,11 +4443,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -4530,7 +4530,7 @@
       "title": "set_symmetric_difference_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -4651,11 +4651,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union_by_key\">set&#95;union&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -4729,7 +4729,7 @@
       "title": "set_symmetric_difference_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -4850,11 +4850,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -4928,7 +4928,7 @@
       "title": "set_union_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_union_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_union_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -5040,11 +5040,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -5109,7 +5109,7 @@
       "title": "set_union_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_union_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_union_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -5239,11 +5239,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -5326,7 +5326,7 @@
       "title": "set_union_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_union_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_union_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -5447,11 +5447,11 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key\">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key\">set&#95;intersection&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_difference_by_key\">set&#95;difference&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -5525,7 +5525,7 @@
       "title": "set_union_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__set__operations.html#function-set_union_by_key",
+      "url": "/thrust/api/groups/group__set__operations.html#function-set_union_by_key",
       "virtual": false,
       "visibility": "public"
     }
@@ -5534,6 +5534,6 @@
   "static": false,
   "strong": false,
   "title": "Set Operations",
-  "url": "/api/groups/group__set__operations.html",
+  "url": "/thrust/api/groups/group__set__operations.html",
   "visibility": "public"
 }

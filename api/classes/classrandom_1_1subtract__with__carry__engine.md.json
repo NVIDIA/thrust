@@ -29,7 +29,7 @@
     "name": "random_number_engine_templates",
     "refid": "group__random__number__engine__templates",
     "title": "Random Number Engine Class Templates",
-    "url": "/api/groups/group__random__number__engine__templates.html",
+    "url": "/thrust/api/groups/group__random__number__engine__templates.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -41,7 +41,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     },
     {
@@ -52,13 +52,13 @@
       "name": "random_number_engine_templates",
       "refid": "group__random__number__engine__templates",
       "title": "Random Number Engine Class Templates",
-      "url": "/api/groups/group__random__number__engine__templates.html",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html",
       "visibility": "public"
     }
   ],
   "name": "random::subtract_with_carry_engine",
   "note": [
-    "Inexperienced users should not use this class template directly. Instead, use <code>ranlux24&#95;base</code> or <code>ranlux48&#95;base</code>, which are instances of <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>."
+    "Inexperienced users should not use this class template directly. Instead, use <code>ranlux24&#95;base</code> or <code>ranlux48&#95;base</code>, which are instances of <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>."
   ],
   "override": false,
   "parent": {
@@ -69,7 +69,7 @@
     "name": "random",
     "refid": "namespacerandom",
     "title": "random",
-    "url": "/api/namespaces/namespacerandom.html",
+    "url": "/thrust/api/namespaces/namespacerandom.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -81,7 +81,7 @@
       "name": "random",
       "refid": "namespacerandom",
       "title": "random",
-      "url": "/api/namespaces/namespacerandom.html",
+      "url": "/thrust/api/namespaces/namespacerandom.html",
       "visibility": "public"
     }
   ],
@@ -114,7 +114,7 @@
       "title": "word_size",
       "type": "const size_t",
       "typePlain": "const size_t",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-word_size",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-word_size",
       "visibility": "public"
     },
     {
@@ -145,7 +145,7 @@
       "title": "short_lag",
       "type": "const size_t",
       "typePlain": "const size_t",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-short_lag",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-short_lag",
       "visibility": "public"
     },
     {
@@ -176,7 +176,7 @@
       "title": "long_lag",
       "type": "const size_t",
       "typePlain": "const size_t",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-long_lag",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-long_lag",
       "visibility": "public"
     },
     {
@@ -185,7 +185,7 @@
       "category": "attributes",
       "const": false,
       "definition": "const result_type random::subtract_with_carry_engine< UIntType, w, s, r >::min",
-      "details": "The smallest value this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. ",
+      "details": "The smallest value this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. ",
       "explicit": false,
       "fullname": "random::subtract_with_carry_engine::min",
       "hasDetails": true,
@@ -205,9 +205,9 @@
       "static": true,
       "strong": false,
       "title": "min",
-      "type": "const <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
+      "type": "const <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
       "typePlain": "const result_type",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-min",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-min",
       "visibility": "public"
     },
     {
@@ -216,11 +216,11 @@
       "category": "attributes",
       "const": false,
       "definition": "const result_type random::subtract_with_carry_engine< UIntType, w, s, r >::max",
-      "details": "The largest value this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. ",
+      "details": "The largest value this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> may potentially produce. ",
       "explicit": false,
       "fullname": "random::subtract_with_carry_engine::max",
       "hasDetails": true,
-      "initializer": "= <a href=\"/api/classes/structmodulus.html\">modulus</a> - 1",
+      "initializer": "= <a href=\"/thrust/api/classes/structmodulus.html\">modulus</a> - 1",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -236,9 +236,9 @@
       "static": true,
       "strong": false,
       "title": "max",
-      "type": "const <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
+      "type": "const <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
       "typePlain": "const result_type",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-max",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-max",
       "visibility": "public"
     },
     {
@@ -247,7 +247,7 @@
       "category": "attributes",
       "const": false,
       "definition": "const result_type random::subtract_with_carry_engine< UIntType, w, s, r >::default_seed",
-      "details": "The default seed of this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>. ",
+      "details": "The default seed of this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>. ",
       "explicit": false,
       "fullname": "random::subtract_with_carry_engine::default_seed",
       "hasDetails": true,
@@ -267,9 +267,9 @@
       "static": true,
       "strong": false,
       "title": "default_seed",
-      "type": "const <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
+      "type": "const <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
       "typePlain": "const result_type",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-default_seed",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-default_seed",
       "visibility": "public"
     }
   ],
@@ -283,7 +283,7 @@
       "default": true,
       "definition": "__host__ __device__ random::subtract_with_carry_engine< UIntType, w, s, r >::subtract_with_carry_engine",
       "deleted": false,
-      "details": "This constructor, which optionally accepts a seed, initializes a new <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>.",
+      "details": "This constructor, which optionally accepts a seed, initializes a new <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>.",
       "explicit": true,
       "fullname": "random::subtract_with_carry_engine::subtract_with_carry_engine",
       "hasDetails": true,
@@ -299,15 +299,15 @@
       "paramList": [
         {
           "name": "value",
-          "text": "The seed used to intialize this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. "
+          "text": "The seed used to intialize this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. "
         }
       ],
       "params": [
         {
-          "defval": "<a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-default_seed\">default_seed</a>",
+          "defval": "<a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-default_seed\">default_seed</a>",
           "defvalPlain": "default_seed",
           "name": "value",
-          "type": "<a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
           "typePlain": "result_type"
         }
       ],
@@ -318,7 +318,7 @@
       "title": "subtract_with_carry_engine",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-subtract_with_carry_engine",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-subtract_with_carry_engine",
       "virtual": false,
       "visibility": "public"
     },
@@ -331,7 +331,7 @@
       "default": true,
       "definition": "__host__ __device__ void random::subtract_with_carry_engine< UIntType, w, s, r >::seed",
       "deleted": false,
-      "details": "This method initializes this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state, and optionally accepts a seed value.",
+      "details": "This method initializes this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state, and optionally accepts a seed value.",
       "explicit": false,
       "fullname": "random::subtract_with_carry_engine::seed",
       "hasDetails": true,
@@ -347,15 +347,15 @@
       "paramList": [
         {
           "name": "value",
-          "text": "The seed used to initializes this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. "
+          "text": "The seed used to initializes this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. "
         }
       ],
       "params": [
         {
-          "defval": "<a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-default_seed\">default_seed</a>",
+          "defval": "<a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#variable-default_seed\">default_seed</a>",
           "defvalPlain": "default_seed",
           "name": "value",
-          "type": "<a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
           "typePlain": "result_type"
         }
       ],
@@ -366,7 +366,7 @@
       "title": "seed",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-seed",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-seed",
       "virtual": false,
       "visibility": "public"
     },
@@ -379,7 +379,7 @@
       "default": false,
       "definition": "__host__ __device__ result_type random::subtract_with_carry_engine< UIntType, w, s, r >::operator()",
       "deleted": false,
-      "details": "This member function produces a new random value and updates this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. ",
+      "details": "This member function produces a new random value and updates this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state. ",
       "explicit": false,
       "fullname": "random::subtract_with_carry_engine::operator()",
       "hasDetails": true,
@@ -407,9 +407,9 @@
       "static": false,
       "strong": false,
       "title": "operator()",
-      "type": "__host__ __device__ <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type\">result_type</a>",
       "typePlain": "__host__ __device__ result_type",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-operator()",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     },
@@ -422,7 +422,7 @@
       "default": false,
       "definition": "__host__ __device__ void random::subtract_with_carry_engine< UIntType, w, s, r >::discard",
       "deleted": false,
-      "details": "This member function advances this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state a given number of times and discards the results.",
+      "details": "This member function advances this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a>'s</code> state a given number of times and discards the results.",
       "explicit": false,
       "fullname": "random::subtract_with_carry_engine::discard",
       "hasDetails": true,
@@ -458,7 +458,7 @@
       "title": "discard",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-discard",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#function-discard",
       "virtual": false,
       "visibility": "public"
     }
@@ -467,7 +467,7 @@
     {
       "abstract": false,
       "anchor": "#typedef-result_type",
-      "brief": "The type of the unsigned integer produced by this <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>. ",
+      "brief": "The type of the unsigned integer produced by this <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code>. ",
       "category": "types",
       "const": false,
       "definition": "random::subtract_with_carry_engine< UIntType, w, s, r >::result_type",
@@ -492,7 +492,7 @@
       "title": "result_type",
       "type": "UIntType",
       "typePlain": "UIntType",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html#typedef-result_type",
       "visibility": "public"
     }
   ],
@@ -545,6 +545,6 @@
     }
   ],
   "title": "random::subtract_with_carry_engine",
-  "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html",
+  "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html",
   "visibility": "public"
 }

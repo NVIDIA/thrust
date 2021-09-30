@@ -25,7 +25,7 @@
       "name": "async::exclusive_scan_detail",
       "refid": "namespaceasync_1_1exclusive__scan__detail",
       "title": "async::exclusive_scan_detail",
-      "url": "/api/namespaces/namespaceasync_1_1exclusive__scan__detail.html",
+      "url": "/thrust/api/namespaces/namespaceasync_1_1exclusive__scan__detail.html",
       "visibility": "public"
     },
     {
@@ -36,7 +36,7 @@
       "name": "async::inclusive_scan_detail",
       "refid": "namespaceasync_1_1inclusive__scan__detail",
       "title": "async::inclusive_scan_detail",
-      "url": "/api/namespaces/namespaceasync_1_1inclusive__scan__detail.html",
+      "url": "/thrust/api/namespaces/namespaceasync_1_1inclusive__scan__detail.html",
       "visibility": "public"
     },
     {
@@ -47,7 +47,7 @@
       "name": "async::unimplemented",
       "refid": "namespaceasync_1_1unimplemented",
       "title": "async::unimplemented",
-      "url": "/api/namespaces/namespaceasync_1_1unimplemented.html",
+      "url": "/thrust/api/namespaces/namespaceasync_1_1unimplemented.html",
       "visibility": "public"
     }
   ],
@@ -81,7 +81,7 @@
       "title": "inclusive_scan",
       "type": "THRUST_INLINE_CONSTANT inclusive_scan_detail::inclusive_scan_fn",
       "typePlain": "THRUST_INLINE_CONSTANT inclusive_scan_detail::inclusive_scan_fn",
-      "url": "/api/namespaces/namespaceasync.html#variable-inclusive_scan",
+      "url": "/thrust/api/namespaces/namespaceasync.html#variable-inclusive_scan",
       "visibility": "public"
     },
     {
@@ -111,7 +111,7 @@
       "title": "exclusive_scan",
       "type": "THRUST_INLINE_CONSTANT exclusive_scan_detail::exclusive_scan_fn",
       "typePlain": "THRUST_INLINE_CONSTANT exclusive_scan_detail::exclusive_scan_fn",
-      "url": "/api/namespaces/namespaceasync.html#variable-exclusive_scan",
+      "url": "/thrust/api/namespaces/namespaceasync.html#variable-exclusive_scan",
       "visibility": "public"
     }
   ],
@@ -119,6 +119,6 @@
   "static": false,
   "strong": false,
   "title": "async",
-  "url": "/api/namespaces/namespaceasync.html",
+  "url": "/thrust/api/namespaces/namespaceasync.html",
   "visibility": "public"
 }

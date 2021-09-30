@@ -15,7 +15,7 @@
       "name": "counting",
       "refid": "group__counting",
       "title": "Counting",
-      "url": "/api/groups/group__counting.html",
+      "url": "/thrust/api/groups/group__counting.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "comparisons",
       "refid": "group__comparisons",
       "title": "Comparisons",
-      "url": "/api/groups/group__comparisons.html",
+      "url": "/thrust/api/groups/group__comparisons.html",
       "visibility": "public"
     },
     {
@@ -37,7 +37,7 @@
       "name": "extrema",
       "refid": "group__extrema",
       "title": "Extrema",
-      "url": "/api/groups/group__extrema.html",
+      "url": "/thrust/api/groups/group__extrema.html",
       "visibility": "public"
     },
     {
@@ -48,7 +48,7 @@
       "name": "transformed_reductions",
       "refid": "group__transformed__reductions",
       "title": "Transformed Reductions",
-      "url": "/api/groups/group__transformed__reductions.html",
+      "url": "/thrust/api/groups/group__transformed__reductions.html",
       "visibility": "public"
     },
     {
@@ -59,7 +59,7 @@
       "name": "logical",
       "refid": "group__logical",
       "title": "Logical",
-      "url": "/api/groups/group__logical.html",
+      "url": "/thrust/api/groups/group__logical.html",
       "visibility": "public"
     },
     {
@@ -70,7 +70,7 @@
       "name": "predicates",
       "refid": "group__predicates",
       "title": "Predicates",
-      "url": "/api/groups/group__predicates.html",
+      "url": "/thrust/api/groups/group__predicates.html",
       "visibility": "public"
     }
   ],
@@ -86,7 +86,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -98,7 +98,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -112,7 +112,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -124,7 +124,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -217,7 +217,7 @@
       "title": "reduce",
       "type": "__host__ __device__ thrust::iterator_traits< InputIterator >::value_type",
       "typePlain": "__host__ __device__ thrust::iterator_traits< InputIterator >::value_type",
-      "url": "/api/groups/group__reductions.html#function-reduce",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce",
       "virtual": false,
       "visibility": "public"
     },
@@ -291,7 +291,7 @@
       "title": "reduce",
       "type": "thrust::iterator_traits< InputIterator >::value_type",
       "typePlain": "thrust::iterator_traits< InputIterator >::value_type",
-      "url": "/api/groups/group__reductions.html#function-reduce",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce",
       "virtual": false,
       "visibility": "public"
     },
@@ -401,7 +401,7 @@
       "title": "reduce",
       "type": "__host__ __device__ T",
       "typePlain": "__host__ __device__ T",
-      "url": "/api/groups/group__reductions.html#function-reduce",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce",
       "virtual": false,
       "visibility": "public"
     },
@@ -493,7 +493,7 @@
       "title": "reduce",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/groups/group__reductions.html#function-reduce",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce",
       "virtual": false,
       "visibility": "public"
     },
@@ -575,7 +575,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/accumulate\">https://en.cppreference.com/w/cpp/algorithm/accumulate</a>",
-        "<a href=\"/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
+        "<a href=\"/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
       ],
       "static": false,
       "strong": false,
@@ -622,7 +622,7 @@
       "title": "reduce",
       "type": "__host__ __device__ T",
       "typePlain": "__host__ __device__ T",
-      "url": "/api/groups/group__reductions.html#function-reduce",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce",
       "virtual": false,
       "visibility": "public"
     },
@@ -695,7 +695,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/accumulate\">https://en.cppreference.com/w/cpp/algorithm/accumulate</a>",
-        "<a href=\"/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
+        "<a href=\"/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce\">transform_reduce</a>"
       ],
       "static": false,
       "strong": false,
@@ -733,7 +733,7 @@
       "title": "reduce",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/groups/group__reductions.html#function-reduce",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce",
       "virtual": false,
       "visibility": "public"
     },
@@ -746,7 +746,7 @@
       "default": false,
       "definition": "__host__ __device__ thrust::pair<OutputIterator1,OutputIterator2> reduce_by_key",
       "deleted": false,
-      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>plus</code> and the result copied to <code>values&#95;output</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code><a href=\"/api/classes/structequal__to.html\">equal&#95;to</a></code> to test for equality and <code>plus</code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::reduce_by_key(thrust::host, A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
+      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>plus</code> and the result copied to <code>values&#95;output</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code><a href=\"/thrust/api/classes/structequal__to.html\">equal&#95;to</a></code> to test for equality and <code>plus</code> to reduce values with equal keys.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/reduce.h>\n#include <thrust/execution_policy.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::reduce_by_key(thrust::host, A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
       "explicit": false,
       "fullname": "reductions::reduce_by_key",
       "hasDetails": true,
@@ -826,10 +826,10 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__reductions.html#function-reduce\">reduce</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce\">reduce</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -885,7 +885,7 @@
       "title": "reduce_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__reductions.html#function-reduce_by_key",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -898,7 +898,7 @@
       "default": false,
       "definition": "thrust::pair<OutputIterator1,OutputIterator2> reduce_by_key",
       "deleted": false,
-      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>plus</code> and the result copied to <code>values&#95;output</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code><a href=\"/api/classes/structequal__to.html\">equal&#95;to</a></code> to test for equality and <code>plus</code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys.\n\n\n\n```cpp\n#include <thrust/reduce.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::reduce_by_key(A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
+      "details": "<code>reduce&#95;by&#95;key</code> is a generalization of <code>reduce</code> to key-value pairs. For each group of consecutive keys in the range <code>[keys&#95;first, keys&#95;last)</code> that are equal, <code>reduce&#95;by&#95;key</code> copies the first element of the group to the <code>keys&#95;output</code>. The corresponding values in the range are reduced using the <code>plus</code> and the result copied to <code>values&#95;output</code>.\n\nThis version of <code>reduce&#95;by&#95;key</code> uses the function object <code><a href=\"/thrust/api/classes/structequal__to.html\">equal&#95;to</a></code> to test for equality and <code>plus</code> to reduce values with equal keys.\n\n\nThe following code snippet demonstrates how to use <code>reduce&#95;by&#95;key</code> to compact a sequence of key/value pairs and sum values with equal keys.\n\n\n\n```cpp\n#include <thrust/reduce.h>\n...\nconst int N = 7;\nint A[N] = {1, 3, 3, 3, 2, 2, 1}; // input keys\nint B[N] = {9, 8, 7, 6, 5, 4, 3}; // input values\nint C[N];                         // output keys\nint D[N];                         // output values\n\nthrust::pair<int*,int*> new_end;\nnew_end = thrust::reduce_by_key(A, A + N, B, C, D);\n\n// The first four keys in C are now {1, 3, 2, 1} and new_end.first - C is 4.\n// The first four values in D are now {9, 21, 9, 3} and new_end.second - D is 4.\n```",
       "explicit": false,
       "fullname": "reductions::reduce_by_key",
       "hasDetails": true,
@@ -969,10 +969,10 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__reductions.html#function-reduce\">reduce</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce\">reduce</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -1019,7 +1019,7 @@
       "title": "reduce_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__reductions.html#function-reduce_by_key",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1121,10 +1121,10 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__reductions.html#function-reduce\">reduce</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce\">reduce</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -1189,7 +1189,7 @@
       "title": "reduce_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__reductions.html#function-reduce_by_key",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1282,10 +1282,10 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__reductions.html#function-reduce\">reduce</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce\">reduce</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -1341,7 +1341,7 @@
       "title": "reduce_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__reductions.html#function-reduce_by_key",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1452,10 +1452,10 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__reductions.html#function-reduce\">reduce</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce\">reduce</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -1529,7 +1529,7 @@
       "title": "reduce_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__reductions.html#function-reduce_by_key",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1631,10 +1631,10 @@
         "A pair of iterators at end of the ranges <code>[keys&#95;output, keys&#95;output&#95;last)</code> and <code>[values&#95;output, values&#95;output&#95;last)</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__reductions.html#function-reduce\">reduce</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
-        "<a href=\"/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
+        "<a href=\"/thrust/api/groups/group__reductions.html#function-reduce\">reduce</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_copy\">unique_copy</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key\">unique_by_key</a>",
+        "<a href=\"/thrust/api/groups/group__stream__compaction.html#function-unique_by_key_copy\">unique_by_key_copy</a>"
       ],
       "static": false,
       "strong": false,
@@ -1699,7 +1699,7 @@
       "title": "reduce_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__reductions.html#function-reduce_by_key",
+      "url": "/thrust/api/groups/group__reductions.html#function-reduce_by_key",
       "virtual": false,
       "visibility": "public"
     }
@@ -1708,6 +1708,6 @@
   "static": false,
   "strong": false,
   "title": "Reductions",
-  "url": "/api/groups/group__reductions.html",
+  "url": "/thrust/api/groups/group__reductions.html",
   "visibility": "public"
 }

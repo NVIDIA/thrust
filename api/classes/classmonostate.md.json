@@ -28,6 +28,6 @@
   "strong": false,
   "summary": "Used to represent an optional with no data; essentially a bool. ",
   "title": "monostate",
-  "url": "/api/classes/classmonostate.html",
+  "url": "/thrust/api/classes/classmonostate.html",
   "visibility": "public"
 }

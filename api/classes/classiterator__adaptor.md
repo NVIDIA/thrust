@@ -9,9 +9,9 @@ has_toc: false
 
 # Class `iterator_adaptor`
 
-<code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> is an iterator which adapts an existing type of iterator to create a new type of iterator. Most of Thrust's fancy iterators are defined via inheritance from <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code>. While composition of these existing Thrust iterators is often sufficient for expressing the desired functionality, it is occasionally more straightforward to derive from <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> directly.
+<code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> is an iterator which adapts an existing type of iterator to create a new type of iterator. Most of Thrust's fancy iterators are defined via inheritance from <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code>. While composition of these existing Thrust iterators is often sufficient for expressing the desired functionality, it is occasionally more straightforward to derive from <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> directly.
 
-To see how to use <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> to create a novel iterator type, let's examine how to use it to define <code>repeat&#95;iterator</code>, a fancy iterator which repeats elements from another range a given number of time:
+To see how to use <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> to create a novel iterator type, let's examine how to use it to define <code>repeat&#95;iterator</code>, a fancy iterator which repeats elements from another range a given number of time:
 
 
 
@@ -56,11 +56,11 @@ template<typename Iterator>
 };
 ```
 
-Except for the first two, <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a>'s</code> template parameters are optional. When omitted, or when the user specifies <code>thrust::use&#95;default</code> in its place, <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> will use a default type inferred from <code>Base</code>.
+Except for the first two, <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a>'s</code> template parameters are optional. When omitted, or when the user specifies <code>thrust::use&#95;default</code> in its place, <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> will use a default type inferred from <code>Base</code>.
 
-<code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a>'s</code> functionality is derived from and generally equivalent to <code>boost::iterator&#95;adaptor</code>. The exception is Thrust's addition of the template parameter <code>System</code>, which is necessary to allow Thrust to dispatch an algorithm to one of several parallel backend systems.
+<code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a>'s</code> functionality is derived from and generally equivalent to <code>boost::iterator&#95;adaptor</code>. The exception is Thrust's addition of the template parameter <code>System</code>, which is necessary to allow Thrust to dispatch an algorithm to one of several parallel backend systems.
 
-<code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> is a powerful tool for creating custom iterators directly. However, the large set of iterator semantics which must be satisfied for algorithm compatibility can make <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> difficult to use correctly. Unless you require the full expressivity of <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code>, consider building a custom iterator through composition of existing higher-level fancy iterators instead.
+<code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> is a powerful tool for creating custom iterators directly. However, the large set of iterator semantics which must be satisfied for algorithm compatibility can make <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> difficult to use correctly. Unless you require the full expressivity of <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code>, consider building a custom iterator through composition of existing higher-level fancy iterators instead.
 
 Interested users may refer to <code>boost::iterator&#95;adaptor</code>'s documentation for further usage examples. 
 
@@ -77,17 +77,17 @@ Interested users may refer to <code>boost::iterator&#95;adaptor</code>'s documen
 <span>&nbsp;&nbsp;typename Reference = use&#95;default,</span>
 <span>&nbsp;&nbsp;typename Difference = use&#95;default&gt;</span>
 <span>class iterator&#95;adaptor {</span>
-<span>public:</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classiterator__adaptor.html#typedef-base_type">base&#95;type</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classiterator__adaptor.html#typedef-base_type">base&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classiterator__adaptor.html#function-iterator_adaptor">iterator&#95;adaptor</a></b>();</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classiterator__adaptor.html#function-iterator_adaptor">iterator&#95;adaptor</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;explicit __thrust_exec_check_disable__ __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classiterator__adaptor.html#function-iterator_adaptor">iterator&#95;adaptor</a></b>(Base const & iter);</span>
+<span>&nbsp;&nbsp;explicit __thrust_exec_check_disable__ __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classiterator__adaptor.html#function-iterator_adaptor">iterator&#95;adaptor</a></b>(Base const & iter);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ Base const  & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classiterator__adaptor.html#function-base">base</a></b>() const;</span>
+<span>&nbsp;&nbsp;__host__ __device__ Base const  & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classiterator__adaptor.html#function-base">base</a></b>() const;</span>
 <br>
-<span>protected:</span><span>&nbsp;&nbsp;__host__ __device__ Base const  & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classiterator__adaptor.html#function-base_reference">base&#95;reference</a></b>() const;</span>
+<span>protected:</span><span>&nbsp;&nbsp;__host__ __device__ Base const  & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classiterator__adaptor.html#function-base_reference">base&#95;reference</a></b>() const;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ Base & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classiterator__adaptor.html#function-base_reference">base&#95;reference</a></b>();</span>
+<span>&nbsp;&nbsp;__host__ __device__ Base & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classiterator__adaptor.html#function-base_reference">base&#95;reference</a></b>();</span>
 <span>};</span>
 </code>
 
@@ -99,7 +99,7 @@ Typedef <code>iterator&#95;adaptor::base&#95;type</code>
 
 <code class="doxybook">
 <span>typedef Base<b>base_type</b>;</span></code>
-The type of iterator this <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a>'s</code><code>adapts</code>. 
+The type of iterator this <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a>'s</code><code>adapts</code>. 
 
 
 ## Member Functions
@@ -110,7 +110,7 @@ Function <code>iterator&#95;adaptor::&gt;::iterator&#95;adaptor</code>
 
 <code class="doxybook">
 <span>__host__ __device__ </span><span><b>iterator_adaptor</b>();</span></code>
-<code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a>'s</code> default constructor does nothing. 
+<code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a>'s</code> default constructor does nothing. 
 
 <h3 id="function-iterator_adaptor">
 Function <code>iterator&#95;adaptor::&gt;::iterator&#95;adaptor</code>
@@ -127,7 +127,7 @@ Function <code>iterator&#95;adaptor::&gt;::base</code>
 <code class="doxybook">
 <span>__host__ __device__ Base const  & </span><span><b>base</b>() const;</span></code>
 **Returns**:
-A <code>const</code> reference to the <code>Base</code> iterator this <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> adapts. 
+A <code>const</code> reference to the <code>Base</code> iterator this <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> adapts. 
 
 
 ## Protected Member Functions
@@ -139,7 +139,7 @@ Function <code>iterator&#95;adaptor::&gt;::base&#95;reference</code>
 <code class="doxybook">
 <span>__host__ __device__ Base const  & </span><span><b>base_reference</b>() const;</span></code>
 **Returns**:
-A <code>const</code> reference to the <code>Base</code> iterator this <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> adapts. 
+A <code>const</code> reference to the <code>Base</code> iterator this <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> adapts. 
 
 <h3 id="function-base_reference">
 Function <code>iterator&#95;adaptor::&gt;::base&#95;reference</code>
@@ -148,6 +148,6 @@ Function <code>iterator&#95;adaptor::&gt;::base&#95;reference</code>
 <code class="doxybook">
 <span>__host__ __device__ Base & </span><span><b>base_reference</b>();</span></code>
 **Returns**:
-A mutable reference to the <code>Base</code> iterator this <code><a href="/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> adapts. 
+A mutable reference to the <code>Base</code> iterator this <code><a href="/thrust/api/classes/classiterator__adaptor.html">iterator&#95;adaptor</a></code> adapts. 
 
 

@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "A <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> may vary dynamically; memory management is automatic. The memory associated with a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> resides in the memory accessible to devices.",
+  "details": "A <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> may vary dynamically; memory management is automatic. The memory associated with a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> resides in the memory accessible to devices.",
   "explicit": false,
   "fullname": "device_vector",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "containers",
     "refid": "group__containers",
     "title": "Containers",
-    "url": "/api/groups/group__containers.html",
+    "url": "/thrust/api/groups/group__containers.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -49,7 +49,7 @@
       "name": "containers",
       "refid": "group__containers",
       "title": "Containers",
-      "url": "/api/groups/group__containers.html",
+      "url": "/thrust/api/groups/group__containers.html",
       "visibility": "public"
     }
   ],
@@ -83,7 +83,7 @@
       "title": "Parent",
       "type": "detail::vector_base< T, Alloc >",
       "typePlain": "detail::vector_base< T, Alloc >",
-      "url": "/api/classes/classdevice__vector.html#typedef-parent",
+      "url": "/thrust/api/classes/classdevice__vector.html#typedef-parent",
       "visibility": "private"
     }
   ],
@@ -97,7 +97,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "This constructor creates an empty <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
+      "details": "This constructor creates an empty <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -125,7 +125,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -138,7 +138,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "This constructor creates an empty <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
+      "details": "This constructor creates an empty <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -157,7 +157,7 @@
       "paramList": [
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>. "
         }
       ],
       "params": [
@@ -172,7 +172,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -213,7 +213,7 @@
       "static": false,
       "strong": false,
       "title": "~device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-~device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-~device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -226,7 +226,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "This constructor creates a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with the given size. ",
+      "details": "This constructor creates a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with the given size. ",
       "explicit": true,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -260,7 +260,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -273,7 +273,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "This constructor creates a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with the given size. ",
+      "details": "This constructor creates a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with the given size. ",
       "explicit": true,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -296,7 +296,7 @@
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>. "
         }
       ],
       "params": [
@@ -316,7 +316,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -329,7 +329,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "This constructor creates a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with copies of an exemplar element. ",
+      "details": "This constructor creates a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with copies of an exemplar element. ",
       "explicit": true,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -372,7 +372,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -385,7 +385,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "This constructor creates a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with copies of an exemplar element. ",
+      "details": "This constructor creates a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with copies of an exemplar element. ",
       "explicit": true,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -412,7 +412,7 @@
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>. "
         }
       ],
       "params": [
@@ -437,7 +437,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -450,7 +450,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "Copy constructor copies from an exemplar <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
+      "details": "Copy constructor copies from an exemplar <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -469,13 +469,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &",
           "typePlain": "const device_vector &"
         }
       ],
@@ -484,7 +484,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -497,7 +497,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "Copy constructor copies from an exemplar <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
+      "details": "Copy constructor copies from an exemplar <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -516,17 +516,17 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &",
           "typePlain": "const device_vector &"
         },
         {
@@ -540,7 +540,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -553,7 +553,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "Move constructor moves from another <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
+      "details": "Move constructor moves from another <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -572,13 +572,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> to move. "
+          "text": "The <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> to move. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &&",
           "typePlain": "device_vector &&"
         }
       ],
@@ -587,7 +587,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -600,7 +600,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "Move constructor moves from another <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
+      "details": "Move constructor moves from another <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -619,17 +619,17 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> to move. "
+          "text": "The <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> to move. "
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &&",
           "typePlain": "device_vector &&"
         },
         {
@@ -643,7 +643,7 @@
       "static": false,
       "strong": false,
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -656,7 +656,7 @@
       "default": false,
       "definition": "device_vector& device_vector< T, Alloc >::operator=",
       "deleted": false,
-      "details": "Copy assign operator copies another <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with the same type. ",
+      "details": "Copy assign operator copies another <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with the same type. ",
       "explicit": false,
       "fullname": "device_vector::operator=",
       "hasDetails": true,
@@ -675,13 +675,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &",
           "typePlain": "const device_vector &"
         }
       ],
@@ -690,9 +690,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &",
+      "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &",
       "typePlain": "device_vector &",
-      "url": "/api/classes/classdevice__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -705,7 +705,7 @@
       "default": false,
       "definition": "device_vector& device_vector< T, Alloc >::operator=",
       "deleted": false,
-      "details": "Move assign operator moves from another <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
+      "details": "Move assign operator moves from another <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "device_vector::operator=",
       "hasDetails": true,
@@ -724,13 +724,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> to move. "
+          "text": "The <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> to move. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &&",
           "typePlain": "device_vector &&"
         }
       ],
@@ -739,9 +739,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &",
+      "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &",
       "typePlain": "device_vector &",
-      "url": "/api/classes/classdevice__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -754,7 +754,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "Copy constructor copies from an exemplar <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with different type. ",
+      "details": "Copy constructor copies from an exemplar <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with different type. ",
       "explicit": true,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -773,13 +773,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>< OtherT, OtherAlloc > &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>< OtherT, OtherAlloc > &",
           "typePlain": "const device_vector< OtherT, OtherAlloc > &"
         }
       ],
@@ -800,7 +800,7 @@
         }
       ],
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -813,7 +813,7 @@
       "default": false,
       "definition": "device_vector& device_vector< T, Alloc >::operator=",
       "deleted": false,
-      "details": "Assign operator copies from an exemplar <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with different type. ",
+      "details": "Assign operator copies from an exemplar <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with different type. ",
       "explicit": false,
       "fullname": "device_vector::operator=",
       "hasDetails": true,
@@ -832,13 +832,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> to copy. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>< OtherT, OtherAlloc > &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>< OtherT, OtherAlloc > &",
           "typePlain": "const device_vector< OtherT, OtherAlloc > &"
         }
       ],
@@ -859,9 +859,9 @@
         }
       ],
       "title": "operator=",
-      "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &",
+      "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &",
       "typePlain": "device_vector &",
-      "url": "/api/classes/classdevice__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -920,7 +920,7 @@
         }
       ],
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -979,9 +979,9 @@
         }
       ],
       "title": "operator=",
-      "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &",
+      "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &",
       "typePlain": "device_vector &",
-      "url": "/api/classes/classdevice__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1040,7 +1040,7 @@
         }
       ],
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -1099,9 +1099,9 @@
         }
       ],
       "title": "operator=",
-      "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a> &",
+      "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> &",
       "typePlain": "device_vector &",
-      "url": "/api/classes/classdevice__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1114,7 +1114,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "This constructor builds a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> from a range. ",
+      "details": "This constructor builds a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> from a range. ",
       "explicit": false,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -1164,7 +1164,7 @@
         }
       ],
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -1177,7 +1177,7 @@
       "default": false,
       "definition": "device_vector< T, Alloc >::device_vector",
       "deleted": false,
-      "details": "This constructor builds a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> from a range. ",
+      "details": "This constructor builds a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> from a range. ",
       "explicit": false,
       "fullname": "device_vector::device_vector",
       "hasDetails": true,
@@ -1204,7 +1204,7 @@
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>. "
         }
       ],
       "params": [
@@ -1236,7 +1236,7 @@
         }
       ],
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html#function-device_vector",
+      "url": "/thrust/api/classes/classdevice__vector.html#function-device_vector",
       "virtual": false,
       "visibility": "public"
     }
@@ -1244,8 +1244,8 @@
   "refid": "classdevice__vector",
   "see": [
     "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
-    "<a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a>",
-    "<a href=\"/api/classes/classhost__vector.html\">host_vector</a>",
+    "<a href=\"/thrust/api/classes/classdevice__allocator.html\">device_allocator</a>",
+    "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>",
     "universal_vector "
   ],
   "static": false,
@@ -1265,6 +1265,6 @@
     }
   ],
   "title": "device_vector",
-  "url": "/api/classes/classdevice__vector.html",
+  "url": "/thrust/api/classes/classdevice__vector.html",
   "visibility": "public"
 }

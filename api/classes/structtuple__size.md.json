@@ -27,7 +27,7 @@
     "name": "tuple",
     "refid": "group__tuple",
     "title": "Tuple",
-    "url": "/api/groups/group__tuple.html",
+    "url": "/thrust/api/groups/group__tuple.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -39,7 +39,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     },
     {
@@ -50,7 +50,7 @@
       "name": "tuple",
       "refid": "group__tuple",
       "title": "Tuple",
-      "url": "/api/groups/group__tuple.html",
+      "url": "/thrust/api/groups/group__tuple.html",
       "visibility": "public"
     }
   ],
@@ -59,8 +59,8 @@
   "parent": null,
   "refid": "structtuple__size",
   "see": [
-    "<a href=\"/api/classes/structpair.html\">pair</a>",
-    "<a href=\"/api/classes/classtuple.html\">tuple</a>"
+    "<a href=\"/thrust/api/classes/structpair.html\">pair</a>",
+    "<a href=\"/thrust/api/classes/classtuple.html\">tuple</a>"
   ],
   "static": false,
   "strong": false,
@@ -82,6 +82,6 @@
     }
   ],
   "title": "tuple_size",
-  "url": "/api/classes/structtuple__size.html",
+  "url": "/thrust/api/classes/structtuple__size.html",
   "visibility": "public"
 }

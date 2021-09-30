@@ -20,7 +20,7 @@
     "refid": "group__memory__management",
     "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
     "title": "Memory Management",
-    "url": "/api/groups/group__memory__management.html",
+    "url": "/thrust/api/groups/group__memory__management.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -34,7 +34,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     }
   ],
@@ -50,7 +50,7 @@
     "refid": "group__memory__management",
     "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
     "title": "Memory Management",
-    "url": "/api/groups/group__memory__management.html",
+    "url": "/thrust/api/groups/group__memory__management.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -64,7 +64,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     }
   ],
@@ -85,7 +85,7 @@
       "name": "device_ptr_memory_resource",
       "refid": "classdevice__ptr__memory__resource",
       "title": "device_ptr_memory_resource",
-      "url": "/api/classes/classdevice__ptr__memory__resource.html",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html",
       "visibility": "public"
     },
     {
@@ -106,7 +106,7 @@
       "refid": "classdevice__allocator",
       "summary": "An allocator which creates new elements in memory accessible by devices. ",
       "title": "device_allocator",
-      "url": "/api/classes/classdevice__allocator.html",
+      "url": "/thrust/api/classes/classdevice__allocator.html",
       "visibility": "public"
     },
     {
@@ -117,7 +117,7 @@
       "name": "device_malloc_allocator",
       "refid": "classdevice__malloc__allocator",
       "title": "device_malloc_allocator",
-      "url": "/api/classes/classdevice__malloc__allocator.html",
+      "url": "/thrust/api/classes/classdevice__malloc__allocator.html",
       "visibility": "public"
     },
     {
@@ -128,7 +128,7 @@
       "name": "device_new_allocator",
       "refid": "classdevice__new__allocator",
       "title": "device_new_allocator",
-      "url": "/api/classes/classdevice__new__allocator.html",
+      "url": "/thrust/api/classes/classdevice__new__allocator.html",
       "visibility": "public"
     },
     {
@@ -147,7 +147,7 @@
       "name": "mr::allocator",
       "refid": "classmr_1_1allocator",
       "title": "mr::allocator",
-      "url": "/api/classes/classmr_1_1allocator.html",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html",
       "visibility": "public"
     },
     {
@@ -166,7 +166,7 @@
       "name": "mr::stateless_resource_allocator",
       "refid": "classmr_1_1stateless__resource__allocator",
       "title": "mr::stateless_resource_allocator",
-      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html",
       "visibility": "public"
     }
   ],
@@ -227,7 +227,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__allocators.html#function-operator==",
+      "url": "/thrust/api/groups/group__allocators.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -287,7 +287,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__allocators.html#function-operator!=",
+      "url": "/thrust/api/groups/group__allocators.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     }
@@ -331,7 +331,7 @@
       "title": "polymorphic_allocator",
       "type": "allocator< T, polymorphic_adaptor_resource< Pointer > >",
       "typePlain": "allocator< T, polymorphic_adaptor_resource< Pointer > >",
-      "url": "/api/groups/group__allocators.html#using-polymorphic_allocator",
+      "url": "/thrust/api/groups/group__allocators.html#using-polymorphic_allocator",
       "visibility": "public"
     }
   ],
@@ -339,6 +339,6 @@
   "static": false,
   "strong": false,
   "title": "Allocators",
-  "url": "/api/groups/group__allocators.html",
+  "url": "/thrust/api/groups/group__allocators.html",
   "visibility": "public"
 }

@@ -69,7 +69,7 @@
       "title": "tagged_deleter",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structtagged__deleter.html#function-tagged_deleter",
+      "url": "/thrust/api/classes/structtagged__deleter.html#function-tagged_deleter",
       "virtual": false,
       "visibility": "public"
     }
@@ -101,7 +101,7 @@
       "title": "pointer",
       "type": "Pointer",
       "typePlain": "Pointer",
-      "url": "/api/classes/structtagged__deleter.html#using-pointer",
+      "url": "/thrust/api/classes/structtagged__deleter.html#using-pointer",
       "visibility": "public"
     }
   ],
@@ -121,6 +121,6 @@
     }
   ],
   "title": "tagged_deleter",
-  "url": "/api/classes/structtagged__deleter.html",
+  "url": "/thrust/api/classes/structtagged__deleter.html",
   "visibility": "public"
 }

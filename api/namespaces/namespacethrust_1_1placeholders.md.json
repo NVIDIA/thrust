@@ -5,7 +5,7 @@
   "category": "namespaces",
   "const": false,
   "definition": "",
-  "details": "Objects in the <code><a href=\"/api/namespaces/namespacethrust_1_1placeholders.html\">thrust::placeholders</a></code> namespace may be used to create simple arithmetic functions inline in an algorithm invocation. Combining placeholders such as <code>&#95;1</code> and <code>&#95;2</code> with arithmetic operations such as <code>+</code> creates an unnamed function object which applies the operation to their arguments.\n\nThe type of placeholder objects is implementation-defined.\n\nThe following code snippet demonstrates how to use the placeholders <code>&#95;1</code> and <code>&#95;2</code> with <code>thrust::transform</code> to implement the SAXPY computation:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/transform.h>\n#include <thrust/functional.h>\n\nint main()\n{\n  thrust::device_vector<float> x(4), y(4);\n  x[0] = 1;\n  x[1] = 2;\n  x[2] = 3;\n  x[3] = 4;\n\n  y[0] = 1;\n  y[1] = 1;\n  y[2] = 1;\n  y[3] = 1;\n\n  float a = 2.0f;\n\n  using namespace thrust::placeholders;\n\n  thrust::transform(x.begin(), x.end(), y.begin(), y.begin(),\n    a * _1 + _2\n  );\n\n  // y is now {3, 5, 7, 9}\n}\n```",
+  "details": "Objects in the <code><a href=\"/thrust/api/namespaces/namespacethrust_1_1placeholders.html\">thrust::placeholders</a></code> namespace may be used to create simple arithmetic functions inline in an algorithm invocation. Combining placeholders such as <code>&#95;1</code> and <code>&#95;2</code> with arithmetic operations such as <code>+</code> creates an unnamed function object which applies the operation to their arguments.\n\nThe type of placeholder objects is implementation-defined.\n\nThe following code snippet demonstrates how to use the placeholders <code>&#95;1</code> and <code>&#95;2</code> with <code>thrust::transform</code> to implement the SAXPY computation:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/transform.h>\n#include <thrust/functional.h>\n\nint main()\n{\n  thrust::device_vector<float> x(4), y(4);\n  x[0] = 1;\n  x[1] = 2;\n  x[2] = 3;\n  x[3] = 4;\n\n  y[0] = 1;\n  y[1] = 1;\n  y[2] = 1;\n  y[3] = 1;\n\n  float a = 2.0f;\n\n  using namespace thrust::placeholders;\n\n  thrust::transform(x.begin(), x.end(), y.begin(), y.begin(),\n    a * _1 + _2\n  );\n\n  // y is now {3, 5, 7, 9}\n}\n```",
   "explicit": false,
   "fullname": "thrust::placeholders",
   "hasAdditionalMembers": false,
@@ -25,7 +25,7 @@
     "name": "placeholder_objects",
     "refid": "group__placeholder__objects",
     "title": "Placeholder Objects",
-    "url": "/api/groups/group__placeholder__objects.html",
+    "url": "/thrust/api/groups/group__placeholder__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -37,7 +37,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -48,7 +48,7 @@
       "name": "placeholder_objects",
       "refid": "group__placeholder__objects",
       "title": "Placeholder Objects",
-      "url": "/api/groups/group__placeholder__objects.html",
+      "url": "/thrust/api/groups/group__placeholder__objects.html",
       "visibility": "public"
     }
   ],
@@ -62,7 +62,7 @@
     "name": "thrust",
     "refid": "namespacethrust",
     "title": "thrust",
-    "url": "/api/namespaces/namespacethrust.html",
+    "url": "/thrust/api/namespaces/namespacethrust.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -74,7 +74,7 @@
       "name": "thrust",
       "refid": "namespacethrust",
       "title": "thrust",
-      "url": "/api/namespaces/namespacethrust.html",
+      "url": "/thrust/api/namespaces/namespacethrust.html",
       "visibility": "public"
     }
   ],
@@ -83,6 +83,6 @@
   "strong": false,
   "summary": "Facilities for constructing simple functions inline. ",
   "title": "thrust::placeholders",
-  "url": "/api/namespaces/namespacethrust_1_1placeholders.html",
+  "url": "/thrust/api/namespaces/namespacethrust_1_1placeholders.html",
   "visibility": "public"
 }

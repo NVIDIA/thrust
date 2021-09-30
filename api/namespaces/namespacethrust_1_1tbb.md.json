@@ -5,7 +5,7 @@
   "category": "namespaces",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/namespaces/namespacethrust_1_1tbb.html\">thrust::tbb</a></code> is a top-level alias for <code>thrust::system::tbb</code>. ",
+  "details": "<code><a href=\"/thrust/api/namespaces/namespacethrust_1_1tbb.html\">thrust::tbb</a></code> is a top-level alias for <code>thrust::system::tbb</code>. ",
   "explicit": false,
   "fullname": "thrust::tbb",
   "hasAdditionalMembers": false,
@@ -25,7 +25,7 @@
     "name": "system_backends",
     "refid": "group__system__backends",
     "title": "Systems",
-    "url": "/api/groups/group__system__backends.html",
+    "url": "/thrust/api/groups/group__system__backends.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -37,7 +37,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     },
     {
@@ -48,7 +48,7 @@
       "name": "system_backends",
       "refid": "group__system__backends",
       "title": "Systems",
-      "url": "/api/groups/group__system__backends.html",
+      "url": "/thrust/api/groups/group__system__backends.html",
       "visibility": "public"
     }
   ],
@@ -62,7 +62,7 @@
     "name": "thrust",
     "refid": "namespacethrust",
     "title": "thrust",
-    "url": "/api/namespaces/namespacethrust.html",
+    "url": "/thrust/api/namespaces/namespacethrust.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -74,7 +74,7 @@
       "name": "thrust",
       "refid": "namespacethrust",
       "title": "thrust",
-      "url": "/api/namespaces/namespacethrust.html",
+      "url": "/thrust/api/namespaces/namespacethrust.html",
       "visibility": "public"
     }
   ],
@@ -83,6 +83,6 @@
   "strong": false,
   "summary": "thrust::tbb is a top-level alias for thrust::system::tbb. ",
   "title": "thrust::tbb",
-  "url": "/api/namespaces/namespacethrust_1_1tbb.html",
+  "url": "/thrust/api/namespaces/namespacethrust_1_1tbb.html",
   "visibility": "public"
 }

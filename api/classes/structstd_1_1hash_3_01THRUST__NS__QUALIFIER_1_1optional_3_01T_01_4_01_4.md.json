@@ -28,7 +28,7 @@
     "name": "std",
     "refid": "namespacestd",
     "title": "std",
-    "url": "/api/namespaces/namespacestd.html",
+    "url": "/thrust/api/namespaces/namespacestd.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "std",
       "refid": "namespacestd",
       "title": "std",
-      "url": "/api/namespaces/namespacestd.html",
+      "url": "/thrust/api/namespaces/namespacestd.html",
       "visibility": "public"
     }
   ],
@@ -83,7 +83,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ __device__ ::std::size_t",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ ::std::size_t",
-      "url": "/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html#function-operator()",
+      "url": "/thrust/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -99,6 +99,6 @@
     }
   ],
   "title": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
-  "url": "/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
+  "url": "/thrust/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
   "visibility": "public"
 }

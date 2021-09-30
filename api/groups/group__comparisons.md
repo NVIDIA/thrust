@@ -13,14 +13,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__comparisons.html#function-equal">equal</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__comparisons.html#function-equal">equal</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2);</span>
 <br>
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__comparisons.html#function-equal">equal</a></b>(InputIterator1 first1,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__comparisons.html#function-equal">equal</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2);</span>
 <br>
@@ -28,7 +28,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__comparisons.html#function-equal">equal</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__comparisons.html#function-equal">equal</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -37,7 +37,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__comparisons.html#function-equal">equal</a></b>(InputIterator1 first1,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__comparisons.html#function-equal">equal</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;BinaryPredicate binary_pred);</span>

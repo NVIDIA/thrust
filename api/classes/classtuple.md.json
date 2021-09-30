@@ -29,7 +29,7 @@
     "name": "tuple",
     "refid": "group__tuple",
     "title": "Tuple",
-    "url": "/api/groups/group__tuple.html",
+    "url": "/thrust/api/groups/group__tuple.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -41,7 +41,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     },
     {
@@ -52,7 +52,7 @@
       "name": "tuple",
       "refid": "group__tuple",
       "title": "Tuple",
-      "url": "/api/groups/group__tuple.html",
+      "url": "/thrust/api/groups/group__tuple.html",
       "visibility": "public"
     }
   ],
@@ -99,7 +99,7 @@
       "title": "tuple",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classtuple.html#function-tuple",
+      "url": "/thrust/api/classes/classtuple.html#function-tuple",
       "virtual": false,
       "visibility": "public"
     },
@@ -148,7 +148,7 @@
       "title": "tuple",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classtuple.html#function-tuple",
+      "url": "/thrust/api/classes/classtuple.html#function-tuple",
       "virtual": false,
       "visibility": "public"
     },
@@ -209,7 +209,7 @@
       "title": "tuple",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classtuple.html#function-tuple",
+      "url": "/thrust/api/classes/classtuple.html#function-tuple",
       "virtual": false,
       "visibility": "public"
     },
@@ -268,9 +268,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classtuple.html\">tuple</a> &",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classtuple.html\">tuple</a> &",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ tuple &",
-      "url": "/api/classes/classtuple.html#function-operator=",
+      "url": "/thrust/api/classes/classtuple.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -308,7 +308,7 @@
       "params": [
         {
           "name": "t",
-          "type": "<a href=\"/api/classes/classtuple.html\">tuple</a> &",
+          "type": "<a href=\"/thrust/api/classes/classtuple.html\">tuple</a> &",
           "typePlain": "tuple &"
         }
       ],
@@ -319,19 +319,19 @@
       "title": "swap",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/classtuple.html#function-swap",
+      "url": "/thrust/api/classes/classtuple.html#function-swap",
       "virtual": false,
       "visibility": "public"
     }
   ],
   "refid": "classtuple",
   "see": [
-    "<a href=\"/api/classes/structpair.html\">pair</a>",
-    "<a href=\"/api/groups/group__tuple.html#function-get\">get</a>",
-    "<a href=\"/api/groups/group__tuple.html#function-make_tuple\">make_tuple</a>",
-    "<a href=\"/api/classes/structtuple__element.html\">tuple_element</a>",
-    "<a href=\"/api/classes/structtuple__size.html\">tuple_size</a>",
-    "<a href=\"/api/groups/group__tuple.html#function-tie\">tie</a>"
+    "<a href=\"/thrust/api/classes/structpair.html\">pair</a>",
+    "<a href=\"/thrust/api/groups/group__tuple.html#function-get\">get</a>",
+    "<a href=\"/thrust/api/groups/group__tuple.html#function-make_tuple\">make_tuple</a>",
+    "<a href=\"/thrust/api/classes/structtuple__element.html\">tuple_element</a>",
+    "<a href=\"/thrust/api/classes/structtuple__size.html\">tuple_size</a>",
+    "<a href=\"/thrust/api/groups/group__tuple.html#function-tie\">tie</a>"
   ],
   "static": false,
   "strong": false,
@@ -395,6 +395,6 @@
     }
   ],
   "title": "tuple",
-  "url": "/api/classes/classtuple.html",
+  "url": "/thrust/api/classes/classtuple.html",
   "visibility": "public"
 }

@@ -34,7 +34,7 @@
           "static": false,
           "strong": false,
           "title": "~memory_resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-~memory_resource",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-~memory_resource",
           "virtual": true,
           "visibility": "public"
         },
@@ -101,9 +101,9 @@
           "static": false,
           "strong": false,
           "title": "allocate",
-          "type": "<a href=\"/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
+          "type": "<a href=\"/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
           "typePlain": "pointer",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-allocate",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-allocate",
           "virtual": false,
           "visibility": "public"
         },
@@ -149,7 +149,7 @@
           "params": [
             {
               "name": "p",
-              "type": "<a href=\"/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
+              "type": "<a href=\"/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
               "typePlain": "pointer"
             },
             {
@@ -172,7 +172,7 @@
           "title": "deallocate",
           "type": "void",
           "typePlain": "void",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-deallocate",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-deallocate",
           "virtual": false,
           "visibility": "public"
         },
@@ -210,7 +210,7 @@
           "params": [
             {
               "name": "other",
-              "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
+              "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
               "typePlain": "const memory_resource &"
             }
           ],
@@ -224,7 +224,7 @@
           "title": "is_equal",
           "type": "__host__ __device__ bool",
           "typePlain": "__host__ __device__ bool",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-is_equal",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-is_equal",
           "virtual": false,
           "visibility": "public"
         }
@@ -257,12 +257,12 @@
           "title": "pointer",
           "type": "Pointer",
           "typePlain": "Pointer",
-          "url": "/api/classes/classmr_1_1memory__resource.html#typedef-pointer",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer",
           "visibility": "public"
         }
       ],
       "refid": "classmr_1_1memory__resource",
-      "url": "/api/classes/classmr_1_1memory__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
       "virtual": "non-virtual",
       "visibility": "public"
     }
@@ -296,7 +296,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -310,7 +310,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -339,9 +339,9 @@
       "static": false,
       "strong": false,
       "title": "upstream_resource",
-      "type": "<a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > *",
+      "type": "<a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > *",
       "typePlain": "memory_resource< Pointer > *",
-      "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html#variable-upstream_resource",
+      "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html#variable-upstream_resource",
       "visibility": "private"
     }
   ],
@@ -373,7 +373,7 @@
       "params": [
         {
           "name": "t",
-          "type": "<a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > *",
+          "type": "<a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > *",
           "typePlain": "memory_resource< Pointer > *"
         }
       ],
@@ -382,7 +382,7 @@
       "static": false,
       "strong": false,
       "title": "polymorphic_adaptor_resource",
-      "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html#function-polymorphic_adaptor_resource",
+      "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html#function-polymorphic_adaptor_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -431,7 +431,7 @@
       "title": "do_allocate",
       "type": "Pointer",
       "typePlain": "Pointer",
-      "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html#function-do_allocate",
+      "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html#function-do_allocate",
       "virtual": true,
       "visibility": "public"
     },
@@ -483,7 +483,7 @@
       "title": "do_deallocate",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html#function-do_deallocate",
+      "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html#function-do_deallocate",
       "virtual": true,
       "visibility": "public"
     },
@@ -514,7 +514,7 @@
       "params": [
         {
           "name": "other",
-          "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
           "typePlain": "const memory_resource< Pointer > &"
         }
       ],
@@ -525,7 +525,7 @@
       "title": "do_is_equal",
       "type": "__host__ virtual __device__ bool",
       "typePlain": "__host__ virtual __device__ bool",
-      "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html#function-do_is_equal",
+      "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html#function-do_is_equal",
       "virtual": true,
       "visibility": "public"
     }
@@ -543,6 +543,6 @@
     }
   ],
   "title": "mr::polymorphic_adaptor_resource",
-  "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
+  "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
   "visibility": "public"
 }

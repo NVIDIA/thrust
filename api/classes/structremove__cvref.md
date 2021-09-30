@@ -23,7 +23,7 @@ has_toc: false
 <span>#include <thrust/type_traits/remove_cvref.h></span><br>
 <span>template &lt;typename T&gt;</span>
 <span>struct remove&#95;cvref {</span>
-<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/api/classes/structremove__cvref.html#using-type">type</a></b> = <i>see below</i>;</span>
+<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structremove__cvref.html#using-type">type</a></b> = <i>see below</i>;</span>
 <span>};</span>
 </code>
 

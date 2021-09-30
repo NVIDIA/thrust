@@ -14,7 +14,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputType&gt;</span>
-<span>__host__ __device__ OutputType </span><span><b><a href="/api/groups/group__transformed__reductions.html#function-inner_product">inner&#95;product</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputType </span><span><b><a href="/thrust/api/groups/group__transformed__reductions.html#function-inner_product">inner&#95;product</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -23,7 +23,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputType&gt;</span>
-<span>OutputType </span><span><b><a href="/api/groups/group__transformed__reductions.html#function-inner_product">inner&#95;product</a></b>(InputIterator1 first1,</span>
+<span>OutputType </span><span><b><a href="/thrust/api/groups/group__transformed__reductions.html#function-inner_product">inner&#95;product</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputType init);</span>
@@ -34,7 +34,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputType,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction1,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction2&gt;</span>
-<span>__host__ __device__ OutputType </span><span><b><a href="/api/groups/group__transformed__reductions.html#function-inner_product">inner&#95;product</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputType </span><span><b><a href="/thrust/api/groups/group__transformed__reductions.html#function-inner_product">inner&#95;product</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -47,7 +47,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputType,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction1,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction2&gt;</span>
-<span>OutputType </span><span><b><a href="/api/groups/group__transformed__reductions.html#function-inner_product">inner&#95;product</a></b>(InputIterator1 first1,</span>
+<span>OutputType </span><span><b><a href="/thrust/api/groups/group__transformed__reductions.html#function-inner_product">inner&#95;product</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputType init,</span>
@@ -59,7 +59,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename UnaryFunction,</span>
 <span>&nbsp;&nbsp;typename OutputType,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction&gt;</span>
-<span>__host__ __device__ OutputType </span><span><b><a href="/api/groups/group__transformed__reductions.html#function-transform_reduce">transform&#95;reduce</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputType </span><span><b><a href="/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce">transform&#95;reduce</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;UnaryFunction unary_op,</span>
@@ -70,7 +70,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename UnaryFunction,</span>
 <span>&nbsp;&nbsp;typename OutputType,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction&gt;</span>
-<span>OutputType </span><span><b><a href="/api/groups/group__transformed__reductions.html#function-transform_reduce">transform&#95;reduce</a></b>(InputIterator first,</span>
+<span>OutputType </span><span><b><a href="/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce">transform&#95;reduce</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;UnaryFunction unary_op,</span>
 <span>&nbsp;&nbsp;OutputType init,</span>
@@ -386,8 +386,8 @@ int result = thrust::transform_reduce(thrust::host,
 The result of the transformed reduction.
 
 **See**:
-* <code><a href="/api/groups/group__transformations.html#function-transform">transform</a></code>
-* <code><a href="/api/groups/group__reductions.html#function-reduce">reduce</a></code>
+* <code><a href="/thrust/api/groups/group__transformations.html#function-transform">transform</a></code>
+* <code><a href="/thrust/api/groups/group__reductions.html#function-reduce">reduce</a></code>
 
 <h3 id="function-transform_reduce">
 Function <code>transform&#95;reduce</code>
@@ -452,7 +452,7 @@ int result = thrust::transform_reduce(data, data + 6,
 The result of the transformed reduction.
 
 **See**:
-* <code><a href="/api/groups/group__transformations.html#function-transform">transform</a></code>
-* <code><a href="/api/groups/group__reductions.html#function-reduce">reduce</a></code>
+* <code><a href="/thrust/api/groups/group__transformations.html#function-transform">transform</a></code>
+* <code><a href="/thrust/api/groups/group__reductions.html#function-reduce">reduce</a></code>
 
 

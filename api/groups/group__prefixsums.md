@@ -11,21 +11,21 @@ has_toc: false
 
 ## Groups
 
-* **[Segmented Prefix Sums](/api/groups/group__segmentedprefixsums.html)**
-* **[Transformed Prefix Sums](/api/groups/group__transformed__prefixsums.html)**
+* **[Segmented Prefix Sums](/thrust/api/groups/group__segmentedprefixsums.html)**
+* **[Transformed Prefix Sums](/thrust/api/groups/group__transformed__prefixsums.html)**
 
 <code class="doxybook">
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive&#95;scan</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive&#95;scan</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
 <br>
@@ -33,7 +33,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename AssociativeOperator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -42,7 +42,7 @@ has_toc: false
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename AssociativeOperator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive&#95;scan</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive&#95;scan</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;AssociativeOperator binary_op);</span>
@@ -50,14 +50,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
 <br>
@@ -65,7 +65,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -74,7 +74,7 @@ has_toc: false
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;T init);</span>
@@ -84,7 +84,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename AssociativeOperator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -95,7 +95,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename AssociativeOperator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive&#95;scan</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;T init,</span>

@@ -23,7 +23,7 @@
     "name": "System_diagnostics",
     "refid": "group__system__diagnostics",
     "title": "System Diagnostics",
-    "url": "/api/groups/group__system__diagnostics.html",
+    "url": "/thrust/api/groups/group__system__diagnostics.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -35,7 +35,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     },
     {
@@ -46,7 +46,7 @@
       "name": "System_diagnostics",
       "refid": "group__system__diagnostics",
       "title": "System Diagnostics",
-      "url": "/api/groups/group__system__diagnostics.html",
+      "url": "/thrust/api/groups/group__system__diagnostics.html",
       "visibility": "public"
     }
   ],
@@ -60,7 +60,7 @@
     "name": "system",
     "refid": "namespacesystem",
     "title": "system",
-    "url": "/api/namespaces/namespacesystem.html",
+    "url": "/thrust/api/namespaces/namespacesystem.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -72,7 +72,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     }
   ],
@@ -96,7 +96,7 @@
           "name": "address_family_not_supported",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ab4ea2b224ec631f157b74f7937a87c2e",
           "title": "address_family_not_supported",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-address_family_not_supported",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-address_family_not_supported",
           "visibility": "public"
         },
         {
@@ -110,7 +110,7 @@
           "name": "address_in_use",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a8dd644c364b1f8bac743d25423522f99",
           "title": "address_in_use",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-address_in_use",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-address_in_use",
           "visibility": "public"
         },
         {
@@ -124,7 +124,7 @@
           "name": "address_not_available",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ab93b073997bec165c29f2f62585e9cfb",
           "title": "address_not_available",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-address_not_available",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-address_not_available",
           "visibility": "public"
         },
         {
@@ -138,7 +138,7 @@
           "name": "already_connected",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a6a54b1d38856a4701d1501e26097e650",
           "title": "already_connected",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-already_connected",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-already_connected",
           "visibility": "public"
         },
         {
@@ -152,7 +152,7 @@
           "name": "argument_list_too_long",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a7939cf72bb2cc4befdd843515e29c07a",
           "title": "argument_list_too_long",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-argument_list_too_long",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-argument_list_too_long",
           "visibility": "public"
         },
         {
@@ -166,7 +166,7 @@
           "name": "argument_out_of_domain",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a288c80419daf2aadae00d348b39ecd98",
           "title": "argument_out_of_domain",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-argument_out_of_domain",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-argument_out_of_domain",
           "visibility": "public"
         },
         {
@@ -180,7 +180,7 @@
           "name": "bad_address",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a5de9e206a78787d49400c6731d1a80c1",
           "title": "bad_address",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-bad_address",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-bad_address",
           "visibility": "public"
         },
         {
@@ -194,7 +194,7 @@
           "name": "bad_file_descriptor",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a60cc55ff7e5e97fdb34b91f15b1863c7",
           "title": "bad_file_descriptor",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-bad_file_descriptor",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-bad_file_descriptor",
           "visibility": "public"
         },
         {
@@ -208,7 +208,7 @@
           "name": "bad_message",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a2c9a33574e2767f8cd0f8346c997ab75",
           "title": "bad_message",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-bad_message",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-bad_message",
           "visibility": "public"
         },
         {
@@ -222,7 +222,7 @@
           "name": "broken_pipe",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a6c3729bad4cd0aaf0a241eb905bdb649",
           "title": "broken_pipe",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-broken_pipe",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-broken_pipe",
           "visibility": "public"
         },
         {
@@ -236,7 +236,7 @@
           "name": "connection_aborted",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a45bba0aef025bec89c9084c232cb9f29",
           "title": "connection_aborted",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-connection_aborted",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-connection_aborted",
           "visibility": "public"
         },
         {
@@ -250,7 +250,7 @@
           "name": "connection_already_in_progress",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175aff4f382ed3dd19040aa0b794fee6eb24",
           "title": "connection_already_in_progress",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-connection_already_in_progress",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-connection_already_in_progress",
           "visibility": "public"
         },
         {
@@ -264,7 +264,7 @@
           "name": "connection_refused",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a24ed220494e13a916e0c8d65dfc0dceb",
           "title": "connection_refused",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-connection_refused",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-connection_refused",
           "visibility": "public"
         },
         {
@@ -278,7 +278,7 @@
           "name": "connection_reset",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a32243562aaed35fc1485ee07f91ea0cc",
           "title": "connection_reset",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-connection_reset",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-connection_reset",
           "visibility": "public"
         },
         {
@@ -292,7 +292,7 @@
           "name": "cross_device_link",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a7a2e3eb41901a9811f13e8dfe2abf3d3",
           "title": "cross_device_link",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-cross_device_link",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-cross_device_link",
           "visibility": "public"
         },
         {
@@ -306,7 +306,7 @@
           "name": "destination_address_required",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a5e4a465b3a98290bc3d318f504ccb51f",
           "title": "destination_address_required",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-destination_address_required",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-destination_address_required",
           "visibility": "public"
         },
         {
@@ -320,7 +320,7 @@
           "name": "device_or_resource_busy",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a4ea2b0ff25d30534438eb145b363cceb",
           "title": "device_or_resource_busy",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-device_or_resource_busy",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-device_or_resource_busy",
           "visibility": "public"
         },
         {
@@ -334,7 +334,7 @@
           "name": "directory_not_empty",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a2abd779db4193cf874988eec67e4be02",
           "title": "directory_not_empty",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-directory_not_empty",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-directory_not_empty",
           "visibility": "public"
         },
         {
@@ -348,7 +348,7 @@
           "name": "executable_format_error",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a61bc712a474ec25346d9ba0c673d3754",
           "title": "executable_format_error",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-executable_format_error",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-executable_format_error",
           "visibility": "public"
         },
         {
@@ -362,7 +362,7 @@
           "name": "file_exists",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175aed1a21cbceab4a99a4e366cb8b0563e7",
           "title": "file_exists",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-file_exists",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-file_exists",
           "visibility": "public"
         },
         {
@@ -376,7 +376,7 @@
           "name": "file_too_large",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a04c86ca9532d1c46952cd7998b190fd0",
           "title": "file_too_large",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-file_too_large",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-file_too_large",
           "visibility": "public"
         },
         {
@@ -390,7 +390,7 @@
           "name": "filename_too_long",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175aa030621abb95458b02e2f54947c6afe1",
           "title": "filename_too_long",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-filename_too_long",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-filename_too_long",
           "visibility": "public"
         },
         {
@@ -404,7 +404,7 @@
           "name": "function_not_supported",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ab23817fbe86986fe92f48c029f1ad872",
           "title": "function_not_supported",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-function_not_supported",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-function_not_supported",
           "visibility": "public"
         },
         {
@@ -418,7 +418,7 @@
           "name": "host_unreachable",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175acd0123367d403c60b936b2d47c274569",
           "title": "host_unreachable",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-host_unreachable",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-host_unreachable",
           "visibility": "public"
         },
         {
@@ -432,7 +432,7 @@
           "name": "identifier_removed",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a3c0710607e75f268b2c487c9f5f7928e",
           "title": "identifier_removed",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-identifier_removed",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-identifier_removed",
           "visibility": "public"
         },
         {
@@ -446,7 +446,7 @@
           "name": "illegal_byte_sequence",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a87cf948f3748ce9b764c8499f0ad4988",
           "title": "illegal_byte_sequence",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-illegal_byte_sequence",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-illegal_byte_sequence",
           "visibility": "public"
         },
         {
@@ -460,7 +460,7 @@
           "name": "inappropriate_io_control_operation",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a999de1df96f7472488d8b94f80802322",
           "title": "inappropriate_io_control_operation",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-inappropriate_io_control_operation",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-inappropriate_io_control_operation",
           "visibility": "public"
         },
         {
@@ -474,7 +474,7 @@
           "name": "interrupted",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a17af3b30fe875b3393a8b5929ab1ba20",
           "title": "interrupted",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-interrupted",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-interrupted",
           "visibility": "public"
         },
         {
@@ -488,7 +488,7 @@
           "name": "invalid_argument",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a0244b35a643649ec3b10aac97ee06151",
           "title": "invalid_argument",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-invalid_argument",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-invalid_argument",
           "visibility": "public"
         },
         {
@@ -502,7 +502,7 @@
           "name": "invalid_seek",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175aa475d4fdc1417183639ed7fdb73996a1",
           "title": "invalid_seek",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-invalid_seek",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-invalid_seek",
           "visibility": "public"
         },
         {
@@ -516,7 +516,7 @@
           "name": "io_error",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a160d3efc922ee536d0818650097dbdd3",
           "title": "io_error",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-io_error",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-io_error",
           "visibility": "public"
         },
         {
@@ -530,7 +530,7 @@
           "name": "is_a_directory",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ad9efc925a08cb47ad09667078d891773",
           "title": "is_a_directory",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-is_a_directory",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-is_a_directory",
           "visibility": "public"
         },
         {
@@ -544,7 +544,7 @@
           "name": "message_size",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a206dce13c9ff6b684d30dd201ddf0a6b",
           "title": "message_size",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-message_size",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-message_size",
           "visibility": "public"
         },
         {
@@ -558,7 +558,7 @@
           "name": "network_down",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a0936a10337c88363424221b105ccdcdd",
           "title": "network_down",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-network_down",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-network_down",
           "visibility": "public"
         },
         {
@@ -572,7 +572,7 @@
           "name": "network_reset",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a6156dc4bf0d2d0acdd85db67235e4bda",
           "title": "network_reset",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-network_reset",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-network_reset",
           "visibility": "public"
         },
         {
@@ -586,7 +586,7 @@
           "name": "network_unreachable",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a6debb7a2d5346afbbcfd18f35a1ade4e",
           "title": "network_unreachable",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-network_unreachable",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-network_unreachable",
           "visibility": "public"
         },
         {
@@ -600,7 +600,7 @@
           "name": "no_buffer_space",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a9c44fe74648e0867537c14c2ae5bab1e",
           "title": "no_buffer_space",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_buffer_space",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_buffer_space",
           "visibility": "public"
         },
         {
@@ -614,7 +614,7 @@
           "name": "no_child_process",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a63b5d1ba23f01649e8b09638cbacd39e",
           "title": "no_child_process",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_child_process",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_child_process",
           "visibility": "public"
         },
         {
@@ -628,7 +628,7 @@
           "name": "no_link",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a07f28ba02c481c53128748d9b60a38af",
           "title": "no_link",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_link",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_link",
           "visibility": "public"
         },
         {
@@ -642,7 +642,7 @@
           "name": "no_lock_available",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a2561b6d42ffe8752b4673793cbbffabb",
           "title": "no_lock_available",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_lock_available",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_lock_available",
           "visibility": "public"
         },
         {
@@ -656,7 +656,7 @@
           "name": "no_message_available",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a995dc0186090a90436ce66bc54cc5ef1",
           "title": "no_message_available",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_message_available",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_message_available",
           "visibility": "public"
         },
         {
@@ -670,7 +670,7 @@
           "name": "no_message",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a7f956bb95c4173a13733faeddc73c315",
           "title": "no_message",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_message",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_message",
           "visibility": "public"
         },
         {
@@ -684,7 +684,7 @@
           "name": "no_protocol_option",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a258b36d2680c1d98fa2436ede11e9c32",
           "title": "no_protocol_option",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_protocol_option",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_protocol_option",
           "visibility": "public"
         },
         {
@@ -698,7 +698,7 @@
           "name": "no_space_on_device",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a9d68187565bcb34133a30d0f9f9abd4d",
           "title": "no_space_on_device",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_space_on_device",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_space_on_device",
           "visibility": "public"
         },
         {
@@ -712,7 +712,7 @@
           "name": "no_stream_resources",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ad01bb18381997ce3303aee830b0aa4eb",
           "title": "no_stream_resources",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_stream_resources",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_stream_resources",
           "visibility": "public"
         },
         {
@@ -726,7 +726,7 @@
           "name": "no_such_device_or_address",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a65d1014337e0068850309d759ae77b75",
           "title": "no_such_device_or_address",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_such_device_or_address",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_such_device_or_address",
           "visibility": "public"
         },
         {
@@ -740,7 +740,7 @@
           "name": "no_such_device",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a9dfdb8586e13a249f88777f72d6bb850",
           "title": "no_such_device",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_such_device",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_such_device",
           "visibility": "public"
         },
         {
@@ -754,7 +754,7 @@
           "name": "no_such_file_or_directory",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a63b7686378af5c4ddb251b226d47891e",
           "title": "no_such_file_or_directory",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_such_file_or_directory",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_such_file_or_directory",
           "visibility": "public"
         },
         {
@@ -768,7 +768,7 @@
           "name": "no_such_process",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a9de4ee5febda9fb7c1d2b1fc70123276",
           "title": "no_such_process",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_such_process",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-no_such_process",
           "visibility": "public"
         },
         {
@@ -782,7 +782,7 @@
           "name": "not_a_directory",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a1444e123a7bbff781bb1f2645df94314",
           "title": "not_a_directory",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_a_directory",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_a_directory",
           "visibility": "public"
         },
         {
@@ -796,7 +796,7 @@
           "name": "not_a_socket",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a475334b784035cb161de40dce682c832",
           "title": "not_a_socket",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_a_socket",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_a_socket",
           "visibility": "public"
         },
         {
@@ -810,7 +810,7 @@
           "name": "not_a_stream",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a57d6c3e0a93b408d128a7bb26b4f3c57",
           "title": "not_a_stream",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_a_stream",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_a_stream",
           "visibility": "public"
         },
         {
@@ -824,7 +824,7 @@
           "name": "not_connected",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a2985b043eb90a309ddaa95b89e945ae1",
           "title": "not_connected",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_connected",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_connected",
           "visibility": "public"
         },
         {
@@ -838,7 +838,7 @@
           "name": "not_enough_memory",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a3e4d421a3995d2cccc54382a3bfa3a59",
           "title": "not_enough_memory",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_enough_memory",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_enough_memory",
           "visibility": "public"
         },
         {
@@ -852,7 +852,7 @@
           "name": "not_supported",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a8ba6cae1d246e38f2f6f6086bdf7ab10",
           "title": "not_supported",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_supported",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-not_supported",
           "visibility": "public"
         },
         {
@@ -866,7 +866,7 @@
           "name": "operation_canceled",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ad8acef88919f495498abb3783fd6d1e4",
           "title": "operation_canceled",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_canceled",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_canceled",
           "visibility": "public"
         },
         {
@@ -880,7 +880,7 @@
           "name": "operation_in_progress",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a7edd02e2bb89344f810a1a3bcb81e5a3",
           "title": "operation_in_progress",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_in_progress",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_in_progress",
           "visibility": "public"
         },
         {
@@ -894,7 +894,7 @@
           "name": "operation_not_permitted",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175aeb620b0f569356cd0cd0901935e23950",
           "title": "operation_not_permitted",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_not_permitted",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_not_permitted",
           "visibility": "public"
         },
         {
@@ -908,7 +908,7 @@
           "name": "operation_not_supported",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a6d105d18f03ca4bf9279e2faa74fa633",
           "title": "operation_not_supported",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_not_supported",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_not_supported",
           "visibility": "public"
         },
         {
@@ -922,7 +922,7 @@
           "name": "operation_would_block",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ac9ba58a83ce7a22aab3b78c6603a3c9a",
           "title": "operation_would_block",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_would_block",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-operation_would_block",
           "visibility": "public"
         },
         {
@@ -936,7 +936,7 @@
           "name": "owner_dead",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a3a941de42aff23d7d969c3e80150fd2b",
           "title": "owner_dead",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-owner_dead",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-owner_dead",
           "visibility": "public"
         },
         {
@@ -950,7 +950,7 @@
           "name": "permission_denied",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175abed5901c497e8a2a04f0eb9632953a5c",
           "title": "permission_denied",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-permission_denied",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-permission_denied",
           "visibility": "public"
         },
         {
@@ -964,7 +964,7 @@
           "name": "protocol_error",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ab43243f9fc2c4c4401d5a547a557cd11",
           "title": "protocol_error",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-protocol_error",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-protocol_error",
           "visibility": "public"
         },
         {
@@ -978,7 +978,7 @@
           "name": "protocol_not_supported",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a970d6ee0027e2bb0945f89d425f17941",
           "title": "protocol_not_supported",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-protocol_not_supported",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-protocol_not_supported",
           "visibility": "public"
         },
         {
@@ -992,7 +992,7 @@
           "name": "read_only_file_system",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a0666e3e50e1b376cf4b911e352463897",
           "title": "read_only_file_system",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-read_only_file_system",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-read_only_file_system",
           "visibility": "public"
         },
         {
@@ -1006,7 +1006,7 @@
           "name": "resource_deadlock_would_occur",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175af1a112f6db0fc75e5dac3d2f5052e5e1",
           "title": "resource_deadlock_would_occur",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-resource_deadlock_would_occur",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-resource_deadlock_would_occur",
           "visibility": "public"
         },
         {
@@ -1020,7 +1020,7 @@
           "name": "resource_unavailable_try_again",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a6be7dd1dd98f5eade55cb6f5269a891c",
           "title": "resource_unavailable_try_again",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-resource_unavailable_try_again",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-resource_unavailable_try_again",
           "visibility": "public"
         },
         {
@@ -1034,7 +1034,7 @@
           "name": "result_out_of_range",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a922bb5c0a34e18a93347daed11ca7295",
           "title": "result_out_of_range",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-result_out_of_range",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-result_out_of_range",
           "visibility": "public"
         },
         {
@@ -1048,7 +1048,7 @@
           "name": "state_not_recoverable",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ac3540fc47060fec65996bb56093ee166",
           "title": "state_not_recoverable",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-state_not_recoverable",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-state_not_recoverable",
           "visibility": "public"
         },
         {
@@ -1062,7 +1062,7 @@
           "name": "stream_timeout",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a8924c47155683fd43daa7100bcc8a0a7",
           "title": "stream_timeout",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-stream_timeout",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-stream_timeout",
           "visibility": "public"
         },
         {
@@ -1076,7 +1076,7 @@
           "name": "text_file_busy",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a09b14294019f6faba549029a76446561",
           "title": "text_file_busy",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-text_file_busy",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-text_file_busy",
           "visibility": "public"
         },
         {
@@ -1090,7 +1090,7 @@
           "name": "timed_out",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ac7ebba1a53fcdf2ae08ba43658ca56df",
           "title": "timed_out",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-timed_out",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-timed_out",
           "visibility": "public"
         },
         {
@@ -1104,7 +1104,7 @@
           "name": "too_many_files_open_in_system",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ad7540135a4633d3eb998153ab4f310bc",
           "title": "too_many_files_open_in_system",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-too_many_files_open_in_system",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-too_many_files_open_in_system",
           "visibility": "public"
         },
         {
@@ -1118,7 +1118,7 @@
           "name": "too_many_files_open",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a524606b2b9d0fe1321104389c0d24adb",
           "title": "too_many_files_open",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-too_many_files_open",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-too_many_files_open",
           "visibility": "public"
         },
         {
@@ -1132,7 +1132,7 @@
           "name": "too_many_links",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a67894098b2b91f8829e5c8dc28201038",
           "title": "too_many_links",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-too_many_links",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-too_many_links",
           "visibility": "public"
         },
         {
@@ -1146,7 +1146,7 @@
           "name": "too_many_symbolic_link_levels",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a16cd9c56330753b75e0666cf1fcf5eda",
           "title": "too_many_symbolic_link_levels",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-too_many_symbolic_link_levels",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-too_many_symbolic_link_levels",
           "visibility": "public"
         },
         {
@@ -1160,7 +1160,7 @@
           "name": "value_too_large",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175ac71dadbfc3fa7e3bffdfdecf7c403b40",
           "title": "value_too_large",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-value_too_large",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-value_too_large",
           "visibility": "public"
         },
         {
@@ -1174,7 +1174,7 @@
           "name": "wrong_protocol_type",
           "refid": "error__code_8h_1a2d21105a847b2255d0425d46d9c9d175a35eee0516e8035b0a685c3e1b54bd758",
           "title": "wrong_protocol_type",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html#enumvalue-wrong_protocol_type",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enumvalue-wrong_protocol_type",
           "visibility": "public"
         }
       ],
@@ -1197,7 +1197,7 @@
       "static": false,
       "strong": false,
       "title": "errc_t",
-      "url": "/api/namespaces/namespacesystem_1_1errc.html#enum-errc_t",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html#enum-errc_t",
       "visibility": "public"
     }
   ],
@@ -1205,6 +1205,6 @@
   "static": false,
   "strong": false,
   "title": "system::errc",
-  "url": "/api/namespaces/namespacesystem_1_1errc.html",
+  "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html",
   "visibility": "public"
 }

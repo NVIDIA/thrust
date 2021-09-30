@@ -19,8 +19,8 @@ This metafunction returns the number of elements of a <code>tuple</code> type of
 * **`T`** A <code>tuple</code> type of interest.
 
 **See**:
-* <a href="/api/classes/structpair.html">pair</a>
-* <a href="/api/classes/classtuple.html">tuple</a>
+* <a href="/thrust/api/classes/structpair.html">pair</a>
+* <a href="/thrust/api/classes/classtuple.html">tuple</a>
 
 <code class="doxybook">
 <span>#include <thrust/pair.h></span><br>

@@ -18,7 +18,7 @@
     "name": "function_objects",
     "refid": "group__function__objects",
     "title": "Function Objects",
-    "url": "/api/groups/group__function__objects.html",
+    "url": "/thrust/api/groups/group__function__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -46,7 +46,7 @@
       "refid": "namespacethrust_1_1placeholders",
       "summary": "Facilities for constructing simple functions inline. ",
       "title": "thrust::placeholders",
-      "url": "/api/namespaces/namespacethrust_1_1placeholders.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1placeholders.html",
       "visibility": "public"
     },
     {
@@ -57,7 +57,7 @@
       "name": "placeholders",
       "refid": "namespaceplaceholders",
       "title": "placeholders",
-      "url": "/api/namespaces/namespaceplaceholders.html",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html",
       "visibility": "public"
     }
   ],
@@ -70,7 +70,7 @@
     "name": "function_objects",
     "refid": "group__function__objects",
     "title": "Function Objects",
-    "url": "/api/groups/group__function__objects.html",
+    "url": "/thrust/api/groups/group__function__objects.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -82,7 +82,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -90,6 +90,6 @@
   "static": false,
   "strong": false,
   "title": "Placeholder Objects",
-  "url": "/api/groups/group__placeholder__objects.html",
+  "url": "/thrust/api/groups/group__placeholder__objects.html",
   "visibility": "public"
 }

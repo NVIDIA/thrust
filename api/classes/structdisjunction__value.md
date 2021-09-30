@@ -13,8 +13,8 @@ has_toc: false
 <a href="https://en.cppreference.com/w/cpp/types/integral_constant"><code>std::integral&#95;constant</code></a> whose value is <code>(... || Bs)</code>. 
 
 **See**:
-* <a href="/api/groups/group__type__traits.html#variable-disjunction_value_v">disjunction_value_v</a>
-* <a href="/api/groups/group__type__traits.html#using-disjunction">disjunction</a>
+* <a href="/thrust/api/groups/group__type__traits.html#variable-disjunction_value_v">disjunction_value_v</a>
+* <a href="/thrust/api/groups/group__type__traits.html#using-disjunction">disjunction</a>
 * <a href="https://en.cppreference.com/w/cpp/types/disjunction"><code>std::disjunction</code></a>
 
 <code class="doxybook">

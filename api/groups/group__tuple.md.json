@@ -18,7 +18,7 @@
     "name": "utility",
     "refid": "group__utility",
     "title": "Utility",
-    "url": "/api/groups/group__utility.html",
+    "url": "/thrust/api/groups/group__utility.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "utility",
     "refid": "group__utility",
     "title": "Utility",
-    "url": "/api/groups/group__utility.html",
+    "url": "/thrust/api/groups/group__utility.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],
@@ -69,7 +69,7 @@
       "name": "tuple_element",
       "refid": "structtuple__element",
       "title": "tuple_element",
-      "url": "/api/classes/structtuple__element.html",
+      "url": "/thrust/api/classes/structtuple__element.html",
       "visibility": "public"
     },
     {
@@ -80,7 +80,7 @@
       "name": "tuple_size",
       "refid": "structtuple__size",
       "title": "tuple_size",
-      "url": "/api/classes/structtuple__size.html",
+      "url": "/thrust/api/classes/structtuple__size.html",
       "visibility": "public"
     },
     {
@@ -93,7 +93,7 @@
       "refid": "classtuple",
       "summary": "tuple is a class template that can be instantiated with up to ten arguments. Each template argument specifies the type of element in the tuple. Consequently, tuples are heterogeneous, fixed-size collections of values. An instantiation of tuple with two arguments is similar to an instantiation of pair with the same two arguments. Individual elements of a tuple may be accessed with the get function. ",
       "title": "tuple",
-      "url": "/api/classes/classtuple.html",
+      "url": "/thrust/api/classes/classtuple.html",
       "visibility": "public"
     }
   ],
@@ -139,8 +139,8 @@
         "A reference to <code>t's</code><code>N</code>th element."
       ],
       "see": [
-        "<a href=\"/api/classes/structpair.html\">pair</a>",
-        "<a href=\"/api/classes/classtuple.html\">tuple</a>"
+        "<a href=\"/thrust/api/classes/structpair.html\">pair</a>",
+        "<a href=\"/thrust/api/classes/classtuple.html\">tuple</a>"
       ],
       "static": false,
       "strong": false,
@@ -168,9 +168,9 @@
         }
       ],
       "title": "get",
-      "type": "__host__ __device__ access_traits< typename <a href=\"/api/classes/structtuple__element.html\">tuple_element</a>< N, detail::cons< HT, TT > >::type >::non_const_type",
+      "type": "__host__ __device__ access_traits< typename <a href=\"/thrust/api/classes/structtuple__element.html\">tuple_element</a>< N, detail::cons< HT, TT > >::type >::non_const_type",
       "typePlain": "__host__ __device__ access_traits< typename tuple_element< N, detail::cons< HT, TT > >::type >::non_const_type",
-      "url": "/api/groups/group__tuple.html#function-get",
+      "url": "/thrust/api/groups/group__tuple.html#function-get",
       "virtual": false,
       "visibility": "public"
     },
@@ -215,8 +215,8 @@
         "A <code>const</code> reference to <code>t's</code><code>N</code>th element."
       ],
       "see": [
-        "<a href=\"/api/classes/structpair.html\">pair</a>",
-        "<a href=\"/api/classes/classtuple.html\">tuple</a>"
+        "<a href=\"/thrust/api/classes/structpair.html\">pair</a>",
+        "<a href=\"/thrust/api/classes/classtuple.html\">tuple</a>"
       ],
       "static": false,
       "strong": false,
@@ -244,9 +244,9 @@
         }
       ],
       "title": "get",
-      "type": "__host__ __device__ access_traits< typename <a href=\"/api/classes/structtuple__element.html\">tuple_element</a>< N, detail::cons< HT, TT > >::type >::const_type",
+      "type": "__host__ __device__ access_traits< typename <a href=\"/thrust/api/classes/structtuple__element.html\">tuple_element</a>< N, detail::cons< HT, TT > >::type >::const_type",
       "typePlain": "__host__ __device__ access_traits< typename tuple_element< N, detail::cons< HT, TT > >::type >::const_type",
-      "url": "/api/groups/group__tuple.html#function-get",
+      "url": "/thrust/api/groups/group__tuple.html#function-get",
       "virtual": false,
       "visibility": "public"
     },
@@ -302,7 +302,7 @@
       "title": "make_tuple",
       "type": "__host__ __device__ detail::make_tuple_mapper< T0 >::type",
       "typePlain": "__host__ __device__ detail::make_tuple_mapper< T0 >::type",
-      "url": "/api/groups/group__tuple.html#function-make_tuple",
+      "url": "/thrust/api/groups/group__tuple.html#function-make_tuple",
       "virtual": false,
       "visibility": "public"
     },
@@ -375,7 +375,7 @@
       "title": "make_tuple",
       "type": "__host__ __device__ detail::make_tuple_mapper< T0, T1 >::type",
       "typePlain": "__host__ __device__ detail::make_tuple_mapper< T0, T1 >::type",
-      "url": "/api/groups/group__tuple.html#function-make_tuple",
+      "url": "/thrust/api/groups/group__tuple.html#function-make_tuple",
       "virtual": false,
       "visibility": "public"
     },
@@ -429,9 +429,9 @@
         }
       ],
       "title": "tie",
-      "type": "__host__ __device__ <a href=\"/api/classes/classtuple.html\">tuple</a>< T0 & >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classtuple.html\">tuple</a>< T0 & >",
       "typePlain": "__host__ __device__ tuple< T0 & >",
-      "url": "/api/groups/group__tuple.html#function-tie",
+      "url": "/thrust/api/groups/group__tuple.html#function-tie",
       "virtual": false,
       "visibility": "public"
     },
@@ -502,9 +502,9 @@
         }
       ],
       "title": "tie",
-      "type": "__host__ __device__ <a href=\"/api/classes/classtuple.html\">tuple</a>< T0 &, T1 & >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classtuple.html\">tuple</a>< T0 &, T1 & >",
       "typePlain": "__host__ __device__ tuple< T0 &, T1 & >",
-      "url": "/api/groups/group__tuple.html#function-tie",
+      "url": "/thrust/api/groups/group__tuple.html#function-tie",
       "virtual": false,
       "visibility": "public"
     },
@@ -543,12 +543,12 @@
       "params": [
         {
           "name": "x",
-          "type": "<a href=\"/api/classes/classtuple.html\">tuple</a>< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 > &",
+          "type": "<a href=\"/thrust/api/classes/classtuple.html\">tuple</a>< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 > &",
           "typePlain": "tuple< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 > &"
         },
         {
           "name": "y",
-          "type": "<a href=\"/api/classes/classtuple.html\">tuple</a>< U0, U1, U2, U3, U4, U5, U6, U7, U8, U9 > &",
+          "type": "<a href=\"/thrust/api/classes/classtuple.html\">tuple</a>< U0, U1, U2, U3, U4, U5, U6, U7, U8, U9 > &",
           "typePlain": "tuple< U0, U1, U2, U3, U4, U5, U6, U7, U8, U9 > &"
         }
       ],
@@ -661,7 +661,7 @@
       "title": "swap",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__tuple.html#function-swap",
+      "url": "/thrust/api/groups/group__tuple.html#function-swap",
       "virtual": false,
       "visibility": "public"
     }
@@ -670,6 +670,6 @@
   "static": false,
   "strong": false,
   "title": "Tuple",
-  "url": "/api/groups/group__tuple.html",
+  "url": "/thrust/api/groups/group__tuple.html",
   "visibility": "public"
 }

@@ -41,7 +41,7 @@
       "static": false,
       "strong": false,
       "title": "THRUST_UNARY_FUNCTOR_VOID_SPECIALIZATION",
-      "url": "/api/groups/group__arithmetic__operations.html#define-thrust_unary_functor_void_specialization",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html#define-thrust_unary_functor_void_specialization",
       "visibility": "public"
     },
     {
@@ -81,7 +81,7 @@
       "static": false,
       "strong": false,
       "title": "THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION",
-      "url": "/api/groups/group__arithmetic__operations.html#define-thrust_binary_functor_void_specialization",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html#define-thrust_binary_functor_void_specialization",
       "visibility": "public"
     },
     {
@@ -121,7 +121,7 @@
       "static": false,
       "strong": false,
       "title": "THRUST_BINARY_FUNCTOR_VOID_SPECIALIZATION_OP",
-      "url": "/api/groups/group__arithmetic__operations.html#define-thrust_binary_functor_void_specialization_op",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html#define-thrust_binary_functor_void_specialization_op",
       "visibility": "public"
     }
   ],
@@ -140,7 +140,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -152,7 +152,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -163,7 +163,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -177,7 +177,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -189,7 +189,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -200,7 +200,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -213,7 +213,7 @@
       "name": "plus",
       "refid": "structplus",
       "title": "plus",
-      "url": "/api/classes/structplus.html",
+      "url": "/thrust/api/classes/structplus.html",
       "visibility": "public"
     },
     {
@@ -224,7 +224,7 @@
       "name": "plus< void >",
       "refid": "structplus_3_01void_01_4",
       "title": "plus< void >",
-      "url": "/api/classes/structplus_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structplus_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -235,7 +235,7 @@
       "name": "minus",
       "refid": "structminus",
       "title": "minus",
-      "url": "/api/classes/structminus.html",
+      "url": "/thrust/api/classes/structminus.html",
       "visibility": "public"
     },
     {
@@ -246,7 +246,7 @@
       "name": "minus< void >",
       "refid": "structminus_3_01void_01_4",
       "title": "minus< void >",
-      "url": "/api/classes/structminus_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structminus_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -257,7 +257,7 @@
       "name": "multiplies",
       "refid": "structmultiplies",
       "title": "multiplies",
-      "url": "/api/classes/structmultiplies.html",
+      "url": "/thrust/api/classes/structmultiplies.html",
       "visibility": "public"
     },
     {
@@ -268,7 +268,7 @@
       "name": "multiplies< void >",
       "refid": "structmultiplies_3_01void_01_4",
       "title": "multiplies< void >",
-      "url": "/api/classes/structmultiplies_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structmultiplies_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -279,7 +279,7 @@
       "name": "divides",
       "refid": "structdivides",
       "title": "divides",
-      "url": "/api/classes/structdivides.html",
+      "url": "/thrust/api/classes/structdivides.html",
       "visibility": "public"
     },
     {
@@ -290,7 +290,7 @@
       "name": "divides< void >",
       "refid": "structdivides_3_01void_01_4",
       "title": "divides< void >",
-      "url": "/api/classes/structdivides_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structdivides_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -301,7 +301,7 @@
       "name": "modulus",
       "refid": "structmodulus",
       "title": "modulus",
-      "url": "/api/classes/structmodulus.html",
+      "url": "/thrust/api/classes/structmodulus.html",
       "visibility": "public"
     },
     {
@@ -312,7 +312,7 @@
       "name": "modulus< void >",
       "refid": "structmodulus_3_01void_01_4",
       "title": "modulus< void >",
-      "url": "/api/classes/structmodulus_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structmodulus_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -323,7 +323,7 @@
       "name": "negate",
       "refid": "structnegate",
       "title": "negate",
-      "url": "/api/classes/structnegate.html",
+      "url": "/thrust/api/classes/structnegate.html",
       "visibility": "public"
     },
     {
@@ -334,7 +334,7 @@
       "name": "negate< void >",
       "refid": "structnegate_3_01void_01_4",
       "title": "negate< void >",
-      "url": "/api/classes/structnegate_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structnegate_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -345,7 +345,7 @@
       "name": "square",
       "refid": "structsquare",
       "title": "square",
-      "url": "/api/classes/structsquare.html",
+      "url": "/thrust/api/classes/structsquare.html",
       "visibility": "public"
     },
     {
@@ -356,7 +356,7 @@
       "name": "square< void >",
       "refid": "structsquare_3_01void_01_4",
       "title": "square< void >",
-      "url": "/api/classes/structsquare_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structsquare_3_01void_01_4.html",
       "visibility": "public"
     }
   ],
@@ -364,6 +364,6 @@
   "static": false,
   "strong": false,
   "title": "Arithmetic Operations",
-  "url": "/api/groups/group__arithmetic__operations.html",
+  "url": "/thrust/api/groups/group__arithmetic__operations.html",
   "visibility": "public"
 }

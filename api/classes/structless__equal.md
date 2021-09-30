@@ -9,26 +9,26 @@ has_toc: false
 
 # Struct `less_equal`
 
-<code><a href="/api/classes/structless__equal.html">less&#95;equal</a></code> is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>less&#95;equal&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>true</code> if <code>x &lt;= y</code> and <code>false</code> otherwise.
+<code><a href="/thrust/api/classes/structless__equal.html">less&#95;equal</a></code> is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>less&#95;equal&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>true</code> if <code>x &lt;= y</code> and <code>false</code> otherwise.
 
 **Template Parameters**:
 **`T`**: is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/utility/functional/less_equal">https://en.cppreference.com/w/cpp/utility/functional/less_equal</a>
-* <a href="/api/classes/structbinary__function.html">binary_function</a>
+* <a href="/thrust/api/classes/structbinary__function.html">binary_function</a>
 
 <code class="doxybook">
 <span>#include <thrust/functional.h></span><br>
 <span>template &lt;typename T = void&gt;</span>
 <span>struct less&#95;equal {</span>
-<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's first argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structless__equal.html#typedef-first_argument_type">first&#95;argument&#95;type</a></b>;</span>
+<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's first argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structless__equal.html#typedef-first_argument_type">first&#95;argument&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's second argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structless__equal.html#typedef-second_argument_type">second&#95;argument&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's second argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structless__equal.html#typedef-second_argument_type">second&#95;argument&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's result;.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structless__equal.html#typedef-result_type">result&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's result;.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structless__equal.html#typedef-result_type">result&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structless__equal.html#function-operator()">operator()</a></b>(const T & lhs,</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structless__equal.html#function-operator()">operator()</a></b>(const T & lhs,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;const T & rhs) const;</span>
 <span>};</span>
 </code>

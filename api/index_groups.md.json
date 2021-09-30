@@ -16,7 +16,7 @@
               "name": "gathering",
               "refid": "group__gathering",
               "title": "Gathering",
-              "url": "/api/groups/group__gathering.html",
+              "url": "/thrust/api/groups/group__gathering.html",
               "visibility": "public"
             },
             {
@@ -27,7 +27,7 @@
               "name": "scattering",
               "refid": "group__scattering",
               "title": "Scattering",
-              "url": "/api/groups/group__scattering.html",
+              "url": "/thrust/api/groups/group__scattering.html",
               "visibility": "public"
             }
           ],
@@ -36,7 +36,7 @@
           "name": "copying",
           "refid": "group__copying",
           "title": "Copying",
-          "url": "/api/groups/group__copying.html",
+          "url": "/thrust/api/groups/group__copying.html",
           "visibility": "public"
         },
         {
@@ -47,7 +47,7 @@
           "name": "merging",
           "refid": "group__merging",
           "title": "Merging",
-          "url": "/api/groups/group__merging.html",
+          "url": "/thrust/api/groups/group__merging.html",
           "visibility": "public"
         },
         {
@@ -62,7 +62,7 @@
               "name": "segmentedprefixsums",
               "refid": "group__segmentedprefixsums",
               "title": "Segmented Prefix Sums",
-              "url": "/api/groups/group__segmentedprefixsums.html",
+              "url": "/thrust/api/groups/group__segmentedprefixsums.html",
               "visibility": "public"
             },
             {
@@ -73,7 +73,7 @@
               "name": "transformed_prefixsums",
               "refid": "group__transformed__prefixsums",
               "title": "Transformed Prefix Sums",
-              "url": "/api/groups/group__transformed__prefixsums.html",
+              "url": "/thrust/api/groups/group__transformed__prefixsums.html",
               "visibility": "public"
             }
           ],
@@ -82,7 +82,7 @@
           "name": "prefixsums",
           "refid": "group__prefixsums",
           "title": "Prefix Sums",
-          "url": "/api/groups/group__prefixsums.html",
+          "url": "/thrust/api/groups/group__prefixsums.html",
           "visibility": "public"
         },
         {
@@ -97,7 +97,7 @@
               "name": "comparisons",
               "refid": "group__comparisons",
               "title": "Comparisons",
-              "url": "/api/groups/group__comparisons.html",
+              "url": "/thrust/api/groups/group__comparisons.html",
               "visibility": "public"
             },
             {
@@ -108,7 +108,7 @@
               "name": "counting",
               "refid": "group__counting",
               "title": "Counting",
-              "url": "/api/groups/group__counting.html",
+              "url": "/thrust/api/groups/group__counting.html",
               "visibility": "public"
             },
             {
@@ -119,7 +119,7 @@
               "name": "extrema",
               "refid": "group__extrema",
               "title": "Extrema",
-              "url": "/api/groups/group__extrema.html",
+              "url": "/thrust/api/groups/group__extrema.html",
               "visibility": "public"
             },
             {
@@ -130,7 +130,7 @@
               "name": "logical",
               "refid": "group__logical",
               "title": "Logical",
-              "url": "/api/groups/group__logical.html",
+              "url": "/thrust/api/groups/group__logical.html",
               "visibility": "public"
             },
             {
@@ -141,7 +141,7 @@
               "name": "predicates",
               "refid": "group__predicates",
               "title": "Predicates",
-              "url": "/api/groups/group__predicates.html",
+              "url": "/thrust/api/groups/group__predicates.html",
               "visibility": "public"
             },
             {
@@ -152,7 +152,7 @@
               "name": "transformed_reductions",
               "refid": "group__transformed__reductions",
               "title": "Transformed Reductions",
-              "url": "/api/groups/group__transformed__reductions.html",
+              "url": "/thrust/api/groups/group__transformed__reductions.html",
               "visibility": "public"
             }
           ],
@@ -161,7 +161,7 @@
           "name": "reductions",
           "refid": "group__reductions",
           "title": "Reductions",
-          "url": "/api/groups/group__reductions.html",
+          "url": "/thrust/api/groups/group__reductions.html",
           "visibility": "public"
         },
         {
@@ -176,7 +176,7 @@
               "name": "Stream_compaction",
               "refid": "group__stream__compaction",
               "title": "Stream Compaction",
-              "url": "/api/groups/group__stream__compaction.html",
+              "url": "/thrust/api/groups/group__stream__compaction.html",
               "visibility": "public"
             },
             {
@@ -187,7 +187,7 @@
               "name": "partitioning",
               "refid": "group__partitioning",
               "title": "Partitioning",
-              "url": "/api/groups/group__partitioning.html",
+              "url": "/thrust/api/groups/group__partitioning.html",
               "visibility": "public"
             },
             {
@@ -198,7 +198,7 @@
               "name": "shuffling",
               "refid": "group__shuffling",
               "title": "Shuffling",
-              "url": "/api/groups/group__shuffling.html",
+              "url": "/thrust/api/groups/group__shuffling.html",
               "visibility": "public"
             }
           ],
@@ -207,7 +207,7 @@
           "name": "reordering",
           "refid": "group__reordering",
           "title": "Reordering",
-          "url": "/api/groups/group__reordering.html",
+          "url": "/thrust/api/groups/group__reordering.html",
           "visibility": "public"
         },
         {
@@ -226,7 +226,7 @@
                   "name": "vectorized_binary_search",
                   "refid": "group__vectorized__binary__search",
                   "title": "Vectorized Searches",
-                  "url": "/api/groups/group__vectorized__binary__search.html",
+                  "url": "/thrust/api/groups/group__vectorized__binary__search.html",
                   "visibility": "public"
                 }
               ],
@@ -235,7 +235,7 @@
               "name": "binary_search",
               "refid": "group__binary__search",
               "title": "Binary Search",
-              "url": "/api/groups/group__binary__search.html",
+              "url": "/thrust/api/groups/group__binary__search.html",
               "visibility": "public"
             }
           ],
@@ -244,7 +244,7 @@
           "name": "searching",
           "refid": "group__searching",
           "title": "Searching",
-          "url": "/api/groups/group__searching.html",
+          "url": "/thrust/api/groups/group__searching.html",
           "visibility": "public"
         },
         {
@@ -255,7 +255,7 @@
           "name": "set_operations",
           "refid": "group__set__operations",
           "title": "Set Operations",
-          "url": "/api/groups/group__set__operations.html",
+          "url": "/thrust/api/groups/group__set__operations.html",
           "visibility": "public"
         },
         {
@@ -266,7 +266,7 @@
           "name": "sorting",
           "refid": "group__sorting",
           "title": "Sorting",
-          "url": "/api/groups/group__sorting.html",
+          "url": "/thrust/api/groups/group__sorting.html",
           "visibility": "public"
         },
         {
@@ -281,7 +281,7 @@
               "name": "filling",
               "refid": "group__filling",
               "title": "Filling",
-              "url": "/api/groups/group__filling.html",
+              "url": "/thrust/api/groups/group__filling.html",
               "visibility": "public"
             },
             {
@@ -292,7 +292,7 @@
               "name": "modifying",
               "refid": "group__modifying",
               "title": "Modifying",
-              "url": "/api/groups/group__modifying.html",
+              "url": "/thrust/api/groups/group__modifying.html",
               "visibility": "public"
             },
             {
@@ -303,7 +303,7 @@
               "name": "replacing",
               "refid": "group__replacing",
               "title": "Replacing",
-              "url": "/api/groups/group__replacing.html",
+              "url": "/thrust/api/groups/group__replacing.html",
               "visibility": "public"
             }
           ],
@@ -312,7 +312,7 @@
           "name": "transformations",
           "refid": "group__transformations",
           "title": "Transformations",
-          "url": "/api/groups/group__transformations.html",
+          "url": "/thrust/api/groups/group__transformations.html",
           "visibility": "public"
         }
       ],
@@ -321,7 +321,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -336,7 +336,7 @@
           "name": "host_containers",
           "refid": "group__host__containers",
           "title": "Host Containers",
-          "url": "/api/groups/group__host__containers.html",
+          "url": "/thrust/api/groups/group__host__containers.html",
           "visibility": "public"
         }
       ],
@@ -345,7 +345,7 @@
       "name": "container_classes",
       "refid": "group__container__classes",
       "title": "Container Classes",
-      "url": "/api/groups/group__container__classes.html",
+      "url": "/thrust/api/groups/group__container__classes.html",
       "visibility": "public"
     },
     {
@@ -356,7 +356,7 @@
       "name": "containers",
       "refid": "group__containers",
       "title": "Containers",
-      "url": "/api/groups/group__containers.html",
+      "url": "/thrust/api/groups/group__containers.html",
       "visibility": "public"
     },
     {
@@ -367,7 +367,7 @@
       "name": "execution_policies",
       "refid": "group__execution__policies",
       "title": "Parallel Execution Policies",
-      "url": "/api/groups/group__execution__policies.html",
+      "url": "/thrust/api/groups/group__execution__policies.html",
       "visibility": "public"
     },
     {
@@ -382,7 +382,7 @@
           "name": "function_object_adaptors",
           "refid": "group__function__object__adaptors",
           "title": "Function Object Adaptors",
-          "url": "/api/groups/group__function__object__adaptors.html",
+          "url": "/thrust/api/groups/group__function__object__adaptors.html",
           "visibility": "public"
         },
         {
@@ -393,7 +393,7 @@
           "name": "placeholder_objects",
           "refid": "group__placeholder__objects",
           "title": "Placeholder Objects",
-          "url": "/api/groups/group__placeholder__objects.html",
+          "url": "/thrust/api/groups/group__placeholder__objects.html",
           "visibility": "public"
         },
         {
@@ -408,7 +408,7 @@
               "name": "arithmetic_operations",
               "refid": "group__arithmetic__operations",
               "title": "Arithmetic Operations",
-              "url": "/api/groups/group__arithmetic__operations.html",
+              "url": "/thrust/api/groups/group__arithmetic__operations.html",
               "visibility": "public"
             },
             {
@@ -419,7 +419,7 @@
               "name": "bitwise_operations",
               "refid": "group__bitwise__operations",
               "title": "Bitwise Operations",
-              "url": "/api/groups/group__bitwise__operations.html",
+              "url": "/thrust/api/groups/group__bitwise__operations.html",
               "visibility": "public"
             },
             {
@@ -430,7 +430,7 @@
               "name": "comparison_operations",
               "refid": "group__comparison__operations",
               "title": "Comparison Operations",
-              "url": "/api/groups/group__comparison__operations.html",
+              "url": "/thrust/api/groups/group__comparison__operations.html",
               "visibility": "public"
             },
             {
@@ -441,7 +441,7 @@
               "name": "generalized_identity_operations",
               "refid": "group__generalized__identity__operations",
               "title": "Generalized Identity Operations",
-              "url": "/api/groups/group__generalized__identity__operations.html",
+              "url": "/thrust/api/groups/group__generalized__identity__operations.html",
               "visibility": "public"
             },
             {
@@ -452,7 +452,7 @@
               "name": "logical_operations",
               "refid": "group__logical__operations",
               "title": "Logical Operations",
-              "url": "/api/groups/group__logical__operations.html",
+              "url": "/thrust/api/groups/group__logical__operations.html",
               "visibility": "public"
             }
           ],
@@ -461,7 +461,7 @@
           "name": "predefined_function_objects",
           "refid": "group__predefined__function__objects",
           "title": "Predefined Function Objects",
-          "url": "/api/groups/group__predefined__function__objects.html",
+          "url": "/thrust/api/groups/group__predefined__function__objects.html",
           "visibility": "public"
         }
       ],
@@ -470,7 +470,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -485,7 +485,7 @@
           "name": "fancyiterator",
           "refid": "group__fancyiterator",
           "title": "Fancy Iterators",
-          "url": "/api/groups/group__fancyiterator.html",
+          "url": "/thrust/api/groups/group__fancyiterator.html",
           "visibility": "public"
         },
         {
@@ -500,7 +500,7 @@
               "name": "iterator_tag_classes",
               "refid": "group__iterator__tag__classes",
               "title": "Iterator Tag Classes",
-              "url": "/api/groups/group__iterator__tag__classes.html",
+              "url": "/thrust/api/groups/group__iterator__tag__classes.html",
               "visibility": "public"
             }
           ],
@@ -509,7 +509,7 @@
           "name": "iterator_tags",
           "refid": "group__iterator__tags",
           "title": "Iterator Tags",
-          "url": "/api/groups/group__iterator__tags.html",
+          "url": "/thrust/api/groups/group__iterator__tags.html",
           "visibility": "public"
         }
       ],
@@ -518,7 +518,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     },
     {
@@ -534,7 +534,7 @@
           "name": "allocators",
           "refid": "group__allocators",
           "title": "Allocators",
-          "url": "/api/groups/group__allocators.html",
+          "url": "/thrust/api/groups/group__allocators.html",
           "visibility": "public"
         },
         {
@@ -545,7 +545,7 @@
           "name": "memory_resources",
           "refid": "group__memory__resources",
           "title": "Memory Resources",
-          "url": "/api/groups/group__memory__resources.html",
+          "url": "/thrust/api/groups/group__memory__resources.html",
           "visibility": "public"
         }
       ],
@@ -555,7 +555,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -570,7 +570,7 @@
           "name": "complex_numbers",
           "refid": "group__complex__numbers",
           "title": "Complex Numbers",
-          "url": "/api/groups/group__complex__numbers.html",
+          "url": "/thrust/api/groups/group__complex__numbers.html",
           "visibility": "public"
         }
       ],
@@ -579,7 +579,7 @@
       "name": "numerics",
       "refid": "group__numerics",
       "title": "Numerics",
-      "url": "/api/groups/group__numerics.html",
+      "url": "/thrust/api/groups/group__numerics.html",
       "visibility": "public"
     },
     {
@@ -594,7 +594,7 @@
           "name": "Predefined_random",
           "refid": "group__predefined__random",
           "title": "Random Number Engines with Predefined Parameters",
-          "url": "/api/groups/group__predefined__random.html",
+          "url": "/thrust/api/groups/group__predefined__random.html",
           "visibility": "public"
         },
         {
@@ -605,7 +605,7 @@
           "name": "Random_number_distributions",
           "refid": "group__random__number__distributions",
           "title": "Random Number Distributions Class Templates",
-          "url": "/api/groups/group__random__number__distributions.html",
+          "url": "/thrust/api/groups/group__random__number__distributions.html",
           "visibility": "public"
         },
         {
@@ -616,7 +616,7 @@
           "name": "random_number_engine_adaptors",
           "refid": "group__random__number__engine__adaptors",
           "title": "Random Number Engine Adaptor Class Templates",
-          "url": "/api/groups/group__random__number__engine__adaptors.html",
+          "url": "/thrust/api/groups/group__random__number__engine__adaptors.html",
           "visibility": "public"
         },
         {
@@ -627,7 +627,7 @@
           "name": "random_number_engine_templates",
           "refid": "group__random__number__engine__templates",
           "title": "Random Number Engine Class Templates",
-          "url": "/api/groups/group__random__number__engine__templates.html",
+          "url": "/thrust/api/groups/group__random__number__engine__templates.html",
           "visibility": "public"
         }
       ],
@@ -636,7 +636,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     },
     {
@@ -651,7 +651,7 @@
           "name": "System_diagnostics",
           "refid": "group__system__diagnostics",
           "title": "System Diagnostics",
-          "url": "/api/groups/group__system__diagnostics.html",
+          "url": "/thrust/api/groups/group__system__diagnostics.html",
           "visibility": "public"
         },
         {
@@ -662,7 +662,7 @@
           "name": "system_backends",
           "refid": "group__system__backends",
           "title": "Systems",
-          "url": "/api/groups/group__system__backends.html",
+          "url": "/thrust/api/groups/group__system__backends.html",
           "visibility": "public"
         }
       ],
@@ -671,7 +671,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     },
     {
@@ -686,7 +686,7 @@
           "name": "pair",
           "refid": "group__pair",
           "title": "Pair",
-          "url": "/api/groups/group__pair.html",
+          "url": "/thrust/api/groups/group__pair.html",
           "visibility": "public"
         },
         {
@@ -697,7 +697,7 @@
           "name": "swap",
           "refid": "group__swap",
           "title": "Swap",
-          "url": "/api/groups/group__swap.html",
+          "url": "/thrust/api/groups/group__swap.html",
           "visibility": "public"
         },
         {
@@ -708,7 +708,7 @@
           "name": "tuple",
           "refid": "group__tuple",
           "title": "Tuple",
-          "url": "/api/groups/group__tuple.html",
+          "url": "/thrust/api/groups/group__tuple.html",
           "visibility": "public"
         },
         {
@@ -719,7 +719,7 @@
           "name": "type_traits",
           "refid": "group__type__traits",
           "title": "Type Traits",
-          "url": "/api/groups/group__type__traits.html",
+          "url": "/thrust/api/groups/group__type__traits.html",
           "visibility": "public"
         }
       ],
@@ -728,7 +728,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],

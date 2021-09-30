@@ -14,27 +14,27 @@ A type used for configuring pooling resource adaptors, to fine-tune their behavi
 <code class="doxybook">
 <span>#include <thrust/mr/pool_options.h></span><br>
 <span>struct mr::pool&#95;options {</span>
-<span>public:</span><span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-min_blocks_per_chunk">min&#95;blocks&#95;per&#95;chunk</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-min_blocks_per_chunk">min&#95;blocks&#95;per&#95;chunk</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-min_bytes_per_chunk">min&#95;bytes&#95;per&#95;chunk</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-min_bytes_per_chunk">min&#95;bytes&#95;per&#95;chunk</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-max_blocks_per_chunk">max&#95;blocks&#95;per&#95;chunk</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-max_blocks_per_chunk">max&#95;blocks&#95;per&#95;chunk</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-max_bytes_per_chunk">max&#95;bytes&#95;per&#95;chunk</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-max_bytes_per_chunk">max&#95;bytes&#95;per&#95;chunk</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-smallest_block_size">smallest&#95;block&#95;size</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-smallest_block_size">smallest&#95;block&#95;size</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-largest_block_size">largest&#95;block&#95;size</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-largest_block_size">largest&#95;block&#95;size</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-alignment">alignment</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-alignment">alignment</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;bool <b><a href="/api/classes/structmr_1_1pool__options.html#variable-cache_oversized">cache&#95;oversized</a></b>;</span>
+<span>&nbsp;&nbsp;bool <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-cache_oversized">cache&#95;oversized</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-cached_size_cutoff_factor">cached&#95;size&#95;cutoff&#95;factor</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-cached_size_cutoff_factor">cached&#95;size&#95;cutoff&#95;factor</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1pool__options.html#variable-cached_alignment_cutoff_factor">cached&#95;alignment&#95;cutoff&#95;factor</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1pool__options.html#variable-cached_alignment_cutoff_factor">cached&#95;alignment&#95;cutoff&#95;factor</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1pool__options.html#function-validate">validate</a></b>() const;</span>
+<span>&nbsp;&nbsp;bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1pool__options.html#function-validate">validate</a></b>() const;</span>
 <span>};</span>
 </code>
 

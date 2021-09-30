@@ -10,20 +10,20 @@ has_toc: false
 
 <code class="doxybook">
 <span>template &lt;typename DerivedPolicy&gt;</span>
-<span>struct <b><a href="/api/classes/structhost__execution__policy.html">host&#95;execution&#95;policy</a></b>;</span>
+<span>struct <b><a href="/thrust/api/classes/structhost__execution__policy.html">host&#95;execution&#95;policy</a></b>;</span>
 <br>
 <span>template &lt;typename DerivedPolicy&gt;</span>
-<span>struct <b><a href="/api/classes/structdevice__execution__policy.html">device&#95;execution&#95;policy</a></b>;</span>
+<span>struct <b><a href="/thrust/api/classes/structdevice__execution__policy.html">device&#95;execution&#95;policy</a></b>;</span>
 <br>
-<span>static const detail::host_t <b><a href="/api/groups/group__execution__policies.html#variable-host">execution&#95;policies::host</a></b>;</span>
+<span>static const detail::host_t <b><a href="/thrust/api/groups/group__execution__policies.html#variable-host">execution&#95;policies::host</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT detail::device_t <b><a href="/api/groups/group__execution__policies.html#variable-device">execution&#95;policies::device</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT detail::device_t <b><a href="/thrust/api/groups/group__execution__policies.html#variable-device">execution&#95;policies::device</a></b>;</span>
 </code>
 
 ## Member Classes
 
 <h3 id="struct-host_execution_policy">
-<a href="/api/classes/structhost__execution__policy.html">Struct <code>host&#95;execution&#95;policy</code>
+<a href="/thrust/api/classes/structhost__execution__policy.html">Struct <code>host&#95;execution&#95;policy</code>
 </a>
 </h3>
 
@@ -31,7 +31,7 @@ has_toc: false
 `thrust::system::__THRUST_HOST_SYSTEM_NAMESPACE::execution_policy< DerivedPolicy >`
 
 <h3 id="struct-device_execution_policy">
-<a href="/api/classes/structdevice__execution__policy.html">Struct <code>device&#95;execution&#95;policy</code>
+<a href="/thrust/api/classes/structdevice__execution__policy.html">Struct <code>device&#95;execution&#95;policy</code>
 </a>
 </h3>
 
@@ -84,7 +84,7 @@ thrust::for_each(thrust::host, vec.begin(), vec.end(), printf_functor());
 ```
 
 **See**:
-* <a href="/api/classes/structhost__execution__policy.html">host_execution_policy</a>
+* <a href="/thrust/api/classes/structhost__execution__policy.html">host_execution_policy</a>
 * thrust::device 
 
 <h3 id="variable-device">
@@ -131,7 +131,7 @@ thrust::for_each(thrust::device, vec.begin(), vec.end(), printf_functor());
 ```
 
 **See**:
-* <a href="/api/classes/structhost__execution__policy.html">host_execution_policy</a>
+* <a href="/thrust/api/classes/structhost__execution__policy.html">host_execution_policy</a>
 * thrust::device 
 
 

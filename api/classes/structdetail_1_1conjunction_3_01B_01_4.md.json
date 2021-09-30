@@ -39,7 +39,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -53,7 +53,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -68,6 +68,6 @@
     }
   ],
   "title": "detail::conjunction< B >",
-  "url": "/api/classes/structdetail_1_1conjunction_3_01b_01_4.html",
+  "url": "/thrust/api/classes/structdetail_1_1conjunction_3_01b_01_4.html",
   "visibility": "public"
 }

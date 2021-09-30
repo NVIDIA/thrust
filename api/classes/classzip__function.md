@@ -9,11 +9,11 @@ has_toc: false
 
 # Class `zip_function`
 
-<code><a href="/api/classes/classzip__function.html">zip&#95;function</a></code> is a function object that allows the easy use of N-ary function objects with <code>zip&#95;iterators</code> without redefining them to take a <code>tuple</code> instead of N arguments.
+<code><a href="/thrust/api/classes/classzip__function.html">zip&#95;function</a></code> is a function object that allows the easy use of N-ary function objects with <code>zip&#95;iterators</code> without redefining them to take a <code>tuple</code> instead of N arguments.
 
 This means that if a functor that takes 2 arguments which could be used with the <code>transform</code> function and <code>device&#95;iterators</code> can be extended to take 3 arguments and <code>zip&#95;iterators</code> without rewriting the functor in terms of <code>tuple</code>.
 
-The <code>make&#95;zip&#95;function</code> convenience function is provided to avoid having to explicitely define the type of the functor when creating a <code><a href="/api/classes/classzip__function.html">zip&#95;function</a></code>, whic is especially helpful when using lambdas as the functor.
+The <code>make&#95;zip&#95;function</code> convenience function is provided to avoid having to explicitely define the type of the functor when creating a <code><a href="/thrust/api/classes/classzip__function.html">zip&#95;function</a></code>, whic is especially helpful when using lambdas as the functor.
 
 
 
@@ -77,17 +77,17 @@ int main() {
 ```
 
 **See**:
-* <a href="/api/groups/group__function__object__adaptors.html#function-make_zip_function">make_zip_function</a>
-* <a href="/api/classes/classzip__iterator.html">zip_iterator</a>
+* <a href="/thrust/api/groups/group__function__object__adaptors.html#function-make_zip_function">make_zip_function</a>
+* <a href="/thrust/api/classes/classzip__iterator.html">zip_iterator</a>
 
 <code class="doxybook">
 <span>#include <thrust/zip_function.h></span><br>
 <span>template &lt;typename Function&gt;</span>
 <span>class zip&#95;function {</span>
-<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classzip__function.html#function-zip_function">zip&#95;function</a></b>(Function func);</span>
+<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classzip__function.html#function-zip_function">zip&#95;function</a></b>(Function func);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename Tuple&gt;</span>
-<span>&nbsp;&nbsp;__host__decltype(auto) __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classzip__function.html#function-operator()">operator()</a></b>(Tuple && args) const;</span>
+<span>&nbsp;&nbsp;__host__decltype(auto) __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classzip__function.html#function-operator()">operator()</a></b>(Tuple && args) const;</span>
 <span>};</span>
 </code>
 

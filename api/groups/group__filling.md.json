@@ -18,7 +18,7 @@
     "name": "transformations",
     "refid": "group__transformations",
     "title": "Transformations",
-    "url": "/api/groups/group__transformations.html",
+    "url": "/thrust/api/groups/group__transformations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "transformations",
       "refid": "group__transformations",
       "title": "Transformations",
-      "url": "/api/groups/group__transformations.html",
+      "url": "/thrust/api/groups/group__transformations.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "transformations",
     "refid": "group__transformations",
     "title": "Transformations",
-    "url": "/api/groups/group__transformations.html",
+    "url": "/thrust/api/groups/group__transformations.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "transformations",
       "refid": "group__transformations",
       "title": "Transformations",
-      "url": "/api/groups/group__transformations.html",
+      "url": "/thrust/api/groups/group__transformations.html",
       "visibility": "public"
     }
   ],
@@ -149,8 +149,8 @@
       "refid": "group__filling_1ga378025703da4ff8f3acebcf6c3248184",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/fill\">https://en.cppreference.com/w/cpp/algorithm/fill</a>",
-        "<code><a href=\"/api/groups/group__filling.html#function-fill_n\">fill&#95;n</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-fill_n\">fill&#95;n</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -188,7 +188,7 @@
       "title": "fill",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__filling.html#function-fill",
+      "url": "/thrust/api/groups/group__filling.html#function-fill",
       "virtual": false,
       "visibility": "public"
     },
@@ -249,8 +249,8 @@
       "refid": "group__filling_1ga22fe5976161c93273c4021d2b72913a2",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/fill\">https://en.cppreference.com/w/cpp/algorithm/fill</a>",
-        "<code><a href=\"/api/groups/group__filling.html#function-fill_n\">fill&#95;n</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-fill_n\">fill&#95;n</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -279,7 +279,7 @@
       "title": "fill",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__filling.html#function-fill",
+      "url": "/thrust/api/groups/group__filling.html#function-fill",
       "virtual": false,
       "visibility": "public"
     },
@@ -352,8 +352,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/fill_n\">https://en.cppreference.com/w/cpp/algorithm/fill_n</a>",
-        "<code><a href=\"/api/groups/group__filling.html#function-fill\">fill</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill_n\">uninitialized&#95;fill&#95;n</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-fill\">fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill_n\">uninitialized&#95;fill&#95;n</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -396,7 +396,7 @@
       "title": "fill_n",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__filling.html#function-fill_n",
+      "url": "/thrust/api/groups/group__filling.html#function-fill_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -460,8 +460,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/fill_n\">https://en.cppreference.com/w/cpp/algorithm/fill_n</a>",
-        "<code><a href=\"/api/groups/group__filling.html#function-fill\">fill</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill_n\">uninitialized&#95;fill&#95;n</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-fill\">fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill_n\">uninitialized&#95;fill&#95;n</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -495,7 +495,7 @@
       "title": "fill_n",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__filling.html#function-fill_n",
+      "url": "/thrust/api/groups/group__filling.html#function-fill_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -565,11 +565,11 @@
       "refid": "group__filling_1gaa2180306ef9a43fcf1a2fef55b699ac4",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_fill\">https://en.cppreference.com/w/cpp/memory/uninitialized_fill</a>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill_n\">uninitialized&#95;fill&#95;n</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-fill\">fill</a></code>",
-        "<code><a href=\"/api/groups/group__copying.html#function-uninitialized_copy\">uninitialized&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill_n\">uninitialized&#95;fill&#95;n</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-fill\">fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-uninitialized_copy\">uninitialized&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -603,7 +603,7 @@
       "title": "uninitialized_fill",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__filling.html#function-uninitialized_fill",
+      "url": "/thrust/api/groups/group__filling.html#function-uninitialized_fill",
       "virtual": false,
       "visibility": "public"
     },
@@ -664,11 +664,11 @@
       "refid": "group__filling_1ga394ced2b47d902ba1bb995981c0b6710",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_fill\">https://en.cppreference.com/w/cpp/memory/uninitialized_fill</a>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill_n\">uninitialized&#95;fill&#95;n</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-fill\">fill</a></code>",
-        "<code><a href=\"/api/groups/group__copying.html#function-uninitialized_copy\">uninitialized&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill_n\">uninitialized&#95;fill&#95;n</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-fill\">fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-uninitialized_copy\">uninitialized&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -693,7 +693,7 @@
       "title": "uninitialized_fill",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__filling.html#function-uninitialized_fill",
+      "url": "/thrust/api/groups/group__filling.html#function-uninitialized_fill",
       "virtual": false,
       "visibility": "public"
     },
@@ -766,11 +766,11 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_fill\">https://en.cppreference.com/w/cpp/memory/uninitialized_fill</a>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-fill\">fill</a></code>",
-        "<code><a href=\"/api/groups/group__copying.html#function-uninitialized_copy_n\">uninitialized&#95;copy&#95;n</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-fill\">fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-uninitialized_copy_n\">uninitialized&#95;copy&#95;n</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -809,7 +809,7 @@
       "title": "uninitialized_fill_n",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__filling.html#function-uninitialized_fill_n",
+      "url": "/thrust/api/groups/group__filling.html#function-uninitialized_fill_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -873,11 +873,11 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_fill\">https://en.cppreference.com/w/cpp/memory/uninitialized_fill</a>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-fill\">fill</a></code>",
-        "<code><a href=\"/api/groups/group__copying.html#function-uninitialized_copy_n\">uninitialized&#95;copy&#95;n</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-fill\">fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-uninitialized_copy_n\">uninitialized&#95;copy&#95;n</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -907,7 +907,7 @@
       "title": "uninitialized_fill_n",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__filling.html#function-uninitialized_fill_n",
+      "url": "/thrust/api/groups/group__filling.html#function-uninitialized_fill_n",
       "virtual": false,
       "visibility": "public"
     }
@@ -916,6 +916,6 @@
   "static": false,
   "strong": false,
   "title": "Filling",
-  "url": "/api/groups/group__filling.html",
+  "url": "/thrust/api/groups/group__filling.html",
   "visibility": "public"
 }

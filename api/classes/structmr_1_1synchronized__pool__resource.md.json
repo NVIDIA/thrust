@@ -34,7 +34,7 @@
           "static": false,
           "strong": false,
           "title": "~memory_resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-~memory_resource",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-~memory_resource",
           "virtual": true,
           "visibility": "public"
         },
@@ -101,9 +101,9 @@
           "static": false,
           "strong": false,
           "title": "allocate",
-          "type": "<a href=\"/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
+          "type": "<a href=\"/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
           "typePlain": "pointer",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-allocate",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-allocate",
           "virtual": false,
           "visibility": "public"
         },
@@ -149,7 +149,7 @@
           "params": [
             {
               "name": "p",
-              "type": "<a href=\"/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
+              "type": "<a href=\"/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
               "typePlain": "pointer"
             },
             {
@@ -172,7 +172,7 @@
           "title": "deallocate",
           "type": "void",
           "typePlain": "void",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-deallocate",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-deallocate",
           "virtual": false,
           "visibility": "public"
         },
@@ -210,7 +210,7 @@
           "params": [
             {
               "name": "other",
-              "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
+              "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
               "typePlain": "const memory_resource &"
             }
           ],
@@ -224,7 +224,7 @@
           "title": "is_equal",
           "type": "__host__ __device__ bool",
           "typePlain": "__host__ __device__ bool",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-is_equal",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-is_equal",
           "virtual": false,
           "visibility": "public"
         },
@@ -262,7 +262,7 @@
           "params": [
             {
               "name": "other",
-              "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
+              "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
               "typePlain": "const memory_resource &"
             }
           ],
@@ -276,7 +276,7 @@
           "title": "do_is_equal",
           "type": "__host__ virtual __device__ bool",
           "typePlain": "__host__ virtual __device__ bool",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-do_is_equal",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-do_is_equal",
           "virtual": true,
           "visibility": "public"
         }
@@ -309,12 +309,12 @@
           "title": "pointer",
           "type": "Pointer",
           "typePlain": "Pointer",
-          "url": "/api/classes/classmr_1_1memory__resource.html#typedef-pointer",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer",
           "visibility": "public"
         }
       ],
       "refid": "classmr_1_1memory__resource",
-      "url": "/api/classes/classmr_1_1memory__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
       "virtual": "non-virtual",
       "visibility": "public"
     }
@@ -322,7 +322,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "A mutex-synchronized version of <code><a href=\"/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized&#95;pool&#95;resource</a></code>. Uses <code>std::mutex</code>, and therefore requires C++11.",
+  "details": "A mutex-synchronized version of <code><a href=\"/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized&#95;pool&#95;resource</a></code>. Uses <code>std::mutex</code>, and therefore requires C++11.",
   "explicit": false,
   "fullname": "mr::synchronized_pool_resource",
   "hasAdditionalMembers": true,
@@ -346,7 +346,7 @@
     "name": "memory_resources",
     "refid": "group__memory__resources",
     "title": "Memory Resources",
-    "url": "/api/groups/group__memory__resources.html",
+    "url": "/thrust/api/groups/group__memory__resources.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -360,7 +360,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -371,7 +371,7 @@
       "name": "memory_resources",
       "refid": "group__memory__resources",
       "title": "Memory Resources",
-      "url": "/api/groups/group__memory__resources.html",
+      "url": "/thrust/api/groups/group__memory__resources.html",
       "visibility": "public"
     }
   ],
@@ -387,7 +387,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -401,7 +401,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -432,7 +432,7 @@
       "title": "mtx",
       "type": "std::mutex",
       "typePlain": "std::mutex",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#variable-mtx",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#variable-mtx",
       "visibility": "private"
     },
     {
@@ -459,9 +459,9 @@
       "static": false,
       "strong": false,
       "title": "upstream_pool",
-      "type": "<a href=\"/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsync_pool</a>",
+      "type": "<a href=\"/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsync_pool</a>",
       "typePlain": "unsync_pool",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#variable-upstream_pool",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#variable-upstream_pool",
       "visibility": "private"
     }
   ],
@@ -497,9 +497,9 @@
       "static": true,
       "strong": false,
       "title": "get_default_options",
-      "type": "<a href=\"/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
+      "type": "<a href=\"/thrust/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
       "typePlain": "pool_options",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#function-get_default_options",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#function-get_default_options",
       "virtual": false,
       "visibility": "public"
     },
@@ -545,10 +545,10 @@
           "typePlain": "Upstream *"
         },
         {
-          "defval": "<a href=\"/api/classes/structmr_1_1synchronized__pool__resource.html#function-get_default_options\">get_default_options</a>()",
+          "defval": "<a href=\"/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#function-get_default_options\">get_default_options</a>()",
           "defvalPlain": "get_default_options()",
           "name": "options",
-          "type": "<a href=\"/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
+          "type": "<a href=\"/thrust/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
           "typePlain": "pool_options"
         }
       ],
@@ -557,7 +557,7 @@
       "static": false,
       "strong": false,
       "title": "synchronized_pool_resource",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#function-synchronized_pool_resource",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#function-synchronized_pool_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -594,10 +594,10 @@
       ],
       "params": [
         {
-          "defval": "<a href=\"/api/classes/structmr_1_1synchronized__pool__resource.html#function-get_default_options\">get_default_options</a>()",
+          "defval": "<a href=\"/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#function-get_default_options\">get_default_options</a>()",
           "defvalPlain": "get_default_options()",
           "name": "options",
-          "type": "<a href=\"/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
+          "type": "<a href=\"/thrust/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
           "typePlain": "pool_options"
         }
       ],
@@ -606,7 +606,7 @@
       "static": false,
       "strong": false,
       "title": "synchronized_pool_resource",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#function-synchronized_pool_resource",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#function-synchronized_pool_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -643,7 +643,7 @@
       "title": "release",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#function-release",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#function-release",
       "virtual": false,
       "visibility": "public"
     },
@@ -713,7 +713,7 @@
         "pureVirtual": true,
         "refid": "classmr_1_1memory__resource_1a166d253df9e98b69db8b3fc7f13716e3",
         "title": "do_allocate",
-        "url": "/api/classes/classmr_1_1memory__resource.html#function-do_allocate",
+        "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-do_allocate",
         "virtual": true,
         "visibility": "public"
       },
@@ -725,7 +725,7 @@
       "title": "do_allocate",
       "type": "void_ptr",
       "typePlain": "void_ptr",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#function-do_allocate",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#function-do_allocate",
       "virtual": true,
       "visibility": "public"
     },
@@ -798,7 +798,7 @@
         "pureVirtual": true,
         "refid": "classmr_1_1memory__resource_1adbc95e08e5e7ad5943ef6a82f7747336",
         "title": "do_deallocate",
-        "url": "/api/classes/classmr_1_1memory__resource.html#function-do_deallocate",
+        "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-do_deallocate",
         "virtual": true,
         "visibility": "public"
       },
@@ -807,7 +807,7 @@
       "title": "do_deallocate",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#function-do_deallocate",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#function-do_deallocate",
       "virtual": true,
       "visibility": "public"
     }
@@ -837,9 +837,9 @@
       "static": false,
       "strong": false,
       "title": "unsync_pool",
-      "type": "<a href=\"/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized_pool_resource</a>< Upstream >",
+      "type": "<a href=\"/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized_pool_resource</a>< Upstream >",
       "typePlain": "unsynchronized_pool_resource< Upstream >",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#typedef-unsync_pool",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#typedef-unsync_pool",
       "visibility": "public"
     },
     {
@@ -868,7 +868,7 @@
       "title": "lock_t",
       "type": "std::lock_guard< std::mutex >",
       "typePlain": "std::lock_guard< std::mutex >",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#typedef-lock_t",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#typedef-lock_t",
       "visibility": "public"
     },
     {
@@ -897,7 +897,7 @@
       "title": "void_ptr",
       "type": "Upstream::pointer",
       "typePlain": "Upstream::pointer",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html#typedef-void_ptr",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html#typedef-void_ptr",
       "visibility": "public"
     }
   ],
@@ -918,6 +918,6 @@
     }
   ],
   "title": "mr::synchronized_pool_resource",
-  "url": "/api/classes/structmr_1_1synchronized__pool__resource.html",
+  "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html",
   "visibility": "public"
 }

@@ -18,7 +18,7 @@
     "name": "random",
     "refid": "group__random",
     "title": "Random Number Generation",
-    "url": "/api/groups/group__random.html",
+    "url": "/thrust/api/groups/group__random.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "random",
     "refid": "group__random",
     "title": "Random Number Generation",
-    "url": "/api/groups/group__random.html",
+    "url": "/thrust/api/groups/group__random.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     }
   ],
@@ -79,7 +79,7 @@
       "refid": "classrandom_1_1normal__distribution",
       "summary": "A normal_distribution random number distribution produces floating point Normally distributed random numbers. ",
       "title": "random::normal_distribution",
-      "url": "/api/classes/classrandom_1_1normal__distribution.html",
+      "url": "/thrust/api/classes/classrandom_1_1normal__distribution.html",
       "visibility": "public"
     },
     {
@@ -92,7 +92,7 @@
       "refid": "classrandom_1_1uniform__int__distribution",
       "summary": "A uniform_int_distribution random number distribution produces signed or unsigned integer uniform random numbers from a given range. ",
       "title": "random::uniform_int_distribution",
-      "url": "/api/classes/classrandom_1_1uniform__int__distribution.html",
+      "url": "/thrust/api/classes/classrandom_1_1uniform__int__distribution.html",
       "visibility": "public"
     },
     {
@@ -105,7 +105,7 @@
       "refid": "classrandom_1_1uniform__real__distribution",
       "summary": "A uniform_real_distribution random number distribution produces floating point uniform random numbers from a half-open interval. ",
       "title": "random::uniform_real_distribution",
-      "url": "/api/classes/classrandom_1_1uniform__real__distribution.html",
+      "url": "/thrust/api/classes/classrandom_1_1uniform__real__distribution.html",
       "visibility": "public"
     }
   ],
@@ -135,22 +135,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
           "typePlain": "const normal_distribution< RealType > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
           "typePlain": "const normal_distribution< RealType > &"
         }
       ],
@@ -171,7 +171,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator==",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -200,22 +200,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
           "typePlain": "const normal_distribution< RealType > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
           "typePlain": "const normal_distribution< RealType > &"
         }
       ],
@@ -236,7 +236,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator!=",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -249,7 +249,7 @@
       "default": false,
       "definition": "std::basic_ostream<CharT,Traits>& random::operator<<",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
       "explicit": false,
       "fullname": "Random_number_distributions::operator<<",
       "hasDetails": true,
@@ -269,7 +269,7 @@
         },
         {
           "name": "d",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to stream out. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to stream out. "
         }
       ],
       "params": [
@@ -280,7 +280,7 @@
         },
         {
           "name": "d",
-          "type": "const <a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
           "typePlain": "const normal_distribution< RealType > &"
         }
       ],
@@ -311,7 +311,7 @@
       "title": "operator<<",
       "type": "std::basic_ostream< CharT, Traits > &",
       "typePlain": "std::basic_ostream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator<<",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -324,7 +324,7 @@
       "default": false,
       "definition": "std::basic_istream<CharT,Traits>& random::operator>>",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a> in from a std::basic_istream. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a> in from a std::basic_istream. ",
       "explicit": false,
       "fullname": "Random_number_distributions::operator>>",
       "hasDetails": true,
@@ -344,7 +344,7 @@
         },
         {
           "name": "d",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to stream in. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal&#95;distribution</a></code> to stream in. "
         }
       ],
       "params": [
@@ -355,7 +355,7 @@
         },
         {
           "name": "d",
-          "type": "<a href=\"/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1normal__distribution.html\">normal_distribution</a>< RealType > &",
           "typePlain": "normal_distribution< RealType > &"
         }
       ],
@@ -386,7 +386,7 @@
       "title": "operator>>",
       "type": "std::basic_istream< CharT, Traits > &",
       "typePlain": "std::basic_istream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator>>",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator>>",
       "virtual": false,
       "visibility": "public"
     },
@@ -415,22 +415,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
           "typePlain": "const uniform_int_distribution< IntType > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
           "typePlain": "const uniform_int_distribution< IntType > &"
         }
       ],
@@ -451,7 +451,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator==",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -480,22 +480,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
           "typePlain": "const uniform_int_distribution< IntType > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
           "typePlain": "const uniform_int_distribution< IntType > &"
         }
       ],
@@ -516,7 +516,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator!=",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -529,7 +529,7 @@
       "default": false,
       "definition": "std::basic_ostream<CharT,Traits>& random::operator<<",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
       "explicit": false,
       "fullname": "Random_number_distributions::operator<<",
       "hasDetails": true,
@@ -549,7 +549,7 @@
         },
         {
           "name": "d",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to stream out. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to stream out. "
         }
       ],
       "params": [
@@ -560,7 +560,7 @@
         },
         {
           "name": "d",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
           "typePlain": "const uniform_int_distribution< IntType > &"
         }
       ],
@@ -591,7 +591,7 @@
       "title": "operator<<",
       "type": "std::basic_ostream< CharT, Traits > &",
       "typePlain": "std::basic_ostream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator<<",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -604,7 +604,7 @@
       "default": false,
       "definition": "std::basic_istream<CharT,Traits>& random::operator>>",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a> in from a std::basic_istream. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a> in from a std::basic_istream. ",
       "explicit": false,
       "fullname": "Random_number_distributions::operator>>",
       "hasDetails": true,
@@ -624,7 +624,7 @@
         },
         {
           "name": "d",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to stream in. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform&#95;int&#95;distribution</a></code> to stream in. "
         }
       ],
       "params": [
@@ -635,7 +635,7 @@
         },
         {
           "name": "d",
-          "type": "<a href=\"/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1uniform__int__distribution.html\">uniform_int_distribution</a>< IntType > &",
           "typePlain": "uniform_int_distribution< IntType > &"
         }
       ],
@@ -666,7 +666,7 @@
       "title": "operator>>",
       "type": "std::basic_istream< CharT, Traits > &",
       "typePlain": "std::basic_istream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator>>",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator>>",
       "virtual": false,
       "visibility": "public"
     },
@@ -695,22 +695,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
           "typePlain": "const uniform_real_distribution< RealType > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
           "typePlain": "const uniform_real_distribution< RealType > &"
         }
       ],
@@ -731,7 +731,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator==",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -760,22 +760,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
           "typePlain": "const uniform_real_distribution< RealType > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
           "typePlain": "const uniform_real_distribution< RealType > &"
         }
       ],
@@ -796,7 +796,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator!=",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -809,7 +809,7 @@
       "default": false,
       "definition": "std::basic_ostream<CharT,Traits>& random::operator<<",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a> to a <code>std::basic&#95;ostream</code>. ",
       "explicit": false,
       "fullname": "Random_number_distributions::operator<<",
       "hasDetails": true,
@@ -829,7 +829,7 @@
         },
         {
           "name": "d",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to stream out. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to stream out. "
         }
       ],
       "params": [
@@ -840,7 +840,7 @@
         },
         {
           "name": "d",
-          "type": "const <a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
           "typePlain": "const uniform_real_distribution< RealType > &"
         }
       ],
@@ -871,7 +871,7 @@
       "title": "operator<<",
       "type": "std::basic_ostream< CharT, Traits > &",
       "typePlain": "std::basic_ostream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator<<",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -884,7 +884,7 @@
       "default": false,
       "definition": "std::basic_istream<CharT,Traits>& random::operator>>",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a> in from a std::basic_istream. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a> in from a std::basic_istream. ",
       "explicit": false,
       "fullname": "Random_number_distributions::operator>>",
       "hasDetails": true,
@@ -904,7 +904,7 @@
         },
         {
           "name": "d",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to stream in. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform&#95;real&#95;distribution</a></code> to stream in. "
         }
       ],
       "params": [
@@ -915,7 +915,7 @@
         },
         {
           "name": "d",
-          "type": "<a href=\"/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1uniform__real__distribution.html\">uniform_real_distribution</a>< RealType > &",
           "typePlain": "uniform_real_distribution< RealType > &"
         }
       ],
@@ -946,7 +946,7 @@
       "title": "operator>>",
       "type": "std::basic_istream< CharT, Traits > &",
       "typePlain": "std::basic_istream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__distributions.html#function-operator>>",
+      "url": "/thrust/api/groups/group__random__number__distributions.html#function-operator>>",
       "virtual": false,
       "visibility": "public"
     }
@@ -955,6 +955,6 @@
   "static": false,
   "strong": false,
   "title": "Random Number Distributions Class Templates",
-  "url": "/api/groups/group__random__number__distributions.html",
+  "url": "/thrust/api/groups/group__random__number__distributions.html",
   "visibility": "public"
 }

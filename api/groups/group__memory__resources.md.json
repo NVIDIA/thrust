@@ -20,7 +20,7 @@
     "refid": "group__memory__management",
     "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
     "title": "Memory Management",
-    "url": "/api/groups/group__memory__management.html",
+    "url": "/thrust/api/groups/group__memory__management.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -34,7 +34,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     }
   ],
@@ -50,7 +50,7 @@
     "refid": "group__memory__management",
     "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
     "title": "Memory Management",
-    "url": "/api/groups/group__memory__management.html",
+    "url": "/thrust/api/groups/group__memory__management.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -64,7 +64,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     }
   ],
@@ -76,7 +76,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -93,7 +93,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource",
       "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
       "title": "mr::disjoint_unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
       "visibility": "public"
     },
     {
@@ -103,7 +103,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -114,7 +114,7 @@
       "name": "mr::disjoint_synchronized_pool_resource",
       "refid": "structmr_1_1disjoint__synchronized__pool__resource",
       "title": "mr::disjoint_synchronized_pool_resource",
-      "url": "/api/classes/structmr_1_1disjoint__synchronized__pool__resource.html",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__synchronized__pool__resource.html",
       "visibility": "public"
     },
     {
@@ -125,7 +125,7 @@
           "external": false,
           "name": "mr::fancy_pointer_resource< Upstream, Pointer >",
           "refid": "classmr_1_1fancy__pointer__resource",
-          "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1fancy__pointer__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -133,7 +133,7 @@
           "external": false,
           "name": "mr::polymorphic_adaptor_resource< Pointer >",
           "refid": "classmr_1_1polymorphic__adaptor__resource",
-          "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -143,7 +143,7 @@
       "name": "mr::memory_resource",
       "refid": "classmr_1_1memory__resource",
       "title": "mr::memory_resource",
-      "url": "/api/classes/classmr_1_1memory__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
       "visibility": "public"
     },
     {
@@ -154,7 +154,7 @@
       "name": "mr::memory_resource< void * >",
       "refid": "classmr_1_1memory__resource_3_01void_01_5_01_4",
       "title": "mr::memory_resource< void * >",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
       "visibility": "public"
     },
     {
@@ -164,7 +164,7 @@
           "external": false,
           "name": "mr::memory_resource<>",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -175,7 +175,7 @@
       "name": "mr::new_delete_resource",
       "refid": "classmr_1_1new__delete__resource",
       "title": "mr::new_delete_resource",
-      "url": "/api/classes/classmr_1_1new__delete__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1new__delete__resource.html",
       "visibility": "public"
     },
     {
@@ -185,7 +185,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -202,7 +202,7 @@
       "name": "mr::unsynchronized_pool_resource",
       "refid": "classmr_1_1unsynchronized__pool__resource",
       "title": "mr::unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html",
       "visibility": "public"
     },
     {
@@ -213,7 +213,7 @@
       "name": "mr::pool_options",
       "refid": "structmr_1_1pool__options",
       "title": "mr::pool_options",
-      "url": "/api/classes/structmr_1_1pool__options.html",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html",
       "visibility": "public"
     },
     {
@@ -223,7 +223,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -234,7 +234,7 @@
       "name": "mr::synchronized_pool_resource",
       "refid": "structmr_1_1synchronized__pool__resource",
       "title": "mr::synchronized_pool_resource",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html",
       "visibility": "public"
     }
   ],
@@ -248,7 +248,7 @@
       "default": false,
       "definition": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper>& mr::tls_disjoint_pool",
       "deleted": false,
-      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html\">disjoint&#95;unsynchronized&#95;pool&#95;resource</a></code>,",
+      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html\">disjoint&#95;unsynchronized&#95;pool&#95;resource</a></code>,",
       "explicit": false,
       "fullname": "memory_resources::tls_disjoint_pool",
       "hasDetails": true,
@@ -319,7 +319,7 @@
       "title": "tls_disjoint_pool",
       "type": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper > &",
       "typePlain": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper > &",
-      "url": "/api/groups/group__memory__resources.html#function-tls_disjoint_pool",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-tls_disjoint_pool",
       "virtual": false,
       "visibility": "public"
     },
@@ -374,7 +374,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__memory__resources.html#function-operator==",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -429,7 +429,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__memory__resources.html#function-operator!=",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -482,7 +482,7 @@
       "title": "get_global_resource",
       "type": "__host__ MR *",
       "typePlain": "__host__ MR *",
-      "url": "/api/groups/group__memory__resources.html#function-get_global_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-get_global_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -495,7 +495,7 @@
       "default": false,
       "definition": "__host__ thrust::mr::unsynchronized_pool_resource<Upstream>& mr::tls_pool",
       "deleted": false,
-      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized&#95;pool&#95;resource</a></code>,",
+      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized&#95;pool&#95;resource</a></code>,",
       "explicit": false,
       "fullname": "memory_resources::tls_pool",
       "hasDetails": true,
@@ -551,7 +551,7 @@
       "title": "tls_pool",
       "type": "__host__ thrust::mr::unsynchronized_pool_resource< Upstream > &",
       "typePlain": "__host__ thrust::mr::unsynchronized_pool_resource< Upstream > &",
-      "url": "/api/groups/group__memory__resources.html#function-tls_pool",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-tls_pool",
       "virtual": false,
       "visibility": "public"
     }
@@ -563,7 +563,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef detail::native_resource system::cpp::memory_resource",
-      "details": "The memory resource for the Standard C++ system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::pointer</code>. ",
+      "details": "The memory resource for the Standard C++ system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::pointer</code>. ",
       "explicit": false,
       "fullname": "memory_resources::memory_resource",
       "hasDetails": true,
@@ -584,7 +584,7 @@
       "title": "memory_resource",
       "type": "detail::native_resource",
       "typePlain": "detail::native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-memory_resource",
       "visibility": "public"
     },
     {
@@ -593,7 +593,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef detail::universal_native_resource system::cpp::universal_memory_resource",
-      "details": "The unified memory resource for the Standard C++ system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::universal&#95;pointer</code>. ",
+      "details": "The unified memory resource for the Standard C++ system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::universal&#95;pointer</code>. ",
       "explicit": false,
       "fullname": "memory_resources::universal_memory_resource",
       "hasDetails": true,
@@ -614,7 +614,7 @@
       "title": "universal_memory_resource",
       "type": "detail::universal_native_resource",
       "typePlain": "detail::universal_native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
       "visibility": "public"
     },
     {
@@ -644,7 +644,7 @@
       "title": "universal_host_pinned_memory_resource",
       "type": "detail::native_resource",
       "typePlain": "detail::native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
       "visibility": "public"
     },
     {
@@ -653,7 +653,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef detail::native_resource system::omp::memory_resource",
-      "details": "The memory resource for the OpenMP system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>omp::pointer</code>. ",
+      "details": "The memory resource for the OpenMP system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>omp::pointer</code>. ",
       "explicit": false,
       "fullname": "memory_resources::memory_resource",
       "hasDetails": true,
@@ -674,7 +674,7 @@
       "title": "memory_resource",
       "type": "detail::native_resource",
       "typePlain": "detail::native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-memory_resource",
       "visibility": "public"
     },
     {
@@ -683,7 +683,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef detail::universal_native_resource system::omp::universal_memory_resource",
-      "details": "The unified memory resource for the OpenMP system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>omp::universal&#95;pointer</code>. ",
+      "details": "The unified memory resource for the OpenMP system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>omp::universal&#95;pointer</code>. ",
       "explicit": false,
       "fullname": "memory_resources::universal_memory_resource",
       "hasDetails": true,
@@ -704,7 +704,7 @@
       "title": "universal_memory_resource",
       "type": "detail::universal_native_resource",
       "typePlain": "detail::universal_native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
       "visibility": "public"
     },
     {
@@ -734,7 +734,7 @@
       "title": "universal_host_pinned_memory_resource",
       "type": "detail::native_resource",
       "typePlain": "detail::native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
       "visibility": "public"
     },
     {
@@ -743,7 +743,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef detail::native_resource system::tbb::memory_resource",
-      "details": "The memory resource for the TBB system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>tbb::pointer</code>. ",
+      "details": "The memory resource for the TBB system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>tbb::pointer</code>. ",
       "explicit": false,
       "fullname": "memory_resources::memory_resource",
       "hasDetails": true,
@@ -764,7 +764,7 @@
       "title": "memory_resource",
       "type": "detail::native_resource",
       "typePlain": "detail::native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-memory_resource",
       "visibility": "public"
     },
     {
@@ -773,7 +773,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef detail::universal_native_resource system::tbb::universal_memory_resource",
-      "details": "The unified memory resource for the TBB system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>tbb::universal&#95;pointer</code>. ",
+      "details": "The unified memory resource for the TBB system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>tbb::universal&#95;pointer</code>. ",
       "explicit": false,
       "fullname": "memory_resources::universal_memory_resource",
       "hasDetails": true,
@@ -794,7 +794,7 @@
       "title": "universal_memory_resource",
       "type": "detail::universal_native_resource",
       "typePlain": "detail::universal_native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
       "visibility": "public"
     },
     {
@@ -824,7 +824,7 @@
       "title": "universal_host_pinned_memory_resource",
       "type": "detail::native_resource",
       "typePlain": "detail::native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
       "visibility": "public"
     },
     {
@@ -853,8 +853,8 @@
       "override": false,
       "refid": "group__memory__resources_1ga08da7013e607007d10b3da339ff4d236",
       "see": [
-        "host_ptr For the documentation of the complete interface which is shared by <code><a href=\"/api/groups/group__memory__resources.html#using-universal_ptr\">universal&#95;ptr</a></code>. ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "host_ptr For the documentation of the complete interface which is shared by <code><a href=\"/thrust/api/groups/group__memory__resources.html#using-universal_ptr\">universal&#95;ptr</a></code>. ",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -868,7 +868,7 @@
       "title": "universal_ptr",
       "type": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::universal_pointer< T >",
       "typePlain": "thrust::system::__THRUST_DEVICE_SYSTEM_NAMESPACE::universal_pointer< T >",
-      "url": "/api/groups/group__memory__resources.html#using-universal_ptr",
+      "url": "/thrust/api/groups/group__memory__resources.html#using-universal_ptr",
       "visibility": "public"
     }
   ],
@@ -876,6 +876,6 @@
   "static": false,
   "strong": false,
   "title": "Memory Resources",
-  "url": "/api/groups/group__memory__resources.html",
+  "url": "/thrust/api/groups/group__memory__resources.html",
   "visibility": "public"
 }

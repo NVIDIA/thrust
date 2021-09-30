@@ -13,34 +13,34 @@ has_toc: false
 The class <code>error&#95;condition</code> describes an object used to hold values identifying error conditions. 
 
 **Note**:
-<code><a href="/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code> values are portable abstractions, while <code><a href="/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> values are implementation specific. 
+<code><a href="/thrust/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code> values are portable abstractions, while <code><a href="/thrust/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> values are implementation specific. 
 
 <code class="doxybook">
 <span>#include <thrust/system/error_code.h></span><br>
 <span>class system::error&#95;condition {</span>
-<span>public:</span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-error_condition">error&#95;condition</a></b>(void);</span>
+<span>public:</span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-error_condition">error&#95;condition</a></b>(void);</span>
 <br>
-<span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-error_condition">error&#95;condition</a></b>(int val,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & cat);</span>
-<br>
-<span>&nbsp;&nbsp;template &lt;typename ErrorConditionEnum&gt;</span>
-<span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-error_condition">error&#95;condition</a></b>(ErrorConditionEnum e);</span>
-<br>
-<span>&nbsp;&nbsp;void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-assign">assign</a></b>(int val,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & cat);</span>
+<span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-error_condition">error&#95;condition</a></b>(int val,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & cat);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename ErrorConditionEnum&gt;</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classsystem_1_1error__condition.html">error_condition</a> & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-operator=">operator=</a></b>(ErrorConditionEnum e);</span>
+<span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-error_condition">error&#95;condition</a></b>(ErrorConditionEnum e);</span>
 <br>
-<span>&nbsp;&nbsp;void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-clear">clear</a></b>(void);</span>
+<span>&nbsp;&nbsp;void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-assign">assign</a></b>(int val,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & cat);</span>
 <br>
-<span>&nbsp;&nbsp;int </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-value">value</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;template &lt;typename ErrorConditionEnum&gt;</span>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classsystem_1_1error__condition.html">error_condition</a> & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-operator=">operator=</a></b>(ErrorConditionEnum e);</span>
 <br>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-category">category</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-clear">clear</a></b>(void);</span>
 <br>
-<span>&nbsp;&nbsp;std::string </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-message">message</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;int </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-value">value</a></b>(void) const;</span>
 <br>
-<span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__condition.html#function-operator-bool">operator bool</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-category">category</a></b>(void) const;</span>
+<br>
+<span>&nbsp;&nbsp;std::string </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-message">message</a></b>(void) const;</span>
+<br>
+<span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-operator-bool">operator bool</a></b>(void) const;</span>
 <span>};</span>
 </code>
 
@@ -52,11 +52,11 @@ Function <code>system::error&#95;condition::system::error&#95;condition::error&#
 
 <code class="doxybook">
 <span><b>error_condition</b>(void);</span></code>
-Constructs an object of type <code><a href="/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
+Constructs an object of type <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
 
 **Postconditions**:
-* <code><a href="/api/classes/classsystem_1_1error__condition.html#function-value">value()</a> == 0</code>. 
-* <code><a href="/api/classes/classsystem_1_1error__condition.html#function-category">category()</a> == <a href="/api/groups/group__system__diagnostics.html#function-generic_category">generic&#95;category()</a></code>. 
+* <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-value">value()</a> == 0</code>. 
+* <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-category">category()</a> == <a href="/thrust/api/groups/group__system__diagnostics.html#function-generic_category">generic&#95;category()</a></code>. 
 
 <h3 id="function-error_condition">
 Function <code>system::error&#95;condition::system::error&#95;condition::error&#95;condition</code>
@@ -64,12 +64,12 @@ Function <code>system::error&#95;condition::system::error&#95;condition::error&#
 
 <code class="doxybook">
 <span><b>error_condition</b>(int val,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & cat);</span></code>
-Constructs an object of type <code><a href="/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & cat);</span></code>
+Constructs an object of type <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
 
 **Postconditions**:
-* <code><a href="/api/classes/classsystem_1_1error__condition.html#function-value">value()</a> == val</code>. 
-* <code><a href="/api/classes/classsystem_1_1error__condition.html#function-category">category()</a> == cat</code>. 
+* <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-value">value()</a> == val</code>. 
+* <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-category">category()</a> == cat</code>. 
 
 <h3 id="function-error_condition">
 Function <code>system::error&#95;condition::system::error&#95;condition::error&#95;condition</code>
@@ -78,7 +78,7 @@ Function <code>system::error&#95;condition::system::error&#95;condition::error&#
 <code class="doxybook">
 <span>template &lt;typename ErrorConditionEnum&gt;</span>
 <span><b>error_condition</b>(ErrorConditionEnum e);</span></code>
-Constructs an object of type <code><a href="/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
+Constructs an object of type <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
 
 **Note**:
 This constructor shall not participate in overload resolution unless <code>is&#95;error&#95;condition&#95;enum&lt;ErrorConditionEnum&gt;::value</code> is <code>true</code>. 
@@ -92,16 +92,16 @@ Function <code>system::error&#95;condition::system::error&#95;condition::assign<
 
 <code class="doxybook">
 <span>void </span><span><b>assign</b>(int val,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & cat);</span></code>
-Assigns to this <code><a href="/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> object from an error value and an <code><a href="/api/classes/classsystem_1_1error__category.html">error&#95;category</a></code>. 
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & cat);</span></code>
+Assigns to this <code><a href="/thrust/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> object from an error value and an <code><a href="/thrust/api/classes/classsystem_1_1error__category.html">error&#95;category</a></code>. 
 
 **Function Parameters**:
-* **`val`** The new value to return from <code><a href="/api/classes/classsystem_1_1error__condition.html#function-value">value()</a></code>. 
-* **`cat`** The new <code><a href="/api/classes/classsystem_1_1error__category.html">error&#95;category</a></code> to return from <code><a href="/api/classes/classsystem_1_1error__condition.html#function-category">category()</a></code>. 
+* **`val`** The new value to return from <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-value">value()</a></code>. 
+* **`cat`** The new <code><a href="/thrust/api/classes/classsystem_1_1error__category.html">error&#95;category</a></code> to return from <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-category">category()</a></code>. 
 
 **Postconditions**:
-* <code><a href="/api/classes/classsystem_1_1error__condition.html#function-value">value()</a> == val</code>. 
-* <code><a href="/api/classes/classsystem_1_1error__condition.html#function-category">category()</a> == cat</code>. 
+* <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-value">value()</a> == val</code>. 
+* <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-category">category()</a> == cat</code>. 
 
 <h3 id="function-operator=">
 Function <code>system::error&#95;condition::system::error&#95;condition::operator=</code>
@@ -109,8 +109,8 @@ Function <code>system::error&#95;condition::system::error&#95;condition::operato
 
 <code class="doxybook">
 <span>template &lt;typename ErrorConditionEnum&gt;</span>
-<span><a href="/api/classes/classsystem_1_1error__condition.html">error_condition</a> & </span><span><b>operator=</b>(ErrorConditionEnum e);</span></code>
-Assigns to this <code><a href="/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> object from an error condition enumeration. 
+<span><a href="/thrust/api/classes/classsystem_1_1error__condition.html">error_condition</a> & </span><span><b>operator=</b>(ErrorConditionEnum e);</span></code>
+Assigns to this <code><a href="/thrust/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> object from an error condition enumeration. 
 
 **Note**:
 This operator shall not participate in overload resolution unless <code>is&#95;error&#95;condition&#95;enum&lt;ErrorConditionEnum&gt;::value</code> is <code>true</code>. 
@@ -127,11 +127,11 @@ Function <code>system::error&#95;condition::system::error&#95;condition::clear</
 
 <code class="doxybook">
 <span>void </span><span><b>clear</b>(void);</span></code>
-Clears this <code><a href="/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> object. 
+Clears this <code><a href="/thrust/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> object. 
 
 **Postconditions**:
 * <code>value == 0</code>
-* <code><a href="/api/classes/classsystem_1_1error__condition.html#function-category">category()</a> == <a href="/api/groups/group__system__diagnostics.html#function-generic_category">generic&#95;category()</a></code>. 
+* <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-category">category()</a> == <a href="/thrust/api/groups/group__system__diagnostics.html#function-generic_category">generic&#95;category()</a></code>. 
 
 <h3 id="function-value">
 Function <code>system::error&#95;condition::system::error&#95;condition::value</code>
@@ -140,16 +140,16 @@ Function <code>system::error&#95;condition::system::error&#95;condition::value</
 <code class="doxybook">
 <span>int </span><span><b>value</b>(void) const;</span></code>
 **Returns**:
-The value encoded by this <code><a href="/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
+The value encoded by this <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
 
 <h3 id="function-category">
 Function <code>system::error&#95;condition::system::error&#95;condition::category</code>
 </h3>
 
 <code class="doxybook">
-<span>const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & </span><span><b>category</b>(void) const;</span></code>
+<span>const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & </span><span><b>category</b>(void) const;</span></code>
 **Returns**:
-A <code>const</code> reference to the <code><a href="/api/classes/classsystem_1_1error__category.html">error&#95;category</a></code> encoded by this <code><a href="/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
+A <code>const</code> reference to the <code><a href="/thrust/api/classes/classsystem_1_1error__category.html">error&#95;category</a></code> encoded by this <code><a href="/thrust/api/classes/classsystem_1_1error__condition.html">error&#95;condition</a></code>. 
 
 <h3 id="function-message">
 Function <code>system::error&#95;condition::system::error&#95;condition::message</code>
@@ -158,7 +158,7 @@ Function <code>system::error&#95;condition::system::error&#95;condition::message
 <code class="doxybook">
 <span>std::string </span><span><b>message</b>(void) const;</span></code>
 **Returns**:
-<code><a href="/api/classes/classsystem_1_1error__condition.html#function-category">category()</a>.message(value())</code>. 
+<code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-category">category()</a>.message(value())</code>. 
 
 <h3 id="function-operator bool">
 Function <code>system::error&#95;condition::bool</code>
@@ -167,6 +167,6 @@ Function <code>system::error&#95;condition::bool</code>
 <code class="doxybook">
 <span><b>operator bool</b>(void) const;</span></code>
 **Returns**:
-<code><a href="/api/classes/classsystem_1_1error__condition.html#function-value">value()</a> != 0</code>. 
+<code><a href="/thrust/api/classes/classsystem_1_1error__condition.html#function-value">value()</a> != 0</code>. 
 
 

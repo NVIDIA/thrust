@@ -12,7 +12,7 @@ Namespace for CUDA Runtime errors.
 <code class="doxybook">
 <span>namespace system::cuda::errc {</span>
 <br>
-<span>enum <b><a href="/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t">errc&#95;t</a></b>;</span>
+<span>enum <b><a href="/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t">errc&#95;t</a></b>;</span>
 <span>} /* namespace system::cuda::errc */</span>
 </code>
 

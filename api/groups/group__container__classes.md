@@ -10,7 +10,7 @@ has_toc: false
 
 ## Groups
 
-* **[Host Containers](/api/groups/group__host__containers.html)**
+* **[Host Containers](/thrust/api/groups/group__host__containers.html)**
 
 <code class="doxybook">
 </code>

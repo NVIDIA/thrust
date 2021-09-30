@@ -18,7 +18,7 @@
     "name": "transformations",
     "refid": "group__transformations",
     "title": "Transformations",
-    "url": "/api/groups/group__transformations.html",
+    "url": "/thrust/api/groups/group__transformations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "transformations",
       "refid": "group__transformations",
       "title": "Transformations",
-      "url": "/api/groups/group__transformations.html",
+      "url": "/thrust/api/groups/group__transformations.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "transformations",
     "refid": "group__transformations",
     "title": "Transformations",
-    "url": "/api/groups/group__transformations.html",
+    "url": "/thrust/api/groups/group__transformations.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "transformations",
       "refid": "group__transformations",
       "title": "Transformations",
-      "url": "/api/groups/group__transformations.html",
+      "url": "/thrust/api/groups/group__transformations.html",
       "visibility": "public"
     }
   ],
@@ -151,7 +151,7 @@
         "last"
       ],
       "see": [
-        "<a href=\"/api/groups/group__modifying.html#function-for_each_n\">for_each_n</a>",
+        "<a href=\"/thrust/api/groups/group__modifying.html#function-for_each_n\">for_each_n</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/for_each\">https://en.cppreference.com/w/cpp/algorithm/for_each</a>"
       ],
       "static": false,
@@ -190,7 +190,7 @@
       "title": "for_each",
       "type": "__host__ __device__ InputIterator",
       "typePlain": "__host__ __device__ InputIterator",
-      "url": "/api/groups/group__modifying.html#function-for_each",
+      "url": "/thrust/api/groups/group__modifying.html#function-for_each",
       "virtual": false,
       "visibility": "public"
     },
@@ -203,7 +203,7 @@
       "default": false,
       "definition": "__host__ __device__ InputIterator for_each_n",
       "deleted": false,
-      "details": "<code>for&#95;each&#95;n</code> applies the function object <code>f</code> to each element in the range <code>[first, first + n)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> using the <code>thrust::device</code> parallelization policy.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdio>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each_n(thrust::device, d_vec.begin(), d_vec.size(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "details": "<code>for&#95;each&#95;n</code> applies the function object <code>f</code> to each element in the range <code>[first, first + n)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> using the <code>thrust::device</code> parallelization policy.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdio>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each_n(thrust::device, d_vec.begin(), d_vec.size(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
       "explicit": false,
       "fullname": "modifying::for_each_n",
       "hasDetails": true,
@@ -262,7 +262,7 @@
         "<code>first + n</code>"
       ],
       "see": [
-        "<a href=\"/api/groups/group__modifying.html#function-for_each\">for_each</a>",
+        "<a href=\"/thrust/api/groups/group__modifying.html#function-for_each\">for_each</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/for_each\">https://en.cppreference.com/w/cpp/algorithm/for_each</a>"
       ],
       "static": false,
@@ -310,7 +310,7 @@
       "title": "for_each_n",
       "type": "__host__ __device__ InputIterator",
       "typePlain": "__host__ __device__ InputIterator",
-      "url": "/api/groups/group__modifying.html#function-for_each_n",
+      "url": "/thrust/api/groups/group__modifying.html#function-for_each_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -323,7 +323,7 @@
       "default": false,
       "definition": "InputIterator for_each",
       "deleted": false,
-      "details": "<code>for&#95;each</code> applies the function object <code>f</code> to each element in the range <code>[first, last)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution. For this reason, this version of <code>for&#95;each</code> does not return a copy of the function object.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each</code> to print the elements of a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <stdio.h>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "details": "<code>for&#95;each</code> applies the function object <code>f</code> to each element in the range <code>[first, last)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution. For this reason, this version of <code>for&#95;each</code> does not return a copy of the function object.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each</code> to print the elements of a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <stdio.h>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
       "explicit": false,
       "fullname": "modifying::for_each",
       "hasDetails": true,
@@ -373,7 +373,7 @@
         "last"
       ],
       "see": [
-        "<a href=\"/api/groups/group__modifying.html#function-for_each_n\">for_each_n</a>",
+        "<a href=\"/thrust/api/groups/group__modifying.html#function-for_each_n\">for_each_n</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/for_each\">https://en.cppreference.com/w/cpp/algorithm/for_each</a>"
       ],
       "static": false,
@@ -403,7 +403,7 @@
       "title": "for_each",
       "type": "InputIterator",
       "typePlain": "InputIterator",
-      "url": "/api/groups/group__modifying.html#function-for_each",
+      "url": "/thrust/api/groups/group__modifying.html#function-for_each",
       "virtual": false,
       "visibility": "public"
     },
@@ -416,7 +416,7 @@
       "default": false,
       "definition": "InputIterator for_each_n",
       "deleted": false,
-      "details": "<code>for&#95;each&#95;n</code> applies the function object <code>f</code> to each element in the range <code>[first, first + n)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <stdio.h>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each_n(d_vec.begin(), d_vec.size(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
+      "details": "<code>for&#95;each&#95;n</code> applies the function object <code>f</code> to each element in the range <code>[first, first + n)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution.\n\n\nThe following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/for_each.h>\n#include <thrust/device_vector.h>\n#include <stdio.h>\n\nstruct printf_functor\n{\n  __host__ __device__\n  void operator()(int x)\n  {\n    // note that using printf in a __device__ function requires\n    // code compiled for a GPU with compute capability 2.0 or\n    // higher (nvcc --arch=sm_20)\n    printf(\"%d\\n\", x);\n  }\n};\n...\nthrust::device_vector<int> d_vec(3);\nd_vec[0] = 0; d_vec[1] = 1; d_vec[2] = 2;\n\nthrust::for_each_n(d_vec.begin(), d_vec.size(), printf_functor());\n\n// 0 1 2 is printed to standard output in some unspecified order\n```",
       "explicit": false,
       "fullname": "modifying::for_each_n",
       "hasDetails": true,
@@ -466,7 +466,7 @@
         "<code>first + n</code>"
       ],
       "see": [
-        "<a href=\"/api/groups/group__modifying.html#function-for_each\">for_each</a>",
+        "<a href=\"/thrust/api/groups/group__modifying.html#function-for_each\">for_each</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/for_each\">https://en.cppreference.com/w/cpp/algorithm/for_each</a>"
       ],
       "static": false,
@@ -505,7 +505,7 @@
       "title": "for_each_n",
       "type": "InputIterator",
       "typePlain": "InputIterator",
-      "url": "/api/groups/group__modifying.html#function-for_each_n",
+      "url": "/thrust/api/groups/group__modifying.html#function-for_each_n",
       "virtual": false,
       "visibility": "public"
     }
@@ -514,6 +514,6 @@
   "static": false,
   "strong": false,
   "title": "Modifying",
-  "url": "/api/groups/group__modifying.html",
+  "url": "/thrust/api/groups/group__modifying.html",
   "visibility": "public"
 }

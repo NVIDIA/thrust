@@ -12,10 +12,10 @@ has_toc: false
 <code class="doxybook">
 <span>template &lt;size_t N,</span>
 <span>&nbsp;&nbsp;class T&gt;</span>
-<span>struct <b><a href="/api/classes/structtuple__element.html">tuple&#95;element</a></b>;</span>
+<span>struct <b><a href="/thrust/api/classes/structtuple__element.html">tuple&#95;element</a></b>;</span>
 <br>
 <span>template &lt;typename Pair&gt;</span>
-<span>struct <b><a href="/api/classes/structtuple__size.html">tuple&#95;size</a></b>;</span>
+<span>struct <b><a href="/thrust/api/classes/structtuple__size.html">tuple&#95;size</a></b>;</span>
 <br>
 <span class="doxybook-comment">/* <code>tuple</code> is a class template that can be instantiated with up to ten arguments. Each template argument specifies the type of element in the <code>tuple</code>. Consequently, tuples are heterogeneous, fixed-size collections of values. An instantiation of <code>tuple</code> with two arguments is similar to an instantiation of <code>pair</code> with the same two arguments. Individual elements of a <code>tuple</code> may be accessed with the <code>get</code> function.  */</span><span>template &lt;class T0,</span>
 <span>&nbsp;&nbsp;class T1,</span>
@@ -27,32 +27,32 @@ has_toc: false
 <span>&nbsp;&nbsp;class T7,</span>
 <span>&nbsp;&nbsp;class T8,</span>
 <span>&nbsp;&nbsp;class T9&gt;</span>
-<span>class <b><a href="/api/classes/classtuple.html">tuple</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classtuple.html">tuple</a></b>;</span>
 <br>
 <span>template &lt;int N,</span>
 <span>&nbsp;&nbsp;class HT,</span>
 <span>&nbsp;&nbsp;class TT&gt;</span>
-<span>__host__ __device__ access_traits< typename <a href="/api/classes/structtuple__element.html">tuple_element</a>< N, detail::cons< HT, TT > >::type >::non_const_type </span><span><b><a href="/api/groups/group__tuple.html#function-get">get</a></b>(detail::cons< HT, TT > & t);</span>
+<span>__host__ __device__ access_traits< typename <a href="/thrust/api/classes/structtuple__element.html">tuple_element</a>< N, detail::cons< HT, TT > >::type >::non_const_type </span><span><b><a href="/thrust/api/groups/group__tuple.html#function-get">get</a></b>(detail::cons< HT, TT > & t);</span>
 <br>
 <span>template &lt;int N,</span>
 <span>&nbsp;&nbsp;class HT,</span>
 <span>&nbsp;&nbsp;class TT&gt;</span>
-<span>__host__ __device__ access_traits< typename <a href="/api/classes/structtuple__element.html">tuple_element</a>< N, detail::cons< HT, TT > >::type >::const_type </span><span><b><a href="/api/groups/group__tuple.html#function-get">get</a></b>(const detail::cons< HT, TT > & t);</span>
+<span>__host__ __device__ access_traits< typename <a href="/thrust/api/classes/structtuple__element.html">tuple_element</a>< N, detail::cons< HT, TT > >::type >::const_type </span><span><b><a href="/thrust/api/groups/group__tuple.html#function-get">get</a></b>(const detail::cons< HT, TT > & t);</span>
 <br>
 <span>template &lt;class T0&gt;</span>
-<span>__host__ __device__ detail::make_tuple_mapper< T0 >::type </span><span><b><a href="/api/groups/group__tuple.html#function-make_tuple">make&#95;tuple</a></b>(const T0 & t0);</span>
+<span>__host__ __device__ detail::make_tuple_mapper< T0 >::type </span><span><b><a href="/thrust/api/groups/group__tuple.html#function-make_tuple">make&#95;tuple</a></b>(const T0 & t0);</span>
 <br>
 <span>template &lt;class T0,</span>
 <span>&nbsp;&nbsp;class T1&gt;</span>
-<span>__host__ __device__ detail::make_tuple_mapper< T0, T1 >::type </span><span><b><a href="/api/groups/group__tuple.html#function-make_tuple">make&#95;tuple</a></b>(const T0 & t0,</span>
+<span>__host__ __device__ detail::make_tuple_mapper< T0, T1 >::type </span><span><b><a href="/thrust/api/groups/group__tuple.html#function-make_tuple">make&#95;tuple</a></b>(const T0 & t0,</span>
 <span>&nbsp;&nbsp;const T1 & t1);</span>
 <br>
 <span>template &lt;typename T0&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/classtuple.html">tuple</a>< T0 & > </span><span><b><a href="/api/groups/group__tuple.html#function-tie">tie</a></b>(T0 & t0);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/classtuple.html">tuple</a>< T0 & > </span><span><b><a href="/thrust/api/groups/group__tuple.html#function-tie">tie</a></b>(T0 & t0);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/classtuple.html">tuple</a>< T0 &, T1 & > </span><span><b><a href="/api/groups/group__tuple.html#function-tie">tie</a></b>(T0 & t0,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/classtuple.html">tuple</a>< T0 &, T1 & > </span><span><b><a href="/thrust/api/groups/group__tuple.html#function-tie">tie</a></b>(T0 & t0,</span>
 <span>&nbsp;&nbsp;T1 & t1);</span>
 <br>
 <span>template &lt;typename T0,</span>
@@ -75,24 +75,24 @@ has_toc: false
 <span>&nbsp;&nbsp;typename U7,</span>
 <span>&nbsp;&nbsp;typename U8,</span>
 <span>&nbsp;&nbsp;typename U9&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__tuple.html#function-swap">swap</a></b>(<a href="/api/classes/classtuple.html">tuple</a>< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 > & x,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classtuple.html">tuple</a>< U0, U1, U2, U3, U4, U5, U6, U7, U8, U9 > & y);</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__tuple.html#function-swap">swap</a></b>(<a href="/thrust/api/classes/classtuple.html">tuple</a>< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 > & x,</span>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classtuple.html">tuple</a>< U0, U1, U2, U3, U4, U5, U6, U7, U8, U9 > & y);</span>
 </code>
 
 ## Member Classes
 
 <h3 id="struct-tuple_element">
-<a href="/api/classes/structtuple__element.html">Struct <code>tuple&#95;element</code>
+<a href="/thrust/api/classes/structtuple__element.html">Struct <code>tuple&#95;element</code>
 </a>
 </h3>
 
 <h3 id="struct-tuple_size">
-<a href="/api/classes/structtuple__size.html">Struct <code>tuple&#95;size</code>
+<a href="/thrust/api/classes/structtuple__size.html">Struct <code>tuple&#95;size</code>
 </a>
 </h3>
 
 <h3 id="class-tuple">
-<a href="/api/classes/classtuple.html">Class <code>tuple</code>
+<a href="/thrust/api/classes/classtuple.html">Class <code>tuple</code>
 </a>
 </h3>
 
@@ -109,7 +109,7 @@ Function <code>get</code>
 <span>template &lt;int N,</span>
 <span>&nbsp;&nbsp;class HT,</span>
 <span>&nbsp;&nbsp;class TT&gt;</span>
-<span>__host__ __device__ access_traits< typename <a href="/api/classes/structtuple__element.html">tuple_element</a>< N, detail::cons< HT, TT > >::type >::non_const_type </span><span><b>get</b>(detail::cons< HT, TT > & t);</span></code>
+<span>__host__ __device__ access_traits< typename <a href="/thrust/api/classes/structtuple__element.html">tuple_element</a>< N, detail::cons< HT, TT > >::type >::non_const_type </span><span><b>get</b>(detail::cons< HT, TT > & t);</span></code>
 The <code>get</code> function returns a reference to a <code>tuple</code> element of interest.
 
 
@@ -136,8 +136,8 @@ std::cout << "The 1st value of t is " << thrust::get<0>(t) << std::endl;
 A reference to <code>t's</code><code>N</code>th element.
 
 **See**:
-* <a href="/api/classes/structpair.html">pair</a>
-* <a href="/api/classes/classtuple.html">tuple</a>
+* <a href="/thrust/api/classes/structpair.html">pair</a>
+* <a href="/thrust/api/classes/classtuple.html">tuple</a>
 
 <h3 id="function-get">
 Function <code>get</code>
@@ -147,7 +147,7 @@ Function <code>get</code>
 <span>template &lt;int N,</span>
 <span>&nbsp;&nbsp;class HT,</span>
 <span>&nbsp;&nbsp;class TT&gt;</span>
-<span>__host__ __device__ access_traits< typename <a href="/api/classes/structtuple__element.html">tuple_element</a>< N, detail::cons< HT, TT > >::type >::const_type </span><span><b>get</b>(const detail::cons< HT, TT > & t);</span></code>
+<span>__host__ __device__ access_traits< typename <a href="/thrust/api/classes/structtuple__element.html">tuple_element</a>< N, detail::cons< HT, TT > >::type >::const_type </span><span><b>get</b>(const detail::cons< HT, TT > & t);</span></code>
 The <code>get</code> function returns a <code>const</code> reference to a <code>tuple</code> element of interest.
 
 
@@ -174,8 +174,8 @@ std::cout << "The 1st value of t is " << thrust::get<0>(t) << std::endl;
 A <code>const</code> reference to <code>t's</code><code>N</code>th element.
 
 **See**:
-* <a href="/api/classes/structpair.html">pair</a>
-* <a href="/api/classes/classtuple.html">tuple</a>
+* <a href="/thrust/api/classes/structpair.html">pair</a>
+* <a href="/thrust/api/classes/classtuple.html">tuple</a>
 
 <h3 id="function-make_tuple">
 Function <code>make&#95;tuple</code>
@@ -219,7 +219,7 @@ Function <code>tie</code>
 
 <code class="doxybook">
 <span>template &lt;typename T0&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/classtuple.html">tuple</a>< T0 & > </span><span><b>tie</b>(T0 & t0);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/classtuple.html">tuple</a>< T0 & > </span><span><b>tie</b>(T0 & t0);</span></code>
 This version of <code>tie</code> creates a new <code>tuple</code> whose single element is a reference which refers to this function's argument.
 
 **Function Parameters**:
@@ -235,7 +235,7 @@ Function <code>tie</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/classtuple.html">tuple</a>< T0 &, T1 & > </span><span><b>tie</b>(T0 & t0,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/classtuple.html">tuple</a>< T0 &, T1 & > </span><span><b>tie</b>(T0 & t0,</span>
 <span>&nbsp;&nbsp;T1 & t1);</span></code>
 This version of <code>tie</code> creates a new <code>tuple</code> of references object which refers to this function's arguments.
 
@@ -274,8 +274,8 @@ Function <code>swap</code>
 <span>&nbsp;&nbsp;typename U7,</span>
 <span>&nbsp;&nbsp;typename U8,</span>
 <span>&nbsp;&nbsp;typename U9&gt;</span>
-<span>__host__ __device__ void </span><span><b>swap</b>(<a href="/api/classes/classtuple.html">tuple</a>< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 > & x,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classtuple.html">tuple</a>< U0, U1, U2, U3, U4, U5, U6, U7, U8, U9 > & y);</span></code>
+<span>__host__ __device__ void </span><span><b>swap</b>(<a href="/thrust/api/classes/classtuple.html">tuple</a>< T0, T1, T2, T3, T4, T5, T6, T7, T8, T9 > & x,</span>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classtuple.html">tuple</a>< U0, U1, U2, U3, U4, U5, U6, U7, U8, U9 > & y);</span></code>
 <code>swap</code> swaps the contents of two <code>tuple</code>s.
 
 **Function Parameters**:

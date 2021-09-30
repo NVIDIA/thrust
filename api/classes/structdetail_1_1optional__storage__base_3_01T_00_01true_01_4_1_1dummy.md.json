@@ -28,7 +28,7 @@
     "name": "detail::optional_storage_base< T, true >",
     "refid": "structdetail_1_1optional__storage__base_3_01T_00_01true_01_4",
     "title": "detail::optional_storage_base< T, true >",
-    "url": "/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
+    "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -42,7 +42,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     },
     {
@@ -53,7 +53,7 @@
       "name": "detail::optional_storage_base< T, true >",
       "refid": "structdetail_1_1optional__storage__base_3_01T_00_01true_01_4",
       "title": "detail::optional_storage_base< T, true >",
-      "url": "/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
       "visibility": "public"
     }
   ],
@@ -61,6 +61,6 @@
   "static": false,
   "strong": false,
   "title": "detail::optional_storage_base< T, true >::dummy",
-  "url": "/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html",
+  "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html",
   "visibility": "public"
 }

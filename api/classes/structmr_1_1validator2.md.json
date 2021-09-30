@@ -25,7 +25,7 @@
       "external": false,
       "name": "mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >",
       "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
       "virtual": "non-virtual",
       "visibility": "private"
     }
@@ -56,7 +56,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -70,7 +70,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -90,6 +90,6 @@
     }
   ],
   "title": "mr::validator2",
-  "url": "/api/classes/structmr_1_1validator2.html",
+  "url": "/thrust/api/classes/structmr_1_1validator2.html",
   "visibility": "public"
 }

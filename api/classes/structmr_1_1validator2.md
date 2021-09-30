@@ -12,7 +12,7 @@ has_toc: false
 * `mr::validator< U >`
 
 **Inherited By**:
-[`mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >`](/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html)
+[`mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >`](/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html)
 
 <code class="doxybook">
 <span>template &lt;typename T,</span>

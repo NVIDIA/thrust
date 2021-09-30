@@ -1,5 +1,5 @@
 {
-  "baseUrl": "/api/",
+  "baseUrl": "/thrust/api/",
   "copyImages": true,
   "fileExt": "md",
   "filesFilter": [],

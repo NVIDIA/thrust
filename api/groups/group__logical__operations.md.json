@@ -18,7 +18,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -91,7 +91,7 @@
       "name": "logical_and",
       "refid": "structlogical__and",
       "title": "logical_and",
-      "url": "/api/classes/structlogical__and.html",
+      "url": "/thrust/api/classes/structlogical__and.html",
       "visibility": "public"
     },
     {
@@ -102,7 +102,7 @@
       "name": "logical_and< void >",
       "refid": "structlogical__and_3_01void_01_4",
       "title": "logical_and< void >",
-      "url": "/api/classes/structlogical__and_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structlogical__and_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -113,7 +113,7 @@
       "name": "logical_or",
       "refid": "structlogical__or",
       "title": "logical_or",
-      "url": "/api/classes/structlogical__or.html",
+      "url": "/thrust/api/classes/structlogical__or.html",
       "visibility": "public"
     },
     {
@@ -124,7 +124,7 @@
       "name": "logical_or< void >",
       "refid": "structlogical__or_3_01void_01_4",
       "title": "logical_or< void >",
-      "url": "/api/classes/structlogical__or_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structlogical__or_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -135,7 +135,7 @@
       "name": "logical_not",
       "refid": "structlogical__not",
       "title": "logical_not",
-      "url": "/api/classes/structlogical__not.html",
+      "url": "/thrust/api/classes/structlogical__not.html",
       "visibility": "public"
     },
     {
@@ -146,7 +146,7 @@
       "name": "logical_not< void >",
       "refid": "structlogical__not_3_01void_01_4",
       "title": "logical_not< void >",
-      "url": "/api/classes/structlogical__not_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structlogical__not_3_01void_01_4.html",
       "visibility": "public"
     }
   ],
@@ -154,6 +154,6 @@
   "static": false,
   "strong": false,
   "title": "Logical Operations",
-  "url": "/api/groups/group__logical__operations.html",
+  "url": "/thrust/api/groups/group__logical__operations.html",
   "visibility": "public"
 }

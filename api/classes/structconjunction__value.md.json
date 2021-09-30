@@ -27,7 +27,7 @@
     "name": "type_traits",
     "refid": "group__type__traits",
     "title": "Type Traits",
-    "url": "/api/groups/group__type__traits.html",
+    "url": "/thrust/api/groups/group__type__traits.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -39,7 +39,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     },
     {
@@ -50,7 +50,7 @@
       "name": "type_traits",
       "refid": "group__type__traits",
       "title": "Type Traits",
-      "url": "/api/groups/group__type__traits.html",
+      "url": "/thrust/api/groups/group__type__traits.html",
       "visibility": "public"
     }
   ],
@@ -59,8 +59,8 @@
   "parent": null,
   "refid": "structconjunction__value",
   "see": [
-    "<a href=\"/api/groups/group__type__traits.html#variable-conjunction_value_v\">conjunction_value_v</a>",
-    "<a href=\"/api/groups/group__type__traits.html#using-conjunction\">conjunction</a>",
+    "<a href=\"/thrust/api/groups/group__type__traits.html#variable-conjunction_value_v\">conjunction_value_v</a>",
+    "<a href=\"/thrust/api/groups/group__type__traits.html#using-conjunction\">conjunction</a>",
     "<a href=\"https://en.cppreference.com/w/cpp/types/conjunction\"><code>std::conjunction</code></a>"
   ],
   "static": false,
@@ -74,6 +74,6 @@
     }
   ],
   "title": "conjunction_value",
-  "url": "/api/classes/structconjunction__value.html",
+  "url": "/thrust/api/classes/structconjunction__value.html",
   "visibility": "public"
 }

@@ -18,7 +18,7 @@
       "external": false,
       "name": "detail::optional_move_assign_base< T, bool >",
       "refid": "structdetail_1_1optional__move__assign__base",
-      "url": "/api/classes/structdetail_1_1optional__move__assign__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base.html",
       "virtual": "non-virtual",
       "visibility": "public"
     },
@@ -26,7 +26,7 @@
       "external": false,
       "name": "detail::optional_move_assign_base< T, false >",
       "refid": "structdetail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
-      "url": "/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
       "virtual": "non-virtual",
       "visibility": "public"
     }
@@ -57,7 +57,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -71,7 +71,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -93,6 +93,6 @@
     }
   ],
   "title": "detail::optional_copy_assign_base",
-  "url": "/api/classes/structdetail_1_1optional__copy__assign__base.html",
+  "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base.html",
   "visibility": "public"
 }

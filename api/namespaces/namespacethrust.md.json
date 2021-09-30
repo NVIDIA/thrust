@@ -27,7 +27,7 @@
       "refid": "namespacethrust_1_1cpp",
       "summary": "thrust::cpp is a top-level alias for thrust::system::cpp. ",
       "title": "thrust::cpp",
-      "url": "/api/namespaces/namespacethrust_1_1cpp.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1cpp.html",
       "visibility": "public"
     },
     {
@@ -40,7 +40,7 @@
       "refid": "namespacethrust_1_1cuda",
       "summary": "thrust::cuda is a top-level alias for thrust::system::cuda. ",
       "title": "thrust::cuda",
-      "url": "/api/namespaces/namespacethrust_1_1cuda.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1cuda.html",
       "visibility": "public"
     },
     {
@@ -53,7 +53,7 @@
       "refid": "namespacethrust_1_1omp",
       "summary": "thrust::omp is a top-level alias for thrust::system::omp. ",
       "title": "thrust::omp",
-      "url": "/api/namespaces/namespacethrust_1_1omp.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1omp.html",
       "visibility": "public"
     },
     {
@@ -66,7 +66,7 @@
       "refid": "namespacethrust_1_1placeholders",
       "summary": "Facilities for constructing simple functions inline. ",
       "title": "thrust::placeholders",
-      "url": "/api/namespaces/namespacethrust_1_1placeholders.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1placeholders.html",
       "visibility": "public"
     },
     {
@@ -79,7 +79,7 @@
       "refid": "namespacethrust_1_1random",
       "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
       "title": "thrust::random",
-      "url": "/api/namespaces/namespacethrust_1_1random.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1random.html",
       "visibility": "public"
     },
     {
@@ -92,7 +92,7 @@
       "refid": "namespacethrust_1_1system",
       "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
       "title": "thrust::system",
-      "url": "/api/namespaces/namespacethrust_1_1system.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1system.html",
       "visibility": "public"
     },
     {
@@ -105,7 +105,7 @@
       "refid": "namespacethrust_1_1tbb",
       "summary": "thrust::tbb is a top-level alias for thrust::system::tbb. ",
       "title": "thrust::tbb",
-      "url": "/api/namespaces/namespacethrust_1_1tbb.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1tbb.html",
       "visibility": "public"
     }
   ],
@@ -115,6 +115,6 @@
   "static": false,
   "strong": false,
   "title": "thrust",
-  "url": "/api/namespaces/namespacethrust.html",
+  "url": "/thrust/api/namespaces/namespacethrust.html",
   "visibility": "public"
 }

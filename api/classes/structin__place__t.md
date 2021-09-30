@@ -11,7 +11,7 @@ has_toc: false
 <code class="doxybook">
 <span>#include <thrust/optional.h></span><br>
 <span>struct in&#95;place&#95;t {</span>
-<span>public:</span><span>&nbsp;&nbsp;explicit </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structin__place__t.html#function-in_place_t">in&#95;place&#95;t</a></b>() = default;</span>
+<span>public:</span><span>&nbsp;&nbsp;explicit </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structin__place__t.html#function-in_place_t">in&#95;place&#95;t</a></b>() = default;</span>
 <span>};</span>
 </code>
 

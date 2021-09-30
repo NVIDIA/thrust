@@ -13,8 +13,8 @@ has_toc: false
 <a href="https://en.cppreference.com/w/cpp/types/integral_constant"><code>std::integral&#95;constant</code></a> whose value is <code>!Bs</code>. 
 
 **See**:
-* <a href="/api/groups/group__type__traits.html#variable-negation_value_v">negation_value_v</a>
-* <a href="/api/groups/group__type__traits.html#using-negation">negation</a>
+* <a href="/thrust/api/groups/group__type__traits.html#variable-negation_value_v">negation_value_v</a>
+* <a href="/thrust/api/groups/group__type__traits.html#using-negation">negation</a>
 * <a href="https://en.cppreference.com/w/cpp/types/negation"><code>std::negation</code></a>
 
 <code class="doxybook">

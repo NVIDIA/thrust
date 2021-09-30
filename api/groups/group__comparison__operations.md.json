@@ -18,7 +18,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -91,7 +91,7 @@
       "name": "equal_to",
       "refid": "structequal__to",
       "title": "equal_to",
-      "url": "/api/classes/structequal__to.html",
+      "url": "/thrust/api/classes/structequal__to.html",
       "visibility": "public"
     },
     {
@@ -102,7 +102,7 @@
       "name": "equal_to< void >",
       "refid": "structequal__to_3_01void_01_4",
       "title": "equal_to< void >",
-      "url": "/api/classes/structequal__to_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structequal__to_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -113,7 +113,7 @@
       "name": "not_equal_to",
       "refid": "structnot__equal__to",
       "title": "not_equal_to",
-      "url": "/api/classes/structnot__equal__to.html",
+      "url": "/thrust/api/classes/structnot__equal__to.html",
       "visibility": "public"
     },
     {
@@ -124,7 +124,7 @@
       "name": "not_equal_to< void >",
       "refid": "structnot__equal__to_3_01void_01_4",
       "title": "not_equal_to< void >",
-      "url": "/api/classes/structnot__equal__to_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structnot__equal__to_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -135,7 +135,7 @@
       "name": "greater",
       "refid": "structgreater",
       "title": "greater",
-      "url": "/api/classes/structgreater.html",
+      "url": "/thrust/api/classes/structgreater.html",
       "visibility": "public"
     },
     {
@@ -146,7 +146,7 @@
       "name": "greater< void >",
       "refid": "structgreater_3_01void_01_4",
       "title": "greater< void >",
-      "url": "/api/classes/structgreater_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structgreater_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -157,7 +157,7 @@
       "name": "less",
       "refid": "structless",
       "title": "less",
-      "url": "/api/classes/structless.html",
+      "url": "/thrust/api/classes/structless.html",
       "visibility": "public"
     },
     {
@@ -168,7 +168,7 @@
       "name": "less< void >",
       "refid": "structless_3_01void_01_4",
       "title": "less< void >",
-      "url": "/api/classes/structless_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structless_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -179,7 +179,7 @@
       "name": "greater_equal",
       "refid": "structgreater__equal",
       "title": "greater_equal",
-      "url": "/api/classes/structgreater__equal.html",
+      "url": "/thrust/api/classes/structgreater__equal.html",
       "visibility": "public"
     },
     {
@@ -190,7 +190,7 @@
       "name": "greater_equal< void >",
       "refid": "structgreater__equal_3_01void_01_4",
       "title": "greater_equal< void >",
-      "url": "/api/classes/structgreater__equal_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structgreater__equal_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -201,7 +201,7 @@
       "name": "less_equal",
       "refid": "structless__equal",
       "title": "less_equal",
-      "url": "/api/classes/structless__equal.html",
+      "url": "/thrust/api/classes/structless__equal.html",
       "visibility": "public"
     },
     {
@@ -212,7 +212,7 @@
       "name": "less_equal< void >",
       "refid": "structless__equal_3_01void_01_4",
       "title": "less_equal< void >",
-      "url": "/api/classes/structless__equal_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structless__equal_3_01void_01_4.html",
       "visibility": "public"
     }
   ],
@@ -220,6 +220,6 @@
   "static": false,
   "strong": false,
   "title": "Comparison Operations",
-  "url": "/api/groups/group__comparison__operations.html",
+  "url": "/thrust/api/groups/group__comparison__operations.html",
   "visibility": "public"
 }

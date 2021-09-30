@@ -36,7 +36,7 @@
       "name": "mr::allocator",
       "refid": "classmr_1_1allocator",
       "title": "mr::allocator",
-      "url": "/api/classes/classmr_1_1allocator.html",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html",
       "visibility": "public"
     },
     {
@@ -46,7 +46,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -57,7 +57,7 @@
       "name": "mr::disjoint_synchronized_pool_resource",
       "refid": "structmr_1_1disjoint__synchronized__pool__resource",
       "title": "mr::disjoint_synchronized_pool_resource",
-      "url": "/api/classes/structmr_1_1disjoint__synchronized__pool__resource.html",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__synchronized__pool__resource.html",
       "visibility": "public"
     },
     {
@@ -67,7 +67,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -84,7 +84,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource",
       "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
       "title": "mr::disjoint_unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
       "visibility": "public"
     },
     {
@@ -94,7 +94,7 @@
           "external": false,
           "name": "mr::memory_resource< Pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -111,7 +111,7 @@
       "name": "mr::fancy_pointer_resource",
       "refid": "classmr_1_1fancy__pointer__resource",
       "title": "mr::fancy_pointer_resource",
-      "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1fancy__pointer__resource.html",
       "visibility": "public"
     },
     {
@@ -122,7 +122,7 @@
           "external": false,
           "name": "mr::fancy_pointer_resource< Upstream, Pointer >",
           "refid": "classmr_1_1fancy__pointer__resource",
-          "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1fancy__pointer__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -130,7 +130,7 @@
           "external": false,
           "name": "mr::polymorphic_adaptor_resource< Pointer >",
           "refid": "classmr_1_1polymorphic__adaptor__resource",
-          "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -140,7 +140,7 @@
       "name": "mr::memory_resource",
       "refid": "classmr_1_1memory__resource",
       "title": "mr::memory_resource",
-      "url": "/api/classes/classmr_1_1memory__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
       "visibility": "public"
     },
     {
@@ -151,7 +151,7 @@
       "name": "mr::memory_resource< void * >",
       "refid": "classmr_1_1memory__resource_3_01void_01_5_01_4",
       "title": "mr::memory_resource< void * >",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
       "visibility": "public"
     },
     {
@@ -161,7 +161,7 @@
           "external": false,
           "name": "mr::memory_resource<>",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -172,7 +172,7 @@
       "name": "mr::new_delete_resource",
       "refid": "classmr_1_1new__delete__resource",
       "title": "mr::new_delete_resource",
-      "url": "/api/classes/classmr_1_1new__delete__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1new__delete__resource.html",
       "visibility": "public"
     },
     {
@@ -182,7 +182,7 @@
           "external": false,
           "name": "mr::memory_resource< void * >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -193,7 +193,7 @@
       "name": "mr::polymorphic_adaptor_resource",
       "refid": "classmr_1_1polymorphic__adaptor__resource",
       "title": "mr::polymorphic_adaptor_resource",
-      "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
       "visibility": "public"
     },
     {
@@ -204,7 +204,7 @@
       "name": "mr::pool_options",
       "refid": "structmr_1_1pool__options",
       "title": "mr::pool_options",
-      "url": "/api/classes/structmr_1_1pool__options.html",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html",
       "visibility": "public"
     },
     {
@@ -223,7 +223,7 @@
       "name": "mr::stateless_resource_allocator",
       "refid": "classmr_1_1stateless__resource__allocator",
       "title": "mr::stateless_resource_allocator",
-      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html",
       "visibility": "public"
     },
     {
@@ -233,7 +233,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -244,7 +244,7 @@
       "name": "mr::synchronized_pool_resource",
       "refid": "structmr_1_1synchronized__pool__resource",
       "title": "mr::synchronized_pool_resource",
-      "url": "/api/classes/structmr_1_1synchronized__pool__resource.html",
+      "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html",
       "visibility": "public"
     },
     {
@@ -254,7 +254,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -271,7 +271,7 @@
       "name": "mr::unsynchronized_pool_resource",
       "refid": "classmr_1_1unsynchronized__pool__resource",
       "title": "mr::unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html",
       "visibility": "public"
     },
     {
@@ -282,7 +282,7 @@
           "external": false,
           "name": "mr::allocator< T, MR >",
           "refid": "classmr_1_1allocator",
-          "url": "/api/classes/classmr_1_1allocator.html",
+          "url": "/thrust/api/classes/classmr_1_1allocator.html",
           "virtual": "non-virtual",
           "visibility": "private"
         },
@@ -290,7 +290,7 @@
           "external": false,
           "name": "mr::fancy_pointer_resource< Upstream, Pointer >",
           "refid": "classmr_1_1fancy__pointer__resource",
-          "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1fancy__pointer__resource.html",
           "virtual": "non-virtual",
           "visibility": "private"
         },
@@ -298,7 +298,7 @@
           "external": false,
           "name": "mr::unsynchronized_pool_resource< Upstream >",
           "refid": "classmr_1_1unsynchronized__pool__resource",
-          "url": "/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html",
           "virtual": "non-virtual",
           "visibility": "private"
         },
@@ -306,7 +306,7 @@
           "external": false,
           "name": "mr::validator2< T, U >",
           "refid": "structmr_1_1validator2",
-          "url": "/api/classes/structmr_1_1validator2.html",
+          "url": "/thrust/api/classes/structmr_1_1validator2.html",
           "virtual": "non-virtual",
           "visibility": "private"
         },
@@ -314,7 +314,7 @@
           "external": false,
           "name": "mr::validator2< T, U >",
           "refid": "structmr_1_1validator2",
-          "url": "/api/classes/structmr_1_1validator2.html",
+          "url": "/thrust/api/classes/structmr_1_1validator2.html",
           "virtual": "non-virtual",
           "visibility": "private"
         },
@@ -322,7 +322,7 @@
           "external": false,
           "name": "mr::validator2< T, T >",
           "refid": "structmr_1_1validator2_3_01T_00_01T_01_4",
-          "url": "/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
+          "url": "/thrust/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
           "virtual": "non-virtual",
           "visibility": "private"
         },
@@ -330,7 +330,7 @@
           "external": false,
           "name": "mr::validator2< Upstream, Bookkeeper >",
           "refid": "structmr_1_1validator2",
-          "url": "/api/classes/structmr_1_1validator2.html",
+          "url": "/thrust/api/classes/structmr_1_1validator2.html",
           "virtual": "non-virtual",
           "visibility": "private"
         },
@@ -338,7 +338,7 @@
           "external": false,
           "name": "mr::validator2< Upstream, Bookkeeper >",
           "refid": "structmr_1_1validator2",
-          "url": "/api/classes/structmr_1_1validator2.html",
+          "url": "/thrust/api/classes/structmr_1_1validator2.html",
           "virtual": "non-virtual",
           "visibility": "private"
         }
@@ -348,7 +348,7 @@
       "name": "mr::validator",
       "refid": "structmr_1_1validator",
       "title": "mr::validator",
-      "url": "/api/classes/structmr_1_1validator.html",
+      "url": "/thrust/api/classes/structmr_1_1validator.html",
       "visibility": "public"
     },
     {
@@ -373,7 +373,7 @@
           "external": false,
           "name": "mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >",
           "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
-          "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
           "virtual": "non-virtual",
           "visibility": "private"
         }
@@ -383,7 +383,7 @@
       "name": "mr::validator2",
       "refid": "structmr_1_1validator2",
       "title": "mr::validator2",
-      "url": "/api/classes/structmr_1_1validator2.html",
+      "url": "/thrust/api/classes/structmr_1_1validator2.html",
       "visibility": "public"
     },
     {
@@ -402,7 +402,7 @@
       "name": "mr::validator2< T, T >",
       "refid": "structmr_1_1validator2_3_01T_00_01T_01_4",
       "title": "mr::validator2< T, T >",
-      "url": "/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
+      "url": "/thrust/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
       "visibility": "public"
     }
   ],
@@ -435,12 +435,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< T, MR > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< T, MR > &",
           "typePlain": "const allocator< T, MR > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< T, MR > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< T, MR > &",
           "typePlain": "const allocator< T, MR > &"
         }
       ],
@@ -463,7 +463,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__allocators.html#function-operator==",
+      "url": "/thrust/api/groups/group__allocators.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -495,12 +495,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< T, MR > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< T, MR > &",
           "typePlain": "const allocator< T, MR > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< T, MR > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< T, MR > &",
           "typePlain": "const allocator< T, MR > &"
         }
       ],
@@ -523,7 +523,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__allocators.html#function-operator!=",
+      "url": "/thrust/api/groups/group__allocators.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -536,7 +536,7 @@
       "default": false,
       "definition": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource<Upstream, Bookkeeper>& mr::tls_disjoint_pool",
       "deleted": false,
-      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html\">disjoint&#95;unsynchronized&#95;pool&#95;resource</a></code>,",
+      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html\">disjoint&#95;unsynchronized&#95;pool&#95;resource</a></code>,",
       "explicit": false,
       "fullname": "mr::tls_disjoint_pool",
       "hasDetails": true,
@@ -607,7 +607,7 @@
       "title": "tls_disjoint_pool",
       "type": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper > &",
       "typePlain": "__host__ thrust::mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper > &",
-      "url": "/api/groups/group__memory__resources.html#function-tls_disjoint_pool",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-tls_disjoint_pool",
       "virtual": false,
       "visibility": "public"
     },
@@ -639,12 +639,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
           "typePlain": "const memory_resource< Pointer > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
           "typePlain": "const memory_resource< Pointer > &"
         }
       ],
@@ -662,7 +662,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__memory__resources.html#function-operator==",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -694,12 +694,12 @@
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
           "typePlain": "const memory_resource< Pointer > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a>< Pointer > &",
           "typePlain": "const memory_resource< Pointer > &"
         }
       ],
@@ -717,7 +717,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__memory__resources.html#function-operator!=",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -770,7 +770,7 @@
       "title": "get_global_resource",
       "type": "__host__ MR *",
       "typePlain": "__host__ MR *",
-      "url": "/api/groups/group__memory__resources.html#function-get_global_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-get_global_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -783,7 +783,7 @@
       "default": false,
       "definition": "__host__ thrust::mr::unsynchronized_pool_resource<Upstream>& mr::tls_pool",
       "deleted": false,
-      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized&#95;pool&#95;resource</a></code>,",
+      "details": "Potentially constructs, if not yet created, and then returns the address of a thread-local <code><a href=\"/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html\">unsynchronized&#95;pool&#95;resource</a></code>,",
       "explicit": false,
       "fullname": "mr::tls_pool",
       "hasDetails": true,
@@ -839,7 +839,7 @@
       "title": "tls_pool",
       "type": "__host__ thrust::mr::unsynchronized_pool_resource< Upstream > &",
       "typePlain": "__host__ thrust::mr::unsynchronized_pool_resource< Upstream > &",
-      "url": "/api/groups/group__memory__resources.html#function-tls_pool",
+      "url": "/thrust/api/groups/group__memory__resources.html#function-tls_pool",
       "virtual": false,
       "visibility": "public"
     }
@@ -881,9 +881,9 @@
         }
       ],
       "title": "polymorphic_allocator",
-      "type": "<a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< T, polymorphic_adaptor_resource< Pointer > >",
+      "type": "<a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< T, polymorphic_adaptor_resource< Pointer > >",
       "typePlain": "allocator< T, polymorphic_adaptor_resource< Pointer > >",
-      "url": "/api/groups/group__allocators.html#using-polymorphic_allocator",
+      "url": "/thrust/api/groups/group__allocators.html#using-polymorphic_allocator",
       "visibility": "public"
     }
   ],
@@ -892,6 +892,6 @@
   "strong": false,
   "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
   "title": "mr",
-  "url": "/api/namespaces/namespacemr.html",
+  "url": "/thrust/api/namespaces/namespacemr.html",
   "visibility": "public"
 }

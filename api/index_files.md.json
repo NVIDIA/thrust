@@ -8,7 +8,7 @@
       "name": "README.md",
       "refid": "README_8md",
       "title": "README.md",
-      "url": "/api/files/readme_8md.html#file-readme.md",
+      "url": "/thrust/api/files/readme_8md.html#file-readme.md",
       "visibility": "public"
     },
     {
@@ -23,7 +23,7 @@
           "name": "thrust/addressof.h",
           "refid": "addressof_8h",
           "title": "thrust/addressof.h",
-          "url": "/api/files/addressof_8h.html#file-addressof.h",
+          "url": "/thrust/api/files/addressof_8h.html#file-addressof.h",
           "visibility": "public"
         },
         {
@@ -36,7 +36,7 @@
           "refid": "adjacent__difference_8h",
           "summary": "Compute difference between consecutive elements of a range. ",
           "title": "thrust/adjacent_difference.h",
-          "url": "/api/files/adjacent__difference_8h.html#file-adjacent_difference.h",
+          "url": "/thrust/api/files/adjacent__difference_8h.html#file-adjacent_difference.h",
           "visibility": "public"
         },
         {
@@ -49,7 +49,7 @@
           "refid": "advance_8h",
           "summary": "Advance an iterator by a given distance. ",
           "title": "thrust/advance.h",
-          "url": "/api/files/advance_8h.html#file-advance.h",
+          "url": "/thrust/api/files/advance_8h.html#file-advance.h",
           "visibility": "public"
         },
         {
@@ -60,7 +60,7 @@
           "name": "thrust/allocate_unique.h",
           "refid": "allocate__unique_8h",
           "title": "thrust/allocate_unique.h",
-          "url": "/api/files/allocate__unique_8h.html#file-allocate_unique.h",
+          "url": "/thrust/api/files/allocate__unique_8h.html#file-allocate_unique.h",
           "visibility": "public"
         },
         {
@@ -73,7 +73,7 @@
           "refid": "binary__search_8h",
           "summary": "Search for values in sorted ranges. ",
           "title": "thrust/binary_search.h",
-          "url": "/api/files/binary__search_8h.html#file-binary_search.h",
+          "url": "/thrust/api/files/binary__search_8h.html#file-binary_search.h",
           "visibility": "public"
         },
         {
@@ -86,7 +86,7 @@
           "refid": "complex_8h",
           "summary": "Complex numbers. ",
           "title": "thrust/complex.h",
-          "url": "/api/files/complex_8h.html#file-complex.h",
+          "url": "/thrust/api/files/complex_8h.html#file-complex.h",
           "visibility": "public"
         },
         {
@@ -99,7 +99,7 @@
           "refid": "copy_8h",
           "summary": "Copies elements from one range to another. ",
           "title": "thrust/copy.h",
-          "url": "/api/files/copy_8h.html#file-copy.h",
+          "url": "/thrust/api/files/copy_8h.html#file-copy.h",
           "visibility": "public"
         },
         {
@@ -112,7 +112,7 @@
           "refid": "count_8h",
           "summary": "Counting elements in a range. ",
           "title": "thrust/count.h",
-          "url": "/api/files/count_8h.html#file-count.h",
+          "url": "/thrust/api/files/count_8h.html#file-count.h",
           "visibility": "public"
         },
         {
@@ -125,7 +125,7 @@
           "refid": "device__allocator_8h",
           "summary": "An allocator which creates new elements in memory accessible by devices. ",
           "title": "thrust/device_allocator.h",
-          "url": "/api/files/device__allocator_8h.html#file-device_allocator.h",
+          "url": "/thrust/api/files/device__allocator_8h.html#file-device_allocator.h",
           "visibility": "public"
         },
         {
@@ -138,7 +138,7 @@
           "refid": "device__delete_8h",
           "summary": "Deletes variables in device memory. ",
           "title": "thrust/device_delete.h",
-          "url": "/api/files/device__delete_8h.html#file-device_delete.h",
+          "url": "/thrust/api/files/device__delete_8h.html#file-device_delete.h",
           "visibility": "public"
         },
         {
@@ -151,7 +151,7 @@
           "refid": "device__free_8h",
           "summary": "Deallocates storage allocated by device_malloc. ",
           "title": "thrust/device_free.h",
-          "url": "/api/files/device__free_8h.html#file-device_free.h",
+          "url": "/thrust/api/files/device__free_8h.html#file-device_free.h",
           "visibility": "public"
         },
         {
@@ -164,7 +164,7 @@
           "refid": "device__make__unique_8h",
           "summary": "A factory function for creating unique_ptrs to device objects. ",
           "title": "thrust/device_make_unique.h",
-          "url": "/api/files/device__make__unique_8h.html#file-device_make_unique.h",
+          "url": "/thrust/api/files/device__make__unique_8h.html#file-device_make_unique.h",
           "visibility": "public"
         },
         {
@@ -177,7 +177,7 @@
           "refid": "device__malloc_8h",
           "summary": "Allocates storage in device memory. ",
           "title": "thrust/device_malloc.h",
-          "url": "/api/files/device__malloc_8h.html#file-device_malloc.h",
+          "url": "/thrust/api/files/device__malloc_8h.html#file-device_malloc.h",
           "visibility": "public"
         },
         {
@@ -190,7 +190,7 @@
           "refid": "device__malloc__allocator_8h",
           "summary": "An allocator which allocates storage with device_malloc. ",
           "title": "thrust/device_malloc_allocator.h",
-          "url": "/api/files/device__malloc__allocator_8h.html#file-device_malloc_allocator.h",
+          "url": "/thrust/api/files/device__malloc__allocator_8h.html#file-device_malloc_allocator.h",
           "visibility": "public"
         },
         {
@@ -203,7 +203,7 @@
           "refid": "device__new_8h",
           "summary": "Constructs new elements in device memory. ",
           "title": "thrust/device_new.h",
-          "url": "/api/files/device__new_8h.html#file-device_new.h",
+          "url": "/thrust/api/files/device__new_8h.html#file-device_new.h",
           "visibility": "public"
         },
         {
@@ -216,7 +216,7 @@
           "refid": "device__new__allocator_8h",
           "summary": "An allocator which allocates storage with device_new. ",
           "title": "thrust/device_new_allocator.h",
-          "url": "/api/files/device__new__allocator_8h.html#file-device_new_allocator.h",
+          "url": "/thrust/api/files/device__new__allocator_8h.html#file-device_new_allocator.h",
           "visibility": "public"
         },
         {
@@ -229,7 +229,7 @@
           "refid": "device__ptr_8h",
           "summary": "A pointer to an object which resides in memory associated with the device system. ",
           "title": "thrust/device_ptr.h",
-          "url": "/api/files/device__ptr_8h.html#file-device_ptr.h",
+          "url": "/thrust/api/files/device__ptr_8h.html#file-device_ptr.h",
           "visibility": "public"
         },
         {
@@ -242,7 +242,7 @@
           "refid": "device__reference_8h",
           "summary": "A reference to an object which resides in memory associated with the device system. ",
           "title": "thrust/device_reference.h",
-          "url": "/api/files/device__reference_8h.html#file-device_reference.h",
+          "url": "/thrust/api/files/device__reference_8h.html#file-device_reference.h",
           "visibility": "public"
         },
         {
@@ -255,7 +255,7 @@
           "refid": "device__vector_8h",
           "summary": "A dynamically-sizable array of elements which resides in memory accessible to devices. ",
           "title": "thrust/device_vector.h",
-          "url": "/api/files/device__vector_8h.html#file-device_vector.h",
+          "url": "/thrust/api/files/device__vector_8h.html#file-device_vector.h",
           "visibility": "public"
         },
         {
@@ -268,7 +268,7 @@
           "refid": "distance_8h",
           "summary": "Computes the size of a range. ",
           "title": "thrust/distance.h",
-          "url": "/api/files/distance_8h.html#file-distance.h",
+          "url": "/thrust/api/files/distance_8h.html#file-distance.h",
           "visibility": "public"
         },
         {
@@ -281,7 +281,7 @@
           "refid": "equal_8h",
           "summary": "Equality between ranges. ",
           "title": "thrust/equal.h",
-          "url": "/api/files/equal_8h.html#file-equal.h",
+          "url": "/thrust/api/files/equal_8h.html#file-equal.h",
           "visibility": "public"
         },
         {
@@ -294,7 +294,7 @@
           "refid": "event_8h",
           "summary": "thrust::event, an asynchronous handle type. ",
           "title": "thrust/event.h",
-          "url": "/api/files/event_8h.html#file-event.h",
+          "url": "/thrust/api/files/event_8h.html#file-event.h",
           "visibility": "public"
         },
         {
@@ -307,7 +307,7 @@
           "refid": "execution__policy_8h",
           "summary": "Thrust execution policies. ",
           "title": "thrust/execution_policy.h",
-          "url": "/api/files/execution__policy_8h.html#file-execution_policy.h",
+          "url": "/thrust/api/files/execution__policy_8h.html#file-execution_policy.h",
           "visibility": "public"
         },
         {
@@ -320,7 +320,7 @@
           "refid": "extrema_8h",
           "summary": "Functions for computing computing extremal values. ",
           "title": "thrust/extrema.h",
-          "url": "/api/files/extrema_8h.html#file-extrema.h",
+          "url": "/thrust/api/files/extrema_8h.html#file-extrema.h",
           "visibility": "public"
         },
         {
@@ -333,7 +333,7 @@
           "refid": "fill_8h",
           "summary": "Fills a range with a constant value. ",
           "title": "thrust/fill.h",
-          "url": "/api/files/fill_8h.html#file-fill.h",
+          "url": "/thrust/api/files/fill_8h.html#file-fill.h",
           "visibility": "public"
         },
         {
@@ -346,7 +346,7 @@
           "refid": "find_8h",
           "summary": "Locating values in (unsorted) ranges. ",
           "title": "thrust/find.h",
-          "url": "/api/files/find_8h.html#file-find.h",
+          "url": "/thrust/api/files/find_8h.html#file-find.h",
           "visibility": "public"
         },
         {
@@ -359,7 +359,7 @@
           "refid": "for__each_8h",
           "summary": "Applies a function to each element in a range. ",
           "title": "thrust/for_each.h",
-          "url": "/api/files/for__each_8h.html#file-for_each.h",
+          "url": "/thrust/api/files/for__each_8h.html#file-for_each.h",
           "visibility": "public"
         },
         {
@@ -372,7 +372,7 @@
           "refid": "functional_8h",
           "summary": "Function objects and tools for manipulating them. ",
           "title": "thrust/functional.h",
-          "url": "/api/files/functional_8h.html#file-functional.h",
+          "url": "/thrust/api/files/functional_8h.html#file-functional.h",
           "visibility": "public"
         },
         {
@@ -385,7 +385,7 @@
           "refid": "future_8h",
           "summary": "thrust::future, an asynchronous value type. ",
           "title": "thrust/future.h",
-          "url": "/api/files/future_8h.html#file-future.h",
+          "url": "/thrust/api/files/future_8h.html#file-future.h",
           "visibility": "public"
         },
         {
@@ -398,7 +398,7 @@
           "refid": "gather_8h",
           "summary": "Irregular copying from a source range. ",
           "title": "thrust/gather.h",
-          "url": "/api/files/gather_8h.html#file-gather.h",
+          "url": "/thrust/api/files/gather_8h.html#file-gather.h",
           "visibility": "public"
         },
         {
@@ -411,7 +411,7 @@
           "refid": "generate_8h",
           "summary": "Fills a range with values \"generated\" from a function of no arguments. ",
           "title": "thrust/generate.h",
-          "url": "/api/files/generate_8h.html#file-generate.h",
+          "url": "/thrust/api/files/generate_8h.html#file-generate.h",
           "visibility": "public"
         },
         {
@@ -424,7 +424,7 @@
           "refid": "host__vector_8h",
           "summary": "A dynamically-sizable array of elements which resides in memory accessible to hosts. ",
           "title": "thrust/host_vector.h",
-          "url": "/api/files/host__vector_8h.html#file-host_vector.h",
+          "url": "/thrust/api/files/host__vector_8h.html#file-host_vector.h",
           "visibility": "public"
         },
         {
@@ -437,7 +437,7 @@
           "refid": "inner__product_8h",
           "summary": "Mathematical inner product between ranges. ",
           "title": "thrust/inner_product.h",
-          "url": "/api/files/inner__product_8h.html#file-inner_product.h",
+          "url": "/thrust/api/files/inner__product_8h.html#file-inner_product.h",
           "visibility": "public"
         },
         {
@@ -448,7 +448,7 @@
           "name": "thrust/limits.h",
           "refid": "limits_8h",
           "title": "thrust/limits.h",
-          "url": "/api/files/limits_8h.html#file-limits.h",
+          "url": "/thrust/api/files/limits_8h.html#file-limits.h",
           "visibility": "public"
         },
         {
@@ -461,7 +461,7 @@
           "refid": "logical_8h",
           "summary": "Logical operations on ranges. ",
           "title": "thrust/logical.h",
-          "url": "/api/files/logical_8h.html#file-logical.h",
+          "url": "/thrust/api/files/logical_8h.html#file-logical.h",
           "visibility": "public"
         },
         {
@@ -474,7 +474,7 @@
           "refid": "memory_8h",
           "summary": "Abstractions for Thrust's memory model. ",
           "title": "thrust/memory.h",
-          "url": "/api/files/memory_8h.html#file-memory.h",
+          "url": "/thrust/api/files/memory_8h.html#file-memory.h",
           "visibility": "public"
         },
         {
@@ -487,7 +487,7 @@
           "refid": "merge_8h",
           "summary": "Merging sorted ranges. ",
           "title": "thrust/merge.h",
-          "url": "/api/files/merge_8h.html#file-merge.h",
+          "url": "/thrust/api/files/merge_8h.html#file-merge.h",
           "visibility": "public"
         },
         {
@@ -500,7 +500,7 @@
           "refid": "mismatch_8h",
           "summary": "Search for differences between ranges. ",
           "title": "thrust/mismatch.h",
-          "url": "/api/files/mismatch_8h.html#file-mismatch.h",
+          "url": "/thrust/api/files/mismatch_8h.html#file-mismatch.h",
           "visibility": "public"
         },
         {
@@ -511,7 +511,7 @@
           "name": "thrust/optional.h",
           "refid": "optional_8h",
           "title": "thrust/optional.h",
-          "url": "/api/files/optional_8h.html#file-optional.h",
+          "url": "/thrust/api/files/optional_8h.html#file-optional.h",
           "visibility": "public"
         },
         {
@@ -524,7 +524,7 @@
           "refid": "pair_8h",
           "summary": "A type encapsulating a heterogeneous pair of elements. ",
           "title": "thrust/pair.h",
-          "url": "/api/files/pair_8h.html#file-pair.h",
+          "url": "/thrust/api/files/pair_8h.html#file-pair.h",
           "visibility": "public"
         },
         {
@@ -537,7 +537,7 @@
           "refid": "partition_8h",
           "summary": "Reorganizes a range based on a predicate. ",
           "title": "thrust/partition.h",
-          "url": "/api/files/partition_8h.html#file-partition.h",
+          "url": "/thrust/api/files/partition_8h.html#file-partition.h",
           "visibility": "public"
         },
         {
@@ -548,7 +548,7 @@
           "name": "thrust/per_device_resource.h",
           "refid": "per__device__resource_8h",
           "title": "thrust/per_device_resource.h",
-          "url": "/api/files/per__device__resource_8h.html#file-per_device_resource.h",
+          "url": "/thrust/api/files/per__device__resource_8h.html#file-per_device_resource.h",
           "visibility": "public"
         },
         {
@@ -561,7 +561,7 @@
           "refid": "random_8h",
           "summary": "Pseudo-random number generators. ",
           "title": "thrust/random.h",
-          "url": "/api/files/random_8h.html#file-random.h",
+          "url": "/thrust/api/files/random_8h.html#file-random.h",
           "visibility": "public"
         },
         {
@@ -574,7 +574,7 @@
           "refid": "reduce_8h",
           "summary": "Functions for reducing a range to a single value. ",
           "title": "thrust/reduce.h",
-          "url": "/api/files/reduce_8h.html#file-reduce.h",
+          "url": "/thrust/api/files/reduce_8h.html#file-reduce.h",
           "visibility": "public"
         },
         {
@@ -587,7 +587,7 @@
           "refid": "remove_8h",
           "summary": "Functions for removing elements from a range. ",
           "title": "thrust/remove.h",
-          "url": "/api/files/remove_8h.html#file-remove.h",
+          "url": "/thrust/api/files/remove_8h.html#file-remove.h",
           "visibility": "public"
         },
         {
@@ -600,7 +600,7 @@
           "refid": "replace_8h",
           "summary": "Functions for replacing elements in a range with a particular value. ",
           "title": "thrust/replace.h",
-          "url": "/api/files/replace_8h.html#file-replace.h",
+          "url": "/thrust/api/files/replace_8h.html#file-replace.h",
           "visibility": "public"
         },
         {
@@ -613,7 +613,7 @@
           "refid": "reverse_8h",
           "summary": "Reverses the order of a range. ",
           "title": "thrust/reverse.h",
-          "url": "/api/files/reverse_8h.html#file-reverse.h",
+          "url": "/thrust/api/files/reverse_8h.html#file-reverse.h",
           "visibility": "public"
         },
         {
@@ -626,7 +626,7 @@
           "refid": "scan_8h",
           "summary": "Functions for computing prefix sums. ",
           "title": "thrust/scan.h",
-          "url": "/api/files/scan_8h.html#file-scan.h",
+          "url": "/thrust/api/files/scan_8h.html#file-scan.h",
           "visibility": "public"
         },
         {
@@ -639,7 +639,7 @@
           "refid": "scatter_8h",
           "summary": "Irregular copying to a destination range. ",
           "title": "thrust/scatter.h",
-          "url": "/api/files/scatter_8h.html#file-scatter.h",
+          "url": "/thrust/api/files/scatter_8h.html#file-scatter.h",
           "visibility": "public"
         },
         {
@@ -652,7 +652,7 @@
           "refid": "sequence_8h",
           "summary": "Fills a range with a sequence of numbers. ",
           "title": "thrust/sequence.h",
-          "url": "/api/files/sequence_8h.html#file-sequence.h",
+          "url": "/thrust/api/files/sequence_8h.html#file-sequence.h",
           "visibility": "public"
         },
         {
@@ -665,7 +665,7 @@
           "refid": "set__operations_8h",
           "summary": "Set theoretic operations for sorted ranges. ",
           "title": "thrust/set_operations.h",
-          "url": "/api/files/set__operations_8h.html#file-set_operations.h",
+          "url": "/thrust/api/files/set__operations_8h.html#file-set_operations.h",
           "visibility": "public"
         },
         {
@@ -678,7 +678,7 @@
           "refid": "shuffle_8h",
           "summary": "Reorders range by a uniform random permutation. ",
           "title": "thrust/shuffle.h",
-          "url": "/api/files/shuffle_8h.html#file-shuffle.h",
+          "url": "/thrust/api/files/shuffle_8h.html#file-shuffle.h",
           "visibility": "public"
         },
         {
@@ -691,7 +691,7 @@
           "refid": "sort_8h",
           "summary": "Functions for reorganizing ranges into sorted order. ",
           "title": "thrust/sort.h",
-          "url": "/api/files/sort_8h.html#file-sort.h",
+          "url": "/thrust/api/files/sort_8h.html#file-sort.h",
           "visibility": "public"
         },
         {
@@ -704,7 +704,7 @@
           "refid": "swap_8h",
           "summary": "Functions for swapping the value of elements. ",
           "title": "thrust/swap.h",
-          "url": "/api/files/swap_8h.html#file-swap.h",
+          "url": "/thrust/api/files/swap_8h.html#file-swap.h",
           "visibility": "public"
         },
         {
@@ -717,7 +717,7 @@
           "refid": "system__error_8h",
           "summary": "System diagnostics. ",
           "title": "thrust/system_error.h",
-          "url": "/api/files/system__error_8h.html#file-system_error.h",
+          "url": "/thrust/api/files/system__error_8h.html#file-system_error.h",
           "visibility": "public"
         },
         {
@@ -730,7 +730,7 @@
           "refid": "tabulate_8h",
           "summary": "Fills a range with the tabulation of a function. ",
           "title": "thrust/tabulate.h",
-          "url": "/api/files/tabulate_8h.html#file-tabulate.h",
+          "url": "/thrust/api/files/tabulate_8h.html#file-tabulate.h",
           "visibility": "public"
         },
         {
@@ -747,7 +747,7 @@
               "refid": "async_2copy_8h",
               "summary": "Algorithms for asynchronously copying a range. ",
               "title": "thrust/async/copy.h",
-              "url": "/api/files/async_2copy_8h.html#file-copy.h",
+              "url": "/thrust/api/files/async_2copy_8h.html#file-copy.h",
               "visibility": "public"
             },
             {
@@ -760,7 +760,7 @@
               "refid": "async_2for__each_8h",
               "summary": "Algorithms for asynchronously iterating over the elements of a range. ",
               "title": "thrust/async/for_each.h",
-              "url": "/api/files/async_2for__each_8h.html#file-for_each.h",
+              "url": "/thrust/api/files/async_2for__each_8h.html#file-for_each.h",
               "visibility": "public"
             },
             {
@@ -773,7 +773,7 @@
               "refid": "async_2reduce_8h",
               "summary": "Algorithms for asynchronously reducing a range to a single value. ",
               "title": "thrust/async/reduce.h",
-              "url": "/api/files/async_2reduce_8h.html#file-reduce.h",
+              "url": "/thrust/api/files/async_2reduce_8h.html#file-reduce.h",
               "visibility": "public"
             },
             {
@@ -786,7 +786,7 @@
               "refid": "async_2scan_8h",
               "summary": "Functions for asynchronously computing prefix scans. ",
               "title": "thrust/async/scan.h",
-              "url": "/api/files/async_2scan_8h.html#file-scan.h",
+              "url": "/thrust/api/files/async_2scan_8h.html#file-scan.h",
               "visibility": "public"
             },
             {
@@ -799,7 +799,7 @@
               "refid": "async_2sort_8h",
               "summary": "Algorithms for asynchronously sorting a range. ",
               "title": "thrust/async/sort.h",
-              "url": "/api/files/async_2sort_8h.html#file-sort.h",
+              "url": "/thrust/api/files/async_2sort_8h.html#file-sort.h",
               "visibility": "public"
             },
             {
@@ -812,7 +812,7 @@
               "refid": "async_2transform_8h",
               "summary": "Algorithms for asynchronously transforming a range. ",
               "title": "thrust/async/transform.h",
-              "url": "/api/files/async_2transform_8h.html#file-transform.h",
+              "url": "/thrust/api/files/async_2transform_8h.html#file-transform.h",
               "visibility": "public"
             }
           ],
@@ -821,7 +821,7 @@
           "name": "thrust/async",
           "refid": "dir_7281fa5062d83739d2633011a4b1dd5c",
           "title": "thrust/async",
-          "url": "/api/files/dir_7281fa5062d83739d2633011a4b1dd5c.html#dir-thrust/async",
+          "url": "/thrust/api/files/dir_7281fa5062d83739d2633011a4b1dd5c.html#dir-thrust/async",
           "visibility": "public"
         },
         {
@@ -832,7 +832,7 @@
           "name": "thrust/cmake",
           "refid": "dir_2693745ea0d44bd81c05734bce53c249",
           "title": "thrust/cmake",
-          "url": "/api/files/dir_2693745ea0d44bd81c05734bce53c249.html#dir-thrust/cmake",
+          "url": "/thrust/api/files/dir_2693745ea0d44bd81c05734bce53c249.html#dir-thrust/cmake",
           "visibility": "public"
         },
         {
@@ -849,7 +849,7 @@
               "refid": "constant__iterator_8h",
               "summary": "An iterator which returns a constant value when dereferenced. ",
               "title": "thrust/iterator/constant_iterator.h",
-              "url": "/api/files/constant__iterator_8h.html#file-constant_iterator.h",
+              "url": "/thrust/api/files/constant__iterator_8h.html#file-constant_iterator.h",
               "visibility": "public"
             },
             {
@@ -862,7 +862,7 @@
               "refid": "counting__iterator_8h",
               "summary": "An iterator which returns an increasing incrementable value when dereferenced. ",
               "title": "thrust/iterator/counting_iterator.h",
-              "url": "/api/files/counting__iterator_8h.html#file-counting_iterator.h",
+              "url": "/thrust/api/files/counting__iterator_8h.html#file-counting_iterator.h",
               "visibility": "public"
             },
             {
@@ -875,7 +875,7 @@
               "refid": "discard__iterator_8h",
               "summary": "An iterator which \"discards\" (ignores) values assigned to it upon dereference. ",
               "title": "thrust/iterator/discard_iterator.h",
-              "url": "/api/files/discard__iterator_8h.html#file-discard_iterator.h",
+              "url": "/thrust/api/files/discard__iterator_8h.html#file-discard_iterator.h",
               "visibility": "public"
             },
             {
@@ -888,7 +888,7 @@
               "refid": "iterator__adaptor_8h",
               "summary": "An iterator which adapts a base iterator. ",
               "title": "thrust/iterator/iterator_adaptor.h",
-              "url": "/api/files/iterator__adaptor_8h.html#file-iterator_adaptor.h",
+              "url": "/thrust/api/files/iterator__adaptor_8h.html#file-iterator_adaptor.h",
               "visibility": "public"
             },
             {
@@ -901,7 +901,7 @@
               "refid": "iterator__categories_8h",
               "summary": "Types for reasoning about the categories of iterators. ",
               "title": "thrust/iterator/iterator_categories.h",
-              "url": "/api/files/iterator__categories_8h.html#file-iterator_categories.h",
+              "url": "/thrust/api/files/iterator__categories_8h.html#file-iterator_categories.h",
               "visibility": "public"
             },
             {
@@ -914,7 +914,7 @@
               "refid": "iterator__facade_8h",
               "summary": "A class which exposes a public interface for iterators. ",
               "title": "thrust/iterator/iterator_facade.h",
-              "url": "/api/files/iterator__facade_8h.html#file-iterator_facade.h",
+              "url": "/thrust/api/files/iterator__facade_8h.html#file-iterator_facade.h",
               "visibility": "public"
             },
             {
@@ -927,7 +927,7 @@
               "refid": "iterator__traits_8h",
               "summary": "Traits and metafunctions for reasoning about the traits of iterators. ",
               "title": "thrust/iterator/iterator_traits.h",
-              "url": "/api/files/iterator__traits_8h.html#file-iterator_traits.h",
+              "url": "/thrust/api/files/iterator__traits_8h.html#file-iterator_traits.h",
               "visibility": "public"
             },
             {
@@ -940,7 +940,7 @@
               "refid": "permutation__iterator_8h",
               "summary": "An iterator which performs a gather or scatter operation when dereferenced. ",
               "title": "thrust/iterator/permutation_iterator.h",
-              "url": "/api/files/permutation__iterator_8h.html#file-permutation_iterator.h",
+              "url": "/thrust/api/files/permutation__iterator_8h.html#file-permutation_iterator.h",
               "visibility": "public"
             },
             {
@@ -953,7 +953,7 @@
               "refid": "retag_8h",
               "summary": "Functionality for altering an iterator's associated system. ",
               "title": "thrust/iterator/retag.h",
-              "url": "/api/files/retag_8h.html#file-retag.h",
+              "url": "/thrust/api/files/retag_8h.html#file-retag.h",
               "visibility": "public"
             },
             {
@@ -966,7 +966,7 @@
               "refid": "reverse__iterator_8h",
               "summary": "An iterator adaptor which adapts another iterator to traverse backwards. ",
               "title": "thrust/iterator/reverse_iterator.h",
-              "url": "/api/files/reverse__iterator_8h.html#file-reverse_iterator.h",
+              "url": "/thrust/api/files/reverse__iterator_8h.html#file-reverse_iterator.h",
               "visibility": "public"
             },
             {
@@ -979,7 +979,7 @@
               "refid": "transform__input__output__iterator_8h",
               "summary": "An iterator which adapts another iterator by applying transform functions when reading and writing dereferenced values. ",
               "title": "thrust/iterator/transform_input_output_iterator.h",
-              "url": "/api/files/transform__input__output__iterator_8h.html#file-transform_input_output_iterator.h",
+              "url": "/thrust/api/files/transform__input__output__iterator_8h.html#file-transform_input_output_iterator.h",
               "visibility": "public"
             },
             {
@@ -992,7 +992,7 @@
               "refid": "transform__iterator_8h",
               "summary": "An iterator which adapts another iterator by applying a function to the result of its dereference. ",
               "title": "thrust/iterator/transform_iterator.h",
-              "url": "/api/files/transform__iterator_8h.html#file-transform_iterator.h",
+              "url": "/thrust/api/files/transform__iterator_8h.html#file-transform_iterator.h",
               "visibility": "public"
             },
             {
@@ -1005,7 +1005,7 @@
               "refid": "transform__output__iterator_8h",
               "summary": "An output iterator which adapts another output iterator by applying a function to the result of its dereference before writing it. ",
               "title": "thrust/iterator/transform_output_iterator.h",
-              "url": "/api/files/transform__output__iterator_8h.html#file-transform_output_iterator.h",
+              "url": "/thrust/api/files/transform__output__iterator_8h.html#file-transform_output_iterator.h",
               "visibility": "public"
             },
             {
@@ -1018,7 +1018,7 @@
               "refid": "zip__iterator_8h",
               "summary": "An iterator which returns a tuple of the result of dereferencing a tuple of iterators when dereferenced. ",
               "title": "thrust/iterator/zip_iterator.h",
-              "url": "/api/files/zip__iterator_8h.html#file-zip_iterator.h",
+              "url": "/thrust/api/files/zip__iterator_8h.html#file-zip_iterator.h",
               "visibility": "public"
             }
           ],
@@ -1027,7 +1027,7 @@
           "name": "thrust/iterator",
           "refid": "dir_4a6d8329b843c73570cce28de80cb189",
           "title": "thrust/iterator",
-          "url": "/api/files/dir_4a6d8329b843c73570cce28de80cb189.html#dir-thrust/iterator",
+          "url": "/thrust/api/files/dir_4a6d8329b843c73570cce28de80cb189.html#dir-thrust/iterator",
           "visibility": "public"
         },
         {
@@ -1044,7 +1044,7 @@
               "refid": "allocator_8h",
               "summary": "Allocator types usable with Memory Resources. ",
               "title": "thrust/mr/allocator.h",
-              "url": "/api/files/allocator_8h.html#file-allocator.h",
+              "url": "/thrust/api/files/allocator_8h.html#file-allocator.h",
               "visibility": "public"
             },
             {
@@ -1055,7 +1055,7 @@
               "name": "thrust/mr/device_memory_resource.h",
               "refid": "device__memory__resource_8h",
               "title": "thrust/mr/device_memory_resource.h",
-              "url": "/api/files/device__memory__resource_8h.html#file-device_memory_resource.h",
+              "url": "/thrust/api/files/device__memory__resource_8h.html#file-device_memory_resource.h",
               "visibility": "public"
             },
             {
@@ -1068,7 +1068,7 @@
               "refid": "disjoint__pool_8h",
               "summary": "A caching and pooling memory resource adaptor which uses separate upstream resources for memory allocation and bookkeeping. ",
               "title": "thrust/mr/disjoint_pool.h",
-              "url": "/api/files/disjoint__pool_8h.html#file-disjoint_pool.h",
+              "url": "/thrust/api/files/disjoint__pool_8h.html#file-disjoint_pool.h",
               "visibility": "public"
             },
             {
@@ -1081,7 +1081,7 @@
               "refid": "disjoint__sync__pool_8h",
               "summary": "A mutex-synchronized version of disjoint_unsynchronized_pool_resource. ",
               "title": "thrust/mr/disjoint_sync_pool.h",
-              "url": "/api/files/disjoint__sync__pool_8h.html#file-disjoint_sync_pool.h",
+              "url": "/thrust/api/files/disjoint__sync__pool_8h.html#file-disjoint_sync_pool.h",
               "visibility": "public"
             },
             {
@@ -1094,7 +1094,7 @@
               "refid": "disjoint__tls__pool_8h",
               "summary": "A function wrapping a thread local instance of a disjoint_unsynchronized_pool_resource. ",
               "title": "thrust/mr/disjoint_tls_pool.h",
-              "url": "/api/files/disjoint__tls__pool_8h.html#file-disjoint_tls_pool.h",
+              "url": "/thrust/api/files/disjoint__tls__pool_8h.html#file-disjoint_tls_pool.h",
               "visibility": "public"
             },
             {
@@ -1105,7 +1105,7 @@
               "name": "thrust/mr/fancy_pointer_resource.h",
               "refid": "fancy__pointer__resource_8h",
               "title": "thrust/mr/fancy_pointer_resource.h",
-              "url": "/api/files/fancy__pointer__resource_8h.html#file-fancy_pointer_resource.h",
+              "url": "/thrust/api/files/fancy__pointer__resource_8h.html#file-fancy_pointer_resource.h",
               "visibility": "public"
             },
             {
@@ -1116,7 +1116,7 @@
               "name": "thrust/mr/host_memory_resource.h",
               "refid": "host__memory__resource_8h",
               "title": "thrust/mr/host_memory_resource.h",
-              "url": "/api/files/host__memory__resource_8h.html#file-host_memory_resource.h",
+              "url": "/thrust/api/files/host__memory__resource_8h.html#file-host_memory_resource.h",
               "visibility": "public"
             },
             {
@@ -1129,7 +1129,7 @@
               "refid": "mr_2memory__resource_8h",
               "summary": "A base class for the memory resource system, similar to std::memory_resource, and related utilities. ",
               "title": "thrust/mr/memory_resource.h",
-              "url": "/api/files/mr_2memory__resource_8h.html#file-memory_resource.h",
+              "url": "/thrust/api/files/mr_2memory__resource_8h.html#file-memory_resource.h",
               "visibility": "public"
             },
             {
@@ -1142,7 +1142,7 @@
               "refid": "new_8h",
               "summary": "Global operator new-based memory resource. ",
               "title": "thrust/mr/new.h",
-              "url": "/api/files/new_8h.html#file-new.h",
+              "url": "/thrust/api/files/new_8h.html#file-new.h",
               "visibility": "public"
             },
             {
@@ -1153,7 +1153,7 @@
               "name": "thrust/mr/polymorphic_adaptor.h",
               "refid": "polymorphic__adaptor_8h",
               "title": "thrust/mr/polymorphic_adaptor.h",
-              "url": "/api/files/polymorphic__adaptor_8h.html#file-polymorphic_adaptor.h",
+              "url": "/thrust/api/files/polymorphic__adaptor_8h.html#file-polymorphic_adaptor.h",
               "visibility": "public"
             },
             {
@@ -1166,7 +1166,7 @@
               "refid": "pool_8h",
               "summary": "A caching and pooling memory resource adaptor which uses a single upstream resource for memory allocation, and embeds bookkeeping information in allocated blocks. ",
               "title": "thrust/mr/pool.h",
-              "url": "/api/files/pool_8h.html#file-pool.h",
+              "url": "/thrust/api/files/pool_8h.html#file-pool.h",
               "visibility": "public"
             },
             {
@@ -1179,7 +1179,7 @@
               "refid": "pool__options_8h",
               "summary": "A type used by the pooling resource adaptors to fine-tune their behavior. ",
               "title": "thrust/mr/pool_options.h",
-              "url": "/api/files/pool__options_8h.html#file-pool_options.h",
+              "url": "/thrust/api/files/pool__options_8h.html#file-pool_options.h",
               "visibility": "public"
             },
             {
@@ -1192,7 +1192,7 @@
               "refid": "sync__pool_8h",
               "summary": "A mutex-synchronized version of unsynchronized_pool_resource. ",
               "title": "thrust/mr/sync_pool.h",
-              "url": "/api/files/sync__pool_8h.html#file-sync_pool.h",
+              "url": "/thrust/api/files/sync__pool_8h.html#file-sync_pool.h",
               "visibility": "public"
             },
             {
@@ -1205,7 +1205,7 @@
               "refid": "tls__pool_8h",
               "summary": "A function wrapping a thread local instance of a unsynchronized_pool_resource. ",
               "title": "thrust/mr/tls_pool.h",
-              "url": "/api/files/tls__pool_8h.html#file-tls_pool.h",
+              "url": "/thrust/api/files/tls__pool_8h.html#file-tls_pool.h",
               "visibility": "public"
             },
             {
@@ -1216,7 +1216,7 @@
               "name": "thrust/mr/universal_memory_resource.h",
               "refid": "universal__memory__resource_8h",
               "title": "thrust/mr/universal_memory_resource.h",
-              "url": "/api/files/universal__memory__resource_8h.html#file-universal_memory_resource.h",
+              "url": "/thrust/api/files/universal__memory__resource_8h.html#file-universal_memory_resource.h",
               "visibility": "public"
             },
             {
@@ -1227,7 +1227,7 @@
               "name": "thrust/mr/validator.h",
               "refid": "validator_8h",
               "title": "thrust/mr/validator.h",
-              "url": "/api/files/validator_8h.html#file-validator.h",
+              "url": "/thrust/api/files/validator_8h.html#file-validator.h",
               "visibility": "public"
             }
           ],
@@ -1236,7 +1236,7 @@
           "name": "thrust/mr",
           "refid": "dir_3e902a837487bd3819b2874775e3d698",
           "title": "thrust/mr",
-          "url": "/api/files/dir_3e902a837487bd3819b2874775e3d698.html#dir-thrust/mr",
+          "url": "/thrust/api/files/dir_3e902a837487bd3819b2874775e3d698.html#dir-thrust/mr",
           "visibility": "public"
         },
         {
@@ -1253,7 +1253,7 @@
               "refid": "discard__block__engine_8h",
               "summary": "A random number engine which adapts a base engine and produces numbers by discarding all but a contiguous blocks of its values. ",
               "title": "thrust/random/discard_block_engine.h",
-              "url": "/api/files/discard__block__engine_8h.html#file-discard_block_engine.h",
+              "url": "/thrust/api/files/discard__block__engine_8h.html#file-discard_block_engine.h",
               "visibility": "public"
             },
             {
@@ -1266,7 +1266,7 @@
               "refid": "linear__congruential__engine_8h",
               "summary": "A linear congruential pseudorandom number engine. ",
               "title": "thrust/random/linear_congruential_engine.h",
-              "url": "/api/files/linear__congruential__engine_8h.html#file-linear_congruential_engine.h",
+              "url": "/thrust/api/files/linear__congruential__engine_8h.html#file-linear_congruential_engine.h",
               "visibility": "public"
             },
             {
@@ -1279,7 +1279,7 @@
               "refid": "linear__feedback__shift__engine_8h",
               "summary": "A linear feedback shift pseudorandom number generator. ",
               "title": "thrust/random/linear_feedback_shift_engine.h",
-              "url": "/api/files/linear__feedback__shift__engine_8h.html#file-linear_feedback_shift_engine.h",
+              "url": "/thrust/api/files/linear__feedback__shift__engine_8h.html#file-linear_feedback_shift_engine.h",
               "visibility": "public"
             },
             {
@@ -1292,7 +1292,7 @@
               "refid": "normal__distribution_8h",
               "summary": "A normal (Gaussian) distribution of real-valued numbers. ",
               "title": "thrust/random/normal_distribution.h",
-              "url": "/api/files/normal__distribution_8h.html#file-normal_distribution.h",
+              "url": "/thrust/api/files/normal__distribution_8h.html#file-normal_distribution.h",
               "visibility": "public"
             },
             {
@@ -1305,7 +1305,7 @@
               "refid": "subtract__with__carry__engine_8h",
               "summary": "A subtract-with-carry pseudorandom number generator based on Marsaglia & Zaman. ",
               "title": "thrust/random/subtract_with_carry_engine.h",
-              "url": "/api/files/subtract__with__carry__engine_8h.html#file-subtract_with_carry_engine.h",
+              "url": "/thrust/api/files/subtract__with__carry__engine_8h.html#file-subtract_with_carry_engine.h",
               "visibility": "public"
             },
             {
@@ -1318,7 +1318,7 @@
               "refid": "uniform__int__distribution_8h",
               "summary": "A uniform distribution of integer-valued numbers. ",
               "title": "thrust/random/uniform_int_distribution.h",
-              "url": "/api/files/uniform__int__distribution_8h.html#file-uniform_int_distribution.h",
+              "url": "/thrust/api/files/uniform__int__distribution_8h.html#file-uniform_int_distribution.h",
               "visibility": "public"
             },
             {
@@ -1331,7 +1331,7 @@
               "refid": "uniform__real__distribution_8h",
               "summary": "A uniform distribution of real-valued numbers. ",
               "title": "thrust/random/uniform_real_distribution.h",
-              "url": "/api/files/uniform__real__distribution_8h.html#file-uniform_real_distribution.h",
+              "url": "/thrust/api/files/uniform__real__distribution_8h.html#file-uniform_real_distribution.h",
               "visibility": "public"
             },
             {
@@ -1344,7 +1344,7 @@
               "refid": "xor__combine__engine_8h",
               "summary": "A pseudorandom number generator which produces pseudorandom numbers from two integer base engines by merging their pseudorandom numbers with bitwise exclusive-or. ",
               "title": "thrust/random/xor_combine_engine.h",
-              "url": "/api/files/xor__combine__engine_8h.html#file-xor_combine_engine.h",
+              "url": "/thrust/api/files/xor__combine__engine_8h.html#file-xor_combine_engine.h",
               "visibility": "public"
             }
           ],
@@ -1353,7 +1353,7 @@
           "name": "thrust/random",
           "refid": "dir_6b5d3ab13cf47c9c63ea01a78cc86c7c",
           "title": "thrust/random",
-          "url": "/api/files/dir_6b5d3ab13cf47c9c63ea01a78cc86c7c.html#dir-thrust/random",
+          "url": "/thrust/api/files/dir_6b5d3ab13cf47c9c63ea01a78cc86c7c.html#dir-thrust/random",
           "visibility": "public"
         },
         {
@@ -1370,7 +1370,7 @@
               "refid": "error__code_8h",
               "summary": "An object used to hold error values, such as those originating from the operating system or other low-level application program interfaces. ",
               "title": "thrust/system/error_code.h",
-              "url": "/api/files/error__code_8h.html#file-error_code.h",
+              "url": "/thrust/api/files/error__code_8h.html#file-error_code.h",
               "visibility": "public"
             },
             {
@@ -1383,7 +1383,7 @@
               "refid": "system_2system__error_8h",
               "summary": "An exception object used to report error conditions that have an associated error code. ",
               "title": "thrust/system/system_error.h",
-              "url": "/api/files/system_2system__error_8h.html#file-system_error.h",
+              "url": "/thrust/api/files/system_2system__error_8h.html#file-system_error.h",
               "visibility": "public"
             },
             {
@@ -1400,7 +1400,7 @@
                   "refid": "system_2cpp_2execution__policy_8h",
                   "summary": "Execution policies for Thrust's Standard C++ system. ",
                   "title": "thrust/system/cpp/execution_policy.h",
-                  "url": "/api/files/system_2cpp_2execution__policy_8h.html#file-execution_policy.h",
+                  "url": "/thrust/api/files/system_2cpp_2execution__policy_8h.html#file-execution_policy.h",
                   "visibility": "public"
                 },
                 {
@@ -1413,7 +1413,7 @@
                   "refid": "system_2cpp_2memory_8h",
                   "summary": "Managing memory associated with Thrust's Standard C++ system. ",
                   "title": "thrust/system/cpp/memory.h",
-                  "url": "/api/files/system_2cpp_2memory_8h.html#file-memory.h",
+                  "url": "/thrust/api/files/system_2cpp_2memory_8h.html#file-memory.h",
                   "visibility": "public"
                 },
                 {
@@ -1426,7 +1426,7 @@
                   "refid": "system_2cpp_2memory__resource_8h",
                   "summary": "Memory resources for the Standard C++ system. ",
                   "title": "thrust/system/cpp/memory_resource.h",
-                  "url": "/api/files/system_2cpp_2memory__resource_8h.html#file-memory_resource.h",
+                  "url": "/thrust/api/files/system_2cpp_2memory__resource_8h.html#file-memory_resource.h",
                   "visibility": "public"
                 },
                 {
@@ -1437,7 +1437,7 @@
                   "name": "thrust/system/cpp/pointer.h",
                   "refid": "cpp_2pointer_8h",
                   "title": "thrust/system/cpp/pointer.h",
-                  "url": "/api/files/cpp_2pointer_8h.html#file-pointer.h",
+                  "url": "/thrust/api/files/cpp_2pointer_8h.html#file-pointer.h",
                   "visibility": "public"
                 },
                 {
@@ -1450,7 +1450,7 @@
                   "refid": "cpp_2vector_8h",
                   "summary": "A dynamically-sizable array of elements which reside in memory available to Thrust's standard C++ system. ",
                   "title": "thrust/system/cpp/vector.h",
-                  "url": "/api/files/cpp_2vector_8h.html#file-vector.h",
+                  "url": "/thrust/api/files/cpp_2vector_8h.html#file-vector.h",
                   "visibility": "public"
                 }
               ],
@@ -1459,7 +1459,7 @@
               "name": "thrust/system/cpp",
               "refid": "dir_d77906c62e23ab1810d90a4407989853",
               "title": "thrust/system/cpp",
-              "url": "/api/files/dir_d77906c62e23ab1810d90a4407989853.html#dir-thrust/system/cpp",
+              "url": "/thrust/api/files/dir_d77906c62e23ab1810d90a4407989853.html#dir-thrust/system/cpp",
               "visibility": "public"
             },
             {
@@ -1474,7 +1474,7 @@
                   "name": "thrust/system/cuda/config.h",
                   "refid": "config_8h",
                   "title": "thrust/system/cuda/config.h",
-                  "url": "/api/files/config_8h.html#file-config.h",
+                  "url": "/thrust/api/files/config_8h.html#file-config.h",
                   "visibility": "public"
                 },
                 {
@@ -1487,7 +1487,7 @@
                   "refid": "error_8h",
                   "summary": "CUDA-specific error reporting. ",
                   "title": "thrust/system/cuda/error.h",
-                  "url": "/api/files/error_8h.html#file-error.h",
+                  "url": "/thrust/api/files/error_8h.html#file-error.h",
                   "visibility": "public"
                 },
                 {
@@ -1498,7 +1498,7 @@
                   "name": "thrust/system/cuda/execution_policy.h",
                   "refid": "system_2cuda_2execution__policy_8h",
                   "title": "thrust/system/cuda/execution_policy.h",
-                  "url": "/api/files/system_2cuda_2execution__policy_8h.html#file-execution_policy.h",
+                  "url": "/thrust/api/files/system_2cuda_2execution__policy_8h.html#file-execution_policy.h",
                   "visibility": "public"
                 },
                 {
@@ -1509,7 +1509,7 @@
                   "name": "thrust/system/cuda/future.h",
                   "refid": "system_2cuda_2future_8h",
                   "title": "thrust/system/cuda/future.h",
-                  "url": "/api/files/system_2cuda_2future_8h.html#file-future.h",
+                  "url": "/thrust/api/files/system_2cuda_2future_8h.html#file-future.h",
                   "visibility": "public"
                 },
                 {
@@ -1522,7 +1522,7 @@
                   "refid": "system_2cuda_2memory_8h",
                   "summary": "Managing memory associated with Thrust's CUDA system. ",
                   "title": "thrust/system/cuda/memory.h",
-                  "url": "/api/files/system_2cuda_2memory_8h.html#file-memory.h",
+                  "url": "/thrust/api/files/system_2cuda_2memory_8h.html#file-memory.h",
                   "visibility": "public"
                 },
                 {
@@ -1535,7 +1535,7 @@
                   "refid": "system_2cuda_2memory__resource_8h",
                   "summary": "Memory resources for the CUDA system. ",
                   "title": "thrust/system/cuda/memory_resource.h",
-                  "url": "/api/files/system_2cuda_2memory__resource_8h.html#file-memory_resource.h",
+                  "url": "/thrust/api/files/system_2cuda_2memory__resource_8h.html#file-memory_resource.h",
                   "visibility": "public"
                 },
                 {
@@ -1546,7 +1546,7 @@
                   "name": "thrust/system/cuda/pointer.h",
                   "refid": "cuda_2pointer_8h",
                   "title": "thrust/system/cuda/pointer.h",
-                  "url": "/api/files/cuda_2pointer_8h.html#file-pointer.h",
+                  "url": "/thrust/api/files/cuda_2pointer_8h.html#file-pointer.h",
                   "visibility": "public"
                 },
                 {
@@ -1559,7 +1559,7 @@
                   "refid": "cuda_2vector_8h",
                   "summary": "A dynamically-sizable array of elements which reside in memory available to Thrust's CUDA system. ",
                   "title": "thrust/system/cuda/vector.h",
-                  "url": "/api/files/cuda_2vector_8h.html#file-vector.h",
+                  "url": "/thrust/api/files/cuda_2vector_8h.html#file-vector.h",
                   "visibility": "public"
                 }
               ],
@@ -1568,7 +1568,7 @@
               "name": "thrust/system/cuda",
               "refid": "dir_858cb7ec0974e767f08bf8a5f5c4644b",
               "title": "thrust/system/cuda",
-              "url": "/api/files/dir_858cb7ec0974e767f08bf8a5f5c4644b.html#dir-thrust/system/cuda",
+              "url": "/thrust/api/files/dir_858cb7ec0974e767f08bf8a5f5c4644b.html#dir-thrust/system/cuda",
               "visibility": "public"
             },
             {
@@ -1585,7 +1585,7 @@
                   "refid": "system_2omp_2execution__policy_8h",
                   "summary": "Execution policies for Thrust's OpenMP system. ",
                   "title": "thrust/system/omp/execution_policy.h",
-                  "url": "/api/files/system_2omp_2execution__policy_8h.html#file-execution_policy.h",
+                  "url": "/thrust/api/files/system_2omp_2execution__policy_8h.html#file-execution_policy.h",
                   "visibility": "public"
                 },
                 {
@@ -1598,7 +1598,7 @@
                   "refid": "system_2omp_2memory_8h",
                   "summary": "Managing memory associated with Thrust's OpenMP system. ",
                   "title": "thrust/system/omp/memory.h",
-                  "url": "/api/files/system_2omp_2memory_8h.html#file-memory.h",
+                  "url": "/thrust/api/files/system_2omp_2memory_8h.html#file-memory.h",
                   "visibility": "public"
                 },
                 {
@@ -1611,7 +1611,7 @@
                   "refid": "system_2omp_2memory__resource_8h",
                   "summary": "Memory resources for the OpenMP system. ",
                   "title": "thrust/system/omp/memory_resource.h",
-                  "url": "/api/files/system_2omp_2memory__resource_8h.html#file-memory_resource.h",
+                  "url": "/thrust/api/files/system_2omp_2memory__resource_8h.html#file-memory_resource.h",
                   "visibility": "public"
                 },
                 {
@@ -1622,7 +1622,7 @@
                   "name": "thrust/system/omp/pointer.h",
                   "refid": "omp_2pointer_8h",
                   "title": "thrust/system/omp/pointer.h",
-                  "url": "/api/files/omp_2pointer_8h.html#file-pointer.h",
+                  "url": "/thrust/api/files/omp_2pointer_8h.html#file-pointer.h",
                   "visibility": "public"
                 },
                 {
@@ -1635,7 +1635,7 @@
                   "refid": "omp_2vector_8h",
                   "summary": "A dynamically-sizable array of elements which reside in memory available to Thrust's OpenMP system. ",
                   "title": "thrust/system/omp/vector.h",
-                  "url": "/api/files/omp_2vector_8h.html#file-vector.h",
+                  "url": "/thrust/api/files/omp_2vector_8h.html#file-vector.h",
                   "visibility": "public"
                 }
               ],
@@ -1644,7 +1644,7 @@
               "name": "thrust/system/omp",
               "refid": "dir_8d0f0be15f7a4ed2349bed8439c4d8f0",
               "title": "thrust/system/omp",
-              "url": "/api/files/dir_8d0f0be15f7a4ed2349bed8439c4d8f0.html#dir-thrust/system/omp",
+              "url": "/thrust/api/files/dir_8d0f0be15f7a4ed2349bed8439c4d8f0.html#dir-thrust/system/omp",
               "visibility": "public"
             },
             {
@@ -1661,7 +1661,7 @@
                   "refid": "system_2tbb_2execution__policy_8h",
                   "summary": "Execution policies for Thrust's TBB system. ",
                   "title": "thrust/system/tbb/execution_policy.h",
-                  "url": "/api/files/system_2tbb_2execution__policy_8h.html#file-execution_policy.h",
+                  "url": "/thrust/api/files/system_2tbb_2execution__policy_8h.html#file-execution_policy.h",
                   "visibility": "public"
                 },
                 {
@@ -1674,7 +1674,7 @@
                   "refid": "system_2tbb_2memory_8h",
                   "summary": "Managing memory associated with Thrust's TBB system. ",
                   "title": "thrust/system/tbb/memory.h",
-                  "url": "/api/files/system_2tbb_2memory_8h.html#file-memory.h",
+                  "url": "/thrust/api/files/system_2tbb_2memory_8h.html#file-memory.h",
                   "visibility": "public"
                 },
                 {
@@ -1687,7 +1687,7 @@
                   "refid": "system_2tbb_2memory__resource_8h",
                   "summary": "Memory resources for the TBB system. ",
                   "title": "thrust/system/tbb/memory_resource.h",
-                  "url": "/api/files/system_2tbb_2memory__resource_8h.html#file-memory_resource.h",
+                  "url": "/thrust/api/files/system_2tbb_2memory__resource_8h.html#file-memory_resource.h",
                   "visibility": "public"
                 },
                 {
@@ -1698,7 +1698,7 @@
                   "name": "thrust/system/tbb/pointer.h",
                   "refid": "tbb_2pointer_8h",
                   "title": "thrust/system/tbb/pointer.h",
-                  "url": "/api/files/tbb_2pointer_8h.html#file-pointer.h",
+                  "url": "/thrust/api/files/tbb_2pointer_8h.html#file-pointer.h",
                   "visibility": "public"
                 },
                 {
@@ -1711,7 +1711,7 @@
                   "refid": "tbb_2vector_8h",
                   "summary": "A dynamically-sizable array of elements which reside in memory available to Thrust's TBB system. ",
                   "title": "thrust/system/tbb/vector.h",
-                  "url": "/api/files/tbb_2vector_8h.html#file-vector.h",
+                  "url": "/thrust/api/files/tbb_2vector_8h.html#file-vector.h",
                   "visibility": "public"
                 }
               ],
@@ -1720,7 +1720,7 @@
               "name": "thrust/system/tbb",
               "refid": "dir_78ae1529b0a334eb96b24abaa7d23fd1",
               "title": "thrust/system/tbb",
-              "url": "/api/files/dir_78ae1529b0a334eb96b24abaa7d23fd1.html#dir-thrust/system/tbb",
+              "url": "/thrust/api/files/dir_78ae1529b0a334eb96b24abaa7d23fd1.html#dir-thrust/system/tbb",
               "visibility": "public"
             }
           ],
@@ -1729,7 +1729,7 @@
           "name": "thrust/system",
           "refid": "dir_aa94a12d43e5ba9deab857d2808a2f0a",
           "title": "thrust/system",
-          "url": "/api/files/dir_aa94a12d43e5ba9deab857d2808a2f0a.html#dir-thrust/system",
+          "url": "/thrust/api/files/dir_aa94a12d43e5ba9deab857d2808a2f0a.html#dir-thrust/system",
           "visibility": "public"
         },
         {
@@ -1746,7 +1746,7 @@
               "refid": "integer__sequence_8h",
               "summary": "C++14's std::index_sequence, associated helper aliases, and some related extensions. ",
               "title": "thrust/type_traits/integer_sequence.h",
-              "url": "/api/files/integer__sequence_8h.html#file-integer_sequence.h",
+              "url": "/thrust/api/files/integer__sequence_8h.html#file-integer_sequence.h",
               "visibility": "public"
             },
             {
@@ -1759,7 +1759,7 @@
               "refid": "is__contiguous__iterator_8h",
               "summary": "An extensible type trait for determining if an iterator satisifies the ContiguousIterator requirements (aka is pointer-like). ",
               "title": "thrust/type_traits/is_contiguous_iterator.h",
-              "url": "/api/files/is__contiguous__iterator_8h.html#file-is_contiguous_iterator.h",
+              "url": "/thrust/api/files/is__contiguous__iterator_8h.html#file-is_contiguous_iterator.h",
               "visibility": "public"
             },
             {
@@ -1772,7 +1772,7 @@
               "refid": "is__execution__policy_8h",
               "summary": "A type trait that determines if a type is an ExecutionPolicy. ",
               "title": "thrust/type_traits/is_execution_policy.h",
-              "url": "/api/files/is__execution__policy_8h.html#file-is_execution_policy.h",
+              "url": "/thrust/api/files/is__execution__policy_8h.html#file-is_execution_policy.h",
               "visibility": "public"
             },
             {
@@ -1785,7 +1785,7 @@
               "refid": "is__operator__less__or__greater__function__object_8h",
               "summary": "Type traits for determining if a BinaryPredicate is equivalent to either operator< or operator>. ",
               "title": "thrust/type_traits/is_operator_less_or_greater_function_object.h",
-              "url": "/api/files/is__operator__less__or__greater__function__object_8h.html#file-is_operator_less_or_greater_function_object.h",
+              "url": "/thrust/api/files/is__operator__less__or__greater__function__object_8h.html#file-is_operator_less_or_greater_function_object.h",
               "visibility": "public"
             },
             {
@@ -1798,7 +1798,7 @@
               "refid": "is__operator__plus__function__object_8h",
               "summary": "Type traits for determining if a FunctionObject is equivalent to operator+. ",
               "title": "thrust/type_traits/is_operator_plus_function_object.h",
-              "url": "/api/files/is__operator__plus__function__object_8h.html#file-is_operator_plus_function_object.h",
+              "url": "/thrust/api/files/is__operator__plus__function__object_8h.html#file-is_operator_plus_function_object.h",
               "visibility": "public"
             },
             {
@@ -1811,7 +1811,7 @@
               "refid": "is__trivially__relocatable_8h",
               "summary": "P1144's proposed std::is_trivially_relocatable, an extensible type trait indicating whether a type can be bitwise copied with a facility like std::memcpy. ",
               "title": "thrust/type_traits/is_trivially_relocatable.h",
-              "url": "/api/files/is__trivially__relocatable_8h.html#file-is_trivially_relocatable.h",
+              "url": "/thrust/api/files/is__trivially__relocatable_8h.html#file-is_trivially_relocatable.h",
               "visibility": "public"
             },
             {
@@ -1824,7 +1824,7 @@
               "refid": "logical__metafunctions_8h",
               "summary": "C++17's std::conjunction, std::disjunction, and std::negation metafunctions and related extensions. ",
               "title": "thrust/type_traits/logical_metafunctions.h",
-              "url": "/api/files/logical__metafunctions_8h.html#file-logical_metafunctions.h",
+              "url": "/thrust/api/files/logical__metafunctions_8h.html#file-logical_metafunctions.h",
               "visibility": "public"
             },
             {
@@ -1837,7 +1837,7 @@
               "refid": "remove__cvref_8h",
               "summary": "C++20's std::remove_cvref. ",
               "title": "thrust/type_traits/remove_cvref.h",
-              "url": "/api/files/remove__cvref_8h.html#file-remove_cvref.h",
+              "url": "/thrust/api/files/remove__cvref_8h.html#file-remove_cvref.h",
               "visibility": "public"
             },
             {
@@ -1850,7 +1850,7 @@
               "refid": "void__t_8h",
               "summary": "C++17's void_t. ",
               "title": "thrust/type_traits/void_t.h",
-              "url": "/api/files/void__t_8h.html#file-void_t.h",
+              "url": "/thrust/api/files/void__t_8h.html#file-void_t.h",
               "visibility": "public"
             }
           ],
@@ -1859,7 +1859,7 @@
           "name": "thrust/type_traits",
           "refid": "dir_6114e4c2865c2127f7ba04e72679f8d6",
           "title": "thrust/type_traits",
-          "url": "/api/files/dir_6114e4c2865c2127f7ba04e72679f8d6.html#dir-thrust/type_traits",
+          "url": "/thrust/api/files/dir_6114e4c2865c2127f7ba04e72679f8d6.html#dir-thrust/type_traits",
           "visibility": "public"
         },
         {
@@ -1872,7 +1872,7 @@
           "refid": "transform_8h",
           "summary": "Transforms input ranges using a function object. ",
           "title": "thrust/transform.h",
-          "url": "/api/files/transform_8h.html#file-transform.h",
+          "url": "/thrust/api/files/transform_8h.html#file-transform.h",
           "visibility": "public"
         },
         {
@@ -1885,7 +1885,7 @@
           "refid": "transform__reduce_8h",
           "summary": "Fused transform / reduction. ",
           "title": "thrust/transform_reduce.h",
-          "url": "/api/files/transform__reduce_8h.html#file-transform_reduce.h",
+          "url": "/thrust/api/files/transform__reduce_8h.html#file-transform_reduce.h",
           "visibility": "public"
         },
         {
@@ -1898,7 +1898,7 @@
           "refid": "transform__scan_8h",
           "summary": "Fused transform / prefix-sum. ",
           "title": "thrust/transform_scan.h",
-          "url": "/api/files/transform__scan_8h.html#file-transform_scan.h",
+          "url": "/thrust/api/files/transform__scan_8h.html#file-transform_scan.h",
           "visibility": "public"
         },
         {
@@ -1911,7 +1911,7 @@
           "refid": "tuple_8h",
           "summary": "A type encapsulating a heterogeneous collection of elements. ",
           "title": "thrust/tuple.h",
-          "url": "/api/files/tuple_8h.html#file-tuple.h",
+          "url": "/thrust/api/files/tuple_8h.html#file-tuple.h",
           "visibility": "public"
         },
         {
@@ -1924,7 +1924,7 @@
           "refid": "uninitialized__copy_8h",
           "summary": "Copy construction into a range of uninitialized elements from a source range. ",
           "title": "thrust/uninitialized_copy.h",
-          "url": "/api/files/uninitialized__copy_8h.html#file-uninitialized_copy.h",
+          "url": "/thrust/api/files/uninitialized__copy_8h.html#file-uninitialized_copy.h",
           "visibility": "public"
         },
         {
@@ -1937,7 +1937,7 @@
           "refid": "uninitialized__fill_8h",
           "summary": "Copy construction into a range of uninitialized elements from a source value. ",
           "title": "thrust/uninitialized_fill.h",
-          "url": "/api/files/uninitialized__fill_8h.html#file-uninitialized_fill.h",
+          "url": "/thrust/api/files/uninitialized__fill_8h.html#file-uninitialized_fill.h",
           "visibility": "public"
         },
         {
@@ -1950,7 +1950,7 @@
           "refid": "unique_8h",
           "summary": "Move unique elements to the front of a range. ",
           "title": "thrust/unique.h",
-          "url": "/api/files/unique_8h.html#file-unique.h",
+          "url": "/thrust/api/files/unique_8h.html#file-unique.h",
           "visibility": "public"
         },
         {
@@ -1963,7 +1963,7 @@
           "refid": "universal__allocator_8h",
           "summary": "An allocator which creates new elements in memory accessible to both hosts and devices. ",
           "title": "thrust/universal_allocator.h",
-          "url": "/api/files/universal__allocator_8h.html#file-universal_allocator.h",
+          "url": "/thrust/api/files/universal__allocator_8h.html#file-universal_allocator.h",
           "visibility": "public"
         },
         {
@@ -1976,7 +1976,7 @@
           "refid": "universal__ptr_8h",
           "summary": "A pointer to a variable which resides memory accessible to both hosts and devices. ",
           "title": "thrust/universal_ptr.h",
-          "url": "/api/files/universal__ptr_8h.html#file-universal_ptr.h",
+          "url": "/thrust/api/files/universal__ptr_8h.html#file-universal_ptr.h",
           "visibility": "public"
         },
         {
@@ -1989,7 +1989,7 @@
           "refid": "universal__vector_8h",
           "summary": "A dynamically-sizable array of elements which resides in memory accessible to both hosts and devices. ",
           "title": "thrust/universal_vector.h",
-          "url": "/api/files/universal__vector_8h.html#file-universal_vector.h",
+          "url": "/thrust/api/files/universal__vector_8h.html#file-universal_vector.h",
           "visibility": "public"
         },
         {
@@ -2002,7 +2002,7 @@
           "refid": "version_8h",
           "summary": "Compile-time macros encoding Thrust release version. ",
           "title": "thrust/version.h",
-          "url": "/api/files/version_8h.html#file-version.h",
+          "url": "/thrust/api/files/version_8h.html#file-version.h",
           "visibility": "public"
         },
         {
@@ -2015,7 +2015,7 @@
           "refid": "zip__function_8h",
           "summary": "Adaptor type that turns an N-ary function object into one that takes a tuple of size N so it can easily be used with algorithms taking zip iterators. ",
           "title": "thrust/zip_function.h",
-          "url": "/api/files/zip__function_8h.html#file-zip_function.h",
+          "url": "/thrust/api/files/zip__function_8h.html#file-zip_function.h",
           "visibility": "public"
         }
       ],
@@ -2024,7 +2024,7 @@
       "name": "thrust",
       "refid": "dir_7807dea0fb0cf4ae34b71c9fa4b0a46c",
       "title": "thrust",
-      "url": "/api/files/dir_7807dea0fb0cf4ae34b71c9fa4b0a46c.html#dir-thrust",
+      "url": "/thrust/api/files/dir_7807dea0fb0cf4ae34b71c9fa4b0a46c.html#dir-thrust",
       "visibility": "public"
     }
   ],

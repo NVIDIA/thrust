@@ -14,7 +14,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -24,7 +24,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 last2,</span>
@@ -35,7 +35,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -47,7 +47,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 last2,</span>
@@ -58,7 +58,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -68,7 +68,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 last2,</span>
@@ -79,51 +79,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
-<span>&nbsp;&nbsp;InputIterator1 first1,</span>
-<span>&nbsp;&nbsp;InputIterator1 last1,</span>
-<span>&nbsp;&nbsp;InputIterator2 first2,</span>
-<span>&nbsp;&nbsp;InputIterator2 last2,</span>
-<span>&nbsp;&nbsp;OutputIterator result,</span>
-<span>&nbsp;&nbsp;StrictWeakCompare comp);</span>
-<br>
-<span>template &lt;typename InputIterator1,</span>
-<span>&nbsp;&nbsp;typename InputIterator2,</span>
-<span>&nbsp;&nbsp;typename OutputIterator,</span>
-<span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></b>(InputIterator1 first1,</span>
-<span>&nbsp;&nbsp;InputIterator1 last1,</span>
-<span>&nbsp;&nbsp;InputIterator2 first2,</span>
-<span>&nbsp;&nbsp;InputIterator2 last2,</span>
-<span>&nbsp;&nbsp;OutputIterator result,</span>
-<span>&nbsp;&nbsp;StrictWeakCompare comp);</span>
-<br>
-<span>template &lt;typename DerivedPolicy,</span>
-<span>&nbsp;&nbsp;typename InputIterator1,</span>
-<span>&nbsp;&nbsp;typename InputIterator2,</span>
-<span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
-<span>&nbsp;&nbsp;InputIterator1 first1,</span>
-<span>&nbsp;&nbsp;InputIterator1 last1,</span>
-<span>&nbsp;&nbsp;InputIterator2 first2,</span>
-<span>&nbsp;&nbsp;InputIterator2 last2,</span>
-<span>&nbsp;&nbsp;OutputIterator result);</span>
-<br>
-<span>template &lt;typename InputIterator1,</span>
-<span>&nbsp;&nbsp;typename InputIterator2,</span>
-<span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></b>(InputIterator1 first1,</span>
-<span>&nbsp;&nbsp;InputIterator1 last1,</span>
-<span>&nbsp;&nbsp;InputIterator2 first2,</span>
-<span>&nbsp;&nbsp;InputIterator2 last2,</span>
-<span>&nbsp;&nbsp;OutputIterator result);</span>
-<br>
-<span>template &lt;typename DerivedPolicy,</span>
-<span>&nbsp;&nbsp;typename InputIterator1,</span>
-<span>&nbsp;&nbsp;typename InputIterator2,</span>
-<span>&nbsp;&nbsp;typename OutputIterator,</span>
-<span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -135,7 +91,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 last2,</span>
@@ -146,7 +102,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -156,7 +112,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 last2,</span>
@@ -167,7 +123,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -179,7 +135,51 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></b>(InputIterator1 first1,</span>
+<span>&nbsp;&nbsp;InputIterator1 last1,</span>
+<span>&nbsp;&nbsp;InputIterator2 first2,</span>
+<span>&nbsp;&nbsp;InputIterator2 last2,</span>
+<span>&nbsp;&nbsp;OutputIterator result,</span>
+<span>&nbsp;&nbsp;StrictWeakCompare comp);</span>
+<br>
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename InputIterator1,</span>
+<span>&nbsp;&nbsp;typename InputIterator2,</span>
+<span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;InputIterator1 first1,</span>
+<span>&nbsp;&nbsp;InputIterator1 last1,</span>
+<span>&nbsp;&nbsp;InputIterator2 first2,</span>
+<span>&nbsp;&nbsp;InputIterator2 last2,</span>
+<span>&nbsp;&nbsp;OutputIterator result);</span>
+<br>
+<span>template &lt;typename InputIterator1,</span>
+<span>&nbsp;&nbsp;typename InputIterator2,</span>
+<span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></b>(InputIterator1 first1,</span>
+<span>&nbsp;&nbsp;InputIterator1 last1,</span>
+<span>&nbsp;&nbsp;InputIterator2 first2,</span>
+<span>&nbsp;&nbsp;InputIterator2 last2,</span>
+<span>&nbsp;&nbsp;OutputIterator result);</span>
+<br>
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename InputIterator1,</span>
+<span>&nbsp;&nbsp;typename InputIterator2,</span>
+<span>&nbsp;&nbsp;typename OutputIterator,</span>
+<span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;InputIterator1 first1,</span>
+<span>&nbsp;&nbsp;InputIterator1 last1,</span>
+<span>&nbsp;&nbsp;InputIterator2 first2,</span>
+<span>&nbsp;&nbsp;InputIterator2 last2,</span>
+<span>&nbsp;&nbsp;OutputIterator result,</span>
+<span>&nbsp;&nbsp;StrictWeakCompare comp);</span>
+<br>
+<span>template &lt;typename InputIterator1,</span>
+<span>&nbsp;&nbsp;typename InputIterator2,</span>
+<span>&nbsp;&nbsp;typename OutputIterator,</span>
+<span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 last2,</span>
@@ -193,7 +193,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator4,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
@@ -209,7 +209,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator4,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
@@ -226,7 +226,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
@@ -244,7 +244,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
@@ -260,7 +260,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator3,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
@@ -274,7 +274,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator3,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
@@ -289,7 +289,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
@@ -305,7 +305,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
@@ -321,7 +321,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator4,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
@@ -337,75 +337,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator4,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
-<span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
-<span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
-<span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
-<span>&nbsp;&nbsp;InputIterator3 values_first1,</span>
-<span>&nbsp;&nbsp;InputIterator4 values_first2,</span>
-<span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
-<span>&nbsp;&nbsp;OutputIterator2 values_result);</span>
-<br>
-<span>template &lt;typename DerivedPolicy,</span>
-<span>&nbsp;&nbsp;typename InputIterator1,</span>
-<span>&nbsp;&nbsp;typename InputIterator2,</span>
-<span>&nbsp;&nbsp;typename InputIterator3,</span>
-<span>&nbsp;&nbsp;typename InputIterator4,</span>
-<span>&nbsp;&nbsp;typename OutputIterator1,</span>
-<span>&nbsp;&nbsp;typename OutputIterator2,</span>
-<span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
-<span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
-<span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
-<span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
-<span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
-<span>&nbsp;&nbsp;InputIterator3 values_first1,</span>
-<span>&nbsp;&nbsp;InputIterator4 values_first2,</span>
-<span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
-<span>&nbsp;&nbsp;OutputIterator2 values_result,</span>
-<span>&nbsp;&nbsp;StrictWeakCompare comp);</span>
-<br>
-<span>template &lt;typename InputIterator1,</span>
-<span>&nbsp;&nbsp;typename InputIterator2,</span>
-<span>&nbsp;&nbsp;typename InputIterator3,</span>
-<span>&nbsp;&nbsp;typename InputIterator4,</span>
-<span>&nbsp;&nbsp;typename OutputIterator1,</span>
-<span>&nbsp;&nbsp;typename OutputIterator2,</span>
-<span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
-<span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
-<span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
-<span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
-<span>&nbsp;&nbsp;InputIterator3 values_first1,</span>
-<span>&nbsp;&nbsp;InputIterator4 values_first2,</span>
-<span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
-<span>&nbsp;&nbsp;OutputIterator2 values_result,</span>
-<span>&nbsp;&nbsp;StrictWeakCompare comp);</span>
-<br>
-<span>template &lt;typename DerivedPolicy,</span>
-<span>&nbsp;&nbsp;typename InputIterator1,</span>
-<span>&nbsp;&nbsp;typename InputIterator2,</span>
-<span>&nbsp;&nbsp;typename InputIterator3,</span>
-<span>&nbsp;&nbsp;typename InputIterator4,</span>
-<span>&nbsp;&nbsp;typename OutputIterator1,</span>
-<span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
-<span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
-<span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
-<span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
-<span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
-<span>&nbsp;&nbsp;InputIterator3 values_first1,</span>
-<span>&nbsp;&nbsp;InputIterator4 values_first2,</span>
-<span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
-<span>&nbsp;&nbsp;OutputIterator2 values_result);</span>
-<br>
-<span>template &lt;typename InputIterator1,</span>
-<span>&nbsp;&nbsp;typename InputIterator2,</span>
-<span>&nbsp;&nbsp;typename InputIterator3,</span>
-<span>&nbsp;&nbsp;typename InputIterator4,</span>
-<span>&nbsp;&nbsp;typename OutputIterator1,</span>
-<span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
@@ -422,7 +354,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
@@ -440,7 +372,75 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
+<span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
+<span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
+<span>&nbsp;&nbsp;InputIterator3 values_first1,</span>
+<span>&nbsp;&nbsp;InputIterator4 values_first2,</span>
+<span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
+<span>&nbsp;&nbsp;OutputIterator2 values_result,</span>
+<span>&nbsp;&nbsp;StrictWeakCompare comp);</span>
+<br>
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename InputIterator1,</span>
+<span>&nbsp;&nbsp;typename InputIterator2,</span>
+<span>&nbsp;&nbsp;typename InputIterator3,</span>
+<span>&nbsp;&nbsp;typename InputIterator4,</span>
+<span>&nbsp;&nbsp;typename OutputIterator1,</span>
+<span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
+<span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
+<span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
+<span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
+<span>&nbsp;&nbsp;InputIterator3 values_first1,</span>
+<span>&nbsp;&nbsp;InputIterator4 values_first2,</span>
+<span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
+<span>&nbsp;&nbsp;OutputIterator2 values_result);</span>
+<br>
+<span>template &lt;typename InputIterator1,</span>
+<span>&nbsp;&nbsp;typename InputIterator2,</span>
+<span>&nbsp;&nbsp;typename InputIterator3,</span>
+<span>&nbsp;&nbsp;typename InputIterator4,</span>
+<span>&nbsp;&nbsp;typename OutputIterator1,</span>
+<span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
+<span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
+<span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
+<span>&nbsp;&nbsp;InputIterator3 values_first1,</span>
+<span>&nbsp;&nbsp;InputIterator4 values_first2,</span>
+<span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
+<span>&nbsp;&nbsp;OutputIterator2 values_result);</span>
+<br>
+<span>template &lt;typename DerivedPolicy,</span>
+<span>&nbsp;&nbsp;typename InputIterator1,</span>
+<span>&nbsp;&nbsp;typename InputIterator2,</span>
+<span>&nbsp;&nbsp;typename InputIterator3,</span>
+<span>&nbsp;&nbsp;typename InputIterator4,</span>
+<span>&nbsp;&nbsp;typename OutputIterator1,</span>
+<span>&nbsp;&nbsp;typename OutputIterator2,</span>
+<span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
+<span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
+<span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
+<span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
+<span>&nbsp;&nbsp;InputIterator3 values_first1,</span>
+<span>&nbsp;&nbsp;InputIterator4 values_first2,</span>
+<span>&nbsp;&nbsp;OutputIterator1 keys_result,</span>
+<span>&nbsp;&nbsp;OutputIterator2 values_result,</span>
+<span>&nbsp;&nbsp;StrictWeakCompare comp);</span>
+<br>
+<span>template &lt;typename InputIterator1,</span>
+<span>&nbsp;&nbsp;typename InputIterator2,</span>
+<span>&nbsp;&nbsp;typename InputIterator3,</span>
+<span>&nbsp;&nbsp;typename InputIterator4,</span>
+<span>&nbsp;&nbsp;typename OutputIterator1,</span>
+<span>&nbsp;&nbsp;typename OutputIterator2,</span>
+<span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
@@ -518,11 +518,11 @@ The end of the output range.
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_difference">https://en.cppreference.com/w/cpp/algorithm/set_difference</a>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_difference">
 Function <code>set&#95;difference</code>
@@ -582,11 +582,11 @@ The end of the output range.
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_difference">https://en.cppreference.com/w/cpp/algorithm/set_difference</a>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_difference">
 Function <code>set&#95;difference</code>
@@ -658,11 +658,11 @@ The end of the output range.
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_difference">https://en.cppreference.com/w/cpp/algorithm/set_difference</a>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_difference">
 Function <code>set&#95;difference</code>
@@ -727,11 +727,11 @@ The end of the output range.
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_difference">https://en.cppreference.com/w/cpp/algorithm/set_difference</a>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_intersection">
 Function <code>set&#95;intersection</code>
@@ -798,11 +798,11 @@ The end of the output range.
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_intersection">https://en.cppreference.com/w/cpp/algorithm/set_intersection</a>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_intersection">
 Function <code>set&#95;intersection</code>
@@ -862,11 +862,11 @@ The end of the output range.
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_intersection">https://en.cppreference.com/w/cpp/algorithm/set_intersection</a>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_intersection">
 Function <code>set&#95;intersection</code>
@@ -936,11 +936,11 @@ The end of the output range.
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_intersection">https://en.cppreference.com/w/cpp/algorithm/set_intersection</a>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_intersection">
 Function <code>set&#95;intersection</code>
@@ -1003,11 +1003,11 @@ The end of the output range.
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_intersection">https://en.cppreference.com/w/cpp/algorithm/set_intersection</a>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_symmetric_difference">
 Function <code>set&#95;symmetric&#95;difference</code>
@@ -1073,13 +1073,13 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference">https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference</a>
-* <code><a href="/api/groups/group__merging.html#function-merge">merge</a></code>
+* <code><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></code>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_symmetric_difference">
 Function <code>set&#95;symmetric&#95;difference</code>
@@ -1138,13 +1138,13 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference">https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference</a>
-* <code><a href="/api/groups/group__merging.html#function-merge">merge</a></code>
+* <code><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></code>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_symmetric_difference">
 Function <code>set&#95;symmetric&#95;difference</code>
@@ -1213,13 +1213,13 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference">https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference</a>
-* <code><a href="/api/groups/group__merging.html#function-merge">merge</a></code>
+* <code><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></code>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_symmetric_difference">
 Function <code>set&#95;symmetric&#95;difference</code>
@@ -1281,13 +1281,13 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference">https://en.cppreference.com/w/cpp/algorithm/set_symmetric_difference</a>
-* <code><a href="/api/groups/group__merging.html#function-merge">merge</a></code>
+* <code><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></code>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference">set&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_union">
 Function <code>set&#95;union</code>
@@ -1353,13 +1353,13 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_union">https://en.cppreference.com/w/cpp/algorithm/set_union</a>
-* <code><a href="/api/groups/group__merging.html#function-merge">merge</a></code>
+* <code><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></code>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_union">
 Function <code>set&#95;union</code>
@@ -1418,13 +1418,13 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_union">https://en.cppreference.com/w/cpp/algorithm/set_union</a>
-* <code><a href="/api/groups/group__merging.html#function-merge">merge</a></code>
+* <code><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></code>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_union">
 Function <code>set&#95;union</code>
@@ -1495,13 +1495,13 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_union">https://en.cppreference.com/w/cpp/algorithm/set_union</a>
-* <code><a href="/api/groups/group__merging.html#function-merge">merge</a></code>
+* <code><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></code>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_union">
 Function <code>set&#95;union</code>
@@ -1565,13 +1565,13 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/set_union">https://en.cppreference.com/w/cpp/algorithm/set_union</a>
-* <code><a href="/api/groups/group__merging.html#function-merge">merge</a></code>
+* <code><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></code>
 * <code>includes</code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection">set&#95;intersection</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference">set&#95;symmetric&#95;difference</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_difference_by_key">
 Function <code>set&#95;difference&#95;by&#95;key</code>
@@ -1655,11 +1655,11 @@ thrust::pair<int*,int*> end = thrust::set_difference_by_key(thrust::host, A_keys
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_difference_by_key">
 Function <code>set&#95;difference&#95;by&#95;key</code>
@@ -1736,11 +1736,11 @@ thrust::pair<int*,int*> end = thrust::set_difference_by_key(A_keys, A_keys + 6, 
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_difference_by_key">
 Function <code>set&#95;difference&#95;by&#95;key</code>
@@ -1829,11 +1829,11 @@ thrust::pair<int*,int*> end = thrust::set_difference_by_key(thrust::host, A_keys
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_difference_by_key">
 Function <code>set&#95;difference&#95;by&#95;key</code>
@@ -1915,11 +1915,11 @@ thrust::pair<int*,int*> end = thrust::set_difference_by_key(A_keys, A_keys + 6, 
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_intersection_by_key">
 Function <code>set&#95;intersection&#95;by&#95;key</code>
@@ -2002,11 +2002,11 @@ Unlike the other key-value set operations, <code>set&#95;intersection&#95;by&#95
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_intersection_by_key">
 Function <code>set&#95;intersection&#95;by&#95;key</code>
@@ -2082,11 +2082,11 @@ Unlike the other key-value set operations, <code>set&#95;intersection&#95;by&#95
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_intersection_by_key">
 Function <code>set&#95;intersection&#95;by&#95;key</code>
@@ -2174,11 +2174,11 @@ Unlike the other key-value set operations, <code>set&#95;intersection&#95;by&#95
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_intersection_by_key">
 Function <code>set&#95;intersection&#95;by&#95;key</code>
@@ -2259,11 +2259,11 @@ Unlike the other key-value set operations, <code>set&#95;intersection&#95;by&#95
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_symmetric_difference_by_key">
 Function <code>set&#95;symmetric&#95;difference&#95;by&#95;key</code>
@@ -2347,11 +2347,11 @@ thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(thrust::ho
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_symmetric_difference_by_key">
 Function <code>set&#95;symmetric&#95;difference&#95;by&#95;key</code>
@@ -2428,11 +2428,11 @@ thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(A_keys, A_
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_symmetric_difference_by_key">
 Function <code>set&#95;symmetric&#95;difference&#95;by&#95;key</code>
@@ -2521,11 +2521,11 @@ thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(thrust::ho
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_symmetric_difference_by_key">
 Function <code>set&#95;symmetric&#95;difference&#95;by&#95;key</code>
@@ -2607,11 +2607,11 @@ thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(A_keys, A_
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union_by_key">set&#95;union&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_union_by_key">
 Function <code>set&#95;union&#95;by&#95;key</code>
@@ -2695,11 +2695,11 @@ thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(thrust::ho
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_union_by_key">
 Function <code>set&#95;union&#95;by&#95;key</code>
@@ -2776,11 +2776,11 @@ thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(A_keys, A_
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_union_by_key">
 Function <code>set&#95;union&#95;by&#95;key</code>
@@ -2869,11 +2869,11 @@ thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(thrust::ho
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-set_union_by_key">
 Function <code>set&#95;union&#95;by&#95;key</code>
@@ -2955,10 +2955,10 @@ thrust::pair<int*,int*> end = thrust::set_symmetric_difference_by_key(A_keys, A_
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <code><a href="/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_symmetric_difference_by_key">set&#95;symmetric&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_intersection_by_key">set&#95;intersection&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_difference_by_key">set&#95;difference&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 

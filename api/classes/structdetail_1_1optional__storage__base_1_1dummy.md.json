@@ -28,7 +28,7 @@
         "external": false,
         "name": "detail::optional_operations_base< T >",
         "refid": "structdetail_1_1optional__operations__base",
-        "url": "/api/classes/structdetail_1_1optional__operations__base.html",
+        "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
         "virtual": "non-virtual",
         "visibility": "public"
       }
@@ -38,7 +38,7 @@
     "name": "detail::optional_storage_base",
     "refid": "structdetail_1_1optional__storage__base",
     "title": "detail::optional_storage_base",
-    "url": "/api/classes/structdetail_1_1optional__storage__base.html",
+    "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -52,7 +52,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     },
     {
@@ -63,7 +63,7 @@
           "external": false,
           "name": "detail::optional_operations_base< T >",
           "refid": "structdetail_1_1optional__operations__base",
-          "url": "/api/classes/structdetail_1_1optional__operations__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -73,7 +73,7 @@
       "name": "detail::optional_storage_base",
       "refid": "structdetail_1_1optional__storage__base",
       "title": "detail::optional_storage_base",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html",
       "visibility": "public"
     }
   ],
@@ -81,6 +81,6 @@
   "static": false,
   "strong": false,
   "title": "detail::optional_storage_base::dummy",
-  "url": "/api/classes/structdetail_1_1optional__storage__base_1_1dummy.html",
+  "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_1_1dummy.html",
   "visibility": "public"
 }

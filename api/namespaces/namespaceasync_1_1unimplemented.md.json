@@ -25,7 +25,7 @@
     "name": "async",
     "refid": "namespaceasync",
     "title": "async",
-    "url": "/api/namespaces/namespaceasync.html",
+    "url": "/thrust/api/namespaces/namespaceasync.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -37,7 +37,7 @@
       "name": "async",
       "refid": "namespaceasync",
       "title": "async",
-      "url": "/api/namespaces/namespaceasync.html",
+      "url": "/thrust/api/namespaces/namespaceasync.html",
       "visibility": "public"
     }
   ],
@@ -127,7 +127,7 @@
       "title": "async_inclusive_scan",
       "type": "event< DerivedPolicy >",
       "typePlain": "event< DerivedPolicy >",
-      "url": "/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_inclusive_scan",
+      "url": "/thrust/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_inclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -226,7 +226,7 @@
       "title": "async_exclusive_scan",
       "type": "event< DerivedPolicy >",
       "typePlain": "event< DerivedPolicy >",
-      "url": "/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_exclusive_scan",
+      "url": "/thrust/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_exclusive_scan",
       "virtual": false,
       "visibility": "public"
     }
@@ -235,6 +235,6 @@
   "static": false,
   "strong": false,
   "title": "async::unimplemented",
-  "url": "/api/namespaces/namespaceasync_1_1unimplemented.html",
+  "url": "/thrust/api/namespaces/namespaceasync_1_1unimplemented.html",
   "visibility": "public"
 }

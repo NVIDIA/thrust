@@ -27,7 +27,7 @@
     "name": "system::cuda",
     "refid": "namespacesystem_1_1cuda",
     "title": "system::cuda",
-    "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+    "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -39,7 +39,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     },
     {
@@ -50,7 +50,7 @@
       "name": "system::cuda",
       "refid": "namespacesystem_1_1cuda",
       "title": "system::cuda",
-      "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
       "visibility": "public"
     }
   ],
@@ -65,6 +65,6 @@
     }
   ],
   "title": "system::cuda::ready_future",
-  "url": "/api/classes/structsystem_1_1cuda_1_1ready__future.html",
+  "url": "/thrust/api/classes/structsystem_1_1cuda_1_1ready__future.html",
   "visibility": "public"
 }

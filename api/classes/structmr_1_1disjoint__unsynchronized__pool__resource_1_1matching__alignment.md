@@ -9,9 +9,9 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct mr::disjoint&#95;unsynchronized&#95;pool&#95;resource::matching&#95;alignment {</span>
-<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html#function-matching_alignment">matching&#95;alignment</a></b>(std::size_t requested);</span>
+<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html#function-matching_alignment">matching&#95;alignment</a></b>(std::size_t requested);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html#function-operator()">operator()</a></b>(const oversized_block_descriptor & desc) const;</span>
+<span>&nbsp;&nbsp;__host__ __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html#function-operator()">operator()</a></b>(const oversized_block_descriptor & desc) const;</span>
 <span>};</span>
 </code>
 

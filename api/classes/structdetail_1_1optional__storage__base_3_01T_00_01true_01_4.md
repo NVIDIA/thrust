@@ -10,20 +10,20 @@ has_toc: false
 <code class="doxybook">
 <span>template &lt;class T&gt;</span>
 <span>struct detail::optional&#95;storage&#95;base&lt; T, true &gt; {</span>
-<span>public:</span><span>&nbsp;&nbsp;struct <b><a href="/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html">dummy</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;struct <b><a href="/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html">dummy</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;dummy <b><a href="/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#variable-m_dummy">m&#95;dummy</a></b>;</span>
+<span>&nbsp;&nbsp;dummy <b><a href="/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#variable-m_dummy">m&#95;dummy</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;T <b><a href="/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#variable-m_value">m&#95;value</a></b>;</span>
+<span>&nbsp;&nbsp;T <b><a href="/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#variable-m_value">m&#95;value</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;union detail::optional_storage_base< T, true >::@2 <b><a href="/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#variable-@3">@3</a></b>;</span>
+<span>&nbsp;&nbsp;union detail::optional_storage_base< T, true >::@2 <b><a href="/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#variable-@3">@3</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;bool <b><a href="/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#variable-m_has_value">m&#95;has&#95;value</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;bool <b><a href="/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#variable-m_has_value">m&#95;has&#95;value</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#function-optional_storage_base">optional&#95;storage&#95;base</a></b>();</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#function-optional_storage_base">optional&#95;storage&#95;base</a></b>();</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;class... U&gt;</span>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#function-optional_storage_base">optional&#95;storage&#95;base</a></b>(<a href="/api/classes/structin__place__t.html">in_place_t</a>,</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html#function-optional_storage_base">optional&#95;storage&#95;base</a></b>(<a href="/thrust/api/classes/structin__place__t.html">in_place_t</a>,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;U &&... u);</span>
 <span>};</span>
 </code>
@@ -31,7 +31,7 @@ has_toc: false
 ## Member Classes
 
 <h3 id="struct-detail::optional_storage_base< T, true >::dummy">
-<a href="/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html">Struct <code>detail::optional&#95;storage&#95;base&lt; T, true &gt;::detail::optional&#95;storage&#95;base&lt; T, true &gt;::dummy</code>
+<a href="/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html">Struct <code>detail::optional&#95;storage&#95;base&lt; T, true &gt;::detail::optional&#95;storage&#95;base&lt; T, true &gt;::dummy</code>
 </a>
 </h3>
 
@@ -77,6 +77,6 @@ Function <code>detail::optional&#95;storage&#95;base&lt; T, true &gt;::&gt;::opt
 
 <code class="doxybook">
 <span>template &lt;class... U&gt;</span>
-<span>__thrust_exec_check_disable__ __host__ constexpr __device__ </span><span><b>optional_storage_base</b>(<a href="/api/classes/structin__place__t.html">in_place_t</a>,</span>
+<span>__thrust_exec_check_disable__ __host__ constexpr __device__ </span><span><b>optional_storage_base</b>(<a href="/thrust/api/classes/structin__place__t.html">in_place_t</a>,</span>
 <span>&nbsp;&nbsp;U &&... u);</span></code>
 

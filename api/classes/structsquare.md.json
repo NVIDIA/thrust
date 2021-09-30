@@ -4,7 +4,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code>square</code> is a function object. Specifically, it is an Adaptable Unary Function. If <code>f</code> is an object of class <code>square&lt;T&gt;</code>, and <code>x</code> is an object of class <code>T</code>, then <code>f(x)</code> returns <code>x&#42;x</code>.\n\n\nThe following code snippet demonstrates how to use <code>square</code> to square the elements of a <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> of <code>floats</code>.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/functional.h>\n#include <thrust/sequence.h>\n#include <thrust/transform.h>\n...\nconst int N = 1000;\nthrust::device_vector<float> V1(N);\nthrust::device_vector<float> V2(N);\n\nthrust::sequence(V1.begin(), V1.end(), 1);\n\nthrust::transform(V1.begin(), V1.end(), V2.begin(),\n                  thrust::square<float>());\n// V2 is now {1, 4, 9, ..., 1000000}\n```",
+  "details": "<code>square</code> is a function object. Specifically, it is an Adaptable Unary Function. If <code>f</code> is an object of class <code>square&lt;T&gt;</code>, and <code>x</code> is an object of class <code>T</code>, then <code>f(x)</code> returns <code>x&#42;x</code>.\n\n\nThe following code snippet demonstrates how to use <code>square</code> to square the elements of a <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> of <code>floats</code>.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/functional.h>\n#include <thrust/sequence.h>\n#include <thrust/transform.h>\n...\nconst int N = 1000;\nthrust::device_vector<float> V1(N);\nthrust::device_vector<float> V2(N);\n\nthrust::sequence(V1.begin(), V1.end(), 1);\n\nthrust::transform(V1.begin(), V1.end(), V2.begin(),\n                  thrust::square<float>());\n// V2 is now {1, 4, 9, ..., 1000000}\n```",
   "explicit": false,
   "fullname": "square",
   "hasAdditionalMembers": false,
@@ -28,7 +28,7 @@
     "name": "arithmetic_operations",
     "refid": "group__arithmetic__operations",
     "title": "Arithmetic Operations",
-    "url": "/api/groups/group__arithmetic__operations.html",
+    "url": "/thrust/api/groups/group__arithmetic__operations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "arithmetic_operations",
       "refid": "group__arithmetic__operations",
       "title": "Arithmetic Operations",
-      "url": "/api/groups/group__arithmetic__operations.html",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html",
       "visibility": "public"
     }
   ],
@@ -109,7 +109,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
-      "url": "/api/classes/structsquare.html#function-operator()",
+      "url": "/thrust/api/classes/structsquare.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -143,7 +143,7 @@
       "title": "argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structsquare.html#typedef-argument_type",
+      "url": "/thrust/api/classes/structsquare.html#typedef-argument_type",
       "visibility": "public"
     },
     {
@@ -174,13 +174,13 @@
       "title": "result_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structsquare.html#typedef-result_type",
+      "url": "/thrust/api/classes/structsquare.html#typedef-result_type",
       "visibility": "public"
     }
   ],
   "refid": "structsquare",
   "see": [
-    "<a href=\"/api/classes/structunary__function.html\">unary_function</a>"
+    "<a href=\"/thrust/api/classes/structunary__function.html\">unary_function</a>"
   ],
   "static": false,
   "strong": false,
@@ -200,6 +200,6 @@
     }
   ],
   "title": "square",
-  "url": "/api/classes/structsquare.html",
+  "url": "/thrust/api/classes/structsquare.html",
   "visibility": "public"
 }

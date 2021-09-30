@@ -23,7 +23,7 @@
     "name": "system_backends",
     "refid": "group__system__backends",
     "title": "Systems",
-    "url": "/api/groups/group__system__backends.html",
+    "url": "/thrust/api/groups/group__system__backends.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -35,7 +35,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     },
     {
@@ -46,7 +46,7 @@
       "name": "system_backends",
       "refid": "group__system__backends",
       "title": "Systems",
-      "url": "/api/groups/group__system__backends.html",
+      "url": "/thrust/api/groups/group__system__backends.html",
       "visibility": "public"
     }
   ],
@@ -57,6 +57,6 @@
   "static": false,
   "strong": false,
   "title": "cpp",
-  "url": "/api/namespaces/namespacecpp.html",
+  "url": "/thrust/api/namespaces/namespacecpp.html",
   "visibility": "public"
 }

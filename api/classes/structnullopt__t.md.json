@@ -32,7 +32,7 @@
       "name": "nullopt_t::do_not_use",
       "refid": "structnullopt__t_1_1do__not__use",
       "title": "nullopt_t::do_not_use",
-      "url": "/api/classes/structnullopt__t_1_1do__not__use.html",
+      "url": "/thrust/api/classes/structnullopt__t_1_1do__not__use.html",
       "visibility": "public"
     }
   ],
@@ -80,7 +80,7 @@
       "title": "nullopt_t",
       "type": "__host__ constexpr __device__",
       "typePlain": "__host__ constexpr __device__",
-      "url": "/api/classes/structnullopt__t.html#function-nullopt_t",
+      "url": "/thrust/api/classes/structnullopt__t.html#function-nullopt_t",
       "virtual": false,
       "visibility": "public"
     }
@@ -90,6 +90,6 @@
   "strong": false,
   "summary": "A tag type to represent an empty optional. ",
   "title": "nullopt_t",
-  "url": "/api/classes/structnullopt__t.html",
+  "url": "/thrust/api/classes/structnullopt__t.html",
   "visibility": "public"
 }

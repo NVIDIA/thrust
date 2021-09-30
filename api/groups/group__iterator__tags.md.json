@@ -15,7 +15,7 @@
       "name": "iterator_tag_classes",
       "refid": "group__iterator__tag__classes",
       "title": "Iterator Tag Classes",
-      "url": "/api/groups/group__iterator__tag__classes.html",
+      "url": "/thrust/api/groups/group__iterator__tag__classes.html",
       "visibility": "public"
     }
   ],
@@ -31,7 +31,7 @@
     "name": "iterators",
     "refid": "group__iterators",
     "title": "Iterators",
-    "url": "/api/groups/group__iterators.html",
+    "url": "/thrust/api/groups/group__iterators.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -43,7 +43,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     }
   ],
@@ -57,7 +57,7 @@
     "name": "iterators",
     "refid": "group__iterators",
     "title": "Iterators",
-    "url": "/api/groups/group__iterators.html",
+    "url": "/thrust/api/groups/group__iterators.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -69,7 +69,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     }
   ],
@@ -77,6 +77,6 @@
   "static": false,
   "strong": false,
   "title": "Iterator Tags",
-  "url": "/api/groups/group__iterator__tags.html",
+  "url": "/thrust/api/groups/group__iterator__tags.html",
   "visibility": "public"
 }

@@ -18,7 +18,7 @@
     "name": "iterators",
     "refid": "group__iterators",
     "title": "Iterators",
-    "url": "/api/groups/group__iterators.html",
+    "url": "/thrust/api/groups/group__iterators.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "iterators",
     "refid": "group__iterators",
     "title": "Iterators",
-    "url": "/api/groups/group__iterators.html",
+    "url": "/thrust/api/groups/group__iterators.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     }
   ],
@@ -77,7 +77,7 @@
       "name": "constant_iterator",
       "refid": "classconstant__iterator",
       "title": "constant_iterator",
-      "url": "/api/classes/classconstant__iterator.html",
+      "url": "/thrust/api/classes/classconstant__iterator.html",
       "visibility": "public"
     },
     {
@@ -96,7 +96,7 @@
       "name": "counting_iterator",
       "refid": "classcounting__iterator",
       "title": "counting_iterator",
-      "url": "/api/classes/classcounting__iterator.html",
+      "url": "/thrust/api/classes/classcounting__iterator.html",
       "visibility": "public"
     },
     {
@@ -115,7 +115,7 @@
       "name": "discard_iterator",
       "refid": "classdiscard__iterator",
       "title": "discard_iterator",
-      "url": "/api/classes/classdiscard__iterator.html",
+      "url": "/thrust/api/classes/classdiscard__iterator.html",
       "visibility": "public"
     },
     {
@@ -134,7 +134,7 @@
       "name": "iterator_adaptor",
       "refid": "classiterator__adaptor",
       "title": "iterator_adaptor",
-      "url": "/api/classes/classiterator__adaptor.html",
+      "url": "/thrust/api/classes/classiterator__adaptor.html",
       "visibility": "public"
     },
     {
@@ -145,7 +145,7 @@
       "name": "iterator_facade",
       "refid": "classiterator__facade",
       "title": "iterator_facade",
-      "url": "/api/classes/classiterator__facade.html",
+      "url": "/thrust/api/classes/classiterator__facade.html",
       "visibility": "public"
     },
     {
@@ -156,7 +156,7 @@
       "name": "iterator_core_access",
       "refid": "classiterator__core__access",
       "title": "iterator_core_access",
-      "url": "/api/classes/classiterator__core__access.html",
+      "url": "/thrust/api/classes/classiterator__core__access.html",
       "visibility": "public"
     },
     {
@@ -175,7 +175,7 @@
       "name": "permutation_iterator",
       "refid": "classpermutation__iterator",
       "title": "permutation_iterator",
-      "url": "/api/classes/classpermutation__iterator.html",
+      "url": "/thrust/api/classes/classpermutation__iterator.html",
       "visibility": "public"
     },
     {
@@ -194,7 +194,7 @@
       "name": "reverse_iterator",
       "refid": "classreverse__iterator",
       "title": "reverse_iterator",
-      "url": "/api/classes/classreverse__iterator.html",
+      "url": "/thrust/api/classes/classreverse__iterator.html",
       "visibility": "public"
     },
     {
@@ -213,7 +213,7 @@
       "name": "transform_input_output_iterator",
       "refid": "classtransform__input__output__iterator",
       "title": "transform_input_output_iterator",
-      "url": "/api/classes/classtransform__input__output__iterator.html",
+      "url": "/thrust/api/classes/classtransform__input__output__iterator.html",
       "visibility": "public"
     },
     {
@@ -232,7 +232,7 @@
       "name": "transform_iterator",
       "refid": "classtransform__iterator",
       "title": "transform_iterator",
-      "url": "/api/classes/classtransform__iterator.html",
+      "url": "/thrust/api/classes/classtransform__iterator.html",
       "visibility": "public"
     },
     {
@@ -251,7 +251,7 @@
       "name": "transform_output_iterator",
       "refid": "classtransform__output__iterator",
       "title": "transform_output_iterator",
-      "url": "/api/classes/classtransform__output__iterator.html",
+      "url": "/thrust/api/classes/classtransform__output__iterator.html",
       "visibility": "public"
     },
     {
@@ -270,7 +270,7 @@
       "name": "zip_iterator",
       "refid": "classzip__iterator",
       "title": "zip_iterator",
-      "url": "/api/classes/classzip__iterator.html",
+      "url": "/thrust/api/classes/classzip__iterator.html",
       "visibility": "public"
     }
   ],
@@ -284,7 +284,7 @@
       "default": false,
       "definition": "__host__ __device__ constant_iterator<ValueT, IndexT> make_constant_iterator",
       "deleted": false,
-      "details": "This version of <code>make&#95;constant&#95;iterator</code> creates a <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> from values given for both value and index. The type of <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> may be inferred by the compiler from the types of its parameters.",
+      "details": "This version of <code>make&#95;constant&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> from values given for both value and index. The type of <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> may be inferred by the compiler from the types of its parameters.",
       "explicit": false,
       "fullname": "fancyiterator::make_constant_iterator",
       "hasDetails": true,
@@ -303,11 +303,11 @@
       "paramList": [
         {
           "name": "x",
-          "text": "The value of the returned <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. "
+          "text": "The value of the returned <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. "
         },
         {
           "name": "i",
-          "text": "The index of the returned <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> within a sequence. The type of this parameter defaults to <code>int</code>. In the default case, the value of this parameter is <code>0</code>."
+          "text": "The index of the returned <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> within a sequence. The type of this parameter defaults to <code>int</code>. In the default case, the value of this parameter is <code>0</code>."
         }
       ],
       "params": [
@@ -327,10 +327,10 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga070e96eea38a13f0efb0adf4705544f8",
       "returns": [
-        "A new <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> with constant value & index as given by <code>x</code> & <code>i</code>."
+        "A new <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> with constant value & index as given by <code>x</code> & <code>i</code>."
       ],
       "see": [
-        "<a href=\"/api/classes/classconstant__iterator.html\">constant_iterator</a>"
+        "<a href=\"/thrust/api/classes/classconstant__iterator.html\">constant_iterator</a>"
       ],
       "static": false,
       "strong": false,
@@ -347,9 +347,9 @@
         }
       ],
       "title": "make_constant_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classconstant__iterator.html\">constant_iterator</a>< ValueT, IndexT >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classconstant__iterator.html\">constant_iterator</a>< ValueT, IndexT >",
       "typePlain": "__host__ __device__ constant_iterator< ValueT, IndexT >",
-      "url": "/api/groups/group__fancyiterator.html#function-make_constant_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_constant_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -362,7 +362,7 @@
       "default": false,
       "definition": "__host__ __device__ constant_iterator<V> make_constant_iterator",
       "deleted": false,
-      "details": "This version of <code>make&#95;constant&#95;iterator</code> creates a <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> using only a parameter for the desired constant value. The value of the returned <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a>'s</code> index is set to <code>0</code>.",
+      "details": "This version of <code>make&#95;constant&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> using only a parameter for the desired constant value. The value of the returned <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a>'s</code> index is set to <code>0</code>.",
       "explicit": false,
       "fullname": "fancyiterator::make_constant_iterator",
       "hasDetails": true,
@@ -381,7 +381,7 @@
       "paramList": [
         {
           "name": "x",
-          "text": "The value of the returned <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. "
+          "text": "The value of the returned <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a>'s</code> constant value. "
         }
       ],
       "params": [
@@ -394,10 +394,10 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga7e6fea0f2d352f0a20805dd915f4fc1f",
       "returns": [
-        "A new <code><a href=\"/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> with constant value equal to <code>x</code> and index equal to <code>0</code>. "
+        "A new <code><a href=\"/thrust/api/classes/classconstant__iterator.html\">constant&#95;iterator</a></code> with constant value equal to <code>x</code> and index equal to <code>0</code>. "
       ],
       "see": [
-        "<a href=\"/api/classes/classconstant__iterator.html\">constant_iterator</a>"
+        "<a href=\"/thrust/api/classes/classconstant__iterator.html\">constant_iterator</a>"
       ],
       "static": false,
       "strong": false,
@@ -409,9 +409,9 @@
         }
       ],
       "title": "make_constant_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classconstant__iterator.html\">constant_iterator</a>< V >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classconstant__iterator.html\">constant_iterator</a>< V >",
       "typePlain": "__host__ __device__ constant_iterator< V >",
-      "url": "/api/groups/group__fancyiterator.html#function-make_constant_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_constant_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -424,7 +424,7 @@
       "default": false,
       "definition": "__host__ __device__ counting_iterator<Incrementable> make_counting_iterator",
       "deleted": false,
-      "details": "<code>make&#95;counting&#95;iterator</code> creates a <code><a href=\"/api/classes/classcounting__iterator.html\">counting&#95;iterator</a></code> using an initial value for its <code>Incrementable</code> counter.",
+      "details": "<code>make&#95;counting&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classcounting__iterator.html\">counting&#95;iterator</a></code> using an initial value for its <code>Incrementable</code> counter.",
       "explicit": false,
       "fullname": "fancyiterator::make_counting_iterator",
       "hasDetails": true,
@@ -443,7 +443,7 @@
       "paramList": [
         {
           "name": "x",
-          "text": "The initial value of the new <code><a href=\"/api/classes/classcounting__iterator.html\">counting&#95;iterator</a>'s</code> counter. "
+          "text": "The initial value of the new <code><a href=\"/thrust/api/classes/classcounting__iterator.html\">counting&#95;iterator</a>'s</code> counter. "
         }
       ],
       "params": [
@@ -456,7 +456,7 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga80222131a0a0d6ed5443360dd09d3f90",
       "returns": [
-        "A new <code><a href=\"/api/classes/classcounting__iterator.html\">counting&#95;iterator</a></code> whose counter has been initialized to <code>x</code>. "
+        "A new <code><a href=\"/thrust/api/classes/classcounting__iterator.html\">counting&#95;iterator</a></code> whose counter has been initialized to <code>x</code>. "
       ],
       "static": false,
       "strong": false,
@@ -468,9 +468,9 @@
         }
       ],
       "title": "make_counting_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classcounting__iterator.html\">counting_iterator</a>< Incrementable >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classcounting__iterator.html\">counting_iterator</a>< Incrementable >",
       "typePlain": "__host__ __device__ counting_iterator< Incrementable >",
-      "url": "/api/groups/group__fancyiterator.html#function-make_counting_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_counting_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -483,7 +483,7 @@
       "default": false,
       "definition": "__host__ __device__ discard_iterator make_discard_iterator",
       "deleted": false,
-      "details": "<code>make&#95;discard&#95;iterator</code> creates a <code><a href=\"/api/classes/classdiscard__iterator.html\">discard&#95;iterator</a></code> from an optional index parameter.",
+      "details": "<code>make&#95;discard&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classdiscard__iterator.html\">discard&#95;iterator</a></code> from an optional index parameter.",
       "explicit": false,
       "fullname": "fancyiterator::make_discard_iterator",
       "hasDetails": true,
@@ -502,32 +502,32 @@
       "paramList": [
         {
           "name": "i",
-          "text": "The index of the returned <code><a href=\"/api/classes/classdiscard__iterator.html\">discard&#95;iterator</a></code> within a range. In the default case, the value of this parameter is <code>0</code>."
+          "text": "The index of the returned <code><a href=\"/thrust/api/classes/classdiscard__iterator.html\">discard&#95;iterator</a></code> within a range. In the default case, the value of this parameter is <code>0</code>."
         }
       ],
       "params": [
         {
-          "defval": "<a href=\"/api/classes/classdiscard__iterator.html\">discard_iterator</a><>::difference_type(0)",
+          "defval": "<a href=\"/thrust/api/classes/classdiscard__iterator.html\">discard_iterator</a><>::difference_type(0)",
           "defvalPlain": "discard_iterator<>::difference_type(0)",
           "name": "i",
-          "type": "<a href=\"/api/classes/classdiscard__iterator.html\">discard_iterator</a><>::difference_type",
+          "type": "<a href=\"/thrust/api/classes/classdiscard__iterator.html\">discard_iterator</a><>::difference_type",
           "typePlain": "discard_iterator<>::difference_type"
         }
       ],
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga51af5e6337bc944140776752b59b55c7",
       "returns": [
-        "A new <code><a href=\"/api/classes/classdiscard__iterator.html\">discard&#95;iterator</a></code> with index as given by <code>i</code>."
+        "A new <code><a href=\"/thrust/api/classes/classdiscard__iterator.html\">discard&#95;iterator</a></code> with index as given by <code>i</code>."
       ],
       "see": [
-        "<a href=\"/api/classes/classconstant__iterator.html\">constant_iterator</a>"
+        "<a href=\"/thrust/api/classes/classconstant__iterator.html\">constant_iterator</a>"
       ],
       "static": false,
       "strong": false,
       "title": "make_discard_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classdiscard__iterator.html\">discard_iterator</a>",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classdiscard__iterator.html\">discard_iterator</a>",
       "typePlain": "__host__ __device__ discard_iterator",
-      "url": "/api/groups/group__fancyiterator.html#function-make_discard_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_discard_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -540,7 +540,7 @@
       "default": false,
       "definition": "__host__ __device__ permutation_iterator<ElementIterator,IndexIterator> make_permutation_iterator",
       "deleted": false,
-      "details": "<code>make&#95;permutation&#95;iterator</code> creates a <code><a href=\"/api/classes/classpermutation__iterator.html\">permutation&#95;iterator</a></code> from an <code>ElementIterator</code> pointing to a range of elements to \"permute\" and an <code>IndexIterator</code> pointing to a range of indices defining an indexing scheme on the values.",
+      "details": "<code>make&#95;permutation&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classpermutation__iterator.html\">permutation&#95;iterator</a></code> from an <code>ElementIterator</code> pointing to a range of elements to \"permute\" and an <code>IndexIterator</code> pointing to a range of indices defining an indexing scheme on the values.",
       "explicit": false,
       "fullname": "fancyiterator::make_permutation_iterator",
       "hasDetails": true,
@@ -581,10 +581,10 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga54afebe4dd79477d1d193c53898501a7",
       "returns": [
-        "A new <code><a href=\"/api/classes/classpermutation__iterator.html\">permutation&#95;iterator</a></code> which permutes the range <code>e</code> by <code>i</code>. "
+        "A new <code><a href=\"/thrust/api/classes/classpermutation__iterator.html\">permutation&#95;iterator</a></code> which permutes the range <code>e</code> by <code>i</code>. "
       ],
       "see": [
-        "<a href=\"/api/classes/classpermutation__iterator.html\">permutation_iterator</a>"
+        "<a href=\"/thrust/api/classes/classpermutation__iterator.html\">permutation_iterator</a>"
       ],
       "static": false,
       "strong": false,
@@ -601,9 +601,9 @@
         }
       ],
       "title": "make_permutation_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classpermutation__iterator.html\">permutation_iterator</a>< ElementIterator, IndexIterator >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classpermutation__iterator.html\">permutation_iterator</a>< ElementIterator, IndexIterator >",
       "typePlain": "__host__ __device__ permutation_iterator< ElementIterator, IndexIterator >",
-      "url": "/api/groups/group__fancyiterator.html#function-make_permutation_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_permutation_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -616,7 +616,7 @@
       "default": false,
       "definition": "__host__ __device__ reverse_iterator<BidirectionalIterator> make_reverse_iterator",
       "deleted": false,
-      "details": "<code>make&#95;reverse&#95;iterator</code> creates a <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> from a <code>BidirectionalIterator</code> pointing to a range of elements to reverse.",
+      "details": "<code>make&#95;reverse&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> from a <code>BidirectionalIterator</code> pointing to a range of elements to reverse.",
       "explicit": false,
       "fullname": "fancyiterator::make_reverse_iterator",
       "hasDetails": true,
@@ -645,7 +645,7 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1gacc60914d7ce7f9598202103bd5d9e0a7",
       "returns": [
-        "A new <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> which reverses the range <code>x</code>. "
+        "A new <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> which reverses the range <code>x</code>. "
       ],
       "static": false,
       "strong": false,
@@ -657,9 +657,9 @@
         }
       ],
       "title": "make_reverse_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classreverse__iterator.html\">reverse_iterator</a>< BidirectionalIterator >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse_iterator</a>< BidirectionalIterator >",
       "typePlain": "__host__ __device__ reverse_iterator< BidirectionalIterator >",
-      "url": "/api/groups/group__fancyiterator.html#function-make_reverse_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_reverse_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -672,7 +672,7 @@
       "default": false,
       "definition": "transform_input_output_iterator<InputFunction, OutputFunction, Iterator> __host__ __device__ make_transform_input_output_iterator",
       "deleted": false,
-      "details": "<code>make&#95;transform&#95;input&#95;output&#95;iterator</code> creates a <code><a href=\"/api/classes/classtransform__input__output__iterator.html\">transform&#95;input&#95;output&#95;iterator</a></code> from an <code>Iterator</code> a <code>InputFunction</code> and a <code>OutputFunction</code>",
+      "details": "<code>make&#95;transform&#95;input&#95;output&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classtransform__input__output__iterator.html\">transform&#95;input&#95;output&#95;iterator</a></code> from an <code>Iterator</code> a <code>InputFunction</code> and a <code>OutputFunction</code>",
       "explicit": false,
       "fullname": "fancyiterator::make_transform_input_output_iterator",
       "hasDetails": true,
@@ -722,7 +722,7 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga96d351ad8cc383990dad1ae6608baab3",
       "see": [
-        "<a href=\"/api/classes/classtransform__input__output__iterator.html\">transform_input_output_iterator</a>"
+        "<a href=\"/thrust/api/classes/classtransform__input__output__iterator.html\">transform_input_output_iterator</a>"
       ],
       "static": false,
       "strong": false,
@@ -744,9 +744,9 @@
         }
       ],
       "title": "make_transform_input_output_iterator",
-      "type": "<a href=\"/api/classes/classtransform__input__output__iterator.html\">transform_input_output_iterator</a>< InputFunction, OutputFunction, Iterator > __host__ __device__",
+      "type": "<a href=\"/thrust/api/classes/classtransform__input__output__iterator.html\">transform_input_output_iterator</a>< InputFunction, OutputFunction, Iterator > __host__ __device__",
       "typePlain": "transform_input_output_iterator< InputFunction, OutputFunction, Iterator > __host__ __device__",
-      "url": "/api/groups/group__fancyiterator.html#function-make_transform_input_output_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_transform_input_output_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -759,7 +759,7 @@
       "default": false,
       "definition": "__host__ __device__ transform_iterator<AdaptableUnaryFunction, Iterator> make_transform_iterator",
       "deleted": false,
-      "details": "<code>make&#95;transform&#95;iterator</code> creates a <code><a href=\"/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code> from an <code>Iterator</code> and <code>AdaptableUnaryFunction</code>.",
+      "details": "<code>make&#95;transform&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code> from an <code>Iterator</code> and <code>AdaptableUnaryFunction</code>.",
       "explicit": false,
       "fullname": "fancyiterator::make_transform_iterator",
       "hasDetails": true,
@@ -778,11 +778,11 @@
       "paramList": [
         {
           "name": "it",
-          "text": "The <code>Iterator</code> pointing to the input range of the newly created <code><a href=\"/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code>. "
+          "text": "The <code>Iterator</code> pointing to the input range of the newly created <code><a href=\"/thrust/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code>. "
         },
         {
           "name": "fun",
-          "text": "The <code>AdaptableUnaryFunction</code> used to transform the range pointed to by <code>it</code> in the newly created <code><a href=\"/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code>. "
+          "text": "The <code>AdaptableUnaryFunction</code> used to transform the range pointed to by <code>it</code> in the newly created <code><a href=\"/thrust/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code>. "
         }
       ],
       "params": [
@@ -800,10 +800,10 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga18fc94a0eceacf6704d6c27ec9eedb3c",
       "returns": [
-        "A new <code><a href=\"/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code> which transforms the range at <code>it</code> by <code>fun</code>. "
+        "A new <code><a href=\"/thrust/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code> which transforms the range at <code>it</code> by <code>fun</code>. "
       ],
       "see": [
-        "<a href=\"/api/classes/classtransform__iterator.html\">transform_iterator</a>"
+        "<a href=\"/thrust/api/classes/classtransform__iterator.html\">transform_iterator</a>"
       ],
       "static": false,
       "strong": false,
@@ -820,9 +820,9 @@
         }
       ],
       "title": "make_transform_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classtransform__iterator.html\">transform_iterator</a>< AdaptableUnaryFunction, Iterator >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classtransform__iterator.html\">transform_iterator</a>< AdaptableUnaryFunction, Iterator >",
       "typePlain": "__host__ __device__ transform_iterator< AdaptableUnaryFunction, Iterator >",
-      "url": "/api/groups/group__fancyiterator.html#function-make_transform_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_transform_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -835,7 +835,7 @@
       "default": false,
       "definition": "transform_output_iterator<UnaryFunction, OutputIterator> __host__ __device__ make_transform_output_iterator",
       "deleted": false,
-      "details": "<code>make&#95;transform&#95;output&#95;iterator</code> creates a <code><a href=\"/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> from an <code>OutputIterator</code> and <code>UnaryFunction</code>.",
+      "details": "<code>make&#95;transform&#95;output&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> from an <code>OutputIterator</code> and <code>UnaryFunction</code>.",
       "explicit": false,
       "fullname": "fancyiterator::make_transform_output_iterator",
       "hasDetails": true,
@@ -854,11 +854,11 @@
       "paramList": [
         {
           "name": "out",
-          "text": "The <code>OutputIterator</code> pointing to the output range of the newly created <code><a href=\"/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>"
+          "text": "The <code>OutputIterator</code> pointing to the output range of the newly created <code><a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>"
         },
         {
           "name": "fun",
-          "text": "The <code>UnaryFunction</code> transform the object before assigning it to <code>out</code> by the newly created <code><a href=\"/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>"
+          "text": "The <code>UnaryFunction</code> transform the object before assigning it to <code>out</code> by the newly created <code><a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>"
         }
       ],
       "params": [
@@ -876,7 +876,7 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1gab1dc58bcb229eef634cbebb574300c33",
       "see": [
-        "<a href=\"/api/classes/classtransform__output__iterator.html\">transform_output_iterator</a>"
+        "<a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform_output_iterator</a>"
       ],
       "static": false,
       "strong": false,
@@ -893,9 +893,9 @@
         }
       ],
       "title": "make_transform_output_iterator",
-      "type": "<a href=\"/api/classes/classtransform__output__iterator.html\">transform_output_iterator</a>< UnaryFunction, OutputIterator > __host__ __device__",
+      "type": "<a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform_output_iterator</a>< UnaryFunction, OutputIterator > __host__ __device__",
       "typePlain": "transform_output_iterator< UnaryFunction, OutputIterator > __host__ __device__",
-      "url": "/api/groups/group__fancyiterator.html#function-make_transform_output_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_transform_output_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -908,7 +908,7 @@
       "default": false,
       "definition": "__host__ __device__ zip_iterator<thrust::tuple<Iterators...> > make_zip_iterator",
       "deleted": false,
-      "details": "<code>make&#95;zip&#95;iterator</code> creates a <code><a href=\"/api/classes/classzip__iterator.html\">zip&#95;iterator</a></code> from a <code>tuple</code> of iterators.",
+      "details": "<code>make&#95;zip&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classzip__iterator.html\">zip&#95;iterator</a></code> from a <code>tuple</code> of iterators.",
       "explicit": false,
       "fullname": "fancyiterator::make_zip_iterator",
       "hasDetails": true,
@@ -937,10 +937,10 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga33e2b489645d992a431104dba48e489c",
       "returns": [
-        "A newly created <code><a href=\"/api/classes/classzip__iterator.html\">zip&#95;iterator</a></code> which zips the iterators encapsulated in <code>t</code>."
+        "A newly created <code><a href=\"/thrust/api/classes/classzip__iterator.html\">zip&#95;iterator</a></code> which zips the iterators encapsulated in <code>t</code>."
       ],
       "see": [
-        "<a href=\"/api/classes/classzip__iterator.html\">zip_iterator</a>"
+        "<a href=\"/thrust/api/classes/classzip__iterator.html\">zip_iterator</a>"
       ],
       "static": false,
       "strong": false,
@@ -952,9 +952,9 @@
         }
       ],
       "title": "make_zip_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classzip__iterator.html\">zip_iterator</a>< thrust::tuple< Iterators... > >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classzip__iterator.html\">zip_iterator</a>< thrust::tuple< Iterators... > >",
       "typePlain": "__host__ __device__ zip_iterator< thrust::tuple< Iterators... > >",
-      "url": "/api/groups/group__fancyiterator.html#function-make_zip_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_zip_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -967,7 +967,7 @@
       "default": false,
       "definition": "__host__ __device__ zip_iterator<thrust::tuple<Iterators...> > make_zip_iterator",
       "deleted": false,
-      "details": "<code>make&#95;zip&#95;iterator</code> creates a <code><a href=\"/api/classes/classzip__iterator.html\">zip&#95;iterator</a></code> from iterators.",
+      "details": "<code>make&#95;zip&#95;iterator</code> creates a <code><a href=\"/thrust/api/classes/classzip__iterator.html\">zip&#95;iterator</a></code> from iterators.",
       "explicit": false,
       "fullname": "fancyiterator::make_zip_iterator",
       "hasDetails": true,
@@ -996,10 +996,10 @@
       "pureVirtual": false,
       "refid": "group__fancyiterator_1ga1b844aab0342200bbe2ee2c90c13d95b",
       "returns": [
-        "A newly created <code><a href=\"/api/classes/classzip__iterator.html\">zip&#95;iterator</a></code> which zips the iterators."
+        "A newly created <code><a href=\"/thrust/api/classes/classzip__iterator.html\">zip&#95;iterator</a></code> which zips the iterators."
       ],
       "see": [
-        "<a href=\"/api/classes/classzip__iterator.html\">zip_iterator</a>"
+        "<a href=\"/thrust/api/classes/classzip__iterator.html\">zip_iterator</a>"
       ],
       "static": false,
       "strong": false,
@@ -1011,9 +1011,9 @@
         }
       ],
       "title": "make_zip_iterator",
-      "type": "__host__ __device__ <a href=\"/api/classes/classzip__iterator.html\">zip_iterator</a>< thrust::tuple< Iterators... > >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classzip__iterator.html\">zip_iterator</a>< thrust::tuple< Iterators... > >",
       "typePlain": "__host__ __device__ zip_iterator< thrust::tuple< Iterators... > >",
-      "url": "/api/groups/group__fancyiterator.html#function-make_zip_iterator",
+      "url": "/thrust/api/groups/group__fancyiterator.html#function-make_zip_iterator",
       "virtual": false,
       "visibility": "public"
     }
@@ -1022,6 +1022,6 @@
   "static": false,
   "strong": false,
   "title": "Fancy Iterators",
-  "url": "/api/groups/group__fancyiterator.html",
+  "url": "/thrust/api/groups/group__fancyiterator.html",
   "visibility": "public"
 }

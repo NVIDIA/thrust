@@ -18,7 +18,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -151,7 +151,7 @@
         "<code>true</code> if the range <code>[first, last)</code> is partitioned with respect to <code>pred</code>, or if <code>[first, last)</code> is empty. <code>false</code>, otherwise."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -189,7 +189,7 @@
       "title": "is_partitioned",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__predicates.html#function-is_partitioned",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_partitioned",
       "virtual": false,
       "visibility": "public"
     },
@@ -252,7 +252,7 @@
         "<code>true</code> if the range <code>[first, last)</code> is partitioned with respect to <code>pred</code>, or if <code>[first, last)</code> is empty. <code>false</code>, otherwise."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__partitioning.html#function-partition\">partition</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -281,7 +281,7 @@
       "title": "is_partitioned",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__predicates.html#function-is_partitioned",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_partitioned",
       "virtual": false,
       "visibility": "public"
     },
@@ -294,7 +294,7 @@
       "default": false,
       "definition": "__host__ __device__ bool is_sorted",
       "deleted": false,
-      "details": "<code>is&#95;sorted</code> returns <code>true</code> if the range <code>[first, last)</code> is sorted in ascending order, and <code>false</code> otherwise.\n\nSpecifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>&#42;(i + 1) &lt; &#42;i</code> is <code>true</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> are stored in ascending order using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/sort.h>\n#include <thrust/device_vector.h>\n#include <thrust/sort.h>\n#include <thrust/execution_policy.h>\n...\nthrust::device_vector<int> v(6);\nv[0] = 1;\nv[1] = 4;\nv[2] = 2;\nv[3] = 8;\nv[4] = 5;\nv[5] = 7;\n\nbool result = thrust::is_sorted(thrust::device, v.begin(), v.end());\n\n// result == false\n\nthrust::sort(v.begin(), v.end());\nresult = thrust::is_sorted(thrust::device, v.begin(), v.end());\n\n// result == true\n```",
+      "details": "<code>is&#95;sorted</code> returns <code>true</code> if the range <code>[first, last)</code> is sorted in ascending order, and <code>false</code> otherwise.\n\nSpecifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>&#42;(i + 1) &lt; &#42;i</code> is <code>true</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> are stored in ascending order using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/sort.h>\n#include <thrust/device_vector.h>\n#include <thrust/sort.h>\n#include <thrust/execution_policy.h>\n...\nthrust::device_vector<int> v(6);\nv[0] = 1;\nv[1] = 4;\nv[2] = 2;\nv[3] = 8;\nv[4] = 5;\nv[5] = 7;\n\nbool result = thrust::is_sorted(thrust::device, v.begin(), v.end());\n\n// result == false\n\nthrust::sort(v.begin(), v.end());\nresult = thrust::is_sorted(thrust::device, v.begin(), v.end());\n\n// result == true\n```",
       "explicit": false,
       "fullname": "predicates::is_sorted",
       "hasDetails": true,
@@ -345,9 +345,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/is_sorted\">https://en.cppreference.com/w/cpp/algorithm/is_sorted</a>",
-        "<a href=\"/api/groups/group__predicates.html#function-is_sorted_until\">is_sorted_until</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted_until\">is_sorted_until</a>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
         "<code>less&lt;T&gt;</code>"
       ],
       "static": false,
@@ -377,7 +377,7 @@
       "title": "is_sorted",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__predicates.html#function-is_sorted",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_sorted",
       "virtual": false,
       "visibility": "public"
     },
@@ -390,7 +390,7 @@
       "default": false,
       "definition": "bool is_sorted",
       "deleted": false,
-      "details": "<code>is&#95;sorted</code> returns <code>true</code> if the range <code>[first, last)</code> is sorted in ascending order, and <code>false</code> otherwise.\n\nSpecifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>&#42;(i + 1) &lt; &#42;i</code> is <code>true</code>.\n\n\nThe following code demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> are stored in ascending order.\n\n\n\n```cpp\n#include <thrust/sort.h>\n#include <thrust/device_vector.h>\n#include <thrust/sort.h>\n...\nthrust::device_vector<int> v(6);\nv[0] = 1;\nv[1] = 4;\nv[2] = 2;\nv[3] = 8;\nv[4] = 5;\nv[5] = 7;\n\nbool result = thrust::is_sorted(v.begin(), v.end());\n\n// result == false\n\nthrust::sort(v.begin(), v.end());\nresult = thrust::is_sorted(v.begin(), v.end());\n\n// result == true\n```",
+      "details": "<code>is&#95;sorted</code> returns <code>true</code> if the range <code>[first, last)</code> is sorted in ascending order, and <code>false</code> otherwise.\n\nSpecifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>&#42;(i + 1) &lt; &#42;i</code> is <code>true</code>.\n\n\nThe following code demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> are stored in ascending order.\n\n\n\n```cpp\n#include <thrust/sort.h>\n#include <thrust/device_vector.h>\n#include <thrust/sort.h>\n...\nthrust::device_vector<int> v(6);\nv[0] = 1;\nv[1] = 4;\nv[2] = 2;\nv[3] = 8;\nv[4] = 5;\nv[5] = 7;\n\nbool result = thrust::is_sorted(v.begin(), v.end());\n\n// result == false\n\nthrust::sort(v.begin(), v.end());\nresult = thrust::is_sorted(v.begin(), v.end());\n\n// result == true\n```",
       "explicit": false,
       "fullname": "predicates::is_sorted",
       "hasDetails": true,
@@ -432,9 +432,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/is_sorted\">https://en.cppreference.com/w/cpp/algorithm/is_sorted</a>",
-        "<a href=\"/api/groups/group__predicates.html#function-is_sorted_until\">is_sorted_until</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted_until\">is_sorted_until</a>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
         "<code>less&lt;T&gt;</code>"
       ],
       "static": false,
@@ -455,7 +455,7 @@
       "title": "is_sorted",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__predicates.html#function-is_sorted",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_sorted",
       "virtual": false,
       "visibility": "public"
     },
@@ -468,7 +468,7 @@
       "default": false,
       "definition": "__host__ __device__ bool is_sorted",
       "deleted": false,
-      "details": "<code>is&#95;sorted</code> returns <code>true</code> if the range <code>[first, last)</code> is sorted in ascending order accoring to a user-defined comparison operation, and <code>false</code> otherwise.\n\nSpecifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>comp(&#42;(i + 1), &#42;i)</code> is <code>true</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> are stored in descending order using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/sort.h>\n#include <thrust/functional.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nthrust::device_vector<int> v(6);\nv[0] = 1;\nv[1] = 4;\nv[2] = 2;\nv[3] = 8;\nv[4] = 5;\nv[5] = 7;\n\nthrust::greater<int> comp;\nbool result = thrust::is_sorted(thrust::device, v.begin(), v.end(), comp);\n\n// result == false\n\nthrust::sort(v.begin(), v.end(), comp);\nresult = thrust::is_sorted(thrust::device, v.begin(), v.end(), comp);\n\n// result == true\n```",
+      "details": "<code>is&#95;sorted</code> returns <code>true</code> if the range <code>[first, last)</code> is sorted in ascending order accoring to a user-defined comparison operation, and <code>false</code> otherwise.\n\nSpecifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>comp(&#42;(i + 1), &#42;i)</code> is <code>true</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> are stored in descending order using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/sort.h>\n#include <thrust/functional.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nthrust::device_vector<int> v(6);\nv[0] = 1;\nv[1] = 4;\nv[2] = 2;\nv[3] = 8;\nv[4] = 5;\nv[5] = 7;\n\nthrust::greater<int> comp;\nbool result = thrust::is_sorted(thrust::device, v.begin(), v.end(), comp);\n\n// result == false\n\nthrust::sort(v.begin(), v.end(), comp);\nresult = thrust::is_sorted(thrust::device, v.begin(), v.end(), comp);\n\n// result == true\n```",
       "explicit": false,
       "fullname": "predicates::is_sorted",
       "hasDetails": true,
@@ -528,8 +528,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/is_sorted\">https://en.cppreference.com/w/cpp/algorithm/is_sorted</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
         "<code>less&lt;T&gt;</code>"
       ],
       "static": false,
@@ -568,7 +568,7 @@
       "title": "is_sorted",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__predicates.html#function-is_sorted",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_sorted",
       "virtual": false,
       "visibility": "public"
     },
@@ -581,7 +581,7 @@
       "default": false,
       "definition": "bool is_sorted",
       "deleted": false,
-      "details": "<code>is&#95;sorted</code> returns <code>true</code> if the range <code>[first, last)</code> is sorted in ascending order accoring to a user-defined comparison operation, and <code>false</code> otherwise.\n\nSpecifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>comp(&#42;(i + 1), &#42;i)</code> is <code>true</code>.\n\n\nThe following code snippet demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> are stored in descending order.\n\n\n\n```cpp\n#include <thrust/sort.h>\n#include <thrust/functional.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<int> v(6);\nv[0] = 1;\nv[1] = 4;\nv[2] = 2;\nv[3] = 8;\nv[4] = 5;\nv[5] = 7;\n\nthrust::greater<int> comp;\nbool result = thrust::is_sorted(v.begin(), v.end(), comp);\n\n// result == false\n\nthrust::sort(v.begin(), v.end(), comp);\nresult = thrust::is_sorted(v.begin(), v.end(), comp);\n\n// result == true\n```",
+      "details": "<code>is&#95;sorted</code> returns <code>true</code> if the range <code>[first, last)</code> is sorted in ascending order accoring to a user-defined comparison operation, and <code>false</code> otherwise.\n\nSpecifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>comp(&#42;(i + 1), &#42;i)</code> is <code>true</code>.\n\n\nThe following code snippet demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> are stored in descending order.\n\n\n\n```cpp\n#include <thrust/sort.h>\n#include <thrust/functional.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<int> v(6);\nv[0] = 1;\nv[1] = 4;\nv[2] = 2;\nv[3] = 8;\nv[4] = 5;\nv[5] = 7;\n\nthrust::greater<int> comp;\nbool result = thrust::is_sorted(v.begin(), v.end(), comp);\n\n// result == false\n\nthrust::sort(v.begin(), v.end(), comp);\nresult = thrust::is_sorted(v.begin(), v.end(), comp);\n\n// result == true\n```",
       "explicit": false,
       "fullname": "predicates::is_sorted",
       "hasDetails": true,
@@ -632,8 +632,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/is_sorted\">https://en.cppreference.com/w/cpp/algorithm/is_sorted</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
         "<code>less&lt;T&gt;</code>"
       ],
       "static": false,
@@ -663,7 +663,7 @@
       "title": "is_sorted",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__predicates.html#function-is_sorted",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_sorted",
       "virtual": false,
       "visibility": "public"
     },
@@ -726,11 +726,11 @@
         "The last iterator in the input range for which it is sorted."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -759,7 +759,7 @@
       "title": "is_sorted_until",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__predicates.html#function-is_sorted_until",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_sorted_until",
       "virtual": false,
       "visibility": "public"
     },
@@ -813,11 +813,11 @@
         "The last iterator in the input range for which it is sorted."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -837,7 +837,7 @@
       "title": "is_sorted_until",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__predicates.html#function-is_sorted_until",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_sorted_until",
       "virtual": false,
       "visibility": "public"
     },
@@ -909,11 +909,11 @@
         "The last iterator in the input range for which it is sorted."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -951,7 +951,7 @@
       "title": "is_sorted_until",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__predicates.html#function-is_sorted_until",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_sorted_until",
       "virtual": false,
       "visibility": "public"
     },
@@ -1014,11 +1014,11 @@
         "The last iterator in the input range for which it is sorted."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1047,7 +1047,7 @@
       "title": "is_sorted_until",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__predicates.html#function-is_sorted_until",
+      "url": "/thrust/api/groups/group__predicates.html#function-is_sorted_until",
       "virtual": false,
       "visibility": "public"
     }
@@ -1056,6 +1056,6 @@
   "static": false,
   "strong": false,
   "title": "Predicates",
-  "url": "/api/groups/group__predicates.html",
+  "url": "/thrust/api/groups/group__predicates.html",
   "visibility": "public"
 }

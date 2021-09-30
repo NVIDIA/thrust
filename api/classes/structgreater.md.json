@@ -28,7 +28,7 @@
     "name": "comparison_operations",
     "refid": "group__comparison__operations",
     "title": "Comparison Operations",
-    "url": "/api/groups/group__comparison__operations.html",
+    "url": "/thrust/api/groups/group__comparison__operations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "comparison_operations",
       "refid": "group__comparison__operations",
       "title": "Comparison Operations",
-      "url": "/api/groups/group__comparison__operations.html",
+      "url": "/thrust/api/groups/group__comparison__operations.html",
       "visibility": "public"
     }
   ],
@@ -114,7 +114,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
-      "url": "/api/classes/structgreater.html#function-operator()",
+      "url": "/thrust/api/classes/structgreater.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -148,7 +148,7 @@
       "title": "first_argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structgreater.html#typedef-first_argument_type",
+      "url": "/thrust/api/classes/structgreater.html#typedef-first_argument_type",
       "visibility": "public"
     },
     {
@@ -179,7 +179,7 @@
       "title": "second_argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structgreater.html#typedef-second_argument_type",
+      "url": "/thrust/api/classes/structgreater.html#typedef-second_argument_type",
       "visibility": "public"
     },
     {
@@ -210,14 +210,14 @@
       "title": "result_type",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/classes/structgreater.html#typedef-result_type",
+      "url": "/thrust/api/classes/structgreater.html#typedef-result_type",
       "visibility": "public"
     }
   ],
   "refid": "structgreater",
   "see": [
     "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/greater\">https://en.cppreference.com/w/cpp/utility/functional/greater</a>",
-    "<a href=\"/api/classes/structbinary__function.html\">binary_function</a>"
+    "<a href=\"/thrust/api/classes/structbinary__function.html\">binary_function</a>"
   ],
   "static": false,
   "strong": false,
@@ -237,6 +237,6 @@
     }
   ],
   "title": "greater",
-  "url": "/api/classes/structgreater.html",
+  "url": "/thrust/api/classes/structgreater.html",
   "visibility": "public"
 }

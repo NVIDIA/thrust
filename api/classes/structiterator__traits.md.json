@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/structiterator__traits.html\">iterator&#95;traits</a></code> is a type trait class that provides a uniform interface for querying the properties of iterators at compile-time. ",
+  "details": "<code><a href=\"/thrust/api/classes/structiterator__traits.html\">iterator&#95;traits</a></code> is a type trait class that provides a uniform interface for querying the properties of iterators at compile-time. ",
   "explicit": false,
   "fullname": "iterator_traits",
   "hasAdditionalMembers": false,
@@ -43,6 +43,6 @@
     }
   ],
   "title": "iterator_traits",
-  "url": "/api/classes/structiterator__traits.html",
+  "url": "/thrust/api/classes/structiterator__traits.html",
   "visibility": "public"
 }

@@ -11,44 +11,44 @@ has_toc: false
 
 <code class="doxybook">
 <span>template &lt;typename Upstream&gt;</span>
-<span>class <b><a href="/api/classes/classdevice__ptr__memory__resource.html">device&#95;ptr&#95;memory&#95;resource</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classdevice__ptr__memory__resource.html">device&#95;ptr&#95;memory&#95;resource</a></b>;</span>
 <br>
 <span class="doxybook-comment">/* An allocator which creates new elements in memory accessible by devices.  */</span><span>template &lt;typename T&gt;</span>
-<span>class <b><a href="/api/classes/classdevice__allocator.html">device&#95;allocator</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classdevice__allocator.html">device&#95;allocator</a></b>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>class <b><a href="/api/classes/classdevice__malloc__allocator.html">device&#95;malloc&#95;allocator</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classdevice__malloc__allocator.html">device&#95;malloc&#95;allocator</a></b>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>class <b><a href="/api/classes/classdevice__new__allocator.html">device&#95;new&#95;allocator</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classdevice__new__allocator.html">device&#95;new&#95;allocator</a></b>;</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;class MR&gt;</span>
-<span>class <b><a href="/api/classes/classmr_1_1allocator.html">mr::allocator</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classmr_1_1allocator.html">mr::allocator</a></b>;</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename Upstream&gt;</span>
-<span>class <b><a href="/api/classes/classmr_1_1stateless__resource__allocator.html">mr::stateless&#95;resource&#95;allocator</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">mr::stateless&#95;resource&#95;allocator</a></b>;</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename Pointer&gt;</span>
-<span>using <b><a href="/api/groups/group__allocators.html#using-polymorphic_allocator">polymorphic&#95;allocator</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/groups/group__allocators.html#using-polymorphic_allocator">polymorphic&#95;allocator</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename MR&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__allocators.html#function-operator==">mr::operator==</a></b>(const allocator< T, MR > & lhs,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__allocators.html#function-operator==">mr::operator==</a></b>(const allocator< T, MR > & lhs,</span>
 <span>&nbsp;&nbsp;const allocator< T, MR > & rhs);</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename MR&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__allocators.html#function-operator!=">mr::operator!=</a></b>(const allocator< T, MR > & lhs,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__allocators.html#function-operator!=">mr::operator!=</a></b>(const allocator< T, MR > & lhs,</span>
 <span>&nbsp;&nbsp;const allocator< T, MR > & rhs);</span>
 </code>
 
 ## Member Classes
 
 <h3 id="class-device_ptr_memory_resource">
-<a href="/api/classes/classdevice__ptr__memory__resource.html">Class <code>device&#95;ptr&#95;memory&#95;resource</code>
+<a href="/thrust/api/classes/classdevice__ptr__memory__resource.html">Class <code>device&#95;ptr&#95;memory&#95;resource</code>
 </a>
 </h3>
 
@@ -56,7 +56,7 @@ has_toc: false
 `thrust::mr::memory_resource< device_ptr< void > >`
 
 <h3 id="class-device_allocator">
-<a href="/api/classes/classdevice__allocator.html">Class <code>device&#95;allocator</code>
+<a href="/thrust/api/classes/classdevice__allocator.html">Class <code>device&#95;allocator</code>
 </a>
 </h3>
 
@@ -66,17 +66,17 @@ An allocator which creates new elements in memory accessible by devices.
 `thrust::mr::stateless_resource_allocator< T, device_ptr_memory_resource< device_memory_resource > >`
 
 <h3 id="class-device_malloc_allocator">
-<a href="/api/classes/classdevice__malloc__allocator.html">Class <code>device&#95;malloc&#95;allocator</code>
+<a href="/thrust/api/classes/classdevice__malloc__allocator.html">Class <code>device&#95;malloc&#95;allocator</code>
 </a>
 </h3>
 
 <h3 id="class-device_new_allocator">
-<a href="/api/classes/classdevice__new__allocator.html">Class <code>device&#95;new&#95;allocator</code>
+<a href="/thrust/api/classes/classdevice__new__allocator.html">Class <code>device&#95;new&#95;allocator</code>
 </a>
 </h3>
 
 <h3 id="class-mr::allocator">
-<a href="/api/classes/classmr_1_1allocator.html">Class <code>mr::allocator</code>
+<a href="/thrust/api/classes/classmr_1_1allocator.html">Class <code>mr::allocator</code>
 </a>
 </h3>
 
@@ -84,7 +84,7 @@ An allocator which creates new elements in memory accessible by devices.
 `mr::validator< MR >`
 
 <h3 id="class-mr::stateless_resource_allocator">
-<a href="/api/classes/classmr_1_1stateless__resource__allocator.html">Class <code>mr::stateless&#95;resource&#95;allocator</code>
+<a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">Class <code>mr::stateless&#95;resource&#95;allocator</code>
 </a>
 </h3>
 

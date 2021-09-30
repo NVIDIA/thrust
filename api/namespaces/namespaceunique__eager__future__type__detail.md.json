@@ -57,7 +57,7 @@
       "title": "select",
       "type": "decltype(unique_eager_future_type< T >(std::declval< System >()))",
       "typePlain": "decltype(unique_eager_future_type< T >(std::declval< System >()))",
-      "url": "/api/namespaces/namespaceunique__eager__future__type__detail.html#using-select",
+      "url": "/thrust/api/namespaces/namespaceunique__eager__future__type__detail.html#using-select",
       "visibility": "public"
     }
   ],
@@ -65,6 +65,6 @@
   "static": false,
   "strong": false,
   "title": "unique_eager_future_type_detail",
-  "url": "/api/namespaces/namespaceunique__eager__future__type__detail.html",
+  "url": "/thrust/api/namespaces/namespaceunique__eager__future__type__detail.html",
   "visibility": "public"
 }

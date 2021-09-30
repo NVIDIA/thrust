@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "A metafunction returning whether or not the parameter is an <code><a href=\"/api/classes/classsystem_1_1error__condition.html\">error&#95;condition</a></code> enum. ",
+  "details": "A metafunction returning whether or not the parameter is an <code><a href=\"/thrust/api/classes/classsystem_1_1error__condition.html\">error&#95;condition</a></code> enum. ",
   "explicit": false,
   "fullname": "system::is_error_condition_enum",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "System_diagnostics",
     "refid": "group__system__diagnostics",
     "title": "System Diagnostics",
-    "url": "/api/groups/group__system__diagnostics.html",
+    "url": "/thrust/api/groups/group__system__diagnostics.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -49,7 +49,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "name": "System_diagnostics",
       "refid": "group__system__diagnostics",
       "title": "System Diagnostics",
-      "url": "/api/groups/group__system__diagnostics.html",
+      "url": "/thrust/api/groups/group__system__diagnostics.html",
       "visibility": "public"
     }
   ],
@@ -74,7 +74,7 @@
     "name": "system",
     "refid": "namespacesystem",
     "title": "system",
-    "url": "/api/namespaces/namespacesystem.html",
+    "url": "/thrust/api/namespaces/namespacesystem.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -86,7 +86,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     }
   ],
@@ -101,6 +101,6 @@
     }
   ],
   "title": "system::is_error_condition_enum",
-  "url": "/api/classes/structsystem_1_1is__error__condition__enum.html",
+  "url": "/thrust/api/classes/structsystem_1_1is__error__condition__enum.html",
   "visibility": "public"
 }

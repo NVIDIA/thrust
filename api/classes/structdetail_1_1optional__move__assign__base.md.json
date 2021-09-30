@@ -39,7 +39,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -53,7 +53,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -75,6 +75,6 @@
     }
   ],
   "title": "detail::optional_move_assign_base",
-  "url": "/api/classes/structdetail_1_1optional__move__assign__base.html",
+  "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base.html",
   "visibility": "public"
 }

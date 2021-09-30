@@ -29,7 +29,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -43,7 +43,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -68,6 +68,6 @@
     }
   ],
   "title": "detail::invoke_result_impl",
-  "url": "/api/classes/structdetail_1_1invoke__result__impl.html",
+  "url": "/thrust/api/classes/structdetail_1_1invoke__result__impl.html",
   "visibility": "public"
 }

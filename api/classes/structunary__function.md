@@ -9,9 +9,9 @@ has_toc: false
 
 # Struct `unary_function`
 
-<code><a href="/api/classes/structunary__function.html">unary&#95;function</a></code> is an empty base class: it contains no member functions or member variables, but only type information. The only reason it exists is to make it more convenient to define types that are models of the concept Adaptable Unary Function. Specifically, any model of Adaptable Unary Function must define nested <code>typedefs</code>. Those <code>typedefs</code> are provided by the base class <code><a href="/api/classes/structunary__function.html">unary&#95;function</a></code>.
+<code><a href="/thrust/api/classes/structunary__function.html">unary&#95;function</a></code> is an empty base class: it contains no member functions or member variables, but only type information. The only reason it exists is to make it more convenient to define types that are models of the concept Adaptable Unary Function. Specifically, any model of Adaptable Unary Function must define nested <code>typedefs</code>. Those <code>typedefs</code> are provided by the base class <code><a href="/thrust/api/classes/structunary__function.html">unary&#95;function</a></code>.
 
-The following code snippet demonstrates how to construct an Adaptable Unary Function using <code><a href="/api/classes/structunary__function.html">unary&#95;function</a></code>.
+The following code snippet demonstrates how to construct an Adaptable Unary Function using <code><a href="/thrust/api/classes/structunary__function.html">unary&#95;function</a></code>.
 
 
 
@@ -24,20 +24,20 @@ struct sine : public thrust::unary_function<float,float>
 ```
 
 **Note**:
-Because C++11 language support makes the functionality of <code><a href="/api/classes/structunary__function.html">unary&#95;function</a></code> obsolete, its use is optional if C++11 language features are enabled.
+Because C++11 language support makes the functionality of <code><a href="/thrust/api/classes/structunary__function.html">unary&#95;function</a></code> obsolete, its use is optional if C++11 language features are enabled.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/utility/functional/unary_function">https://en.cppreference.com/w/cpp/utility/functional/unary_function</a>
-* <a href="/api/classes/structbinary__function.html">binary_function</a>
+* <a href="/thrust/api/classes/structbinary__function.html">binary_function</a>
 
 <code class="doxybook">
 <span>#include <thrust/functional.h></span><br>
 <span>template &lt;typename Argument,</span>
 <span>&nbsp;&nbsp;typename Result&gt;</span>
 <span>struct unary&#95;function {</span>
-<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structunary__function.html#typedef-argument_type">argument&#95;type</a></b>;</span>
+<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structunary__function.html#typedef-argument_type">argument&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's result.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structunary__function.html#typedef-result_type">result&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's result.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structunary__function.html#typedef-result_type">result&#95;type</a></b>;</span>
 <span>};</span>
 </code>
 

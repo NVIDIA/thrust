@@ -28,7 +28,7 @@
     "name": "unimplemented",
     "refid": "namespaceunimplemented",
     "title": "unimplemented",
-    "url": "/api/namespaces/namespaceunimplemented.html",
+    "url": "/thrust/api/namespaces/namespaceunimplemented.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "unimplemented",
       "refid": "namespaceunimplemented",
       "title": "unimplemented",
-      "url": "/api/namespaces/namespaceunimplemented.html",
+      "url": "/thrust/api/namespaces/namespaceunimplemented.html",
       "visibility": "public"
     }
   ],
@@ -48,6 +48,6 @@
   "static": false,
   "strong": false,
   "title": "unimplemented::no_unique_eager_future_type_found",
-  "url": "/api/classes/structunimplemented_1_1no__unique__eager__future__type__found.html",
+  "url": "/thrust/api/classes/structunimplemented_1_1no__unique__eager__future__type__found.html",
   "visibility": "public"
 }

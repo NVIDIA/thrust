@@ -9,9 +9,9 @@ has_toc: false
 
 # Class `transform_output_iterator`
 
-<code><a href="/api/classes/classtransform__output__iterator.html">transform&#95;output&#95;iterator</a></code> is a special kind of output iterator which transforms a value written upon dereference. This iterator is useful for transforming an output from algorithms without explicitly storing the intermediate result in the memory and applying subsequent transformation, thereby avoiding wasting memory capacity and bandwidth. Using <code><a href="/api/classes/classtransform__iterator.html">transform&#95;iterator</a></code> facilitates kernel fusion by deferring execution of transformation until the value is written while saving both memory capacity and bandwidth.
+<code><a href="/thrust/api/classes/classtransform__output__iterator.html">transform&#95;output&#95;iterator</a></code> is a special kind of output iterator which transforms a value written upon dereference. This iterator is useful for transforming an output from algorithms without explicitly storing the intermediate result in the memory and applying subsequent transformation, thereby avoiding wasting memory capacity and bandwidth. Using <code><a href="/thrust/api/classes/classtransform__iterator.html">transform&#95;iterator</a></code> facilitates kernel fusion by deferring execution of transformation until the value is written while saving both memory capacity and bandwidth.
 
-The following code snippet demonstrated how to create a <code><a href="/api/classes/classtransform__output__iterator.html">transform&#95;output&#95;iterator</a></code> which applies <code>sqrtf</code> to the assigning value.
+The following code snippet demonstrated how to create a <code><a href="/thrust/api/classes/classtransform__output__iterator.html">transform&#95;output&#95;iterator</a></code> which applies <code>sqrtf</code> to the assigning value.
 
 
 
@@ -55,7 +55,7 @@ The following code snippet demonstrated how to create a <code><a href="/api/clas
 `detail::transform_output_iterator_base::type< UnaryFunction, OutputIterator >`
 
 **See**:
-<a href="/api/groups/group__fancyiterator.html#function-make_transform_output_iterator">make_transform_output_iterator</a>
+<a href="/thrust/api/groups/group__fancyiterator.html#function-make_transform_output_iterator">make_transform_output_iterator</a>
 
 <code class="doxybook">
 <span>#include <thrust/iterator/transform_output_iterator.h></span><br>

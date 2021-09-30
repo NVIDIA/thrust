@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "Memory resource adaptor that turns any memory resource that returns a fancy with the same tag as <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code>, and adapts it to a resource that returns a <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code>. ",
+  "details": "Memory resource adaptor that turns any memory resource that returns a fancy with the same tag as <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code>, and adapts it to a resource that returns a <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code>. ",
   "explicit": false,
   "fullname": "device_ptr_memory_resource",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "allocators",
     "refid": "group__allocators",
     "title": "Allocators",
-    "url": "/api/groups/group__allocators.html",
+    "url": "/thrust/api/groups/group__allocators.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -51,7 +51,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "allocators",
       "refid": "group__allocators",
       "title": "Allocators",
-      "url": "/api/groups/group__allocators.html",
+      "url": "/thrust/api/groups/group__allocators.html",
       "visibility": "public"
     }
   ],
@@ -96,7 +96,7 @@
       "title": "m_upstream",
       "type": "Upstream *",
       "typePlain": "Upstream *",
-      "url": "/api/classes/classdevice__ptr__memory__resource.html#variable-m_upstream",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#variable-m_upstream",
       "visibility": "private"
     }
   ],
@@ -127,7 +127,7 @@
       "title": "upstream_ptr",
       "type": "Upstream::pointer",
       "typePlain": "Upstream::pointer",
-      "url": "/api/classes/classdevice__ptr__memory__resource.html#typedef-upstream_ptr",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#typedef-upstream_ptr",
       "visibility": "private"
     }
   ],
@@ -165,7 +165,7 @@
       "title": "device_ptr_memory_resource",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -214,7 +214,7 @@
       "title": "device_ptr_memory_resource",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -263,7 +263,7 @@
       "title": "do_allocate",
       "type": "__host__ pointer",
       "typePlain": "__host__ pointer",
-      "url": "/api/classes/classdevice__ptr__memory__resource.html#function-do_allocate",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#function-do_allocate",
       "virtual": true,
       "visibility": "public"
     },
@@ -315,7 +315,7 @@
       "title": "do_deallocate",
       "type": "__host__ void",
       "typePlain": "__host__ void",
-      "url": "/api/classes/classdevice__ptr__memory__resource.html#function-do_deallocate",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#function-do_deallocate",
       "virtual": true,
       "visibility": "public"
     }
@@ -331,6 +331,6 @@
     }
   ],
   "title": "device_ptr_memory_resource",
-  "url": "/api/classes/classdevice__ptr__memory__resource.html",
+  "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html",
   "visibility": "public"
 }

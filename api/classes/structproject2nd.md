@@ -9,7 +9,7 @@ has_toc: false
 
 # Struct `project2nd`
 
-<code><a href="/api/classes/structproject2nd.html">project2nd</a></code> is a function object that takes two arguments and returns its second argument; the first argument is unused. It is essentially a generalization of identity to the case of a Binary Function.
+<code><a href="/thrust/api/classes/structproject2nd.html">project2nd</a></code> is a function object that takes two arguments and returns its second argument; the first argument is unused. It is essentially a generalization of identity to the case of a Binary Function.
 
 
 
@@ -24,22 +24,22 @@ assert(y == pj2(x,y));
 ```
 
 **See**:
-* <a href="/api/classes/structidentity.html">identity</a>
-* <a href="/api/classes/structproject1st.html">project1st</a>
-* <a href="/api/classes/structbinary__function.html">binary_function</a>
+* <a href="/thrust/api/classes/structidentity.html">identity</a>
+* <a href="/thrust/api/classes/structproject1st.html">project1st</a>
+* <a href="/thrust/api/classes/structbinary__function.html">binary_function</a>
 
 <code class="doxybook">
 <span>#include <thrust/functional.h></span><br>
 <span>template &lt;typename T1 = void,</span>
 <span>&nbsp;&nbsp;typename T2 = void&gt;</span>
 <span>struct project2nd {</span>
-<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's first argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structproject2nd.html#typedef-first_argument_type">first&#95;argument&#95;type</a></b>;</span>
+<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's first argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structproject2nd.html#typedef-first_argument_type">first&#95;argument&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's second argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structproject2nd.html#typedef-second_argument_type">second&#95;argument&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's second argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structproject2nd.html#typedef-second_argument_type">second&#95;argument&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's result;.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structproject2nd.html#typedef-result_type">result&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's result;.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structproject2nd.html#typedef-result_type">result&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ constexpr const __device__ T2 & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structproject2nd.html#function-operator()">operator()</a></b>(const T1 &,</span>
+<span>&nbsp;&nbsp;__host__ constexpr const __device__ T2 & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structproject2nd.html#function-operator()">operator()</a></b>(const T1 &,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;const T2 & rhs) const;</span>
 <span>};</span>
 </code>

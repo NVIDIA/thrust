@@ -9,7 +9,7 @@ has_toc: false
 
 # Struct `system::is_error_code_enum`
 
-A metafunction returning whether or not the parameter is an <code><a href="/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> enum. 
+A metafunction returning whether or not the parameter is an <code><a href="/thrust/api/classes/classsystem_1_1error__code.html">error&#95;code</a></code> enum. 
 
 **Inherits From**:
 `false_type`

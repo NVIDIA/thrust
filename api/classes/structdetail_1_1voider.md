@@ -10,7 +10,7 @@ has_toc: false
 <code class="doxybook">
 <span>template &lt;class...&gt;</span>
 <span>struct detail::voider {</span>
-<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/api/classes/structdetail_1_1voider.html#using-type">type</a></b> = <i>see below</i>;</span>
+<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structdetail_1_1voider.html#using-type">type</a></b> = <i>see below</i>;</span>
 <span>};</span>
 </code>
 

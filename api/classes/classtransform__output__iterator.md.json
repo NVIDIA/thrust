@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> is a special kind of output iterator which transforms a value written upon dereference. This iterator is useful for transforming an output from algorithms without explicitly storing the intermediate result in the memory and applying subsequent transformation, thereby avoiding wasting memory capacity and bandwidth. Using <code><a href=\"/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code> facilitates kernel fusion by deferring execution of transformation until the value is written while saving both memory capacity and bandwidth.\n\nThe following code snippet demonstrated how to create a <code><a href=\"/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> which applies <code>sqrtf</code> to the assigning value.\n\n\n\n```cpp\n#include <thrust/iterator/transform_output_iterator.h>\n#include <thrust/device_vector.h>\n\n// note: functor inherits form unary function\n // note: functor inherits from unary_function\n struct square_root : public thrust::unary_function<float,float>\n {\n   __host__ __device__\n   float operator()(float x) const\n   {\n     return sqrtf(x);\n   }\n };\n \n int main()\n {\n   thrust::device_vector<float> v(4);\n\n   typedef thrust::device_vector<float>::iterator FloatIterator;\n   thrust::transform_output_iterator<square_root, FloatIterator> iter(v.begin(), square_root());\n\n   iter[0] =  1.0f;    // stores sqrtf( 1.0f) \n   iter[1] =  4.0f;    // stores sqrtf( 4.0f)\n   iter[2] =  9.0f;    // stores sqrtf( 9.0f)\n   iter[3] = 16.0f;    // stores sqrtf(16.0f)\n   // iter[4] is an out-of-bounds error\n                                                                                          \n   v[0]; // returns 1.0f;\n   v[1]; // returns 2.0f;\n   v[2]; // returns 3.0f;\n   v[3]; // returns 4.0f;\n                                                                                          \n }\n```",
+  "details": "<code><a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> is a special kind of output iterator which transforms a value written upon dereference. This iterator is useful for transforming an output from algorithms without explicitly storing the intermediate result in the memory and applying subsequent transformation, thereby avoiding wasting memory capacity and bandwidth. Using <code><a href=\"/thrust/api/classes/classtransform__iterator.html\">transform&#95;iterator</a></code> facilitates kernel fusion by deferring execution of transformation until the value is written while saving both memory capacity and bandwidth.\n\nThe following code snippet demonstrated how to create a <code><a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code> which applies <code>sqrtf</code> to the assigning value.\n\n\n\n```cpp\n#include <thrust/iterator/transform_output_iterator.h>\n#include <thrust/device_vector.h>\n\n// note: functor inherits form unary function\n // note: functor inherits from unary_function\n struct square_root : public thrust::unary_function<float,float>\n {\n   __host__ __device__\n   float operator()(float x) const\n   {\n     return sqrtf(x);\n   }\n };\n \n int main()\n {\n   thrust::device_vector<float> v(4);\n\n   typedef thrust::device_vector<float>::iterator FloatIterator;\n   thrust::transform_output_iterator<square_root, FloatIterator> iter(v.begin(), square_root());\n\n   iter[0] =  1.0f;    // stores sqrtf( 1.0f) \n   iter[1] =  4.0f;    // stores sqrtf( 4.0f)\n   iter[2] =  9.0f;    // stores sqrtf( 9.0f)\n   iter[3] = 16.0f;    // stores sqrtf(16.0f)\n   // iter[4] is an out-of-bounds error\n                                                                                          \n   v[0]; // returns 1.0f;\n   v[1]; // returns 2.0f;\n   v[2]; // returns 3.0f;\n   v[3]; // returns 4.0f;\n                                                                                          \n }\n```",
   "explicit": false,
   "fullname": "transform_output_iterator",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "fancyiterator",
     "refid": "group__fancyiterator",
     "title": "Fancy Iterators",
-    "url": "/api/groups/group__fancyiterator.html",
+    "url": "/thrust/api/groups/group__fancyiterator.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -49,7 +49,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "name": "fancyiterator",
       "refid": "group__fancyiterator",
       "title": "Fancy Iterators",
-      "url": "/api/groups/group__fancyiterator.html",
+      "url": "/thrust/api/groups/group__fancyiterator.html",
       "visibility": "public"
     }
   ],
@@ -77,7 +77,7 @@
       "default": false,
       "definition": "__host__ __device__ transform_output_iterator< UnaryFunction, OutputIterator >::transform_output_iterator",
       "deleted": false,
-      "details": "This constructor takes as argument an <code>OutputIterator</code> and an <code>UnaryFunction</code> and copies them to a new <code><a href=\"/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>",
+      "details": "This constructor takes as argument an <code>OutputIterator</code> and an <code>UnaryFunction</code> and copies them to a new <code><a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>",
       "explicit": false,
       "fullname": "transform_output_iterator::transform_output_iterator",
       "hasDetails": true,
@@ -96,11 +96,11 @@
       "paramList": [
         {
           "name": "out",
-          "text": "An <code>OutputIterator</code> pointing to the output range whereto the result of <code><a href=\"/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a>'s</code><code>UnaryFunction</code> will be written. "
+          "text": "An <code>OutputIterator</code> pointing to the output range whereto the result of <code><a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a>'s</code><code>UnaryFunction</code> will be written. "
         },
         {
           "name": "fun",
-          "text": "An <code>UnaryFunction</code> used to transform the objects assigned to this <code><a href=\"/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>. "
+          "text": "An <code>UnaryFunction</code> used to transform the objects assigned to this <code><a href=\"/thrust/api/classes/classtransform__output__iterator.html\">transform&#95;output&#95;iterator</a></code>. "
         }
       ],
       "params": [
@@ -122,14 +122,14 @@
       "title": "transform_output_iterator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classtransform__output__iterator.html#function-transform_output_iterator",
+      "url": "/thrust/api/classes/classtransform__output__iterator.html#function-transform_output_iterator",
       "virtual": false,
       "visibility": "private"
     }
   ],
   "refid": "classtransform__output__iterator",
   "see": [
-    "<a href=\"/api/groups/group__fancyiterator.html#function-make_transform_output_iterator\">make_transform_output_iterator</a>"
+    "<a href=\"/thrust/api/groups/group__fancyiterator.html#function-make_transform_output_iterator\">make_transform_output_iterator</a>"
   ],
   "static": false,
   "strong": false,
@@ -146,6 +146,6 @@
     }
   ],
   "title": "transform_output_iterator",
-  "url": "/api/classes/classtransform__output__iterator.html",
+  "url": "/thrust/api/classes/classtransform__output__iterator.html",
   "visibility": "public"
 }

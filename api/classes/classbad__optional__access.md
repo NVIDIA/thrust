@@ -9,9 +9,9 @@ has_toc: false
 
 <code class="doxybook">
 <span>class bad&#95;optional&#95;access {</span>
-<span>public:</span><span>&nbsp;&nbsp;<b><a href="/api/classes/classbad__optional__access.html#function-bad_optional_access">bad&#95;optional&#95;access</a></b>() = default;</span>
+<span>public:</span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classbad__optional__access.html#function-bad_optional_access">bad&#95;optional&#95;access</a></b>() = default;</span>
 <br>
-<span>&nbsp;&nbsp;const __host__ char * </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classbad__optional__access.html#function-what">what</a></b>() const;</span>
+<span>&nbsp;&nbsp;const __host__ char * </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classbad__optional__access.html#function-what">what</a></b>() const;</span>
 <span>};</span>
 </code>
 

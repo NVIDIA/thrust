@@ -18,7 +18,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -118,8 +118,8 @@
       "refid": "group__sorting_1ga752e268bbf39848c7d9ef6debe34ca12",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -148,7 +148,7 @@
       "title": "sort",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-sort",
+      "url": "/thrust/api/groups/group__sorting.html#function-sort",
       "virtual": false,
       "visibility": "public"
     },
@@ -200,8 +200,8 @@
       "refid": "group__sorting_1gae50381e49cb58c02b7413ecfc66765f0",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -221,7 +221,7 @@
       "title": "sort",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__sorting.html#function-sort",
+      "url": "/thrust/api/groups/group__sorting.html#function-sort",
       "virtual": false,
       "visibility": "public"
     },
@@ -291,8 +291,8 @@
       "refid": "group__sorting_1ga6aff42124ddf74b0cf68f2819759fcdb",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -330,7 +330,7 @@
       "title": "sort",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-sort",
+      "url": "/thrust/api/groups/group__sorting.html#function-sort",
       "virtual": false,
       "visibility": "public"
     },
@@ -391,8 +391,8 @@
       "refid": "group__sorting_1ga0c87fd1f105f5fbb48b64392ae1e4058",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -421,7 +421,7 @@
       "title": "sort",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-sort",
+      "url": "/thrust/api/groups/group__sorting.html#function-sort",
       "virtual": false,
       "visibility": "public"
     },
@@ -482,8 +482,8 @@
       "refid": "group__sorting_1ga59a7a24518e4ca8ec53b17b949a13471",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_sort\">https://en.cppreference.com/w/cpp/algorithm/stable_sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -512,7 +512,7 @@
       "title": "stable_sort",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-stable_sort",
+      "url": "/thrust/api/groups/group__sorting.html#function-stable_sort",
       "virtual": false,
       "visibility": "public"
     },
@@ -564,8 +564,8 @@
       "refid": "group__sorting_1ga261df5894805c2e9aea6cd56505a0681",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_sort\">https://en.cppreference.com/w/cpp/algorithm/stable_sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -585,7 +585,7 @@
       "title": "stable_sort",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__sorting.html#function-stable_sort",
+      "url": "/thrust/api/groups/group__sorting.html#function-stable_sort",
       "virtual": false,
       "visibility": "public"
     },
@@ -655,8 +655,8 @@
       "refid": "group__sorting_1ga42d1f6a3e22fadf8f33afe736a62aeb8",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_sort\">https://en.cppreference.com/w/cpp/algorithm/stable_sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -694,7 +694,7 @@
       "title": "stable_sort",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-stable_sort",
+      "url": "/thrust/api/groups/group__sorting.html#function-stable_sort",
       "virtual": false,
       "visibility": "public"
     },
@@ -755,8 +755,8 @@
       "refid": "group__sorting_1gae5d31bade6adb110916383e492e31f4c",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/stable_sort\">https://en.cppreference.com/w/cpp/algorithm/stable_sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -785,7 +785,7 @@
       "title": "stable_sort",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__sorting.html#function-stable_sort",
+      "url": "/thrust/api/groups/group__sorting.html#function-stable_sort",
       "virtual": false,
       "visibility": "public"
     },
@@ -858,8 +858,8 @@
       "refid": "group__sorting_1ga0661fa7c4c3f0d1e36b87820179f7933",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -897,7 +897,7 @@
       "title": "sort_by_key",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-sort_by_key",
+      "url": "/thrust/api/groups/group__sorting.html#function-sort_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -961,8 +961,8 @@
       "refid": "group__sorting_1gae29ea4586f7a97635ba0d377ca7e8c33",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -991,7 +991,7 @@
       "title": "sort_by_key",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__sorting.html#function-sort_by_key",
+      "url": "/thrust/api/groups/group__sorting.html#function-sort_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1073,8 +1073,8 @@
       "refid": "group__sorting_1ga2be68bdbe0460c62021acb250a566629",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1121,7 +1121,7 @@
       "title": "sort_by_key",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-sort_by_key",
+      "url": "/thrust/api/groups/group__sorting.html#function-sort_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1194,8 +1194,8 @@
       "refid": "group__sorting_1gaed1e9e2530f6a1270003f6bc5685e7e4",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort_by_key\">stable&#95;sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1233,7 +1233,7 @@
       "title": "sort_by_key",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__sorting.html#function-sort_by_key",
+      "url": "/thrust/api/groups/group__sorting.html#function-sort_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1306,8 +1306,8 @@
       "refid": "group__sorting_1ga31fc9a54f4e75c7f659c50dbaa717434",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1345,7 +1345,7 @@
       "title": "stable_sort_by_key",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-stable_sort_by_key",
+      "url": "/thrust/api/groups/group__sorting.html#function-stable_sort_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1409,8 +1409,8 @@
       "refid": "group__sorting_1gaeaebdf8536e4683449d8b52d477c5fe9",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1439,7 +1439,7 @@
       "title": "stable_sort_by_key",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__sorting.html#function-stable_sort_by_key",
+      "url": "/thrust/api/groups/group__sorting.html#function-stable_sort_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1521,8 +1521,8 @@
       "refid": "group__sorting_1gac4a39358dd978c65cf48b58ffdede6fd",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1569,7 +1569,7 @@
       "title": "stable_sort_by_key",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__sorting.html#function-stable_sort_by_key",
+      "url": "/thrust/api/groups/group__sorting.html#function-stable_sort_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1642,8 +1642,8 @@
       "refid": "group__sorting_1ga70cb5ef705f3745b639842feafce544d",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/sort\">https://en.cppreference.com/w/cpp/algorithm/sort</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-stable_sort\">stable&#95;sort</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1681,7 +1681,7 @@
       "title": "stable_sort_by_key",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__sorting.html#function-stable_sort_by_key",
+      "url": "/thrust/api/groups/group__sorting.html#function-stable_sort_by_key",
       "virtual": false,
       "visibility": "public"
     }
@@ -1690,6 +1690,6 @@
   "static": false,
   "strong": false,
   "title": "Sorting",
-  "url": "/api/groups/group__sorting.html",
+  "url": "/thrust/api/groups/group__sorting.html",
   "visibility": "public"
 }

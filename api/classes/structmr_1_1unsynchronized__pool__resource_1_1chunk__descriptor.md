@@ -9,9 +9,9 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct mr::unsynchronized&#95;pool&#95;resource::chunk&#95;descriptor {</span>
-<span>public:</span><span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-size">size</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-size">size</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;chunk_descriptor_ptr <b><a href="/api/classes/structmr_1_1unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-next">next</a></b>;</span>
+<span>&nbsp;&nbsp;chunk_descriptor_ptr <b><a href="/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-next">next</a></b>;</span>
 <span>};</span>
 </code>
 

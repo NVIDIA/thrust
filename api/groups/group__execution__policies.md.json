@@ -37,7 +37,7 @@
       "override": false,
       "refid": "group__execution__policies_1gabdafa7a7bca88ca13743c7dd1caf1c5c",
       "see": [
-        "<a href=\"/api/classes/structhost__execution__policy.html\">host_execution_policy</a>",
+        "<a href=\"/thrust/api/classes/structhost__execution__policy.html\">host_execution_policy</a>",
         "thrust::device "
       ],
       "static": true,
@@ -45,7 +45,7 @@
       "title": "host",
       "type": "const detail::host_t",
       "typePlain": "const detail::host_t",
-      "url": "/api/groups/group__execution__policies.html#variable-host",
+      "url": "/thrust/api/groups/group__execution__policies.html#variable-host",
       "visibility": "public"
     },
     {
@@ -71,7 +71,7 @@
       "override": false,
       "refid": "group__execution__policies_1ga3abcce2d7c2fcb5f4456f15520917590",
       "see": [
-        "<a href=\"/api/classes/structhost__execution__policy.html\">host_execution_policy</a>",
+        "<a href=\"/thrust/api/classes/structhost__execution__policy.html\">host_execution_policy</a>",
         "thrust::device "
       ],
       "static": false,
@@ -79,7 +79,7 @@
       "title": "device",
       "type": "THRUST_INLINE_CONSTANT detail::device_t",
       "typePlain": "THRUST_INLINE_CONSTANT detail::device_t",
-      "url": "/api/groups/group__execution__policies.html#variable-device",
+      "url": "/thrust/api/groups/group__execution__policies.html#variable-device",
       "visibility": "public"
     }
   ],
@@ -100,7 +100,7 @@
       "name": "host_execution_policy",
       "refid": "structhost__execution__policy",
       "title": "host_execution_policy",
-      "url": "/api/classes/structhost__execution__policy.html",
+      "url": "/thrust/api/classes/structhost__execution__policy.html",
       "visibility": "public"
     },
     {
@@ -119,7 +119,7 @@
       "name": "device_execution_policy",
       "refid": "structdevice__execution__policy",
       "title": "device_execution_policy",
-      "url": "/api/classes/structdevice__execution__policy.html",
+      "url": "/thrust/api/classes/structdevice__execution__policy.html",
       "visibility": "public"
     }
   ],
@@ -127,6 +127,6 @@
   "static": false,
   "strong": false,
   "title": "Parallel Execution Policies",
-  "url": "/api/groups/group__execution__policies.html",
+  "url": "/thrust/api/groups/group__execution__policies.html",
   "visibility": "public"
 }

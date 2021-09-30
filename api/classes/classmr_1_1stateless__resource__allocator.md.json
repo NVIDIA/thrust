@@ -37,7 +37,7 @@
     "name": "allocators",
     "refid": "group__allocators",
     "title": "Allocators",
-    "url": "/api/groups/group__allocators.html",
+    "url": "/thrust/api/groups/group__allocators.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -51,7 +51,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "allocators",
       "refid": "group__allocators",
       "title": "Allocators",
-      "url": "/api/groups/group__allocators.html",
+      "url": "/thrust/api/groups/group__allocators.html",
       "visibility": "public"
     }
   ],
@@ -78,7 +78,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -92,7 +92,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -123,7 +123,7 @@
       "title": "base",
       "type": "thrust::mr::allocator< T, Upstream >",
       "typePlain": "thrust::mr::allocator< T, Upstream >",
-      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html#typedef-base",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#typedef-base",
       "visibility": "private"
     }
   ],
@@ -136,7 +136,7 @@
       "name": "mr::stateless_resource_allocator::rebind",
       "refid": "structmr_1_1stateless__resource__allocator_1_1rebind",
       "title": "mr::stateless_resource_allocator::rebind",
-      "url": "/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html",
+      "url": "/thrust/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html",
       "visibility": "public"
     }
   ],
@@ -174,7 +174,7 @@
       "title": "stateless_resource_allocator",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -206,7 +206,7 @@
       "params": [
         {
           "name": "other",
-          "type": "const <a href=\"/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a> &",
           "typePlain": "const stateless_resource_allocator &"
         }
       ],
@@ -217,7 +217,7 @@
       "title": "stateless_resource_allocator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -249,7 +249,7 @@
       "params": [
         {
           "name": "other",
-          "type": "const <a href=\"/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a>< U, Upstream > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a>< U, Upstream > &",
           "typePlain": "const stateless_resource_allocator< U, Upstream > &"
         }
       ],
@@ -267,7 +267,7 @@
       "title": "stateless_resource_allocator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -295,7 +295,7 @@
       "params": [
         {
           "name": "",
-          "type": "const <a href=\"/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a> &",
           "typePlain": "const stateless_resource_allocator &"
         }
       ],
@@ -304,9 +304,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "<a href=\"/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a> &",
+      "type": "<a href=\"/thrust/api/classes/classmr_1_1stateless__resource__allocator.html\">stateless_resource_allocator</a> &",
       "typePlain": "stateless_resource_allocator &",
-      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html#function-operator=",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -343,7 +343,7 @@
       "title": "~stateless_resource_allocator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classmr_1_1stateless__resource__allocator.html#function-~stateless_resource_allocator",
+      "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-~stateless_resource_allocator",
       "virtual": false,
       "visibility": "public"
     }
@@ -374,6 +374,6 @@
     }
   ],
   "title": "mr::stateless_resource_allocator",
-  "url": "/api/classes/classmr_1_1stateless__resource__allocator.html",
+  "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html",
   "visibility": "public"
 }

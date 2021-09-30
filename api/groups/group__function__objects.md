@@ -10,9 +10,9 @@ has_toc: false
 
 ## Groups
 
-* **[Function Object Adaptors](/api/groups/group__function__object__adaptors.html)**
-* **[Placeholder Objects](/api/groups/group__placeholder__objects.html)**
-* **[Predefined Function Objects](/api/groups/group__predefined__function__objects.html)**
+* **[Function Object Adaptors](/thrust/api/groups/group__function__object__adaptors.html)**
+* **[Placeholder Objects](/thrust/api/groups/group__placeholder__objects.html)**
+* **[Predefined Function Objects](/thrust/api/groups/group__predefined__function__objects.html)**
 
 <code class="doxybook">
 </code>

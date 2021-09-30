@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/structunary__negate.html\">unary&#95;negate</a></code> is a function object adaptor: it is an Adaptable Predicate that represents the logical negation of some other Adaptable Predicate. That is: if <code>f</code> is an object of class <code>unary&#95;negate&lt;AdaptablePredicate&gt;</code>, then there exists an object <code>pred</code> of class <code>AdaptablePredicate</code> such that <code>f(x)</code> always returns the same value as <code>!pred(x)</code>. There is rarely any reason to construct a <code><a href=\"/api/classes/structunary__negate.html\">unary&#95;negate</a></code> directly; it is almost always easier to use the helper function not1.",
+  "details": "<code><a href=\"/thrust/api/classes/structunary__negate.html\">unary&#95;negate</a></code> is a function object adaptor: it is an Adaptable Predicate that represents the logical negation of some other Adaptable Predicate. That is: if <code>f</code> is an object of class <code>unary&#95;negate&lt;AdaptablePredicate&gt;</code>, then there exists an object <code>pred</code> of class <code>AdaptablePredicate</code> such that <code>f(x)</code> always returns the same value as <code>!pred(x)</code>. There is rarely any reason to construct a <code><a href=\"/thrust/api/classes/structunary__negate.html\">unary&#95;negate</a></code> directly; it is almost always easier to use the helper function not1.",
   "explicit": false,
   "fullname": "unary_negate",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "function_object_adaptors",
     "refid": "group__function__object__adaptors",
     "title": "Function Object Adaptors",
-    "url": "/api/groups/group__function__object__adaptors.html",
+    "url": "/thrust/api/groups/group__function__object__adaptors.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -49,7 +49,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "name": "function_object_adaptors",
       "refid": "group__function__object__adaptors",
       "title": "Function Object Adaptors",
-      "url": "/api/groups/group__function__object__adaptors.html",
+      "url": "/thrust/api/groups/group__function__object__adaptors.html",
       "visibility": "public"
     }
   ],
@@ -113,7 +113,7 @@
       "title": "unary_negate",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structunary__negate.html#function-unary_negate",
+      "url": "/thrust/api/classes/structunary__negate.html#function-unary_negate",
       "virtual": false,
       "visibility": "public"
     },
@@ -156,7 +156,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ __device__ bool",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ bool",
-      "url": "/api/classes/structunary__negate.html#function-operator()",
+      "url": "/thrust/api/classes/structunary__negate.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -164,7 +164,7 @@
   "refid": "structunary__negate",
   "see": [
     "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/unary_negate\">https://en.cppreference.com/w/cpp/utility/functional/unary_negate</a>",
-    "<a href=\"/api/groups/group__function__object__adaptors.html#function-not1\">not1</a>"
+    "<a href=\"/thrust/api/groups/group__function__object__adaptors.html#function-not1\">not1</a>"
   ],
   "static": false,
   "strong": false,
@@ -176,6 +176,6 @@
     }
   ],
   "title": "unary_negate",
-  "url": "/api/classes/structunary__negate.html",
+  "url": "/thrust/api/classes/structunary__negate.html",
   "visibility": "public"
 }

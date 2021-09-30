@@ -30,7 +30,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -44,7 +44,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -78,7 +78,7 @@
       "title": "optional_delete_assign_base",
       "type": "__thrust_exec_check_disable__",
       "typePlain": "__thrust_exec_check_disable__",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base.html#function-optional_delete_assign_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base.html#function-optional_delete_assign_base",
       "virtual": false,
       "visibility": "public"
     },
@@ -117,7 +117,7 @@
       "title": "optional_delete_assign_base",
       "type": "__thrust_exec_check_disable__",
       "typePlain": "__thrust_exec_check_disable__",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base.html#function-optional_delete_assign_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base.html#function-optional_delete_assign_base",
       "virtual": false,
       "visibility": "public"
     },
@@ -156,7 +156,7 @@
       "title": "optional_delete_assign_base",
       "type": "__thrust_exec_check_disable__",
       "typePlain": "__thrust_exec_check_disable__",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base.html#function-optional_delete_assign_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base.html#function-optional_delete_assign_base",
       "virtual": false,
       "visibility": "public"
     },
@@ -195,7 +195,7 @@
       "title": "operator=",
       "type": "__thrust_exec_check_disable__ optional_delete_assign_base &",
       "typePlain": "__thrust_exec_check_disable__ optional_delete_assign_base &",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base.html#function-operator=",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -234,7 +234,7 @@
       "title": "operator=",
       "type": "__thrust_exec_check_disable__ optional_delete_assign_base &",
       "typePlain": "__thrust_exec_check_disable__ optional_delete_assign_base &",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base.html#function-operator=",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     }
@@ -264,6 +264,6 @@
     }
   ],
   "title": "detail::optional_delete_assign_base",
-  "url": "/api/classes/structdetail_1_1optional__delete__assign__base.html",
+  "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base.html",
   "visibility": "public"
 }

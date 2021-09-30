@@ -13,7 +13,7 @@ has_toc: false
 A <code>discard&#95;block&#95;engine</code> adapts an existing base random number engine and produces random values by discarding some of the values returned by its base engine. Each cycle of the compound engine begins by returning <code>r</code> values successively produced by the base engine and ends by discarding <code>p-r</code> such values. The engine's state is the state of its base engine followed by the number of calls to <code>operator()</code> that have occurred since the beginning of the current cycle. 
 
 
-The following code snippet shows an example of using a <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> instance:
+The following code snippet shows an example of using a <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> instance:
 
 
 
@@ -46,33 +46,33 @@ int main(void)
 <span>&nbsp;&nbsp;size_t p,</span>
 <span>&nbsp;&nbsp;size_t r&gt;</span>
 <span>class random::discard&#95;block&#95;engine {</span>
-<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the adapted base random number engine.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base&#95;type</a></b>;</span>
+<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the adapted base random number engine.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the unsigned integer produced by this <code>linear&#95;congruential&#95;engine</code>.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the unsigned integer produced by this <code>linear&#95;congruential&#95;engine</code>.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1discard__block__engine.html#variable-block_size">block&#95;size</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#variable-block_size">block&#95;size</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1discard__block__engine.html#variable-used_block">used&#95;block</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#variable-used_block">used&#95;block</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> <b><a href="/api/classes/classrandom_1_1discard__block__engine.html#variable-min">min</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> <b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#variable-min">min</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> <b><a href="/api/classes/classrandom_1_1discard__block__engine.html#variable-max">max</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> <b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#variable-max">max</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1discard__block__engine.html#function-discard_block_engine">discard&#95;block&#95;engine</a></b>();</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#function-discard_block_engine">discard&#95;block&#95;engine</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1discard__block__engine.html#function-discard_block_engine">discard&#95;block&#95;engine</a></b>(const <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base_type</a> & urng);</span>
+<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#function-discard_block_engine">discard&#95;block&#95;engine</a></b>(const <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base_type</a> & urng);</span>
 <br>
-<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1discard__block__engine.html#function-discard_block_engine">discard&#95;block&#95;engine</a></b>(<a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> s);</span>
+<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#function-discard_block_engine">discard&#95;block&#95;engine</a></b>(<a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> s);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1discard__block__engine.html#function-seed">seed</a></b>(void);</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#function-seed">seed</a></b>(void);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1discard__block__engine.html#function-seed">seed</a></b>(<a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> s);</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#function-seed">seed</a></b>(<a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> s);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1discard__block__engine.html#function-operator()">operator()</a></b>(void);</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#function-operator()">operator()</a></b>(void);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1discard__block__engine.html#function-discard">discard</a></b>(unsigned long long z);</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#function-discard">discard</a></b>(unsigned long long z);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ const __device__ <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base_type</a> & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1discard__block__engine.html#function-base">base</a></b>(void) const;</span>
+<span>&nbsp;&nbsp;__host__ const __device__ <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base_type</a> & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#function-base">base</a></b>(void) const;</span>
 <span>};</span>
 </code>
 
@@ -118,16 +118,16 @@ Variable <code>random::discard&#95;block&#95;engine::random::discard&#95;block&#
 </h3>
 
 <code class="doxybook">
-<span>static const <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> <b>min</b> = base&#95;type::min;</span></code>
-The smallest value this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> may potentially produce. 
+<span>static const <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> <b>min</b> = base&#95;type::min;</span></code>
+The smallest value this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> may potentially produce. 
 
 <h3 id="variable-max">
 Variable <code>random::discard&#95;block&#95;engine::random::discard&#95;block&#95;engine::max</code>
 </h3>
 
 <code class="doxybook">
-<span>static const <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> <b>max</b> = base&#95;type::max;</span></code>
-The largest value this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> may potentially produce. 
+<span>static const <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> <b>max</b> = base&#95;type::max;</span></code>
+The largest value this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> may potentially produce. 
 
 
 ## Member Functions
@@ -138,29 +138,29 @@ Function <code>random::discard&#95;block&#95;engine::&gt;::discard&#95;block&#95
 
 <code class="doxybook">
 <span>__host__ __device__ </span><span><b>discard_block_engine</b>();</span></code>
-This constructor constructs a new <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> and constructs its <code>base&#95;type</code> engine using its null constructor. 
+This constructor constructs a new <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> and constructs its <code>base&#95;type</code> engine using its null constructor. 
 
 <h3 id="function-discard_block_engine">
 Function <code>random::discard&#95;block&#95;engine::&gt;::discard&#95;block&#95;engine</code>
 </h3>
 
 <code class="doxybook">
-<span>explicit __host__ __device__ </span><span><b>discard_block_engine</b>(const <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base_type</a> & urng);</span></code>
-This constructor constructs a new <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> using a given <code>base&#95;type</code> engine to initialize its adapted base engine.
+<span>explicit __host__ __device__ </span><span><b>discard_block_engine</b>(const <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base_type</a> & urng);</span></code>
+This constructor constructs a new <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> using a given <code>base&#95;type</code> engine to initialize its adapted base engine.
 
 **Function Parameters**:
-**`urng`**: A <code>base&#95;type</code> to use to initialize this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine. 
+**`urng`**: A <code>base&#95;type</code> to use to initialize this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine. 
 
 <h3 id="function-discard_block_engine">
 Function <code>random::discard&#95;block&#95;engine::&gt;::discard&#95;block&#95;engine</code>
 </h3>
 
 <code class="doxybook">
-<span>explicit __host__ __device__ </span><span><b>discard_block_engine</b>(<a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> s);</span></code>
-This constructor initializes a new <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> with a given seed.
+<span>explicit __host__ __device__ </span><span><b>discard_block_engine</b>(<a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> s);</span></code>
+This constructor initializes a new <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> with a given seed.
 
 **Function Parameters**:
-**`s`**: The seed used to intialize this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine. 
+**`s`**: The seed used to intialize this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine. 
 
 <h3 id="function-seed">
 Function <code>random::discard&#95;block&#95;engine::&gt;::seed</code>
@@ -168,26 +168,26 @@ Function <code>random::discard&#95;block&#95;engine::&gt;::seed</code>
 
 <code class="doxybook">
 <span>__host__ __device__ void </span><span><b>seed</b>(void);</span></code>
-This method initializes the state of this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine by using its <code>default&#95;seed</code> value. 
+This method initializes the state of this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine by using its <code>default&#95;seed</code> value. 
 
 <h3 id="function-seed">
 Function <code>random::discard&#95;block&#95;engine::&gt;::seed</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ void </span><span><b>seed</b>(<a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> s);</span></code>
-This method initializes the state of this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine by using the given seed.
+<span>__host__ __device__ void </span><span><b>seed</b>(<a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> s);</span></code>
+This method initializes the state of this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine by using the given seed.
 
 **Function Parameters**:
-**`s`**: The seed with which to intialize this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine. 
+**`s`**: The seed with which to intialize this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine. 
 
 <h3 id="function-operator()">
 Function <code>random::discard&#95;block&#95;engine::&gt;::operator()</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(void);</span></code>
-This member function produces a new random value and updates this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> state. 
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(void);</span></code>
+This member function produces a new random value and updates this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> state. 
 
 **Returns**:
 A new random number. 
@@ -198,7 +198,7 @@ Function <code>random::discard&#95;block&#95;engine::&gt;::discard</code>
 
 <code class="doxybook">
 <span>__host__ __device__ void </span><span><b>discard</b>(unsigned long long z);</span></code>
-This member function advances this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> state a given number of times and discards the results.
+This member function advances this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> state a given number of times and discards the results.
 
 **Note**:
 This function is provided because an implementation may be able to accelerate it. 
@@ -211,10 +211,10 @@ Function <code>random::discard&#95;block&#95;engine::&gt;::base</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ const __device__ <a href="/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base_type</a> & </span><span><b>base</b>(void) const;</span></code>
-This member function returns a const reference to this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine.
+<span>__host__ const __device__ <a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html#typedef-base_type">base_type</a> & </span><span><b>base</b>(void) const;</span></code>
+This member function returns a const reference to this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a>'s</code> adapted base engine.
 
 **Returns**:
-A const reference to the base engine this <code><a href="/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> adapts. 
+A const reference to the base engine this <code><a href="/thrust/api/classes/classrandom_1_1discard__block__engine.html">discard&#95;block&#95;engine</a></code> adapts. 
 
 

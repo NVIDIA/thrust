@@ -15,7 +15,7 @@
       "name": "system_backends",
       "refid": "group__system__backends",
       "title": "Systems",
-      "url": "/api/groups/group__system__backends.html",
+      "url": "/thrust/api/groups/group__system__backends.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "System_diagnostics",
       "refid": "group__system__diagnostics",
       "title": "System Diagnostics",
-      "url": "/api/groups/group__system__diagnostics.html",
+      "url": "/thrust/api/groups/group__system__diagnostics.html",
       "visibility": "public"
     }
   ],
@@ -46,7 +46,7 @@
       "refid": "namespacethrust_1_1system",
       "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
       "title": "thrust::system",
-      "url": "/api/namespaces/namespacethrust_1_1system.html",
+      "url": "/thrust/api/namespaces/namespacethrust_1_1system.html",
       "visibility": "public"
     },
     {
@@ -57,7 +57,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     }
   ],
@@ -67,6 +67,6 @@
   "static": false,
   "strong": false,
   "title": "System",
-  "url": "/api/groups/group__system.html",
+  "url": "/thrust/api/groups/group__system.html",
   "visibility": "public"
 }

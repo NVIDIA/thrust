@@ -9,9 +9,9 @@ has_toc: false
 
 # Class `counting_iterator`
 
-<code><a href="/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code> is an iterator which represents a pointer into a range of sequentially changing values. This iterator is useful for creating a range filled with a sequence without explicitly storing it in memory. Using <code><a href="/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code> saves memory capacity and bandwidth.
+<code><a href="/thrust/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code> is an iterator which represents a pointer into a range of sequentially changing values. This iterator is useful for creating a range filled with a sequence without explicitly storing it in memory. Using <code><a href="/thrust/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code> saves memory capacity and bandwidth.
 
-The following code snippet demonstrates how to create a <code><a href="/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code> whose <code>value&#95;type</code> is <code>int</code> and which sequentially increments by <code>1</code>.
+The following code snippet demonstrates how to create a <code><a href="/thrust/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code> whose <code>value&#95;type</code> is <code>int</code> and which sequentially increments by <code>1</code>.
 
 
 
@@ -35,7 +35,7 @@ thrust::device_vector<int> vec(500);
 thrust::copy(iter, iter + vec.size(), vec.begin());
 ```
 
-This next example demonstrates how to use a <code><a href="/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code> with the <code>thrust::copy&#95;if</code> function to compute the indices of the non-zero elements of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code>. In this example, we use the <code>make&#95;counting&#95;iterator</code> function to avoid specifying the type of the <code><a href="/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code>.
+This next example demonstrates how to use a <code><a href="/thrust/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code> with the <code>thrust::copy&#95;if</code> function to compute the indices of the non-zero elements of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code>. In this example, we use the <code>make&#95;counting&#95;iterator</code> function to avoid specifying the type of the <code><a href="/thrust/api/classes/classcounting__iterator.html">counting&#95;iterator</a></code>.
 
 
 
@@ -82,7 +82,7 @@ int main()
 `detail::counting_iterator_base::type< Incrementable, use_default, use_default, use_default >`
 
 **See**:
-<a href="/api/groups/group__fancyiterator.html#function-make_counting_iterator">make_counting_iterator</a>
+<a href="/thrust/api/groups/group__fancyiterator.html#function-make_counting_iterator">make_counting_iterator</a>
 
 <code class="doxybook">
 <span>#include <thrust/iterator/counting_iterator.h></span><br>

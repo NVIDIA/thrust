@@ -13,7 +13,7 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction&gt;</span>
-<span>__host__ __device__ InputIterator </span><span><b><a href="/api/groups/group__modifying.html#function-for_each">for&#95;each</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ InputIterator </span><span><b><a href="/thrust/api/groups/group__modifying.html#function-for_each">for&#95;each</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;UnaryFunction f);</span>
@@ -22,21 +22,21 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Size,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction&gt;</span>
-<span>__host__ __device__ InputIterator </span><span><b><a href="/api/groups/group__modifying.html#function-for_each_n">for&#95;each&#95;n</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ InputIterator </span><span><b><a href="/thrust/api/groups/group__modifying.html#function-for_each_n">for&#95;each&#95;n</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;Size n,</span>
 <span>&nbsp;&nbsp;UnaryFunction f);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction&gt;</span>
-<span>InputIterator </span><span><b><a href="/api/groups/group__modifying.html#function-for_each">for&#95;each</a></b>(InputIterator first,</span>
+<span>InputIterator </span><span><b><a href="/thrust/api/groups/group__modifying.html#function-for_each">for&#95;each</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;UnaryFunction f);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Size,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction&gt;</span>
-<span>InputIterator </span><span><b><a href="/api/groups/group__modifying.html#function-for_each_n">for&#95;each&#95;n</a></b>(InputIterator first,</span>
+<span>InputIterator </span><span><b><a href="/thrust/api/groups/group__modifying.html#function-for_each_n">for&#95;each&#95;n</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;Size n,</span>
 <span>&nbsp;&nbsp;UnaryFunction f);</span>
 </code>
@@ -106,7 +106,7 @@ thrust::for_each(thrust::device, d_vec.begin(), d_vec.end(), printf_functor());
 last
 
 **See**:
-* <a href="/api/groups/group__modifying.html#function-for_each_n">for_each_n</a>
+* <a href="/thrust/api/groups/group__modifying.html#function-for_each_n">for_each_n</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/for_each">https://en.cppreference.com/w/cpp/algorithm/for_each</a>
 
 <h3 id="function-for_each_n">
@@ -127,7 +127,7 @@ Function <code>for&#95;each&#95;n</code>
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
-The following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> using the <code>thrust::device</code> parallelization policy.
+The following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> using the <code>thrust::device</code> parallelization policy.
 
 
 
@@ -173,7 +173,7 @@ thrust::for_each_n(thrust::device, d_vec.begin(), d_vec.size(), printf_functor()
 <code>first + n</code>
 
 **See**:
-* <a href="/api/groups/group__modifying.html#function-for_each">for_each</a>
+* <a href="/thrust/api/groups/group__modifying.html#function-for_each">for_each</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/for_each">https://en.cppreference.com/w/cpp/algorithm/for_each</a>
 
 <h3 id="function-for_each">
@@ -189,7 +189,7 @@ Function <code>for&#95;each</code>
 <code>for&#95;each</code> applies the function object <code>f</code> to each element in the range <code>[first, last)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution. For this reason, this version of <code>for&#95;each</code> does not return a copy of the function object.
 
 
-The following code snippet demonstrates how to use <code>for&#95;each</code> to print the elements of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code>.
+The following code snippet demonstrates how to use <code>for&#95;each</code> to print the elements of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code>.
 
 
 
@@ -231,7 +231,7 @@ thrust::for_each(d_vec.begin(), d_vec.end(), printf_functor());
 last
 
 **See**:
-* <a href="/api/groups/group__modifying.html#function-for_each_n">for_each_n</a>
+* <a href="/thrust/api/groups/group__modifying.html#function-for_each_n">for_each_n</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/for_each">https://en.cppreference.com/w/cpp/algorithm/for_each</a>
 
 <h3 id="function-for_each_n">
@@ -248,7 +248,7 @@ Function <code>for&#95;each&#95;n</code>
 <code>for&#95;each&#95;n</code> applies the function object <code>f</code> to each element in the range <code>[first, first + n)</code>; <code>f's</code> return value, if any, is ignored. Unlike the C++ Standard Template Library function <code>std::for&#95;each</code>, this version offers no guarantee on order of execution.
 
 
-The following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code>.
+The following code snippet demonstrates how to use <code>for&#95;each&#95;n</code> to print the elements of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code>.
 
 
 
@@ -291,7 +291,7 @@ thrust::for_each_n(d_vec.begin(), d_vec.size(), printf_functor());
 <code>first + n</code>
 
 **See**:
-* <a href="/api/groups/group__modifying.html#function-for_each">for_each</a>
+* <a href="/thrust/api/groups/group__modifying.html#function-for_each">for_each</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/for_each">https://en.cppreference.com/w/cpp/algorithm/for_each</a>
 
 

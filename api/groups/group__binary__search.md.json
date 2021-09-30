@@ -15,7 +15,7 @@
       "name": "vectorized_binary_search",
       "refid": "group__vectorized__binary__search",
       "title": "Vectorized Searches",
-      "url": "/api/groups/group__vectorized__binary__search.html",
+      "url": "/thrust/api/groups/group__vectorized__binary__search.html",
       "visibility": "public"
     }
   ],
@@ -31,7 +31,7 @@
     "name": "searching",
     "refid": "group__searching",
     "title": "Searching",
-    "url": "/api/groups/group__searching.html",
+    "url": "/thrust/api/groups/group__searching.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -43,7 +43,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -54,7 +54,7 @@
       "name": "searching",
       "refid": "group__searching",
       "title": "Searching",
-      "url": "/api/groups/group__searching.html",
+      "url": "/thrust/api/groups/group__searching.html",
       "visibility": "public"
     }
   ],
@@ -68,7 +68,7 @@
     "name": "searching",
     "refid": "group__searching",
     "title": "Searching",
-    "url": "/api/groups/group__searching.html",
+    "url": "/thrust/api/groups/group__searching.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -80,7 +80,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -91,7 +91,7 @@
       "name": "searching",
       "refid": "group__searching",
       "title": "Searching",
-      "url": "/api/groups/group__searching.html",
+      "url": "/thrust/api/groups/group__searching.html",
       "visibility": "public"
     }
   ],
@@ -165,9 +165,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/lower_bound\">https://en.cppreference.com/w/cpp/algorithm/lower_bound</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -205,7 +205,7 @@
       "title": "lower_bound",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__binary__search.html#function-lower_bound",
+      "url": "/thrust/api/groups/group__binary__search.html#function-lower_bound",
       "virtual": false,
       "visibility": "public"
     },
@@ -269,9 +269,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/lower_bound\">https://en.cppreference.com/w/cpp/algorithm/lower_bound</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -300,7 +300,7 @@
       "title": "lower_bound",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__binary__search.html#function-lower_bound",
+      "url": "/thrust/api/groups/group__binary__search.html#function-lower_bound",
       "virtual": false,
       "visibility": "public"
     },
@@ -382,9 +382,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/lower_bound\">https://en.cppreference.com/w/cpp/algorithm/lower_bound</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -431,7 +431,7 @@
       "title": "lower_bound",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__binary__search.html#function-lower_bound",
+      "url": "/thrust/api/groups/group__binary__search.html#function-lower_bound",
       "virtual": false,
       "visibility": "public"
     },
@@ -504,9 +504,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/lower_bound\">https://en.cppreference.com/w/cpp/algorithm/lower_bound</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -544,7 +544,7 @@
       "title": "lower_bound",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__binary__search.html#function-lower_bound",
+      "url": "/thrust/api/groups/group__binary__search.html#function-lower_bound",
       "virtual": false,
       "visibility": "public"
     },
@@ -617,9 +617,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/upper_bound\">https://en.cppreference.com/w/cpp/algorithm/upper_bound</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -657,7 +657,7 @@
       "title": "upper_bound",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__binary__search.html#function-upper_bound",
+      "url": "/thrust/api/groups/group__binary__search.html#function-upper_bound",
       "virtual": false,
       "visibility": "public"
     },
@@ -721,9 +721,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/upper_bound\">https://en.cppreference.com/w/cpp/algorithm/upper_bound</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -752,7 +752,7 @@
       "title": "upper_bound",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__binary__search.html#function-upper_bound",
+      "url": "/thrust/api/groups/group__binary__search.html#function-upper_bound",
       "virtual": false,
       "visibility": "public"
     },
@@ -834,9 +834,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/upper_bound\">https://en.cppreference.com/w/cpp/algorithm/upper_bound</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -883,7 +883,7 @@
       "title": "upper_bound",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__binary__search.html#function-upper_bound",
+      "url": "/thrust/api/groups/group__binary__search.html#function-upper_bound",
       "virtual": false,
       "visibility": "public"
     },
@@ -956,9 +956,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/upper_bound\">https://en.cppreference.com/w/cpp/algorithm/upper_bound</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -996,7 +996,7 @@
       "title": "upper_bound",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__binary__search.html#function-upper_bound",
+      "url": "/thrust/api/groups/group__binary__search.html#function-upper_bound",
       "virtual": false,
       "visibility": "public"
     },
@@ -1069,9 +1069,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/binary_search\">https://en.cppreference.com/w/cpp/algorithm/binary_search</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1109,7 +1109,7 @@
       "title": "binary_search",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__binary__search.html#function-binary_search",
+      "url": "/thrust/api/groups/group__binary__search.html#function-binary_search",
       "virtual": false,
       "visibility": "public"
     },
@@ -1173,9 +1173,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/binary_search\">https://en.cppreference.com/w/cpp/algorithm/binary_search</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1204,7 +1204,7 @@
       "title": "binary_search",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__binary__search.html#function-binary_search",
+      "url": "/thrust/api/groups/group__binary__search.html#function-binary_search",
       "virtual": false,
       "visibility": "public"
     },
@@ -1286,9 +1286,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/binary_search\">https://en.cppreference.com/w/cpp/algorithm/binary_search</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1335,7 +1335,7 @@
       "title": "binary_search",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__binary__search.html#function-binary_search",
+      "url": "/thrust/api/groups/group__binary__search.html#function-binary_search",
       "virtual": false,
       "visibility": "public"
     },
@@ -1408,9 +1408,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/binary_search\">https://en.cppreference.com/w/cpp/algorithm/binary_search</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-equal_range\">equal&#95;range</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1448,7 +1448,7 @@
       "title": "binary_search",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/groups/group__binary__search.html#function-binary_search",
+      "url": "/thrust/api/groups/group__binary__search.html#function-binary_search",
       "virtual": false,
       "visibility": "public"
     },
@@ -1521,9 +1521,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/equal_range\">https://en.cppreference.com/w/cpp/algorithm/equal_range</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1561,7 +1561,7 @@
       "title": "equal_range",
       "type": "__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator >",
       "typePlain": "__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator >",
-      "url": "/api/groups/group__binary__search.html#function-equal_range",
+      "url": "/thrust/api/groups/group__binary__search.html#function-equal_range",
       "virtual": false,
       "visibility": "public"
     },
@@ -1625,9 +1625,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/equal_range\">https://en.cppreference.com/w/cpp/algorithm/equal_range</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1656,7 +1656,7 @@
       "title": "equal_range",
       "type": "thrust::pair< ForwardIterator, ForwardIterator >",
       "typePlain": "thrust::pair< ForwardIterator, ForwardIterator >",
-      "url": "/api/groups/group__binary__search.html#function-equal_range",
+      "url": "/thrust/api/groups/group__binary__search.html#function-equal_range",
       "virtual": false,
       "visibility": "public"
     },
@@ -1738,9 +1738,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/equal_range\">https://en.cppreference.com/w/cpp/algorithm/equal_range</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1787,7 +1787,7 @@
       "title": "equal_range",
       "type": "__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator >",
       "typePlain": "__host__ __device__ thrust::pair< ForwardIterator, ForwardIterator >",
-      "url": "/api/groups/group__binary__search.html#function-equal_range",
+      "url": "/thrust/api/groups/group__binary__search.html#function-equal_range",
       "virtual": false,
       "visibility": "public"
     },
@@ -1860,9 +1860,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/equal_range\">https://en.cppreference.com/w/cpp/algorithm/equal_range</a>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
-        "<code><a href=\"/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-lower_bound\">lower&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-upper_bound\">upper&#95;bound</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__binary__search.html#function-binary_search\">binary&#95;search</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1900,7 +1900,7 @@
       "title": "equal_range",
       "type": "thrust::pair< ForwardIterator, ForwardIterator >",
       "typePlain": "thrust::pair< ForwardIterator, ForwardIterator >",
-      "url": "/api/groups/group__binary__search.html#function-equal_range",
+      "url": "/thrust/api/groups/group__binary__search.html#function-equal_range",
       "virtual": false,
       "visibility": "public"
     }
@@ -1909,6 +1909,6 @@
   "static": false,
   "strong": false,
   "title": "Binary Search",
-  "url": "/api/groups/group__binary__search.html",
+  "url": "/thrust/api/groups/group__binary__search.html",
   "visibility": "public"
 }

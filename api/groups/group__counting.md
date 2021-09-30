@@ -13,28 +13,28 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename EqualityComparable&gt;</span>
-<span>__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/api/groups/group__counting.html#function-count">count</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/thrust/api/groups/group__counting.html#function-count">count</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;const EqualityComparable & value);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename EqualityComparable&gt;</span>
-<span>thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/api/groups/group__counting.html#function-count">count</a></b>(InputIterator first,</span>
+<span>thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/thrust/api/groups/group__counting.html#function-count">count</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;const EqualityComparable & value);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/api/groups/group__counting.html#function-count_if">count&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/thrust/api/groups/group__counting.html#function-count_if">count&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/api/groups/group__counting.html#function-count_if">count&#95;if</a></b>(InputIterator first,</span>
+<span>thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/thrust/api/groups/group__counting.html#function-count_if">count&#95;if</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 </code>

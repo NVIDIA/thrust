@@ -15,7 +15,7 @@
       "name": "filling",
       "refid": "group__filling",
       "title": "Filling",
-      "url": "/api/groups/group__filling.html",
+      "url": "/thrust/api/groups/group__filling.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "modifying",
       "refid": "group__modifying",
       "title": "Modifying",
-      "url": "/api/groups/group__modifying.html",
+      "url": "/thrust/api/groups/group__modifying.html",
       "visibility": "public"
     },
     {
@@ -37,7 +37,7 @@
       "name": "replacing",
       "refid": "group__replacing",
       "title": "Replacing",
-      "url": "/api/groups/group__replacing.html",
+      "url": "/thrust/api/groups/group__replacing.html",
       "visibility": "public"
     }
   ],
@@ -53,7 +53,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -65,7 +65,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -79,7 +79,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -91,7 +91,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -168,7 +168,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/adjacent_difference\">https://en.cppreference.com/w/cpp/algorithm/adjacent_difference</a>",
-        "<a href=\"/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive_scan</a>"
+        "<a href=\"/thrust/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive_scan</a>"
       ],
       "static": false,
       "strong": false,
@@ -206,7 +206,7 @@
       "title": "adjacent_difference",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-adjacent_difference",
+      "url": "/thrust/api/groups/group__transformations.html#function-adjacent_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -291,7 +291,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/adjacent_difference\">https://en.cppreference.com/w/cpp/algorithm/adjacent_difference</a>",
-        "<a href=\"/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive_scan</a>"
+        "<a href=\"/thrust/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive_scan</a>"
       ],
       "static": false,
       "strong": false,
@@ -338,7 +338,7 @@
       "title": "adjacent_difference",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-adjacent_difference",
+      "url": "/thrust/api/groups/group__transformations.html#function-adjacent_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -405,7 +405,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/adjacent_difference\">https://en.cppreference.com/w/cpp/algorithm/adjacent_difference</a>",
-        "<a href=\"/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive_scan</a>"
+        "<a href=\"/thrust/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive_scan</a>"
       ],
       "static": false,
       "strong": false,
@@ -434,7 +434,7 @@
       "title": "adjacent_difference",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-adjacent_difference",
+      "url": "/thrust/api/groups/group__transformations.html#function-adjacent_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -510,7 +510,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/adjacent_difference\">https://en.cppreference.com/w/cpp/algorithm/adjacent_difference</a>",
-        "<a href=\"/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive_scan</a>"
+        "<a href=\"/thrust/api/groups/group__prefixsums.html#function-inclusive_scan\">inclusive_scan</a>"
       ],
       "static": false,
       "strong": false,
@@ -548,7 +548,7 @@
       "title": "adjacent_difference",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-adjacent_difference",
+      "url": "/thrust/api/groups/group__transformations.html#function-adjacent_difference",
       "virtual": false,
       "visibility": "public"
     },
@@ -561,7 +561,7 @@
       "default": false,
       "definition": "__host__ __device__ void generate",
       "deleted": false,
-      "details": "<code>generate</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,last)</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to fill a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/generate.h>\n#include <thrust/host_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdlib>\n...\nthrust::host_vector<int> v(10);\nsrand(13);\nthrust::generate(thrust::host, v.begin(), v.end(), rand);\n\n// the elements of v are now pseudo-random numbers\n```",
+      "details": "<code>generate</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,last)</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to fill a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/generate.h>\n#include <thrust/host_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdlib>\n...\nthrust::host_vector<int> v(10);\nsrand(13);\nthrust::generate(thrust::host, v.begin(), v.end(), rand);\n\n// the elements of v are now pseudo-random numbers\n```",
       "explicit": false,
       "fullname": "transformations::generate",
       "hasDetails": true,
@@ -617,7 +617,7 @@
       "pureVirtual": false,
       "refid": "group__transformations_1gaf2d1e7a51e07cb17e0abe90dd3ac83bf",
       "see": [
-        "<a href=\"/api/groups/group__transformations.html#function-generate_n\">generate_n</a>",
+        "<a href=\"/thrust/api/groups/group__transformations.html#function-generate_n\">generate_n</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/generate\">https://en.cppreference.com/w/cpp/algorithm/generate</a>"
       ],
       "static": false,
@@ -656,7 +656,7 @@
       "title": "generate",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__transformations.html#function-generate",
+      "url": "/thrust/api/groups/group__transformations.html#function-generate",
       "virtual": false,
       "visibility": "public"
     },
@@ -669,7 +669,7 @@
       "default": false,
       "definition": "void generate",
       "deleted": false,
-      "details": "<code>generate</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,last)</code>.\n\n\nThe following code snippet demonstrates how to fill a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code>.\n\n\n\n```cpp\n#include <thrust/generate.h>\n#include <thrust/host_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdlib>\n...\nthrust::host_vector<int> v(10);\nsrand(13);\nthrust::generate(v.begin(), v.end(), rand);\n\n// the elements of v are now pseudo-random numbers\n```",
+      "details": "<code>generate</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,last)</code>.\n\n\nThe following code snippet demonstrates how to fill a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code>.\n\n\n\n```cpp\n#include <thrust/generate.h>\n#include <thrust/host_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdlib>\n...\nthrust::host_vector<int> v(10);\nsrand(13);\nthrust::generate(v.begin(), v.end(), rand);\n\n// the elements of v are now pseudo-random numbers\n```",
       "explicit": false,
       "fullname": "transformations::generate",
       "hasDetails": true,
@@ -716,7 +716,7 @@
       "pureVirtual": false,
       "refid": "group__transformations_1ga3450380e543353e2cd98243e483872cc",
       "see": [
-        "<a href=\"/api/groups/group__transformations.html#function-generate_n\">generate_n</a>",
+        "<a href=\"/thrust/api/groups/group__transformations.html#function-generate_n\">generate_n</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/generate\">https://en.cppreference.com/w/cpp/algorithm/generate</a>"
       ],
       "static": false,
@@ -746,7 +746,7 @@
       "title": "generate",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__transformations.html#function-generate",
+      "url": "/thrust/api/groups/group__transformations.html#function-generate",
       "virtual": false,
       "visibility": "public"
     },
@@ -759,7 +759,7 @@
       "default": false,
       "definition": "__host__ __device__ OutputIterator generate_n",
       "deleted": false,
-      "details": "<code>generate&#95;n</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,first + n)</code>. The return value is <code>first + n</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to fill a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/generate.h>\n#include <thrust/host_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdlib>\n...\nthrust::host_vector<int> v(10);\nsrand(13);\nthrust::generate_n(thrust::host, v.begin(), 10, rand);\n\n// the elements of v are now pseudo-random numbers\n```",
+      "details": "<code>generate&#95;n</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,first + n)</code>. The return value is <code>first + n</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to fill a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code> using the <code>thrust::host</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/generate.h>\n#include <thrust/host_vector.h>\n#include <thrust/execution_policy.h>\n#include <cstdlib>\n...\nthrust::host_vector<int> v(10);\nsrand(13);\nthrust::generate_n(thrust::host, v.begin(), 10, rand);\n\n// the elements of v are now pseudo-random numbers\n```",
       "explicit": false,
       "fullname": "transformations::generate_n",
       "hasDetails": true,
@@ -815,7 +815,7 @@
       "pureVirtual": false,
       "refid": "group__transformations_1ga36556bdfde242bc9c1f7e8f3a712bff9",
       "see": [
-        "<a href=\"/api/groups/group__transformations.html#function-generate\">generate</a>",
+        "<a href=\"/thrust/api/groups/group__transformations.html#function-generate\">generate</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/generate\">https://en.cppreference.com/w/cpp/algorithm/generate</a>"
       ],
       "static": false,
@@ -863,7 +863,7 @@
       "title": "generate_n",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-generate_n",
+      "url": "/thrust/api/groups/group__transformations.html#function-generate_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -876,7 +876,7 @@
       "default": false,
       "definition": "OutputIterator generate_n",
       "deleted": false,
-      "details": "<code>generate&#95;n</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,first + n)</code>. The return value is <code>first + n</code>.\n\n\nThe following code snippet demonstrates how to fill a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code>.\n\n\n\n```cpp\n#include <thrust/generate.h>\n#include <thrust/host_vector.h>\n#include <stdlib.h>\n...\nthrust::host_vector<int> v(10);\nsrand(13);\nthrust::generate_n(v.begin(), 10, rand);\n\n// the elements of v are now pseudo-random numbers\n```",
+      "details": "<code>generate&#95;n</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,first + n)</code>. The return value is <code>first + n</code>.\n\n\nThe following code snippet demonstrates how to fill a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code>.\n\n\n\n```cpp\n#include <thrust/generate.h>\n#include <thrust/host_vector.h>\n#include <stdlib.h>\n...\nthrust::host_vector<int> v(10);\nsrand(13);\nthrust::generate_n(v.begin(), 10, rand);\n\n// the elements of v are now pseudo-random numbers\n```",
       "explicit": false,
       "fullname": "transformations::generate_n",
       "hasDetails": true,
@@ -923,7 +923,7 @@
       "pureVirtual": false,
       "refid": "group__transformations_1gae400a76d92745328167eb962ad0badb0",
       "see": [
-        "<a href=\"/api/groups/group__transformations.html#function-generate\">generate</a>",
+        "<a href=\"/thrust/api/groups/group__transformations.html#function-generate\">generate</a>",
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/generate\">https://en.cppreference.com/w/cpp/algorithm/generate</a>"
       ],
       "static": false,
@@ -962,7 +962,7 @@
       "title": "generate_n",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-generate_n",
+      "url": "/thrust/api/groups/group__transformations.html#function-generate_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -1054,7 +1054,7 @@
       "title": "sequence",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__transformations.html#function-sequence",
+      "url": "/thrust/api/groups/group__transformations.html#function-sequence",
       "virtual": false,
       "visibility": "public"
     },
@@ -1128,7 +1128,7 @@
       "title": "sequence",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__transformations.html#function-sequence",
+      "url": "/thrust/api/groups/group__transformations.html#function-sequence",
       "virtual": false,
       "visibility": "public"
     },
@@ -1238,7 +1238,7 @@
       "title": "sequence",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__transformations.html#function-sequence",
+      "url": "/thrust/api/groups/group__transformations.html#function-sequence",
       "virtual": false,
       "visibility": "public"
     },
@@ -1330,7 +1330,7 @@
       "title": "sequence",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__transformations.html#function-sequence",
+      "url": "/thrust/api/groups/group__transformations.html#function-sequence",
       "virtual": false,
       "visibility": "public"
     },
@@ -1449,7 +1449,7 @@
       "title": "sequence",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__transformations.html#function-sequence",
+      "url": "/thrust/api/groups/group__transformations.html#function-sequence",
       "virtual": false,
       "visibility": "public"
     },
@@ -1550,7 +1550,7 @@
       "title": "sequence",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__transformations.html#function-sequence",
+      "url": "/thrust/api/groups/group__transformations.html#function-sequence",
       "virtual": false,
       "visibility": "public"
     },
@@ -1659,7 +1659,7 @@
       "title": "tabulate",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__transformations.html#function-tabulate",
+      "url": "/thrust/api/groups/group__transformations.html#function-tabulate",
       "virtual": false,
       "visibility": "public"
     },
@@ -1750,7 +1750,7 @@
       "title": "tabulate",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__transformations.html#function-tabulate",
+      "url": "/thrust/api/groups/group__transformations.html#function-tabulate",
       "virtual": false,
       "visibility": "public"
     },
@@ -1881,7 +1881,7 @@
       "title": "transform",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-transform",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform",
       "virtual": false,
       "visibility": "public"
     },
@@ -1994,7 +1994,7 @@
       "title": "transform",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-transform",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform",
       "virtual": false,
       "visibility": "public"
     },
@@ -2144,7 +2144,7 @@
       "title": "transform",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-transform",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform",
       "virtual": false,
       "visibility": "public"
     },
@@ -2276,7 +2276,7 @@
       "title": "transform",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__transformations.html#function-transform",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform",
       "virtual": false,
       "visibility": "public"
     },
@@ -2425,7 +2425,7 @@
       "title": "transform_if",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__transformations.html#function-transform_if",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -2556,7 +2556,7 @@
       "title": "transform_if",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__transformations.html#function-transform_if",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -2724,7 +2724,7 @@
       "title": "transform_if",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__transformations.html#function-transform_if",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -2874,7 +2874,7 @@
       "title": "transform_if",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__transformations.html#function-transform_if",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -3057,7 +3057,7 @@
       "title": "transform_if",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__transformations.html#function-transform_if",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -3222,7 +3222,7 @@
       "title": "transform_if",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__transformations.html#function-transform_if",
+      "url": "/thrust/api/groups/group__transformations.html#function-transform_if",
       "virtual": false,
       "visibility": "public"
     }
@@ -3231,6 +3231,6 @@
   "static": false,
   "strong": false,
   "title": "Transformations",
-  "url": "/api/groups/group__transformations.html",
+  "url": "/thrust/api/groups/group__transformations.html",
   "visibility": "public"
 }

@@ -18,7 +18,7 @@
     "name": "transformations",
     "refid": "group__transformations",
     "title": "Transformations",
-    "url": "/api/groups/group__transformations.html",
+    "url": "/thrust/api/groups/group__transformations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "transformations",
       "refid": "group__transformations",
       "title": "Transformations",
-      "url": "/api/groups/group__transformations.html",
+      "url": "/thrust/api/groups/group__transformations.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "transformations",
     "refid": "group__transformations",
     "title": "Transformations",
-    "url": "/api/groups/group__transformations.html",
+    "url": "/thrust/api/groups/group__transformations.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "transformations",
       "refid": "group__transformations",
       "title": "Transformations",
-      "url": "/api/groups/group__transformations.html",
+      "url": "/thrust/api/groups/group__transformations.html",
       "visibility": "public"
     }
   ],
@@ -92,7 +92,7 @@
       "default": false,
       "definition": "__host__ __device__ void replace",
       "deleted": false,
-      "details": "<code>replace</code> replaces every element in the range [first, last) equal to <code>old&#95;value</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>&#42;i == old&#95;value</code> then it performs the <code>assignment &#42;i = new&#95;value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace</code> to replace a value of interest in a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with another using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] = 1;\nA[1] = 2;\nA[2] = 3;\nA[3] = 1;\n\nthrust::replace(thrust::device, A.begin(), A.end(), 1, 99);\n\n// A contains [99, 2, 3, 99]\n```",
+      "details": "<code>replace</code> replaces every element in the range [first, last) equal to <code>old&#95;value</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>&#42;i == old&#95;value</code> then it performs the <code>assignment &#42;i = new&#95;value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace</code> to replace a value of interest in a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with another using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] = 1;\nA[1] = 2;\nA[2] = 3;\nA[3] = 1;\n\nthrust::replace(thrust::device, A.begin(), A.end(), 1, 99);\n\n// A contains [99, 2, 3, 99]\n```",
       "explicit": false,
       "fullname": "replacing::replace",
       "hasDetails": true,
@@ -158,9 +158,9 @@
       "refid": "group__replacing_1gafb8df5a14872ce691e0f45f0d87f15aa",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace\">https://en.cppreference.com/w/cpp/algorithm/replace</a>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -198,7 +198,7 @@
       "title": "replace",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__replacing.html#function-replace",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace",
       "virtual": false,
       "visibility": "public"
     },
@@ -211,7 +211,7 @@
       "default": false,
       "definition": "void replace",
       "deleted": false,
-      "details": "<code>replace</code> replaces every element in the range [first, last) equal to <code>old&#95;value</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>&#42;i == old&#95;value</code> then it performs the <code>assignment &#42;i = new&#95;value</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace</code> to replace a value of interest in a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with another.\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] = 1;\nA[1] = 2;\nA[2] = 3;\nA[3] = 1;\n\nthrust::replace(A.begin(), A.end(), 1, 99);\n\n// A contains [99, 2, 3, 99]\n```",
+      "details": "<code>replace</code> replaces every element in the range [first, last) equal to <code>old&#95;value</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>&#42;i == old&#95;value</code> then it performs the <code>assignment &#42;i = new&#95;value</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace</code> to replace a value of interest in a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> with another.\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] = 1;\nA[1] = 2;\nA[2] = 3;\nA[3] = 1;\n\nthrust::replace(A.begin(), A.end(), 1, 99);\n\n// A contains [99, 2, 3, 99]\n```",
       "explicit": false,
       "fullname": "replacing::replace",
       "hasDetails": true,
@@ -268,9 +268,9 @@
       "refid": "group__replacing_1ga6fce8df994cdc33f5cc09edea3618dbc",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace\">https://en.cppreference.com/w/cpp/algorithm/replace</a>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -299,7 +299,7 @@
       "title": "replace",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__replacing.html#function-replace",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace",
       "virtual": false,
       "visibility": "public"
     },
@@ -312,7 +312,7 @@
       "default": false,
       "definition": "__host__ __device__ void replace_if",
       "deleted": false,
-      "details": "<code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>pred(&#42;i)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a>'s</code> negative elements with <code>0</code> using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_less_than_zero\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return x < 0;\n  }\n};\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] =  1;\nA[1] = -3;\nA[2] =  2;\nA[3] = -1;\n\nis_less_than_zero pred;\n\nthrust::replace_if(thrust::device, A.begin(), A.end(), pred, 0);\n\n// A contains [1, 0, 2, 0]\n```",
+      "details": "<code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>pred(&#42;i)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a>'s</code> negative elements with <code>0</code> using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n...\nstruct is_less_than_zero\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return x < 0;\n  }\n};\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] =  1;\nA[1] = -3;\nA[2] =  2;\nA[3] = -1;\n\nis_less_than_zero pred;\n\nthrust::replace_if(thrust::device, A.begin(), A.end(), pred, 0);\n\n// A contains [1, 0, 2, 0]\n```",
       "explicit": false,
       "fullname": "replacing::replace_if",
       "hasDetails": true,
@@ -378,9 +378,9 @@
       "refid": "group__replacing_1gaeca3b6c7fa5b9f1ac9010f565296092d",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace\">https://en.cppreference.com/w/cpp/algorithm/replace</a>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace\">replace</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace\">replace</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -427,7 +427,7 @@
       "title": "replace_if",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__replacing.html#function-replace_if",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -440,7 +440,7 @@
       "default": false,
       "definition": "void replace_if",
       "deleted": false,
-      "details": "<code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>pred(&#42;i)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a>'s</code> negative elements with <code>0</code>.\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n...\nstruct is_less_than_zero\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return x < 0;\n  }\n};\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] =  1;\nA[1] = -3;\nA[2] =  2;\nA[3] = -1;\n\nis_less_than_zero pred;\n\nthrust::replace_if(A.begin(), A.end(), pred, 0);\n\n// A contains [1, 0, 2, 0]\n```",
+      "details": "<code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>pred(&#42;i)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a>'s</code> negative elements with <code>0</code>.\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n...\nstruct is_less_than_zero\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return x < 0;\n  }\n};\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] =  1;\nA[1] = -3;\nA[2] =  2;\nA[3] = -1;\n\nis_less_than_zero pred;\n\nthrust::replace_if(A.begin(), A.end(), pred, 0);\n\n// A contains [1, 0, 2, 0]\n```",
       "explicit": false,
       "fullname": "replacing::replace_if",
       "hasDetails": true,
@@ -497,9 +497,9 @@
       "refid": "group__replacing_1gac850cf340df05ae558a59d9f113d31a2",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace\">https://en.cppreference.com/w/cpp/algorithm/replace</a>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace\">replace</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace\">replace</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -537,7 +537,7 @@
       "title": "replace_if",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__replacing.html#function-replace_if",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -550,7 +550,7 @@
       "default": false,
       "definition": "__host__ __device__ void replace_if",
       "deleted": false,
-      "details": "<code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred(&#42;s)</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code> in the range <code>[first, last)</code>, and <code>s</code> in the range <code>[stencil, stencil + (last - first))</code>, if <code>pred(&#42;s)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a>'s</code> element with <code>0</code> when its corresponding stencil element is less than zero using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n\nstruct is_less_than_zero\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return x < 0;\n  }\n};\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] =  10;\nA[1] =  20;\nA[2] =  30;\nA[3] =  40;\n\nthrust::device_vector<int> S(4);\nS[0] = -1;\nS[1] =  0;\nS[2] = -1;\nS[3] =  0;\n\nis_less_than_zero pred;\nthrust::replace_if(thrust::device, A.begin(), A.end(), S.begin(), pred, 0);\n\n// A contains [0, 20, 0, 40]\n```",
+      "details": "<code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred(&#42;s)</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code> in the range <code>[first, last)</code>, and <code>s</code> in the range <code>[stencil, stencil + (last - first))</code>, if <code>pred(&#42;s)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.\n\nThe algorithm's execution is parallelized as determined by <code>exec</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a>'s</code> element with <code>0</code> when its corresponding stencil element is less than zero using the <code>thrust::device</code> execution policy for parallelization:\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n#include <thrust/execution_policy.h>\n\nstruct is_less_than_zero\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return x < 0;\n  }\n};\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] =  10;\nA[1] =  20;\nA[2] =  30;\nA[3] =  40;\n\nthrust::device_vector<int> S(4);\nS[0] = -1;\nS[1] =  0;\nS[2] = -1;\nS[3] =  0;\n\nis_less_than_zero pred;\nthrust::replace_if(thrust::device, A.begin(), A.end(), S.begin(), pred, 0);\n\n// A contains [0, 20, 0, 40]\n```",
       "explicit": false,
       "fullname": "replacing::replace_if",
       "hasDetails": true,
@@ -625,9 +625,9 @@
       "refid": "group__replacing_1ga2c622e016f51b66b6992f5c53b2d7c49",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace\">https://en.cppreference.com/w/cpp/algorithm/replace</a>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace\">replace</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace\">replace</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -683,7 +683,7 @@
       "title": "replace_if",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__replacing.html#function-replace_if",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -696,7 +696,7 @@
       "default": false,
       "definition": "void replace_if",
       "deleted": false,
-      "details": "<code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred(&#42;s)</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code> in the range <code>[first, last)</code>, and <code>s</code> in the range <code>[stencil, stencil + (last - first))</code>, if <code>pred(&#42;s)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a>'s</code> element with <code>0</code> when its corresponding stencil element is less than zero.\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n\nstruct is_less_than_zero\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return x < 0;\n  }\n};\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] =  10;\nA[1] =  20;\nA[2] =  30;\nA[3] =  40;\n\nthrust::device_vector<int> S(4);\nS[0] = -1;\nS[1] =  0;\nS[2] = -1;\nS[3] =  0;\n\nis_less_than_zero pred;\nthrust::replace_if(A.begin(), A.end(), S.begin(), pred, 0);\n\n// A contains [0, 20, 0, 40]\n```",
+      "details": "<code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred(&#42;s)</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code> in the range <code>[first, last)</code>, and <code>s</code> in the range <code>[stencil, stencil + (last - first))</code>, if <code>pred(&#42;s)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.\n\n\nThe following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a>'s</code> element with <code>0</code> when its corresponding stencil element is less than zero.\n\n\n\n```cpp\n#include <thrust/replace.h>\n#include <thrust/device_vector.h>\n\nstruct is_less_than_zero\n{\n  __host__ __device__\n  bool operator()(int x)\n  {\n    return x < 0;\n  }\n};\n\n...\n\nthrust::device_vector<int> A(4);\nA[0] =  10;\nA[1] =  20;\nA[2] =  30;\nA[3] =  40;\n\nthrust::device_vector<int> S(4);\nS[0] = -1;\nS[1] =  0;\nS[2] = -1;\nS[3] =  0;\n\nis_less_than_zero pred;\nthrust::replace_if(A.begin(), A.end(), S.begin(), pred, 0);\n\n// A contains [0, 20, 0, 40]\n```",
       "explicit": false,
       "fullname": "replacing::replace_if",
       "hasDetails": true,
@@ -762,9 +762,9 @@
       "refid": "group__replacing_1gaf8f1e1e3ed325262f0bc25163a7cb49d",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace\">https://en.cppreference.com/w/cpp/algorithm/replace</a>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace\">replace</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace\">replace</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -811,7 +811,7 @@
       "title": "replace_if",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__replacing.html#function-replace_if",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -905,10 +905,10 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace_copy\">https://en.cppreference.com/w/cpp/algorithm/replace_copy</a>",
-        "<code><a href=\"/api/groups/group__copying.html#function-copy\">copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace\">replace</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-copy\">copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace\">replace</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -955,7 +955,7 @@
       "title": "replace_copy",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__replacing.html#function-replace_copy",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1040,10 +1040,10 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace_copy\">https://en.cppreference.com/w/cpp/algorithm/replace_copy</a>",
-        "<code><a href=\"/api/groups/group__copying.html#function-copy\">copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace\">replace</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-copy\">copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace\">replace</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy_if\">replace&#95;copy&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1081,7 +1081,7 @@
       "title": "replace_copy",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__replacing.html#function-replace_copy",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1175,9 +1175,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace_copy\">https://en.cppreference.com/w/cpp/algorithm/replace_copy</a>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace\">replace</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace\">replace</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1233,7 +1233,7 @@
       "title": "replace_copy_if",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__replacing.html#function-replace_copy_if",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1318,9 +1318,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/replace_copy\">https://en.cppreference.com/w/cpp/algorithm/replace_copy</a>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace\">replace</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace\">replace</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1367,7 +1367,7 @@
       "title": "replace_copy_if",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__replacing.html#function-replace_copy_if",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1470,8 +1470,8 @@
         "<code>result + (last-first)</code>"
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1536,7 +1536,7 @@
       "title": "replace_copy_if",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__replacing.html#function-replace_copy_if",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_copy_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -1630,8 +1630,8 @@
         "<code>result + (last-first)</code>"
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_copy\">replace&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__replacing.html#function-replace_if\">replace&#95;if</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1687,7 +1687,7 @@
       "title": "replace_copy_if",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__replacing.html#function-replace_copy_if",
+      "url": "/thrust/api/groups/group__replacing.html#function-replace_copy_if",
       "virtual": false,
       "visibility": "public"
     }
@@ -1696,6 +1696,6 @@
   "static": false,
   "strong": false,
   "title": "Replacing",
-  "url": "/api/groups/group__replacing.html",
+  "url": "/thrust/api/groups/group__replacing.html",
   "visibility": "public"
 }

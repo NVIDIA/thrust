@@ -9,17 +9,17 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct mr::disjoint&#95;unsynchronized&#95;pool&#95;resource::pool {</span>
-<span>public:</span><span>&nbsp;&nbsp;pointer_vector <b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#variable-free_blocks">free&#95;blocks</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;pointer_vector <b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#variable-free_blocks">free&#95;blocks</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#variable-previous_allocated_count">previous&#95;allocated&#95;count</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#variable-previous_allocated_count">previous&#95;allocated&#95;count</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#function-pool">pool</a></b>(const pointer_vector & free);</span>
+<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#function-pool">pool</a></b>(const pointer_vector & free);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#function-pool">pool</a></b>(const pool & other);</span>
+<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#function-pool">pool</a></b>(const pool & other);</span>
 <br>
-<span>&nbsp;&nbsp;pool & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#function-operator=">operator=</a></b>(const pool &) = default;</span>
+<span>&nbsp;&nbsp;pool & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#function-operator=">operator=</a></b>(const pool &) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#function-~pool">~pool</a></b>();</span>
+<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html#function-~pool">~pool</a></b>();</span>
 <span>};</span>
 </code>
 

@@ -9,7 +9,7 @@
       "external": false,
       "name": "mr::allocator< T, MR >",
       "refid": "classmr_1_1allocator",
-      "url": "/api/classes/classmr_1_1allocator.html",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html",
       "virtual": "non-virtual",
       "visibility": "private"
     },
@@ -17,7 +17,7 @@
       "external": false,
       "name": "mr::fancy_pointer_resource< Upstream, Pointer >",
       "refid": "classmr_1_1fancy__pointer__resource",
-      "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1fancy__pointer__resource.html",
       "virtual": "non-virtual",
       "visibility": "private"
     },
@@ -25,7 +25,7 @@
       "external": false,
       "name": "mr::unsynchronized_pool_resource< Upstream >",
       "refid": "classmr_1_1unsynchronized__pool__resource",
-      "url": "/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html",
       "virtual": "non-virtual",
       "visibility": "private"
     },
@@ -33,7 +33,7 @@
       "external": false,
       "name": "mr::validator2< T, U >",
       "refid": "structmr_1_1validator2",
-      "url": "/api/classes/structmr_1_1validator2.html",
+      "url": "/thrust/api/classes/structmr_1_1validator2.html",
       "virtual": "non-virtual",
       "visibility": "private"
     },
@@ -41,7 +41,7 @@
       "external": false,
       "name": "mr::validator2< T, U >",
       "refid": "structmr_1_1validator2",
-      "url": "/api/classes/structmr_1_1validator2.html",
+      "url": "/thrust/api/classes/structmr_1_1validator2.html",
       "virtual": "non-virtual",
       "visibility": "private"
     },
@@ -49,7 +49,7 @@
       "external": false,
       "name": "mr::validator2< T, T >",
       "refid": "structmr_1_1validator2_3_01T_00_01T_01_4",
-      "url": "/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
+      "url": "/thrust/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
       "virtual": "non-virtual",
       "visibility": "private"
     },
@@ -57,7 +57,7 @@
       "external": false,
       "name": "mr::validator2< Upstream, Bookkeeper >",
       "refid": "structmr_1_1validator2",
-      "url": "/api/classes/structmr_1_1validator2.html",
+      "url": "/thrust/api/classes/structmr_1_1validator2.html",
       "virtual": "non-virtual",
       "visibility": "private"
     },
@@ -65,7 +65,7 @@
       "external": false,
       "name": "mr::validator2< Upstream, Bookkeeper >",
       "refid": "structmr_1_1validator2",
-      "url": "/api/classes/structmr_1_1validator2.html",
+      "url": "/thrust/api/classes/structmr_1_1validator2.html",
       "virtual": "non-virtual",
       "visibility": "private"
     }
@@ -96,7 +96,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -110,7 +110,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -125,6 +125,6 @@
     }
   ],
   "title": "mr::validator",
-  "url": "/api/classes/structmr_1_1validator.html",
+  "url": "/thrust/api/classes/structmr_1_1validator.html",
   "visibility": "public"
 }

@@ -48,7 +48,7 @@
       "title": "alloc_",
       "type": "allocator_type",
       "typePlain": "allocator_type",
-      "url": "/api/classes/structallocator__delete.html#variable-alloc_",
+      "url": "/thrust/api/classes/structallocator__delete.html#variable-alloc_",
       "visibility": "private"
     }
   ],
@@ -96,7 +96,7 @@
         }
       ],
       "title": "allocator_delete",
-      "url": "/api/classes/structallocator__delete.html#function-allocator_delete",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-allocator_delete",
       "virtual": false,
       "visibility": "public"
     },
@@ -148,7 +148,7 @@
         }
       ],
       "title": "allocator_delete",
-      "url": "/api/classes/structallocator__delete.html#function-allocator_delete",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-allocator_delete",
       "virtual": false,
       "visibility": "public"
     },
@@ -200,7 +200,7 @@
         }
       ],
       "title": "allocator_delete",
-      "url": "/api/classes/structallocator__delete.html#function-allocator_delete",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-allocator_delete",
       "virtual": false,
       "visibility": "public"
     },
@@ -254,7 +254,7 @@
       "title": "operator=",
       "type": "allocator_delete &",
       "typePlain": "allocator_delete &",
-      "url": "/api/classes/structallocator__delete.html#function-operator=",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -308,7 +308,7 @@
       "title": "operator=",
       "type": "allocator_delete &",
       "typePlain": "allocator_delete &",
-      "url": "/api/classes/structallocator__delete.html#function-operator=",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -350,7 +350,7 @@
       "title": "operator()",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/structallocator__delete.html#function-operator()",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     },
@@ -386,7 +386,7 @@
       "title": "get_allocator",
       "type": "allocator_type &",
       "typePlain": "allocator_type &",
-      "url": "/api/classes/structallocator__delete.html#function-get_allocator",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-get_allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -422,7 +422,7 @@
       "title": "get_allocator",
       "type": "allocator_type const  &",
       "typePlain": "allocator_type const  &",
-      "url": "/api/classes/structallocator__delete.html#function-get_allocator",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-get_allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -464,7 +464,7 @@
       "title": "swap",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/structallocator__delete.html#function-swap",
+      "url": "/thrust/api/classes/structallocator__delete.html#function-swap",
       "virtual": false,
       "visibility": "public"
     }
@@ -496,7 +496,7 @@
       "title": "allocator_type",
       "type": "typename std::remove_cv< typename std::remove_reference< Allocator >::type >::type::template rebind< T >::other",
       "typePlain": "typename std::remove_cv< typename std::remove_reference< Allocator >::type >::type::template rebind< T >::other",
-      "url": "/api/classes/structallocator__delete.html#using-allocator_type",
+      "url": "/thrust/api/classes/structallocator__delete.html#using-allocator_type",
       "visibility": "public"
     },
     {
@@ -525,7 +525,7 @@
       "title": "pointer",
       "type": "typename detail::allocator_traits< allocator_type >::pointer",
       "typePlain": "typename detail::allocator_traits< allocator_type >::pointer",
-      "url": "/api/classes/structallocator__delete.html#using-pointer",
+      "url": "/thrust/api/classes/structallocator__delete.html#using-pointer",
       "visibility": "public"
     }
   ],
@@ -552,6 +552,6 @@
     }
   ],
   "title": "allocator_delete",
-  "url": "/api/classes/structallocator__delete.html",
+  "url": "/thrust/api/classes/structallocator__delete.html",
   "visibility": "public"
 }

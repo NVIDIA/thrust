@@ -26,7 +26,7 @@
     "name": "memory_resources",
     "refid": "group__memory__resources",
     "title": "Memory Resources",
-    "url": "/api/groups/group__memory__resources.html",
+    "url": "/thrust/api/groups/group__memory__resources.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "memory_resources",
       "refid": "group__memory__resources",
       "title": "Memory Resources",
-      "url": "/api/groups/group__memory__resources.html",
+      "url": "/thrust/api/groups/group__memory__resources.html",
       "visibility": "public"
     }
   ],
@@ -67,7 +67,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -81,7 +81,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -113,7 +113,7 @@
       "static": false,
       "strong": false,
       "title": "~memory_resource",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-~memory_resource",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-~memory_resource",
       "virtual": true,
       "visibility": "public"
     },
@@ -162,7 +162,7 @@
       "title": "allocate",
       "type": "pointer",
       "typePlain": "pointer",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-allocate",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-allocate",
       "virtual": false,
       "visibility": "public"
     },
@@ -216,7 +216,7 @@
       "title": "deallocate",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-deallocate",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-deallocate",
       "virtual": false,
       "visibility": "public"
     },
@@ -247,7 +247,7 @@
       "params": [
         {
           "name": "other",
-          "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
           "typePlain": "const memory_resource &"
         }
       ],
@@ -258,7 +258,7 @@
       "title": "is_equal",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-is_equal",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-is_equal",
       "virtual": false,
       "visibility": "public"
     },
@@ -302,7 +302,7 @@
       "title": "do_allocate",
       "type": "pointer",
       "typePlain": "pointer",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-do_allocate",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-do_allocate",
       "virtual": true,
       "visibility": "public"
     },
@@ -351,7 +351,7 @@
       "title": "do_deallocate",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-do_deallocate",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-do_deallocate",
       "virtual": true,
       "visibility": "public"
     },
@@ -382,7 +382,7 @@
       "params": [
         {
           "name": "other",
-          "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
           "typePlain": "const memory_resource &"
         }
       ],
@@ -393,7 +393,7 @@
       "title": "do_is_equal",
       "type": "__host__ virtual __device__ bool",
       "typePlain": "__host__ virtual __device__ bool",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-do_is_equal",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#function-do_is_equal",
       "virtual": true,
       "visibility": "public"
     }
@@ -425,7 +425,7 @@
       "title": "pointer",
       "type": "void *",
       "typePlain": "void *",
-      "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#typedef-pointer",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html#typedef-pointer",
       "visibility": "public"
     }
   ],
@@ -433,6 +433,6 @@
   "static": false,
   "strong": false,
   "title": "mr::memory_resource< void * >",
-  "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
+  "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
   "visibility": "public"
 }

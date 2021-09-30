@@ -13,15 +13,15 @@ has_toc: false
 <code class="doxybook">
 <span>template &lt;class T&gt;</span>
 <span>struct detail::optional&#95;copy&#95;base&lt; T, false &gt; {</span>
-<span>public:</span><span>&nbsp;&nbsp;__thrust_exec_check_disable__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-optional_copy_base">optional&#95;copy&#95;base</a></b>() = default;</span>
+<span>public:</span><span>&nbsp;&nbsp;__thrust_exec_check_disable__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-optional_copy_base">optional&#95;copy&#95;base</a></b>() = default;</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-optional_copy_base">optional&#95;copy&#95;base</a></b>(const optional_copy_base & rhs);</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-optional_copy_base">optional&#95;copy&#95;base</a></b>(const optional_copy_base & rhs);</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-optional_copy_base">optional&#95;copy&#95;base</a></b>(optional_copy_base && rhs) = default;</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-optional_copy_base">optional&#95;copy&#95;base</a></b>(optional_copy_base && rhs) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ optional_copy_base & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-operator=">operator=</a></b>(const optional_copy_base & rhs) = default;</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ optional_copy_base & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-operator=">operator=</a></b>(const optional_copy_base & rhs) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ optional_copy_base & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-operator=">operator=</a></b>(optional_copy_base && rhs) = default;</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ optional_copy_base & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html#function-operator=">operator=</a></b>(optional_copy_base && rhs) = default;</span>
 <span>};</span>
 </code>
 

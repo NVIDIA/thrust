@@ -11,31 +11,31 @@ has_toc: false
 <span>namespace cuda&#95;cub {</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacecuda__cub.html#using-allocator">allocator</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda__cub.html#using-allocator">allocator</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacecuda__cub.html#using-universal_allocator">universal&#95;allocator</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda__cub.html#using-universal_allocator">universal&#95;allocator</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacecuda__cub.html#using-pointer">pointer</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda__cub.html#using-pointer">pointer</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacecuda__cub.html#using-universal_pointer">universal&#95;pointer</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda__cub.html#using-universal_pointer">universal&#95;pointer</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacecuda__cub.html#using-reference">reference</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda__cub.html#using-reference">reference</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename Allocator = thrust::system::cuda::allocator&lt;T&gt;&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacecuda__cub.html#using-vector">vector</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda__cub.html#using-vector">vector</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename Allocator = thrust::system::cuda::universal&#95;allocator&lt;T&gt;&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacecuda__cub.html#using-universal_vector">universal&#95;vector</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda__cub.html#using-universal_vector">universal&#95;vector</a></b> = <i>see below</i>;</span>
 <br>
-<span>__host__ __device__ pointer< void > </span><span><b><a href="/api/namespaces/namespacecuda__cub.html#function-malloc">malloc</a></b>(std::size_t n);</span>
+<span>__host__ __device__ pointer< void > </span><span><b><a href="/thrust/api/namespaces/namespacecuda__cub.html#function-malloc">malloc</a></b>(std::size_t n);</span>
 <br>
-<span>__host__ __device__ void </span><span><b><a href="/api/namespaces/namespacecuda__cub.html#function-free">free</a></b>(pointer< void > ptr);</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/namespaces/namespacecuda__cub.html#function-free">free</a></b>(pointer< void > ptr);</span>
 <span>} /* namespace cuda&#95;cub */</span>
 </code>
 
@@ -83,7 +83,7 @@ The raw pointer encapsulated by a <code>cuda::pointer</code> may be obtained by 
 **See**:
 * cuda::malloc 
 * cuda::free 
-* <a href="/api/groups/group__memory__management.html#function-raw_pointer_cast">raw_pointer_cast</a>
+* <a href="/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast">raw_pointer_cast</a>
 
 <h3 id="using-universal_pointer">
 Type Alias <code>universal&#95;pointer</code>
@@ -108,7 +108,7 @@ The raw pointer encapsulated by a <code>cuda::universal&#95;pointer</code> may b
 
 **See**:
 * cuda::universal_allocator 
-* <a href="/api/groups/group__memory__management.html#function-raw_pointer_cast">raw_pointer_cast</a>
+* <a href="/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast">raw_pointer_cast</a>
 
 <h3 id="using-reference">
 Type Alias <code>reference</code>
@@ -141,8 +141,8 @@ Type Alias <code>vector</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/container/vector">https://en.cppreference.com/w/cpp/container/vector</a>
-* <a href="/api/classes/classhost__vector.html">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::vector</code>
-* <a href="/api/classes/classdevice__vector.html">device_vector</a>
+* <a href="/thrust/api/classes/classhost__vector.html">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::vector</code>
+* <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>
 * universal_vector 
 
 <h3 id="using-universal_vector">
@@ -161,8 +161,8 @@ Type Alias <code>universal&#95;vector</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/container/vector">https://en.cppreference.com/w/cpp/container/vector</a>
-* <a href="/api/classes/classhost__vector.html">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::universal&#95;vector</code>
-* <a href="/api/classes/classdevice__vector.html">device_vector</a>
+* <a href="/thrust/api/classes/classhost__vector.html">host_vector</a> For the documentation of the complete interface which is shared by <code>cuda::universal&#95;vector</code>
+* <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>
 * universal_vector 
 
 

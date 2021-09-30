@@ -26,7 +26,7 @@
     "name": "arithmetic_operations",
     "refid": "group__arithmetic__operations",
     "title": "Arithmetic Operations",
-    "url": "/api/groups/group__arithmetic__operations.html",
+    "url": "/thrust/api/groups/group__arithmetic__operations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -38,7 +38,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -49,7 +49,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "name": "arithmetic_operations",
       "refid": "group__arithmetic__operations",
       "title": "Arithmetic Operations",
-      "url": "/api/groups/group__arithmetic__operations.html",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html",
       "visibility": "public"
     }
   ],
@@ -123,7 +123,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/structplus_3_01void_01_4.html#function-operator()",
+      "url": "/thrust/api/classes/structplus_3_01void_01_4.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -155,7 +155,7 @@
       "title": "is_transparent",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/structplus_3_01void_01_4.html#using-is_transparent",
+      "url": "/thrust/api/classes/structplus_3_01void_01_4.html#using-is_transparent",
       "visibility": "public"
     }
   ],
@@ -163,6 +163,6 @@
   "static": false,
   "strong": false,
   "title": "plus< void >",
-  "url": "/api/classes/structplus_3_01void_01_4.html",
+  "url": "/thrust/api/classes/structplus_3_01void_01_4.html",
   "visibility": "public"
 }

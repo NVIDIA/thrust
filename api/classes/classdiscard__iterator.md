@@ -9,9 +9,9 @@ has_toc: false
 
 # Class `discard_iterator`
 
-<code><a href="/api/classes/classdiscard__iterator.html">discard&#95;iterator</a></code> is an iterator which represents a special kind of pointer that ignores values written to it upon dereference. This iterator is useful for ignoring the output of certain algorithms without wasting memory capacity or bandwidth. <code><a href="/api/classes/classdiscard__iterator.html">discard&#95;iterator</a></code> may also be used to count the size of an algorithm's output which may not be known a priori.
+<code><a href="/thrust/api/classes/classdiscard__iterator.html">discard&#95;iterator</a></code> is an iterator which represents a special kind of pointer that ignores values written to it upon dereference. This iterator is useful for ignoring the output of certain algorithms without wasting memory capacity or bandwidth. <code><a href="/thrust/api/classes/classdiscard__iterator.html">discard&#95;iterator</a></code> may also be used to count the size of an algorithm's output which may not be known a priori.
 
-The following code snippet demonstrates how to use <code><a href="/api/classes/classdiscard__iterator.html">discard&#95;iterator</a></code> to ignore ignore one of the output ranges of reduce_by_key
+The following code snippet demonstrates how to use <code><a href="/thrust/api/classes/classdiscard__iterator.html">discard&#95;iterator</a></code> to ignore ignore one of the output ranges of reduce_by_key
 
 
 
@@ -59,7 +59,7 @@ int main()
 `detail::discard_iterator_base::type< use_default >`
 
 **See**:
-<a href="/api/groups/group__fancyiterator.html#function-make_discard_iterator">make_discard_iterator</a>
+<a href="/thrust/api/groups/group__fancyiterator.html#function-make_discard_iterator">make_discard_iterator</a>
 
 <code class="doxybook">
 <span>#include <thrust/iterator/discard_iterator.h></span><br>

@@ -13,37 +13,37 @@ has_toc: false
 <span>namespace system::cpp {</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacesystem_1_1cpp.html#using-allocator">allocator</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacesystem_1_1cpp.html#using-allocator">allocator</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacesystem_1_1cpp.html#using-universal_allocator">universal&#95;allocator</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacesystem_1_1cpp.html#using-universal_allocator">universal&#95;allocator</a></b> = <i>see below</i>;</span>
 <br>
-<span>typedef <i>see below</i> <b><a href="/api/groups/group__memory__resources.html#typedef-memory_resource">memory&#95;resource</a></b>;</span>
+<span>typedef <i>see below</i> <b><a href="/thrust/api/groups/group__memory__resources.html#typedef-memory_resource">memory&#95;resource</a></b>;</span>
 <br>
-<span>typedef <i>see below</i> <b><a href="/api/groups/group__memory__resources.html#typedef-universal_memory_resource">universal&#95;memory&#95;resource</a></b>;</span>
+<span>typedef <i>see below</i> <b><a href="/thrust/api/groups/group__memory__resources.html#typedef-universal_memory_resource">universal&#95;memory&#95;resource</a></b>;</span>
 <br>
-<span>typedef <i>see below</i> <b><a href="/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource">universal&#95;host&#95;pinned&#95;memory&#95;resource</a></b>;</span>
-<br>
-<span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/groups/group__system__backends.html#using-pointer">pointer</a></b> = <i>see below</i>;</span>
+<span>typedef <i>see below</i> <b><a href="/thrust/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource">universal&#95;host&#95;pinned&#95;memory&#95;resource</a></b>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/groups/group__system__backends.html#using-universal_pointer">universal&#95;pointer</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/groups/group__system__backends.html#using-pointer">pointer</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/groups/group__system__backends.html#using-reference">reference</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/groups/group__system__backends.html#using-universal_pointer">universal&#95;pointer</a></b> = <i>see below</i>;</span>
+<br>
+<span>template &lt;typename T&gt;</span>
+<span>using <b><a href="/thrust/api/groups/group__system__backends.html#using-reference">reference</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename Allocator = thrust::system::cpp::allocator&lt;T&gt;&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacesystem_1_1cpp.html#using-vector">vector</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacesystem_1_1cpp.html#using-vector">vector</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename Allocator = thrust::system::cpp::universal&#95;allocator&lt;T&gt;&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacesystem_1_1cpp.html#using-universal_vector">universal&#95;vector</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacesystem_1_1cpp.html#using-universal_vector">universal&#95;vector</a></b> = <i>see below</i>;</span>
 <br>
-<span><a href="/api/groups/group__system__backends.html#using-pointer">pointer</a>< void > </span><span><b><a href="/api/namespaces/namespacesystem_1_1cpp.html#function-malloc">malloc</a></b>(std::size_t n);</span>
+<span><a href="/thrust/api/groups/group__system__backends.html#using-pointer">pointer</a>< void > </span><span><b><a href="/thrust/api/namespaces/namespacesystem_1_1cpp.html#function-malloc">malloc</a></b>(std::size_t n);</span>
 <br>
-<span>void </span><span><b><a href="/api/namespaces/namespacesystem_1_1cpp.html#function-free">free</a></b>(<a href="/api/groups/group__system__backends.html#using-pointer">pointer</a>< void > ptr);</span>
+<span>void </span><span><b><a href="/thrust/api/namespaces/namespacesystem_1_1cpp.html#function-free">free</a></b>(<a href="/thrust/api/groups/group__system__backends.html#using-pointer">pointer</a>< void > ptr);</span>
 <span>} /* namespace system::cpp */</span>
 </code>
 
@@ -73,7 +73,7 @@ Typedef <code>memory&#95;resource</code>
 
 <code class="doxybook">
 <span>typedef detail::native_resource<b>memory_resource</b>;</span></code>
-The memory resource for the Standard C++ system. Uses <code><a href="/api/classes/classmr_1_1new__delete__resource.html">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::pointer</code>. 
+The memory resource for the Standard C++ system. Uses <code><a href="/thrust/api/classes/classmr_1_1new__delete__resource.html">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::pointer</code>. 
 
 <h3 id="typedef-universal_memory_resource">
 Typedef <code>universal&#95;memory&#95;resource</code>
@@ -81,7 +81,7 @@ Typedef <code>universal&#95;memory&#95;resource</code>
 
 <code class="doxybook">
 <span>typedef detail::universal_native_resource<b>universal_memory_resource</b>;</span></code>
-The unified memory resource for the Standard C++ system. Uses <code><a href="/api/classes/classmr_1_1new__delete__resource.html">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::universal&#95;pointer</code>. 
+The unified memory resource for the Standard C++ system. Uses <code><a href="/thrust/api/classes/classmr_1_1new__delete__resource.html">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::universal&#95;pointer</code>. 
 
 <h3 id="typedef-universal_host_pinned_memory_resource">
 Typedef <code>universal&#95;host&#95;pinned&#95;memory&#95;resource</code>
@@ -115,7 +115,7 @@ The raw pointer encapsulated by a <code>cpp::pointer</code> may be obtained by e
 **See**:
 * cpp::malloc 
 * cpp::free 
-* <a href="/api/groups/group__memory__management.html#function-raw_pointer_cast">raw_pointer_cast</a>
+* <a href="/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast">raw_pointer_cast</a>
 
 <h3 id="using-universal_pointer">
 Type Alias <code>universal&#95;pointer</code>
@@ -140,7 +140,7 @@ The raw pointer encapsulated by a <code>cpp::universal&#95;pointer</code> may be
 
 **See**:
 * cpp::universal_allocator 
-* <a href="/api/groups/group__memory__management.html#function-raw_pointer_cast">raw_pointer_cast</a>
+* <a href="/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast">raw_pointer_cast</a>
 
 <h3 id="using-reference">
 Type Alias <code>reference</code>
@@ -170,8 +170,8 @@ Type Alias <code>vector</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/container/vector">https://en.cppreference.com/w/cpp/container/vector</a>
-* <a href="/api/classes/classhost__vector.html">host_vector</a> For the documentation of the complete interface which is shared by <code>cpp::vector</code>. 
-* <a href="/api/classes/classdevice__vector.html">device_vector</a>
+* <a href="/thrust/api/classes/classhost__vector.html">host_vector</a> For the documentation of the complete interface which is shared by <code>cpp::vector</code>. 
+* <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>
 * universal_vector 
 
 <h3 id="using-universal_vector">
@@ -190,8 +190,8 @@ Type Alias <code>universal&#95;vector</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/container/vector">https://en.cppreference.com/w/cpp/container/vector</a>
-* <a href="/api/classes/classhost__vector.html">host_vector</a> For the documentation of the complete interface which is shared by <code>cpp::universal&#95;vector</code>
-* <a href="/api/classes/classdevice__vector.html">device_vector</a>
+* <a href="/thrust/api/classes/classhost__vector.html">host_vector</a> For the documentation of the complete interface which is shared by <code>cpp::universal&#95;vector</code>
+* <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>
 * universal_vector 
 
 
@@ -202,7 +202,7 @@ Function <code>system::cpp::malloc</code>
 </h3>
 
 <code class="doxybook">
-<span><a href="/api/groups/group__system__backends.html#using-pointer">pointer</a>< void > </span><span><b>malloc</b>(std::size_t n);</span></code>
+<span><a href="/thrust/api/groups/group__system__backends.html#using-pointer">pointer</a>< void > </span><span><b>malloc</b>(std::size_t n);</span></code>
 Allocates an area of memory available to Thrust's <code>cpp</code> system. 
 Allocates a typed area of memory available to Thrust's <code>cpp</code> system. 
 
@@ -229,7 +229,7 @@ Function <code>system::cpp::free</code>
 </h3>
 
 <code class="doxybook">
-<span>void </span><span><b>free</b>(<a href="/api/groups/group__system__backends.html#using-pointer">pointer</a>< void > ptr);</span></code>
+<span>void </span><span><b>free</b>(<a href="/thrust/api/groups/group__system__backends.html#using-pointer">pointer</a>< void > ptr);</span></code>
 Deallocates an area of memory previously allocated by <code>cpp::malloc</code>. 
 
 **Function Parameters**:

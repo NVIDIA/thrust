@@ -14,9 +14,9 @@ has_toc: false
 <span>template &lt;typename Pointer,</span>
 <span>&nbsp;&nbsp;typename Lambda&gt;</span>
 <span>struct tagged&#95;deleter {</span>
-<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/api/classes/structtagged__deleter.html#using-pointer">pointer</a></b> = <i>see below</i>;</span>
+<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structtagged__deleter.html#using-pointer">pointer</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structtagged__deleter.html#function-tagged_deleter">tagged&#95;deleter</a></b>(Lambda && l);</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structtagged__deleter.html#function-tagged_deleter">tagged&#95;deleter</a></b>(Lambda && l);</span>
 <span>};</span>
 </code>
 

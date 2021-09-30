@@ -14,34 +14,34 @@ has_toc: false
 <span>&nbsp;&nbsp;UIntType a,</span>
 <span>&nbsp;&nbsp;UIntType c,</span>
 <span>&nbsp;&nbsp;UIntType m&gt;</span>
-<span>class <b><a href="/api/classes/classrandom_1_1linear__congruential__engine.html">random::linear&#95;congruential&#95;engine</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">random::linear&#95;congruential&#95;engine</a></b>;</span>
 <br>
 <span class="doxybook-comment">/* A <code>linear&#95;feedback&#95;shift&#95;engine</code> random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm.  */</span><span>template &lt;typename UIntType,</span>
 <span>&nbsp;&nbsp;size_t w,</span>
 <span>&nbsp;&nbsp;size_t k,</span>
 <span>&nbsp;&nbsp;size_t q,</span>
 <span>&nbsp;&nbsp;size_t s&gt;</span>
-<span>class <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">random::linear&#95;feedback&#95;shift&#95;engine</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">random::linear&#95;feedback&#95;shift&#95;engine</a></b>;</span>
 <br>
 <span class="doxybook-comment">/* A <code>subtract&#95;with&#95;carry&#95;engine</code> random number engine produces unsigned integer random numbers using the subtract with carry algorithm of Marsaglia & Zaman.  */</span><span>template &lt;typename UIntType,</span>
 <span>&nbsp;&nbsp;size_t w,</span>
 <span>&nbsp;&nbsp;size_t s,</span>
 <span>&nbsp;&nbsp;size_t r&gt;</span>
-<span>class <b><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">random::subtract&#95;with&#95;carry&#95;engine</a></b>;</span>
+<span>class <b><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">random::subtract&#95;with&#95;carry&#95;engine</a></b>;</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;UIntType_ a_,</span>
 <span>&nbsp;&nbsp;UIntType_ c_,</span>
 <span>&nbsp;&nbsp;UIntType_ m_&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator==">random::operator==</a></b>(const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & rhs);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator==">random::operator==</a></b>(const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & rhs);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;UIntType_ a_,</span>
 <span>&nbsp;&nbsp;UIntType_ c_,</span>
 <span>&nbsp;&nbsp;UIntType_ m_&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator!=">random::operator!=</a></b>(const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & rhs);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator!=">random::operator!=</a></b>(const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & rhs);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;UIntType_ a_,</span>
@@ -49,8 +49,8 @@ has_toc: false
 <span>&nbsp;&nbsp;UIntType_ m_,</span>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
-<span>std::basic_ostream< CharT, Traits > & </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator<<">random::operator&lt;&lt;</a></b>(std::basic_ostream< CharT, Traits > & os,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & e);</span>
+<span>std::basic_ostream< CharT, Traits > & </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator<<">random::operator&lt;&lt;</a></b>(std::basic_ostream< CharT, Traits > & os,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & e);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;UIntType_ a_,</span>
@@ -58,24 +58,24 @@ has_toc: false
 <span>&nbsp;&nbsp;UIntType_ m_,</span>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
-<span>std::basic_istream< CharT, Traits > & </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator>>">random::operator&gt;&gt;</a></b>(std::basic_istream< CharT, Traits > & is,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & e);</span>
+<span>std::basic_istream< CharT, Traits > & </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator>>">random::operator&gt;&gt;</a></b>(std::basic_istream< CharT, Traits > & is,</span>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & e);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;size_t w_,</span>
 <span>&nbsp;&nbsp;size_t k_,</span>
 <span>&nbsp;&nbsp;size_t q_,</span>
 <span>&nbsp;&nbsp;size_t s_&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator==">random::operator==</a></b>(const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & rhs);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator==">random::operator==</a></b>(const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & rhs);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;size_t w_,</span>
 <span>&nbsp;&nbsp;size_t k_,</span>
 <span>&nbsp;&nbsp;size_t q_,</span>
 <span>&nbsp;&nbsp;size_t s_&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator!=">random::operator!=</a></b>(const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & rhs);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator!=">random::operator!=</a></b>(const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & rhs);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;size_t w_,</span>
@@ -84,8 +84,8 @@ has_toc: false
 <span>&nbsp;&nbsp;size_t s_,</span>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
-<span>std::basic_ostream< CharT, Traits > & </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator<<">random::operator&lt;&lt;</a></b>(std::basic_ostream< CharT, Traits > & os,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & e);</span>
+<span>std::basic_ostream< CharT, Traits > & </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator<<">random::operator&lt;&lt;</a></b>(std::basic_ostream< CharT, Traits > & os,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & e);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;size_t w_,</span>
@@ -94,22 +94,22 @@ has_toc: false
 <span>&nbsp;&nbsp;size_t s_,</span>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
-<span>std::basic_istream< CharT, Traits > & </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator>>">random::operator&gt;&gt;</a></b>(std::basic_istream< CharT, Traits > & is,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & e);</span>
+<span>std::basic_istream< CharT, Traits > & </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator>>">random::operator&gt;&gt;</a></b>(std::basic_istream< CharT, Traits > & is,</span>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & e);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;size_t w_,</span>
 <span>&nbsp;&nbsp;size_t s_,</span>
 <span>&nbsp;&nbsp;size_t r_&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator==">random::operator==</a></b>(const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & rhs);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator==">random::operator==</a></b>(const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & rhs);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;size_t w_,</span>
 <span>&nbsp;&nbsp;size_t s_,</span>
 <span>&nbsp;&nbsp;size_t r_&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator!=">random::operator!=</a></b>(const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & rhs);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator!=">random::operator!=</a></b>(const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & rhs);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;size_t w_,</span>
@@ -117,8 +117,8 @@ has_toc: false
 <span>&nbsp;&nbsp;size_t r_,</span>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
-<span>std::basic_ostream< CharT, Traits > & </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator<<">random::operator&lt;&lt;</a></b>(std::basic_ostream< CharT, Traits > & os,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & e);</span>
+<span>std::basic_ostream< CharT, Traits > & </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator<<">random::operator&lt;&lt;</a></b>(std::basic_ostream< CharT, Traits > & os,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & e);</span>
 <br>
 <span>template &lt;typename UIntType_,</span>
 <span>&nbsp;&nbsp;size_t w_,</span>
@@ -126,28 +126,28 @@ has_toc: false
 <span>&nbsp;&nbsp;size_t r_,</span>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
-<span>std::basic_istream< CharT, Traits > & </span><span><b><a href="/api/groups/group__random__number__engine__templates.html#function-operator>>">random::operator&gt;&gt;</a></b>(std::basic_istream< CharT, Traits > & is,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & e);</span>
+<span>std::basic_istream< CharT, Traits > & </span><span><b><a href="/thrust/api/groups/group__random__number__engine__templates.html#function-operator>>">random::operator&gt;&gt;</a></b>(std::basic_istream< CharT, Traits > & is,</span>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & e);</span>
 </code>
 
 ## Member Classes
 
 <h3 id="class-random::linear_congruential_engine">
-<a href="/api/classes/classrandom_1_1linear__congruential__engine.html">Class <code>random::linear&#95;congruential&#95;engine</code>
+<a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">Class <code>random::linear&#95;congruential&#95;engine</code>
 </a>
 </h3>
 
 A <code>linear&#95;congruential&#95;engine</code> random number engine produces unsigned integer random numbers using a linear congruential random number generation algorithm. 
 
 <h3 id="class-random::linear_feedback_shift_engine">
-<a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">Class <code>random::linear&#95;feedback&#95;shift&#95;engine</code>
+<a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">Class <code>random::linear&#95;feedback&#95;shift&#95;engine</code>
 </a>
 </h3>
 
 A <code>linear&#95;feedback&#95;shift&#95;engine</code> random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm. 
 
 <h3 id="class-random::subtract_with_carry_engine">
-<a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">Class <code>random::subtract&#95;with&#95;carry&#95;engine</code>
+<a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">Class <code>random::subtract&#95;with&#95;carry&#95;engine</code>
 </a>
 </h3>
 
@@ -165,13 +165,13 @@ Function <code>random::operator==</code>
 <span>&nbsp;&nbsp;UIntType_ a_,</span>
 <span>&nbsp;&nbsp;UIntType_ c_,</span>
 <span>&nbsp;&nbsp;UIntType_ m_&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & rhs);</span></code>
+<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & rhs);</span></code>
 This function checks two <code>linear&#95;congruential&#95;engines</code> for equality. 
 
 **Function Parameters**:
-* **`lhs`** The first <code><a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to test. 
-* **`rhs`** The second <code><a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to test. 
+* **`lhs`** The first <code><a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to test. 
+* **`rhs`** The second <code><a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to test. 
 
 **Returns**:
 <code>true</code> if <code>lhs</code> is equal to <code>rhs</code>; <code>false</code>, otherwise. 
@@ -185,13 +185,13 @@ Function <code>random::operator!=</code>
 <span>&nbsp;&nbsp;UIntType_ a_,</span>
 <span>&nbsp;&nbsp;UIntType_ c_,</span>
 <span>&nbsp;&nbsp;UIntType_ m_&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & rhs);</span></code>
+<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & rhs);</span></code>
 This function checks two <code>linear&#95;congruential&#95;engines</code> for inequality. 
 
 **Function Parameters**:
-* **`lhs`** The first <code><a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to test. 
-* **`rhs`** The second <code><a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to test. 
+* **`lhs`** The first <code><a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to test. 
+* **`rhs`** The second <code><a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to test. 
 
 **Returns**:
 <code>true</code> if <code>lhs</code> is not equal to <code>rhs</code>; <code>false</code>, otherwise. 
@@ -208,12 +208,12 @@ Function <code>random::operator&lt;&lt;</code>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
 <span>std::basic_ostream< CharT, Traits > & </span><span><b>operator<<</b>(std::basic_ostream< CharT, Traits > & os,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & e);</span></code>
-This function streams a <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a> to a <code>std::basic&#95;ostream</code>. 
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & e);</span></code>
+This function streams a <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a> to a <code>std::basic&#95;ostream</code>. 
 
 **Function Parameters**:
 * **`os`** The <code>basic&#95;ostream</code> to stream out to. 
-* **`e`** The <code><a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to stream out. 
+* **`e`** The <code><a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to stream out. 
 
 **Returns**:
 <code>os</code>
@@ -230,12 +230,12 @@ Function <code>random::operator&gt;&gt;</code>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
 <span>std::basic_istream< CharT, Traits > & </span><span><b>operator>></b>(std::basic_istream< CharT, Traits > & is,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & e);</span></code>
-This function streams a <a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a> in from a std::basic_istream. 
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > & e);</span></code>
+This function streams a <a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear_congruential_engine</a> in from a std::basic_istream. 
 
 **Function Parameters**:
 * **`is`** The <code>basic&#95;istream</code> to stream from. 
-* **`e`** The <code><a href="/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to stream in. 
+* **`e`** The <code><a href="/thrust/api/classes/classrandom_1_1linear__congruential__engine.html">linear&#95;congruential&#95;engine</a></code> to stream in. 
 
 **Returns**:
 <code>is</code>
@@ -250,13 +250,13 @@ Function <code>random::operator==</code>
 <span>&nbsp;&nbsp;size_t k_,</span>
 <span>&nbsp;&nbsp;size_t q_,</span>
 <span>&nbsp;&nbsp;size_t s_&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & rhs);</span></code>
+<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & rhs);</span></code>
 This function checks two <code>linear&#95;feedback&#95;shift&#95;engines</code> for equality. 
 
 **Function Parameters**:
-* **`lhs`** The first <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. 
-* **`rhs`** The second <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. 
+* **`lhs`** The first <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. 
+* **`rhs`** The second <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. 
 
 **Returns**:
 <code>true</code> if <code>lhs</code> is equal to <code>rhs</code>; <code>false</code>, otherwise. 
@@ -271,13 +271,13 @@ Function <code>random::operator!=</code>
 <span>&nbsp;&nbsp;size_t k_,</span>
 <span>&nbsp;&nbsp;size_t q_,</span>
 <span>&nbsp;&nbsp;size_t s_&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & rhs);</span></code>
+<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & rhs);</span></code>
 This function checks two <code>linear&#95;feedback&#95;shift&#95;engines</code> for inequality. 
 
 **Function Parameters**:
-* **`lhs`** The first <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. 
-* **`rhs`** The second <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. 
+* **`lhs`** The first <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. 
+* **`rhs`** The second <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. 
 
 **Returns**:
 <code>true</code> if <code>lhs</code> is not equal to <code>rhs</code>; <code>false</code>, otherwise. 
@@ -295,12 +295,12 @@ Function <code>random::operator&lt;&lt;</code>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
 <span>std::basic_ostream< CharT, Traits > & </span><span><b>operator<<</b>(std::basic_ostream< CharT, Traits > & os,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & e);</span></code>
-This function streams a <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a> to a <code>std::basic&#95;ostream</code>. 
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & e);</span></code>
+This function streams a <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a> to a <code>std::basic&#95;ostream</code>. 
 
 **Function Parameters**:
 * **`os`** The <code>basic&#95;ostream</code> to stream out to. 
-* **`e`** The <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to stream out. 
+* **`e`** The <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to stream out. 
 
 **Returns**:
 <code>os</code>
@@ -318,12 +318,12 @@ Function <code>random::operator&gt;&gt;</code>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
 <span>std::basic_istream< CharT, Traits > & </span><span><b>operator>></b>(std::basic_istream< CharT, Traits > & is,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & e);</span></code>
-This function streams a <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a> in from a std::basic_istream. 
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > & e);</span></code>
+This function streams a <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a> in from a std::basic_istream. 
 
 **Function Parameters**:
 * **`is`** The <code>basic&#95;istream</code> to stream from. 
-* **`e`** The <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to stream in. 
+* **`e`** The <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> to stream in. 
 
 **Returns**:
 <code>is</code>
@@ -337,13 +337,13 @@ Function <code>random::operator==</code>
 <span>&nbsp;&nbsp;size_t w_,</span>
 <span>&nbsp;&nbsp;size_t s_,</span>
 <span>&nbsp;&nbsp;size_t r_&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & rhs);</span></code>
+<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & rhs);</span></code>
 This function checks two <code>subtract&#95;with&#95;carry&#95;engines</code> for equality. 
 
 **Function Parameters**:
-* **`lhs`** The first <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to test. 
-* **`rhs`** The second <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to test. 
+* **`lhs`** The first <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to test. 
+* **`rhs`** The second <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to test. 
 
 **Returns**:
 <code>true</code> if <code>lhs</code> is equal to <code>rhs</code>; <code>false</code>, otherwise. 
@@ -357,13 +357,13 @@ Function <code>random::operator!=</code>
 <span>&nbsp;&nbsp;size_t w_,</span>
 <span>&nbsp;&nbsp;size_t s_,</span>
 <span>&nbsp;&nbsp;size_t r_&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & lhs,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & rhs);</span></code>
+<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & lhs,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & rhs);</span></code>
 This function checks two <code>subtract&#95;with&#95;carry&#95;engines</code> for inequality. 
 
 **Function Parameters**:
-* **`lhs`** The first <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to test. 
-* **`rhs`** The second <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to test. 
+* **`lhs`** The first <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to test. 
+* **`rhs`** The second <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to test. 
 
 **Returns**:
 <code>true</code> if <code>lhs</code> is not equal to <code>rhs</code>; <code>false</code>, otherwise. 
@@ -380,12 +380,12 @@ Function <code>random::operator&lt;&lt;</code>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
 <span>std::basic_ostream< CharT, Traits > & </span><span><b>operator<<</b>(std::basic_ostream< CharT, Traits > & os,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & e);</span></code>
-This function streams a <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a> to a <code>std::basic&#95;ostream</code>. 
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & e);</span></code>
+This function streams a <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a> to a <code>std::basic&#95;ostream</code>. 
 
 **Function Parameters**:
 * **`os`** The <code>basic&#95;ostream</code> to stream out to. 
-* **`e`** The <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to stream out. 
+* **`e`** The <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to stream out. 
 
 **Returns**:
 <code>os</code>
@@ -402,12 +402,12 @@ Function <code>random::operator&gt;&gt;</code>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
 <span>std::basic_istream< CharT, Traits > & </span><span><b>operator>></b>(std::basic_istream< CharT, Traits > & is,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & e);</span></code>
-This function streams a <a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a> in from a std::basic_istream. 
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > & e);</span></code>
+This function streams a <a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract_with_carry_engine</a> in from a std::basic_istream. 
 
 **Function Parameters**:
 * **`is`** The <code>basic&#95;istream</code> to stream from. 
-* **`e`** The <code><a href="/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to stream in. 
+* **`e`** The <code><a href="/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html">subtract&#95;with&#95;carry&#95;engine</a></code> to stream in. 
 
 **Returns**:
 <code>is</code>

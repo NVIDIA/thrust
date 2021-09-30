@@ -9,9 +9,9 @@ has_toc: false
 
 # Class `zip_iterator`
 
-<code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> is an iterator which represents a pointer into a range of <code>tuples</code> whose elements are themselves taken from a <code>tuple</code> of input iterators. This iterator is useful for creating a virtual array of structures while achieving the same performance and bandwidth as the structure of arrays idiom. <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> also facilitates kernel fusion by providing a convenient means of amortizing the execution of the same operation over multiple ranges.
+<code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> is an iterator which represents a pointer into a range of <code>tuples</code> whose elements are themselves taken from a <code>tuple</code> of input iterators. This iterator is useful for creating a virtual array of structures while achieving the same performance and bandwidth as the structure of arrays idiom. <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> also facilitates kernel fusion by providing a convenient means of amortizing the execution of the same operation over multiple ranges.
 
-The following code snippet demonstrates how to create a <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> which represents the result of "zipping" multiple ranges together.
+The following code snippet demonstrates how to create a <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> which represents the result of "zipping" multiple ranges together.
 
 
 
@@ -55,7 +55,7 @@ thrust::get<2>(iter[1]); // returns 'b'
 // iter[3] is an out-of-bounds error
 ```
 
-Defining the type of a <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> can be complex. The next code example demonstrates how to use the <code>make&#95;zip&#95;iterator</code> function with the <code>make&#95;tuple</code> function to avoid explicitly specifying the type of the <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code>. This example shows how to use <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> to copy multiple ranges with a single call to <code>thrust::copy</code>.
+Defining the type of a <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> can be complex. The next code example demonstrates how to use the <code>make&#95;zip&#95;iterator</code> function with the <code>make&#95;tuple</code> function to avoid explicitly specifying the type of the <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code>. This example shows how to use <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> to copy multiple ranges with a single call to <code>thrust::copy</code>.
 
 
 
@@ -91,24 +91,24 @@ int main()
 `detail::zip_iterator_base::type< IteratorTuple >`
 
 **See**:
-* <a href="/api/groups/group__fancyiterator.html#function-make_zip_iterator">make_zip_iterator</a>
-* <a href="/api/groups/group__tuple.html#function-make_tuple">make_tuple</a>
-* <a href="/api/classes/classtuple.html">tuple</a>
-* <a href="/api/groups/group__tuple.html#function-get">get</a>
+* <a href="/thrust/api/groups/group__fancyiterator.html#function-make_zip_iterator">make_zip_iterator</a>
+* <a href="/thrust/api/groups/group__tuple.html#function-make_tuple">make_tuple</a>
+* <a href="/thrust/api/classes/classtuple.html">tuple</a>
+* <a href="/thrust/api/groups/group__tuple.html#function-get">get</a>
 
 <code class="doxybook">
 <span>#include <thrust/iterator/zip_iterator.h></span><br>
 <span>template &lt;typename IteratorTuple&gt;</span>
 <span>class zip&#95;iterator {</span>
-<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classzip__iterator.html#function-zip_iterator">zip&#95;iterator</a></b>();</span>
+<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classzip__iterator.html#function-zip_iterator">zip&#95;iterator</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classzip__iterator.html#function-zip_iterator">zip&#95;iterator</a></b>(IteratorTuple iterator_tuple);</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classzip__iterator.html#function-zip_iterator">zip&#95;iterator</a></b>(IteratorTuple iterator_tuple);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename OtherIteratorTuple&gt;</span>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classzip__iterator.html#function-zip_iterator">zip&#95;iterator</a></b>(const <a href="/api/classes/classzip__iterator.html">zip_iterator</a>< OtherIteratorTuple > & other,</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classzip__iterator.html#function-zip_iterator">zip&#95;iterator</a></b>(const <a href="/thrust/api/classes/classzip__iterator.html">zip_iterator</a>< OtherIteratorTuple > & other,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;typename thrust::detail::enable_if_convertible< OtherIteratorTuple, IteratorTuple >::type * = 0);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ const __device__ IteratorTuple & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classzip__iterator.html#function-get_iterator_tuple">get&#95;iterator&#95;tuple</a></b>() const;</span>
+<span>&nbsp;&nbsp;__host__ const __device__ IteratorTuple & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classzip__iterator.html#function-get_iterator_tuple">get&#95;iterator&#95;tuple</a></b>() const;</span>
 <span>};</span>
 </code>
 
@@ -128,7 +128,7 @@ Function <code>zip&#95;iterator::&gt;::zip&#95;iterator</code>
 
 <code class="doxybook">
 <span>__host__ __device__ </span><span><b>zip_iterator</b>(IteratorTuple iterator_tuple);</span></code>
-This constructor creates a new <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> from a <code>tuple</code> of iterators.
+This constructor creates a new <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> from a <code>tuple</code> of iterators.
 
 **Function Parameters**:
 **`iterator_tuple`**: The <code>tuple</code> of iterators to copy from. 
@@ -139,12 +139,12 @@ Function <code>zip&#95;iterator::&gt;::zip&#95;iterator</code>
 
 <code class="doxybook">
 <span>template &lt;typename OtherIteratorTuple&gt;</span>
-<span>__host__ __device__ </span><span><b>zip_iterator</b>(const <a href="/api/classes/classzip__iterator.html">zip_iterator</a>< OtherIteratorTuple > & other,</span>
+<span>__host__ __device__ </span><span><b>zip_iterator</b>(const <a href="/thrust/api/classes/classzip__iterator.html">zip_iterator</a>< OtherIteratorTuple > & other,</span>
 <span>&nbsp;&nbsp;typename thrust::detail::enable_if_convertible< OtherIteratorTuple, IteratorTuple >::type * = 0);</span></code>
-This copy constructor creates a new <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> from another <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code>.
+This copy constructor creates a new <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> from another <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code>.
 
 **Function Parameters**:
-**`other`**: The <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> to copy. 
+**`other`**: The <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a></code> to copy. 
 
 <h3 id="function-get_iterator_tuple">
 Function <code>zip&#95;iterator::&gt;::get&#95;iterator&#95;tuple</code>
@@ -152,9 +152,9 @@ Function <code>zip&#95;iterator::&gt;::get&#95;iterator&#95;tuple</code>
 
 <code class="doxybook">
 <span>__host__ const __device__ IteratorTuple & </span><span><b>get_iterator_tuple</b>() const;</span></code>
-This method returns a <code>const</code> reference to this <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a>'s</code><code>tuple</code> of iterators.
+This method returns a <code>const</code> reference to this <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a>'s</code><code>tuple</code> of iterators.
 
 **Returns**:
-A <code>const</code> reference to this <code><a href="/api/classes/classzip__iterator.html">zip&#95;iterator</a>'s</code><code>tuple</code> of iterators. 
+A <code>const</code> reference to this <code><a href="/thrust/api/classes/classzip__iterator.html">zip&#95;iterator</a>'s</code><code>tuple</code> of iterators. 
 
 

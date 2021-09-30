@@ -27,7 +27,7 @@
         "external": false,
         "name": "mr::memory_resource< Upstream::pointer >",
         "refid": "classmr_1_1memory__resource",
-        "url": "/api/classes/classmr_1_1memory__resource.html",
+        "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
         "virtual": "non-virtual",
         "visibility": "public"
       },
@@ -44,7 +44,7 @@
     "name": "mr::disjoint_unsynchronized_pool_resource",
     "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
     "title": "mr::disjoint_unsynchronized_pool_resource",
-    "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+    "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -58,7 +58,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     },
     {
@@ -68,7 +68,7 @@
           "external": false,
           "name": "mr::memory_resource< Upstream::pointer >",
           "refid": "classmr_1_1memory__resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -85,7 +85,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource",
       "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
       "title": "mr::disjoint_unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
       "visibility": "public"
     }
   ],
@@ -116,7 +116,7 @@
       "title": "size",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-size",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-size",
       "visibility": "public"
     },
     {
@@ -145,7 +145,7 @@
       "title": "pointer",
       "type": "void_ptr",
       "typePlain": "void_ptr",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-pointer",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html#variable-pointer",
       "visibility": "public"
     }
   ],
@@ -153,6 +153,6 @@
   "static": false,
   "strong": false,
   "title": "mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
-  "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html",
+  "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html",
   "visibility": "private"
 }

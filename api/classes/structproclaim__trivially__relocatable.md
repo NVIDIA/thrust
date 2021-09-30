@@ -16,10 +16,10 @@ has_toc: false
 `false_type`
 
 **See**:
-* <a href="/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to">is_indirectly_trivially_relocatable_to</a>
-* <a href="/api/groups/group__type__traits.html#using-is_trivially_relocatable">is_trivially_relocatable</a>
-* <a href="/api/groups/group__type__traits.html#using-is_trivially_relocatable_to">is_trivially_relocatable_to</a>
-* <a href="/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>
+* <a href="/thrust/api/groups/group__type__traits.html#using-is_indirectly_trivially_relocatable_to">is_indirectly_trivially_relocatable_to</a>
+* <a href="/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable">is_trivially_relocatable</a>
+* <a href="/thrust/api/groups/group__type__traits.html#using-is_trivially_relocatable_to">is_trivially_relocatable_to</a>
+* <a href="/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_trivially_relocatable">THRUST_PROCLAIM_TRIVIALLY_RELOCATABLE</a>
 
 <code class="doxybook">
 <span>#include <thrust/type_traits/is_trivially_relocatable.h></span><br>

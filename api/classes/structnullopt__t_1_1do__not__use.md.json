@@ -30,7 +30,7 @@
     "refid": "structnullopt__t",
     "summary": "A tag type to represent an empty optional. ",
     "title": "nullopt_t",
-    "url": "/api/classes/structnullopt__t.html",
+    "url": "/thrust/api/classes/structnullopt__t.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -44,7 +44,7 @@
       "refid": "structnullopt__t",
       "summary": "A tag type to represent an empty optional. ",
       "title": "nullopt_t",
-      "url": "/api/classes/structnullopt__t.html",
+      "url": "/thrust/api/classes/structnullopt__t.html",
       "visibility": "public"
     }
   ],
@@ -52,6 +52,6 @@
   "static": false,
   "strong": false,
   "title": "nullopt_t::do_not_use",
-  "url": "/api/classes/structnullopt__t_1_1do__not__use.html",
+  "url": "/thrust/api/classes/structnullopt__t_1_1do__not__use.html",
   "visibility": "public"
 }

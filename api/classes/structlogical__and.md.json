@@ -4,7 +4,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/structlogical__and.html\">logical&#95;and</a></code> is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>logical&#95;and&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code> (where <code>T</code> is convertible to <code>bool</code>) then <code>f(x,y)</code> returns <code>true</code> if and only if both <code>x</code> and <code>y</code> are <code>true</code>.",
+  "details": "<code><a href=\"/thrust/api/classes/structlogical__and.html\">logical&#95;and</a></code> is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>logical&#95;and&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code> (where <code>T</code> is convertible to <code>bool</code>) then <code>f(x,y)</code> returns <code>true</code> if and only if both <code>x</code> and <code>y</code> are <code>true</code>.",
   "explicit": false,
   "fullname": "logical_and",
   "hasAdditionalMembers": false,
@@ -28,7 +28,7 @@
     "name": "logical_operations",
     "refid": "group__logical__operations",
     "title": "Logical Operations",
-    "url": "/api/groups/group__logical__operations.html",
+    "url": "/thrust/api/groups/group__logical__operations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "logical_operations",
       "refid": "group__logical__operations",
       "title": "Logical Operations",
-      "url": "/api/groups/group__logical__operations.html",
+      "url": "/thrust/api/groups/group__logical__operations.html",
       "visibility": "public"
     }
   ],
@@ -114,7 +114,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
-      "url": "/api/classes/structlogical__and.html#function-operator()",
+      "url": "/thrust/api/classes/structlogical__and.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -148,7 +148,7 @@
       "title": "first_argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structlogical__and.html#typedef-first_argument_type",
+      "url": "/thrust/api/classes/structlogical__and.html#typedef-first_argument_type",
       "visibility": "public"
     },
     {
@@ -179,7 +179,7 @@
       "title": "second_argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structlogical__and.html#typedef-second_argument_type",
+      "url": "/thrust/api/classes/structlogical__and.html#typedef-second_argument_type",
       "visibility": "public"
     },
     {
@@ -210,14 +210,14 @@
       "title": "result_type",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/classes/structlogical__and.html#typedef-result_type",
+      "url": "/thrust/api/classes/structlogical__and.html#typedef-result_type",
       "visibility": "public"
     }
   ],
   "refid": "structlogical__and",
   "see": [
     "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/logical_and\">https://en.cppreference.com/w/cpp/utility/functional/logical_and</a>",
-    "<a href=\"/api/classes/structbinary__function.html\">binary_function</a>"
+    "<a href=\"/thrust/api/classes/structbinary__function.html\">binary_function</a>"
   ],
   "static": false,
   "strong": false,
@@ -237,6 +237,6 @@
     }
   ],
   "title": "logical_and",
-  "url": "/api/classes/structlogical__and.html",
+  "url": "/thrust/api/classes/structlogical__and.html",
   "visibility": "public"
 }

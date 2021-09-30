@@ -18,7 +18,7 @@
     "name": "utility",
     "refid": "group__utility",
     "title": "Utility",
-    "url": "/api/groups/group__utility.html",
+    "url": "/thrust/api/groups/group__utility.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "utility",
     "refid": "group__utility",
     "title": "Utility",
-    "url": "/api/groups/group__utility.html",
+    "url": "/thrust/api/groups/group__utility.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],
@@ -69,7 +69,7 @@
       "name": "pair",
       "refid": "structpair",
       "title": "pair",
-      "url": "/api/classes/structpair.html",
+      "url": "/thrust/api/classes/structpair.html",
       "visibility": "public"
     },
     {
@@ -80,7 +80,7 @@
       "name": "tuple_element",
       "refid": "structtuple__element",
       "title": "tuple_element",
-      "url": "/api/classes/structtuple__element.html",
+      "url": "/thrust/api/classes/structtuple__element.html",
       "visibility": "public"
     },
     {
@@ -91,7 +91,7 @@
       "name": "tuple_size",
       "refid": "structtuple__size",
       "title": "tuple_size",
-      "url": "/api/classes/structtuple__size.html",
+      "url": "/thrust/api/classes/structtuple__size.html",
       "visibility": "public"
     }
   ],
@@ -131,12 +131,12 @@
       "params": [
         {
           "name": "x",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         },
         {
           "name": "y",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         }
       ],
@@ -172,7 +172,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__pair.html#function-operator==",
+      "url": "/thrust/api/groups/group__pair.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -211,12 +211,12 @@
       "params": [
         {
           "name": "x",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         },
         {
           "name": "y",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         }
       ],
@@ -252,7 +252,7 @@
       "title": "operator<",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__pair.html#function-operator<",
+      "url": "/thrust/api/groups/group__pair.html#function-operator<",
       "virtual": false,
       "visibility": "public"
     },
@@ -291,12 +291,12 @@
       "params": [
         {
           "name": "x",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         },
         {
           "name": "y",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         }
       ],
@@ -332,7 +332,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__pair.html#function-operator!=",
+      "url": "/thrust/api/groups/group__pair.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -371,12 +371,12 @@
       "params": [
         {
           "name": "x",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         },
         {
           "name": "y",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         }
       ],
@@ -412,7 +412,7 @@
       "title": "operator>",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__pair.html#function-operator>",
+      "url": "/thrust/api/groups/group__pair.html#function-operator>",
       "virtual": false,
       "visibility": "public"
     },
@@ -451,12 +451,12 @@
       "params": [
         {
           "name": "x",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         },
         {
           "name": "y",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         }
       ],
@@ -492,7 +492,7 @@
       "title": "operator<=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__pair.html#function-operator<=",
+      "url": "/thrust/api/groups/group__pair.html#function-operator<=",
       "virtual": false,
       "visibility": "public"
     },
@@ -531,12 +531,12 @@
       "params": [
         {
           "name": "x",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         },
         {
           "name": "y",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "const pair< T1, T2 > &"
         }
       ],
@@ -572,7 +572,7 @@
       "title": "operator>=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__pair.html#function-operator>=",
+      "url": "/thrust/api/groups/group__pair.html#function-operator>=",
       "virtual": false,
       "visibility": "public"
     },
@@ -611,12 +611,12 @@
       "params": [
         {
           "name": "x",
-          "type": "<a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "<a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "pair< T1, T2 > &"
         },
         {
           "name": "y",
-          "type": "<a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 > &",
+          "type": "<a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 > &",
           "typePlain": "pair< T1, T2 > &"
         }
       ],
@@ -639,7 +639,7 @@
       "title": "swap",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__pair.html#function-swap",
+      "url": "/thrust/api/groups/group__pair.html#function-swap",
       "virtual": false,
       "visibility": "public"
     },
@@ -717,9 +717,9 @@
         }
       ],
       "title": "make_pair",
-      "type": "__host__ __device__ <a href=\"/api/classes/structpair.html\">pair</a>< T1, T2 >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structpair.html\">pair</a>< T1, T2 >",
       "typePlain": "__host__ __device__ pair< T1, T2 >",
-      "url": "/api/groups/group__pair.html#function-make_pair",
+      "url": "/thrust/api/groups/group__pair.html#function-make_pair",
       "virtual": false,
       "visibility": "public"
     }
@@ -728,6 +728,6 @@
   "static": false,
   "strong": false,
   "title": "Pair",
-  "url": "/api/groups/group__pair.html",
+  "url": "/thrust/api/groups/group__pair.html",
   "visibility": "public"
 }

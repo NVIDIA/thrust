@@ -9,9 +9,9 @@ has_toc: false
 
 # Class `transform_input_output_iterator`
 
-<code><a href="/api/classes/classtransform__input__output__iterator.html">transform&#95;input&#95;output&#95;iterator</a></code> is a special kind of iterator which applies transform functions when reading from or writing to dereferenced values. This iterator is useful for algorithms that operate on a type that needs to be serialized/deserialized from values in another iterator, avoiding the need to materialize intermediate results in memory. This also enables the transform functions to be fused with the operations that read and write to the <code><a href="/api/classes/classtransform__input__output__iterator.html">transform&#95;input&#95;output&#95;iterator</a></code>.
+<code><a href="/thrust/api/classes/classtransform__input__output__iterator.html">transform&#95;input&#95;output&#95;iterator</a></code> is a special kind of iterator which applies transform functions when reading from or writing to dereferenced values. This iterator is useful for algorithms that operate on a type that needs to be serialized/deserialized from values in another iterator, avoiding the need to materialize intermediate results in memory. This also enables the transform functions to be fused with the operations that read and write to the <code><a href="/thrust/api/classes/classtransform__input__output__iterator.html">transform&#95;input&#95;output&#95;iterator</a></code>.
 
-The following code snippet demonstrates how to create a <code><a href="/api/classes/classtransform__input__output__iterator.html">transform&#95;input&#95;output&#95;iterator</a></code> which performs different transformations when reading from and writing to the iterator.
+The following code snippet demonstrates how to create a <code><a href="/thrust/api/classes/classtransform__input__output__iterator.html">transform&#95;input&#95;output&#95;iterator</a></code> which performs different transformations when reading from and writing to the iterator.
 
 
 
@@ -53,7 +53,7 @@ The following code snippet demonstrates how to create a <code><a href="/api/clas
 `detail::transform_input_output_iterator_base::type< InputFunction, OutputFunction, Iterator >`
 
 **See**:
-<a href="/api/groups/group__fancyiterator.html#function-make_transform_input_output_iterator">make_transform_input_output_iterator</a>
+<a href="/thrust/api/groups/group__fancyiterator.html#function-make_transform_input_output_iterator">make_transform_input_output_iterator</a>
 
 <code class="doxybook">
 <span>#include <thrust/iterator/transform_input_output_iterator.h></span><br>

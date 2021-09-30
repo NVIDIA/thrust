@@ -30,7 +30,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -44,7 +44,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -75,7 +75,7 @@
       "title": "type",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/structdetail_1_1voider.html#using-type",
+      "url": "/thrust/api/classes/structdetail_1_1voider.html#using-type",
       "visibility": "public"
     }
   ],
@@ -90,6 +90,6 @@
     }
   ],
   "title": "detail::voider",
-  "url": "/api/classes/structdetail_1_1voider.html",
+  "url": "/thrust/api/classes/structdetail_1_1voider.html",
   "visibility": "public"
 }

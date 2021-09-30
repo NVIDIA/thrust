@@ -9,9 +9,9 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct mr::unsynchronized&#95;pool&#95;resource::pool {</span>
-<span>public:</span><span>&nbsp;&nbsp;block_descriptor_ptr <b><a href="/api/classes/structmr_1_1unsynchronized__pool__resource_1_1pool.html#variable-free_list">free&#95;list</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;block_descriptor_ptr <b><a href="/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1pool.html#variable-free_list">free&#95;list</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;std::size_t <b><a href="/api/classes/structmr_1_1unsynchronized__pool__resource_1_1pool.html#variable-previous_allocated_count">previous&#95;allocated&#95;count</a></b>;</span>
+<span>&nbsp;&nbsp;std::size_t <b><a href="/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1pool.html#variable-previous_allocated_count">previous&#95;allocated&#95;count</a></b>;</span>
 <span>};</span>
 </code>
 

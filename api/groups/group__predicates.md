@@ -13,62 +13,62 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__predicates.html#function-is_partitioned">is&#95;partitioned</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_partitioned">is&#95;partitioned</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__predicates.html#function-is_partitioned">is&#95;partitioned</a></b>(InputIterator first,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_partitioned">is&#95;partitioned</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename ForwardIterator&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></b>(ForwardIterator first,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Compare&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Compare comp);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Compare&gt;</span>
-<span>bool </span><span><b><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></b>(ForwardIterator first,</span>
+<span>bool </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Compare comp);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__predicates.html#function-is_sorted_until">is&#95;sorted&#95;until</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_sorted_until">is&#95;sorted&#95;until</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename ForwardIterator&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__predicates.html#function-is_sorted_until">is&#95;sorted&#95;until</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_sorted_until">is&#95;sorted&#95;until</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Compare&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__predicates.html#function-is_sorted_until">is&#95;sorted&#95;until</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_sorted_until">is&#95;sorted&#95;until</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Compare comp);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Compare&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__predicates.html#function-is_sorted_until">is&#95;sorted&#95;until</a></b>(ForwardIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__predicates.html#function-is_sorted_until">is&#95;sorted&#95;until</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Compare comp);</span>
 </code>
@@ -132,7 +132,7 @@ thrust::is_partitioned(thrust::host, B, B + 10, is_even()); // returns false
 <code>true</code> if the range <code>[first, last)</code> is partitioned with respect to <code>pred</code>, or if <code>[first, last)</code> is empty. <code>false</code>, otherwise.
 
 **See**:
-<code><a href="/api/groups/group__partitioning.html#function-partition">partition</a></code>
+<code><a href="/thrust/api/groups/group__partitioning.html#function-partition">partition</a></code>
 
 <h3 id="function-is_partitioned">
 Function <code>is&#95;partitioned</code>
@@ -184,7 +184,7 @@ thrust::is_partitioned(B, B + 10, is_even()); // returns false
 <code>true</code> if the range <code>[first, last)</code> is partitioned with respect to <code>pred</code>, or if <code>[first, last)</code> is empty. <code>false</code>, otherwise.
 
 **See**:
-<code><a href="/api/groups/group__partitioning.html#function-partition">partition</a></code>
+<code><a href="/thrust/api/groups/group__partitioning.html#function-partition">partition</a></code>
 
 <h3 id="function-is_sorted">
 Function <code>is&#95;sorted</code>
@@ -203,7 +203,7 @@ Specifically, this version of <code>is&#95;sorted</code> returns <code>false</co
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
-The following code demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> are stored in ascending order using the <code>thrust::device</code> execution policy for parallelization:
+The following code demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> are stored in ascending order using the <code>thrust::device</code> execution policy for parallelization:
 
 
 
@@ -245,9 +245,9 @@ result = thrust::is_sorted(thrust::device, v.begin(), v.end());
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/is_sorted">https://en.cppreference.com/w/cpp/algorithm/is_sorted</a>
-* <a href="/api/groups/group__predicates.html#function-is_sorted_until">is_sorted_until</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
+* <a href="/thrust/api/groups/group__predicates.html#function-is_sorted_until">is_sorted_until</a>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
 * <code>less&lt;T&gt;</code>
 
 <h3 id="function-is_sorted">
@@ -263,7 +263,7 @@ Function <code>is&#95;sorted</code>
 Specifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>&#42;(i + 1) &lt; &#42;i</code> is <code>true</code>.
 
 
-The following code demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> are stored in ascending order.
+The following code demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> are stored in ascending order.
 
 
 
@@ -302,9 +302,9 @@ result = thrust::is_sorted(v.begin(), v.end());
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/is_sorted">https://en.cppreference.com/w/cpp/algorithm/is_sorted</a>
-* <a href="/api/groups/group__predicates.html#function-is_sorted_until">is_sorted_until</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
+* <a href="/thrust/api/groups/group__predicates.html#function-is_sorted_until">is_sorted_until</a>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
 * <code>less&lt;T&gt;</code>
 
 <h3 id="function-is_sorted">
@@ -326,7 +326,7 @@ Specifically, this version of <code>is&#95;sorted</code> returns <code>false</co
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
-The following code snippet demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> are stored in descending order using the <code>thrust::device</code> execution policy for parallelization:
+The following code snippet demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> are stored in descending order using the <code>thrust::device</code> execution policy for parallelization:
 
 
 
@@ -371,8 +371,8 @@ result = thrust::is_sorted(thrust::device, v.begin(), v.end(), comp);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/is_sorted">https://en.cppreference.com/w/cpp/algorithm/is_sorted</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
 * <code>less&lt;T&gt;</code>
 
 <h3 id="function-is_sorted">
@@ -390,7 +390,7 @@ Function <code>is&#95;sorted</code>
 Specifically, this version of <code>is&#95;sorted</code> returns <code>false</code> if for some iterator <code>i</code> in the range <code>[first, last - 1)</code> the expression <code>comp(&#42;(i + 1), &#42;i)</code> is <code>true</code>.
 
 
-The following code snippet demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> are stored in descending order.
+The following code snippet demonstrates how to use <code>is&#95;sorted</code> to test whether the contents of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> are stored in descending order.
 
 
 
@@ -432,8 +432,8 @@ result = thrust::is_sorted(v.begin(), v.end(), comp);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/is_sorted">https://en.cppreference.com/w/cpp/algorithm/is_sorted</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
 * <code>less&lt;T&gt;</code>
 
 <h3 id="function-is_sorted_until">
@@ -482,11 +482,11 @@ int * B = thrust::is_sorted_until(thrust::host, A, A + 8);
 The last iterator in the input range for which it is sorted.
 
 **See**:
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort_by_key">stable&#95;sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort_by_key">stable&#95;sort&#95;by&#95;key</a></code>
 
 <h3 id="function-is_sorted_until">
 Function <code>is&#95;sorted&#95;until</code>
@@ -527,11 +527,11 @@ int * B = thrust::is_sorted_until(A, A + 8);
 The last iterator in the input range for which it is sorted.
 
 **See**:
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort_by_key">stable&#95;sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort_by_key">stable&#95;sort&#95;by&#95;key</a></code>
 
 <h3 id="function-is_sorted_until">
 Function <code>is&#95;sorted&#95;until</code>
@@ -585,11 +585,11 @@ int * B = thrust::is_sorted_until(thrust::host, A, A + 8, comp);
 The last iterator in the input range for which it is sorted.
 
 **See**:
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort_by_key">stable&#95;sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort_by_key">stable&#95;sort&#95;by&#95;key</a></code>
 
 <h3 id="function-is_sorted_until">
 Function <code>is&#95;sorted&#95;until</code>
@@ -636,10 +636,10 @@ int * B = thrust::is_sorted_until(A, A + 8, comp);
 The last iterator in the input range for which it is sorted.
 
 **See**:
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-stable_sort_by_key">stable&#95;sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort">stable&#95;sort</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-stable_sort_by_key">stable&#95;sort&#95;by&#95;key</a></code>
 
 

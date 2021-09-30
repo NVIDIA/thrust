@@ -25,7 +25,7 @@
       "name": "system::cuda::errc",
       "refid": "namespacesystem_1_1cuda_1_1errc",
       "title": "system::cuda::errc",
-      "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
       "visibility": "public"
     }
   ],
@@ -38,7 +38,7 @@
     "name": "system",
     "refid": "namespacesystem",
     "title": "system",
-    "url": "/api/namespaces/namespacesystem.html",
+    "url": "/thrust/api/namespaces/namespacesystem.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -50,7 +50,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     }
   ],
@@ -63,7 +63,7 @@
       "name": "system::cuda::ready_future",
       "refid": "structsystem_1_1cuda_1_1ready__future",
       "title": "system::cuda::ready_future",
-      "url": "/api/classes/structsystem_1_1cuda_1_1ready__future.html",
+      "url": "/thrust/api/classes/structsystem_1_1cuda_1_1ready__future.html",
       "visibility": "public"
     },
     {
@@ -74,7 +74,7 @@
       "name": "system::cuda::unique_eager_future",
       "refid": "structsystem_1_1cuda_1_1unique__eager__future",
       "title": "system::cuda::unique_eager_future",
-      "url": "/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html",
+      "url": "/thrust/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html",
       "visibility": "public"
     }
   ],
@@ -121,7 +121,7 @@
       "title": "when_all",
       "type": "__host__ unique_eager_event",
       "typePlain": "__host__ unique_eager_event",
-      "url": "/api/namespaces/namespacesystem_1_1cuda.html#function-when_all",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html#function-when_all",
       "virtual": false,
       "visibility": "public"
     }
@@ -154,7 +154,7 @@
       "title": "memory_resource",
       "type": "detail::device_memory_resource",
       "typePlain": "detail::device_memory_resource",
-      "url": "/api/namespaces/namespacesystem_1_1cuda.html#typedef-memory_resource",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html#typedef-memory_resource",
       "visibility": "public"
     },
     {
@@ -184,7 +184,7 @@
       "title": "universal_memory_resource",
       "type": "detail::managed_memory_resource",
       "typePlain": "detail::managed_memory_resource",
-      "url": "/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_memory_resource",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_memory_resource",
       "visibility": "public"
     },
     {
@@ -214,7 +214,7 @@
       "title": "universal_host_pinned_memory_resource",
       "type": "detail::pinned_memory_resource",
       "typePlain": "detail::pinned_memory_resource",
-      "url": "/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_host_pinned_memory_resource",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_host_pinned_memory_resource",
       "visibility": "public"
     }
   ],
@@ -222,6 +222,6 @@
   "static": false,
   "strong": false,
   "title": "system::cuda",
-  "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+  "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
   "visibility": "public"
 }

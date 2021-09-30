@@ -4,7 +4,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/structproject1st.html\">project1st</a></code> is a function object that takes two arguments and returns its first argument; the second argument is unused. It is essentially a generalization of identity to the case of a Binary Function.\n\n\n\n```cpp\n#include <thrust/functional.h>\n#include <assert.h>\n...\nint x =  137;\nint y = -137;\nthrust::project1st<int> pj1;\nassert(x == pj1(x,y));\n```",
+  "details": "<code><a href=\"/thrust/api/classes/structproject1st.html\">project1st</a></code> is a function object that takes two arguments and returns its first argument; the second argument is unused. It is essentially a generalization of identity to the case of a Binary Function.\n\n\n\n```cpp\n#include <thrust/functional.h>\n#include <assert.h>\n...\nint x =  137;\nint y = -137;\nthrust::project1st<int> pj1;\nassert(x == pj1(x,y));\n```",
   "explicit": false,
   "fullname": "project1st",
   "hasAdditionalMembers": false,
@@ -28,7 +28,7 @@
     "name": "generalized_identity_operations",
     "refid": "group__generalized__identity__operations",
     "title": "Generalized Identity Operations",
-    "url": "/api/groups/group__generalized__identity__operations.html",
+    "url": "/thrust/api/groups/group__generalized__identity__operations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "generalized_identity_operations",
       "refid": "group__generalized__identity__operations",
       "title": "Generalized Identity Operations",
-      "url": "/api/groups/group__generalized__identity__operations.html",
+      "url": "/thrust/api/groups/group__generalized__identity__operations.html",
       "visibility": "public"
     }
   ],
@@ -114,7 +114,7 @@
       "title": "operator()",
       "type": "__host__ constexpr const __device__ T1 &",
       "typePlain": "__host__ constexpr const __device__ T1 &",
-      "url": "/api/classes/structproject1st.html#function-operator()",
+      "url": "/thrust/api/classes/structproject1st.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -148,7 +148,7 @@
       "title": "first_argument_type",
       "type": "T1",
       "typePlain": "T1",
-      "url": "/api/classes/structproject1st.html#typedef-first_argument_type",
+      "url": "/thrust/api/classes/structproject1st.html#typedef-first_argument_type",
       "visibility": "public"
     },
     {
@@ -179,7 +179,7 @@
       "title": "second_argument_type",
       "type": "T2",
       "typePlain": "T2",
-      "url": "/api/classes/structproject1st.html#typedef-second_argument_type",
+      "url": "/thrust/api/classes/structproject1st.html#typedef-second_argument_type",
       "visibility": "public"
     },
     {
@@ -210,15 +210,15 @@
       "title": "result_type",
       "type": "T1",
       "typePlain": "T1",
-      "url": "/api/classes/structproject1st.html#typedef-result_type",
+      "url": "/thrust/api/classes/structproject1st.html#typedef-result_type",
       "visibility": "public"
     }
   ],
   "refid": "structproject1st",
   "see": [
-    "<a href=\"/api/classes/structidentity.html\">identity</a>",
-    "<a href=\"/api/classes/structproject2nd.html\">project2nd</a>",
-    "<a href=\"/api/classes/structbinary__function.html\">binary_function</a>"
+    "<a href=\"/thrust/api/classes/structidentity.html\">identity</a>",
+    "<a href=\"/thrust/api/classes/structproject2nd.html\">project2nd</a>",
+    "<a href=\"/thrust/api/classes/structbinary__function.html\">binary_function</a>"
   ],
   "static": false,
   "strong": false,
@@ -239,6 +239,6 @@
     }
   ],
   "title": "project1st",
-  "url": "/api/classes/structproject1st.html",
+  "url": "/thrust/api/classes/structproject1st.html",
   "visibility": "public"
 }

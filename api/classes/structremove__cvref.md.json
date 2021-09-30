@@ -28,7 +28,7 @@
     "name": "type_traits",
     "refid": "group__type__traits",
     "title": "Type Traits",
-    "url": "/api/groups/group__type__traits.html",
+    "url": "/thrust/api/groups/group__type__traits.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "type_traits",
       "refid": "group__type__traits",
       "title": "Type Traits",
-      "url": "/api/groups/group__type__traits.html",
+      "url": "/thrust/api/groups/group__type__traits.html",
       "visibility": "public"
     }
   ],
@@ -85,7 +85,7 @@
       "title": "type",
       "type": "typename std::remove_cv< typename std::remove_reference< T >::type >::type",
       "typePlain": "typename std::remove_cv< typename std::remove_reference< T >::type >::type",
-      "url": "/api/classes/structremove__cvref.html#using-type",
+      "url": "/thrust/api/classes/structremove__cvref.html#using-type",
       "visibility": "public"
     }
   ],
@@ -108,6 +108,6 @@
     }
   ],
   "title": "remove_cvref",
-  "url": "/api/classes/structremove__cvref.html",
+  "url": "/thrust/api/classes/structremove__cvref.html",
   "visibility": "public"
 }

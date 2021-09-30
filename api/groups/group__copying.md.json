@@ -15,7 +15,7 @@
       "name": "gathering",
       "refid": "group__gathering",
       "title": "Gathering",
-      "url": "/api/groups/group__gathering.html",
+      "url": "/thrust/api/groups/group__gathering.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "scattering",
       "refid": "group__scattering",
       "title": "Scattering",
-      "url": "/api/groups/group__scattering.html",
+      "url": "/thrust/api/groups/group__scattering.html",
       "visibility": "public"
     }
   ],
@@ -42,7 +42,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -54,7 +54,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -68,7 +68,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -80,7 +80,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -194,7 +194,7 @@
       "title": "copy",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__copying.html#function-copy",
+      "url": "/thrust/api/groups/group__copying.html#function-copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -317,7 +317,7 @@
       "title": "copy_n",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__copying.html#function-copy_n",
+      "url": "/thrust/api/groups/group__copying.html#function-copy_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -412,7 +412,7 @@
       "title": "copy",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__copying.html#function-copy",
+      "url": "/thrust/api/groups/group__copying.html#function-copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -517,7 +517,7 @@
       "title": "copy_n",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__copying.html#function-copy_n",
+      "url": "/thrust/api/groups/group__copying.html#function-copy_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -593,7 +593,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/swap_ranges\">https://en.cppreference.com/w/cpp/algorithm/swap_ranges</a>",
-        "<code><a href=\"/api/groups/group__swap.html#function-swap\">swap</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__swap.html#function-swap\">swap</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -631,7 +631,7 @@
       "title": "swap_ranges",
       "type": "__host__ __device__ ForwardIterator2",
       "typePlain": "__host__ __device__ ForwardIterator2",
-      "url": "/api/groups/group__copying.html#function-swap_ranges",
+      "url": "/thrust/api/groups/group__copying.html#function-swap_ranges",
       "virtual": false,
       "visibility": "public"
     },
@@ -698,7 +698,7 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/swap_ranges\">https://en.cppreference.com/w/cpp/algorithm/swap_ranges</a>",
-        "<code><a href=\"/api/groups/group__swap.html#function-swap\">swap</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__swap.html#function-swap\">swap</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -727,7 +727,7 @@
       "title": "swap_ranges",
       "type": "ForwardIterator2",
       "typePlain": "ForwardIterator2",
-      "url": "/api/groups/group__copying.html#function-swap_ranges",
+      "url": "/thrust/api/groups/group__copying.html#function-swap_ranges",
       "virtual": false,
       "visibility": "public"
     },
@@ -803,10 +803,10 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_copy\">https://en.cppreference.com/w/cpp/memory/uninitialized_copy</a>",
-        "<code><a href=\"/api/groups/group__copying.html#function-copy\">copy</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-copy\">copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -844,7 +844,7 @@
       "title": "uninitialized_copy",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__copying.html#function-uninitialized_copy",
+      "url": "/thrust/api/groups/group__copying.html#function-uninitialized_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -911,10 +911,10 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_copy\">https://en.cppreference.com/w/cpp/memory/uninitialized_copy</a>",
-        "<code><a href=\"/api/groups/group__copying.html#function-copy\">copy</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-copy\">copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -943,7 +943,7 @@
       "title": "uninitialized_copy",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__copying.html#function-uninitialized_copy",
+      "url": "/thrust/api/groups/group__copying.html#function-uninitialized_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -1019,11 +1019,11 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_copy\">https://en.cppreference.com/w/cpp/memory/uninitialized_copy</a>",
-        "<code><a href=\"/api/groups/group__copying.html#function-uninitialized_copy\">uninitialized&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__copying.html#function-copy\">copy</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-uninitialized_copy\">uninitialized&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-copy\">copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1070,7 +1070,7 @@
       "title": "uninitialized_copy_n",
       "type": "__host__ __device__ ForwardIterator",
       "typePlain": "__host__ __device__ ForwardIterator",
-      "url": "/api/groups/group__copying.html#function-uninitialized_copy_n",
+      "url": "/thrust/api/groups/group__copying.html#function-uninitialized_copy_n",
       "virtual": false,
       "visibility": "public"
     },
@@ -1137,11 +1137,11 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/memory/uninitialized_copy\">https://en.cppreference.com/w/cpp/memory/uninitialized_copy</a>",
-        "<code><a href=\"/api/groups/group__copying.html#function-uninitialized_copy\">uninitialized&#95;copy</a></code>",
-        "<code><a href=\"/api/groups/group__copying.html#function-copy\">copy</a></code>",
-        "<code><a href=\"/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
-        "<code><a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-uninitialized_copy\">uninitialized&#95;copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__copying.html#function-copy\">copy</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__filling.html#function-uninitialized_fill\">uninitialized&#95;fill</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device&#95;new</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device&#95;malloc</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1179,7 +1179,7 @@
       "title": "uninitialized_copy_n",
       "type": "ForwardIterator",
       "typePlain": "ForwardIterator",
-      "url": "/api/groups/group__copying.html#function-uninitialized_copy_n",
+      "url": "/thrust/api/groups/group__copying.html#function-uninitialized_copy_n",
       "virtual": false,
       "visibility": "public"
     }
@@ -1188,6 +1188,6 @@
   "static": false,
   "strong": false,
   "title": "Copying",
-  "url": "/api/groups/group__copying.html",
+  "url": "/thrust/api/groups/group__copying.html",
   "visibility": "public"
 }

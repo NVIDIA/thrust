@@ -15,7 +15,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename Sentinel,</span>
 <span>&nbsp;&nbsp;typename OutputIt,</span>
 <span>&nbsp;&nbsp;typename BinaryOp&gt;</span>
-<span>event< DerivedPolicy > </span><span><b><a href="/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_inclusive_scan">async&#95;inclusive&#95;scan</a></b>(thrust::execution_policy< DerivedPolicy > &,</span>
+<span>event< DerivedPolicy > </span><span><b><a href="/thrust/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_inclusive_scan">async&#95;inclusive&#95;scan</a></b>(thrust::execution_policy< DerivedPolicy > &,</span>
 <span>&nbsp;&nbsp;ForwardIt,</span>
 <span>&nbsp;&nbsp;Sentinel,</span>
 <span>&nbsp;&nbsp;OutputIt,</span>
@@ -27,7 +27,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIt,</span>
 <span>&nbsp;&nbsp;typename InitialValueType,</span>
 <span>&nbsp;&nbsp;typename BinaryOp&gt;</span>
-<span>event< DerivedPolicy > </span><span><b><a href="/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_exclusive_scan">async&#95;exclusive&#95;scan</a></b>(thrust::execution_policy< DerivedPolicy > &,</span>
+<span>event< DerivedPolicy > </span><span><b><a href="/thrust/api/namespaces/namespaceasync_1_1unimplemented.html#function-async_exclusive_scan">async&#95;exclusive&#95;scan</a></b>(thrust::execution_policy< DerivedPolicy > &,</span>
 <span>&nbsp;&nbsp;ForwardIt,</span>
 <span>&nbsp;&nbsp;Sentinel,</span>
 <span>&nbsp;&nbsp;OutputIt,</span>

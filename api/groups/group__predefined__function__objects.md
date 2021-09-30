@@ -11,11 +11,11 @@ has_toc: false
 
 ## Groups
 
-* **[Arithmetic Operations](/api/groups/group__arithmetic__operations.html)**
-* **[Bitwise Operations](/api/groups/group__bitwise__operations.html)**
-* **[Comparison Operations](/api/groups/group__comparison__operations.html)**
-* **[Generalized Identity Operations](/api/groups/group__generalized__identity__operations.html)**
-* **[Logical Operations](/api/groups/group__logical__operations.html)**
+* **[Arithmetic Operations](/thrust/api/groups/group__arithmetic__operations.html)**
+* **[Bitwise Operations](/thrust/api/groups/group__bitwise__operations.html)**
+* **[Comparison Operations](/thrust/api/groups/group__comparison__operations.html)**
+* **[Generalized Identity Operations](/thrust/api/groups/group__generalized__identity__operations.html)**
+* **[Logical Operations](/thrust/api/groups/group__logical__operations.html)**
 
 <code class="doxybook">
 </code>

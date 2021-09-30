@@ -12,7 +12,7 @@ has_toc: false
 
 <code>thrust::omp</code> is a top-level alias for thrust::system::omp. 
 
-<code><a href="/api/namespaces/namespacethrust_1_1omp.html">thrust::omp</a></code> is a top-level alias for <code>thrust::system::omp</code>. 
+<code><a href="/thrust/api/namespaces/namespacethrust_1_1omp.html">thrust::omp</a></code> is a top-level alias for <code>thrust::system::omp</code>. 
 
 <code class="doxybook">
 <span>namespace thrust::omp {</span>

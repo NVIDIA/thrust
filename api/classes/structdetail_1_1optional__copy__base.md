@@ -11,9 +11,9 @@ has_toc: false
 `detail::optional_operations_base< T >`
 
 **Inherited By**:
-* [`detail::optional_move_base< T, bool >`](/api/classes/structdetail_1_1optional__move__base.html)
-* [`detail::optional_move_base< T, false >`](/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html)
-* [`detail::optional_move_base< T >`](/api/classes/structdetail_1_1optional__move__base.html)
+* [`detail::optional_move_base< T, bool >`](/thrust/api/classes/structdetail_1_1optional__move__base.html)
+* [`detail::optional_move_base< T, false >`](/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html)
+* [`detail::optional_move_base< T >`](/thrust/api/classes/structdetail_1_1optional__move__base.html)
 
 <code class="doxybook">
 <span>template &lt;class T,</span>

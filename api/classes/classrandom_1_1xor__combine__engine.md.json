@@ -5,7 +5,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "\nThe following code snippet shows an example of using an <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> instance:\n\n\n\n```cpp\n#include <thrust/random/linear_congruential_engine.h>\n#include <thrust/random/xor_combine_engine.h>\n#include <iostream>\n\nint main(void)\n{\n  // create an xor_combine_engine from minstd_rand and minstd_rand0\n  // use a shift of 0 for each\n  thrust::xor_combine_engine<thrust::minstd_rand,0,thrust::minstd_rand0,0> rng;\n\n  // print a random number to standard output\n  std::cout << rng() << std::endl;\n\n  return 0;\n}\n```",
+  "details": "\nThe following code snippet shows an example of using an <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> instance:\n\n\n\n```cpp\n#include <thrust/random/linear_congruential_engine.h>\n#include <thrust/random/xor_combine_engine.h>\n#include <iostream>\n\nint main(void)\n{\n  // create an xor_combine_engine from minstd_rand and minstd_rand0\n  // use a shift of 0 for each\n  thrust::xor_combine_engine<thrust::minstd_rand,0,thrust::minstd_rand0,0> rng;\n\n  // print a random number to standard output\n  std::cout << rng() << std::endl;\n\n  return 0;\n}\n```",
   "explicit": false,
   "fullname": "random::xor_combine_engine",
   "hasAdditionalMembers": false,
@@ -29,7 +29,7 @@
     "name": "random_number_engine_adaptors",
     "refid": "group__random__number__engine__adaptors",
     "title": "Random Number Engine Adaptor Class Templates",
-    "url": "/api/groups/group__random__number__engine__adaptors.html",
+    "url": "/thrust/api/groups/group__random__number__engine__adaptors.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -41,7 +41,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     },
     {
@@ -52,7 +52,7 @@
       "name": "random_number_engine_adaptors",
       "refid": "group__random__number__engine__adaptors",
       "title": "Random Number Engine Adaptor Class Templates",
-      "url": "/api/groups/group__random__number__engine__adaptors.html",
+      "url": "/thrust/api/groups/group__random__number__engine__adaptors.html",
       "visibility": "public"
     }
   ],
@@ -66,7 +66,7 @@
     "name": "random",
     "refid": "namespacerandom",
     "title": "random",
-    "url": "/api/namespaces/namespacerandom.html",
+    "url": "/thrust/api/namespaces/namespacerandom.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -78,7 +78,7 @@
       "name": "random",
       "refid": "namespacerandom",
       "title": "random",
-      "url": "/api/namespaces/namespacerandom.html",
+      "url": "/thrust/api/namespaces/namespacerandom.html",
       "visibility": "public"
     }
   ],
@@ -111,7 +111,7 @@
       "title": "shift1",
       "type": "const size_t",
       "typePlain": "const size_t",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#variable-shift1",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#variable-shift1",
       "visibility": "public"
     },
     {
@@ -142,7 +142,7 @@
       "title": "shift2",
       "type": "const size_t",
       "typePlain": "const size_t",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#variable-shift2",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#variable-shift2",
       "visibility": "public"
     },
     {
@@ -151,7 +151,7 @@
       "category": "attributes",
       "const": false,
       "definition": "const result_type random::xor_combine_engine< Engine1, s1, Engine2, s2 >::min",
-      "details": "The smallest value this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> may potentially produce. ",
+      "details": "The smallest value this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> may potentially produce. ",
       "explicit": false,
       "fullname": "random::xor_combine_engine::min",
       "hasDetails": true,
@@ -171,9 +171,9 @@
       "static": true,
       "strong": false,
       "title": "min",
-      "type": "const <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
+      "type": "const <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
       "typePlain": "const result_type",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#variable-min",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#variable-min",
       "visibility": "public"
     },
     {
@@ -182,11 +182,11 @@
       "category": "attributes",
       "const": false,
       "definition": "const result_type random::xor_combine_engine< Engine1, s1, Engine2, s2 >::max",
-      "details": "The largest value this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> may potentially produce. ",
+      "details": "The largest value this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> may potentially produce. ",
       "explicit": false,
       "fullname": "random::xor_combine_engine::max",
       "hasDetails": true,
-      "initializer": "=\n      detail::xor_combine_engine_max<\n        Engine1, s1, Engine2, s2, <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>\n      >::value",
+      "initializer": "=\n      detail::xor_combine_engine_max<\n        Engine1, s1, Engine2, s2, <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>\n      >::value",
       "inline": false,
       "kind": "variable",
       "location": {
@@ -202,9 +202,9 @@
       "static": true,
       "strong": false,
       "title": "max",
-      "type": "const <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
+      "type": "const <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
       "typePlain": "const result_type",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#variable-max",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#variable-max",
       "visibility": "public"
     }
   ],
@@ -218,7 +218,7 @@
       "default": false,
       "definition": "__host__ __device__ random::xor_combine_engine< Engine1, s1, Engine2, s2 >::xor_combine_engine",
       "deleted": false,
-      "details": "This constructor constructs a new <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> and constructs its adapted engines using their null constructors. ",
+      "details": "This constructor constructs a new <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> and constructs its adapted engines using their null constructors. ",
       "explicit": false,
       "fullname": "random::xor_combine_engine::xor_combine_engine",
       "hasDetails": true,
@@ -245,7 +245,7 @@
       "title": "xor_combine_engine",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-xor_combine_engine",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-xor_combine_engine",
       "virtual": false,
       "visibility": "public"
     },
@@ -258,7 +258,7 @@
       "default": false,
       "definition": "__host__ __device__ random::xor_combine_engine< Engine1, s1, Engine2, s2 >::xor_combine_engine",
       "deleted": false,
-      "details": "This constructor constructs a new <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> using given <code>base1&#95;type</code> and <code>base2&#95;type</code> engines to initialize its adapted base engines.",
+      "details": "This constructor constructs a new <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> using given <code>base1&#95;type</code> and <code>base2&#95;type</code> engines to initialize its adapted base engines.",
       "explicit": false,
       "fullname": "random::xor_combine_engine::xor_combine_engine",
       "hasDetails": true,
@@ -274,22 +274,22 @@
       "paramList": [
         {
           "name": "urng1",
-          "text": "A <code>base1&#95;type</code> to use to initialize this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> first adapted base engine. "
+          "text": "A <code>base1&#95;type</code> to use to initialize this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> first adapted base engine. "
         },
         {
           "name": "urng2",
-          "text": "A <code>base2&#95;type</code> to use to initialize this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> first adapted base engine. "
+          "text": "A <code>base2&#95;type</code> to use to initialize this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> first adapted base engine. "
         }
       ],
       "params": [
         {
           "name": "urng1",
-          "type": "const <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base1_type\">base1_type</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base1_type\">base1_type</a> &",
           "typePlain": "const base1_type &"
         },
         {
           "name": "urng2",
-          "type": "const <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base2_type\">base2_type</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base2_type\">base2_type</a> &",
           "typePlain": "const base2_type &"
         }
       ],
@@ -300,7 +300,7 @@
       "title": "xor_combine_engine",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-xor_combine_engine",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-xor_combine_engine",
       "virtual": false,
       "visibility": "public"
     },
@@ -313,7 +313,7 @@
       "default": false,
       "definition": "__host__ __device__ random::xor_combine_engine< Engine1, s1, Engine2, s2 >::xor_combine_engine",
       "deleted": false,
-      "details": "This constructor initializes a new <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> with a given seed.",
+      "details": "This constructor initializes a new <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> with a given seed.",
       "explicit": false,
       "fullname": "random::xor_combine_engine::xor_combine_engine",
       "hasDetails": true,
@@ -329,13 +329,13 @@
       "paramList": [
         {
           "name": "s",
-          "text": "The seed used to intialize this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> adapted base engines. "
+          "text": "The seed used to intialize this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> adapted base engines. "
         }
       ],
       "params": [
         {
           "name": "s",
-          "type": "<a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
           "typePlain": "result_type"
         }
       ],
@@ -346,7 +346,7 @@
       "title": "xor_combine_engine",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-xor_combine_engine",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-xor_combine_engine",
       "virtual": false,
       "visibility": "public"
     },
@@ -359,7 +359,7 @@
       "default": false,
       "definition": "__host__ __device__ void random::xor_combine_engine< Engine1, s1, Engine2, s2 >::seed",
       "deleted": false,
-      "details": "This method initializes the state of this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> adapted base engines by using their <code>default&#95;seed</code> values. ",
+      "details": "This method initializes the state of this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> adapted base engines by using their <code>default&#95;seed</code> values. ",
       "explicit": false,
       "fullname": "random::xor_combine_engine::seed",
       "hasDetails": true,
@@ -386,7 +386,7 @@
       "title": "seed",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-seed",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-seed",
       "virtual": false,
       "visibility": "public"
     },
@@ -399,7 +399,7 @@
       "default": false,
       "definition": "__host__ __device__ void random::xor_combine_engine< Engine1, s1, Engine2, s2 >::seed",
       "deleted": false,
-      "details": "This method initializes the state of this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> adapted base engines by using the given seed.",
+      "details": "This method initializes the state of this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> adapted base engines by using the given seed.",
       "explicit": false,
       "fullname": "random::xor_combine_engine::seed",
       "hasDetails": true,
@@ -415,13 +415,13 @@
       "paramList": [
         {
           "name": "s",
-          "text": "The seed with which to intialize this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> adapted base engines. "
+          "text": "The seed with which to intialize this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> adapted base engines. "
         }
       ],
       "params": [
         {
           "name": "s",
-          "type": "<a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
           "typePlain": "result_type"
         }
       ],
@@ -432,7 +432,7 @@
       "title": "seed",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-seed",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-seed",
       "virtual": false,
       "visibility": "public"
     },
@@ -445,7 +445,7 @@
       "default": false,
       "definition": "__host__ __device__ result_type random::xor_combine_engine< Engine1, s1, Engine2, s2 >::operator()",
       "deleted": false,
-      "details": "This member function produces a new random value and updates this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> state. ",
+      "details": "This member function produces a new random value and updates this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> state. ",
       "explicit": false,
       "fullname": "random::xor_combine_engine::operator()",
       "hasDetails": true,
@@ -473,9 +473,9 @@
       "static": false,
       "strong": false,
       "title": "operator()",
-      "type": "__host__ __device__ <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type\">result_type</a>",
       "typePlain": "__host__ __device__ result_type",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-operator()",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     },
@@ -488,7 +488,7 @@
       "default": false,
       "definition": "__host__ __device__ void random::xor_combine_engine< Engine1, s1, Engine2, s2 >::discard",
       "deleted": false,
-      "details": "This member function advances this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> state a given number of times and discards the results.",
+      "details": "This member function advances this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> state a given number of times and discards the results.",
       "explicit": false,
       "fullname": "random::xor_combine_engine::discard",
       "hasDetails": true,
@@ -524,7 +524,7 @@
       "title": "discard",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-discard",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-discard",
       "virtual": false,
       "visibility": "public"
     },
@@ -537,7 +537,7 @@
       "default": false,
       "definition": "__host__ const __device__ base1_type& random::xor_combine_engine< Engine1, s1, Engine2, s2 >::base1",
       "deleted": false,
-      "details": "This member function returns a const reference to this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> first adapted base engine.",
+      "details": "This member function returns a const reference to this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> first adapted base engine.",
       "explicit": false,
       "fullname": "random::xor_combine_engine::base1",
       "hasDetails": true,
@@ -560,14 +560,14 @@
       "pureVirtual": false,
       "refid": "classrandom_1_1xor__combine__engine_1a3ac050733e125c774da13e5aeb9e798a",
       "returns": [
-        "A const reference to the first base engine this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> adapts. "
+        "A const reference to the first base engine this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> adapts. "
       ],
       "static": false,
       "strong": false,
       "title": "base1",
-      "type": "__host__ const __device__ <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base1_type\">base1_type</a> &",
+      "type": "__host__ const __device__ <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base1_type\">base1_type</a> &",
       "typePlain": "__host__ const __device__ base1_type &",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-base1",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-base1",
       "virtual": false,
       "visibility": "public"
     },
@@ -580,7 +580,7 @@
       "default": false,
       "definition": "__host__ const __device__ base2_type& random::xor_combine_engine< Engine1, s1, Engine2, s2 >::base2",
       "deleted": false,
-      "details": "This member function returns a const reference to this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> second adapted base engine.",
+      "details": "This member function returns a const reference to this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a>'s</code> second adapted base engine.",
       "explicit": false,
       "fullname": "random::xor_combine_engine::base2",
       "hasDetails": true,
@@ -603,14 +603,14 @@
       "pureVirtual": false,
       "refid": "classrandom_1_1xor__combine__engine_1a5ca5d42bb6c47a3be18489befdca6573",
       "returns": [
-        "A const reference to the second base engine this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> adapts. "
+        "A const reference to the second base engine this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code> adapts. "
       ],
       "static": false,
       "strong": false,
       "title": "base2",
-      "type": "__host__ const __device__ <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base2_type\">base2_type</a> &",
+      "type": "__host__ const __device__ <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base2_type\">base2_type</a> &",
       "typePlain": "__host__ const __device__ base2_type &",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#function-base2",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#function-base2",
       "virtual": false,
       "visibility": "public"
     }
@@ -644,7 +644,7 @@
       "title": "base1_type",
       "type": "Engine1",
       "typePlain": "Engine1",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base1_type",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base1_type",
       "visibility": "public"
     },
     {
@@ -675,13 +675,13 @@
       "title": "base2_type",
       "type": "Engine2",
       "typePlain": "Engine2",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base2_type",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-base2_type",
       "visibility": "public"
     },
     {
       "abstract": false,
       "anchor": "#typedef-result_type",
-      "brief": "The type of the unsigned integer produced by this <code><a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code>. ",
+      "brief": "The type of the unsigned integer produced by this <code><a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor&#95;combine&#95;engine</a></code>. ",
       "category": "types",
       "const": false,
       "definition": "random::xor_combine_engine< Engine1, s1, Engine2, s2 >::result_type",
@@ -706,7 +706,7 @@
       "title": "result_type",
       "type": "thrust::detail::eval_if<(sizeof(typename base2_type::result_type) > sizeof(typename base1_type::result_type)), thrust::detail::identity_< typename base2_type::result_type >, thrust::detail::identity_< typename base1_type::result_type > >::type",
       "typePlain": "thrust::detail::eval_if<(sizeof(typename base2_type::result_type) > sizeof(typename base1_type::result_type)), thrust::detail::identity_< typename base2_type::result_type >, thrust::detail::identity_< typename base1_type::result_type > >::type",
-      "url": "/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type",
+      "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html#typedef-result_type",
       "visibility": "public"
     }
   ],
@@ -757,6 +757,6 @@
     }
   ],
   "title": "random::xor_combine_engine",
-  "url": "/api/classes/classrandom_1_1xor__combine__engine.html",
+  "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html",
   "visibility": "public"
 }

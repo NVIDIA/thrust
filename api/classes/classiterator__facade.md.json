@@ -4,7 +4,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> is a template which allows the programmer to define a novel iterator with a standards-conforming interface which Thrust can use to reason about algorithm acceleration opportunities.\n\nBecause most of a standard iterator's interface is defined in terms of a small set of core primitives, <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> defines the non-primitive portion mechanically. In principle a novel iterator could explicitly provide the entire interface in an ad hoc fashion but doing so might be tedious and prone to subtle errors.\n\nOften <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> is too primitive a tool to use for defining novel iterators. In these cases, <code><a href=\"/api/classes/classiterator__adaptor.html\">iterator&#95;adaptor</a></code> or a specific fancy iterator should be used instead.\n\n<code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a>'s</code> functionality is derived from and generally equivalent to <code>boost::iterator&#95;facade</code>. The exception is Thrust's addition of the template parameter <code>System</code>, which is necessary to allow Thrust to dispatch an algorithm to one of several parallel backend systems. An additional exception is Thrust's omission of the <code>operator-&gt;</code> member function.\n\nInterested users may refer to <code>boost::iterator&#95;facade</code>'s documentation for usage examples.",
+  "details": "<code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> is a template which allows the programmer to define a novel iterator with a standards-conforming interface which Thrust can use to reason about algorithm acceleration opportunities.\n\nBecause most of a standard iterator's interface is defined in terms of a small set of core primitives, <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> defines the non-primitive portion mechanically. In principle a novel iterator could explicitly provide the entire interface in an ad hoc fashion but doing so might be tedious and prone to subtle errors.\n\nOften <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> is too primitive a tool to use for defining novel iterators. In these cases, <code><a href=\"/thrust/api/classes/classiterator__adaptor.html\">iterator&#95;adaptor</a></code> or a specific fancy iterator should be used instead.\n\n<code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a>'s</code> functionality is derived from and generally equivalent to <code>boost::iterator&#95;facade</code>. The exception is Thrust's addition of the template parameter <code>System</code>, which is necessary to allow Thrust to dispatch an algorithm to one of several parallel backend systems. An additional exception is Thrust's omission of the <code>operator-&gt;</code> member function.\n\nInterested users may refer to <code>boost::iterator&#95;facade</code>'s documentation for usage examples.",
   "explicit": false,
   "fullname": "iterator_facade",
   "hasAdditionalMembers": false,
@@ -27,7 +27,7 @@
     "name": "fancyiterator",
     "refid": "group__fancyiterator",
     "title": "Fancy Iterators",
-    "url": "/api/groups/group__fancyiterator.html",
+    "url": "/thrust/api/groups/group__fancyiterator.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -39,7 +39,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     },
     {
@@ -50,13 +50,13 @@
       "name": "fancyiterator",
       "refid": "group__fancyiterator",
       "title": "Fancy Iterators",
-      "url": "/api/groups/group__fancyiterator.html",
+      "url": "/thrust/api/groups/group__fancyiterator.html",
       "visibility": "public"
     }
   ],
   "name": "iterator_facade",
   "note": [
-    "<code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a>'s</code> arithmetic operator free functions exist with the usual meanings but are omitted here for brevity. "
+    "<code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a>'s</code> arithmetic operator free functions exist with the usual meanings but are omitted here for brevity. "
   ],
   "override": false,
   "parent": null,
@@ -70,7 +70,7 @@
       "default": false,
       "definition": "__host__ __device__ reference iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::operator*",
       "deleted": false,
-      "details": "<code><a href=\"/api/classes/classiterator__facade.html#function-operator*\">operator&#42;()</a></code> dereferences this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
+      "details": "<code><a href=\"/thrust/api/classes/classiterator__facade.html#function-operator*\">operator&#42;()</a></code> dereferences this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
       "explicit": false,
       "fullname": "iterator_facade::operator*",
       "hasDetails": true,
@@ -90,14 +90,14 @@
       "pureVirtual": false,
       "refid": "classiterator__facade_1a1cce1ec85169a446acc3ed2f526d5889",
       "returns": [
-        "A reference to the element pointed to by this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. "
+        "A reference to the element pointed to by this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. "
       ],
       "static": false,
       "strong": false,
       "title": "operator*",
-      "type": "__host__ __device__ <a href=\"/api/classes/classiterator__facade.html#typedef-reference\">reference</a>",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classiterator__facade.html#typedef-reference\">reference</a>",
       "typePlain": "__host__ __device__ reference",
-      "url": "/api/classes/classiterator__facade.html#function-operator*",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator*",
       "virtual": false,
       "visibility": "public"
     },
@@ -129,21 +129,21 @@
       "params": [
         {
           "name": "n",
-          "type": "<a href=\"/api/classes/classiterator__facade.html#typedef-difference_type\">difference_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classiterator__facade.html#typedef-difference_type\">difference_type</a>",
           "typePlain": "difference_type"
         }
       ],
       "pureVirtual": false,
       "refid": "classiterator__facade_1a2833a6615ffc7be3ceda3de5642a507e",
       "returns": [
-        "A reference to the element <code>n</code> distance away from this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. "
+        "A reference to the element <code>n</code> distance away from this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. "
       ],
       "static": false,
       "strong": false,
       "title": "operator[]",
-      "type": "__host__ __device__ <a href=\"/api/classes/classiterator__facade.html#typedef-reference\">reference</a>",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classiterator__facade.html#typedef-reference\">reference</a>",
       "typePlain": "__host__ __device__ reference",
-      "url": "/api/classes/classiterator__facade.html#function-operator[]",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator[]",
       "virtual": false,
       "visibility": "public"
     },
@@ -156,7 +156,7 @@
       "default": false,
       "definition": "__host__ __device__ Derived& iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::operator++",
       "deleted": false,
-      "details": "<code>operator++</code> pre-increments this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> to refer to the element in the next position. ",
+      "details": "<code>operator++</code> pre-increments this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> to refer to the element in the next position. ",
       "explicit": false,
       "fullname": "iterator_facade::operator++",
       "hasDetails": true,
@@ -183,7 +183,7 @@
       "title": "operator++",
       "type": "__host__ __device__ Derived &",
       "typePlain": "__host__ __device__ Derived &",
-      "url": "/api/classes/classiterator__facade.html#function-operator++",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator++",
       "virtual": false,
       "visibility": "public"
     },
@@ -196,7 +196,7 @@
       "default": false,
       "definition": "__host__ __device__ Derived iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::operator++",
       "deleted": false,
-      "details": "<code>operator++</code> post-increments this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> and returns a new <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> referring to the element in the next position. ",
+      "details": "<code>operator++</code> post-increments this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> and returns a new <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> referring to the element in the next position. ",
       "explicit": false,
       "fullname": "iterator_facade::operator++",
       "hasDetails": true,
@@ -229,7 +229,7 @@
       "title": "operator++",
       "type": "__host__ __device__ Derived",
       "typePlain": "__host__ __device__ Derived",
-      "url": "/api/classes/classiterator__facade.html#function-operator++",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator++",
       "virtual": false,
       "visibility": "public"
     },
@@ -242,7 +242,7 @@
       "default": false,
       "definition": "__host__ __device__ Derived& iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::operator--",
       "deleted": false,
-      "details": "<code>operator--</code> pre-decrements this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> to refer to the element in the previous position. ",
+      "details": "<code>operator--</code> pre-decrements this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> to refer to the element in the previous position. ",
       "explicit": false,
       "fullname": "iterator_facade::operator--",
       "hasDetails": true,
@@ -269,7 +269,7 @@
       "title": "operator--",
       "type": "__host__ __device__ Derived &",
       "typePlain": "__host__ __device__ Derived &",
-      "url": "/api/classes/classiterator__facade.html#function-operator--",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator--",
       "virtual": false,
       "visibility": "public"
     },
@@ -282,7 +282,7 @@
       "default": false,
       "definition": "__host__ __device__ Derived iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::operator--",
       "deleted": false,
-      "details": "<code>operator--</code> post-decrements this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> and returns a new <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> referring to the element in the previous position. ",
+      "details": "<code>operator--</code> post-decrements this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> and returns a new <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> referring to the element in the previous position. ",
       "explicit": false,
       "fullname": "iterator_facade::operator--",
       "hasDetails": true,
@@ -315,7 +315,7 @@
       "title": "operator--",
       "type": "__host__ __device__ Derived",
       "typePlain": "__host__ __device__ Derived",
-      "url": "/api/classes/classiterator__facade.html#function-operator--",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator--",
       "virtual": false,
       "visibility": "public"
     },
@@ -328,7 +328,7 @@
       "default": false,
       "definition": "__host__ __device__ Derived& iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::operator+=",
       "deleted": false,
-      "details": "<code>operator+=</code> increments this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> to refer to an element a given distance after its current position. ",
+      "details": "<code>operator+=</code> increments this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> to refer to an element a given distance after its current position. ",
       "explicit": false,
       "fullname": "iterator_facade::operator+=",
       "hasDetails": true,
@@ -353,7 +353,7 @@
       "params": [
         {
           "name": "n",
-          "type": "<a href=\"/api/classes/classiterator__facade.html#typedef-difference_type\">difference_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classiterator__facade.html#typedef-difference_type\">difference_type</a>",
           "typePlain": "difference_type"
         }
       ],
@@ -367,7 +367,7 @@
       "title": "operator+=",
       "type": "__host__ __device__ Derived &",
       "typePlain": "__host__ __device__ Derived &",
-      "url": "/api/classes/classiterator__facade.html#function-operator+=",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator+=",
       "virtual": false,
       "visibility": "public"
     },
@@ -380,7 +380,7 @@
       "default": false,
       "definition": "__host__ __device__ Derived& iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::operator-=",
       "deleted": false,
-      "details": "<code>operator-=</code> decrements this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> to refer to an element a given distance before its current postition. ",
+      "details": "<code>operator-=</code> decrements this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> to refer to an element a given distance before its current postition. ",
       "explicit": false,
       "fullname": "iterator_facade::operator-=",
       "hasDetails": true,
@@ -405,7 +405,7 @@
       "params": [
         {
           "name": "n",
-          "type": "<a href=\"/api/classes/classiterator__facade.html#typedef-difference_type\">difference_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classiterator__facade.html#typedef-difference_type\">difference_type</a>",
           "typePlain": "difference_type"
         }
       ],
@@ -419,7 +419,7 @@
       "title": "operator-=",
       "type": "__host__ __device__ Derived &",
       "typePlain": "__host__ __device__ Derived &",
-      "url": "/api/classes/classiterator__facade.html#function-operator-=",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator-=",
       "virtual": false,
       "visibility": "public"
     },
@@ -432,7 +432,7 @@
       "default": false,
       "definition": "__host__ __device__ Derived iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::operator-",
       "deleted": false,
-      "details": "<code>operator-</code> subtracts a given quantity from this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> and returns a new <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> referring to the element at the given position before this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
+      "details": "<code>operator-</code> subtracts a given quantity from this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> and returns a new <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> referring to the element at the given position before this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
       "explicit": false,
       "fullname": "iterator_facade::operator-",
       "hasDetails": true,
@@ -457,21 +457,21 @@
       "params": [
         {
           "name": "n",
-          "type": "<a href=\"/api/classes/classiterator__facade.html#typedef-difference_type\">difference_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classiterator__facade.html#typedef-difference_type\">difference_type</a>",
           "typePlain": "difference_type"
         }
       ],
       "pureVirtual": false,
       "refid": "classiterator__facade_1a8b6c274c190c1e4d6f123c6680a4a007",
       "returns": [
-        "An <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> pointing <code>n</code> elements before this <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. "
+        "An <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> pointing <code>n</code> elements before this <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. "
       ],
       "static": false,
       "strong": false,
       "title": "operator-",
       "type": "__host__ __device__ Derived",
       "typePlain": "__host__ __device__ Derived",
-      "url": "/api/classes/classiterator__facade.html#function-operator-",
+      "url": "/thrust/api/classes/classiterator__facade.html#function-operator-",
       "virtual": false,
       "visibility": "public"
     }
@@ -483,7 +483,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef thrust::detail::remove_const<Value>::type iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::value_type",
-      "details": "The type of element pointed to by <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
+      "details": "The type of element pointed to by <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
       "explicit": false,
       "fullname": "iterator_facade::value_type",
       "hasDetails": true,
@@ -504,7 +504,7 @@
       "title": "value_type",
       "type": "thrust::detail::remove_const< Value >::type",
       "typePlain": "thrust::detail::remove_const< Value >::type",
-      "url": "/api/classes/classiterator__facade.html#typedef-value_type",
+      "url": "/thrust/api/classes/classiterator__facade.html#typedef-value_type",
       "visibility": "public"
     },
     {
@@ -513,7 +513,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef Reference iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::reference",
-      "details": "The return type of <code><a href=\"/api/classes/classiterator__facade.html#function-operator*\">iterator&#95;facade::operator&#42;()</a></code>. ",
+      "details": "The return type of <code><a href=\"/thrust/api/classes/classiterator__facade.html#function-operator*\">iterator&#95;facade::operator&#42;()</a></code>. ",
       "explicit": false,
       "fullname": "iterator_facade::reference",
       "hasDetails": true,
@@ -534,7 +534,7 @@
       "title": "reference",
       "type": "Reference",
       "typePlain": "Reference",
-      "url": "/api/classes/classiterator__facade.html#typedef-reference",
+      "url": "/thrust/api/classes/classiterator__facade.html#typedef-reference",
       "visibility": "public"
     },
     {
@@ -543,7 +543,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef void iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::pointer",
-      "details": "The return type of <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a>'s</code> non-existent <code>operator-&gt;()</code> member function. Unlike <code>boost::iterator&#95;facade</code>, <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> disallows access to the <code>value&#95;type's</code> members through expressions of the form <code>iter-&gt;member</code>. <code>pointer</code> is defined to <code>void</code> to indicate that these expressions are not allowed. This limitation may be relaxed in a future version of Thrust. ",
+      "details": "The return type of <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a>'s</code> non-existent <code>operator-&gt;()</code> member function. Unlike <code>boost::iterator&#95;facade</code>, <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code> disallows access to the <code>value&#95;type's</code> members through expressions of the form <code>iter-&gt;member</code>. <code>pointer</code> is defined to <code>void</code> to indicate that these expressions are not allowed. This limitation may be relaxed in a future version of Thrust. ",
       "explicit": false,
       "fullname": "iterator_facade::pointer",
       "hasDetails": true,
@@ -564,7 +564,7 @@
       "title": "pointer",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/classiterator__facade.html#typedef-pointer",
+      "url": "/thrust/api/classes/classiterator__facade.html#typedef-pointer",
       "visibility": "public"
     },
     {
@@ -573,7 +573,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef Difference iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::difference_type",
-      "details": "The type of expressions of the form <code>x - y</code> where <code>x</code> and <code>y</code> are of type <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
+      "details": "The type of expressions of the form <code>x - y</code> where <code>x</code> and <code>y</code> are of type <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
       "explicit": false,
       "fullname": "iterator_facade::difference_type",
       "hasDetails": true,
@@ -594,7 +594,7 @@
       "title": "difference_type",
       "type": "Difference",
       "typePlain": "Difference",
-      "url": "/api/classes/classiterator__facade.html#typedef-difference_type",
+      "url": "/thrust/api/classes/classiterator__facade.html#typedef-difference_type",
       "visibility": "public"
     },
     {
@@ -603,7 +603,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef thrust::detail::iterator_facade_category< System, Traversal, Value, Reference >::type iterator_facade< Derived, Value, System, Traversal, Reference, Difference >::iterator_category",
-      "details": "The type of iterator category of <code><a href=\"/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
+      "details": "The type of iterator category of <code><a href=\"/thrust/api/classes/classiterator__facade.html\">iterator&#95;facade</a></code>. ",
       "explicit": false,
       "fullname": "iterator_facade::iterator_category",
       "hasDetails": true,
@@ -624,7 +624,7 @@
       "title": "iterator_category",
       "type": "thrust::detail::iterator_facade_category< System, Traversal, Value, Reference >::type",
       "typePlain": "thrust::detail::iterator_facade_category< System, Traversal, Value, Reference >::type",
-      "url": "/api/classes/classiterator__facade.html#typedef-iterator_category",
+      "url": "/thrust/api/classes/classiterator__facade.html#typedef-iterator_category",
       "visibility": "public"
     }
   ],
@@ -666,6 +666,6 @@
     }
   ],
   "title": "iterator_facade",
-  "url": "/api/classes/classiterator__facade.html",
+  "url": "/thrust/api/classes/classiterator__facade.html",
   "visibility": "public"
 }

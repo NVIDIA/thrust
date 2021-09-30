@@ -10,17 +10,17 @@ has_toc: false
 
 ## Groups
 
-* **[Fancy Iterators](/api/groups/group__fancyiterator.html)**
-* **[Iterator Tags](/api/groups/group__iterator__tags.html)**
+* **[Fancy Iterators](/thrust/api/groups/group__fancyiterator.html)**
+* **[Iterator Tags](/thrust/api/groups/group__iterator__tags.html)**
 
 <code class="doxybook">
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Distance&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__iterators.html#function-advance">advance</a></b>(InputIterator & i,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__iterators.html#function-advance">advance</a></b>(InputIterator & i,</span>
 <span>&nbsp;&nbsp;Distance n);</span>
 <br>
 <span>template &lt;typename InputIterator&gt;</span>
-<span>__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/api/groups/group__iterators.html#function-distance">distance</a></b>(InputIterator first,</span>
+<span>__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type </span><span><b><a href="/thrust/api/groups/group__iterators.html#function-distance">distance</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last);</span>
 </code>
 

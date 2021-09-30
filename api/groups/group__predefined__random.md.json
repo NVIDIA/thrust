@@ -18,7 +18,7 @@
     "name": "random",
     "refid": "group__random",
     "title": "Random Number Generation",
-    "url": "/api/groups/group__random.html",
+    "url": "/thrust/api/groups/group__random.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "random",
     "refid": "group__random",
     "title": "Random Number Generation",
-    "url": "/api/groups/group__random.html",
+    "url": "/thrust/api/groups/group__random.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     }
   ],
@@ -90,9 +90,9 @@
       "strong": false,
       "summary": "A random number engine with predefined parameters which implements a version of the Minimal Standard random number generation algorithm. ",
       "title": "minstd_rand0",
-      "type": "<a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< thrust::detail::uint32_t, 16807, 0, 2147483647 >",
+      "type": "<a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< thrust::detail::uint32_t, 16807, 0, 2147483647 >",
       "typePlain": "linear_congruential_engine< thrust::detail::uint32_t, 16807, 0, 2147483647 >",
-      "url": "/api/groups/group__predefined__random.html#typedef-minstd_rand0",
+      "url": "/thrust/api/groups/group__predefined__random.html#typedef-minstd_rand0",
       "visibility": "public"
     },
     {
@@ -124,9 +124,9 @@
       "strong": false,
       "summary": "A random number engine with predefined parameters which implements a version of the Minimal Standard random number generation algorithm. ",
       "title": "minstd_rand",
-      "type": "<a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< thrust::detail::uint32_t, 48271, 0, 2147483647 >",
+      "type": "<a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< thrust::detail::uint32_t, 48271, 0, 2147483647 >",
       "typePlain": "linear_congruential_engine< thrust::detail::uint32_t, 48271, 0, 2147483647 >",
-      "url": "/api/groups/group__predefined__random.html#typedef-minstd_rand",
+      "url": "/thrust/api/groups/group__predefined__random.html#typedef-minstd_rand",
       "visibility": "public"
     },
     {
@@ -158,9 +158,9 @@
       "strong": false,
       "summary": "A random number engine with predefined parameters which implements the base engine of the ranlux24 random number engine. ",
       "title": "ranlux24_base",
-      "type": "<a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< thrust::detail::uint32_t, 24, 10, 24 >",
+      "type": "<a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< thrust::detail::uint32_t, 24, 10, 24 >",
       "typePlain": "subtract_with_carry_engine< thrust::detail::uint32_t, 24, 10, 24 >",
-      "url": "/api/groups/group__predefined__random.html#typedef-ranlux24_base",
+      "url": "/thrust/api/groups/group__predefined__random.html#typedef-ranlux24_base",
       "visibility": "public"
     },
     {
@@ -192,9 +192,9 @@
       "strong": false,
       "summary": "A random number engine with predefined parameters which implements the base engine of the ranlux48 random number engine. ",
       "title": "ranlux48_base",
-      "type": "<a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< thrust::detail::uint64_t, 48, 5, 12 >",
+      "type": "<a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< thrust::detail::uint64_t, 48, 5, 12 >",
       "typePlain": "subtract_with_carry_engine< thrust::detail::uint64_t, 48, 5, 12 >",
-      "url": "/api/groups/group__predefined__random.html#typedef-ranlux48_base",
+      "url": "/thrust/api/groups/group__predefined__random.html#typedef-ranlux48_base",
       "visibility": "public"
     },
     {
@@ -226,9 +226,9 @@
       "strong": false,
       "summary": "A random number engine with predefined parameters which implements the RANLUX level-3 random number generation algorithm. ",
       "title": "ranlux24",
-      "type": "<a href=\"/api/classes/classrandom_1_1discard__block__engine.html\">discard_block_engine</a>< ranlux24_base, 223, 23 >",
+      "type": "<a href=\"/thrust/api/classes/classrandom_1_1discard__block__engine.html\">discard_block_engine</a>< ranlux24_base, 223, 23 >",
       "typePlain": "discard_block_engine< ranlux24_base, 223, 23 >",
-      "url": "/api/groups/group__predefined__random.html#typedef-ranlux24",
+      "url": "/thrust/api/groups/group__predefined__random.html#typedef-ranlux24",
       "visibility": "public"
     },
     {
@@ -260,9 +260,9 @@
       "strong": false,
       "summary": "A random number engine with predefined parameters which implements the RANLUX level-4 random number generation algorithm. ",
       "title": "ranlux48",
-      "type": "<a href=\"/api/classes/classrandom_1_1discard__block__engine.html\">discard_block_engine</a>< ranlux48_base, 389, 11 >",
+      "type": "<a href=\"/thrust/api/classes/classrandom_1_1discard__block__engine.html\">discard_block_engine</a>< ranlux48_base, 389, 11 >",
       "typePlain": "discard_block_engine< ranlux48_base, 389, 11 >",
-      "url": "/api/groups/group__predefined__random.html#typedef-ranlux48",
+      "url": "/thrust/api/groups/group__predefined__random.html#typedef-ranlux48",
       "visibility": "public"
     },
     {
@@ -294,9 +294,9 @@
       "strong": false,
       "summary": "A random number engine with predefined parameters which implements L'Ecuyer's 1996 three-component Tausworthe random number generator. ",
       "title": "taus88",
-      "type": "<a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor_combine_engine</a>< <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< thrust::detail::uint32_t, 32u, 31u, 13u, 12u >, 0, <a href=\"/api/classes/classrandom_1_1xor__combine__engine.html\">xor_combine_engine</a>< <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< thrust::detail::uint32_t, 32u, 29u, 2u, 4u >, 0, <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< thrust::detail::uint32_t, 32u, 28u, 3u, 17u >, 0 >, 0 >",
+      "type": "<a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor_combine_engine</a>< <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< thrust::detail::uint32_t, 32u, 31u, 13u, 12u >, 0, <a href=\"/thrust/api/classes/classrandom_1_1xor__combine__engine.html\">xor_combine_engine</a>< <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< thrust::detail::uint32_t, 32u, 29u, 2u, 4u >, 0, <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< thrust::detail::uint32_t, 32u, 28u, 3u, 17u >, 0 >, 0 >",
       "typePlain": "xor_combine_engine< linear_feedback_shift_engine< thrust::detail::uint32_t, 32u, 31u, 13u, 12u >, 0, xor_combine_engine< linear_feedback_shift_engine< thrust::detail::uint32_t, 32u, 29u, 2u, 4u >, 0, linear_feedback_shift_engine< thrust::detail::uint32_t, 32u, 28u, 3u, 17u >, 0 >, 0 >",
-      "url": "/api/groups/group__predefined__random.html#typedef-taus88",
+      "url": "/thrust/api/groups/group__predefined__random.html#typedef-taus88",
       "visibility": "public"
     },
     {
@@ -330,7 +330,7 @@
       "title": "default_random_engine",
       "type": "minstd_rand",
       "typePlain": "minstd_rand",
-      "url": "/api/groups/group__predefined__random.html#typedef-default_random_engine",
+      "url": "/thrust/api/groups/group__predefined__random.html#typedef-default_random_engine",
       "visibility": "public"
     }
   ],
@@ -338,6 +338,6 @@
   "static": false,
   "strong": false,
   "title": "Random Number Engines with Predefined Parameters",
-  "url": "/api/groups/group__predefined__random.html",
+  "url": "/thrust/api/groups/group__predefined__random.html",
   "visibility": "public"
 }

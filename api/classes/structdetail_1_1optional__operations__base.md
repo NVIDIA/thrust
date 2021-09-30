@@ -11,30 +11,30 @@ has_toc: false
 `detail::optional_storage_base< T >`
 
 **Inherited By**:
-* [`detail::optional_copy_base< T, bool >`](/api/classes/structdetail_1_1optional__copy__base.html)
-* [`detail::optional_copy_base< T, false >`](/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html)
-* [`detail::optional_copy_base< T >`](/api/classes/structdetail_1_1optional__copy__base.html)
+* [`detail::optional_copy_base< T, bool >`](/thrust/api/classes/structdetail_1_1optional__copy__base.html)
+* [`detail::optional_copy_base< T, false >`](/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html)
+* [`detail::optional_copy_base< T >`](/thrust/api/classes/structdetail_1_1optional__copy__base.html)
 
 <code class="doxybook">
 <span>template &lt;class T&gt;</span>
 <span>struct detail::optional&#95;operations&#95;base {</span>
-<span>public:</span><span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__operations__base.html#function-hard_reset">hard&#95;reset</a></b>();</span>
+<span>public:</span><span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-hard_reset">hard&#95;reset</a></b>();</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;class... Args&gt;</span>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__operations__base.html#function-construct">construct</a></b>(Args &&... args);</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-construct">construct</a></b>(Args &&... args);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;class Opt&gt;</span>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__operations__base.html#function-assign">assign</a></b>(Opt && rhs);</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-assign">assign</a></b>(Opt && rhs);</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__operations__base.html#function-has_value">has&#95;value</a></b>() const;</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-has_value">has&#95;value</a></b>() const;</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ T & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__operations__base.html#function-get">get</a></b>();</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ T & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-get">get</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr const __device__ T & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__operations__base.html#function-get">get</a></b>() const;</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr const __device__ T & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-get">get</a></b>() const;</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ T && </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__operations__base.html#function-get">get</a></b>();</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ T && </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-get">get</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr const __device__ T && </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structdetail_1_1optional__operations__base.html#function-get">get</a></b>() const;</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr const __device__ T && </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structdetail_1_1optional__operations__base.html#function-get">get</a></b>() const;</span>
 <span>};</span>
 </code>
 

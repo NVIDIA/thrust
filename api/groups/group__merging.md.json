@@ -18,7 +18,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -152,9 +152,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/merge\">https://en.cppreference.com/w/cpp/algorithm/merge</a>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -201,7 +201,7 @@
       "title": "merge",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__merging.html#function-merge",
+      "url": "/thrust/api/groups/group__merging.html#function-merge",
       "virtual": false,
       "visibility": "public"
     },
@@ -287,9 +287,9 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/merge\">https://en.cppreference.com/w/cpp/algorithm/merge</a>",
-        "<code><a href=\"/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__set__operations.html#function-set_union\">set&#95;union</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -327,7 +327,7 @@
       "title": "merge",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__merging.html#function-merge",
+      "url": "/thrust/api/groups/group__merging.html#function-merge",
       "virtual": false,
       "visibility": "public"
     },
@@ -431,8 +431,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/merge\">https://en.cppreference.com/w/cpp/algorithm/merge</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -488,7 +488,7 @@
       "title": "merge",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__merging.html#function-merge",
+      "url": "/thrust/api/groups/group__merging.html#function-merge",
       "virtual": false,
       "visibility": "public"
     },
@@ -583,8 +583,8 @@
       ],
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/algorithm/merge\">https://en.cppreference.com/w/cpp/algorithm/merge</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort\">sort</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort\">sort</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -631,7 +631,7 @@
       "title": "merge",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__merging.html#function-merge",
+      "url": "/thrust/api/groups/group__merging.html#function-merge",
       "virtual": false,
       "visibility": "public"
     },
@@ -752,9 +752,9 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<a href=\"/api/groups/group__merging.html#function-merge\">merge</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -828,7 +828,7 @@
       "title": "merge_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__merging.html#function-merge_by_key",
+      "url": "/thrust/api/groups/group__merging.html#function-merge_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -940,9 +940,9 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<a href=\"/api/groups/group__merging.html#function-merge\">merge</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1007,7 +1007,7 @@
       "title": "merge_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__merging.html#function-merge_by_key",
+      "url": "/thrust/api/groups/group__merging.html#function-merge_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1137,9 +1137,9 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<a href=\"/api/groups/group__merging.html#function-merge\">merge</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1222,7 +1222,7 @@
       "title": "merge_by_key",
       "type": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__merging.html#function-merge_by_key",
+      "url": "/thrust/api/groups/group__merging.html#function-merge_by_key",
       "virtual": false,
       "visibility": "public"
     },
@@ -1343,9 +1343,9 @@
         "A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values."
       ],
       "see": [
-        "<a href=\"/api/groups/group__merging.html#function-merge\">merge</a>",
-        "<code><a href=\"/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
-        "<code><a href=\"/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
+        "<a href=\"/thrust/api/groups/group__merging.html#function-merge\">merge</a>",
+        "<code><a href=\"/thrust/api/groups/group__sorting.html#function-sort_by_key\">sort&#95;by&#95;key</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__predicates.html#function-is_sorted\">is&#95;sorted</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -1419,7 +1419,7 @@
       "title": "merge_by_key",
       "type": "thrust::pair< OutputIterator1, OutputIterator2 >",
       "typePlain": "thrust::pair< OutputIterator1, OutputIterator2 >",
-      "url": "/api/groups/group__merging.html#function-merge_by_key",
+      "url": "/thrust/api/groups/group__merging.html#function-merge_by_key",
       "virtual": false,
       "visibility": "public"
     }
@@ -1428,6 +1428,6 @@
   "static": false,
   "strong": false,
   "title": "Merging",
-  "url": "/api/groups/group__merging.html",
+  "url": "/thrust/api/groups/group__merging.html",
   "visibility": "public"
 }

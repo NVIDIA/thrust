@@ -4,7 +4,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/structlogical__not.html\">logical&#95;not</a></code> is a function object. Specifically, it is an Adaptable Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>logical&#95;not&lt;T&gt;</code> and <code>x</code> is an object of class <code>T</code> (where <code>T</code> is convertible to <code>bool</code>) then <code>f(x)</code> returns <code>true</code> if and only if <code>x</code> is <code>false</code>.\n\n\nThe following code snippet demonstrates how to use <code><a href=\"/api/classes/structlogical__not.html\">logical&#95;not</a></code> to transform a <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> of <code>bools</code> into its logical complement.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/transform.h>\n#include <thrust/functional.h>\n...\nthrust::device_vector<bool> V;\n...\nthrust::transform(V.begin(), V.end(), V.begin(), thrust::logical_not<bool>());\n// The elements of V are now the logical complement of what they were prior\n```",
+  "details": "<code><a href=\"/thrust/api/classes/structlogical__not.html\">logical&#95;not</a></code> is a function object. Specifically, it is an Adaptable Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>logical&#95;not&lt;T&gt;</code> and <code>x</code> is an object of class <code>T</code> (where <code>T</code> is convertible to <code>bool</code>) then <code>f(x)</code> returns <code>true</code> if and only if <code>x</code> is <code>false</code>.\n\n\nThe following code snippet demonstrates how to use <code><a href=\"/thrust/api/classes/structlogical__not.html\">logical&#95;not</a></code> to transform a <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> of <code>bools</code> into its logical complement.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/transform.h>\n#include <thrust/functional.h>\n...\nthrust::device_vector<bool> V;\n...\nthrust::transform(V.begin(), V.end(), V.begin(), thrust::logical_not<bool>());\n// The elements of V are now the logical complement of what they were prior\n```",
   "explicit": false,
   "fullname": "logical_not",
   "hasAdditionalMembers": false,
@@ -28,7 +28,7 @@
     "name": "logical_operations",
     "refid": "group__logical__operations",
     "title": "Logical Operations",
-    "url": "/api/groups/group__logical__operations.html",
+    "url": "/thrust/api/groups/group__logical__operations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "logical_operations",
       "refid": "group__logical__operations",
       "title": "Logical Operations",
-      "url": "/api/groups/group__logical__operations.html",
+      "url": "/thrust/api/groups/group__logical__operations.html",
       "visibility": "public"
     }
   ],
@@ -109,7 +109,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
-      "url": "/api/classes/structlogical__not.html#function-operator()",
+      "url": "/thrust/api/classes/structlogical__not.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -143,7 +143,7 @@
       "title": "first_argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structlogical__not.html#typedef-first_argument_type",
+      "url": "/thrust/api/classes/structlogical__not.html#typedef-first_argument_type",
       "visibility": "public"
     },
     {
@@ -174,7 +174,7 @@
       "title": "second_argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structlogical__not.html#typedef-second_argument_type",
+      "url": "/thrust/api/classes/structlogical__not.html#typedef-second_argument_type",
       "visibility": "public"
     },
     {
@@ -205,14 +205,14 @@
       "title": "result_type",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/classes/structlogical__not.html#typedef-result_type",
+      "url": "/thrust/api/classes/structlogical__not.html#typedef-result_type",
       "visibility": "public"
     }
   ],
   "refid": "structlogical__not",
   "see": [
     "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/logical_not\">https://en.cppreference.com/w/cpp/utility/functional/logical_not</a>",
-    "<a href=\"/api/classes/structunary__function.html\">unary_function</a>"
+    "<a href=\"/thrust/api/classes/structunary__function.html\">unary_function</a>"
   ],
   "static": false,
   "strong": false,
@@ -232,6 +232,6 @@
     }
   ],
   "title": "logical_not",
-  "url": "/api/classes/structlogical__not.html",
+  "url": "/thrust/api/classes/structlogical__not.html",
   "visibility": "public"
 }

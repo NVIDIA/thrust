@@ -10,34 +10,34 @@ has_toc: false
 <code class="doxybook">
 <span>namespace system::cuda {</span>
 <br>
-<span>namespace <b><a href="/api/namespaces/namespacesystem_1_1cuda_1_1errc.html">system::cuda::errc</a></b> { <i>…</i> }</span>
+<span>namespace <b><a href="/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html">system::cuda::errc</a></b> { <i>…</i> }</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>struct <b><a href="/api/classes/structsystem_1_1cuda_1_1ready__future.html">ready&#95;future</a></b>;</span>
+<span>struct <b><a href="/thrust/api/classes/structsystem_1_1cuda_1_1ready__future.html">ready&#95;future</a></b>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>struct <b><a href="/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html">unique&#95;eager&#95;future</a></b>;</span>
+<span>struct <b><a href="/thrust/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html">unique&#95;eager&#95;future</a></b>;</span>
 <br>
-<span>typedef <i>see below</i> <b><a href="/api/namespaces/namespacesystem_1_1cuda.html#typedef-memory_resource">memory&#95;resource</a></b>;</span>
+<span>typedef <i>see below</i> <b><a href="/thrust/api/namespaces/namespacesystem_1_1cuda.html#typedef-memory_resource">memory&#95;resource</a></b>;</span>
 <br>
-<span>typedef <i>see below</i> <b><a href="/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_memory_resource">universal&#95;memory&#95;resource</a></b>;</span>
+<span>typedef <i>see below</i> <b><a href="/thrust/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_memory_resource">universal&#95;memory&#95;resource</a></b>;</span>
 <br>
-<span>typedef <i>see below</i> <b><a href="/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_host_pinned_memory_resource">universal&#95;host&#95;pinned&#95;memory&#95;resource</a></b>;</span>
+<span>typedef <i>see below</i> <b><a href="/thrust/api/namespaces/namespacesystem_1_1cuda.html#typedef-universal_host_pinned_memory_resource">universal&#95;host&#95;pinned&#95;memory&#95;resource</a></b>;</span>
 <br>
 <span>template &lt;typename... Events&gt;</span>
-<span>__host__ unique_eager_event </span><span><b><a href="/api/namespaces/namespacesystem_1_1cuda.html#function-when_all">when&#95;all</a></b>(Events &&... evs);</span>
+<span>__host__ unique_eager_event </span><span><b><a href="/thrust/api/namespaces/namespacesystem_1_1cuda.html#function-when_all">when&#95;all</a></b>(Events &&... evs);</span>
 <span>} /* namespace system::cuda */</span>
 </code>
 
 ## Member Classes
 
 <h3 id="struct-system::cuda::ready_future">
-<a href="/api/classes/structsystem_1_1cuda_1_1ready__future.html">Struct <code>system::cuda::ready&#95;future</code>
+<a href="/thrust/api/classes/structsystem_1_1cuda_1_1ready__future.html">Struct <code>system::cuda::ready&#95;future</code>
 </a>
 </h3>
 
 <h3 id="struct-system::cuda::unique_eager_future">
-<a href="/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html">Struct <code>system::cuda::unique&#95;eager&#95;future</code>
+<a href="/thrust/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html">Struct <code>system::cuda::unique&#95;eager&#95;future</code>
 </a>
 </h3>
 

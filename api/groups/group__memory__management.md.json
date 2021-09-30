@@ -16,7 +16,7 @@
       "name": "allocators",
       "refid": "group__allocators",
       "title": "Allocators",
-      "url": "/api/groups/group__allocators.html",
+      "url": "/thrust/api/groups/group__allocators.html",
       "visibility": "public"
     },
     {
@@ -27,7 +27,7 @@
       "name": "memory_resources",
       "refid": "group__memory__resources",
       "title": "Memory Resources",
-      "url": "/api/groups/group__memory__resources.html",
+      "url": "/thrust/api/groups/group__memory__resources.html",
       "visibility": "public"
     }
   ],
@@ -47,7 +47,7 @@
       "name": "device_reference",
       "refid": "classdevice__reference",
       "title": "device_reference",
-      "url": "/api/classes/classdevice__reference.html",
+      "url": "/thrust/api/classes/classdevice__reference.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "refid": "classdevice__ptr",
       "summary": "device_ptr is a pointer-like object which points to an object that resides in memory associated with the device system. ",
       "title": "device_ptr",
-      "url": "/api/classes/classdevice__ptr.html",
+      "url": "/thrust/api/classes/classdevice__ptr.html",
       "visibility": "public"
     }
   ],
@@ -74,7 +74,7 @@
       "default": false,
       "definition": "void device_delete",
       "deleted": false,
-      "details": "<code>device&#95;delete</code> deletes a <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> allocated with <code>device&#95;new</code>.",
+      "details": "<code>device&#95;delete</code> deletes a <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> allocated with <code>device&#95;new</code>.",
       "explicit": false,
       "fullname": "memory_management::device_delete",
       "hasDetails": true,
@@ -90,7 +90,7 @@
       "paramList": [
         {
           "name": "ptr",
-          "text": "The <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to delete, assumed to have been allocated with <code>device&#95;new</code>. "
+          "text": "The <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to delete, assumed to have been allocated with <code>device&#95;new</code>. "
         },
         {
           "name": "n",
@@ -114,8 +114,8 @@
       "pureVirtual": false,
       "refid": "group__memory__management_1gaecca8cf6103c00379f764198bdef46b3",
       "see": [
-        "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>",
-        "<a href=\"/api/groups/group__memory__management.html#function-device_new\">device_new</a>"
+        "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-device_new\">device_new</a>"
       ],
       "static": false,
       "strong": false,
@@ -129,7 +129,7 @@
       "title": "device_delete",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__memory__management.html#function-device_delete",
+      "url": "/thrust/api/groups/group__memory__management.html#function-device_delete",
       "virtual": false,
       "visibility": "public"
     },
@@ -158,7 +158,7 @@
       "paramList": [
         {
           "name": "ptr",
-          "text": "A <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> pointing to memory to be deallocated."
+          "text": "A <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> pointing to memory to be deallocated."
         }
       ],
       "params": [
@@ -171,15 +171,15 @@
       "pureVirtual": false,
       "refid": "group__memory__management_1gae55887265dbad6173acd37124e8b5894",
       "see": [
-        "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>",
-        "<a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device_malloc</a>"
+        "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device_malloc</a>"
       ],
       "static": false,
       "strong": false,
       "title": "device_free",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__memory__management.html#function-device_free",
+      "url": "/thrust/api/groups/group__memory__management.html#function-device_free",
       "virtual": false,
       "visibility": "public"
     },
@@ -225,21 +225,21 @@
       "pureVirtual": false,
       "refid": "group__memory__management_1ga45c770fab03c29efbaa534b55fdb6455",
       "returns": [
-        "A <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to the newly allocated memory.",
-        "A <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to the newly allocated memory."
+        "A <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to the newly allocated memory.",
+        "A <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to the newly allocated memory."
       ],
       "see": [
-        "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>",
-        "<a href=\"/api/groups/group__memory__management.html#function-device_free\">device_free</a>",
-        "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>",
-        "<a href=\"/api/groups/group__memory__management.html#function-device_free\">device_free</a>"
+        "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-device_free\">device_free</a>",
+        "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-device_free\">device_free</a>"
       ],
       "static": false,
       "strong": false,
       "title": "device_malloc",
       "type": "thrust::device_ptr< void >",
       "typePlain": "thrust::device_ptr< void >",
-      "url": "/api/groups/group__memory__management.html#function-device_malloc",
+      "url": "/thrust/api/groups/group__memory__management.html#function-device_malloc",
       "virtual": false,
       "visibility": "public"
     },
@@ -268,7 +268,7 @@
       "paramList": [
         {
           "name": "p",
-          "text": "A <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to a region of device memory into which to construct one or many <code>T</code>s. "
+          "text": "A <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to a region of device memory into which to construct one or many <code>T</code>s. "
         },
         {
           "name": "n",
@@ -278,7 +278,7 @@
       "params": [
         {
           "name": "p",
-          "type": "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< void >",
+          "type": "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< void >",
           "typePlain": "device_ptr< void >"
         },
         {
@@ -295,7 +295,7 @@
         "p, casted to <code>T</code>'s type."
       ],
       "see": [
-        "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>"
+        "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>"
       ],
       "static": false,
       "strong": false,
@@ -307,9 +307,9 @@
         }
       ],
       "title": "device_new",
-      "type": "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
+      "type": "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
       "typePlain": "device_ptr< T >",
-      "url": "/api/groups/group__memory__management.html#function-device_new",
+      "url": "/thrust/api/groups/group__memory__management.html#function-device_new",
       "virtual": false,
       "visibility": "public"
     },
@@ -338,7 +338,7 @@
       "paramList": [
         {
           "name": "p",
-          "text": "A <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to a region of device memory into which to construct one or many <code>T</code>s. "
+          "text": "A <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to a region of device memory into which to construct one or many <code>T</code>s. "
         },
         {
           "name": "exemplar",
@@ -352,7 +352,7 @@
       "params": [
         {
           "name": "p",
-          "type": "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< void >",
+          "type": "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< void >",
           "typePlain": "device_ptr< void >"
         },
         {
@@ -374,8 +374,8 @@
         "p, casted to <code>T</code>'s type."
       ],
       "see": [
-        "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>",
-        "<a href=\"/api/groups/group__filling.html#function-fill\">fill</a>"
+        "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>",
+        "<a href=\"/thrust/api/groups/group__filling.html#function-fill\">fill</a>"
       ],
       "static": false,
       "strong": false,
@@ -387,9 +387,9 @@
         }
       ],
       "title": "device_new",
-      "type": "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
+      "type": "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
       "typePlain": "device_ptr< T >",
-      "url": "/api/groups/group__memory__management.html#function-device_new",
+      "url": "/thrust/api/groups/group__memory__management.html#function-device_new",
       "virtual": false,
       "visibility": "public"
     },
@@ -433,7 +433,7 @@
       "pureVirtual": false,
       "refid": "group__memory__management_1ga0be79674b09b06a29501ce030c5b9e75",
       "returns": [
-        "A <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to the newly allocated region of device memory. "
+        "A <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to the newly allocated region of device memory. "
       ],
       "static": false,
       "strong": false,
@@ -445,9 +445,9 @@
         }
       ],
       "title": "device_new",
-      "type": "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
+      "type": "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
       "typePlain": "device_ptr< T >",
-      "url": "/api/groups/group__memory__management.html#function-device_new",
+      "url": "/thrust/api/groups/group__memory__management.html#function-device_new",
       "virtual": false,
       "visibility": "public"
     },
@@ -460,7 +460,7 @@
       "default": false,
       "definition": "__host__ std::basic_ostream<CharT, Traits>& operator<<",
       "deleted": false,
-      "details": "Write the address that a <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> points to to an output stream.",
+      "details": "Write the address that a <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> points to to an output stream.",
       "explicit": false,
       "fullname": "memory_management::operator<<",
       "hasDetails": true,
@@ -480,7 +480,7 @@
         },
         {
           "name": "dp",
-          "text": "The <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to output."
+          "text": "The <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to output."
         }
       ],
       "params": [
@@ -491,7 +491,7 @@
         },
         {
           "name": "dp",
-          "type": "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< T > const &",
+          "type": "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< T > const &",
           "typePlain": "device_ptr< T > const &"
         }
       ],
@@ -522,7 +522,7 @@
       "title": "operator<<",
       "type": "__host__ std::basic_ostream< CharT, Traits > &",
       "typePlain": "__host__ std::basic_ostream< CharT, Traits > &",
-      "url": "/api/groups/group__memory__management.html#function-operator<<",
+      "url": "/thrust/api/groups/group__memory__management.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -530,7 +530,7 @@
       "abstract": false,
       "anchor": "#function-device_pointer_cast",
       "argsString": "(T *ptr)",
-      "brief": "Create a <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> from a raw pointer. ",
+      "brief": "Create a <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> from a raw pointer. ",
       "category": "functions",
       "const": false,
       "default": false,
@@ -586,9 +586,9 @@
         }
       ],
       "title": "device_pointer_cast",
-      "type": "__host__ __device__ <a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
       "typePlain": "__host__ __device__ device_ptr< T >",
-      "url": "/api/groups/group__memory__management.html#function-device_pointer_cast",
+      "url": "/thrust/api/groups/group__memory__management.html#function-device_pointer_cast",
       "virtual": false,
       "visibility": "public"
     },
@@ -596,7 +596,7 @@
       "abstract": false,
       "anchor": "#function-device_pointer_cast",
       "argsString": "(device_ptr< T > const &dptr)",
-      "brief": "Create a <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> from another <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code>. ",
+      "brief": "Create a <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> from another <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code>. ",
       "category": "functions",
       "const": false,
       "default": false,
@@ -617,13 +617,13 @@
       "paramList": [
         {
           "name": "dptr",
-          "text": "A <code><a href=\"/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to a <code>T</code>. "
+          "text": "A <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code> to a <code>T</code>. "
         }
       ],
       "params": [
         {
           "name": "dptr",
-          "type": "<a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< T > const &",
+          "type": "<a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< T > const &",
           "typePlain": "device_ptr< T > const &"
         }
       ],
@@ -646,9 +646,9 @@
         }
       ],
       "title": "device_pointer_cast",
-      "type": "__host__ __device__ <a href=\"/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classdevice__ptr.html\">device_ptr</a>< T >",
       "typePlain": "__host__ __device__ device_ptr< T >",
-      "url": "/api/groups/group__memory__management.html#function-device_pointer_cast",
+      "url": "/thrust/api/groups/group__memory__management.html#function-device_pointer_cast",
       "virtual": false,
       "visibility": "public"
     },
@@ -661,7 +661,7 @@
       "default": false,
       "definition": "__host__ __device__ void swap",
       "deleted": false,
-      "details": "swaps the value of one <code><a href=\"/api/classes/classdevice__reference.html\">device&#95;reference</a></code> with another. <code>x</code> The first <code><a href=\"/api/classes/classdevice__reference.html\">device&#95;reference</a></code> of interest. <code>y</code> The second <code><a href=\"/api/classes/classdevice__reference.html\">device&#95;reference</a></code> of interest. ",
+      "details": "swaps the value of one <code><a href=\"/thrust/api/classes/classdevice__reference.html\">device&#95;reference</a></code> with another. <code>x</code> The first <code><a href=\"/thrust/api/classes/classdevice__reference.html\">device&#95;reference</a></code> of interest. <code>y</code> The second <code><a href=\"/thrust/api/classes/classdevice__reference.html\">device&#95;reference</a></code> of interest. ",
       "explicit": false,
       "fullname": "memory_management::swap",
       "hasDetails": true,
@@ -680,12 +680,12 @@
       "params": [
         {
           "name": "x",
-          "type": "<a href=\"/api/classes/classdevice__reference.html\">device_reference</a>< T > &",
+          "type": "<a href=\"/thrust/api/classes/classdevice__reference.html\">device_reference</a>< T > &",
           "typePlain": "device_reference< T > &"
         },
         {
           "name": "y",
-          "type": "<a href=\"/api/classes/classdevice__reference.html\">device_reference</a>< T > &",
+          "type": "<a href=\"/thrust/api/classes/classdevice__reference.html\">device_reference</a>< T > &",
           "typePlain": "device_reference< T > &"
         }
       ],
@@ -703,7 +703,7 @@
       "title": "swap",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__memory__management.html#function-swap",
+      "url": "/thrust/api/groups/group__memory__management.html#function-swap",
       "virtual": false,
       "visibility": "public"
     },
@@ -716,7 +716,7 @@
       "default": false,
       "definition": "std::basic_ostream<charT, traits>& operator<<",
       "deleted": false,
-      "details": "Writes to an output stream the value of a <code><a href=\"/api/classes/classdevice__reference.html\">device&#95;reference</a></code>.",
+      "details": "Writes to an output stream the value of a <code><a href=\"/thrust/api/classes/classdevice__reference.html\">device&#95;reference</a></code>.",
       "explicit": false,
       "fullname": "memory_management::operator<<",
       "hasDetails": true,
@@ -736,7 +736,7 @@
         },
         {
           "name": "y",
-          "text": "The <code><a href=\"/api/classes/classdevice__reference.html\">device&#95;reference</a></code> to output. "
+          "text": "The <code><a href=\"/thrust/api/classes/classdevice__reference.html\">device&#95;reference</a></code> to output. "
         }
       ],
       "params": [
@@ -747,7 +747,7 @@
         },
         {
           "name": "y",
-          "type": "const <a href=\"/api/classes/classdevice__reference.html\">device_reference</a>< T > &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__reference.html\">device_reference</a>< T > &",
           "typePlain": "const device_reference< T > &"
         }
       ],
@@ -778,7 +778,7 @@
       "title": "operator<<",
       "type": "std::basic_ostream< charT, traits > &",
       "typePlain": "std::basic_ostream< charT, traits > &",
-      "url": "/api/groups/group__memory__management.html#function-operator<<",
+      "url": "/thrust/api/groups/group__memory__management.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -835,8 +835,8 @@
         "If allocation succeeds, a pointer to the allocated storage; a null pointer otherwise. The pointer must be deallocated with <code>thrust::free</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__memory__management.html#function-free\">free</a>",
-        "<a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device_malloc</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-free\">free</a>",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device_malloc</a>"
       ],
       "static": false,
       "strong": false,
@@ -856,7 +856,7 @@
       "title": "malloc",
       "type": "__host__ __device__ pointer< void, DerivedPolicy >",
       "typePlain": "__host__ __device__ pointer< void, DerivedPolicy >",
-      "url": "/api/groups/group__memory__management.html#function-malloc",
+      "url": "/thrust/api/groups/group__memory__management.html#function-malloc",
       "virtual": false,
       "visibility": "public"
     },
@@ -913,8 +913,8 @@
         "If allocation succeeds, a pointer to an allocation large enough to accomodate <code>n</code> elements of type <code>T</code>; a null pointer otherwise. The pointer must be deallocated with <code>thrust::free</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__memory__management.html#function-free\">free</a>",
-        "<a href=\"/api/groups/group__memory__management.html#function-device_malloc\">device_malloc</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-free\">free</a>",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-device_malloc\">device_malloc</a>"
       ],
       "static": false,
       "strong": false,
@@ -939,7 +939,7 @@
       "title": "malloc",
       "type": "__host__ __device__ pointer< T, DerivedPolicy >",
       "typePlain": "__host__ __device__ pointer< T, DerivedPolicy >",
-      "url": "/api/groups/group__memory__management.html#function-malloc",
+      "url": "/thrust/api/groups/group__memory__management.html#function-malloc",
       "virtual": false,
       "visibility": "public"
     },
@@ -996,8 +996,8 @@
         "A pair <code>p</code> such that <code>p.first</code> is a pointer to the allocated storage and <code>p.second</code> is the number of contiguous objects of type <code>T</code> that the storage can accomodate. If no storage can be allocated, <code>p.first</code> if no storage can be obtained. The storage must be returned to the system using <code>return&#95;temporary&#95;buffer</code>."
       ],
       "see": [
-        "<a href=\"/api/groups/group__memory__management.html#function-malloc\">malloc</a>",
-        "<a href=\"/api/groups/group__memory__management.html#function-return_temporary_buffer\">return_temporary_buffer</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-malloc\">malloc</a>",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-return_temporary_buffer\">return_temporary_buffer</a>"
       ],
       "static": false,
       "strong": false,
@@ -1022,7 +1022,7 @@
       "title": "get_temporary_buffer",
       "type": "__host__ __device__ thrust::pair< thrust::pointer< T, DerivedPolicy >, typename thrust::pointer< T, DerivedPolicy >::difference_type >",
       "typePlain": "__host__ __device__ thrust::pair< thrust::pointer< T, DerivedPolicy >, typename thrust::pointer< T, DerivedPolicy >::difference_type >",
-      "url": "/api/groups/group__memory__management.html#function-get_temporary_buffer",
+      "url": "/thrust/api/groups/group__memory__management.html#function-get_temporary_buffer",
       "virtual": false,
       "visibility": "public"
     },
@@ -1098,7 +1098,7 @@
       "title": "free",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__memory__management.html#function-free",
+      "url": "/thrust/api/groups/group__memory__management.html#function-free",
       "virtual": false,
       "visibility": "public"
     },
@@ -1157,8 +1157,8 @@
       "pureVirtual": false,
       "refid": "group__memory__management_1ga9a317cd8b4bbdf3c87bbf528daa8e9d3",
       "see": [
-        "<a href=\"/api/groups/group__memory__management.html#function-free\">free</a>",
-        "<a href=\"/api/groups/group__memory__management.html#function-get_temporary_buffer\">get_temporary_buffer</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-free\">free</a>",
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-get_temporary_buffer\">get_temporary_buffer</a>"
       ],
       "static": false,
       "strong": false,
@@ -1183,7 +1183,7 @@
       "title": "return_temporary_buffer",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__memory__management.html#function-return_temporary_buffer",
+      "url": "/thrust/api/groups/group__memory__management.html#function-return_temporary_buffer",
       "virtual": false,
       "visibility": "public"
     },
@@ -1228,7 +1228,7 @@
         "<code>ptr.get()</code>, if the expression is well formed; <code>ptr</code>, otherwise. "
       ],
       "see": [
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_reference_cast\">raw_reference_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_reference_cast\">raw_reference_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -1242,7 +1242,7 @@
       "title": "raw_pointer_cast",
       "type": "__host__ __device__ thrust::detail::pointer_traits< Pointer >::raw_pointer",
       "typePlain": "__host__ __device__ thrust::detail::pointer_traits< Pointer >::raw_pointer",
-      "url": "/api/groups/group__memory__management.html#function-raw_pointer_cast",
+      "url": "/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast",
       "virtual": false,
       "visibility": "public"
     },
@@ -1290,7 +1290,7 @@
         "<code>&#42;thrust::raw&#95;pointer&#95;cast(&ref)</code>. "
       ],
       "see": [
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -1304,7 +1304,7 @@
       "title": "raw_reference_cast",
       "type": "__host__ __device__ detail::raw_reference< T >::type",
       "typePlain": "__host__ __device__ detail::raw_reference< T >::type",
-      "url": "/api/groups/group__memory__management.html#function-raw_reference_cast",
+      "url": "/thrust/api/groups/group__memory__management.html#function-raw_reference_cast",
       "virtual": false,
       "visibility": "public"
     },
@@ -1352,7 +1352,7 @@
         "<code>&#42;thrust::raw&#95;pointer&#95;cast(&ref)</code>. "
       ],
       "see": [
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -1366,7 +1366,7 @@
       "title": "raw_reference_cast",
       "type": "__host__ __device__ detail::raw_reference< const T >::type",
       "typePlain": "__host__ __device__ detail::raw_reference< const T >::type",
-      "url": "/api/groups/group__memory__management.html#function-raw_reference_cast",
+      "url": "/thrust/api/groups/group__memory__management.html#function-raw_reference_cast",
       "virtual": false,
       "visibility": "public"
     }
@@ -1376,6 +1376,6 @@
   "strong": false,
   "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
   "title": "Memory Management",
-  "url": "/api/groups/group__memory__management.html",
+  "url": "/thrust/api/groups/group__memory__management.html",
   "visibility": "public"
 }

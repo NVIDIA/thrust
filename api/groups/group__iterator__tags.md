@@ -11,7 +11,7 @@ has_toc: false
 
 ## Groups
 
-* **[Iterator Tag Classes](/api/groups/group__iterator__tag__classes.html)**
+* **[Iterator Tag Classes](/thrust/api/groups/group__iterator__tag__classes.html)**
 
 <code class="doxybook">
 </code>

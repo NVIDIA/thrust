@@ -27,7 +27,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -41,7 +41,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -83,7 +83,7 @@
         },
         {
           "name": "",
-          "type": "<a href=\"/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>< Is... >",
+          "type": "<a href=\"/thrust/api/groups/group__type__traits.html#using-index_sequence\">index_sequence</a>< Is... >",
           "typePlain": "index_sequence< Is... >"
         }
       ],
@@ -111,7 +111,7 @@
       "title": "apply_impl",
       "type": "__host__decltype(auto) __device__",
       "typePlain": "__host__decltype(auto) __device__",
-      "url": "/api/namespaces/namespacedetail_1_1zip__detail.html#function-apply_impl",
+      "url": "/thrust/api/namespaces/namespacedetail_1_1zip__detail.html#function-apply_impl",
       "virtual": false,
       "visibility": "public"
     },
@@ -170,7 +170,7 @@
       "title": "apply",
       "type": "__host__decltype(auto) __device__",
       "typePlain": "__host__decltype(auto) __device__",
-      "url": "/api/namespaces/namespacedetail_1_1zip__detail.html#function-apply",
+      "url": "/thrust/api/namespaces/namespacedetail_1_1zip__detail.html#function-apply",
       "virtual": false,
       "visibility": "public"
     }
@@ -179,6 +179,6 @@
   "static": false,
   "strong": false,
   "title": "detail::zip_detail",
-  "url": "/api/namespaces/namespacedetail_1_1zip__detail.html",
+  "url": "/thrust/api/namespaces/namespacedetail_1_1zip__detail.html",
   "visibility": "public"
 }

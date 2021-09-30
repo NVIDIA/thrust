@@ -16,8 +16,8 @@ Customization point that can be customized to indicate that an iterator type <co
 `false_type`
 
 **See**:
-* <a href="/api/groups/group__type__traits.html#using-is_contiguous_iterator">is_contiguous_iterator</a>
-* <a href="/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>
+* <a href="/thrust/api/groups/group__type__traits.html#using-is_contiguous_iterator">is_contiguous_iterator</a>
+* <a href="/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>
 
 <code class="doxybook">
 <span>#include <thrust/type_traits/is_contiguous_iterator.h></span><br>

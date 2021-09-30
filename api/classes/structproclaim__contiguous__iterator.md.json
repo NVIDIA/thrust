@@ -37,7 +37,7 @@
     "name": "type_traits",
     "refid": "group__type__traits",
     "title": "Type Traits",
-    "url": "/api/groups/group__type__traits.html",
+    "url": "/thrust/api/groups/group__type__traits.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -49,7 +49,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "name": "type_traits",
       "refid": "group__type__traits",
       "title": "Type Traits",
-      "url": "/api/groups/group__type__traits.html",
+      "url": "/thrust/api/groups/group__type__traits.html",
       "visibility": "public"
     }
   ],
@@ -69,8 +69,8 @@
   "parent": null,
   "refid": "structproclaim__contiguous__iterator",
   "see": [
-    "<a href=\"/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>",
-    "<a href=\"/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator\">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>"
+    "<a href=\"/thrust/api/groups/group__type__traits.html#using-is_contiguous_iterator\">is_contiguous_iterator</a>",
+    "<a href=\"/thrust/api/groups/group__type__traits.html#define-thrust_proclaim_contiguous_iterator\">THRUST_PROCLAIM_CONTIGUOUS_ITERATOR</a>"
   ],
   "static": false,
   "strong": false,
@@ -83,6 +83,6 @@
     }
   ],
   "title": "proclaim_contiguous_iterator",
-  "url": "/api/classes/structproclaim__contiguous__iterator.html",
+  "url": "/thrust/api/classes/structproclaim__contiguous__iterator.html",
   "visibility": "public"
 }

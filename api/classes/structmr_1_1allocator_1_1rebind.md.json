@@ -38,7 +38,7 @@
     "name": "mr::allocator",
     "refid": "classmr_1_1allocator",
     "title": "mr::allocator",
-    "url": "/api/classes/classmr_1_1allocator.html",
+    "url": "/thrust/api/classes/classmr_1_1allocator.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -52,7 +52,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     },
     {
@@ -71,7 +71,7 @@
       "name": "mr::allocator",
       "refid": "classmr_1_1allocator",
       "title": "mr::allocator",
-      "url": "/api/classes/classmr_1_1allocator.html",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html",
       "visibility": "public"
     }
   ],
@@ -101,9 +101,9 @@
       "static": false,
       "strong": false,
       "title": "other",
-      "type": "<a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< U, MR >",
+      "type": "<a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< U, MR >",
       "typePlain": "allocator< U, MR >",
-      "url": "/api/classes/structmr_1_1allocator_1_1rebind.html#typedef-other",
+      "url": "/thrust/api/classes/structmr_1_1allocator_1_1rebind.html#typedef-other",
       "visibility": "public"
     }
   ],
@@ -124,6 +124,6 @@
     }
   ],
   "title": "mr::allocator::rebind",
-  "url": "/api/classes/structmr_1_1allocator_1_1rebind.html",
+  "url": "/thrust/api/classes/structmr_1_1allocator_1_1rebind.html",
   "visibility": "public"
 }

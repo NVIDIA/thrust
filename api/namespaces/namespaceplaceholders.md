@@ -12,25 +12,25 @@ has_toc: false
 <code class="doxybook">
 <span>namespace placeholders {</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 0 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_1">&#95;1</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 0 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_1">&#95;1</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 1 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_2">&#95;2</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 1 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_2">&#95;2</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 2 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_3">&#95;3</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 2 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_3">&#95;3</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 3 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_4">&#95;4</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 3 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_4">&#95;4</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 4 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_5">&#95;5</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 4 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_5">&#95;5</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 5 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_6">&#95;6</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 5 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_6">&#95;6</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 6 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_7">&#95;7</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 6 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_7">&#95;7</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 7 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_8">&#95;8</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 7 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_8">&#95;8</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 8 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_9">&#95;9</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 8 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_9">&#95;9</a></b>;</span>
 <br>
-<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 9 >::type <b><a href="/api/namespaces/namespaceplaceholders.html#variable-_10">&#95;10</a></b>;</span>
+<span>THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 9 >::type <b><a href="/thrust/api/namespaces/namespaceplaceholders.html#variable-_10">&#95;10</a></b>;</span>
 <span>} /* namespace placeholders */</span>
 </code>
 

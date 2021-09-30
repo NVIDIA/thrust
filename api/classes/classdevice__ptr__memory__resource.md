@@ -9,7 +9,7 @@ has_toc: false
 
 # Class `device_ptr_memory_resource`
 
-Memory resource adaptor that turns any memory resource that returns a fancy with the same tag as <code><a href="/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>, and adapts it to a resource that returns a <code><a href="/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>. 
+Memory resource adaptor that turns any memory resource that returns a fancy with the same tag as <code><a href="/thrust/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>, and adapts it to a resource that returns a <code><a href="/thrust/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>. 
 
 **Inherits From**:
 `thrust::mr::memory_resource< device_ptr< void > >`
@@ -18,14 +18,14 @@ Memory resource adaptor that turns any memory resource that returns a fancy with
 <span>#include <thrust/device_allocator.h></span><br>
 <span>template &lt;typename Upstream&gt;</span>
 <span>class device&#95;ptr&#95;memory&#95;resource {</span>
-<span>public:</span><span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource">device&#95;ptr&#95;memory&#95;resource</a></b>();</span>
+<span>public:</span><span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource">device&#95;ptr&#95;memory&#95;resource</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource">device&#95;ptr&#95;memory&#95;resource</a></b>(Upstream * upstream);</span>
+<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource">device&#95;ptr&#95;memory&#95;resource</a></b>(Upstream * upstream);</span>
 <br>
-<span>&nbsp;&nbsp;virtual __host__ pointer </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classdevice__ptr__memory__resource.html#function-do_allocate">do&#95;allocate</a></b>(std::size_t bytes,</span>
+<span>&nbsp;&nbsp;virtual __host__ pointer </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classdevice__ptr__memory__resource.html#function-do_allocate">do&#95;allocate</a></b>(std::size_t bytes,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;std::size_t alignment = alignof(std::max&#95;align&#95;t)) override;</span>
 <br>
-<span>&nbsp;&nbsp;virtual __host__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classdevice__ptr__memory__resource.html#function-do_deallocate">do&#95;deallocate</a></b>(pointer p,</span>
+<span>&nbsp;&nbsp;virtual __host__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classdevice__ptr__memory__resource.html#function-do_deallocate">do&#95;deallocate</a></b>(pointer p,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;std::size_t bytes,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;std::size_t alignment) override;</span>
 <span>};</span>

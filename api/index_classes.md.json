@@ -8,7 +8,7 @@
       "name": "allocator_delete",
       "refid": "structallocator__delete",
       "title": "allocator_delete",
-      "url": "/api/classes/structallocator__delete.html",
+      "url": "/thrust/api/classes/structallocator__delete.html",
       "visibility": "public"
     },
     {
@@ -19,7 +19,7 @@
       "name": "array_allocator_delete",
       "refid": "structarray__allocator__delete",
       "title": "array_allocator_delete",
-      "url": "/api/classes/structarray__allocator__delete.html",
+      "url": "/thrust/api/classes/structarray__allocator__delete.html",
       "visibility": "public"
     },
     {
@@ -38,7 +38,7 @@
               "name": "async::exclusive_scan_detail::exclusive_scan_fn",
               "refid": "structasync_1_1exclusive__scan__detail_1_1exclusive__scan__fn",
               "title": "async::exclusive_scan_detail::exclusive_scan_fn",
-              "url": "/api/classes/structasync_1_1exclusive__scan__detail_1_1exclusive__scan__fn.html",
+              "url": "/thrust/api/classes/structasync_1_1exclusive__scan__detail_1_1exclusive__scan__fn.html",
               "visibility": "public"
             }
           ],
@@ -47,7 +47,7 @@
           "name": "async::exclusive_scan_detail",
           "refid": "namespaceasync_1_1exclusive__scan__detail",
           "title": "async::exclusive_scan_detail",
-          "url": "/api/namespaces/namespaceasync_1_1exclusive__scan__detail.html",
+          "url": "/thrust/api/namespaces/namespaceasync_1_1exclusive__scan__detail.html",
           "visibility": "public"
         },
         {
@@ -62,7 +62,7 @@
               "name": "async::inclusive_scan_detail::inclusive_scan_fn",
               "refid": "structasync_1_1inclusive__scan__detail_1_1inclusive__scan__fn",
               "title": "async::inclusive_scan_detail::inclusive_scan_fn",
-              "url": "/api/classes/structasync_1_1inclusive__scan__detail_1_1inclusive__scan__fn.html",
+              "url": "/thrust/api/classes/structasync_1_1inclusive__scan__detail_1_1inclusive__scan__fn.html",
               "visibility": "public"
             }
           ],
@@ -71,7 +71,7 @@
           "name": "async::inclusive_scan_detail",
           "refid": "namespaceasync_1_1inclusive__scan__detail",
           "title": "async::inclusive_scan_detail",
-          "url": "/api/namespaces/namespaceasync_1_1inclusive__scan__detail.html",
+          "url": "/thrust/api/namespaces/namespaceasync_1_1inclusive__scan__detail.html",
           "visibility": "public"
         },
         {
@@ -82,7 +82,7 @@
           "name": "async::unimplemented",
           "refid": "namespaceasync_1_1unimplemented",
           "title": "async::unimplemented",
-          "url": "/api/namespaces/namespaceasync_1_1unimplemented.html",
+          "url": "/thrust/api/namespaces/namespaceasync_1_1unimplemented.html",
           "visibility": "public"
         }
       ],
@@ -91,7 +91,7 @@
       "name": "async",
       "refid": "namespaceasync",
       "title": "async",
-      "url": "/api/namespaces/namespaceasync.html",
+      "url": "/thrust/api/namespaces/namespaceasync.html",
       "visibility": "public"
     },
     {
@@ -110,7 +110,7 @@
       "name": "bad_optional_access",
       "refid": "classbad__optional__access",
       "title": "bad_optional_access",
-      "url": "/api/classes/classbad__optional__access.html",
+      "url": "/thrust/api/classes/classbad__optional__access.html",
       "visibility": "public"
     },
     {
@@ -129,7 +129,7 @@
       "name": "bidirectional_device_iterator_tag",
       "refid": "structbidirectional__device__iterator__tag",
       "title": "bidirectional_device_iterator_tag",
-      "url": "/api/classes/structbidirectional__device__iterator__tag.html",
+      "url": "/thrust/api/classes/structbidirectional__device__iterator__tag.html",
       "visibility": "public"
     },
     {
@@ -140,7 +140,7 @@
       "name": "binary_function",
       "refid": "structbinary__function",
       "title": "binary_function",
-      "url": "/api/classes/structbinary__function.html",
+      "url": "/thrust/api/classes/structbinary__function.html",
       "visibility": "public"
     },
     {
@@ -159,7 +159,7 @@
       "name": "binary_negate",
       "refid": "structbinary__negate",
       "title": "binary_negate",
-      "url": "/api/classes/structbinary__negate.html",
+      "url": "/thrust/api/classes/structbinary__negate.html",
       "visibility": "public"
     },
     {
@@ -170,7 +170,7 @@
       "name": "binary_traits",
       "refid": "structbinary__traits",
       "title": "binary_traits",
-      "url": "/api/classes/structbinary__traits.html",
+      "url": "/thrust/api/classes/structbinary__traits.html",
       "visibility": "public"
     },
     {
@@ -181,7 +181,7 @@
       "name": "bit_and",
       "refid": "structbit__and",
       "title": "bit_and",
-      "url": "/api/classes/structbit__and.html",
+      "url": "/thrust/api/classes/structbit__and.html",
       "visibility": "public"
     },
     {
@@ -192,7 +192,7 @@
       "name": "bit_and< void >",
       "refid": "structbit__and_3_01void_01_4",
       "title": "bit_and< void >",
-      "url": "/api/classes/structbit__and_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structbit__and_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -203,7 +203,7 @@
       "name": "bit_or",
       "refid": "structbit__or",
       "title": "bit_or",
-      "url": "/api/classes/structbit__or.html",
+      "url": "/thrust/api/classes/structbit__or.html",
       "visibility": "public"
     },
     {
@@ -214,7 +214,7 @@
       "name": "bit_or< void >",
       "refid": "structbit__or_3_01void_01_4",
       "title": "bit_or< void >",
-      "url": "/api/classes/structbit__or_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structbit__or_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -225,7 +225,7 @@
       "name": "bit_xor",
       "refid": "structbit__xor",
       "title": "bit_xor",
-      "url": "/api/classes/structbit__xor.html",
+      "url": "/thrust/api/classes/structbit__xor.html",
       "visibility": "public"
     },
     {
@@ -236,7 +236,7 @@
       "name": "bit_xor< void >",
       "refid": "structbit__xor_3_01void_01_4",
       "title": "bit_xor< void >",
-      "url": "/api/classes/structbit__xor_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structbit__xor_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -247,7 +247,7 @@
       "name": "complex",
       "refid": "structcomplex",
       "title": "complex",
-      "url": "/api/classes/structcomplex.html",
+      "url": "/thrust/api/classes/structcomplex.html",
       "visibility": "public"
     },
     {
@@ -260,7 +260,7 @@
       "refid": "structconjunction__value",
       "summary": "std::integral_constant whose value is (... && Bs). ",
       "title": "conjunction_value",
-      "url": "/api/classes/structconjunction__value.html",
+      "url": "/thrust/api/classes/structconjunction__value.html",
       "visibility": "public"
     },
     {
@@ -279,7 +279,7 @@
       "name": "constant_iterator",
       "refid": "classconstant__iterator",
       "title": "constant_iterator",
-      "url": "/api/classes/classconstant__iterator.html",
+      "url": "/thrust/api/classes/classconstant__iterator.html",
       "visibility": "public"
     },
     {
@@ -298,7 +298,7 @@
       "name": "counting_iterator",
       "refid": "classcounting__iterator",
       "title": "counting_iterator",
-      "url": "/api/classes/classcounting__iterator.html",
+      "url": "/thrust/api/classes/classcounting__iterator.html",
       "visibility": "public"
     },
     {
@@ -309,7 +309,7 @@
       "name": "cpp",
       "refid": "namespacecpp",
       "title": "cpp",
-      "url": "/api/namespaces/namespacecpp.html",
+      "url": "/thrust/api/namespaces/namespacecpp.html",
       "visibility": "public"
     },
     {
@@ -320,7 +320,7 @@
       "name": "cuda",
       "refid": "namespacecuda",
       "title": "cuda",
-      "url": "/api/namespaces/namespacecuda.html",
+      "url": "/thrust/api/namespaces/namespacecuda.html",
       "visibility": "public"
     },
     {
@@ -331,7 +331,7 @@
       "name": "cuda_cub",
       "refid": "namespacecuda__cub",
       "title": "cuda_cub",
-      "url": "/api/namespaces/namespacecuda__cub.html",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html",
       "visibility": "public"
     },
     {
@@ -355,7 +355,7 @@
           "name": "detail::conjunction",
           "refid": "structdetail_1_1conjunction",
           "title": "detail::conjunction",
-          "url": "/api/classes/structdetail_1_1conjunction.html",
+          "url": "/thrust/api/classes/structdetail_1_1conjunction.html",
           "visibility": "public"
         },
         {
@@ -374,7 +374,7 @@
           "name": "detail::conjunction< B >",
           "refid": "structdetail_1_1conjunction_3_01B_01_4",
           "title": "detail::conjunction< B >",
-          "url": "/api/classes/structdetail_1_1conjunction_3_01b_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1conjunction_3_01b_01_4.html",
           "visibility": "public"
         },
         {
@@ -393,7 +393,7 @@
           "name": "detail::conjunction< B, Bs... >",
           "refid": "structdetail_1_1conjunction_3_01B_00_01Bs_8_8_8_01_4",
           "title": "detail::conjunction< B, Bs... >",
-          "url": "/api/classes/structdetail_1_1conjunction_3_01b_00_01bs_8_8_8_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1conjunction_3_01b_00_01bs_8_8_8_01_4.html",
           "visibility": "public"
         },
         {
@@ -404,7 +404,7 @@
           "name": "detail::i_am_secret",
           "refid": "structdetail_1_1i__am__secret",
           "title": "detail::i_am_secret",
-          "url": "/api/classes/structdetail_1_1i__am__secret.html",
+          "url": "/thrust/api/classes/structdetail_1_1i__am__secret.html",
           "visibility": "public"
         },
         {
@@ -415,7 +415,7 @@
           "name": "detail::invoke_result_impl",
           "refid": "structdetail_1_1invoke__result__impl",
           "title": "detail::invoke_result_impl",
-          "url": "/api/classes/structdetail_1_1invoke__result__impl.html",
+          "url": "/thrust/api/classes/structdetail_1_1invoke__result__impl.html",
           "visibility": "public"
         },
         {
@@ -426,7 +426,7 @@
           "name": "detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
           "refid": "structdetail_1_1invoke__result__impl_3_01F_00_01decltype_07detail_1_1invoke_07std_1_1declval_3_07c1f4caaa1db079732d0d4c8ba802ae7",
           "title": "detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-          "url": "/api/classes/structdetail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1_1declval_3_07c1f4caaa1db079732d0d4c8ba802ae7.html",
+          "url": "/thrust/api/classes/structdetail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1_1declval_3_07c1f4caaa1db079732d0d4c8ba802ae7.html",
           "visibility": "public"
         },
         {
@@ -445,7 +445,7 @@
           "name": "detail::is_nothrow_swappable",
           "refid": "structdetail_1_1is__nothrow__swappable",
           "title": "detail::is_nothrow_swappable",
-          "url": "/api/classes/structdetail_1_1is__nothrow__swappable.html",
+          "url": "/thrust/api/classes/structdetail_1_1is__nothrow__swappable.html",
           "visibility": "public"
         },
         {
@@ -464,7 +464,7 @@
           "name": "detail::is_optional_impl",
           "refid": "structdetail_1_1is__optional__impl",
           "title": "detail::is_optional_impl",
-          "url": "/api/classes/structdetail_1_1is__optional__impl.html",
+          "url": "/thrust/api/classes/structdetail_1_1is__optional__impl.html",
           "visibility": "public"
         },
         {
@@ -483,7 +483,7 @@
           "name": "detail::is_optional_impl< optional< T > >",
           "refid": "structdetail_1_1is__optional__impl_3_01optional_3_01T_01_4_01_4",
           "title": "detail::is_optional_impl< optional< T > >",
-          "url": "/api/classes/structdetail_1_1is__optional__impl_3_01optional_3_01t_01_4_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1is__optional__impl_3_01optional_3_01t_01_4_01_4.html",
           "visibility": "public"
         },
         {
@@ -502,7 +502,7 @@
           "name": "detail::is_swappable",
           "refid": "structdetail_1_1is__swappable",
           "title": "detail::is_swappable",
-          "url": "/api/classes/structdetail_1_1is__swappable.html",
+          "url": "/thrust/api/classes/structdetail_1_1is__swappable.html",
           "visibility": "public"
         },
         {
@@ -521,7 +521,7 @@
               "external": false,
               "name": "detail::optional_move_assign_base< T, bool >",
               "refid": "structdetail_1_1optional__move__assign__base",
-              "url": "/api/classes/structdetail_1_1optional__move__assign__base.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -529,7 +529,7 @@
               "external": false,
               "name": "detail::optional_move_assign_base< T, false >",
               "refid": "structdetail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
-              "url": "/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -539,7 +539,7 @@
           "name": "detail::optional_copy_assign_base",
           "refid": "structdetail_1_1optional__copy__assign__base",
           "title": "detail::optional_copy_assign_base",
-          "url": "/api/classes/structdetail_1_1optional__copy__assign__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base.html",
           "visibility": "public"
         },
         {
@@ -558,7 +558,7 @@
           "name": "detail::optional_copy_assign_base< T, false >",
           "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
           "title": "detail::optional_copy_assign_base< T, false >",
-          "url": "/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
           "visibility": "public"
         },
         {
@@ -577,7 +577,7 @@
               "external": false,
               "name": "detail::optional_move_base< T, bool >",
               "refid": "structdetail_1_1optional__move__base",
-              "url": "/api/classes/structdetail_1_1optional__move__base.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__move__base.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -585,7 +585,7 @@
               "external": false,
               "name": "detail::optional_move_base< T, false >",
               "refid": "structdetail_1_1optional__move__base_3_01T_00_01false_01_4",
-              "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -593,7 +593,7 @@
               "external": false,
               "name": "detail::optional_move_base< T >",
               "refid": "structdetail_1_1optional__move__base",
-              "url": "/api/classes/structdetail_1_1optional__move__base.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__move__base.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -603,7 +603,7 @@
           "name": "detail::optional_copy_base",
           "refid": "structdetail_1_1optional__copy__base",
           "title": "detail::optional_copy_base",
-          "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__base.html",
           "visibility": "public"
         },
         {
@@ -622,7 +622,7 @@
           "name": "detail::optional_copy_base< T, false >",
           "refid": "structdetail_1_1optional__copy__base_3_01T_00_01false_01_4",
           "title": "detail::optional_copy_base< T, false >",
-          "url": "/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
           "visibility": "public"
         },
         {
@@ -633,7 +633,7 @@
           "name": "detail::optional_delete_assign_base",
           "refid": "structdetail_1_1optional__delete__assign__base",
           "title": "detail::optional_delete_assign_base",
-          "url": "/api/classes/structdetail_1_1optional__delete__assign__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base.html",
           "visibility": "public"
         },
         {
@@ -644,7 +644,7 @@
           "name": "detail::optional_delete_assign_base< T, false, false >",
           "refid": "structdetail_1_1optional__delete__assign__base_3_01T_00_01false_00_01false_01_4",
           "title": "detail::optional_delete_assign_base< T, false, false >",
-          "url": "/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01false_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01false_00_01false_01_4.html",
           "visibility": "public"
         },
         {
@@ -655,7 +655,7 @@
           "name": "detail::optional_delete_assign_base< T, false, true >",
           "refid": "structdetail_1_1optional__delete__assign__base_3_01T_00_01false_00_01true_01_4",
           "title": "detail::optional_delete_assign_base< T, false, true >",
-          "url": "/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01false_00_01true_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01false_00_01true_01_4.html",
           "visibility": "public"
         },
         {
@@ -666,7 +666,7 @@
           "name": "detail::optional_delete_assign_base< T, true, false >",
           "refid": "structdetail_1_1optional__delete__assign__base_3_01T_00_01true_00_01false_01_4",
           "title": "detail::optional_delete_assign_base< T, true, false >",
-          "url": "/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01true_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01true_00_01false_01_4.html",
           "visibility": "public"
         },
         {
@@ -677,7 +677,7 @@
           "name": "detail::optional_delete_ctor_base",
           "refid": "structdetail_1_1optional__delete__ctor__base",
           "title": "detail::optional_delete_ctor_base",
-          "url": "/api/classes/structdetail_1_1optional__delete__ctor__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base.html",
           "visibility": "public"
         },
         {
@@ -688,7 +688,7 @@
           "name": "detail::optional_delete_ctor_base< T, false, false >",
           "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01false_01_4",
           "title": "detail::optional_delete_ctor_base< T, false, false >",
-          "url": "/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01false_01_4.html",
           "visibility": "public"
         },
         {
@@ -699,7 +699,7 @@
           "name": "detail::optional_delete_ctor_base< T, false, true >",
           "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4",
           "title": "detail::optional_delete_ctor_base< T, false, true >",
-          "url": "/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html",
           "visibility": "public"
         },
         {
@@ -710,7 +710,7 @@
           "name": "detail::optional_delete_ctor_base< T, true, false >",
           "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01true_00_01false_01_4",
           "title": "detail::optional_delete_ctor_base< T, true, false >",
-          "url": "/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01true_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01true_00_01false_01_4.html",
           "visibility": "public"
         },
         {
@@ -729,7 +729,7 @@
           "name": "detail::optional_move_assign_base",
           "refid": "structdetail_1_1optional__move__assign__base",
           "title": "detail::optional_move_assign_base",
-          "url": "/api/classes/structdetail_1_1optional__move__assign__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base.html",
           "visibility": "public"
         },
         {
@@ -748,7 +748,7 @@
           "name": "detail::optional_move_assign_base< T, false >",
           "refid": "structdetail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
           "title": "detail::optional_move_assign_base< T, false >",
-          "url": "/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
           "visibility": "public"
         },
         {
@@ -767,7 +767,7 @@
               "external": false,
               "name": "detail::optional_copy_assign_base< T, bool >",
               "refid": "structdetail_1_1optional__copy__assign__base",
-              "url": "/api/classes/structdetail_1_1optional__copy__assign__base.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -775,7 +775,7 @@
               "external": false,
               "name": "detail::optional_copy_assign_base< T, false >",
               "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
-              "url": "/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -783,7 +783,7 @@
               "external": false,
               "name": "detail::optional_copy_assign_base< T >",
               "refid": "structdetail_1_1optional__copy__assign__base",
-              "url": "/api/classes/structdetail_1_1optional__copy__assign__base.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -793,7 +793,7 @@
           "name": "detail::optional_move_base",
           "refid": "structdetail_1_1optional__move__base",
           "title": "detail::optional_move_base",
-          "url": "/api/classes/structdetail_1_1optional__move__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__base.html",
           "visibility": "public"
         },
         {
@@ -812,7 +812,7 @@
           "name": "detail::optional_move_base< T, false >",
           "refid": "structdetail_1_1optional__move__base_3_01T_00_01false_01_4",
           "title": "detail::optional_move_base< T, false >",
-          "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
           "visibility": "public"
         },
         {
@@ -831,7 +831,7 @@
               "external": false,
               "name": "detail::optional_copy_base< T, bool >",
               "refid": "structdetail_1_1optional__copy__base",
-              "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__copy__base.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -839,7 +839,7 @@
               "external": false,
               "name": "detail::optional_copy_base< T, false >",
               "refid": "structdetail_1_1optional__copy__base_3_01T_00_01false_01_4",
-              "url": "/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -847,7 +847,7 @@
               "external": false,
               "name": "detail::optional_copy_base< T >",
               "refid": "structdetail_1_1optional__copy__base",
-              "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__copy__base.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -857,7 +857,7 @@
           "name": "detail::optional_operations_base",
           "refid": "structdetail_1_1optional__operations__base",
           "title": "detail::optional_operations_base",
-          "url": "/api/classes/structdetail_1_1optional__operations__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
           "visibility": "public"
         },
         {
@@ -872,7 +872,7 @@
               "name": "detail::optional_storage_base::dummy",
               "refid": "structdetail_1_1optional__storage__base_1_1dummy",
               "title": "detail::optional_storage_base::dummy",
-              "url": "/api/classes/structdetail_1_1optional__storage__base_1_1dummy.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_1_1dummy.html",
               "visibility": "public"
             }
           ],
@@ -881,7 +881,7 @@
               "external": false,
               "name": "detail::optional_operations_base< T >",
               "refid": "structdetail_1_1optional__operations__base",
-              "url": "/api/classes/structdetail_1_1optional__operations__base.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -891,7 +891,7 @@
           "name": "detail::optional_storage_base",
           "refid": "structdetail_1_1optional__storage__base",
           "title": "detail::optional_storage_base",
-          "url": "/api/classes/structdetail_1_1optional__storage__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html",
           "visibility": "public"
         },
         {
@@ -906,7 +906,7 @@
               "name": "detail::optional_storage_base< T, true >::dummy",
               "refid": "structdetail_1_1optional__storage__base_3_01T_00_01true_01_4_1_1dummy",
               "title": "detail::optional_storage_base< T, true >::dummy",
-              "url": "/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html",
+              "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4_1_1dummy.html",
               "visibility": "public"
             }
           ],
@@ -915,7 +915,7 @@
           "name": "detail::optional_storage_base< T, true >",
           "refid": "structdetail_1_1optional__storage__base_3_01T_00_01true_01_4",
           "title": "detail::optional_storage_base< T, true >",
-          "url": "/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
           "visibility": "public"
         },
         {
@@ -926,7 +926,7 @@
           "name": "detail::returns_void_impl",
           "refid": "structdetail_1_1returns__void__impl",
           "title": "detail::returns_void_impl",
-          "url": "/api/classes/structdetail_1_1returns__void__impl.html",
+          "url": "/thrust/api/classes/structdetail_1_1returns__void__impl.html",
           "visibility": "public"
         },
         {
@@ -945,7 +945,7 @@
           "name": "detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
           "refid": "structdetail_1_1returns__void__impl_3_01F_00_01void__t_3_01invoke__result__t_3_01F_00_01U_8_8_8_01_4_01_4_00_01U_8_8_8_01_4",
           "title": "detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
-          "url": "/api/classes/structdetail_1_1returns__void__impl_3_01f_00_01void__t_3_01invoke__result__t_3_01f_00_01u_8_8_8_01_4_01_4_00_01u_8_8_8_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1returns__void__impl_3_01f_00_01void__t_3_01invoke__result__t_3_01f_00_01u_8_8_8_01_4_01_4_00_01u_8_8_8_01_4.html",
           "visibility": "public"
         },
         {
@@ -956,7 +956,7 @@
           "name": "detail::voider",
           "refid": "structdetail_1_1voider",
           "title": "detail::voider",
-          "url": "/api/classes/structdetail_1_1voider.html",
+          "url": "/thrust/api/classes/structdetail_1_1voider.html",
           "visibility": "public"
         },
         {
@@ -967,7 +967,7 @@
           "name": "detail::zip_detail",
           "refid": "namespacedetail_1_1zip__detail",
           "title": "detail::zip_detail",
-          "url": "/api/namespaces/namespacedetail_1_1zip__detail.html",
+          "url": "/thrust/api/namespaces/namespacedetail_1_1zip__detail.html",
           "visibility": "public"
         }
       ],
@@ -977,7 +977,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     },
     {
@@ -1001,7 +1001,7 @@
           "name": "device_allocator::rebind",
           "refid": "structdevice__allocator_1_1rebind",
           "title": "device_allocator::rebind",
-          "url": "/api/classes/structdevice__allocator_1_1rebind.html",
+          "url": "/thrust/api/classes/structdevice__allocator_1_1rebind.html",
           "visibility": "public"
         }
       ],
@@ -1011,7 +1011,7 @@
       "refid": "classdevice__allocator",
       "summary": "An allocator which creates new elements in memory accessible by devices. ",
       "title": "device_allocator",
-      "url": "/api/classes/classdevice__allocator.html",
+      "url": "/thrust/api/classes/classdevice__allocator.html",
       "visibility": "public"
     },
     {
@@ -1030,7 +1030,7 @@
       "name": "device_execution_policy",
       "refid": "structdevice__execution__policy",
       "title": "device_execution_policy",
-      "url": "/api/classes/structdevice__execution__policy.html",
+      "url": "/thrust/api/classes/structdevice__execution__policy.html",
       "visibility": "public"
     },
     {
@@ -1045,7 +1045,7 @@
           "name": "device_malloc_allocator::rebind",
           "refid": "structdevice__malloc__allocator_1_1rebind",
           "title": "device_malloc_allocator::rebind",
-          "url": "/api/classes/structdevice__malloc__allocator_1_1rebind.html",
+          "url": "/thrust/api/classes/structdevice__malloc__allocator_1_1rebind.html",
           "visibility": "public"
         }
       ],
@@ -1054,7 +1054,7 @@
       "name": "device_malloc_allocator",
       "refid": "classdevice__malloc__allocator",
       "title": "device_malloc_allocator",
-      "url": "/api/classes/classdevice__malloc__allocator.html",
+      "url": "/thrust/api/classes/classdevice__malloc__allocator.html",
       "visibility": "public"
     },
     {
@@ -1069,7 +1069,7 @@
           "name": "device_new_allocator::rebind",
           "refid": "structdevice__new__allocator_1_1rebind",
           "title": "device_new_allocator::rebind",
-          "url": "/api/classes/structdevice__new__allocator_1_1rebind.html",
+          "url": "/thrust/api/classes/structdevice__new__allocator_1_1rebind.html",
           "visibility": "public"
         }
       ],
@@ -1078,7 +1078,7 @@
       "name": "device_new_allocator",
       "refid": "classdevice__new__allocator",
       "title": "device_new_allocator",
-      "url": "/api/classes/classdevice__new__allocator.html",
+      "url": "/thrust/api/classes/classdevice__new__allocator.html",
       "visibility": "public"
     },
     {
@@ -1091,7 +1091,7 @@
       "refid": "classdevice__ptr",
       "summary": "device_ptr is a pointer-like object which points to an object that resides in memory associated with the device system. ",
       "title": "device_ptr",
-      "url": "/api/classes/classdevice__ptr.html",
+      "url": "/thrust/api/classes/classdevice__ptr.html",
       "visibility": "public"
     },
     {
@@ -1110,7 +1110,7 @@
       "name": "device_ptr_memory_resource",
       "refid": "classdevice__ptr__memory__resource",
       "title": "device_ptr_memory_resource",
-      "url": "/api/classes/classdevice__ptr__memory__resource.html",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html",
       "visibility": "public"
     },
     {
@@ -1121,7 +1121,7 @@
       "name": "device_reference",
       "refid": "classdevice__reference",
       "title": "device_reference",
-      "url": "/api/classes/classdevice__reference.html",
+      "url": "/thrust/api/classes/classdevice__reference.html",
       "visibility": "public"
     },
     {
@@ -1140,7 +1140,7 @@
       "name": "device_vector",
       "refid": "classdevice__vector",
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html",
+      "url": "/thrust/api/classes/classdevice__vector.html",
       "visibility": "public"
     },
     {
@@ -1159,7 +1159,7 @@
       "name": "discard_iterator",
       "refid": "classdiscard__iterator",
       "title": "discard_iterator",
-      "url": "/api/classes/classdiscard__iterator.html",
+      "url": "/thrust/api/classes/classdiscard__iterator.html",
       "visibility": "public"
     },
     {
@@ -1172,7 +1172,7 @@
       "refid": "structdisjunction__value",
       "summary": "std::integral_constant whose value is (... || Bs). ",
       "title": "disjunction_value",
-      "url": "/api/classes/structdisjunction__value.html",
+      "url": "/thrust/api/classes/structdisjunction__value.html",
       "visibility": "public"
     },
     {
@@ -1183,7 +1183,7 @@
       "name": "divides",
       "refid": "structdivides",
       "title": "divides",
-      "url": "/api/classes/structdivides.html",
+      "url": "/thrust/api/classes/structdivides.html",
       "visibility": "public"
     },
     {
@@ -1194,7 +1194,7 @@
       "name": "divides< void >",
       "refid": "structdivides_3_01void_01_4",
       "title": "divides< void >",
-      "url": "/api/classes/structdivides_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structdivides_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1205,7 +1205,7 @@
       "name": "equal_to",
       "refid": "structequal__to",
       "title": "equal_to",
-      "url": "/api/classes/structequal__to.html",
+      "url": "/thrust/api/classes/structequal__to.html",
       "visibility": "public"
     },
     {
@@ -1216,7 +1216,7 @@
       "name": "equal_to< void >",
       "refid": "structequal__to_3_01void_01_4",
       "title": "equal_to< void >",
-      "url": "/api/classes/structequal__to_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structequal__to_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1235,7 +1235,7 @@
       "name": "forward_device_iterator_tag",
       "refid": "structforward__device__iterator__tag",
       "title": "forward_device_iterator_tag",
-      "url": "/api/classes/structforward__device__iterator__tag.html",
+      "url": "/thrust/api/classes/structforward__device__iterator__tag.html",
       "visibility": "public"
     },
     {
@@ -1246,7 +1246,7 @@
       "name": "greater",
       "refid": "structgreater",
       "title": "greater",
-      "url": "/api/classes/structgreater.html",
+      "url": "/thrust/api/classes/structgreater.html",
       "visibility": "public"
     },
     {
@@ -1257,7 +1257,7 @@
       "name": "greater< void >",
       "refid": "structgreater_3_01void_01_4",
       "title": "greater< void >",
-      "url": "/api/classes/structgreater_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structgreater_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1268,7 +1268,7 @@
       "name": "greater_equal",
       "refid": "structgreater__equal",
       "title": "greater_equal",
-      "url": "/api/classes/structgreater__equal.html",
+      "url": "/thrust/api/classes/structgreater__equal.html",
       "visibility": "public"
     },
     {
@@ -1279,7 +1279,7 @@
       "name": "greater_equal< void >",
       "refid": "structgreater__equal_3_01void_01_4",
       "title": "greater_equal< void >",
-      "url": "/api/classes/structgreater__equal_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structgreater__equal_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1298,7 +1298,7 @@
       "name": "host_execution_policy",
       "refid": "structhost__execution__policy",
       "title": "host_execution_policy",
-      "url": "/api/classes/structhost__execution__policy.html",
+      "url": "/thrust/api/classes/structhost__execution__policy.html",
       "visibility": "public"
     },
     {
@@ -1317,7 +1317,7 @@
       "name": "host_vector",
       "refid": "classhost__vector",
       "title": "host_vector",
-      "url": "/api/classes/classhost__vector.html",
+      "url": "/thrust/api/classes/classhost__vector.html",
       "visibility": "public"
     },
     {
@@ -1328,7 +1328,7 @@
       "name": "identity",
       "refid": "structidentity",
       "title": "identity",
-      "url": "/api/classes/structidentity.html",
+      "url": "/thrust/api/classes/structidentity.html",
       "visibility": "public"
     },
     {
@@ -1339,7 +1339,7 @@
       "name": "identity< void >",
       "refid": "structidentity_3_01void_01_4",
       "title": "identity< void >",
-      "url": "/api/classes/structidentity_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structidentity_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1352,7 +1352,7 @@
       "refid": "structin__place__t",
       "summary": "A tag type to tell optional to construct its value in-place. ",
       "title": "in_place_t",
-      "url": "/api/classes/structin__place__t.html",
+      "url": "/thrust/api/classes/structin__place__t.html",
       "visibility": "public"
     },
     {
@@ -1371,7 +1371,7 @@
       "name": "input_device_iterator_tag",
       "refid": "structinput__device__iterator__tag",
       "title": "input_device_iterator_tag",
-      "url": "/api/classes/structinput__device__iterator__tag.html",
+      "url": "/thrust/api/classes/structinput__device__iterator__tag.html",
       "visibility": "public"
     },
     {
@@ -1390,7 +1390,7 @@
       "name": "iterator_adaptor",
       "refid": "classiterator__adaptor",
       "title": "iterator_adaptor",
-      "url": "/api/classes/classiterator__adaptor.html",
+      "url": "/thrust/api/classes/classiterator__adaptor.html",
       "visibility": "public"
     },
     {
@@ -1401,7 +1401,7 @@
       "name": "iterator_core_access",
       "refid": "classiterator__core__access",
       "title": "iterator_core_access",
-      "url": "/api/classes/classiterator__core__access.html",
+      "url": "/thrust/api/classes/classiterator__core__access.html",
       "visibility": "public"
     },
     {
@@ -1412,7 +1412,7 @@
       "name": "iterator_difference",
       "refid": "structiterator__difference",
       "title": "iterator_difference",
-      "url": "/api/classes/structiterator__difference.html",
+      "url": "/thrust/api/classes/structiterator__difference.html",
       "visibility": "public"
     },
     {
@@ -1423,7 +1423,7 @@
       "name": "iterator_facade",
       "refid": "classiterator__facade",
       "title": "iterator_facade",
-      "url": "/api/classes/classiterator__facade.html",
+      "url": "/thrust/api/classes/classiterator__facade.html",
       "visibility": "public"
     },
     {
@@ -1434,7 +1434,7 @@
       "name": "iterator_pointer",
       "refid": "structiterator__pointer",
       "title": "iterator_pointer",
-      "url": "/api/classes/structiterator__pointer.html",
+      "url": "/thrust/api/classes/structiterator__pointer.html",
       "visibility": "public"
     },
     {
@@ -1445,7 +1445,7 @@
       "name": "iterator_reference",
       "refid": "structiterator__reference",
       "title": "iterator_reference",
-      "url": "/api/classes/structiterator__reference.html",
+      "url": "/thrust/api/classes/structiterator__reference.html",
       "visibility": "public"
     },
     {
@@ -1456,7 +1456,7 @@
       "name": "iterator_system",
       "refid": "structiterator__system",
       "title": "iterator_system",
-      "url": "/api/classes/structiterator__system.html",
+      "url": "/thrust/api/classes/structiterator__system.html",
       "visibility": "public"
     },
     {
@@ -1475,7 +1475,7 @@
       "name": "iterator_traits",
       "refid": "structiterator__traits",
       "title": "iterator_traits",
-      "url": "/api/classes/structiterator__traits.html",
+      "url": "/thrust/api/classes/structiterator__traits.html",
       "visibility": "public"
     },
     {
@@ -1486,7 +1486,7 @@
       "name": "iterator_traversal",
       "refid": "structiterator__traversal",
       "title": "iterator_traversal",
-      "url": "/api/classes/structiterator__traversal.html",
+      "url": "/thrust/api/classes/structiterator__traversal.html",
       "visibility": "public"
     },
     {
@@ -1497,7 +1497,7 @@
       "name": "iterator_value",
       "refid": "structiterator__value",
       "title": "iterator_value",
-      "url": "/api/classes/structiterator__value.html",
+      "url": "/thrust/api/classes/structiterator__value.html",
       "visibility": "public"
     },
     {
@@ -1508,7 +1508,7 @@
       "name": "less",
       "refid": "structless",
       "title": "less",
-      "url": "/api/classes/structless.html",
+      "url": "/thrust/api/classes/structless.html",
       "visibility": "public"
     },
     {
@@ -1519,7 +1519,7 @@
       "name": "less< void >",
       "refid": "structless_3_01void_01_4",
       "title": "less< void >",
-      "url": "/api/classes/structless_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structless_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1530,7 +1530,7 @@
       "name": "less_equal",
       "refid": "structless__equal",
       "title": "less_equal",
-      "url": "/api/classes/structless__equal.html",
+      "url": "/thrust/api/classes/structless__equal.html",
       "visibility": "public"
     },
     {
@@ -1541,7 +1541,7 @@
       "name": "less_equal< void >",
       "refid": "structless__equal_3_01void_01_4",
       "title": "less_equal< void >",
-      "url": "/api/classes/structless__equal_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structless__equal_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1552,7 +1552,7 @@
       "name": "logical_and",
       "refid": "structlogical__and",
       "title": "logical_and",
-      "url": "/api/classes/structlogical__and.html",
+      "url": "/thrust/api/classes/structlogical__and.html",
       "visibility": "public"
     },
     {
@@ -1563,7 +1563,7 @@
       "name": "logical_and< void >",
       "refid": "structlogical__and_3_01void_01_4",
       "title": "logical_and< void >",
-      "url": "/api/classes/structlogical__and_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structlogical__and_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1574,7 +1574,7 @@
       "name": "logical_not",
       "refid": "structlogical__not",
       "title": "logical_not",
-      "url": "/api/classes/structlogical__not.html",
+      "url": "/thrust/api/classes/structlogical__not.html",
       "visibility": "public"
     },
     {
@@ -1585,7 +1585,7 @@
       "name": "logical_not< void >",
       "refid": "structlogical__not_3_01void_01_4",
       "title": "logical_not< void >",
-      "url": "/api/classes/structlogical__not_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structlogical__not_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1596,7 +1596,7 @@
       "name": "logical_or",
       "refid": "structlogical__or",
       "title": "logical_or",
-      "url": "/api/classes/structlogical__or.html",
+      "url": "/thrust/api/classes/structlogical__or.html",
       "visibility": "public"
     },
     {
@@ -1607,7 +1607,7 @@
       "name": "logical_or< void >",
       "refid": "structlogical__or_3_01void_01_4",
       "title": "logical_or< void >",
-      "url": "/api/classes/structlogical__or_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structlogical__or_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1618,7 +1618,7 @@
       "name": "maximum",
       "refid": "structmaximum",
       "title": "maximum",
-      "url": "/api/classes/structmaximum.html",
+      "url": "/thrust/api/classes/structmaximum.html",
       "visibility": "public"
     },
     {
@@ -1629,7 +1629,7 @@
       "name": "maximum< void >",
       "refid": "structmaximum_3_01void_01_4",
       "title": "maximum< void >",
-      "url": "/api/classes/structmaximum_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structmaximum_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1640,7 +1640,7 @@
       "name": "minimum",
       "refid": "structminimum",
       "title": "minimum",
-      "url": "/api/classes/structminimum.html",
+      "url": "/thrust/api/classes/structminimum.html",
       "visibility": "public"
     },
     {
@@ -1651,7 +1651,7 @@
       "name": "minimum< void >",
       "refid": "structminimum_3_01void_01_4",
       "title": "minimum< void >",
-      "url": "/api/classes/structminimum_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structminimum_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1662,7 +1662,7 @@
       "name": "minus",
       "refid": "structminus",
       "title": "minus",
-      "url": "/api/classes/structminus.html",
+      "url": "/thrust/api/classes/structminus.html",
       "visibility": "public"
     },
     {
@@ -1673,7 +1673,7 @@
       "name": "minus< void >",
       "refid": "structminus_3_01void_01_4",
       "title": "minus< void >",
-      "url": "/api/classes/structminus_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structminus_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1684,7 +1684,7 @@
       "name": "modulus",
       "refid": "structmodulus",
       "title": "modulus",
-      "url": "/api/classes/structmodulus.html",
+      "url": "/thrust/api/classes/structmodulus.html",
       "visibility": "public"
     },
     {
@@ -1695,7 +1695,7 @@
       "name": "modulus< void >",
       "refid": "structmodulus_3_01void_01_4",
       "title": "modulus< void >",
-      "url": "/api/classes/structmodulus_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structmodulus_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -1708,7 +1708,7 @@
       "refid": "classmonostate",
       "summary": "Used to represent an optional with no data; essentially a bool. ",
       "title": "monostate",
-      "url": "/api/classes/classmonostate.html",
+      "url": "/thrust/api/classes/classmonostate.html",
       "visibility": "public"
     },
     {
@@ -1736,7 +1736,7 @@
               "name": "mr::allocator::rebind",
               "refid": "structmr_1_1allocator_1_1rebind",
               "title": "mr::allocator::rebind",
-              "url": "/api/classes/structmr_1_1allocator_1_1rebind.html",
+              "url": "/thrust/api/classes/structmr_1_1allocator_1_1rebind.html",
               "visibility": "public"
             }
           ],
@@ -1745,7 +1745,7 @@
           "name": "mr::allocator",
           "refid": "classmr_1_1allocator",
           "title": "mr::allocator",
-          "url": "/api/classes/classmr_1_1allocator.html",
+          "url": "/thrust/api/classes/classmr_1_1allocator.html",
           "visibility": "public"
         },
         {
@@ -1755,7 +1755,7 @@
               "external": false,
               "name": "mr::memory_resource< Upstream::pointer >",
               "refid": "classmr_1_1memory__resource",
-              "url": "/api/classes/classmr_1_1memory__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -1766,7 +1766,7 @@
           "name": "mr::disjoint_synchronized_pool_resource",
           "refid": "structmr_1_1disjoint__synchronized__pool__resource",
           "title": "mr::disjoint_synchronized_pool_resource",
-          "url": "/api/classes/structmr_1_1disjoint__synchronized__pool__resource.html",
+          "url": "/thrust/api/classes/structmr_1_1disjoint__synchronized__pool__resource.html",
           "visibility": "public"
         },
         {
@@ -1776,7 +1776,7 @@
               "external": false,
               "name": "mr::memory_resource< Upstream::pointer >",
               "refid": "classmr_1_1memory__resource",
-              "url": "/api/classes/classmr_1_1memory__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -1797,7 +1797,7 @@
               "name": "mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
               "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor",
               "title": "mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
-              "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html",
+              "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html",
               "visibility": "private"
             },
             {
@@ -1808,7 +1808,7 @@
               "name": "mr::disjoint_unsynchronized_pool_resource::equal_pointers",
               "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers",
               "title": "mr::disjoint_unsynchronized_pool_resource::equal_pointers",
-              "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html",
+              "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html",
               "visibility": "private"
             },
             {
@@ -1819,7 +1819,7 @@
               "name": "mr::disjoint_unsynchronized_pool_resource::matching_alignment",
               "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment",
               "title": "mr::disjoint_unsynchronized_pool_resource::matching_alignment",
-              "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html",
+              "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html",
               "visibility": "private"
             },
             {
@@ -1830,7 +1830,7 @@
               "name": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
               "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor",
               "title": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
-              "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
+              "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
               "visibility": "private"
             },
             {
@@ -1841,7 +1841,7 @@
               "name": "mr::disjoint_unsynchronized_pool_resource::pool",
               "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool",
               "title": "mr::disjoint_unsynchronized_pool_resource::pool",
-              "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html",
+              "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html",
               "visibility": "private"
             }
           ],
@@ -1850,7 +1850,7 @@
           "name": "mr::disjoint_unsynchronized_pool_resource",
           "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
           "title": "mr::disjoint_unsynchronized_pool_resource",
-          "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
           "visibility": "public"
         },
         {
@@ -1860,7 +1860,7 @@
               "external": false,
               "name": "mr::memory_resource< Pointer >",
               "refid": "classmr_1_1memory__resource",
-              "url": "/api/classes/classmr_1_1memory__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -1877,7 +1877,7 @@
           "name": "mr::fancy_pointer_resource",
           "refid": "classmr_1_1fancy__pointer__resource",
           "title": "mr::fancy_pointer_resource",
-          "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1fancy__pointer__resource.html",
           "visibility": "public"
         },
         {
@@ -1888,7 +1888,7 @@
               "external": false,
               "name": "mr::fancy_pointer_resource< Upstream, Pointer >",
               "refid": "classmr_1_1fancy__pointer__resource",
-              "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1fancy__pointer__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -1896,7 +1896,7 @@
               "external": false,
               "name": "mr::polymorphic_adaptor_resource< Pointer >",
               "refid": "classmr_1_1polymorphic__adaptor__resource",
-              "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -1906,7 +1906,7 @@
           "name": "mr::memory_resource",
           "refid": "classmr_1_1memory__resource",
           "title": "mr::memory_resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
           "visibility": "public"
         },
         {
@@ -1917,7 +1917,7 @@
           "name": "mr::memory_resource< void * >",
           "refid": "classmr_1_1memory__resource_3_01void_01_5_01_4",
           "title": "mr::memory_resource< void * >",
-          "url": "/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource_3_01void_01_5_01_4.html",
           "visibility": "public"
         },
         {
@@ -1927,7 +1927,7 @@
               "external": false,
               "name": "mr::memory_resource<>",
               "refid": "classmr_1_1memory__resource",
-              "url": "/api/classes/classmr_1_1memory__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -1938,7 +1938,7 @@
           "name": "mr::new_delete_resource",
           "refid": "classmr_1_1new__delete__resource",
           "title": "mr::new_delete_resource",
-          "url": "/api/classes/classmr_1_1new__delete__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1new__delete__resource.html",
           "visibility": "public"
         },
         {
@@ -1948,7 +1948,7 @@
               "external": false,
               "name": "mr::memory_resource< void * >",
               "refid": "classmr_1_1memory__resource",
-              "url": "/api/classes/classmr_1_1memory__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -1959,7 +1959,7 @@
           "name": "mr::polymorphic_adaptor_resource",
           "refid": "classmr_1_1polymorphic__adaptor__resource",
           "title": "mr::polymorphic_adaptor_resource",
-          "url": "/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1polymorphic__adaptor__resource.html",
           "visibility": "public"
         },
         {
@@ -1970,7 +1970,7 @@
           "name": "mr::pool_options",
           "refid": "structmr_1_1pool__options",
           "title": "mr::pool_options",
-          "url": "/api/classes/structmr_1_1pool__options.html",
+          "url": "/thrust/api/classes/structmr_1_1pool__options.html",
           "visibility": "public"
         },
         {
@@ -1993,7 +1993,7 @@
               "name": "mr::stateless_resource_allocator::rebind",
               "refid": "structmr_1_1stateless__resource__allocator_1_1rebind",
               "title": "mr::stateless_resource_allocator::rebind",
-              "url": "/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html",
+              "url": "/thrust/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html",
               "visibility": "public"
             }
           ],
@@ -2002,7 +2002,7 @@
           "name": "mr::stateless_resource_allocator",
           "refid": "classmr_1_1stateless__resource__allocator",
           "title": "mr::stateless_resource_allocator",
-          "url": "/api/classes/classmr_1_1stateless__resource__allocator.html",
+          "url": "/thrust/api/classes/classmr_1_1stateless__resource__allocator.html",
           "visibility": "public"
         },
         {
@@ -2012,7 +2012,7 @@
               "external": false,
               "name": "mr::memory_resource< Upstream::pointer >",
               "refid": "classmr_1_1memory__resource",
-              "url": "/api/classes/classmr_1_1memory__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             }
@@ -2023,7 +2023,7 @@
           "name": "mr::synchronized_pool_resource",
           "refid": "structmr_1_1synchronized__pool__resource",
           "title": "mr::synchronized_pool_resource",
-          "url": "/api/classes/structmr_1_1synchronized__pool__resource.html",
+          "url": "/thrust/api/classes/structmr_1_1synchronized__pool__resource.html",
           "visibility": "public"
         },
         {
@@ -2033,7 +2033,7 @@
               "external": false,
               "name": "mr::memory_resource< Upstream::pointer >",
               "refid": "classmr_1_1memory__resource",
-              "url": "/api/classes/classmr_1_1memory__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
               "virtual": "non-virtual",
               "visibility": "public"
             },
@@ -2054,7 +2054,7 @@
               "name": "mr::unsynchronized_pool_resource::block_descriptor",
               "refid": "structmr_1_1unsynchronized__pool__resource_1_1block__descriptor",
               "title": "mr::unsynchronized_pool_resource::block_descriptor",
-              "url": "/api/classes/structmr_1_1unsynchronized__pool__resource_1_1block__descriptor.html",
+              "url": "/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1block__descriptor.html",
               "visibility": "private"
             },
             {
@@ -2065,7 +2065,7 @@
               "name": "mr::unsynchronized_pool_resource::chunk_descriptor",
               "refid": "structmr_1_1unsynchronized__pool__resource_1_1chunk__descriptor",
               "title": "mr::unsynchronized_pool_resource::chunk_descriptor",
-              "url": "/api/classes/structmr_1_1unsynchronized__pool__resource_1_1chunk__descriptor.html",
+              "url": "/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1chunk__descriptor.html",
               "visibility": "private"
             },
             {
@@ -2076,7 +2076,7 @@
               "name": "mr::unsynchronized_pool_resource::oversized_block_descriptor",
               "refid": "structmr_1_1unsynchronized__pool__resource_1_1oversized__block__descriptor",
               "title": "mr::unsynchronized_pool_resource::oversized_block_descriptor",
-              "url": "/api/classes/structmr_1_1unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
+              "url": "/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
               "visibility": "private"
             },
             {
@@ -2087,7 +2087,7 @@
               "name": "mr::unsynchronized_pool_resource::pool",
               "refid": "structmr_1_1unsynchronized__pool__resource_1_1pool",
               "title": "mr::unsynchronized_pool_resource::pool",
-              "url": "/api/classes/structmr_1_1unsynchronized__pool__resource_1_1pool.html",
+              "url": "/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1pool.html",
               "visibility": "private"
             }
           ],
@@ -2096,7 +2096,7 @@
           "name": "mr::unsynchronized_pool_resource",
           "refid": "classmr_1_1unsynchronized__pool__resource",
           "title": "mr::unsynchronized_pool_resource",
-          "url": "/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+          "url": "/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html",
           "visibility": "public"
         },
         {
@@ -2107,7 +2107,7 @@
               "external": false,
               "name": "mr::allocator< T, MR >",
               "refid": "classmr_1_1allocator",
-              "url": "/api/classes/classmr_1_1allocator.html",
+              "url": "/thrust/api/classes/classmr_1_1allocator.html",
               "virtual": "non-virtual",
               "visibility": "private"
             },
@@ -2115,7 +2115,7 @@
               "external": false,
               "name": "mr::fancy_pointer_resource< Upstream, Pointer >",
               "refid": "classmr_1_1fancy__pointer__resource",
-              "url": "/api/classes/classmr_1_1fancy__pointer__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1fancy__pointer__resource.html",
               "virtual": "non-virtual",
               "visibility": "private"
             },
@@ -2123,7 +2123,7 @@
               "external": false,
               "name": "mr::unsynchronized_pool_resource< Upstream >",
               "refid": "classmr_1_1unsynchronized__pool__resource",
-              "url": "/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html",
               "virtual": "non-virtual",
               "visibility": "private"
             },
@@ -2131,7 +2131,7 @@
               "external": false,
               "name": "mr::validator2< T, U >",
               "refid": "structmr_1_1validator2",
-              "url": "/api/classes/structmr_1_1validator2.html",
+              "url": "/thrust/api/classes/structmr_1_1validator2.html",
               "virtual": "non-virtual",
               "visibility": "private"
             },
@@ -2139,7 +2139,7 @@
               "external": false,
               "name": "mr::validator2< T, U >",
               "refid": "structmr_1_1validator2",
-              "url": "/api/classes/structmr_1_1validator2.html",
+              "url": "/thrust/api/classes/structmr_1_1validator2.html",
               "virtual": "non-virtual",
               "visibility": "private"
             },
@@ -2147,7 +2147,7 @@
               "external": false,
               "name": "mr::validator2< T, T >",
               "refid": "structmr_1_1validator2_3_01T_00_01T_01_4",
-              "url": "/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
+              "url": "/thrust/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
               "virtual": "non-virtual",
               "visibility": "private"
             },
@@ -2155,7 +2155,7 @@
               "external": false,
               "name": "mr::validator2< Upstream, Bookkeeper >",
               "refid": "structmr_1_1validator2",
-              "url": "/api/classes/structmr_1_1validator2.html",
+              "url": "/thrust/api/classes/structmr_1_1validator2.html",
               "virtual": "non-virtual",
               "visibility": "private"
             },
@@ -2163,7 +2163,7 @@
               "external": false,
               "name": "mr::validator2< Upstream, Bookkeeper >",
               "refid": "structmr_1_1validator2",
-              "url": "/api/classes/structmr_1_1validator2.html",
+              "url": "/thrust/api/classes/structmr_1_1validator2.html",
               "virtual": "non-virtual",
               "visibility": "private"
             }
@@ -2173,7 +2173,7 @@
           "name": "mr::validator",
           "refid": "structmr_1_1validator",
           "title": "mr::validator",
-          "url": "/api/classes/structmr_1_1validator.html",
+          "url": "/thrust/api/classes/structmr_1_1validator.html",
           "visibility": "public"
         },
         {
@@ -2198,7 +2198,7 @@
               "external": false,
               "name": "mr::disjoint_unsynchronized_pool_resource< Upstream, Bookkeeper >",
               "refid": "classmr_1_1disjoint__unsynchronized__pool__resource",
-              "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+              "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
               "virtual": "non-virtual",
               "visibility": "private"
             }
@@ -2208,7 +2208,7 @@
           "name": "mr::validator2",
           "refid": "structmr_1_1validator2",
           "title": "mr::validator2",
-          "url": "/api/classes/structmr_1_1validator2.html",
+          "url": "/thrust/api/classes/structmr_1_1validator2.html",
           "visibility": "public"
         },
         {
@@ -2227,7 +2227,7 @@
           "name": "mr::validator2< T, T >",
           "refid": "structmr_1_1validator2_3_01T_00_01T_01_4",
           "title": "mr::validator2< T, T >",
-          "url": "/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
+          "url": "/thrust/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
           "visibility": "public"
         }
       ],
@@ -2237,7 +2237,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     },
     {
@@ -2248,7 +2248,7 @@
       "name": "multiplies",
       "refid": "structmultiplies",
       "title": "multiplies",
-      "url": "/api/classes/structmultiplies.html",
+      "url": "/thrust/api/classes/structmultiplies.html",
       "visibility": "public"
     },
     {
@@ -2259,7 +2259,7 @@
       "name": "multiplies< void >",
       "refid": "structmultiplies_3_01void_01_4",
       "title": "multiplies< void >",
-      "url": "/api/classes/structmultiplies_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structmultiplies_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -2270,7 +2270,7 @@
       "name": "negate",
       "refid": "structnegate",
       "title": "negate",
-      "url": "/api/classes/structnegate.html",
+      "url": "/thrust/api/classes/structnegate.html",
       "visibility": "public"
     },
     {
@@ -2281,7 +2281,7 @@
       "name": "negate< void >",
       "refid": "structnegate_3_01void_01_4",
       "title": "negate< void >",
-      "url": "/api/classes/structnegate_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structnegate_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -2294,7 +2294,7 @@
       "refid": "structnegation__value",
       "summary": "std::integral_constant whose value is !Bs. ",
       "title": "negation_value",
-      "url": "/api/classes/structnegation__value.html",
+      "url": "/thrust/api/classes/structnegation__value.html",
       "visibility": "public"
     },
     {
@@ -2305,7 +2305,7 @@
       "name": "new_stream_t",
       "refid": "structnew__stream__t",
       "title": "new_stream_t",
-      "url": "/api/classes/structnew__stream__t.html",
+      "url": "/thrust/api/classes/structnew__stream__t.html",
       "visibility": "public"
     },
     {
@@ -2316,7 +2316,7 @@
       "name": "not_equal_to",
       "refid": "structnot__equal__to",
       "title": "not_equal_to",
-      "url": "/api/classes/structnot__equal__to.html",
+      "url": "/thrust/api/classes/structnot__equal__to.html",
       "visibility": "public"
     },
     {
@@ -2327,7 +2327,7 @@
       "name": "not_equal_to< void >",
       "refid": "structnot__equal__to_3_01void_01_4",
       "title": "not_equal_to< void >",
-      "url": "/api/classes/structnot__equal__to_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structnot__equal__to_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -2343,7 +2343,7 @@
           "name": "nullopt_t::do_not_use",
           "refid": "structnullopt__t_1_1do__not__use",
           "title": "nullopt_t::do_not_use",
-          "url": "/api/classes/structnullopt__t_1_1do__not__use.html",
+          "url": "/thrust/api/classes/structnullopt__t_1_1do__not__use.html",
           "visibility": "public"
         }
       ],
@@ -2353,7 +2353,7 @@
       "refid": "structnullopt__t",
       "summary": "A tag type to represent an empty optional. ",
       "title": "nullopt_t",
-      "url": "/api/classes/structnullopt__t.html",
+      "url": "/thrust/api/classes/structnullopt__t.html",
       "visibility": "public"
     },
     {
@@ -2372,7 +2372,7 @@
       "name": "numeric_limits",
       "refid": "structnumeric__limits",
       "title": "numeric_limits",
-      "url": "/api/classes/structnumeric__limits.html",
+      "url": "/thrust/api/classes/structnumeric__limits.html",
       "visibility": "public"
     },
     {
@@ -2383,7 +2383,7 @@
       "name": "omp",
       "refid": "namespaceomp",
       "title": "omp",
-      "url": "/api/namespaces/namespaceomp.html",
+      "url": "/thrust/api/namespaces/namespaceomp.html",
       "visibility": "public"
     },
     {
@@ -2396,7 +2396,7 @@
       "refid": "classoptional",
       "summary": "An optional object is an object that contains the storage for another object and manages the lifetime of this contained object, if any. ",
       "title": "optional",
-      "url": "/api/classes/classoptional.html",
+      "url": "/thrust/api/classes/classoptional.html",
       "visibility": "public"
     },
     {
@@ -2409,7 +2409,7 @@
       "refid": "classoptional_3_01T_01_6_01_4",
       "summary": "Specialization for when T is a reference. ",
       "title": "optional< T & >",
-      "url": "/api/classes/classoptional_3_01t_01_6_01_4.html",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html",
       "visibility": "public"
     },
     {
@@ -2428,7 +2428,7 @@
       "name": "output_device_iterator_tag",
       "refid": "structoutput__device__iterator__tag",
       "title": "output_device_iterator_tag",
-      "url": "/api/classes/structoutput__device__iterator__tag.html",
+      "url": "/thrust/api/classes/structoutput__device__iterator__tag.html",
       "visibility": "public"
     },
     {
@@ -2439,7 +2439,7 @@
       "name": "pair",
       "refid": "structpair",
       "title": "pair",
-      "url": "/api/classes/structpair.html",
+      "url": "/thrust/api/classes/structpair.html",
       "visibility": "public"
     },
     {
@@ -2462,7 +2462,7 @@
           "name": "per_device_allocator::rebind",
           "refid": "structper__device__allocator_1_1rebind",
           "title": "per_device_allocator::rebind",
-          "url": "/api/classes/structper__device__allocator_1_1rebind.html",
+          "url": "/thrust/api/classes/structper__device__allocator_1_1rebind.html",
           "visibility": "public"
         }
       ],
@@ -2471,7 +2471,7 @@
       "name": "per_device_allocator",
       "refid": "classper__device__allocator",
       "title": "per_device_allocator",
-      "url": "/api/classes/classper__device__allocator.html",
+      "url": "/thrust/api/classes/classper__device__allocator.html",
       "visibility": "public"
     },
     {
@@ -2490,7 +2490,7 @@
       "name": "permutation_iterator",
       "refid": "classpermutation__iterator",
       "title": "permutation_iterator",
-      "url": "/api/classes/classpermutation__iterator.html",
+      "url": "/thrust/api/classes/classpermutation__iterator.html",
       "visibility": "public"
     },
     {
@@ -2501,7 +2501,7 @@
       "name": "placeholders",
       "refid": "namespaceplaceholders",
       "title": "placeholders",
-      "url": "/api/namespaces/namespaceplaceholders.html",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html",
       "visibility": "public"
     },
     {
@@ -2512,7 +2512,7 @@
       "name": "plus",
       "refid": "structplus",
       "title": "plus",
-      "url": "/api/classes/structplus.html",
+      "url": "/thrust/api/classes/structplus.html",
       "visibility": "public"
     },
     {
@@ -2523,7 +2523,7 @@
       "name": "plus< void >",
       "refid": "structplus_3_01void_01_4",
       "title": "plus< void >",
-      "url": "/api/classes/structplus_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structplus_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -2544,7 +2544,7 @@
       "refid": "structproclaim__contiguous__iterator",
       "summary": "Customization point that can be customized to indicate that an iterator type Iterator satisfies ContiguousIterator, aka it points to elements that are contiguous in memory. ",
       "title": "proclaim_contiguous_iterator",
-      "url": "/api/classes/structproclaim__contiguous__iterator.html",
+      "url": "/thrust/api/classes/structproclaim__contiguous__iterator.html",
       "visibility": "public"
     },
     {
@@ -2565,7 +2565,7 @@
       "refid": "structproclaim__trivially__relocatable",
       "summary": "customization point that can be specialized customized to indicate that a type T is TriviallyRelocatable, aka it can be bitwise copied with a facility like std::memcpy. ",
       "title": "proclaim_trivially_relocatable",
-      "url": "/api/classes/structproclaim__trivially__relocatable.html",
+      "url": "/thrust/api/classes/structproclaim__trivially__relocatable.html",
       "visibility": "public"
     },
     {
@@ -2576,7 +2576,7 @@
       "name": "project1st",
       "refid": "structproject1st",
       "title": "project1st",
-      "url": "/api/classes/structproject1st.html",
+      "url": "/thrust/api/classes/structproject1st.html",
       "visibility": "public"
     },
     {
@@ -2587,7 +2587,7 @@
       "name": "project1st< void, void >",
       "refid": "structproject1st_3_01void_00_01void_01_4",
       "title": "project1st< void, void >",
-      "url": "/api/classes/structproject1st_3_01void_00_01void_01_4.html",
+      "url": "/thrust/api/classes/structproject1st_3_01void_00_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -2598,7 +2598,7 @@
       "name": "project2nd",
       "refid": "structproject2nd",
       "title": "project2nd",
-      "url": "/api/classes/structproject2nd.html",
+      "url": "/thrust/api/classes/structproject2nd.html",
       "visibility": "public"
     },
     {
@@ -2609,7 +2609,7 @@
       "name": "project2nd< void, void >",
       "refid": "structproject2nd_3_01void_00_01void_01_4",
       "title": "project2nd< void, void >",
-      "url": "/api/classes/structproject2nd_3_01void_00_01void_01_4.html",
+      "url": "/thrust/api/classes/structproject2nd_3_01void_00_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -2626,7 +2626,7 @@
           "refid": "classrandom_1_1discard__block__engine",
           "summary": "A discard_block_engine adapts an existing base random number engine and produces random values by discarding some of the values returned by its base engine. Each cycle of the compound engine begins by returning r values successively produced by the base engine and ends by discarding p-r such values. The engine's state is the state of its base engine followed by the number of calls to operator() that have occurred since the beginning of the current cycle. ",
           "title": "random::discard_block_engine",
-          "url": "/api/classes/classrandom_1_1discard__block__engine.html",
+          "url": "/thrust/api/classes/classrandom_1_1discard__block__engine.html",
           "visibility": "public"
         },
         {
@@ -2639,7 +2639,7 @@
           "refid": "classrandom_1_1linear__congruential__engine",
           "summary": "A linear_congruential_engine random number engine produces unsigned integer random numbers using a linear congruential random number generation algorithm. ",
           "title": "random::linear_congruential_engine",
-          "url": "/api/classes/classrandom_1_1linear__congruential__engine.html",
+          "url": "/thrust/api/classes/classrandom_1_1linear__congruential__engine.html",
           "visibility": "public"
         },
         {
@@ -2652,7 +2652,7 @@
           "refid": "classrandom_1_1linear__feedback__shift__engine",
           "summary": "A linear_feedback_shift_engine random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm. ",
           "title": "random::linear_feedback_shift_engine",
-          "url": "/api/classes/classrandom_1_1linear__feedback__shift__engine.html",
+          "url": "/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html",
           "visibility": "public"
         },
         {
@@ -2673,7 +2673,7 @@
           "refid": "classrandom_1_1normal__distribution",
           "summary": "A normal_distribution random number distribution produces floating point Normally distributed random numbers. ",
           "title": "random::normal_distribution",
-          "url": "/api/classes/classrandom_1_1normal__distribution.html",
+          "url": "/thrust/api/classes/classrandom_1_1normal__distribution.html",
           "visibility": "public"
         },
         {
@@ -2686,7 +2686,7 @@
           "refid": "classrandom_1_1subtract__with__carry__engine",
           "summary": "A subtract_with_carry_engine random number engine produces unsigned integer random numbers using the subtract with carry algorithm of Marsaglia & Zaman. ",
           "title": "random::subtract_with_carry_engine",
-          "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html",
+          "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html",
           "visibility": "public"
         },
         {
@@ -2699,7 +2699,7 @@
           "refid": "classrandom_1_1uniform__int__distribution",
           "summary": "A uniform_int_distribution random number distribution produces signed or unsigned integer uniform random numbers from a given range. ",
           "title": "random::uniform_int_distribution",
-          "url": "/api/classes/classrandom_1_1uniform__int__distribution.html",
+          "url": "/thrust/api/classes/classrandom_1_1uniform__int__distribution.html",
           "visibility": "public"
         },
         {
@@ -2712,7 +2712,7 @@
           "refid": "classrandom_1_1uniform__real__distribution",
           "summary": "A uniform_real_distribution random number distribution produces floating point uniform random numbers from a half-open interval. ",
           "title": "random::uniform_real_distribution",
-          "url": "/api/classes/classrandom_1_1uniform__real__distribution.html",
+          "url": "/thrust/api/classes/classrandom_1_1uniform__real__distribution.html",
           "visibility": "public"
         },
         {
@@ -2725,7 +2725,7 @@
           "refid": "classrandom_1_1xor__combine__engine",
           "summary": "An xor_combine_engine adapts two existing base random number engines and produces random values by combining the values produced by each. ",
           "title": "random::xor_combine_engine",
-          "url": "/api/classes/classrandom_1_1xor__combine__engine.html",
+          "url": "/thrust/api/classes/classrandom_1_1xor__combine__engine.html",
           "visibility": "public"
         }
       ],
@@ -2734,7 +2734,7 @@
       "name": "random",
       "refid": "namespacerandom",
       "title": "random",
-      "url": "/api/namespaces/namespacerandom.html",
+      "url": "/thrust/api/namespaces/namespacerandom.html",
       "visibility": "public"
     },
     {
@@ -2753,7 +2753,7 @@
       "name": "random_access_device_iterator_tag",
       "refid": "structrandom__access__device__iterator__tag",
       "title": "random_access_device_iterator_tag",
-      "url": "/api/classes/structrandom__access__device__iterator__tag.html",
+      "url": "/thrust/api/classes/structrandom__access__device__iterator__tag.html",
       "visibility": "public"
     },
     {
@@ -2766,7 +2766,7 @@
       "refid": "structremove__cvref",
       "summary": "UnaryTypeTrait that removes const-volatile qualifiers and references from T. Equivalent to remove_cv_t<remove_reference_t<T>>. ",
       "title": "remove_cvref",
-      "url": "/api/classes/structremove__cvref.html",
+      "url": "/thrust/api/classes/structremove__cvref.html",
       "visibility": "public"
     },
     {
@@ -2785,7 +2785,7 @@
       "name": "reverse_iterator",
       "refid": "classreverse__iterator",
       "title": "reverse_iterator",
-      "url": "/api/classes/classreverse__iterator.html",
+      "url": "/thrust/api/classes/classreverse__iterator.html",
       "visibility": "public"
     },
     {
@@ -2796,7 +2796,7 @@
       "name": "square",
       "refid": "structsquare",
       "title": "square",
-      "url": "/api/classes/structsquare.html",
+      "url": "/thrust/api/classes/structsquare.html",
       "visibility": "public"
     },
     {
@@ -2807,7 +2807,7 @@
       "name": "square< void >",
       "refid": "structsquare_3_01void_01_4",
       "title": "square< void >",
-      "url": "/api/classes/structsquare_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structsquare_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -2822,7 +2822,7 @@
           "name": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
           "refid": "structstd_1_1hash_3_01THRUST__NS__QUALIFIER_1_1optional_3_01T_01_4_01_4",
           "title": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
-          "url": "/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
+          "url": "/thrust/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
           "visibility": "public"
         }
       ],
@@ -2831,7 +2831,7 @@
       "name": "std",
       "refid": "namespacestd",
       "title": "std",
-      "url": "/api/namespaces/namespacestd.html",
+      "url": "/thrust/api/namespaces/namespacestd.html",
       "visibility": "public"
     },
     {
@@ -2846,7 +2846,7 @@
           "name": "system::cpp",
           "refid": "namespacesystem_1_1cpp",
           "title": "system::cpp",
-          "url": "/api/namespaces/namespacesystem_1_1cpp.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html",
           "visibility": "public"
         },
         {
@@ -2861,7 +2861,7 @@
               "name": "system::cuda::errc",
               "refid": "namespacesystem_1_1cuda_1_1errc",
               "title": "system::cuda::errc",
-              "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
+              "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
               "visibility": "public"
             },
             {
@@ -2872,7 +2872,7 @@
               "name": "system::cuda::ready_future",
               "refid": "structsystem_1_1cuda_1_1ready__future",
               "title": "system::cuda::ready_future",
-              "url": "/api/classes/structsystem_1_1cuda_1_1ready__future.html",
+              "url": "/thrust/api/classes/structsystem_1_1cuda_1_1ready__future.html",
               "visibility": "public"
             },
             {
@@ -2883,7 +2883,7 @@
               "name": "system::cuda::unique_eager_future",
               "refid": "structsystem_1_1cuda_1_1unique__eager__future",
               "title": "system::cuda::unique_eager_future",
-              "url": "/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html",
+              "url": "/thrust/api/classes/structsystem_1_1cuda_1_1unique__eager__future.html",
               "visibility": "public"
             }
           ],
@@ -2892,7 +2892,7 @@
           "name": "system::cuda",
           "refid": "namespacesystem_1_1cuda",
           "title": "system::cuda",
-          "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
           "visibility": "public"
         },
         {
@@ -2903,7 +2903,7 @@
           "name": "system::errc",
           "refid": "namespacesystem_1_1errc",
           "title": "system::errc",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html",
           "visibility": "public"
         },
         {
@@ -2916,7 +2916,7 @@
           "refid": "classsystem_1_1error__category",
           "summary": "The class error_category serves as a base class for types used to identify the source and encoding of a particular category of error code. Classes may be derived from error_category to support categories of errors in addition to those defined in the C++ International Standard. ",
           "title": "system::error_category",
-          "url": "/api/classes/classsystem_1_1error__category.html",
+          "url": "/thrust/api/classes/classsystem_1_1error__category.html",
           "visibility": "public"
         },
         {
@@ -2929,7 +2929,7 @@
           "refid": "classsystem_1_1error__code",
           "summary": "The class error_code describes an object used to hold error code values, such as those originating from the operating system or other low-level application program interfaces. ",
           "title": "system::error_code",
-          "url": "/api/classes/classsystem_1_1error__code.html",
+          "url": "/thrust/api/classes/classsystem_1_1error__code.html",
           "visibility": "public"
         },
         {
@@ -2942,7 +2942,7 @@
           "refid": "classsystem_1_1error__condition",
           "summary": "The class error_condition describes an object used to hold values identifying error conditions. ",
           "title": "system::error_condition",
-          "url": "/api/classes/classsystem_1_1error__condition.html",
+          "url": "/thrust/api/classes/classsystem_1_1error__condition.html",
           "visibility": "public"
         },
         {
@@ -2961,7 +2961,7 @@
           "name": "system::is_error_code_enum",
           "refid": "structsystem_1_1is__error__code__enum",
           "title": "system::is_error_code_enum",
-          "url": "/api/classes/structsystem_1_1is__error__code__enum.html",
+          "url": "/thrust/api/classes/structsystem_1_1is__error__code__enum.html",
           "visibility": "public"
         },
         {
@@ -2980,7 +2980,7 @@
           "name": "system::is_error_code_enum< cuda::errc::errc_t >",
           "refid": "structsystem_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4",
           "title": "system::is_error_code_enum< cuda::errc::errc_t >",
-          "url": "/api/classes/structsystem_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4.html",
+          "url": "/thrust/api/classes/structsystem_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4.html",
           "visibility": "public"
         },
         {
@@ -2999,7 +2999,7 @@
           "name": "system::is_error_condition_enum",
           "refid": "structsystem_1_1is__error__condition__enum",
           "title": "system::is_error_condition_enum",
-          "url": "/api/classes/structsystem_1_1is__error__condition__enum.html",
+          "url": "/thrust/api/classes/structsystem_1_1is__error__condition__enum.html",
           "visibility": "public"
         },
         {
@@ -3018,7 +3018,7 @@
           "name": "system::is_error_condition_enum< errc::errc_t >",
           "refid": "structsystem_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4",
           "title": "system::is_error_condition_enum< errc::errc_t >",
-          "url": "/api/classes/structsystem_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4.html",
+          "url": "/thrust/api/classes/structsystem_1_1is__error__condition__enum_3_01errc_1_1errc__t_01_4.html",
           "visibility": "public"
         },
         {
@@ -3029,7 +3029,7 @@
           "name": "system::omp",
           "refid": "namespacesystem_1_1omp",
           "title": "system::omp",
-          "url": "/api/namespaces/namespacesystem_1_1omp.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1omp.html",
           "visibility": "public"
         },
         {
@@ -3042,7 +3042,7 @@
               "visibility": "public"
             }
           ],
-          "brief": "The class <code>system&#95;error</code> describes an exception object used to report error conditions that have an associated <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
+          "brief": "The class <code>system&#95;error</code> describes an exception object used to report error conditions that have an associated <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
           "category": "classes",
           "fullname": "system::system_error",
           "kind": "class",
@@ -3050,7 +3050,7 @@
           "refid": "classsystem_1_1system__error",
           "summary": "The class system_error describes an exception object used to report error conditions that have an associated error_code. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
           "title": "system::system_error",
-          "url": "/api/classes/classsystem_1_1system__error.html",
+          "url": "/thrust/api/classes/classsystem_1_1system__error.html",
           "visibility": "public"
         },
         {
@@ -3061,7 +3061,7 @@
           "name": "system::tbb",
           "refid": "namespacesystem_1_1tbb",
           "title": "system::tbb",
-          "url": "/api/namespaces/namespacesystem_1_1tbb.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html",
           "visibility": "public"
         }
       ],
@@ -3070,7 +3070,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     },
     {
@@ -3089,7 +3089,7 @@
       "name": "tagged_deleter",
       "refid": "structtagged__deleter",
       "title": "tagged_deleter",
-      "url": "/api/classes/structtagged__deleter.html",
+      "url": "/thrust/api/classes/structtagged__deleter.html",
       "visibility": "public"
     },
     {
@@ -3100,7 +3100,7 @@
       "name": "tbb",
       "refid": "namespacetbb",
       "title": "tbb",
-      "url": "/api/namespaces/namespacetbb.html",
+      "url": "/thrust/api/namespaces/namespacetbb.html",
       "visibility": "public"
     },
     {
@@ -3117,7 +3117,7 @@
           "refid": "namespacethrust_1_1cpp",
           "summary": "thrust::cpp is a top-level alias for thrust::system::cpp. ",
           "title": "thrust::cpp",
-          "url": "/api/namespaces/namespacethrust_1_1cpp.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1cpp.html",
           "visibility": "public"
         },
         {
@@ -3130,7 +3130,7 @@
           "refid": "namespacethrust_1_1cuda",
           "summary": "thrust::cuda is a top-level alias for thrust::system::cuda. ",
           "title": "thrust::cuda",
-          "url": "/api/namespaces/namespacethrust_1_1cuda.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1cuda.html",
           "visibility": "public"
         },
         {
@@ -3143,7 +3143,7 @@
           "refid": "namespacethrust_1_1omp",
           "summary": "thrust::omp is a top-level alias for thrust::system::omp. ",
           "title": "thrust::omp",
-          "url": "/api/namespaces/namespacethrust_1_1omp.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1omp.html",
           "visibility": "public"
         },
         {
@@ -3156,7 +3156,7 @@
           "refid": "namespacethrust_1_1placeholders",
           "summary": "Facilities for constructing simple functions inline. ",
           "title": "thrust::placeholders",
-          "url": "/api/namespaces/namespacethrust_1_1placeholders.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1placeholders.html",
           "visibility": "public"
         },
         {
@@ -3169,7 +3169,7 @@
           "refid": "namespacethrust_1_1random",
           "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
           "title": "thrust::random",
-          "url": "/api/namespaces/namespacethrust_1_1random.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1random.html",
           "visibility": "public"
         },
         {
@@ -3179,7 +3179,7 @@
           "children": [
             {
               "anchor": "",
-              "brief": "<code>thrust::system::cuda</code> is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath <code><a href=\"/api/namespaces/namespacethrust_1_1system.html\">thrust::system</a></code> for import convenience but are also aliased in the top-level <code><a href=\"/api/namespaces/namespacethrust_1_1cuda.html\">thrust::cuda</a></code> namespace for easy access. ",
+              "brief": "<code>thrust::system::cuda</code> is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath <code><a href=\"/thrust/api/namespaces/namespacethrust_1_1system.html\">thrust::system</a></code> for import convenience but are also aliased in the top-level <code><a href=\"/thrust/api/namespaces/namespacethrust_1_1cuda.html\">thrust::cuda</a></code> namespace for easy access. ",
               "category": "namespaces",
               "fullname": "thrust::system::cuda",
               "kind": "namespace",
@@ -3187,7 +3187,7 @@
               "refid": "namespacethrust_1_1system_1_1cuda",
               "summary": "thrust::system::cuda is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath thrust::system for import convenience but are also aliased in the top-level thrust::cuda namespace for easy access. ",
               "title": "thrust::system::cuda",
-              "url": "/api/namespaces/namespacethrust_1_1system_1_1cuda.html",
+              "url": "/thrust/api/namespaces/namespacethrust_1_1system_1_1cuda.html",
               "visibility": "public"
             }
           ],
@@ -3197,7 +3197,7 @@
           "refid": "namespacethrust_1_1system",
           "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
           "title": "thrust::system",
-          "url": "/api/namespaces/namespacethrust_1_1system.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1system.html",
           "visibility": "public"
         },
         {
@@ -3210,7 +3210,7 @@
           "refid": "namespacethrust_1_1tbb",
           "summary": "thrust::tbb is a top-level alias for thrust::system::tbb. ",
           "title": "thrust::tbb",
-          "url": "/api/namespaces/namespacethrust_1_1tbb.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1tbb.html",
           "visibility": "public"
         }
       ],
@@ -3219,7 +3219,7 @@
       "name": "thrust",
       "refid": "namespacethrust",
       "title": "thrust",
-      "url": "/api/namespaces/namespacethrust.html",
+      "url": "/thrust/api/namespaces/namespacethrust.html",
       "visibility": "public"
     },
     {
@@ -3238,7 +3238,7 @@
       "name": "transform_input_output_iterator",
       "refid": "classtransform__input__output__iterator",
       "title": "transform_input_output_iterator",
-      "url": "/api/classes/classtransform__input__output__iterator.html",
+      "url": "/thrust/api/classes/classtransform__input__output__iterator.html",
       "visibility": "public"
     },
     {
@@ -3257,7 +3257,7 @@
       "name": "transform_iterator",
       "refid": "classtransform__iterator",
       "title": "transform_iterator",
-      "url": "/api/classes/classtransform__iterator.html",
+      "url": "/thrust/api/classes/classtransform__iterator.html",
       "visibility": "public"
     },
     {
@@ -3276,7 +3276,7 @@
       "name": "transform_output_iterator",
       "refid": "classtransform__output__iterator",
       "title": "transform_output_iterator",
-      "url": "/api/classes/classtransform__output__iterator.html",
+      "url": "/thrust/api/classes/classtransform__output__iterator.html",
       "visibility": "public"
     },
     {
@@ -3289,7 +3289,7 @@
       "refid": "classtuple",
       "summary": "tuple is a class template that can be instantiated with up to ten arguments. Each template argument specifies the type of element in the tuple. Consequently, tuples are heterogeneous, fixed-size collections of values. An instantiation of tuple with two arguments is similar to an instantiation of pair with the same two arguments. Individual elements of a tuple may be accessed with the get function. ",
       "title": "tuple",
-      "url": "/api/classes/classtuple.html",
+      "url": "/thrust/api/classes/classtuple.html",
       "visibility": "public"
     },
     {
@@ -3300,7 +3300,7 @@
       "name": "tuple_element",
       "refid": "structtuple__element",
       "title": "tuple_element",
-      "url": "/api/classes/structtuple__element.html",
+      "url": "/thrust/api/classes/structtuple__element.html",
       "visibility": "public"
     },
     {
@@ -3311,7 +3311,7 @@
       "name": "tuple_size",
       "refid": "structtuple__size",
       "title": "tuple_size",
-      "url": "/api/classes/structtuple__size.html",
+      "url": "/thrust/api/classes/structtuple__size.html",
       "visibility": "public"
     },
     {
@@ -3322,7 +3322,7 @@
       "name": "unary_function",
       "refid": "structunary__function",
       "title": "unary_function",
-      "url": "/api/classes/structunary__function.html",
+      "url": "/thrust/api/classes/structunary__function.html",
       "visibility": "public"
     },
     {
@@ -3341,7 +3341,7 @@
       "name": "unary_negate",
       "refid": "structunary__negate",
       "title": "unary_negate",
-      "url": "/api/classes/structunary__negate.html",
+      "url": "/thrust/api/classes/structunary__negate.html",
       "visibility": "public"
     },
     {
@@ -3352,7 +3352,7 @@
       "name": "unary_traits",
       "refid": "structunary__traits",
       "title": "unary_traits",
-      "url": "/api/classes/structunary__traits.html",
+      "url": "/thrust/api/classes/structunary__traits.html",
       "visibility": "public"
     },
     {
@@ -3367,7 +3367,7 @@
           "name": "unimplemented::no_unique_eager_event_type_found",
           "refid": "structunimplemented_1_1no__unique__eager__event__type__found",
           "title": "unimplemented::no_unique_eager_event_type_found",
-          "url": "/api/classes/structunimplemented_1_1no__unique__eager__event__type__found.html",
+          "url": "/thrust/api/classes/structunimplemented_1_1no__unique__eager__event__type__found.html",
           "visibility": "public"
         },
         {
@@ -3378,7 +3378,7 @@
           "name": "unimplemented::no_unique_eager_future_type_found",
           "refid": "structunimplemented_1_1no__unique__eager__future__type__found",
           "title": "unimplemented::no_unique_eager_future_type_found",
-          "url": "/api/classes/structunimplemented_1_1no__unique__eager__future__type__found.html",
+          "url": "/thrust/api/classes/structunimplemented_1_1no__unique__eager__future__type__found.html",
           "visibility": "public"
         }
       ],
@@ -3387,7 +3387,7 @@
       "name": "unimplemented",
       "refid": "namespaceunimplemented",
       "title": "unimplemented",
-      "url": "/api/namespaces/namespaceunimplemented.html",
+      "url": "/thrust/api/namespaces/namespaceunimplemented.html",
       "visibility": "public"
     },
     {
@@ -3398,7 +3398,7 @@
       "name": "unique_eager_event_type_detail",
       "refid": "namespaceunique__eager__event__type__detail",
       "title": "unique_eager_event_type_detail",
-      "url": "/api/namespaces/namespaceunique__eager__event__type__detail.html",
+      "url": "/thrust/api/namespaces/namespaceunique__eager__event__type__detail.html",
       "visibility": "public"
     },
     {
@@ -3409,7 +3409,7 @@
       "name": "unique_eager_future_type_detail",
       "refid": "namespaceunique__eager__future__type__detail",
       "title": "unique_eager_future_type_detail",
-      "url": "/api/namespaces/namespaceunique__eager__future__type__detail.html",
+      "url": "/thrust/api/namespaces/namespaceunique__eager__future__type__detail.html",
       "visibility": "public"
     },
     {
@@ -3420,7 +3420,7 @@
       "name": "voider",
       "refid": "structvoider",
       "title": "voider",
-      "url": "/api/classes/structvoider.html",
+      "url": "/thrust/api/classes/structvoider.html",
       "visibility": "public"
     },
     {
@@ -3431,7 +3431,7 @@
       "name": "zip_function",
       "refid": "classzip__function",
       "title": "zip_function",
-      "url": "/api/classes/classzip__function.html",
+      "url": "/thrust/api/classes/classzip__function.html",
       "visibility": "public"
     },
     {
@@ -3450,7 +3450,7 @@
       "name": "zip_iterator",
       "refid": "classzip__iterator",
       "title": "zip_iterator",
-      "url": "/api/classes/classzip__iterator.html",
+      "url": "/thrust/api/classes/classzip__iterator.html",
       "visibility": "public"
     }
   ],

@@ -10,11 +10,11 @@
       "visibility": "public"
     }
   ],
-  "brief": "The class <code>system&#95;error</code> describes an exception object used to report error conditions that have an associated <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
+  "brief": "The class <code>system&#95;error</code> describes an exception object used to report error conditions that have an associated <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "Thrust uses <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code> to report the error codes returned from device backends such as the CUDA runtime.\n\nThe following code listing demonstrates how to catch a <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code> to recover from an error.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/system.h>\n#include <thrust/sort.h>\n\nvoid terminate_gracefully(void)\n{\n  // application-specific termination code here\n  ...\n}\n\nint main(void)\n{\n  try\n  {\n    thrust::device_vector<float> vec;\n    thrust::sort(vec.begin(), vec.end());\n  }\n  catch(thrust::system_error e)\n  {\n    std::cerr << \"Error inside sort: \" << e.what() << std::endl;\n    terminate_gracefully();\n  }\n\n  return 0;\n}\n```",
+  "details": "Thrust uses <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code> to report the error codes returned from device backends such as the CUDA runtime.\n\nThe following code listing demonstrates how to catch a <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code> to recover from an error.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/system.h>\n#include <thrust/sort.h>\n\nvoid terminate_gracefully(void)\n{\n  // application-specific termination code here\n  ...\n}\n\nint main(void)\n{\n  try\n  {\n    thrust::device_vector<float> vec;\n    thrust::sort(vec.begin(), vec.end());\n  }\n  catch(thrust::system_error e)\n  {\n    std::cerr << \"Error inside sort: \" << e.what() << std::endl;\n    terminate_gracefully();\n  }\n\n  return 0;\n}\n```",
   "explicit": false,
   "fullname": "system::system_error",
   "hasAdditionalMembers": false,
@@ -38,7 +38,7 @@
     "name": "System_diagnostics",
     "refid": "group__system__diagnostics",
     "title": "System Diagnostics",
-    "url": "/api/groups/group__system__diagnostics.html",
+    "url": "/thrust/api/groups/group__system__diagnostics.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -50,7 +50,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     },
     {
@@ -61,13 +61,13 @@
       "name": "System_diagnostics",
       "refid": "group__system__diagnostics",
       "title": "System Diagnostics",
-      "url": "/api/groups/group__system__diagnostics.html",
+      "url": "/thrust/api/groups/group__system__diagnostics.html",
       "visibility": "public"
     }
   ],
   "name": "system::system_error",
   "note": [
-    "If an error represents an out-of-memory condition, implementations are encouraged to throw an exception object of type <code>std::bad&#95;alloc</code> rather than <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. "
+    "If an error represents an out-of-memory condition, implementations are encouraged to throw an exception object of type <code>std::bad&#95;alloc</code> rather than <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. "
   ],
   "override": false,
   "parent": {
@@ -78,7 +78,7 @@
     "name": "system",
     "refid": "namespacesystem",
     "title": "system",
-    "url": "/api/namespaces/namespacesystem.html",
+    "url": "/thrust/api/namespaces/namespacesystem.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -90,7 +90,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     }
   ],
@@ -104,7 +104,7 @@
       "default": false,
       "definition": "system::system_error::system_error",
       "deleted": false,
-      "details": "Constructs an object of class <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
+      "details": "Constructs an object of class <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
       "explicit": false,
       "fullname": "system::system_error::system_error",
       "hasDetails": true,
@@ -120,17 +120,17 @@
       "paramList": [
         {
           "name": "ec",
-          "text": "The value returned by <code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
+          "text": "The value returned by <code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
         },
         {
           "name": "what_arg",
-          "text": "A string to include in the result returned by <code><a href=\"/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
+          "text": "A string to include in the result returned by <code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
         }
       ],
       "params": [
         {
           "name": "ec",
-          "type": "<a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a>",
+          "type": "<a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a>",
           "typePlain": "error_code"
         },
         {
@@ -140,7 +140,7 @@
         }
       ],
       "post": [
-        "<code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. ",
+        "<code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. ",
         "<code>std::string(what()).find(what&#95;arg) != string::npos</code>. "
       ],
       "pureVirtual": false,
@@ -148,7 +148,7 @@
       "static": false,
       "strong": false,
       "title": "system_error",
-      "url": "/api/groups/group__system__diagnostics.html#function-system_error",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-system_error",
       "virtual": false,
       "visibility": "public"
     },
@@ -161,7 +161,7 @@
       "default": false,
       "definition": "system::system_error::system_error",
       "deleted": false,
-      "details": "Constructs an object of class <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
+      "details": "Constructs an object of class <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
       "explicit": false,
       "fullname": "system::system_error::system_error",
       "hasDetails": true,
@@ -177,17 +177,17 @@
       "paramList": [
         {
           "name": "ec",
-          "text": "The value returned by <code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
+          "text": "The value returned by <code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
         },
         {
           "name": "what_arg",
-          "text": "A string to include in the result returned by <code><a href=\"/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
+          "text": "A string to include in the result returned by <code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
         }
       ],
       "params": [
         {
           "name": "ec",
-          "type": "<a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a>",
+          "type": "<a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a>",
           "typePlain": "error_code"
         },
         {
@@ -197,7 +197,7 @@
         }
       ],
       "post": [
-        "<code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. ",
+        "<code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. ",
         "<code>std::string(what()).find(what&#95;arg) != string::npos</code>. "
       ],
       "pureVirtual": false,
@@ -205,7 +205,7 @@
       "static": false,
       "strong": false,
       "title": "system_error",
-      "url": "/api/groups/group__system__diagnostics.html#function-system_error",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-system_error",
       "virtual": false,
       "visibility": "public"
     },
@@ -218,7 +218,7 @@
       "default": false,
       "definition": "system::system_error::system_error",
       "deleted": false,
-      "details": "Constructs an object of class <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
+      "details": "Constructs an object of class <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
       "explicit": false,
       "fullname": "system::system_error::system_error",
       "hasDetails": true,
@@ -234,25 +234,25 @@
       "paramList": [
         {
           "name": "ec",
-          "text": "The value returned by <code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
+          "text": "The value returned by <code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a></code>. "
         }
       ],
       "params": [
         {
           "name": "ec",
-          "type": "<a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a>",
+          "type": "<a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a>",
           "typePlain": "error_code"
         }
       ],
       "post": [
-        "<code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. "
+        "<code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a> == ec</code>. "
       ],
       "pureVirtual": false,
       "refid": "group__system__diagnostics_1gada6258feae66ede938608624716d830d",
       "static": false,
       "strong": false,
       "title": "system_error",
-      "url": "/api/groups/group__system__diagnostics.html#function-system_error",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-system_error",
       "virtual": false,
       "visibility": "public"
     },
@@ -265,7 +265,7 @@
       "default": false,
       "definition": "system::system_error::system_error",
       "deleted": false,
-      "details": "Constructs an object of class <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
+      "details": "Constructs an object of class <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
       "explicit": false,
       "fullname": "system::system_error::system_error",
       "hasDetails": true,
@@ -281,15 +281,15 @@
       "paramList": [
         {
           "name": "ev",
-          "text": "The error value used to create an <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
+          "text": "The error value used to create an <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
         },
         {
           "name": "ecat",
-          "text": "The <code><a href=\"/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
+          "text": "The <code><a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
         },
         {
           "name": "what_arg",
-          "text": "A string to include in the result returned by <code><a href=\"/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
+          "text": "A string to include in the result returned by <code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
         }
       ],
       "params": [
@@ -300,7 +300,7 @@
         },
         {
           "name": "ecat",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
           "typePlain": "const error_category &"
         },
         {
@@ -310,7 +310,7 @@
         }
       ],
       "post": [
-        "<code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. ",
+        "<code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. ",
         "<code>std::string(what()).find(what&#95;arg) != string::npos</code>. "
       ],
       "pureVirtual": false,
@@ -318,7 +318,7 @@
       "static": false,
       "strong": false,
       "title": "system_error",
-      "url": "/api/groups/group__system__diagnostics.html#function-system_error",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-system_error",
       "virtual": false,
       "visibility": "public"
     },
@@ -331,7 +331,7 @@
       "default": false,
       "definition": "system::system_error::system_error",
       "deleted": false,
-      "details": "Constructs an object of class <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
+      "details": "Constructs an object of class <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
       "explicit": false,
       "fullname": "system::system_error::system_error",
       "hasDetails": true,
@@ -347,15 +347,15 @@
       "paramList": [
         {
           "name": "ev",
-          "text": "The error value used to create an <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
+          "text": "The error value used to create an <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
         },
         {
           "name": "ecat",
-          "text": "The <code><a href=\"/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
+          "text": "The <code><a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
         },
         {
           "name": "what_arg",
-          "text": "A string to include in the result returned by <code><a href=\"/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
+          "text": "A string to include in the result returned by <code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-what\">what()</a></code>. "
         }
       ],
       "params": [
@@ -366,7 +366,7 @@
         },
         {
           "name": "ecat",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
           "typePlain": "const error_category &"
         },
         {
@@ -376,7 +376,7 @@
         }
       ],
       "post": [
-        "<code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. ",
+        "<code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. ",
         "<code>std::string(what()).find(what&#95;arg) != string::npos</code>. "
       ],
       "pureVirtual": false,
@@ -384,7 +384,7 @@
       "static": false,
       "strong": false,
       "title": "system_error",
-      "url": "/api/groups/group__system__diagnostics.html#function-system_error",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-system_error",
       "virtual": false,
       "visibility": "public"
     },
@@ -397,7 +397,7 @@
       "default": false,
       "definition": "system::system_error::system_error",
       "deleted": false,
-      "details": "Constructs an object of class <code><a href=\"/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
+      "details": "Constructs an object of class <code><a href=\"/thrust/api/classes/classsystem_1_1system__error.html\">system&#95;error</a></code>. ",
       "explicit": false,
       "fullname": "system::system_error::system_error",
       "hasDetails": true,
@@ -413,11 +413,11 @@
       "paramList": [
         {
           "name": "ev",
-          "text": "The error value used to create an <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
+          "text": "The error value used to create an <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
         },
         {
           "name": "ecat",
-          "text": "The <code><a href=\"/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
+          "text": "The <code><a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error&#95;category</a></code> used to create an <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code>. "
         }
       ],
       "params": [
@@ -428,19 +428,19 @@
         },
         {
           "name": "ecat",
-          "type": "const <a href=\"/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__category.html\">error_category</a> &",
           "typePlain": "const error_category &"
         }
       ],
       "post": [
-        "<code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. "
+        "<code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a> == error&#95;code(ev, ecat)</code>. "
       ],
       "pureVirtual": false,
       "refid": "group__system__diagnostics_1ga7008dede6cb69aa903704c3810f03cad",
       "static": false,
       "strong": false,
       "title": "system_error",
-      "url": "/api/groups/group__system__diagnostics.html#function-system_error",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-system_error",
       "virtual": false,
       "visibility": "public"
     },
@@ -481,7 +481,7 @@
       "static": false,
       "strong": false,
       "title": "~system_error",
-      "url": "/api/groups/group__system__diagnostics.html#function-~system_error",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-~system_error",
       "virtual": true,
       "visibility": "public"
     },
@@ -522,9 +522,9 @@
       "static": false,
       "strong": false,
       "title": "code",
-      "type": "const <a href=\"/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
+      "type": "const <a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error_code</a> &",
       "typePlain": "const error_code &",
-      "url": "/api/groups/group__system__diagnostics.html#function-code",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-code",
       "virtual": false,
       "visibility": "public"
     },
@@ -560,14 +560,14 @@
       "pureVirtual": false,
       "refid": "group__system__diagnostics_1gaeaa285f20542cf37bc0ec4df494636f1",
       "returns": [
-        "a string incorporating <code><a href=\"/api/groups/group__system__diagnostics.html#function-code\">code()</a>.message()</code> and the arguments supplied in the constructor. "
+        "a string incorporating <code><a href=\"/thrust/api/groups/group__system__diagnostics.html#function-code\">code()</a>.message()</code> and the arguments supplied in the constructor. "
       ],
       "static": false,
       "strong": false,
       "title": "what",
       "type": "const char *",
       "typePlain": "const char *",
-      "url": "/api/groups/group__system__diagnostics.html#function-what",
+      "url": "/thrust/api/groups/group__system__diagnostics.html#function-what",
       "virtual": false,
       "visibility": "public"
     }
@@ -577,6 +577,6 @@
   "strong": false,
   "summary": "The class system_error describes an exception object used to report error conditions that have an associated error_code. Such error conditions typically originate from the operating system or other low-level application program interfaces. ",
   "title": "system::system_error",
-  "url": "/api/classes/classsystem_1_1system__error.html",
+  "url": "/thrust/api/classes/classsystem_1_1system__error.html",
   "visibility": "public"
 }

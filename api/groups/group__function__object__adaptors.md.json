@@ -18,7 +18,7 @@
     "name": "function_objects",
     "refid": "group__function__objects",
     "title": "Function Objects",
-    "url": "/api/groups/group__function__objects.html",
+    "url": "/thrust/api/groups/group__function__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -46,7 +46,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -59,7 +59,7 @@
     "name": "function_objects",
     "refid": "group__function__objects",
     "title": "Function Objects",
-    "url": "/api/groups/group__function__objects.html",
+    "url": "/thrust/api/groups/group__function__objects.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -71,7 +71,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -84,7 +84,7 @@
       "name": "unary_function",
       "refid": "structunary__function",
       "title": "unary_function",
-      "url": "/api/classes/structunary__function.html",
+      "url": "/thrust/api/classes/structunary__function.html",
       "visibility": "public"
     },
     {
@@ -95,7 +95,7 @@
       "name": "binary_function",
       "refid": "structbinary__function",
       "title": "binary_function",
-      "url": "/api/classes/structbinary__function.html",
+      "url": "/thrust/api/classes/structbinary__function.html",
       "visibility": "public"
     },
     {
@@ -114,7 +114,7 @@
       "name": "unary_negate",
       "refid": "structunary__negate",
       "title": "unary_negate",
-      "url": "/api/classes/structunary__negate.html",
+      "url": "/thrust/api/classes/structunary__negate.html",
       "visibility": "public"
     },
     {
@@ -133,7 +133,7 @@
       "name": "binary_negate",
       "refid": "structbinary__negate",
       "title": "binary_negate",
-      "url": "/api/classes/structbinary__negate.html",
+      "url": "/thrust/api/classes/structbinary__negate.html",
       "visibility": "public"
     },
     {
@@ -144,7 +144,7 @@
       "name": "zip_function",
       "refid": "classzip__function",
       "title": "zip_function",
-      "url": "/api/classes/classzip__function.html",
+      "url": "/thrust/api/classes/classzip__function.html",
       "visibility": "public"
     }
   ],
@@ -190,8 +190,8 @@
         "A new object, <code>npred</code> such that <code>npred(x)</code> always returns the same value as <code>!pred(x)</code>."
       ],
       "see": [
-        "<a href=\"/api/classes/structunary__negate.html\">unary_negate</a>",
-        "<a href=\"/api/groups/group__function__object__adaptors.html#function-not2\">not2</a>"
+        "<a href=\"/thrust/api/classes/structunary__negate.html\">unary_negate</a>",
+        "<a href=\"/thrust/api/groups/group__function__object__adaptors.html#function-not2\">not2</a>"
       ],
       "static": false,
       "strong": false,
@@ -209,9 +209,9 @@
         }
       ],
       "title": "not1",
-      "type": "__host__ __device__ <a href=\"/api/classes/structunary__negate.html\">unary_negate</a>< Predicate >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structunary__negate.html\">unary_negate</a>< Predicate >",
       "typePlain": "__host__ __device__ unary_negate< Predicate >",
-      "url": "/api/groups/group__function__object__adaptors.html#function-not1",
+      "url": "/thrust/api/groups/group__function__object__adaptors.html#function-not1",
       "virtual": false,
       "visibility": "public"
     },
@@ -256,8 +256,8 @@
         "A new object, <code>npred</code> such that <code>npred(x,y)</code> always returns the same value as <code>!pred(x,y)</code>."
       ],
       "see": [
-        "<a href=\"/api/classes/structbinary__negate.html\">binary_negate</a>",
-        "<a href=\"/api/groups/group__function__object__adaptors.html#function-not1\">not1</a>"
+        "<a href=\"/thrust/api/classes/structbinary__negate.html\">binary_negate</a>",
+        "<a href=\"/thrust/api/groups/group__function__object__adaptors.html#function-not1\">not1</a>"
       ],
       "static": false,
       "strong": false,
@@ -275,9 +275,9 @@
         }
       ],
       "title": "not2",
-      "type": "__host__ __device__ <a href=\"/api/classes/structbinary__negate.html\">binary_negate</a>< BinaryPredicate >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structbinary__negate.html\">binary_negate</a>< BinaryPredicate >",
       "typePlain": "__host__ __device__ binary_negate< BinaryPredicate >",
-      "url": "/api/groups/group__function__object__adaptors.html#function-not2",
+      "url": "/thrust/api/groups/group__function__object__adaptors.html#function-not2",
       "virtual": false,
       "visibility": "public"
     },
@@ -290,7 +290,7 @@
       "default": false,
       "definition": "__host__ __device__ zip_function<typename std::decay<Function>::type> make_zip_function",
       "deleted": false,
-      "details": "<code>make&#95;zip&#95;function</code> creates a <code><a href=\"/api/classes/classzip__function.html\">zip&#95;function</a></code> from a function object.",
+      "details": "<code>make&#95;zip&#95;function</code> creates a <code><a href=\"/thrust/api/classes/classzip__function.html\">zip&#95;function</a></code> from a function object.",
       "explicit": false,
       "fullname": "function_object_adaptors::make_zip_function",
       "hasDetails": true,
@@ -322,10 +322,10 @@
       "pureVirtual": false,
       "refid": "group__function__object__adaptors_1gab496bad909ced8d1e3167864fd00d533",
       "returns": [
-        "A <code><a href=\"/api/classes/classzip__function.html\">zip&#95;function</a></code> that takes a N-tuple."
+        "A <code><a href=\"/thrust/api/classes/classzip__function.html\">zip&#95;function</a></code> that takes a N-tuple."
       ],
       "see": [
-        "<a href=\"/api/classes/classzip__function.html\">zip_function</a>"
+        "<a href=\"/thrust/api/classes/classzip__function.html\">zip_function</a>"
       ],
       "static": false,
       "strong": false,
@@ -337,9 +337,9 @@
         }
       ],
       "title": "make_zip_function",
-      "type": "__host__ __device__ <a href=\"/api/classes/classzip__function.html\">zip_function</a>< typename std::decay< Function >::type >",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/classzip__function.html\">zip_function</a>< typename std::decay< Function >::type >",
       "typePlain": "__host__ __device__ zip_function< typename std::decay< Function >::type >",
-      "url": "/api/groups/group__function__object__adaptors.html#function-make_zip_function",
+      "url": "/thrust/api/groups/group__function__object__adaptors.html#function-make_zip_function",
       "virtual": false,
       "visibility": "public"
     }
@@ -348,6 +348,6 @@
   "static": false,
   "strong": false,
   "title": "Function Object Adaptors",
-  "url": "/api/groups/group__function__object__adaptors.html",
+  "url": "/thrust/api/groups/group__function__object__adaptors.html",
   "visibility": "public"
 }

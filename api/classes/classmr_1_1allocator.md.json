@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "An <code><a href=\"/api/classes/classmr_1_1allocator.html\">mr::allocator</a></code> is a template that fulfills the C++ requirements for Allocators, allowing to use the NPA-based memory resources where an Allocator is required. Unlike memory resources, but like other allocators, <code><a href=\"/api/classes/classmr_1_1allocator.html\">mr::allocator</a></code> is typed and bound to allocate object of a specific type, however it can be freely rebound to other types.",
+  "details": "An <code><a href=\"/thrust/api/classes/classmr_1_1allocator.html\">mr::allocator</a></code> is a template that fulfills the C++ requirements for Allocators, allowing to use the NPA-based memory resources where an Allocator is required. Unlike memory resources, but like other allocators, <code><a href=\"/thrust/api/classes/classmr_1_1allocator.html\">mr::allocator</a></code> is typed and bound to allocate object of a specific type, however it can be freely rebound to other types.",
   "explicit": false,
   "fullname": "mr::allocator",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "allocators",
     "refid": "group__allocators",
     "title": "Allocators",
-    "url": "/api/groups/group__allocators.html",
+    "url": "/thrust/api/groups/group__allocators.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -51,7 +51,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "allocators",
       "refid": "group__allocators",
       "title": "Allocators",
-      "url": "/api/groups/group__allocators.html",
+      "url": "/thrust/api/groups/group__allocators.html",
       "visibility": "public"
     }
   ],
@@ -78,7 +78,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -92,7 +92,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -123,7 +123,7 @@
       "title": "mem_res",
       "type": "MR *",
       "typePlain": "MR *",
-      "url": "/api/classes/classmr_1_1allocator.html#variable-mem_res",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#variable-mem_res",
       "visibility": "private"
     }
   ],
@@ -136,7 +136,7 @@
       "name": "mr::allocator::rebind",
       "refid": "structmr_1_1allocator_1_1rebind",
       "title": "mr::allocator::rebind",
-      "url": "/api/classes/structmr_1_1allocator_1_1rebind.html",
+      "url": "/thrust/api/classes/structmr_1_1allocator_1_1rebind.html",
       "visibility": "public"
     }
   ],
@@ -175,9 +175,9 @@
       "static": false,
       "strong": false,
       "title": "max_size",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classmr_1_1allocator.html#typedef-size_type\">size_type</a>",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-size_type\">size_type</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ size_type",
-      "url": "/api/classes/classmr_1_1allocator.html#function-max_size",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#function-max_size",
       "virtual": false,
       "visibility": "public"
     },
@@ -226,7 +226,7 @@
       "title": "allocator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classmr_1_1allocator.html#function-allocator",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#function-allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -258,7 +258,7 @@
       "params": [
         {
           "name": "other",
-          "type": "const <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< U, MR > &",
+          "type": "const <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< U, MR > &",
           "typePlain": "const allocator< U, MR > &"
         }
       ],
@@ -276,7 +276,7 @@
       "title": "allocator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classmr_1_1allocator.html#function-allocator",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#function-allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -314,7 +314,7 @@
       "params": [
         {
           "name": "n",
-          "type": "<a href=\"/api/classes/classmr_1_1allocator.html#typedef-size_type\">size_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-size_type\">size_type</a>",
           "typePlain": "size_type"
         }
       ],
@@ -326,9 +326,9 @@
       "static": false,
       "strong": false,
       "title": "allocate",
-      "type": "__host__ <a href=\"/api/classes/classmr_1_1allocator.html#typedef-pointer\">pointer</a>",
+      "type": "__host__ <a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-pointer\">pointer</a>",
       "typePlain": "__host__ pointer",
-      "url": "/api/classes/classmr_1_1allocator.html#function-allocate",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#function-allocate",
       "virtual": false,
       "visibility": "public"
     },
@@ -370,12 +370,12 @@
       "params": [
         {
           "name": "p",
-          "type": "<a href=\"/api/classes/classmr_1_1allocator.html#typedef-pointer\">pointer</a>",
+          "type": "<a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-pointer\">pointer</a>",
           "typePlain": "pointer"
         },
         {
           "name": "n",
-          "type": "<a href=\"/api/classes/classmr_1_1allocator.html#typedef-size_type\">size_type</a>",
+          "type": "<a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-size_type\">size_type</a>",
           "typePlain": "size_type"
         }
       ],
@@ -386,7 +386,7 @@
       "title": "deallocate",
       "type": "__host__ void",
       "typePlain": "__host__ void",
-      "url": "/api/classes/classmr_1_1allocator.html#function-deallocate",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#function-deallocate",
       "virtual": false,
       "visibility": "public"
     },
@@ -426,7 +426,7 @@
       "title": "resource",
       "type": "__host__ __device__ MR *",
       "typePlain": "__host__ __device__ MR *",
-      "url": "/api/classes/classmr_1_1allocator.html#function-resource",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#function-resource",
       "virtual": false,
       "visibility": "public"
     }
@@ -459,7 +459,7 @@
       "title": "void_pointer",
       "type": "MR::pointer",
       "typePlain": "MR::pointer",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-void_pointer",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-void_pointer",
       "visibility": "public"
     },
     {
@@ -489,7 +489,7 @@
       "title": "value_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-value_type",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-value_type",
       "visibility": "public"
     },
     {
@@ -517,9 +517,9 @@
       "static": false,
       "strong": false,
       "title": "pointer",
-      "type": "thrust::detail::pointer_traits< <a href=\"/api/classes/classmr_1_1allocator.html#typedef-void_pointer\">void_pointer</a> >::template <a href=\"/api/classes/structmr_1_1allocator_1_1rebind.html\">rebind</a>< T >::other",
+      "type": "thrust::detail::pointer_traits< <a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-void_pointer\">void_pointer</a> >::template <a href=\"/thrust/api/classes/structmr_1_1allocator_1_1rebind.html\">rebind</a>< T >::other",
       "typePlain": "thrust::detail::pointer_traits< void_pointer >::template rebind< T >::other",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-pointer",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-pointer",
       "visibility": "public"
     },
     {
@@ -547,9 +547,9 @@
       "static": false,
       "strong": false,
       "title": "const_pointer",
-      "type": "thrust::detail::pointer_traits< <a href=\"/api/classes/classmr_1_1allocator.html#typedef-void_pointer\">void_pointer</a> >::template <a href=\"/api/classes/structmr_1_1allocator_1_1rebind.html\">rebind</a>< const T >::other",
+      "type": "thrust::detail::pointer_traits< <a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-void_pointer\">void_pointer</a> >::template <a href=\"/thrust/api/classes/structmr_1_1allocator_1_1rebind.html\">rebind</a>< const T >::other",
       "typePlain": "thrust::detail::pointer_traits< void_pointer >::template rebind< const T >::other",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-const_pointer",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-const_pointer",
       "visibility": "public"
     },
     {
@@ -577,9 +577,9 @@
       "static": false,
       "strong": false,
       "title": "reference",
-      "type": "thrust::detail::pointer_traits< <a href=\"/api/classes/classmr_1_1allocator.html#typedef-pointer\">pointer</a> >::<a href=\"/api/classes/classmr_1_1allocator.html#typedef-reference\">reference</a>",
+      "type": "thrust::detail::pointer_traits< <a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-pointer\">pointer</a> >::<a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-reference\">reference</a>",
       "typePlain": "thrust::detail::pointer_traits< pointer >::reference",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-reference",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-reference",
       "visibility": "public"
     },
     {
@@ -607,9 +607,9 @@
       "static": false,
       "strong": false,
       "title": "const_reference",
-      "type": "thrust::detail::pointer_traits< <a href=\"/api/classes/classmr_1_1allocator.html#typedef-const_pointer\">const_pointer</a> >::<a href=\"/api/classes/classmr_1_1allocator.html#typedef-reference\">reference</a>",
+      "type": "thrust::detail::pointer_traits< <a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-const_pointer\">const_pointer</a> >::<a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-reference\">reference</a>",
       "typePlain": "thrust::detail::pointer_traits< const_pointer >::reference",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-const_reference",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-const_reference",
       "visibility": "public"
     },
     {
@@ -639,7 +639,7 @@
       "title": "size_type",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-size_type",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-size_type",
       "visibility": "public"
     },
     {
@@ -667,9 +667,9 @@
       "static": false,
       "strong": false,
       "title": "difference_type",
-      "type": "thrust::detail::pointer_traits< <a href=\"/api/classes/classmr_1_1allocator.html#typedef-pointer\">pointer</a> >::<a href=\"/api/classes/classmr_1_1allocator.html#typedef-difference_type\">difference_type</a>",
+      "type": "thrust::detail::pointer_traits< <a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-pointer\">pointer</a> >::<a href=\"/thrust/api/classes/classmr_1_1allocator.html#typedef-difference_type\">difference_type</a>",
       "typePlain": "thrust::detail::pointer_traits< pointer >::difference_type",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-difference_type",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-difference_type",
       "visibility": "public"
     },
     {
@@ -699,7 +699,7 @@
       "title": "propagate_on_container_copy_assignment",
       "type": "detail::true_type",
       "typePlain": "detail::true_type",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-propagate_on_container_copy_assignment",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-propagate_on_container_copy_assignment",
       "visibility": "public"
     },
     {
@@ -729,7 +729,7 @@
       "title": "propagate_on_container_move_assignment",
       "type": "detail::true_type",
       "typePlain": "detail::true_type",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-propagate_on_container_move_assignment",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-propagate_on_container_move_assignment",
       "visibility": "public"
     },
     {
@@ -759,7 +759,7 @@
       "title": "propagate_on_container_swap",
       "type": "detail::true_type",
       "typePlain": "detail::true_type",
-      "url": "/api/classes/classmr_1_1allocator.html#typedef-propagate_on_container_swap",
+      "url": "/thrust/api/classes/classmr_1_1allocator.html#typedef-propagate_on_container_swap",
       "visibility": "public"
     }
   ],
@@ -789,6 +789,6 @@
     }
   ],
   "title": "mr::allocator",
-  "url": "/api/classes/classmr_1_1allocator.html",
+  "url": "/thrust/api/classes/classmr_1_1allocator.html",
   "visibility": "public"
 }

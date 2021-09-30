@@ -10,10 +10,10 @@ has_toc: false
 <code class="doxybook">
 <span>namespace cuda {</span>
 <br>
-<span>using <b><a href="/api/namespaces/namespacecuda.html#using-event">event</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda.html#using-event">event</a></b> = <i>see below</i>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>using <b><a href="/api/namespaces/namespacecuda.html#using-future">future</a></b> = <i>see below</i>;</span>
+<span>using <b><a href="/thrust/api/namespaces/namespacecuda.html#using-future">future</a></b> = <i>see below</i>;</span>
 <span>} /* namespace cuda */</span>
 </code>
 

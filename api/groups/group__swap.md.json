@@ -18,7 +18,7 @@
     "name": "utility",
     "refid": "group__utility",
     "title": "Utility",
-    "url": "/api/groups/group__utility.html",
+    "url": "/thrust/api/groups/group__utility.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "utility",
     "refid": "group__utility",
     "title": "Utility",
-    "url": "/api/groups/group__utility.html",
+    "url": "/thrust/api/groups/group__utility.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     }
   ],
@@ -130,7 +130,7 @@
       "title": "swap",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__swap.html#function-swap",
+      "url": "/thrust/api/groups/group__swap.html#function-swap",
       "virtual": false,
       "visibility": "public"
     }
@@ -139,6 +139,6 @@
   "static": false,
   "strong": false,
   "title": "Swap",
-  "url": "/api/groups/group__swap.html",
+  "url": "/thrust/api/groups/group__swap.html",
   "visibility": "public"
 }

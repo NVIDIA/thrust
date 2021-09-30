@@ -16,7 +16,7 @@ The <code>rebind</code> metafunction provides the type of an <code>allocator</co
 <span>#include <thrust/mr/allocator.h></span><br>
 <span>template &lt;typename U&gt;</span>
 <span>struct mr::allocator::rebind {</span>
-<span>public:</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structmr_1_1allocator_1_1rebind.html#typedef-other">other</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structmr_1_1allocator_1_1rebind.html#typedef-other">other</a></b>;</span>
 <span>};</span>
 </code>
 
@@ -27,7 +27,7 @@ Typedef <code>mr::allocator::rebind::other</code>
 </h3>
 
 <code class="doxybook">
-<span>typedef <a href="/api/classes/classmr_1_1allocator.html">allocator</a>< U, MR ><b>other</b>;</span></code>
+<span>typedef <a href="/thrust/api/classes/classmr_1_1allocator.html">allocator</a>< U, MR ><b>other</b>;</span></code>
 The typedef <code>other</code> gives the type of the rebound <code>allocator</code>. 
 
 

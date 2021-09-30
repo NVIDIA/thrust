@@ -52,7 +52,7 @@
       "title": "select",
       "type": "decltype(unique_eager_event_type(std::declval< System >()))",
       "typePlain": "decltype(unique_eager_event_type(std::declval< System >()))",
-      "url": "/api/namespaces/namespaceunique__eager__event__type__detail.html#using-select",
+      "url": "/thrust/api/namespaces/namespaceunique__eager__event__type__detail.html#using-select",
       "visibility": "public"
     }
   ],
@@ -60,6 +60,6 @@
   "static": false,
   "strong": false,
   "title": "unique_eager_event_type_detail",
-  "url": "/api/namespaces/namespaceunique__eager__event__type__detail.html",
+  "url": "/thrust/api/namespaces/namespaceunique__eager__event__type__detail.html",
   "visibility": "public"
 }

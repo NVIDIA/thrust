@@ -18,7 +18,7 @@
     "name": "copying",
     "refid": "group__copying",
     "title": "Copying",
-    "url": "/api/groups/group__copying.html",
+    "url": "/thrust/api/groups/group__copying.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "copying",
       "refid": "group__copying",
       "title": "Copying",
-      "url": "/api/groups/group__copying.html",
+      "url": "/thrust/api/groups/group__copying.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "copying",
     "refid": "group__copying",
     "title": "Copying",
-    "url": "/api/groups/group__copying.html",
+    "url": "/thrust/api/groups/group__copying.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "copying",
       "refid": "group__copying",
       "title": "Copying",
-      "url": "/api/groups/group__copying.html",
+      "url": "/thrust/api/groups/group__copying.html",
       "visibility": "public"
     }
   ],
@@ -208,7 +208,7 @@
       "title": "gather",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__gathering.html#function-gather",
+      "url": "/thrust/api/groups/group__gathering.html#function-gather",
       "virtual": false,
       "visibility": "public"
     },
@@ -319,7 +319,7 @@
       "title": "gather",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__gathering.html#function-gather",
+      "url": "/thrust/api/groups/group__gathering.html#function-gather",
       "virtual": false,
       "visibility": "public"
     },
@@ -467,7 +467,7 @@
       "title": "gather_if",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__gathering.html#function-gather_if",
+      "url": "/thrust/api/groups/group__gathering.html#function-gather_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -597,7 +597,7 @@
       "title": "gather_if",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__gathering.html#function-gather_if",
+      "url": "/thrust/api/groups/group__gathering.html#function-gather_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -763,7 +763,7 @@
       "title": "gather_if",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__gathering.html#function-gather_if",
+      "url": "/thrust/api/groups/group__gathering.html#function-gather_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -911,7 +911,7 @@
       "title": "gather_if",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__gathering.html#function-gather_if",
+      "url": "/thrust/api/groups/group__gathering.html#function-gather_if",
       "virtual": false,
       "visibility": "public"
     }
@@ -920,6 +920,6 @@
   "static": false,
   "strong": false,
   "title": "Gathering",
-  "url": "/api/groups/group__gathering.html",
+  "url": "/thrust/api/groups/group__gathering.html",
   "visibility": "public"
 }

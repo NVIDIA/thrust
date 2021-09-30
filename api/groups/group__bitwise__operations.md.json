@@ -18,7 +18,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -91,7 +91,7 @@
       "name": "bit_and",
       "refid": "structbit__and",
       "title": "bit_and",
-      "url": "/api/classes/structbit__and.html",
+      "url": "/thrust/api/classes/structbit__and.html",
       "visibility": "public"
     },
     {
@@ -102,7 +102,7 @@
       "name": "bit_and< void >",
       "refid": "structbit__and_3_01void_01_4",
       "title": "bit_and< void >",
-      "url": "/api/classes/structbit__and_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structbit__and_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -113,7 +113,7 @@
       "name": "bit_or",
       "refid": "structbit__or",
       "title": "bit_or",
-      "url": "/api/classes/structbit__or.html",
+      "url": "/thrust/api/classes/structbit__or.html",
       "visibility": "public"
     },
     {
@@ -124,7 +124,7 @@
       "name": "bit_or< void >",
       "refid": "structbit__or_3_01void_01_4",
       "title": "bit_or< void >",
-      "url": "/api/classes/structbit__or_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structbit__or_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -135,7 +135,7 @@
       "name": "bit_xor",
       "refid": "structbit__xor",
       "title": "bit_xor",
-      "url": "/api/classes/structbit__xor.html",
+      "url": "/thrust/api/classes/structbit__xor.html",
       "visibility": "public"
     },
     {
@@ -146,7 +146,7 @@
       "name": "bit_xor< void >",
       "refid": "structbit__xor_3_01void_01_4",
       "title": "bit_xor< void >",
-      "url": "/api/classes/structbit__xor_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structbit__xor_3_01void_01_4.html",
       "visibility": "public"
     }
   ],
@@ -154,6 +154,6 @@
   "static": false,
   "strong": false,
   "title": "Bitwise Operations",
-  "url": "/api/groups/group__bitwise__operations.html",
+  "url": "/thrust/api/groups/group__bitwise__operations.html",
   "visibility": "public"
 }

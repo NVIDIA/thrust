@@ -40,12 +40,12 @@ int main() {
 **`TN`**: The type of the <code>N</code><code>tuple</code> element. Thrust's <code>tuple</code> type currently supports up to ten elements.
 
 **See**:
-* <a href="/api/classes/structpair.html">pair</a>
-* <a href="/api/groups/group__tuple.html#function-get">get</a>
-* <a href="/api/groups/group__tuple.html#function-make_tuple">make_tuple</a>
-* <a href="/api/classes/structtuple__element.html">tuple_element</a>
-* <a href="/api/classes/structtuple__size.html">tuple_size</a>
-* <a href="/api/groups/group__tuple.html#function-tie">tie</a>
+* <a href="/thrust/api/classes/structpair.html">pair</a>
+* <a href="/thrust/api/groups/group__tuple.html#function-get">get</a>
+* <a href="/thrust/api/groups/group__tuple.html#function-make_tuple">make_tuple</a>
+* <a href="/thrust/api/classes/structtuple__element.html">tuple_element</a>
+* <a href="/thrust/api/classes/structtuple__size.html">tuple_size</a>
+* <a href="/thrust/api/groups/group__tuple.html#function-tie">tie</a>
 
 <code class="doxybook">
 <span>#include <thrust/tuple.h></span><br>
@@ -60,18 +60,18 @@ int main() {
 <span>&nbsp;&nbsp;class T8,</span>
 <span>&nbsp;&nbsp;class T9&gt;</span>
 <span>class tuple {</span>
-<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classtuple.html#function-tuple">tuple</a></b>(void);</span>
+<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classtuple.html#function-tuple">tuple</a></b>(void);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classtuple.html#function-tuple">tuple</a></b>(typename access_traits< T0 >::parameter_type t0);</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classtuple.html#function-tuple">tuple</a></b>(typename access_traits< T0 >::parameter_type t0);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classtuple.html#function-tuple">tuple</a></b>(typename access_traits< T0 >::parameter_type t0,</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classtuple.html#function-tuple">tuple</a></b>(typename access_traits< T0 >::parameter_type t0,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;typename access_traits< T1 >::parameter_type t1);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;class U1,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;class U2&gt;</span>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ <a href="/api/classes/classtuple.html">tuple</a> & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classtuple.html#function-operator=">operator=</a></b>(const thrust::pair< U1, U2 > & k);</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ <a href="/thrust/api/classes/classtuple.html">tuple</a> & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classtuple.html#function-operator=">operator=</a></b>(const thrust::pair< U1, U2 > & k);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classtuple.html#function-swap">swap</a></b>(<a href="/api/classes/classtuple.html">tuple</a> & t);</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classtuple.html#function-swap">swap</a></b>(<a href="/thrust/api/classes/classtuple.html">tuple</a> & t);</span>
 <span>};</span>
 </code>
 
@@ -119,7 +119,7 @@ Function <code>tuple::&gt;::operator=</code>
 <code class="doxybook">
 <span>template &lt;class U1,</span>
 <span>&nbsp;&nbsp;class U2&gt;</span>
-<span>__thrust_exec_check_disable__ __host__ __device__ <a href="/api/classes/classtuple.html">tuple</a> & </span><span><b>operator=</b>(const thrust::pair< U1, U2 > & k);</span></code>
+<span>__thrust_exec_check_disable__ __host__ __device__ <a href="/thrust/api/classes/classtuple.html">tuple</a> & </span><span><b>operator=</b>(const thrust::pair< U1, U2 > & k);</span></code>
 This assignment operator allows assigning the first two elements of this <code>tuple</code> from a <code>pair</code>. 
 
 **Function Parameters**:
@@ -130,7 +130,7 @@ Function <code>tuple::&gt;::swap</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ void </span><span><b>swap</b>(<a href="/api/classes/classtuple.html">tuple</a> & t);</span></code>
+<span>__host__ __device__ void </span><span><b>swap</b>(<a href="/thrust/api/classes/classtuple.html">tuple</a> & t);</span></code>
 <code>swap</code> swaps the elements of two <code>tuple</code>s.
 
 **Function Parameters**:

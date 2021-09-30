@@ -11,10 +11,10 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct logical&#95;not&lt; void &gt; {</span>
-<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/api/classes/structlogical__not_3_01void_01_4.html#using-is_transparent">is&#95;transparent</a></b> = <i>see below</i>;</span>
+<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structlogical__not_3_01void_01_4.html#using-is_transparent">is&#95;transparent</a></b> = <i>see below</i>;</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename T&gt;</span>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ auto </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structlogical__not_3_01void_01_4.html#function-operator()">operator()</a></b>(T && x) const;</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ auto </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structlogical__not_3_01void_01_4.html#function-operator()">operator()</a></b>(T && x) const;</span>
 <span>};</span>
 </code>
 

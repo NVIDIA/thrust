@@ -14,7 +14,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -23,7 +23,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
@@ -33,7 +33,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -44,7 +44,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -56,7 +56,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate,</span>
 <span>&nbsp;&nbsp;typename AssociativeOperator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -69,7 +69,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate,</span>
 <span>&nbsp;&nbsp;typename AssociativeOperator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -80,7 +80,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -89,7 +89,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
@@ -99,7 +99,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -110,7 +110,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -122,7 +122,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -135,7 +135,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -149,7 +149,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate,</span>
 <span>&nbsp;&nbsp;typename AssociativeOperator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -164,7 +164,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename T,</span>
 <span>&nbsp;&nbsp;typename BinaryPredicate,</span>
 <span>&nbsp;&nbsp;typename AssociativeOperator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive&#95;scan&#95;by&#95;key</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -191,7 +191,7 @@ Function <code>inclusive&#95;scan&#95;by&#95;key</code>
 <span>&nbsp;&nbsp;OutputIterator result);</span></code>
 <code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.
 
-This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="/api/classes/structequal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
+This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="/thrust/api/classes/structequal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
@@ -236,8 +236,8 @@ thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data); // in-
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
 
 <h3 id="function-inclusive_scan_by_key">
 Function <code>inclusive&#95;scan&#95;by&#95;key</code>
@@ -253,7 +253,7 @@ Function <code>inclusive&#95;scan&#95;by&#95;key</code>
 <span>&nbsp;&nbsp;OutputIterator result);</span></code>
 <code>inclusive&#95;scan&#95;by&#95;key</code> computes an inclusive key-value or 'segmented' prefix sum operation. The term 'inclusive' means that each result includes the corresponding input operand in the partial sum. The term 'segmented' means that the partial sums are broken into distinct segments. In other words, within each segment a separate inclusive scan operation is computed. Refer to the code sample below for example usage.
 
-This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="/api/classes/structequal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
+This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="/thrust/api/classes/structequal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1)</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
 This version of <code>inclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
@@ -292,8 +292,8 @@ thrust::inclusive_scan_by_key(keys, keys + 10, data, data); // in-place scan
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
 
 <h3 id="function-inclusive_scan_by_key">
 Function <code>inclusive&#95;scan&#95;by&#95;key</code>
@@ -363,8 +363,8 @@ thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
 
 <h3 id="function-inclusive_scan_by_key">
 Function <code>inclusive&#95;scan&#95;by&#95;key</code>
@@ -426,8 +426,8 @@ thrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred); // in-p
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
 
 <h3 id="function-inclusive_scan_by_key">
 Function <code>inclusive&#95;scan&#95;by&#95;key</code>
@@ -502,8 +502,8 @@ thrust::inclusive_scan_by_key(thrust::host, keys, keys + 10, data, data, binary_
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
 
 <h3 id="function-inclusive_scan_by_key">
 Function <code>inclusive&#95;scan&#95;by&#95;key</code>
@@ -570,8 +570,8 @@ thrust::inclusive_scan_by_key(keys, keys + 10, data, data, binary_pred, binary_o
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-exclusive_scan_by_key">exclusive_scan_by_key</a>
 
 <h3 id="function-exclusive_scan_by_key">
 Function <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -593,7 +593,7 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <c
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
-This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="/api/classes/structequal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
+This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="/thrust/api/classes/structequal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
 Refer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.
 
@@ -629,7 +629,7 @@ thrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals); // in-pl
 * <code>first2</code> may equal <code>result</code> but the range <code>[first2, first2 + (last1 - first1)</code> and range <code>[result, result + (last1 - first1))</code> shall not overlap otherwise.
 
 **See**:
-<a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
+<a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
 
 <h3 id="function-exclusive_scan_by_key">
 Function <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -649,7 +649,7 @@ This version of <code>exclusive&#95;scan&#95;by&#95;key</code> uses the value <c
 
 This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code>plus</code> as the associative operator used to perform the prefix sum. When the input and output sequences are the same, the scan is performed in-place.
 
-This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="/api/classes/structequal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
+This version of <code>exclusive&#95;scan&#95;by&#95;key</code> assumes <code><a href="/thrust/api/classes/structequal__to.html">equal&#95;to</a></code> as the binary predicate used to compare adjacent keys. Specifically, consecutive iterators <code>i</code> and <code>i+1</code> in the range <code>[first1, last1</code> belong to the same segment if <code>&#42;i == &#42;(i+1)</code>, and belong to different segments otherwise.
 
 Refer to the most general form of <code>exclusive&#95;scan&#95;by&#95;key</code> for additional details.
 
@@ -680,7 +680,7 @@ thrust::exclusive_scan_by_key(key, key + 10, vals, vals); // in-place scan
 * <code>first2</code> may equal <code>result</code> but the range <code>[first2, first2 + (last1 - first1)</code> and range <code>[result, result + (last1 - first1))</code> shall not overlap otherwise.
 
 **See**:
-<a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
+<a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
 
 <h3 id="function-exclusive_scan_by_key">
 Function <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -741,8 +741,8 @@ thrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init); //
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
 
 <h3 id="function-exclusive_scan_by_key">
 Function <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -796,8 +796,8 @@ thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init); // in-place scan
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
 
 <h3 id="function-exclusive_scan_by_key">
 Function <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -865,8 +865,8 @@ thrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init, bin
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
 
 <h3 id="function-exclusive_scan_by_key">
 Function <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -927,8 +927,8 @@ thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred); // 
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
 
 <h3 id="function-exclusive_scan_by_key">
 Function <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -1011,8 +1011,8 @@ thrust::exclusive_scan_by_key(thrust::host, key, key + 10, vals, vals, init, bin
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
 
 <h3 id="function-exclusive_scan_by_key">
 Function <code>exclusive&#95;scan&#95;by&#95;key</code>
@@ -1087,7 +1087,7 @@ thrust::exclusive_scan_by_key(key, key + 10, vals, vals, init, binary_pred, bina
 The end of the output sequence.
 
 **See**:
-* <a href="/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
-* <a href="/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-exclusive_scan">exclusive_scan</a>
+* <a href="/thrust/api/groups/group__segmentedprefixsums.html#function-inclusive_scan_by_key">inclusive_scan_by_key</a>
 
 

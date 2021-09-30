@@ -18,7 +18,7 @@
     "name": "random",
     "refid": "group__random",
     "title": "Random Number Generation",
-    "url": "/api/groups/group__random.html",
+    "url": "/thrust/api/groups/group__random.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "random",
     "refid": "group__random",
     "title": "Random Number Generation",
-    "url": "/api/groups/group__random.html",
+    "url": "/thrust/api/groups/group__random.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "random",
       "refid": "group__random",
       "title": "Random Number Generation",
-      "url": "/api/groups/group__random.html",
+      "url": "/thrust/api/groups/group__random.html",
       "visibility": "public"
     }
   ],
@@ -71,7 +71,7 @@
       "refid": "classrandom_1_1linear__congruential__engine",
       "summary": "A linear_congruential_engine random number engine produces unsigned integer random numbers using a linear congruential random number generation algorithm. ",
       "title": "random::linear_congruential_engine",
-      "url": "/api/classes/classrandom_1_1linear__congruential__engine.html",
+      "url": "/thrust/api/classes/classrandom_1_1linear__congruential__engine.html",
       "visibility": "public"
     },
     {
@@ -84,7 +84,7 @@
       "refid": "classrandom_1_1linear__feedback__shift__engine",
       "summary": "A linear_feedback_shift_engine random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm. ",
       "title": "random::linear_feedback_shift_engine",
-      "url": "/api/classes/classrandom_1_1linear__feedback__shift__engine.html",
+      "url": "/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html",
       "visibility": "public"
     },
     {
@@ -97,7 +97,7 @@
       "refid": "classrandom_1_1subtract__with__carry__engine",
       "summary": "A subtract_with_carry_engine random number engine produces unsigned integer random numbers using the subtract with carry algorithm of Marsaglia & Zaman. ",
       "title": "random::subtract_with_carry_engine",
-      "url": "/api/classes/classrandom_1_1subtract__with__carry__engine.html",
+      "url": "/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html",
       "visibility": "public"
     }
   ],
@@ -127,22 +127,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
           "typePlain": "const linear_congruential_engine< UIntType_, a_, c_, m_ > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
           "typePlain": "const linear_congruential_engine< UIntType_, a_, c_, m_ > &"
         }
       ],
@@ -178,7 +178,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator==",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -207,22 +207,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
           "typePlain": "const linear_congruential_engine< UIntType_, a_, c_, m_ > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
           "typePlain": "const linear_congruential_engine< UIntType_, a_, c_, m_ > &"
         }
       ],
@@ -258,7 +258,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator!=",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -271,7 +271,7 @@
       "default": false,
       "definition": "std::basic_ostream<CharT,Traits>& random::operator<<",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a> to a <code>std::basic&#95;ostream</code>. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a> to a <code>std::basic&#95;ostream</code>. ",
       "explicit": false,
       "fullname": "random_number_engine_templates::operator<<",
       "hasDetails": true,
@@ -291,7 +291,7 @@
         },
         {
           "name": "e",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to stream out. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to stream out. "
         }
       ],
       "params": [
@@ -302,7 +302,7 @@
         },
         {
           "name": "e",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
           "typePlain": "const linear_congruential_engine< UIntType_, a_, c_, m_ > &"
         }
       ],
@@ -348,7 +348,7 @@
       "title": "operator<<",
       "type": "std::basic_ostream< CharT, Traits > &",
       "typePlain": "std::basic_ostream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator<<",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -361,7 +361,7 @@
       "default": false,
       "definition": "std::basic_istream<CharT,Traits>& random::operator>>",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a> in from a std::basic_istream. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a> in from a std::basic_istream. ",
       "explicit": false,
       "fullname": "random_number_engine_templates::operator>>",
       "hasDetails": true,
@@ -381,7 +381,7 @@
         },
         {
           "name": "e",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to stream in. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear&#95;congruential&#95;engine</a></code> to stream in. "
         }
       ],
       "params": [
@@ -392,7 +392,7 @@
         },
         {
           "name": "e",
-          "type": "<a href=\"/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1linear__congruential__engine.html\">linear_congruential_engine</a>< UIntType_, a_, c_, m_ > &",
           "typePlain": "linear_congruential_engine< UIntType_, a_, c_, m_ > &"
         }
       ],
@@ -438,7 +438,7 @@
       "title": "operator>>",
       "type": "std::basic_istream< CharT, Traits > &",
       "typePlain": "std::basic_istream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator>>",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator>>",
       "virtual": false,
       "visibility": "public"
     },
@@ -467,22 +467,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
           "typePlain": "const linear_feedback_shift_engine< UIntType_, w_, k_, q_, s_ > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
           "typePlain": "const linear_feedback_shift_engine< UIntType_, w_, k_, q_, s_ > &"
         }
       ],
@@ -523,7 +523,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator==",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -552,22 +552,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
           "typePlain": "const linear_feedback_shift_engine< UIntType_, w_, k_, q_, s_ > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
           "typePlain": "const linear_feedback_shift_engine< UIntType_, w_, k_, q_, s_ > &"
         }
       ],
@@ -608,7 +608,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator!=",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -621,7 +621,7 @@
       "default": false,
       "definition": "std::basic_ostream<CharT,Traits>& random::operator<<",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a> to a <code>std::basic&#95;ostream</code>. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a> to a <code>std::basic&#95;ostream</code>. ",
       "explicit": false,
       "fullname": "random_number_engine_templates::operator<<",
       "hasDetails": true,
@@ -641,7 +641,7 @@
         },
         {
           "name": "e",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to stream out. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to stream out. "
         }
       ],
       "params": [
@@ -652,7 +652,7 @@
         },
         {
           "name": "e",
-          "type": "const <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
           "typePlain": "const linear_feedback_shift_engine< UIntType_, w_, k_, q_, s_ > &"
         }
       ],
@@ -703,7 +703,7 @@
       "title": "operator<<",
       "type": "std::basic_ostream< CharT, Traits > &",
       "typePlain": "std::basic_ostream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator<<",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -716,7 +716,7 @@
       "default": false,
       "definition": "std::basic_istream<CharT,Traits>& random::operator>>",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a> in from a std::basic_istream. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a> in from a std::basic_istream. ",
       "explicit": false,
       "fullname": "random_number_engine_templates::operator>>",
       "hasDetails": true,
@@ -736,7 +736,7 @@
         },
         {
           "name": "e",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to stream in. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear&#95;feedback&#95;shift&#95;engine</a></code> to stream in. "
         }
       ],
       "params": [
@@ -747,7 +747,7 @@
         },
         {
           "name": "e",
-          "type": "<a href=\"/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html\">linear_feedback_shift_engine</a>< UIntType_, w_, k_, q_, s_ > &",
           "typePlain": "linear_feedback_shift_engine< UIntType_, w_, k_, q_, s_ > &"
         }
       ],
@@ -798,7 +798,7 @@
       "title": "operator>>",
       "type": "std::basic_istream< CharT, Traits > &",
       "typePlain": "std::basic_istream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator>>",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator>>",
       "virtual": false,
       "visibility": "public"
     },
@@ -827,22 +827,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
           "typePlain": "const subtract_with_carry_engine< UIntType_, w_, s_, r_ > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
           "typePlain": "const subtract_with_carry_engine< UIntType_, w_, s_, r_ > &"
         }
       ],
@@ -878,7 +878,7 @@
       "title": "operator==",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator==",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator==",
       "virtual": false,
       "visibility": "public"
     },
@@ -907,22 +907,22 @@
       "paramList": [
         {
           "name": "lhs",
-          "text": "The first <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to test. "
+          "text": "The first <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to test. "
         },
         {
           "name": "rhs",
-          "text": "The second <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to test. "
+          "text": "The second <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to test. "
         }
       ],
       "params": [
         {
           "name": "lhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
           "typePlain": "const subtract_with_carry_engine< UIntType_, w_, s_, r_ > &"
         },
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
           "typePlain": "const subtract_with_carry_engine< UIntType_, w_, s_, r_ > &"
         }
       ],
@@ -958,7 +958,7 @@
       "title": "operator!=",
       "type": "__host__ __device__ bool",
       "typePlain": "__host__ __device__ bool",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator!=",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator!=",
       "virtual": false,
       "visibility": "public"
     },
@@ -971,7 +971,7 @@
       "default": false,
       "definition": "std::basic_ostream<CharT,Traits>& random::operator<<",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a> to a <code>std::basic&#95;ostream</code>. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a> to a <code>std::basic&#95;ostream</code>. ",
       "explicit": false,
       "fullname": "random_number_engine_templates::operator<<",
       "hasDetails": true,
@@ -991,7 +991,7 @@
         },
         {
           "name": "e",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to stream out. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to stream out. "
         }
       ],
       "params": [
@@ -1002,7 +1002,7 @@
         },
         {
           "name": "e",
-          "type": "const <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
+          "type": "const <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
           "typePlain": "const subtract_with_carry_engine< UIntType_, w_, s_, r_ > &"
         }
       ],
@@ -1048,7 +1048,7 @@
       "title": "operator<<",
       "type": "std::basic_ostream< CharT, Traits > &",
       "typePlain": "std::basic_ostream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator<<",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator<<",
       "virtual": false,
       "visibility": "public"
     },
@@ -1061,7 +1061,7 @@
       "default": false,
       "definition": "std::basic_istream<CharT,Traits>& random::operator>>",
       "deleted": false,
-      "details": "This function streams a <a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a> in from a std::basic_istream. ",
+      "details": "This function streams a <a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a> in from a std::basic_istream. ",
       "explicit": false,
       "fullname": "random_number_engine_templates::operator>>",
       "hasDetails": true,
@@ -1081,7 +1081,7 @@
         },
         {
           "name": "e",
-          "text": "The <code><a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to stream in. "
+          "text": "The <code><a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract&#95;with&#95;carry&#95;engine</a></code> to stream in. "
         }
       ],
       "params": [
@@ -1092,7 +1092,7 @@
         },
         {
           "name": "e",
-          "type": "<a href=\"/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
+          "type": "<a href=\"/thrust/api/classes/classrandom_1_1subtract__with__carry__engine.html\">subtract_with_carry_engine</a>< UIntType_, w_, s_, r_ > &",
           "typePlain": "subtract_with_carry_engine< UIntType_, w_, s_, r_ > &"
         }
       ],
@@ -1138,7 +1138,7 @@
       "title": "operator>>",
       "type": "std::basic_istream< CharT, Traits > &",
       "typePlain": "std::basic_istream< CharT, Traits > &",
-      "url": "/api/groups/group__random__number__engine__templates.html#function-operator>>",
+      "url": "/thrust/api/groups/group__random__number__engine__templates.html#function-operator>>",
       "virtual": false,
       "visibility": "public"
     }
@@ -1147,6 +1147,6 @@
   "static": false,
   "strong": false,
   "title": "Random Number Engine Class Templates",
-  "url": "/api/groups/group__random__number__engine__templates.html",
+  "url": "/thrust/api/groups/group__random__number__engine__templates.html",
   "visibility": "public"
 }

@@ -12,7 +12,7 @@ has_toc: false
 
 <code>thrust::cpp</code> is a top-level alias for thrust::system::cpp. 
 
-<code><a href="/api/namespaces/namespacethrust_1_1cpp.html">thrust::cpp</a></code> is a top-level alias for <code>thrust::system::cpp</code>. 
+<code><a href="/thrust/api/namespaces/namespacethrust_1_1cpp.html">thrust::cpp</a></code> is a top-level alias for <code>thrust::system::cpp</code>. 
 
 <code class="doxybook">
 <span>namespace thrust::cpp {</span>

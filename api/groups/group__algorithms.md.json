@@ -15,7 +15,7 @@
       "name": "searching",
       "refid": "group__searching",
       "title": "Searching",
-      "url": "/api/groups/group__searching.html",
+      "url": "/thrust/api/groups/group__searching.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "copying",
       "refid": "group__copying",
       "title": "Copying",
-      "url": "/api/groups/group__copying.html",
+      "url": "/thrust/api/groups/group__copying.html",
       "visibility": "public"
     },
     {
@@ -37,7 +37,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     },
     {
@@ -48,7 +48,7 @@
       "name": "merging",
       "refid": "group__merging",
       "title": "Merging",
-      "url": "/api/groups/group__merging.html",
+      "url": "/thrust/api/groups/group__merging.html",
       "visibility": "public"
     },
     {
@@ -59,7 +59,7 @@
       "name": "reordering",
       "refid": "group__reordering",
       "title": "Reordering",
-      "url": "/api/groups/group__reordering.html",
+      "url": "/thrust/api/groups/group__reordering.html",
       "visibility": "public"
     },
     {
@@ -70,7 +70,7 @@
       "name": "prefixsums",
       "refid": "group__prefixsums",
       "title": "Prefix Sums",
-      "url": "/api/groups/group__prefixsums.html",
+      "url": "/thrust/api/groups/group__prefixsums.html",
       "visibility": "public"
     },
     {
@@ -81,7 +81,7 @@
       "name": "set_operations",
       "refid": "group__set__operations",
       "title": "Set Operations",
-      "url": "/api/groups/group__set__operations.html",
+      "url": "/thrust/api/groups/group__set__operations.html",
       "visibility": "public"
     },
     {
@@ -92,7 +92,7 @@
       "name": "sorting",
       "refid": "group__sorting",
       "title": "Sorting",
-      "url": "/api/groups/group__sorting.html",
+      "url": "/thrust/api/groups/group__sorting.html",
       "visibility": "public"
     },
     {
@@ -103,7 +103,7 @@
       "name": "transformations",
       "refid": "group__transformations",
       "title": "Transformations",
-      "url": "/api/groups/group__transformations.html",
+      "url": "/thrust/api/groups/group__transformations.html",
       "visibility": "public"
     }
   ],
@@ -118,6 +118,6 @@
   "static": false,
   "strong": false,
   "title": "Algorithms",
-  "url": "/api/groups/group__algorithms.html",
+  "url": "/thrust/api/groups/group__algorithms.html",
   "visibility": "public"
 }

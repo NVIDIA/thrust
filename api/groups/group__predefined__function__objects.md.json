@@ -15,7 +15,7 @@
       "name": "arithmetic_operations",
       "refid": "group__arithmetic__operations",
       "title": "Arithmetic Operations",
-      "url": "/api/groups/group__arithmetic__operations.html",
+      "url": "/thrust/api/groups/group__arithmetic__operations.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "comparison_operations",
       "refid": "group__comparison__operations",
       "title": "Comparison Operations",
-      "url": "/api/groups/group__comparison__operations.html",
+      "url": "/thrust/api/groups/group__comparison__operations.html",
       "visibility": "public"
     },
     {
@@ -37,7 +37,7 @@
       "name": "logical_operations",
       "refid": "group__logical__operations",
       "title": "Logical Operations",
-      "url": "/api/groups/group__logical__operations.html",
+      "url": "/thrust/api/groups/group__logical__operations.html",
       "visibility": "public"
     },
     {
@@ -48,7 +48,7 @@
       "name": "bitwise_operations",
       "refid": "group__bitwise__operations",
       "title": "Bitwise Operations",
-      "url": "/api/groups/group__bitwise__operations.html",
+      "url": "/thrust/api/groups/group__bitwise__operations.html",
       "visibility": "public"
     },
     {
@@ -59,7 +59,7 @@
       "name": "generalized_identity_operations",
       "refid": "group__generalized__identity__operations",
       "title": "Generalized Identity Operations",
-      "url": "/api/groups/group__generalized__identity__operations.html",
+      "url": "/thrust/api/groups/group__generalized__identity__operations.html",
       "visibility": "public"
     }
   ],
@@ -75,7 +75,7 @@
     "name": "function_objects",
     "refid": "group__function__objects",
     "title": "Function Objects",
-    "url": "/api/groups/group__function__objects.html",
+    "url": "/thrust/api/groups/group__function__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -87,7 +87,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -101,7 +101,7 @@
     "name": "function_objects",
     "refid": "group__function__objects",
     "title": "Function Objects",
-    "url": "/api/groups/group__function__objects.html",
+    "url": "/thrust/api/groups/group__function__objects.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -113,7 +113,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -121,6 +121,6 @@
   "static": false,
   "strong": false,
   "title": "Predefined Function Objects",
-  "url": "/api/groups/group__predefined__function__objects.html",
+  "url": "/thrust/api/groups/group__predefined__function__objects.html",
   "visibility": "public"
 }

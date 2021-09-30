@@ -28,7 +28,7 @@
     "name": "pair",
     "refid": "group__pair",
     "title": "Pair",
-    "url": "/api/groups/group__pair.html",
+    "url": "/thrust/api/groups/group__pair.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "pair",
       "refid": "group__pair",
       "title": "Pair",
-      "url": "/api/groups/group__pair.html",
+      "url": "/thrust/api/groups/group__pair.html",
       "visibility": "public"
     }
   ],
@@ -84,9 +84,9 @@
       "static": false,
       "strong": false,
       "title": "first",
-      "type": "<a href=\"/api/classes/structpair.html#typedef-first_type\">first_type</a>",
+      "type": "<a href=\"/thrust/api/classes/structpair.html#typedef-first_type\">first_type</a>",
       "typePlain": "first_type",
-      "url": "/api/classes/structpair.html#variable-first",
+      "url": "/thrust/api/classes/structpair.html#variable-first",
       "visibility": "public"
     },
     {
@@ -114,9 +114,9 @@
       "static": false,
       "strong": false,
       "title": "second",
-      "type": "<a href=\"/api/classes/structpair.html#typedef-second_type\">second_type</a>",
+      "type": "<a href=\"/thrust/api/classes/structpair.html#typedef-second_type\">second_type</a>",
       "typePlain": "second_type",
-      "url": "/api/classes/structpair.html#variable-second",
+      "url": "/thrust/api/classes/structpair.html#variable-second",
       "visibility": "public"
     }
   ],
@@ -157,7 +157,7 @@
       "title": "pair",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structpair.html#function-pair",
+      "url": "/thrust/api/classes/structpair.html#function-pair",
       "virtual": false,
       "visibility": "public"
     },
@@ -212,7 +212,7 @@
       "title": "pair",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structpair.html#function-pair",
+      "url": "/thrust/api/classes/structpair.html#function-pair",
       "virtual": false,
       "visibility": "public"
     },
@@ -247,7 +247,7 @@
       "params": [
         {
           "name": "p",
-          "type": "const <a href=\"/api/classes/structpair.html\">pair</a>< U1, U2 > &",
+          "type": "const <a href=\"/thrust/api/classes/structpair.html\">pair</a>< U1, U2 > &",
           "typePlain": "const pair< U1, U2 > &"
         }
       ],
@@ -280,7 +280,7 @@
       "title": "pair",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structpair.html#function-pair",
+      "url": "/thrust/api/classes/structpair.html#function-pair",
       "virtual": false,
       "visibility": "public"
     },
@@ -348,7 +348,7 @@
       "title": "pair",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/structpair.html#function-pair",
+      "url": "/thrust/api/classes/structpair.html#function-pair",
       "virtual": false,
       "visibility": "public"
     },
@@ -383,7 +383,7 @@
       "params": [
         {
           "name": "p",
-          "type": "<a href=\"/api/classes/structpair.html\">pair</a> &",
+          "type": "<a href=\"/thrust/api/classes/structpair.html\">pair</a> &",
           "typePlain": "pair &"
         }
       ],
@@ -394,7 +394,7 @@
       "title": "swap",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/classes/structpair.html#function-swap",
+      "url": "/thrust/api/classes/structpair.html#function-swap",
       "virtual": false,
       "visibility": "public"
     }
@@ -427,7 +427,7 @@
       "title": "first_type",
       "type": "T1",
       "typePlain": "T1",
-      "url": "/api/classes/structpair.html#typedef-first_type",
+      "url": "/thrust/api/classes/structpair.html#typedef-first_type",
       "visibility": "public"
     },
     {
@@ -457,7 +457,7 @@
       "title": "second_type",
       "type": "T2",
       "typePlain": "T2",
-      "url": "/api/classes/structpair.html#typedef-second_type",
+      "url": "/thrust/api/classes/structpair.html#typedef-second_type",
       "visibility": "public"
     }
   ],
@@ -479,14 +479,14 @@
   "templateParamsList": [
     {
       "name": "T1",
-      "text": "The type of <code>pair's</code> first object type. There are no requirements on the type of <code>T1</code>. <code>T1</code>'s type is provided by <code><a href=\"/api/classes/structpair.html#typedef-first_type\">pair::first&#95;type</a></code>."
+      "text": "The type of <code>pair's</code> first object type. There are no requirements on the type of <code>T1</code>. <code>T1</code>'s type is provided by <code><a href=\"/thrust/api/classes/structpair.html#typedef-first_type\">pair::first&#95;type</a></code>."
     },
     {
       "name": "T2",
-      "text": "The type of <code>pair's</code> second object type. There are no requirements on the type of <code>T2</code>. <code>T2</code>'s type is provided by <code><a href=\"/api/classes/structpair.html#typedef-second_type\">pair::second&#95;type</a></code>. "
+      "text": "The type of <code>pair's</code> second object type. There are no requirements on the type of <code>T2</code>. <code>T2</code>'s type is provided by <code><a href=\"/thrust/api/classes/structpair.html#typedef-second_type\">pair::second&#95;type</a></code>. "
     }
   ],
   "title": "pair",
-  "url": "/api/classes/structpair.html",
+  "url": "/thrust/api/classes/structpair.html",
   "visibility": "public"
 }

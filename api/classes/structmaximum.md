@@ -30,21 +30,21 @@ assert(x == mx(x,y));
 **`T`**: is a model of <a href="https://en.cppreference.com/w/cpp/named_req/LessThanComparable">LessThan Comparable</a>.
 
 **See**:
-* <a href="/api/classes/structminimum.html">minimum</a>
+* <a href="/thrust/api/classes/structminimum.html">minimum</a>
 * min 
-* <a href="/api/classes/structbinary__function.html">binary_function</a>
+* <a href="/thrust/api/classes/structbinary__function.html">binary_function</a>
 
 <code class="doxybook">
 <span>#include <thrust/functional.h></span><br>
 <span>template &lt;typename T = void&gt;</span>
 <span>struct maximum {</span>
-<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's first argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structmaximum.html#typedef-first_argument_type">first&#95;argument&#95;type</a></b>;</span>
+<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's first argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structmaximum.html#typedef-first_argument_type">first&#95;argument&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's second argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structmaximum.html#typedef-second_argument_type">second&#95;argument&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's second argument.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structmaximum.html#typedef-second_argument_type">second&#95;argument&#95;type</a></b>;</span>
 <br>
-<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's result;.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/structmaximum.html#typedef-result_type">result&#95;type</a></b>;</span>
+<span class="doxybook-comment">&nbsp;&nbsp;/* The type of the function object's result;.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/structmaximum.html#typedef-result_type">result&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ T </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structmaximum.html#function-operator()">operator()</a></b>(const T & lhs,</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ T </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structmaximum.html#function-operator()">operator()</a></b>(const T & lhs,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;const T & rhs) const;</span>
 <span>};</span>
 </code>

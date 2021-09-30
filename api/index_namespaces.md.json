@@ -12,7 +12,7 @@
           "name": "async::exclusive_scan_detail",
           "refid": "namespaceasync_1_1exclusive__scan__detail",
           "title": "async::exclusive_scan_detail",
-          "url": "/api/namespaces/namespaceasync_1_1exclusive__scan__detail.html",
+          "url": "/thrust/api/namespaces/namespaceasync_1_1exclusive__scan__detail.html",
           "visibility": "public"
         },
         {
@@ -23,7 +23,7 @@
           "name": "async::inclusive_scan_detail",
           "refid": "namespaceasync_1_1inclusive__scan__detail",
           "title": "async::inclusive_scan_detail",
-          "url": "/api/namespaces/namespaceasync_1_1inclusive__scan__detail.html",
+          "url": "/thrust/api/namespaces/namespaceasync_1_1inclusive__scan__detail.html",
           "visibility": "public"
         },
         {
@@ -34,7 +34,7 @@
           "name": "async::unimplemented",
           "refid": "namespaceasync_1_1unimplemented",
           "title": "async::unimplemented",
-          "url": "/api/namespaces/namespaceasync_1_1unimplemented.html",
+          "url": "/thrust/api/namespaces/namespaceasync_1_1unimplemented.html",
           "visibility": "public"
         }
       ],
@@ -43,7 +43,7 @@
       "name": "async",
       "refid": "namespaceasync",
       "title": "async",
-      "url": "/api/namespaces/namespaceasync.html",
+      "url": "/thrust/api/namespaces/namespaceasync.html",
       "visibility": "public"
     },
     {
@@ -54,7 +54,7 @@
       "name": "cpp",
       "refid": "namespacecpp",
       "title": "cpp",
-      "url": "/api/namespaces/namespacecpp.html",
+      "url": "/thrust/api/namespaces/namespacecpp.html",
       "visibility": "public"
     },
     {
@@ -65,7 +65,7 @@
       "name": "cuda",
       "refid": "namespacecuda",
       "title": "cuda",
-      "url": "/api/namespaces/namespacecuda.html",
+      "url": "/thrust/api/namespaces/namespacecuda.html",
       "visibility": "public"
     },
     {
@@ -76,7 +76,7 @@
       "name": "cuda_cub",
       "refid": "namespacecuda__cub",
       "title": "cuda_cub",
-      "url": "/api/namespaces/namespacecuda__cub.html",
+      "url": "/thrust/api/namespaces/namespacecuda__cub.html",
       "visibility": "public"
     },
     {
@@ -92,7 +92,7 @@
           "name": "detail::zip_detail",
           "refid": "namespacedetail_1_1zip__detail",
           "title": "detail::zip_detail",
-          "url": "/api/namespaces/namespacedetail_1_1zip__detail.html",
+          "url": "/thrust/api/namespaces/namespacedetail_1_1zip__detail.html",
           "visibility": "public"
         }
       ],
@@ -102,7 +102,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     },
     {
@@ -115,7 +115,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     },
     {
@@ -126,7 +126,7 @@
       "name": "omp",
       "refid": "namespaceomp",
       "title": "omp",
-      "url": "/api/namespaces/namespaceomp.html",
+      "url": "/thrust/api/namespaces/namespaceomp.html",
       "visibility": "public"
     },
     {
@@ -137,7 +137,7 @@
       "name": "placeholders",
       "refid": "namespaceplaceholders",
       "title": "placeholders",
-      "url": "/api/namespaces/namespaceplaceholders.html",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html",
       "visibility": "public"
     },
     {
@@ -148,7 +148,7 @@
       "name": "random",
       "refid": "namespacerandom",
       "title": "random",
-      "url": "/api/namespaces/namespacerandom.html",
+      "url": "/thrust/api/namespaces/namespacerandom.html",
       "visibility": "public"
     },
     {
@@ -159,7 +159,7 @@
       "name": "std",
       "refid": "namespacestd",
       "title": "std",
-      "url": "/api/namespaces/namespacestd.html",
+      "url": "/thrust/api/namespaces/namespacestd.html",
       "visibility": "public"
     },
     {
@@ -174,7 +174,7 @@
           "name": "system::cpp",
           "refid": "namespacesystem_1_1cpp",
           "title": "system::cpp",
-          "url": "/api/namespaces/namespacesystem_1_1cpp.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html",
           "visibility": "public"
         },
         {
@@ -189,7 +189,7 @@
               "name": "system::cuda::errc",
               "refid": "namespacesystem_1_1cuda_1_1errc",
               "title": "system::cuda::errc",
-              "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
+              "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
               "visibility": "public"
             }
           ],
@@ -198,7 +198,7 @@
           "name": "system::cuda",
           "refid": "namespacesystem_1_1cuda",
           "title": "system::cuda",
-          "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
           "visibility": "public"
         },
         {
@@ -209,7 +209,7 @@
           "name": "system::errc",
           "refid": "namespacesystem_1_1errc",
           "title": "system::errc",
-          "url": "/api/namespaces/namespacesystem_1_1errc.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1errc.html",
           "visibility": "public"
         },
         {
@@ -220,7 +220,7 @@
           "name": "system::omp",
           "refid": "namespacesystem_1_1omp",
           "title": "system::omp",
-          "url": "/api/namespaces/namespacesystem_1_1omp.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1omp.html",
           "visibility": "public"
         },
         {
@@ -231,7 +231,7 @@
           "name": "system::tbb",
           "refid": "namespacesystem_1_1tbb",
           "title": "system::tbb",
-          "url": "/api/namespaces/namespacesystem_1_1tbb.html",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1tbb.html",
           "visibility": "public"
         }
       ],
@@ -240,7 +240,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     },
     {
@@ -251,7 +251,7 @@
       "name": "tbb",
       "refid": "namespacetbb",
       "title": "tbb",
-      "url": "/api/namespaces/namespacetbb.html",
+      "url": "/thrust/api/namespaces/namespacetbb.html",
       "visibility": "public"
     },
     {
@@ -268,7 +268,7 @@
           "refid": "namespacethrust_1_1cpp",
           "summary": "thrust::cpp is a top-level alias for thrust::system::cpp. ",
           "title": "thrust::cpp",
-          "url": "/api/namespaces/namespacethrust_1_1cpp.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1cpp.html",
           "visibility": "public"
         },
         {
@@ -281,7 +281,7 @@
           "refid": "namespacethrust_1_1cuda",
           "summary": "thrust::cuda is a top-level alias for thrust::system::cuda. ",
           "title": "thrust::cuda",
-          "url": "/api/namespaces/namespacethrust_1_1cuda.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1cuda.html",
           "visibility": "public"
         },
         {
@@ -294,7 +294,7 @@
           "refid": "namespacethrust_1_1omp",
           "summary": "thrust::omp is a top-level alias for thrust::system::omp. ",
           "title": "thrust::omp",
-          "url": "/api/namespaces/namespacethrust_1_1omp.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1omp.html",
           "visibility": "public"
         },
         {
@@ -307,7 +307,7 @@
           "refid": "namespacethrust_1_1placeholders",
           "summary": "Facilities for constructing simple functions inline. ",
           "title": "thrust::placeholders",
-          "url": "/api/namespaces/namespacethrust_1_1placeholders.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1placeholders.html",
           "visibility": "public"
         },
         {
@@ -320,7 +320,7 @@
           "refid": "namespacethrust_1_1random",
           "summary": "thrust::random is the namespace which contains random number engine class templates, random number engine adaptor class templates, engines with predefined parameters, and random number distribution class templates. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
           "title": "thrust::random",
-          "url": "/api/namespaces/namespacethrust_1_1random.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1random.html",
           "visibility": "public"
         },
         {
@@ -330,7 +330,7 @@
           "children": [
             {
               "anchor": "",
-              "brief": "<code>thrust::system::cuda</code> is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath <code><a href=\"/api/namespaces/namespacethrust_1_1system.html\">thrust::system</a></code> for import convenience but are also aliased in the top-level <code><a href=\"/api/namespaces/namespacethrust_1_1cuda.html\">thrust::cuda</a></code> namespace for easy access. ",
+              "brief": "<code>thrust::system::cuda</code> is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath <code><a href=\"/thrust/api/namespaces/namespacethrust_1_1system.html\">thrust::system</a></code> for import convenience but are also aliased in the top-level <code><a href=\"/thrust/api/namespaces/namespacethrust_1_1cuda.html\">thrust::cuda</a></code> namespace for easy access. ",
               "category": "namespaces",
               "fullname": "thrust::system::cuda",
               "kind": "namespace",
@@ -338,7 +338,7 @@
               "refid": "namespacethrust_1_1system_1_1cuda",
               "summary": "thrust::system::cuda is the namespace containing functionality for allocating, manipulating, and deallocating memory available to Thrust's CUDA backend system. The identifiers are provided in a separate namespace underneath thrust::system for import convenience but are also aliased in the top-level thrust::cuda namespace for easy access. ",
               "title": "thrust::system::cuda",
-              "url": "/api/namespaces/namespacethrust_1_1system_1_1cuda.html",
+              "url": "/thrust/api/namespaces/namespacethrust_1_1system_1_1cuda.html",
               "visibility": "public"
             }
           ],
@@ -348,7 +348,7 @@
           "refid": "namespacethrust_1_1system",
           "summary": "thrust::system is the namespace which contains specific Thrust backend systems. It also contains functionality for reporting error conditions originating from the operating system or other low-level application program interfaces such as the CUDA runtime. They are provided in a separate namespace for import convenience but are also aliased in the top-level thrust namespace for easy access. ",
           "title": "thrust::system",
-          "url": "/api/namespaces/namespacethrust_1_1system.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1system.html",
           "visibility": "public"
         },
         {
@@ -361,7 +361,7 @@
           "refid": "namespacethrust_1_1tbb",
           "summary": "thrust::tbb is a top-level alias for thrust::system::tbb. ",
           "title": "thrust::tbb",
-          "url": "/api/namespaces/namespacethrust_1_1tbb.html",
+          "url": "/thrust/api/namespaces/namespacethrust_1_1tbb.html",
           "visibility": "public"
         }
       ],
@@ -370,7 +370,7 @@
       "name": "thrust",
       "refid": "namespacethrust",
       "title": "thrust",
-      "url": "/api/namespaces/namespacethrust.html",
+      "url": "/thrust/api/namespaces/namespacethrust.html",
       "visibility": "public"
     },
     {
@@ -381,7 +381,7 @@
       "name": "unimplemented",
       "refid": "namespaceunimplemented",
       "title": "unimplemented",
-      "url": "/api/namespaces/namespaceunimplemented.html",
+      "url": "/thrust/api/namespaces/namespaceunimplemented.html",
       "visibility": "public"
     },
     {
@@ -392,7 +392,7 @@
       "name": "unique_eager_event_type_detail",
       "refid": "namespaceunique__eager__event__type__detail",
       "title": "unique_eager_event_type_detail",
-      "url": "/api/namespaces/namespaceunique__eager__event__type__detail.html",
+      "url": "/thrust/api/namespaces/namespaceunique__eager__event__type__detail.html",
       "visibility": "public"
     },
     {
@@ -403,7 +403,7 @@
       "name": "unique_eager_future_type_detail",
       "refid": "namespaceunique__eager__future__type__detail",
       "title": "unique_eager_future_type_detail",
-      "url": "/api/namespaces/namespaceunique__eager__future__type__detail.html",
+      "url": "/thrust/api/namespaces/namespaceunique__eager__future__type__detail.html",
       "visibility": "public"
     }
   ],

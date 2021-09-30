@@ -18,7 +18,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "predefined_function_objects",
     "refid": "group__predefined__function__objects",
     "title": "Predefined Function Objects",
-    "url": "/api/groups/group__predefined__function__objects.html",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     }
   ],
@@ -91,7 +91,7 @@
       "name": "identity",
       "refid": "structidentity",
       "title": "identity",
-      "url": "/api/classes/structidentity.html",
+      "url": "/thrust/api/classes/structidentity.html",
       "visibility": "public"
     },
     {
@@ -102,7 +102,7 @@
       "name": "identity< void >",
       "refid": "structidentity_3_01void_01_4",
       "title": "identity< void >",
-      "url": "/api/classes/structidentity_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structidentity_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -113,7 +113,7 @@
       "name": "maximum",
       "refid": "structmaximum",
       "title": "maximum",
-      "url": "/api/classes/structmaximum.html",
+      "url": "/thrust/api/classes/structmaximum.html",
       "visibility": "public"
     },
     {
@@ -124,7 +124,7 @@
       "name": "maximum< void >",
       "refid": "structmaximum_3_01void_01_4",
       "title": "maximum< void >",
-      "url": "/api/classes/structmaximum_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structmaximum_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -135,7 +135,7 @@
       "name": "minimum",
       "refid": "structminimum",
       "title": "minimum",
-      "url": "/api/classes/structminimum.html",
+      "url": "/thrust/api/classes/structminimum.html",
       "visibility": "public"
     },
     {
@@ -146,7 +146,7 @@
       "name": "minimum< void >",
       "refid": "structminimum_3_01void_01_4",
       "title": "minimum< void >",
-      "url": "/api/classes/structminimum_3_01void_01_4.html",
+      "url": "/thrust/api/classes/structminimum_3_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -157,7 +157,7 @@
       "name": "project1st",
       "refid": "structproject1st",
       "title": "project1st",
-      "url": "/api/classes/structproject1st.html",
+      "url": "/thrust/api/classes/structproject1st.html",
       "visibility": "public"
     },
     {
@@ -168,7 +168,7 @@
       "name": "project1st< void, void >",
       "refid": "structproject1st_3_01void_00_01void_01_4",
       "title": "project1st< void, void >",
-      "url": "/api/classes/structproject1st_3_01void_00_01void_01_4.html",
+      "url": "/thrust/api/classes/structproject1st_3_01void_00_01void_01_4.html",
       "visibility": "public"
     },
     {
@@ -179,7 +179,7 @@
       "name": "project2nd",
       "refid": "structproject2nd",
       "title": "project2nd",
-      "url": "/api/classes/structproject2nd.html",
+      "url": "/thrust/api/classes/structproject2nd.html",
       "visibility": "public"
     },
     {
@@ -190,7 +190,7 @@
       "name": "project2nd< void, void >",
       "refid": "structproject2nd_3_01void_00_01void_01_4",
       "title": "project2nd< void, void >",
-      "url": "/api/classes/structproject2nd_3_01void_00_01void_01_4.html",
+      "url": "/thrust/api/classes/structproject2nd_3_01void_00_01void_01_4.html",
       "visibility": "public"
     }
   ],
@@ -198,6 +198,6 @@
   "static": false,
   "strong": false,
   "title": "Generalized Identity Operations",
-  "url": "/api/groups/group__generalized__identity__operations.html",
+  "url": "/thrust/api/groups/group__generalized__identity__operations.html",
   "visibility": "public"
 }

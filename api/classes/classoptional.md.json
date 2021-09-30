@@ -50,7 +50,7 @@
       "title": "base",
       "type": "detail::optional_move_assign_base< T >",
       "typePlain": "detail::optional_move_assign_base< T >",
-      "url": "/api/classes/classoptional.html#using-base",
+      "url": "/thrust/api/classes/classoptional.html#using-base",
       "visibility": "private"
     }
   ],
@@ -65,7 +65,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T >::and_then",
       "deleted": false,
-      "details": "\\requires <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/api/classes/classoptional.html#function-value\">value()</a>)</code> returns a <code>std::optional&lt;U&gt;</code> for some <code>U</code>. ",
+      "details": "\\requires <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional.html#function-value\">value()</a>)</code> returns a <code>std::optional&lt;U&gt;</code> for some <code>U</code>. ",
       "explicit": false,
       "fullname": "optional::and_then",
       "hasDetails": true,
@@ -91,7 +91,7 @@
       "pureVirtual": false,
       "refid": "classoptional_1a80cc5c7410ae5fc0104c7051bd09fb01",
       "returns": [
-        "Let <code>U</code> be the result of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/api/classes/classoptional.html#function-value\">value()</a>)</code>. Returns a <code>std::optional&lt;U&gt;</code>. The return value is empty if <code>&#42;this</code> is empty, otherwise the return value of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/api/classes/classoptional.html#function-value\">value()</a>)</code> is returned. \\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) &; "
+        "Let <code>U</code> be the result of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional.html#function-value\">value()</a>)</code>. Returns a <code>std::optional&lt;U&gt;</code>. The return value is empty if <code>&#42;this</code> is empty, otherwise the return value of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional.html#function-value\">value()</a>)</code> is returned. \\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) &; "
       ],
       "static": false,
       "strong": false,
@@ -106,7 +106,7 @@
       "title": "and_then",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/classoptional.html#function-and_then",
+      "url": "/thrust/api/classes/classoptional.html#function-and_then",
       "virtual": false,
       "visibility": "public"
     },
@@ -157,7 +157,7 @@
       "title": "and_then",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/classoptional.html#function-and_then",
+      "url": "/thrust/api/classes/classoptional.html#function-and_then",
       "virtual": false,
       "visibility": "public"
     },
@@ -208,7 +208,7 @@
       "title": "and_then",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/classoptional.html#function-and_then",
+      "url": "/thrust/api/classes/classoptional.html#function-and_then",
       "virtual": false,
       "visibility": "public"
     },
@@ -259,7 +259,7 @@
       "title": "and_then",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/classoptional.html#function-and_then",
+      "url": "/thrust/api/classes/classoptional.html#function-and_then",
       "virtual": false,
       "visibility": "public"
     },
@@ -299,7 +299,7 @@
       "pureVirtual": false,
       "refid": "classoptional_1af1f64609da7c3a05e78be350ef561b15",
       "returns": [
-        "Let <code>U</code> be the result of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/api/classes/classoptional.html#function-value\">value()</a>)</code>. Returns a <code>std::optional&lt;U&gt;</code>. The return value is empty if <code>&#42;this</code> is empty, otherwise an <code>optional&lt;U&gt;</code> is constructed from the return value of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/api/classes/classoptional.html#function-value\">value()</a>)</code> and is returned."
+        "Let <code>U</code> be the result of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional.html#function-value\">value()</a>)</code>. Returns a <code>std::optional&lt;U&gt;</code>. The return value is empty if <code>&#42;this</code> is empty, otherwise an <code>optional&lt;U&gt;</code> is constructed from the return value of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional.html#function-value\">value()</a>)</code> and is returned."
       ],
       "static": false,
       "strong": false,
@@ -314,7 +314,7 @@
       "title": "map",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/classoptional.html#function-map",
+      "url": "/thrust/api/classes/classoptional.html#function-map",
       "virtual": false,
       "visibility": "public"
     },
@@ -365,7 +365,7 @@
       "title": "map",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/classoptional.html#function-map",
+      "url": "/thrust/api/classes/classoptional.html#function-map",
       "virtual": false,
       "visibility": "public"
     },
@@ -416,7 +416,7 @@
       "title": "map",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/classoptional.html#function-map",
+      "url": "/thrust/api/classes/classoptional.html#function-map",
       "virtual": false,
       "visibility": "public"
     },
@@ -467,7 +467,7 @@
       "title": "map",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/classes/classoptional.html#function-map",
+      "url": "/thrust/api/classes/classoptional.html#function-map",
       "virtual": false,
       "visibility": "public"
     },
@@ -524,9 +524,9 @@
         }
       ],
       "title": "or_else",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/api/classes/classoptional.html\">optional</a>< T >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional< T >",
-      "url": "/api/classes/classoptional.html#function-or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -583,9 +583,9 @@
         }
       ],
       "title": "or_else",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/api/classes/classoptional.html\">optional</a>< T >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional< T >",
-      "url": "/api/classes/classoptional.html#function-or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -641,9 +641,9 @@
         }
       ],
       "title": "or_else",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a>< T >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional< T >",
-      "url": "/api/classes/classoptional.html#function-or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -699,9 +699,9 @@
         }
       ],
       "title": "or_else",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/api/classes/classoptional.html\">optional</a>< T >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional< T >",
-      "url": "/api/classes/classoptional.html#function-or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -757,9 +757,9 @@
         }
       ],
       "title": "or_else",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a>< T >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional< T >",
-      "url": "/api/classes/classoptional.html#function-or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -815,9 +815,9 @@
         }
       ],
       "title": "or_else",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/api/classes/classoptional.html\">optional</a>< T >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional< T >",
-      "url": "/api/classes/classoptional.html#function-or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -873,9 +873,9 @@
         }
       ],
       "title": "or_else",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a>< T >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional< T >",
-      "url": "/api/classes/classoptional.html#function-or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -931,9 +931,9 @@
         }
       ],
       "title": "or_else",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a>< T >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional< T >",
-      "url": "/api/classes/classoptional.html#function-or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -995,7 +995,7 @@
       "title": "map_or",
       "type": "__thrust_exec_check_disable__ __host__ __device__ U",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ U",
-      "url": "/api/classes/classoptional.html#function-map_or",
+      "url": "/thrust/api/classes/classoptional.html#function-map_or",
       "virtual": false,
       "visibility": "public"
     },
@@ -1056,7 +1056,7 @@
       "title": "map_or",
       "type": "__thrust_exec_check_disable__ __host__ __device__ U",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ U",
-      "url": "/api/classes/classoptional.html#function-map_or",
+      "url": "/thrust/api/classes/classoptional.html#function-map_or",
       "virtual": false,
       "visibility": "public"
     },
@@ -1117,7 +1117,7 @@
       "title": "map_or",
       "type": "__thrust_exec_check_disable__ __host__ __device__ U",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ U",
-      "url": "/api/classes/classoptional.html#function-map_or",
+      "url": "/thrust/api/classes/classoptional.html#function-map_or",
       "virtual": false,
       "visibility": "public"
     },
@@ -1178,7 +1178,7 @@
       "title": "map_or",
       "type": "__thrust_exec_check_disable__ __host__ __device__ U",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ U",
-      "url": "/api/classes/classoptional.html#function-map_or",
+      "url": "/thrust/api/classes/classoptional.html#function-map_or",
       "virtual": false,
       "visibility": "public"
     },
@@ -1240,7 +1240,7 @@
       "title": "map_or_else",
       "type": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
-      "url": "/api/classes/classoptional.html#function-map_or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-map_or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -1301,7 +1301,7 @@
       "title": "map_or_else",
       "type": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
-      "url": "/api/classes/classoptional.html#function-map_or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-map_or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -1362,7 +1362,7 @@
       "title": "map_or_else",
       "type": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
-      "url": "/api/classes/classoptional.html#function-map_or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-map_or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -1423,7 +1423,7 @@
       "title": "map_or_else",
       "type": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
-      "url": "/api/classes/classoptional.html#function-map_or_else",
+      "url": "/thrust/api/classes/classoptional.html#function-map_or_else",
       "virtual": false,
       "visibility": "public"
     },
@@ -1473,9 +1473,9 @@
         }
       ],
       "title": "conjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>< typename std::decay< U >::type >",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< typename std::decay< U >::type >",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< typename std::decay< U >::type >",
-      "url": "/api/classes/classoptional.html#function-conjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-conjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1506,7 +1506,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
           "typePlain": "const optional &"
         }
       ],
@@ -1518,9 +1518,9 @@
       "static": false,
       "strong": false,
       "title": "disjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
-      "url": "/api/classes/classoptional.html#function-disjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-disjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1552,7 +1552,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
           "typePlain": "const optional &"
         }
       ],
@@ -1562,9 +1562,9 @@
       "strong": false,
       "summary": "\\group disjunction ",
       "title": "disjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
-      "url": "/api/classes/classoptional.html#function-disjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-disjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1596,7 +1596,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
           "typePlain": "const optional &"
         }
       ],
@@ -1606,9 +1606,9 @@
       "strong": false,
       "summary": "\\group disjunction ",
       "title": "disjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
-      "url": "/api/classes/classoptional.html#function-disjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-disjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1640,7 +1640,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
           "typePlain": "const optional &"
         }
       ],
@@ -1650,9 +1650,9 @@
       "strong": false,
       "summary": "\\group disjunction ",
       "title": "disjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
-      "url": "/api/classes/classoptional.html#function-disjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-disjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1684,7 +1684,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
           "typePlain": "optional &&"
         }
       ],
@@ -1694,9 +1694,9 @@
       "strong": false,
       "summary": "\\group disjunction ",
       "title": "disjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
-      "url": "/api/classes/classoptional.html#function-disjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-disjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1728,7 +1728,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
           "typePlain": "optional &&"
         }
       ],
@@ -1738,9 +1738,9 @@
       "strong": false,
       "summary": "\\group disjunction ",
       "title": "disjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
-      "url": "/api/classes/classoptional.html#function-disjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-disjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1772,7 +1772,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
           "typePlain": "optional &&"
         }
       ],
@@ -1782,9 +1782,9 @@
       "strong": false,
       "summary": "\\group disjunction ",
       "title": "disjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
-      "url": "/api/classes/classoptional.html#function-disjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-disjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1816,7 +1816,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
           "typePlain": "optional &&"
         }
       ],
@@ -1826,9 +1826,9 @@
       "strong": false,
       "summary": "\\group disjunction ",
       "title": "disjunction",
-      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
-      "url": "/api/classes/classoptional.html#function-disjunction",
+      "url": "/thrust/api/classes/classoptional.html#function-disjunction",
       "virtual": false,
       "visibility": "public"
     },
@@ -1864,9 +1864,9 @@
       "strong": false,
       "summary": "Takes the value out of the optional, leaving it empty \\group take. ",
       "title": "take",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional",
-      "url": "/api/classes/classoptional.html#function-take",
+      "url": "/thrust/api/classes/classoptional.html#function-take",
       "virtual": false,
       "visibility": "public"
     },
@@ -1902,9 +1902,9 @@
       "strong": false,
       "summary": "\\group take ",
       "title": "take",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional",
-      "url": "/api/classes/classoptional.html#function-take",
+      "url": "/thrust/api/classes/classoptional.html#function-take",
       "virtual": false,
       "visibility": "public"
     },
@@ -1940,9 +1940,9 @@
       "strong": false,
       "summary": "\\group take ",
       "title": "take",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional",
-      "url": "/api/classes/classoptional.html#function-take",
+      "url": "/thrust/api/classes/classoptional.html#function-take",
       "virtual": false,
       "visibility": "public"
     },
@@ -1978,9 +1978,9 @@
       "strong": false,
       "summary": "\\group take ",
       "title": "take",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a>",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional",
-      "url": "/api/classes/classoptional.html#function-take",
+      "url": "/thrust/api/classes/classoptional.html#function-take",
       "virtual": false,
       "visibility": "public"
     },
@@ -2016,7 +2016,7 @@
       "title": "optional",
       "type": "constexpr __thrust_exec_check_disable__",
       "typePlain": "constexpr __thrust_exec_check_disable__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2048,7 +2048,7 @@
       "params": [
         {
           "name": "",
-          "type": "<a href=\"/api/classes/structnullopt__t.html\">nullopt_t</a>",
+          "type": "<a href=\"/thrust/api/classes/structnullopt__t.html\">nullopt_t</a>",
           "typePlain": "nullopt_t"
         }
       ],
@@ -2060,7 +2060,7 @@
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2090,7 +2090,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
           "typePlain": "const optional &"
         }
       ],
@@ -2102,7 +2102,7 @@
       "title": "optional",
       "type": "constexpr __thrust_exec_check_disable__",
       "typePlain": "constexpr __thrust_exec_check_disable__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2132,7 +2132,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
           "typePlain": "optional &&"
         }
       ],
@@ -2144,7 +2144,7 @@
       "title": "optional",
       "type": "constexpr __thrust_exec_check_disable__",
       "typePlain": "constexpr __thrust_exec_check_disable__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2158,7 +2158,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T >::optional",
       "deleted": false,
-      "details": "\\group in_place \\synopsis template <class... Args> constexpr explicit <a href=\"/api/classes/classoptional.html\">optional(in_place_t, Args&&... args)</a>; ",
+      "details": "\\group in_place \\synopsis template <class... Args> constexpr explicit <a href=\"/thrust/api/classes/classoptional.html\">optional(in_place_t, Args&&... args)</a>; ",
       "explicit": true,
       "fullname": "optional::optional",
       "hasDetails": true,
@@ -2177,7 +2177,7 @@
       "params": [
         {
           "name": "",
-          "type": "detail::enable_if_t< std::is_constructible< T, Args... >::<a href=\"/api/classes/classoptional.html#function-value\">value</a>, <a href=\"/api/classes/structin__place__t.html\">in_place_t</a> >",
+          "type": "detail::enable_if_t< std::is_constructible< T, Args... >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a>, <a href=\"/thrust/api/classes/structin__place__t.html\">in_place_t</a> >",
           "typePlain": "detail::enable_if_t< std::is_constructible< T, Args... >::value, in_place_t >"
         },
         {
@@ -2201,7 +2201,7 @@
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2215,7 +2215,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T >::optional",
       "deleted": false,
-      "details": "Args>\\nconstexpr explicit <a href=\"/api/classes/classoptional.html\">optional(in_place_t, std::initializer_list<U>&, Args&&... args)</a>; ",
+      "details": "Args>\\nconstexpr explicit <a href=\"/thrust/api/classes/classoptional.html\">optional(in_place_t, std::initializer_list<U>&, Args&&... args)</a>; ",
       "explicit": true,
       "fullname": "optional::optional",
       "hasDetails": true,
@@ -2234,7 +2234,7 @@
       "params": [
         {
           "name": "",
-          "type": "detail::enable_if_t< std::is_constructible< T, std::initializer_list< U > &, Args &&... >::<a href=\"/api/classes/classoptional.html#function-value\">value</a>, <a href=\"/api/classes/structin__place__t.html\">in_place_t</a> >",
+          "type": "detail::enable_if_t< std::is_constructible< T, std::initializer_list< U > &, Args &&... >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a>, <a href=\"/thrust/api/classes/structin__place__t.html\">in_place_t</a> >",
           "typePlain": "detail::enable_if_t< std::is_constructible< T, std::initializer_list< U > &, Args &&... >::value, in_place_t >"
         },
         {
@@ -2268,7 +2268,7 @@
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2282,7 +2282,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T >::optional",
       "deleted": false,
-      "details": "\\synopsis template <class U=T>> constexpr <a href=\"/api/classes/classoptional.html#function-optional\">optional(U &&u)</a>; ",
+      "details": "\\synopsis template <class U=T>> constexpr <a href=\"/thrust/api/classes/classoptional.html#function-optional\">optional(U &&u)</a>; ",
       "explicit": false,
       "fullname": "optional::optional",
       "hasDetails": true,
@@ -2322,7 +2322,7 @@
           "defval": "nullptr",
           "defvalPlain": "nullptr",
           "name": "",
-          "type": "detail::enable_if_t< std::is_convertible< U &&, T >::<a href=\"/api/classes/classoptional.html#function-value\">value</a> > *",
+          "type": "detail::enable_if_t< std::is_convertible< U &&, T >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a> > *",
           "typePlain": "detail::enable_if_t< std::is_convertible< U &&, T >::value > *"
         },
         {
@@ -2336,7 +2336,7 @@
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2350,7 +2350,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T >::optional",
       "deleted": false,
-      "details": "\\synopsis template <class U=T>> constexpr <a href=\"/api/classes/classoptional.html#function-optional\">optional(U &&u)</a>; ",
+      "details": "\\synopsis template <class U=T>> constexpr <a href=\"/thrust/api/classes/classoptional.html#function-optional\">optional(U &&u)</a>; ",
       "explicit": false,
       "fullname": "optional::optional",
       "hasDetails": true,
@@ -2390,7 +2390,7 @@
           "defval": "nullptr",
           "defvalPlain": "nullptr",
           "name": "",
-          "type": "detail::enable_if_t< std::is_convertible< U &&, T >::<a href=\"/api/classes/classoptional.html#function-value\">value</a> > *",
+          "type": "detail::enable_if_t< std::is_convertible< U &&, T >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a> > *",
           "typePlain": "detail::enable_if_t< std::is_convertible< U &&, T >::value > *"
         },
         {
@@ -2404,7 +2404,7 @@
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2418,7 +2418,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ __device__ optional< T >::optional",
       "deleted": false,
-      "details": "\\synopsis template <class U> <a href=\"/api/classes/classoptional.html#function-optional\">optional(const optional<U> &rhs)</a>; ",
+      "details": "\\synopsis template <class U> <a href=\"/thrust/api/classes/classoptional.html#function-optional\">optional(const optional<U> &rhs)</a>; ",
       "explicit": false,
       "fullname": "optional::optional",
       "hasDetails": true,
@@ -2437,7 +2437,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &",
           "typePlain": "const optional< U > &"
         }
       ],
@@ -2463,14 +2463,14 @@
           "defval": "nullptr",
           "defvalPlain": "nullptr",
           "name": "",
-          "type": "detail::enable_if_t< std::is_convertible< const U &, T >::<a href=\"/api/classes/classoptional.html#function-value\">value</a> > *",
+          "type": "detail::enable_if_t< std::is_convertible< const U &, T >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a> > *",
           "typePlain": "detail::enable_if_t< std::is_convertible< const U &, T >::value > *"
         }
       ],
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2484,7 +2484,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ __device__ optional< T >::optional",
       "deleted": false,
-      "details": "\\synopsis template <class U> <a href=\"/api/classes/classoptional.html#function-optional\">optional(const optional<U> &rhs)</a>; ",
+      "details": "\\synopsis template <class U> <a href=\"/thrust/api/classes/classoptional.html#function-optional\">optional(const optional<U> &rhs)</a>; ",
       "explicit": false,
       "fullname": "optional::optional",
       "hasDetails": true,
@@ -2503,7 +2503,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &",
           "typePlain": "const optional< U > &"
         }
       ],
@@ -2529,14 +2529,14 @@
           "defval": "nullptr",
           "defvalPlain": "nullptr",
           "name": "",
-          "type": "detail::enable_if_t< std::is_convertible< const U &, T >::<a href=\"/api/classes/classoptional.html#function-value\">value</a> > *",
+          "type": "detail::enable_if_t< std::is_convertible< const U &, T >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a> > *",
           "typePlain": "detail::enable_if_t< std::is_convertible< const U &, T >::value > *"
         }
       ],
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2550,7 +2550,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ __device__ optional< T >::optional",
       "deleted": false,
-      "details": "\\synopsis template <class U> <a href=\"/api/classes/classoptional.html#function-optional\">optional(optional<U> &&rhs)</a>; ",
+      "details": "\\synopsis template <class U> <a href=\"/thrust/api/classes/classoptional.html#function-optional\">optional(optional<U> &&rhs)</a>; ",
       "explicit": false,
       "fullname": "optional::optional",
       "hasDetails": true,
@@ -2569,7 +2569,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a>< U > &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &&",
           "typePlain": "optional< U > &&"
         }
       ],
@@ -2595,14 +2595,14 @@
           "defval": "nullptr",
           "defvalPlain": "nullptr",
           "name": "",
-          "type": "detail::enable_if_t< std::is_convertible< U &&, T >::<a href=\"/api/classes/classoptional.html#function-value\">value</a> > *",
+          "type": "detail::enable_if_t< std::is_convertible< U &&, T >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a> > *",
           "typePlain": "detail::enable_if_t< std::is_convertible< U &&, T >::value > *"
         }
       ],
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2616,7 +2616,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ __device__ optional< T >::optional",
       "deleted": false,
-      "details": "\\synopsis template <class U> <a href=\"/api/classes/classoptional.html#function-optional\">optional(optional<U> &&rhs)</a>; ",
+      "details": "\\synopsis template <class U> <a href=\"/thrust/api/classes/classoptional.html#function-optional\">optional(optional<U> &&rhs)</a>; ",
       "explicit": false,
       "fullname": "optional::optional",
       "hasDetails": true,
@@ -2635,7 +2635,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a>< U > &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &&",
           "typePlain": "optional< U > &&"
         }
       ],
@@ -2661,14 +2661,14 @@
           "defval": "nullptr",
           "defvalPlain": "nullptr",
           "name": "",
-          "type": "detail::enable_if_t< std::is_convertible< U &&, T >::<a href=\"/api/classes/classoptional.html#function-value\">value</a> > *",
+          "type": "detail::enable_if_t< std::is_convertible< U &&, T >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a> > *",
           "typePlain": "detail::enable_if_t< std::is_convertible< U &&, T >::value > *"
         }
       ],
       "title": "optional",
       "type": "__thrust_exec_check_disable__ __host__ __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__",
-      "url": "/api/classes/classoptional.html#function-optional",
+      "url": "/thrust/api/classes/classoptional.html#function-optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2703,7 +2703,7 @@
       "title": "~optional",
       "type": "__thrust_exec_check_disable__",
       "typePlain": "__thrust_exec_check_disable__",
-      "url": "/api/classes/classoptional.html#function-~optional",
+      "url": "/thrust/api/classes/classoptional.html#function-~optional",
       "virtual": false,
       "visibility": "public"
     },
@@ -2736,7 +2736,7 @@
       "params": [
         {
           "name": "",
-          "type": "<a href=\"/api/classes/structnullopt__t.html\">nullopt_t</a>",
+          "type": "<a href=\"/thrust/api/classes/structnullopt__t.html\">nullopt_t</a>",
           "typePlain": "nullopt_t"
         }
       ],
@@ -2746,9 +2746,9 @@
       "strong": false,
       "summary": "Assignment to empty. ",
       "title": "operator=",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a> &",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional &",
-      "url": "/api/classes/classoptional.html#function-operator=",
+      "url": "/thrust/api/classes/classoptional.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -2778,7 +2778,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
           "typePlain": "const optional &"
         }
       ],
@@ -2788,9 +2788,9 @@
       "strong": false,
       "summary": "Copy assignment. ",
       "title": "operator=",
-      "type": "__thrust_exec_check_disable__ <a href=\"/api/classes/classoptional.html\">optional</a> &",
+      "type": "__thrust_exec_check_disable__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
       "typePlain": "__thrust_exec_check_disable__ optional &",
-      "url": "/api/classes/classoptional.html#function-operator=",
+      "url": "/thrust/api/classes/classoptional.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -2820,7 +2820,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
           "typePlain": "optional &&"
         }
       ],
@@ -2830,9 +2830,9 @@
       "strong": false,
       "summary": "Move assignment. ",
       "title": "operator=",
-      "type": "__thrust_exec_check_disable__ <a href=\"/api/classes/classoptional.html\">optional</a> &",
+      "type": "__thrust_exec_check_disable__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
       "typePlain": "__thrust_exec_check_disable__ optional &",
-      "url": "/api/classes/classoptional.html#function-operator=",
+      "url": "/thrust/api/classes/classoptional.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -2846,7 +2846,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ __device__ optional& optional< T >::operator=",
       "deleted": false,
-      "details": "\\synopsis optional &<a href=\"/api/classes/classoptional.html#function-operator=\">operator=(U &&u)</a>; ",
+      "details": "\\synopsis optional &<a href=\"/thrust/api/classes/classoptional.html#function-operator=\">operator=(U &&u)</a>; ",
       "explicit": false,
       "fullname": "optional::operator=",
       "hasDetails": true,
@@ -2891,9 +2891,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a> &",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional &",
-      "url": "/api/classes/classoptional.html#function-operator=",
+      "url": "/thrust/api/classes/classoptional.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -2907,7 +2907,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ __device__ optional& optional< T >::operator=",
       "deleted": false,
-      "details": "Copies the value from <code>rhs</code> if there is one. Otherwise resets the stored value in <code>&#42;this</code>. \\synopsis optional &<a href=\"/api/classes/classoptional.html#function-operator=\">operator=(const optional<U> & rhs)</a>; ",
+      "details": "Copies the value from <code>rhs</code> if there is one. Otherwise resets the stored value in <code>&#42;this</code>. \\synopsis optional &<a href=\"/thrust/api/classes/classoptional.html#function-operator=\">operator=(const optional<U> & rhs)</a>; ",
       "explicit": false,
       "fullname": "optional::operator=",
       "hasDetails": true,
@@ -2926,7 +2926,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "const <a href=\"/api/classes/classoptional.html\">optional</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &",
           "typePlain": "const optional< U > &"
         }
       ],
@@ -2950,9 +2950,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a> &",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional &",
-      "url": "/api/classes/classoptional.html#function-operator=",
+      "url": "/thrust/api/classes/classoptional.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -2966,7 +2966,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ __device__ optional& optional< T >::operator=",
       "deleted": false,
-      "details": "Moves the value from <code>rhs</code> if there is one. Otherwise resets the stored value in <code>&#42;this</code>. \\synopsis optional &<a href=\"/api/classes/classoptional.html#function-operator=\">operator=(optional<U> && rhs)</a>; ",
+      "details": "Moves the value from <code>rhs</code> if there is one. Otherwise resets the stored value in <code>&#42;this</code>. \\synopsis optional &<a href=\"/thrust/api/classes/classoptional.html#function-operator=\">operator=(optional<U> && rhs)</a>; ",
       "explicit": false,
       "fullname": "optional::operator=",
       "hasDetails": true,
@@ -2985,7 +2985,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a>< U > &&",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &&",
           "typePlain": "optional< U > &&"
         }
       ],
@@ -3009,9 +3009,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/api/classes/classoptional.html\">optional</a> &",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional &",
-      "url": "/api/classes/classoptional.html#function-operator=",
+      "url": "/thrust/api/classes/classoptional.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -3063,7 +3063,7 @@
       "title": "emplace",
       "type": "__thrust_exec_check_disable__ __host__ __device__ T &",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ T &",
-      "url": "/api/classes/classoptional.html#function-emplace",
+      "url": "/thrust/api/classes/classoptional.html#function-emplace",
       "virtual": false,
       "visibility": "public"
     },
@@ -3077,7 +3077,7 @@
       "default": false,
       "definition": "__thrust_exec_check_disable__ __host__ __device__ detail::enable_if_t< std::is_constructible<T, std::initializer_list<U> &, Args &&...>::value, T &> optional< T >::emplace",
       "deleted": false,
-      "details": "Args>\\nT& <a href=\"/api/classes/classoptional.html#function-emplace\">emplace(std::initializer_list<U> il, Args &&... args)</a>; ",
+      "details": "Args>\\nT& <a href=\"/thrust/api/classes/classoptional.html#function-emplace\">emplace(std::initializer_list<U> il, Args &&... args)</a>; ",
       "explicit": false,
       "fullname": "optional::emplace",
       "hasDetails": true,
@@ -3123,9 +3123,9 @@
         }
       ],
       "title": "emplace",
-      "type": "__thrust_exec_check_disable__ __host__ __device__ detail::enable_if_t< std::is_constructible< T, std::initializer_list< U > &, Args &&... >::<a href=\"/api/classes/classoptional.html#function-value\">value</a>, T & >",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ detail::enable_if_t< std::is_constructible< T, std::initializer_list< U > &, Args &&... >::<a href=\"/thrust/api/classes/classoptional.html#function-value\">value</a>, T & >",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::enable_if_t< std::is_constructible< T, std::initializer_list< U > &, Args &&... >::value, T & >",
-      "url": "/api/classes/classoptional.html#function-emplace",
+      "url": "/thrust/api/classes/classoptional.html#function-emplace",
       "virtual": false,
       "visibility": "public"
     },
@@ -3158,7 +3158,7 @@
       "params": [
         {
           "name": "rhs",
-          "type": "<a href=\"/api/classes/classoptional.html\">optional</a> &",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
           "typePlain": "optional &"
         }
       ],
@@ -3170,7 +3170,7 @@
       "title": "swap",
       "type": "__thrust_exec_check_disable__ __host__ __device__ void",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ void",
-      "url": "/api/classes/classoptional.html#function-swap",
+      "url": "/thrust/api/classes/classoptional.html#function-swap",
       "virtual": false,
       "visibility": "public"
     },
@@ -3209,7 +3209,7 @@
       "title": "operator->",
       "type": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T *",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T *",
-      "url": "/api/classes/classoptional.html#function-operator->",
+      "url": "/thrust/api/classes/classoptional.html#function-operator->",
       "virtual": false,
       "visibility": "public"
     },
@@ -3247,7 +3247,7 @@
       "title": "operator->",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T *",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T *",
-      "url": "/api/classes/classoptional.html#function-operator->",
+      "url": "/thrust/api/classes/classoptional.html#function-operator->",
       "virtual": false,
       "visibility": "public"
     },
@@ -3279,14 +3279,14 @@
       "pureVirtual": false,
       "refid": "classoptional_1ac17cd2db8c3a3300f961e8c01d420231",
       "returns": [
-        "the stored value \\requires a value is stored \\group deref \\synopsis constexpr T &<a href=\"/api/classes/classoptional.html#function-operator*\">operator*()</a>; "
+        "the stored value \\requires a value is stored \\group deref \\synopsis constexpr T &<a href=\"/thrust/api/classes/classoptional.html#function-operator*\">operator*()</a>; "
       ],
       "static": false,
       "strong": false,
       "title": "operator*",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T &",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T &",
-      "url": "/api/classes/classoptional.html#function-operator*",
+      "url": "/thrust/api/classes/classoptional.html#function-operator*",
       "virtual": false,
       "visibility": "public"
     },
@@ -3324,7 +3324,7 @@
       "title": "operator*",
       "type": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &",
-      "url": "/api/classes/classoptional.html#function-operator*",
+      "url": "/thrust/api/classes/classoptional.html#function-operator*",
       "virtual": false,
       "visibility": "public"
     },
@@ -3362,7 +3362,7 @@
       "title": "operator*",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T &&",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T &&",
-      "url": "/api/classes/classoptional.html#function-operator*",
+      "url": "/thrust/api/classes/classoptional.html#function-operator*",
       "virtual": false,
       "visibility": "public"
     },
@@ -3400,7 +3400,7 @@
       "title": "operator*",
       "type": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &&",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &&",
-      "url": "/api/classes/classoptional.html#function-operator*",
+      "url": "/thrust/api/classes/classoptional.html#function-operator*",
       "virtual": false,
       "visibility": "public"
     },
@@ -3439,7 +3439,7 @@
       "title": "has_value",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
-      "url": "/api/classes/classoptional.html#function-has_value",
+      "url": "/thrust/api/classes/classoptional.html#function-has_value",
       "virtual": false,
       "visibility": "public"
     },
@@ -3477,7 +3477,7 @@
       "title": "operator bool",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
-      "url": "/api/classes/classoptional.html#function-operator-bool",
+      "url": "/thrust/api/classes/classoptional.html#function-operator-bool",
       "virtual": false,
       "visibility": "public"
     },
@@ -3509,14 +3509,14 @@
       "pureVirtual": false,
       "refid": "classoptional_1adc8dcadcb4192e8c7fd9e8d1c5b83a20",
       "returns": [
-        "the contained value if there is one, otherwise throws [bad_optional_access] \\group value \\synopsis constexpr T &<a href=\"/api/classes/classoptional.html#function-value\">value()</a>; "
+        "the contained value if there is one, otherwise throws [bad_optional_access] \\group value \\synopsis constexpr T &<a href=\"/thrust/api/classes/classoptional.html#function-value\">value()</a>; "
       ],
       "static": false,
       "strong": false,
       "title": "value",
       "type": "constexpr __host__ T &",
       "typePlain": "constexpr __host__ T &",
-      "url": "/api/classes/classoptional.html#function-value",
+      "url": "/thrust/api/classes/classoptional.html#function-value",
       "virtual": false,
       "visibility": "public"
     },
@@ -3554,7 +3554,7 @@
       "title": "value",
       "type": "constexpr const __host__ T &",
       "typePlain": "constexpr const __host__ T &",
-      "url": "/api/classes/classoptional.html#function-value",
+      "url": "/thrust/api/classes/classoptional.html#function-value",
       "virtual": false,
       "visibility": "public"
     },
@@ -3592,7 +3592,7 @@
       "title": "value",
       "type": "constexpr __host__ T &&",
       "typePlain": "constexpr __host__ T &&",
-      "url": "/api/classes/classoptional.html#function-value",
+      "url": "/thrust/api/classes/classoptional.html#function-value",
       "virtual": false,
       "visibility": "public"
     },
@@ -3630,7 +3630,7 @@
       "title": "value",
       "type": "constexpr const __host__ T &&",
       "typePlain": "constexpr const __host__ T &&",
-      "url": "/api/classes/classoptional.html#function-value",
+      "url": "/thrust/api/classes/classoptional.html#function-value",
       "virtual": false,
       "visibility": "public"
     },
@@ -3682,7 +3682,7 @@
       "title": "value_or",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
-      "url": "/api/classes/classoptional.html#function-value_or",
+      "url": "/thrust/api/classes/classoptional.html#function-value_or",
       "virtual": false,
       "visibility": "public"
     },
@@ -3733,7 +3733,7 @@
       "title": "value_or",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
-      "url": "/api/classes/classoptional.html#function-value_or",
+      "url": "/thrust/api/classes/classoptional.html#function-value_or",
       "virtual": false,
       "visibility": "public"
     },
@@ -3771,7 +3771,7 @@
       "title": "reset",
       "type": "__thrust_exec_check_disable__ __host__ __device__ void",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ void",
-      "url": "/api/classes/classoptional.html#function-reset",
+      "url": "/thrust/api/classes/classoptional.html#function-reset",
       "virtual": false,
       "visibility": "public"
     }
@@ -3803,7 +3803,7 @@
       "title": "value_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/classoptional.html#using-value_type",
+      "url": "/thrust/api/classes/classoptional.html#using-value_type",
       "visibility": "public"
     }
   ],
@@ -3819,6 +3819,6 @@
     }
   ],
   "title": "optional",
-  "url": "/api/classes/classoptional.html",
+  "url": "/thrust/api/classes/classoptional.html",
   "visibility": "public"
 }

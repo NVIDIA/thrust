@@ -11,224 +11,224 @@ has_toc: false
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>struct <b><a href="/api/classes/structcomplex.html">complex</a></b>;</span>
+<span>struct <b><a href="/thrust/api/classes/structcomplex.html">complex</a></b>;</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ T </span><span><b><a href="/api/groups/group__complex__numbers.html#function-abs">abs</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ T </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-abs">abs</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ T </span><span><b><a href="/api/groups/group__complex__numbers.html#function-arg">arg</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ T </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-arg">arg</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ T </span><span><b><a href="/api/groups/group__complex__numbers.html#function-norm">norm</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ T </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-norm">norm</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-conj">conj</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-conj">conj</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-polar">polar</a></b>(const T0 & m,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-polar">polar</a></b>(const T0 & m,</span>
 <span>&nbsp;&nbsp;const T1 & theta = T1());</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-proj">proj</a></b>(const T & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-proj">proj</a></b>(const T & z);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator+">operator+</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator+">operator+</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator+">operator+</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator+">operator+</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator+">operator+</a></b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator+">operator+</a></b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator-">operator-</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator-">operator-</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator-">operator-</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator-">operator-</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator-">operator-</a></b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator-">operator-</a></b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator*">operator&#42;</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator*">operator&#42;</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator*">operator&#42;</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator*">operator&#42;</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator*">operator&#42;</a></b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator*">operator&#42;</a></b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator/">operator/</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator/">operator/</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator/">operator/</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator/">operator/</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator/">operator/</a></b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator/">operator/</a></b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator+">operator+</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator+">operator+</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & y);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator-">operator-</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator-">operator-</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & y);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-exp">exp</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-exp">exp</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-log">log</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-log">log</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-log10">log10</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-log10">log10</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-pow">pow</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-pow">pow</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-pow">pow</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-pow">pow</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-pow">pow</a></b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-pow">pow</a></b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-sqrt">sqrt</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-sqrt">sqrt</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-cos">cos</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-cos">cos</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-sin">sin</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-sin">sin</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-tan">tan</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-tan">tan</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-cosh">cosh</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-cosh">cosh</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-sinh">sinh</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-sinh">sinh</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-tanh">tanh</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-tanh">tanh</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-acos">acos</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-acos">acos</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-asin">asin</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-asin">asin</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-atan">atan</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-atan">atan</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-acosh">acosh</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-acosh">acosh</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-asinh">asinh</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-asinh">asinh</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/api/groups/group__complex__numbers.html#function-atanh">atanh</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-atanh">atanh</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
-<span>std::basic_ostream< CharT, Traits > & </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator<<">operator&lt;&lt;</a></b>(std::basic_ostream< CharT, Traits > & os,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>std::basic_ostream< CharT, Traits > & </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator<<">operator&lt;&lt;</a></b>(std::basic_ostream< CharT, Traits > & os,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T,</span>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
-<span>__host__ std::basic_istream< CharT, Traits > & </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator>>">operator&gt;&gt;</a></b>(std::basic_istream< CharT, Traits > & is,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span>
+<span>__host__ std::basic_istream< CharT, Traits > & </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator>>">operator&gt;&gt;</a></b>(std::basic_istream< CharT, Traits > & is,</span>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const std::complex< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const std::complex< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const std::complex< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator==">operator==</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const std::complex< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const std::complex< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const std::complex< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span>
 <br>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b><a href="/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ bool </span><span><b><a href="/thrust/api/groups/group__complex__numbers.html#function-operator!=">operator!=</a></b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span>
 </code>
 
 ## Member Classes
 
 <h3 id="struct-complex">
-<a href="/api/classes/structcomplex.html">Struct <code>complex</code>
+<a href="/thrust/api/classes/structcomplex.html">Struct <code>complex</code>
 </a>
 </h3>
 
@@ -241,7 +241,7 @@ Function <code>abs</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ T </span><span><b>abs</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ T </span><span><b>abs</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the magnitude (also known as absolute value) of a <code>complex</code>.
 
 **Function Parameters**:
@@ -253,7 +253,7 @@ Function <code>arg</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ T </span><span><b>arg</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ T </span><span><b>arg</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the phase angle (also known as argument) in radians of a <code>complex</code>.
 
 **Function Parameters**:
@@ -265,7 +265,7 @@ Function <code>norm</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ T </span><span><b>norm</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ T </span><span><b>norm</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the square of the magnitude of a <code>complex</code>.
 
 **Function Parameters**:
@@ -277,7 +277,7 @@ Function <code>conj</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>conj</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>conj</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex conjugate of a <code>complex</code>.
 
 **Function Parameters**:
@@ -290,7 +290,7 @@ Function <code>polar</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>polar</b>(const T0 & m,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>polar</b>(const T0 & m,</span>
 <span>&nbsp;&nbsp;const T1 & theta = T1());</span></code>
 Returns a <code>complex</code> with the specified magnitude and phase.
 
@@ -304,7 +304,7 @@ Function <code>proj</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>proj</b>(const T & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>proj</b>(const T & z);</span></code>
 Returns the projection of a <code>complex</code> on the Riemann sphere. For all finite <code>complex</code> it returns the argument. For <code>complexs</code> with a non finite part returns (INFINITY,+/-0) where the sign of the zero matches the sign of the imaginary part of the argument.
 
 **Function Parameters**:
@@ -317,8 +317,8 @@ Function <code>operator+</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator+</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator+</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Adds two <code>complex</code> numbers.
 
 The value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -334,7 +334,7 @@ Function <code>operator+</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator+</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator+</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span></code>
 Adds a scalar to a <code>complex</code> number.
 
@@ -351,8 +351,8 @@ Function <code>operator+</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator+</b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator+</b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Adds a <code>complex</code> number to a scalar.
 
 The value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -368,8 +368,8 @@ Function <code>operator-</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator-</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator-</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Subtracts two <code>complex</code> numbers.
 
 The value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -385,7 +385,7 @@ Function <code>operator-</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator-</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator-</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span></code>
 Subtracts a scalar from a <code>complex</code> number.
 
@@ -402,8 +402,8 @@ Function <code>operator-</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator-</b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator-</b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Subtracts a <code>complex</code> number from a scalar.
 
 The value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -419,8 +419,8 @@ Function <code>operator&#42;</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator*</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator*</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Multiplies two <code>complex</code> numbers.
 
 The value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -436,7 +436,7 @@ Function <code>operator&#42;</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator*</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator*</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span></code>
 Multiplies a <code>complex</code> number by a scalar.
 
@@ -451,8 +451,8 @@ Function <code>operator&#42;</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator*</b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator*</b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Multiplies a scalar by a <code>complex</code> number.
 
 The value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -468,8 +468,8 @@ Function <code>operator/</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator/</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator/</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Divides two <code>complex</code> numbers.
 
 The value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -485,7 +485,7 @@ Function <code>operator/</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator/</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator/</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span></code>
 Divides a <code>complex</code> number by a scalar.
 
@@ -502,8 +502,8 @@ Function <code>operator/</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator/</b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>operator/</b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Divides a scalar by a <code>complex</code> number.
 
 The value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -518,7 +518,7 @@ Function <code>operator+</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>operator+</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>operator+</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & y);</span></code>
 Unary plus, returns its <code>complex</code> argument.
 
 **Function Parameters**:
@@ -530,7 +530,7 @@ Function <code>operator-</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>operator-</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>operator-</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & y);</span></code>
 Unary minus, returns the additive inverse (negation) of its <code>complex</code> argument.
 
 **Function Parameters**:
@@ -542,7 +542,7 @@ Function <code>exp</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>exp</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>exp</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex exponential of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -554,7 +554,7 @@ Function <code>log</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>log</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>log</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex natural logarithm of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -566,7 +566,7 @@ Function <code>log10</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>log10</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>log10</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex base 10 logarithm of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -579,8 +579,8 @@ Function <code>pow</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>pow</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>pow</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Returns a <code>complex</code> number raised to another.
 
 The value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -596,7 +596,7 @@ Function <code>pow</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>pow</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>pow</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span></code>
 Returns a <code>complex</code> number raised to a scalar.
 
@@ -613,8 +613,8 @@ Function <code>pow</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>pow</b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type > </span><span><b>pow</b>(const T0 & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Returns a scalar raised to a <code>complex</code> number.
 
 The value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.
@@ -629,7 +629,7 @@ Function <code>sqrt</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>sqrt</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>sqrt</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex square root of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -641,7 +641,7 @@ Function <code>cos</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>cos</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>cos</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex cosine of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -653,7 +653,7 @@ Function <code>sin</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>sin</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>sin</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex sine of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -665,7 +665,7 @@ Function <code>tan</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>tan</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>tan</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex tangent of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -677,7 +677,7 @@ Function <code>cosh</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>cosh</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>cosh</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex hyperbolic cosine of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -689,7 +689,7 @@ Function <code>sinh</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>sinh</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>sinh</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex hyperbolic sine of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -701,7 +701,7 @@ Function <code>tanh</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>tanh</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>tanh</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex hyperbolic tangent of a <code>complex</code> number.
 
 **Function Parameters**:
@@ -713,7 +713,7 @@ Function <code>acos</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>acos</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>acos</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex arc cosine of a <code>complex</code> number.
 
 The range of the real part of the result is [0, Pi] and the range of the imaginary part is [-inf, +inf]
@@ -727,7 +727,7 @@ Function <code>asin</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>asin</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>asin</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex arc sine of a <code>complex</code> number.
 
 The range of the real part of the result is [-Pi/2, Pi/2] and the range of the imaginary part is [-inf, +inf]
@@ -741,7 +741,7 @@ Function <code>atan</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>atan</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>atan</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex arc tangent of a <code>complex</code> number.
 
 The range of the real part of the result is [-Pi/2, Pi/2] and the range of the imaginary part is [-inf, +inf]
@@ -755,7 +755,7 @@ Function <code>acosh</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>acosh</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>acosh</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex inverse hyperbolic cosine of a <code>complex</code> number.
 
 The range of the real part of the result is [0, +inf] and the range of the imaginary part is [-Pi, Pi]
@@ -769,7 +769,7 @@ Function <code>asinh</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>asinh</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>asinh</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex inverse hyperbolic sine of a <code>complex</code> number.
 
 The range of the real part of the result is [-inf, +inf] and the range of the imaginary part is [-Pi/2, Pi/2]
@@ -783,7 +783,7 @@ Function <code>atanh</code>
 
 <code class="doxybook">
 <span>template &lt;typename T&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/structcomplex.html">complex</a>< T > </span><span><b>atanh</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>__host__ __device__ <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > </span><span><b>atanh</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Returns the complex inverse hyperbolic tangent of a <code>complex</code> number.
 
 The range of the real part of the result is [-inf, +inf] and the range of the imaginary part is [-Pi/2, Pi/2]
@@ -800,7 +800,7 @@ Function <code>operator&lt;&lt;</code>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
 <span>std::basic_ostream< CharT, Traits > & </span><span><b>operator<<</b>(std::basic_ostream< CharT, Traits > & os,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Writes to an output stream a <code>complex</code> number in the form (real, imaginary).
 
 **Function Parameters**:
@@ -816,7 +816,7 @@ Function <code>operator&gt;&gt;</code>
 <span>&nbsp;&nbsp;typename CharT,</span>
 <span>&nbsp;&nbsp;typename Traits&gt;</span>
 <span>__host__ std::basic_istream< CharT, Traits > & </span><span><b>operator>></b>(std::basic_istream< CharT, Traits > & is,</span>
-<span>&nbsp;&nbsp;<a href="/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/structcomplex.html">complex</a>< T > & z);</span></code>
 Reads a <code>complex</code> number from an input stream.
 
 The recognized formats are:
@@ -837,8 +837,8 @@ Function <code>operator==</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Returns true if two <code>complex</code> numbers are equal and false otherwise.
 
 **Function Parameters**:
@@ -852,7 +852,7 @@ Function <code>operator==</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const std::complex< T1 > & y);</span></code>
 Returns true if two <code>complex</code> numbers are equal and false otherwise.
 
@@ -868,7 +868,7 @@ Function <code>operator==</code>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
 <span>__host__ __device__ bool </span><span><b>operator==</b>(const std::complex< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Returns true if two <code>complex</code> numbers are equal and false otherwise.
 
 **Function Parameters**:
@@ -883,7 +883,7 @@ Function <code>operator==</code>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
 <span>__host__ __device__ bool </span><span><b>operator==</b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Returns true if the imaginary part of the <code>complex</code> number is zero and the real part is equal to the scalar. Returns false otherwise.
 
 **Function Parameters**:
@@ -897,7 +897,7 @@ Function <code>operator==</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ bool </span><span><b>operator==</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span></code>
 Returns true if the imaginary part of the <code>complex</code> number is zero and the real part is equal to the scalar. Returns false otherwise.
 
@@ -912,8 +912,8 @@ Function <code>operator!=</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Returns true if two <code>complex</code> numbers are different and false otherwise.
 
 **Function Parameters**:
@@ -927,7 +927,7 @@ Function <code>operator!=</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const std::complex< T1 > & y);</span></code>
 Returns true if two <code>complex</code> numbers are different and false otherwise.
 
@@ -943,7 +943,7 @@ Function <code>operator!=</code>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
 <span>__host__ __device__ bool </span><span><b>operator!=</b>(const std::complex< T0 > & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Returns true if two <code>complex</code> numbers are different and false otherwise.
 
 **Function Parameters**:
@@ -958,7 +958,7 @@ Function <code>operator!=</code>
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
 <span>__host__ __device__ bool </span><span><b>operator!=</b>(const T0 & x,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T1 > & y);</span></code>
 Returns true if the imaginary part of the <code>complex</code> number is not zero or the real part is different from the scalar. Returns false otherwise.
 
 **Function Parameters**:
@@ -972,7 +972,7 @@ Function <code>operator!=</code>
 <code class="doxybook">
 <span>template &lt;typename T0,</span>
 <span>&nbsp;&nbsp;typename T1&gt;</span>
-<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
+<span>__host__ __device__ bool </span><span><b>operator!=</b>(const <a href="/thrust/api/classes/structcomplex.html">complex</a>< T0 > & x,</span>
 <span>&nbsp;&nbsp;const T1 & y);</span></code>
 Returns true if the imaginary part of the <code>complex</code> number is not zero or the real part is different from the scalar. Returns false otherwise.
 

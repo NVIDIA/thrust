@@ -18,7 +18,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -207,7 +207,7 @@
       "title": "inner_product",
       "type": "__host__ __device__ OutputType",
       "typePlain": "__host__ __device__ OutputType",
-      "url": "/api/groups/group__transformed__reductions.html#function-inner_product",
+      "url": "/thrust/api/groups/group__transformed__reductions.html#function-inner_product",
       "virtual": false,
       "visibility": "public"
     },
@@ -317,7 +317,7 @@
       "title": "inner_product",
       "type": "OutputType",
       "typePlain": "OutputType",
-      "url": "/api/groups/group__transformed__reductions.html#function-inner_product",
+      "url": "/thrust/api/groups/group__transformed__reductions.html#function-inner_product",
       "virtual": false,
       "visibility": "public"
     },
@@ -481,7 +481,7 @@
       "title": "inner_product",
       "type": "__host__ __device__ OutputType",
       "typePlain": "__host__ __device__ OutputType",
-      "url": "/api/groups/group__transformed__reductions.html#function-inner_product",
+      "url": "/thrust/api/groups/group__transformed__reductions.html#function-inner_product",
       "virtual": false,
       "visibility": "public"
     },
@@ -627,7 +627,7 @@
       "title": "inner_product",
       "type": "OutputType",
       "typePlain": "OutputType",
-      "url": "/api/groups/group__transformed__reductions.html#function-inner_product",
+      "url": "/thrust/api/groups/group__transformed__reductions.html#function-inner_product",
       "virtual": false,
       "visibility": "public"
     },
@@ -717,8 +717,8 @@
         "The result of the transformed reduction."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__transformations.html#function-transform\">transform</a></code>",
-        "<code><a href=\"/api/groups/group__reductions.html#function-reduce\">reduce</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__transformations.html#function-transform\">transform</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__reductions.html#function-reduce\">reduce</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -774,7 +774,7 @@
       "title": "transform_reduce",
       "type": "__host__ __device__ OutputType",
       "typePlain": "__host__ __device__ OutputType",
-      "url": "/api/groups/group__transformed__reductions.html#function-transform_reduce",
+      "url": "/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce",
       "virtual": false,
       "visibility": "public"
     },
@@ -855,8 +855,8 @@
         "The result of the transformed reduction."
       ],
       "see": [
-        "<code><a href=\"/api/groups/group__transformations.html#function-transform\">transform</a></code>",
-        "<code><a href=\"/api/groups/group__reductions.html#function-reduce\">reduce</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__transformations.html#function-transform\">transform</a></code>",
+        "<code><a href=\"/thrust/api/groups/group__reductions.html#function-reduce\">reduce</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -903,7 +903,7 @@
       "title": "transform_reduce",
       "type": "OutputType",
       "typePlain": "OutputType",
-      "url": "/api/groups/group__transformed__reductions.html#function-transform_reduce",
+      "url": "/thrust/api/groups/group__transformed__reductions.html#function-transform_reduce",
       "virtual": false,
       "visibility": "public"
     }
@@ -912,6 +912,6 @@
   "static": false,
   "strong": false,
   "title": "Transformed Reductions",
-  "url": "/api/groups/group__transformed__reductions.html",
+  "url": "/thrust/api/groups/group__transformed__reductions.html",
   "visibility": "public"
 }

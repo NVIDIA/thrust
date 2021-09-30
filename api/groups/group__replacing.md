@@ -13,7 +13,7 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__replacing.html#function-replace">replace</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & old_value,</span>
@@ -21,7 +21,7 @@ has_toc: false
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__replacing.html#function-replace">replace</a></b>(ForwardIterator first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;const T & old_value,</span>
 <span>&nbsp;&nbsp;const T & new_value);</span>
@@ -30,7 +30,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred,</span>
@@ -39,7 +39,7 @@ has_toc: false
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></b>(ForwardIterator first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Predicate pred,</span>
 <span>&nbsp;&nbsp;const T & new_value);</span>
@@ -49,7 +49,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;InputIterator stencil,</span>
@@ -60,7 +60,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></b>(ForwardIterator first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;InputIterator stencil,</span>
 <span>&nbsp;&nbsp;Predicate pred,</span>
@@ -70,7 +70,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -80,7 +80,7 @@ has_toc: false
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;const T & old_value,</span>
@@ -91,7 +91,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -102,7 +102,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;Predicate pred,</span>
@@ -114,7 +114,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 stencil,</span>
@@ -127,7 +127,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></b>(InputIterator1 first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></b>(InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 stencil,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -155,7 +155,7 @@ Function <code>replace</code>
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
-The following code snippet demonstrates how to use <code>replace</code> to replace a value of interest in a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> with another using the <code>thrust::device</code> execution policy for parallelization:
+The following code snippet demonstrates how to use <code>replace</code> to replace a value of interest in a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> with another using the <code>thrust::device</code> execution policy for parallelization:
 
 
 
@@ -191,9 +191,9 @@ thrust::replace(thrust::device, A.begin(), A.end(), 1, 99);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace">https://en.cppreference.com/w/cpp/algorithm/replace</a>
-* <code><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
 
 <h3 id="function-replace">
 Function <code>replace</code>
@@ -209,7 +209,7 @@ Function <code>replace</code>
 <code>replace</code> replaces every element in the range [first, last) equal to <code>old&#95;value</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>&#42;i == old&#95;value</code> then it performs the <code>assignment &#42;i = new&#95;value</code>.
 
 
-The following code snippet demonstrates how to use <code>replace</code> to replace a value of interest in a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> with another.
+The following code snippet demonstrates how to use <code>replace</code> to replace a value of interest in a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> with another.
 
 
 
@@ -242,9 +242,9 @@ thrust::replace(A.begin(), A.end(), 1, 99);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace">https://en.cppreference.com/w/cpp/algorithm/replace</a>
-* <code><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
 
 <h3 id="function-replace_if">
 Function <code>replace&#95;if</code>
@@ -265,7 +265,7 @@ Function <code>replace&#95;if</code>
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
-The following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> negative elements with <code>0</code> using the <code>thrust::device</code> execution policy for parallelization:
+The following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> negative elements with <code>0</code> using the <code>thrust::device</code> execution policy for parallelization:
 
 
 
@@ -313,9 +313,9 @@ thrust::replace_if(thrust::device, A.begin(), A.end(), pred, 0);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace">https://en.cppreference.com/w/cpp/algorithm/replace</a>
-* <code><a href="/api/groups/group__replacing.html#function-replace">replace</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
 
 <h3 id="function-replace_if">
 Function <code>replace&#95;if</code>
@@ -332,7 +332,7 @@ Function <code>replace&#95;if</code>
 <code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code>, if <code>pred(&#42;i)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.
 
 
-The following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> negative elements with <code>0</code>.
+The following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> negative elements with <code>0</code>.
 
 
 
@@ -377,9 +377,9 @@ thrust::replace_if(A.begin(), A.end(), pred, 0);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace">https://en.cppreference.com/w/cpp/algorithm/replace</a>
-* <code><a href="/api/groups/group__replacing.html#function-replace">replace</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
 
 <h3 id="function-replace_if">
 Function <code>replace&#95;if</code>
@@ -402,7 +402,7 @@ Function <code>replace&#95;if</code>
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
-The following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> element with <code>0</code> when its corresponding stencil element is less than zero using the <code>thrust::device</code> execution policy for parallelization:
+The following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> element with <code>0</code> when its corresponding stencil element is less than zero using the <code>thrust::device</code> execution policy for parallelization:
 
 
 
@@ -457,9 +457,9 @@ thrust::replace_if(thrust::device, A.begin(), A.end(), S.begin(), pred, 0);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace">https://en.cppreference.com/w/cpp/algorithm/replace</a>
-* <code><a href="/api/groups/group__replacing.html#function-replace">replace</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
 
 <h3 id="function-replace_if">
 Function <code>replace&#95;if</code>
@@ -478,7 +478,7 @@ Function <code>replace&#95;if</code>
 <code>replace&#95;if</code> replaces every element in the range <code>[first, last)</code> for which <code>pred(&#42;s)</code> returns <code>true</code> with <code>new&#95;value</code>. That is: for every iterator <code>i</code> in the range <code>[first, last)</code>, and <code>s</code> in the range <code>[stencil, stencil + (last - first))</code>, if <code>pred(&#42;s)</code> is <code>true</code> then it performs the assignment <code>&#42;i = new&#95;value</code>.
 
 
-The following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> element with <code>0</code> when its corresponding stencil element is less than zero.
+The following code snippet demonstrates how to use <code>replace&#95;if</code> to replace a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> element with <code>0</code> when its corresponding stencil element is less than zero.
 
 
 
@@ -530,9 +530,9 @@ thrust::replace_if(A.begin(), A.end(), S.begin(), pred, 0);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace">https://en.cppreference.com/w/cpp/algorithm/replace</a>
-* <code><a href="/api/groups/group__replacing.html#function-replace">replace</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
 
 <h3 id="function-replace_copy">
 Function <code>replace&#95;copy</code>
@@ -597,10 +597,10 @@ thrust::replace_copy(thrust::device, A.begin(), A.end(), B.begin(), 1, 99);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace_copy">https://en.cppreference.com/w/cpp/algorithm/replace_copy</a>
-* <code><a href="/api/groups/group__copying.html#function-copy">copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace">replace</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__copying.html#function-copy">copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
 
 <h3 id="function-replace_copy">
 Function <code>replace&#95;copy</code>
@@ -658,10 +658,10 @@ thrust::replace_copy(A.begin(), A.end(), B.begin(), 1, 99);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace_copy">https://en.cppreference.com/w/cpp/algorithm/replace_copy</a>
-* <code><a href="/api/groups/group__copying.html#function-copy">copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace">replace</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__copying.html#function-copy">copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy_if">replace&#95;copy&#95;if</a></code>
 
 <h3 id="function-replace_copy_if">
 Function <code>replace&#95;copy&#95;if</code>
@@ -740,9 +740,9 @@ thrust::replace_copy_if(thrust::device, A.begin(), A.end(), B.begin(), pred, 0);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace_copy">https://en.cppreference.com/w/cpp/algorithm/replace_copy</a>
-* <code><a href="/api/groups/group__replacing.html#function-replace">replace</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
 
 <h3 id="function-replace_copy_if">
 Function <code>replace&#95;copy&#95;if</code>
@@ -814,9 +814,9 @@ thrust::replace_copy_if(A.begin(), A.end(), B.begin(), pred, 0);
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/replace_copy">https://en.cppreference.com/w/cpp/algorithm/replace_copy</a>
-* <code><a href="/api/groups/group__replacing.html#function-replace">replace</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace">replace</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
 
 <h3 id="function-replace_copy_if">
 Function <code>replace&#95;copy&#95;if</code>
@@ -905,8 +905,8 @@ thrust::replace_if(thrust::device, A.begin(), A.end(), S.begin(), B.begin(), pre
 <code>result + (last-first)</code>
 
 **See**:
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
 
 <h3 id="function-replace_copy_if">
 Function <code>replace&#95;copy&#95;if</code>
@@ -988,7 +988,7 @@ thrust::replace_if(A.begin(), A.end(), S.begin(), B.begin(), pred, 0);
 <code>result + (last-first)</code>
 
 **See**:
-* <code><a href="/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
-* <code><a href="/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_copy">replace&#95;copy</a></code>
+* <code><a href="/thrust/api/groups/group__replacing.html#function-replace_if">replace&#95;if</a></code>
 
 

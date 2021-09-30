@@ -10,10 +10,10 @@ has_toc: false
 
 ## Groups
 
-* **[Pair](/api/groups/group__pair.html)**
-* **[Swap](/api/groups/group__swap.html)**
-* **[Tuple](/api/groups/group__tuple.html)**
-* **[Type Traits](/api/groups/group__type__traits.html)**
+* **[Pair](/thrust/api/groups/group__pair.html)**
+* **[Swap](/thrust/api/groups/group__swap.html)**
+* **[Tuple](/thrust/api/groups/group__tuple.html)**
+* **[Type Traits](/thrust/api/groups/group__type__traits.html)**
 
 <code class="doxybook">
 </code>

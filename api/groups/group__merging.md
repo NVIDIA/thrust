@@ -14,7 +14,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__merging.html#function-merge">merge</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -24,7 +24,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__merging.html#function-merge">merge</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 last2,</span>
@@ -35,7 +35,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__merging.html#function-merge">merge</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -47,7 +47,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__merging.html#function-merge">merge</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__merging.html#function-merge">merge</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 last2,</span>
@@ -61,7 +61,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator4,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__merging.html#function-merge_by_key">merge&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__merging.html#function-merge_by_key">merge&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
@@ -77,7 +77,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator4,</span>
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__merging.html#function-merge_by_key">merge&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__merging.html#function-merge_by_key">merge&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
@@ -94,7 +94,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename Compare&gt;</span>
-<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__merging.html#function-merge_by_key">merge&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__merging.html#function-merge_by_key">merge&#95;by&#95;key</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
@@ -112,7 +112,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator1,</span>
 <span>&nbsp;&nbsp;typename OutputIterator2,</span>
 <span>&nbsp;&nbsp;typename StrictWeakCompare&gt;</span>
-<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/api/groups/group__merging.html#function-merge_by_key">merge&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
+<span>thrust::pair< OutputIterator1, OutputIterator2 > </span><span><b><a href="/thrust/api/groups/group__merging.html#function-merge_by_key">merge&#95;by&#95;key</a></b>(InputIterator1 keys_first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 keys_last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_first2,</span>
 <span>&nbsp;&nbsp;InputIterator2 keys_last2,</span>
@@ -191,9 +191,9 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/merge">https://en.cppreference.com/w/cpp/algorithm/merge</a>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-merge">
 Function <code>merge</code>
@@ -250,9 +250,9 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/merge">https://en.cppreference.com/w/cpp/algorithm/merge</a>
-* <code><a href="/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__set__operations.html#function-set_union">set&#95;union</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-merge">
 Function <code>merge</code>
@@ -325,8 +325,8 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/merge">https://en.cppreference.com/w/cpp/algorithm/merge</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-merge">
 Function <code>merge</code>
@@ -388,8 +388,8 @@ The end of the output range.
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/merge">https://en.cppreference.com/w/cpp/algorithm/merge</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort">sort</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort">sort</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-merge_by_key">
 Function <code>merge&#95;by&#95;key</code>
@@ -480,9 +480,9 @@ thrust::pair<int*,int*> end =
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <a href="/api/groups/group__merging.html#function-merge">merge</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <a href="/thrust/api/groups/group__merging.html#function-merge">merge</a>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-merge_by_key">
 Function <code>merge&#95;by&#95;key</code>
@@ -561,9 +561,9 @@ thrust::pair<int*,int*> end = thrust::merge_by_key(A_keys, A_keys + 6, B_keys, B
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <a href="/api/groups/group__merging.html#function-merge">merge</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <a href="/thrust/api/groups/group__merging.html#function-merge">merge</a>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-merge_by_key">
 Function <code>merge&#95;by&#95;key</code>
@@ -661,9 +661,9 @@ thrust::pair<int*,int*> end =
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <a href="/api/groups/group__merging.html#function-merge">merge</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <a href="/thrust/api/groups/group__merging.html#function-merge">merge</a>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 <h3 id="function-merge_by_key">
 Function <code>merge&#95;by&#95;key</code>
@@ -748,8 +748,8 @@ thrust::pair<int*,int*> end = thrust::merge_by_key(A_keys, A_keys + 6, B_keys, B
 A <code>pair</code><code>p</code> such that <code>p.first</code> is the end of the output range of keys, and such that <code>p.second</code> is the end of the output range of values.
 
 **See**:
-* <a href="/api/groups/group__merging.html#function-merge">merge</a>
-* <code><a href="/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
-* <code><a href="/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
+* <a href="/thrust/api/groups/group__merging.html#function-merge">merge</a>
+* <code><a href="/thrust/api/groups/group__sorting.html#function-sort_by_key">sort&#95;by&#95;key</a></code>
+* <code><a href="/thrust/api/groups/group__predicates.html#function-is_sorted">is&#95;sorted</a></code>
 
 

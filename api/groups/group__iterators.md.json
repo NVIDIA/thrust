@@ -15,7 +15,7 @@
       "name": "fancyiterator",
       "refid": "group__fancyiterator",
       "title": "Fancy Iterators",
-      "url": "/api/groups/group__fancyiterator.html",
+      "url": "/thrust/api/groups/group__fancyiterator.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "iterator_tags",
       "refid": "group__iterator__tags",
       "title": "Iterator Tags",
-      "url": "/api/groups/group__iterator__tags.html",
+      "url": "/thrust/api/groups/group__iterator__tags.html",
       "visibility": "public"
     }
   ],
@@ -117,7 +117,7 @@
       "title": "advance",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__iterators.html#function-advance",
+      "url": "/thrust/api/groups/group__iterators.html#function-advance",
       "virtual": false,
       "visibility": "public"
     },
@@ -194,7 +194,7 @@
       "title": "distance",
       "type": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
       "typePlain": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
-      "url": "/api/groups/group__iterators.html#function-distance",
+      "url": "/thrust/api/groups/group__iterators.html#function-distance",
       "virtual": false,
       "visibility": "public"
     }
@@ -203,6 +203,6 @@
   "static": false,
   "strong": false,
   "title": "Iterators",
-  "url": "/api/groups/group__iterators.html",
+  "url": "/thrust/api/groups/group__iterators.html",
   "visibility": "public"
 }

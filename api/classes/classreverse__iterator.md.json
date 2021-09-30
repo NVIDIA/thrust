@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> is an iterator which represents a pointer into a reversed view of a given range. In this way, <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> allows backwards iteration through a bidirectional input range.\n\nIt is important to note that although <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> is constructed from a given iterator, it points to the element preceding it. In this way, the past-the-end <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> of a given range points to the element preceding the first element of the input range. By the same token, the first <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> of a given range is constructed from a past-the-end iterator of the original range yet points to the last element of the input.\n\nThe following code snippet demonstrates how to create a <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> which represents a reversed view of the contents of a <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/iterator/reverse_iterator.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<float> v(4);\nv[0] = 0.0f;\nv[1] = 1.0f;\nv[2] = 2.0f;\nv[3] = 3.0f;\n\ntypedef thrust::device_vector<float>::iterator Iterator;\n\n// note that we point the iterator to the *end* of the device_vector\nthrust::reverse_iterator<Iterator> iter(values.end());\n\n*iter;   // returns 3.0f;\niter[0]; // returns 3.0f;\niter[1]; // returns 2.0f;\niter[2]; // returns 1.0f;\niter[3]; // returns 0.0f;\n\n// iter[4] is an out-of-bounds error\n```\n\nSince reversing a range is a common operation, containers like <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> have nested typedefs for declaration shorthand and methods for constructing reverse_iterators. The following code snippet is equivalent to the previous:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<float> v(4);\nv[0] = 0.0f;\nv[1] = 1.0f;\nv[2] = 2.0f;\nv[3] = 3.0f;\n\n// we use the nested type reverse_iterator to refer to a reversed view of\n// a device_vector and the method rbegin() to create a reverse_iterator pointing\n// to the beginning of the reversed device_vector\nthrust::device_iterator<float>::reverse_iterator iter = values.rbegin();\n\n*iter;   // returns 3.0f;\niter[0]; // returns 3.0f;\niter[1]; // returns 2.0f;\niter[2]; // returns 1.0f;\niter[3]; // returns 0.0f;\n\n// iter[4] is an out-of-bounds error\n\n// similarly, rend() points to the end of the reversed sequence:\nassert(values.rend() == (iter + 4));\n```\n\nFinally, the following code snippet demonstrates how to use <a href=\"/api/classes/classreverse__iterator.html\">reverse_iterator</a> to perform a reversed prefix sum operation on the contents of a <a href=\"/api/classes/classdevice__vector.html\">device_vector</a>:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/scan.h>\n...\nthrust::device_vector<int> v(5);\nv[0] = 0;\nv[1] = 1;\nv[2] = 2;\nv[3] = 3;\nv[4] = 4;\n\nthrust::device_vector<int> result(5);\n\n// exclusive scan v into result in reverse\nthrust::exclusive_scan(v.rbegin(), v.rend(), result.begin());\n\n// result is now {0, 4, 7, 9, 10}\n```",
+  "details": "<code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> is an iterator which represents a pointer into a reversed view of a given range. In this way, <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> allows backwards iteration through a bidirectional input range.\n\nIt is important to note that although <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> is constructed from a given iterator, it points to the element preceding it. In this way, the past-the-end <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> of a given range points to the element preceding the first element of the input range. By the same token, the first <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> of a given range is constructed from a past-the-end iterator of the original range yet points to the last element of the input.\n\nThe following code snippet demonstrates how to create a <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> which represents a reversed view of the contents of a <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code>.\n\n\n\n```cpp\n#include <thrust/iterator/reverse_iterator.h>\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<float> v(4);\nv[0] = 0.0f;\nv[1] = 1.0f;\nv[2] = 2.0f;\nv[3] = 3.0f;\n\ntypedef thrust::device_vector<float>::iterator Iterator;\n\n// note that we point the iterator to the *end* of the device_vector\nthrust::reverse_iterator<Iterator> iter(values.end());\n\n*iter;   // returns 3.0f;\niter[0]; // returns 3.0f;\niter[1]; // returns 2.0f;\niter[2]; // returns 1.0f;\niter[3]; // returns 0.0f;\n\n// iter[4] is an out-of-bounds error\n```\n\nSince reversing a range is a common operation, containers like <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> have nested typedefs for declaration shorthand and methods for constructing reverse_iterators. The following code snippet is equivalent to the previous:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n...\nthrust::device_vector<float> v(4);\nv[0] = 0.0f;\nv[1] = 1.0f;\nv[2] = 2.0f;\nv[3] = 3.0f;\n\n// we use the nested type reverse_iterator to refer to a reversed view of\n// a device_vector and the method rbegin() to create a reverse_iterator pointing\n// to the beginning of the reversed device_vector\nthrust::device_iterator<float>::reverse_iterator iter = values.rbegin();\n\n*iter;   // returns 3.0f;\niter[0]; // returns 3.0f;\niter[1]; // returns 2.0f;\niter[2]; // returns 1.0f;\niter[3]; // returns 0.0f;\n\n// iter[4] is an out-of-bounds error\n\n// similarly, rend() points to the end of the reversed sequence:\nassert(values.rend() == (iter + 4));\n```\n\nFinally, the following code snippet demonstrates how to use <a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse_iterator</a> to perform a reversed prefix sum operation on the contents of a <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>:\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/scan.h>\n...\nthrust::device_vector<int> v(5);\nv[0] = 0;\nv[1] = 1;\nv[2] = 2;\nv[3] = 3;\nv[4] = 4;\n\nthrust::device_vector<int> result(5);\n\n// exclusive scan v into result in reverse\nthrust::exclusive_scan(v.rbegin(), v.rend(), result.begin());\n\n// result is now {0, 4, 7, 9, 10}\n```",
   "explicit": false,
   "fullname": "reverse_iterator",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "fancyiterator",
     "refid": "group__fancyiterator",
     "title": "Fancy Iterators",
-    "url": "/api/groups/group__fancyiterator.html",
+    "url": "/thrust/api/groups/group__fancyiterator.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -49,7 +49,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "name": "fancyiterator",
       "refid": "group__fancyiterator",
       "title": "Fancy Iterators",
-      "url": "/api/groups/group__fancyiterator.html",
+      "url": "/thrust/api/groups/group__fancyiterator.html",
       "visibility": "public"
     }
   ],
@@ -101,7 +101,7 @@
       "title": "reverse_iterator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classreverse__iterator.html#function-reverse_iterator",
+      "url": "/thrust/api/classes/classreverse__iterator.html#function-reverse_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -114,7 +114,7 @@
       "default": false,
       "definition": "__host__ __device__ reverse_iterator< BidirectionalIterator >::reverse_iterator",
       "deleted": false,
-      "details": "<code>Constructor</code> accepts a <code>BidirectionalIterator</code> pointing to a range for this <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> to reverse.",
+      "details": "<code>Constructor</code> accepts a <code>BidirectionalIterator</code> pointing to a range for this <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> to reverse.",
       "explicit": true,
       "fullname": "reverse_iterator::reverse_iterator",
       "hasDetails": true,
@@ -147,7 +147,7 @@
       "title": "reverse_iterator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classreverse__iterator.html#function-reverse_iterator",
+      "url": "/thrust/api/classes/classreverse__iterator.html#function-reverse_iterator",
       "virtual": false,
       "visibility": "public"
     },
@@ -160,7 +160,7 @@
       "default": false,
       "definition": "__host__ __device__ reverse_iterator< BidirectionalIterator >::reverse_iterator",
       "deleted": false,
-      "details": "<code>Copy</code> constructor allows construction from a related compatible <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code>.",
+      "details": "<code>Copy</code> constructor allows construction from a related compatible <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code>.",
       "explicit": false,
       "fullname": "reverse_iterator::reverse_iterator",
       "hasDetails": true,
@@ -176,13 +176,13 @@
       "paramList": [
         {
           "name": "r",
-          "text": "A <code><a href=\"/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> to copy from. "
+          "text": "A <code><a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse&#95;iterator</a></code> to copy from. "
         }
       ],
       "params": [
         {
           "name": "r",
-          "type": "<a href=\"/api/classes/classreverse__iterator.html\">reverse_iterator</a>< OtherBidirectionalIterator > const &",
+          "type": "<a href=\"/thrust/api/classes/classreverse__iterator.html\">reverse_iterator</a>< OtherBidirectionalIterator > const &",
           "typePlain": "reverse_iterator< OtherBidirectionalIterator > const &"
         }
       ],
@@ -200,14 +200,14 @@
       "title": "reverse_iterator",
       "type": "__host__ __device__",
       "typePlain": "__host__ __device__",
-      "url": "/api/classes/classreverse__iterator.html#function-reverse_iterator",
+      "url": "/thrust/api/classes/classreverse__iterator.html#function-reverse_iterator",
       "virtual": false,
       "visibility": "public"
     }
   ],
   "refid": "classreverse__iterator",
   "see": [
-    "<a href=\"/api/groups/group__fancyiterator.html#function-make_reverse_iterator\">make_reverse_iterator</a>"
+    "<a href=\"/thrust/api/groups/group__fancyiterator.html#function-make_reverse_iterator\">make_reverse_iterator</a>"
   ],
   "static": false,
   "strong": false,
@@ -219,6 +219,6 @@
     }
   ],
   "title": "reverse_iterator",
-  "url": "/api/classes/classreverse__iterator.html",
+  "url": "/thrust/api/classes/classreverse__iterator.html",
   "visibility": "public"
 }

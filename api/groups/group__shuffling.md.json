@@ -18,7 +18,7 @@
     "name": "reordering",
     "refid": "group__reordering",
     "title": "Reordering",
-    "url": "/api/groups/group__reordering.html",
+    "url": "/thrust/api/groups/group__reordering.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "reordering",
       "refid": "group__reordering",
       "title": "Reordering",
-      "url": "/api/groups/group__reordering.html",
+      "url": "/thrust/api/groups/group__reordering.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "reordering",
     "refid": "group__reordering",
     "title": "Reordering",
-    "url": "/api/groups/group__reordering.html",
+    "url": "/thrust/api/groups/group__reordering.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "reordering",
       "refid": "group__reordering",
       "title": "Reordering",
-      "url": "/api/groups/group__reordering.html",
+      "url": "/thrust/api/groups/group__reordering.html",
       "visibility": "public"
     }
   ],
@@ -148,7 +148,7 @@
       "pureVirtual": false,
       "refid": "group__shuffling_1ga12b7bf5d42aa55b5bc58e74a8c43e48e",
       "see": [
-        "<code><a href=\"/api/groups/group__shuffling.html#function-shuffle_copy\">shuffle&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__shuffling.html#function-shuffle_copy\">shuffle&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -186,7 +186,7 @@
       "title": "shuffle",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__shuffling.html#function-shuffle",
+      "url": "/thrust/api/groups/group__shuffling.html#function-shuffle",
       "virtual": false,
       "visibility": "public"
     },
@@ -246,7 +246,7 @@
       "pureVirtual": false,
       "refid": "group__shuffling_1gae19bab7e8aac0f95ff75d9b0240ef16c",
       "see": [
-        "<code><a href=\"/api/groups/group__shuffling.html#function-shuffle_copy\">shuffle&#95;copy</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__shuffling.html#function-shuffle_copy\">shuffle&#95;copy</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -275,7 +275,7 @@
       "title": "shuffle",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__shuffling.html#function-shuffle",
+      "url": "/thrust/api/groups/group__shuffling.html#function-shuffle",
       "virtual": false,
       "visibility": "public"
     },
@@ -353,7 +353,7 @@
       "pureVirtual": false,
       "refid": "group__shuffling_1ga442598f5a0e38013738c76c21631ee71",
       "see": [
-        "<code><a href=\"/api/groups/group__shuffling.html#function-shuffle\">shuffle</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__shuffling.html#function-shuffle\">shuffle</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -400,7 +400,7 @@
       "title": "shuffle_copy",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__shuffling.html#function-shuffle_copy",
+      "url": "/thrust/api/groups/group__shuffling.html#function-shuffle_copy",
       "virtual": false,
       "visibility": "public"
     },
@@ -469,7 +469,7 @@
       "pureVirtual": false,
       "refid": "group__shuffling_1ga918f71b9969bb39a225182c266b90235",
       "see": [
-        "<code><a href=\"/api/groups/group__shuffling.html#function-shuffle\">shuffle</a></code>"
+        "<code><a href=\"/thrust/api/groups/group__shuffling.html#function-shuffle\">shuffle</a></code>"
       ],
       "static": false,
       "strong": false,
@@ -507,7 +507,7 @@
       "title": "shuffle_copy",
       "type": "__host__ __device__ void",
       "typePlain": "__host__ __device__ void",
-      "url": "/api/groups/group__shuffling.html#function-shuffle_copy",
+      "url": "/thrust/api/groups/group__shuffling.html#function-shuffle_copy",
       "virtual": false,
       "visibility": "public"
     }
@@ -516,6 +516,6 @@
   "static": false,
   "strong": false,
   "title": "Shuffling",
-  "url": "/api/groups/group__shuffling.html",
+  "url": "/thrust/api/groups/group__shuffling.html",
   "visibility": "public"
 }

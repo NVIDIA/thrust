@@ -11,11 +11,11 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct minimum&lt; void &gt; {</span>
-<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/api/classes/structminimum_3_01void_01_4.html#using-is_transparent">is&#95;transparent</a></b> = <i>see below</i>;</span>
+<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structminimum_3_01void_01_4.html#using-is_transparent">is&#95;transparent</a></b> = <i>see below</i>;</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename T1,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;typename T2&gt;</span>
-<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ auto </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structminimum_3_01void_01_4.html#function-operator()">operator()</a></b>(T1 && t1,</span>
+<span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ constexpr __device__ auto </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structminimum_3_01void_01_4.html#function-operator()">operator()</a></b>(T1 && t1,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;T2 && t2) const;</span>
 <span>};</span>
 </code>

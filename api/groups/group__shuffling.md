@@ -13,14 +13,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename RandomIterator,</span>
 <span>&nbsp;&nbsp;typename URBG&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__shuffling.html#function-shuffle">shuffle</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__shuffling.html#function-shuffle">shuffle</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;RandomIterator first,</span>
 <span>&nbsp;&nbsp;RandomIterator last,</span>
 <span>&nbsp;&nbsp;URBG && g);</span>
 <br>
 <span>template &lt;typename RandomIterator,</span>
 <span>&nbsp;&nbsp;typename URBG&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__shuffling.html#function-shuffle">shuffle</a></b>(RandomIterator first,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__shuffling.html#function-shuffle">shuffle</a></b>(RandomIterator first,</span>
 <span>&nbsp;&nbsp;RandomIterator last,</span>
 <span>&nbsp;&nbsp;URBG && g);</span>
 <br>
@@ -28,7 +28,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename RandomIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename URBG&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__shuffling.html#function-shuffle_copy">shuffle&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__shuffling.html#function-shuffle_copy">shuffle&#95;copy</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;RandomIterator first,</span>
 <span>&nbsp;&nbsp;RandomIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -37,7 +37,7 @@ has_toc: false
 <span>template &lt;typename RandomIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename URBG&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__shuffling.html#function-shuffle_copy">shuffle&#95;copy</a></b>(RandomIterator first,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__shuffling.html#function-shuffle_copy">shuffle&#95;copy</a></b>(RandomIterator first,</span>
 <span>&nbsp;&nbsp;RandomIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;URBG && g);</span>
@@ -89,7 +89,7 @@ thrust::shuffle(thrust::host, A, A + N, g);
 * **`g`** A UniformRandomBitGenerator
 
 **See**:
-<code><a href="/api/groups/group__shuffling.html#function-shuffle_copy">shuffle&#95;copy</a></code>
+<code><a href="/thrust/api/groups/group__shuffling.html#function-shuffle_copy">shuffle&#95;copy</a></code>
 
 <h3 id="function-shuffle">
 Function <code>shuffle</code>
@@ -128,7 +128,7 @@ thrust::shuffle(A, A + N, g);
 * **`g`** A UniformRandomBitGenerator
 
 **See**:
-<code><a href="/api/groups/group__shuffling.html#function-shuffle_copy">shuffle&#95;copy</a></code>
+<code><a href="/thrust/api/groups/group__shuffling.html#function-shuffle_copy">shuffle&#95;copy</a></code>
 
 <h3 id="function-shuffle_copy">
 Function <code>shuffle&#95;copy</code>
@@ -179,7 +179,7 @@ thrust::shuffle_copy(thrust::host, A, A + N, result, g);
 * **`g`** A UniformRandomBitGenerator
 
 **See**:
-<code><a href="/api/groups/group__shuffling.html#function-shuffle">shuffle</a></code>
+<code><a href="/thrust/api/groups/group__shuffling.html#function-shuffle">shuffle</a></code>
 
 <h3 id="function-shuffle_copy">
 Function <code>shuffle&#95;copy</code>
@@ -223,6 +223,6 @@ thrust::shuffle_copy(A, A + N, result, g);
 * **`g`** A UniformRandomBitGenerator
 
 **See**:
-<code><a href="/api/groups/group__shuffling.html#function-shuffle">shuffle</a></code>
+<code><a href="/thrust/api/groups/group__shuffling.html#function-shuffle">shuffle</a></code>
 
 

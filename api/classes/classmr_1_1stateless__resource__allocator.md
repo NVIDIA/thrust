@@ -24,25 +24,25 @@ A helper allocator class that uses global instances of a given upstream memory r
 <span>&nbsp;&nbsp;typename Upstream&gt;</span>
 <span>class mr::stateless&#95;resource&#95;allocator {</span>
 <span>public:</span><span>&nbsp;&nbsp;template &lt;typename U&gt;</span>
-<span>&nbsp;&nbsp;struct <b><a href="/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html">rebind</a></b>;</span>
+<span>&nbsp;&nbsp;struct <b><a href="/thrust/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html">rebind</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator">stateless&#95;resource&#95;allocator</a></b>();</span>
+<span>&nbsp;&nbsp;__host__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator">stateless&#95;resource&#95;allocator</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator">stateless&#95;resource&#95;allocator</a></b>(const <a href="/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & other);</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator">stateless&#95;resource&#95;allocator</a></b>(const <a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & other);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename U&gt;</span>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator">stateless&#95;resource&#95;allocator</a></b>(const <a href="/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a>< U, Upstream > & other);</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-stateless_resource_allocator">stateless&#95;resource&#95;allocator</a></b>(const <a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a>< U, Upstream > & other);</span>
 <br>
-<span>&nbsp;&nbsp;<a href="/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classmr_1_1stateless__resource__allocator.html#function-operator=">operator=</a></b>(const <a href="/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> &) = default;</span>
+<span>&nbsp;&nbsp;<a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-operator=">operator=</a></b>(const <a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> &) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classmr_1_1stateless__resource__allocator.html#function-~stateless_resource_allocator">~stateless&#95;resource&#95;allocator</a></b>();</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html#function-~stateless_resource_allocator">~stateless&#95;resource&#95;allocator</a></b>();</span>
 <span>};</span>
 </code>
 
 ## Member Classes
 
 <h3 id="struct-mr::stateless_resource_allocator::rebind">
-<a href="/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html">Struct <code>mr::stateless&#95;resource&#95;allocator::mr::stateless&#95;resource&#95;allocator::rebind</code>
+<a href="/thrust/api/classes/structmr_1_1stateless__resource__allocator_1_1rebind.html">Struct <code>mr::stateless&#95;resource&#95;allocator::mr::stateless&#95;resource&#95;allocator::rebind</code>
 </a>
 </h3>
 
@@ -62,7 +62,7 @@ Function <code>mr::stateless&#95;resource&#95;allocator::&gt;::stateless&#95;res
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ </span><span><b>stateless_resource_allocator</b>(const <a href="/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & other);</span></code>
+<span>__host__ __device__ </span><span><b>stateless_resource_allocator</b>(const <a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & other);</span></code>
 Copy constructor. Copies the memory resource pointer. 
 
 <h3 id="function-stateless_resource_allocator">
@@ -71,7 +71,7 @@ Function <code>mr::stateless&#95;resource&#95;allocator::&gt;::stateless&#95;res
 
 <code class="doxybook">
 <span>template &lt;typename U&gt;</span>
-<span>__host__ __device__ </span><span><b>stateless_resource_allocator</b>(const <a href="/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a>< U, Upstream > & other);</span></code>
+<span>__host__ __device__ </span><span><b>stateless_resource_allocator</b>(const <a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a>< U, Upstream > & other);</span></code>
 Conversion constructor from an allocator of a different type. Copies the memory resource pointer. 
 
 <h3 id="function-operator=">
@@ -79,7 +79,7 @@ Function <code>mr::stateless&#95;resource&#95;allocator::&gt;::operator=</code>
 </h3>
 
 <code class="doxybook">
-<span><a href="/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & </span><span><b>operator=</b>(const <a href="/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> &) = default;</span></code>
+<span><a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> & </span><span><b>operator=</b>(const <a href="/thrust/api/classes/classmr_1_1stateless__resource__allocator.html">stateless_resource_allocator</a> &) = default;</span></code>
 <h3 id="function-~stateless_resource_allocator">
 Function <code>mr::stateless&#95;resource&#95;allocator::&gt;::~stateless&#95;resource&#95;allocator</code>
 </h3>

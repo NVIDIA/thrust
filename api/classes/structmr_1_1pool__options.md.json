@@ -28,7 +28,7 @@
     "name": "memory_resources",
     "refid": "group__memory__resources",
     "title": "Memory Resources",
-    "url": "/api/groups/group__memory__resources.html",
+    "url": "/thrust/api/groups/group__memory__resources.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -42,7 +42,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -53,7 +53,7 @@
       "name": "memory_resources",
       "refid": "group__memory__resources",
       "title": "Memory Resources",
-      "url": "/api/groups/group__memory__resources.html",
+      "url": "/thrust/api/groups/group__memory__resources.html",
       "visibility": "public"
     }
   ],
@@ -69,7 +69,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -83,7 +83,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -115,7 +115,7 @@
       "title": "min_blocks_per_chunk",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-min_blocks_per_chunk",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-min_blocks_per_chunk",
       "visibility": "public"
     },
     {
@@ -145,7 +145,7 @@
       "title": "min_bytes_per_chunk",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-min_bytes_per_chunk",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-min_bytes_per_chunk",
       "visibility": "public"
     },
     {
@@ -175,7 +175,7 @@
       "title": "max_blocks_per_chunk",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-max_blocks_per_chunk",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-max_blocks_per_chunk",
       "visibility": "public"
     },
     {
@@ -205,7 +205,7 @@
       "title": "max_bytes_per_chunk",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-max_bytes_per_chunk",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-max_bytes_per_chunk",
       "visibility": "public"
     },
     {
@@ -235,7 +235,7 @@
       "title": "smallest_block_size",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-smallest_block_size",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-smallest_block_size",
       "visibility": "public"
     },
     {
@@ -265,7 +265,7 @@
       "title": "largest_block_size",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-largest_block_size",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-largest_block_size",
       "visibility": "public"
     },
     {
@@ -295,7 +295,7 @@
       "title": "alignment",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-alignment",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-alignment",
       "visibility": "public"
     },
     {
@@ -325,7 +325,7 @@
       "title": "cache_oversized",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-cache_oversized",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-cache_oversized",
       "visibility": "public"
     },
     {
@@ -355,7 +355,7 @@
       "title": "cached_size_cutoff_factor",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-cached_size_cutoff_factor",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-cached_size_cutoff_factor",
       "visibility": "public"
     },
     {
@@ -385,7 +385,7 @@
       "title": "cached_alignment_cutoff_factor",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/structmr_1_1pool__options.html#variable-cached_alignment_cutoff_factor",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#variable-cached_alignment_cutoff_factor",
       "visibility": "public"
     }
   ],
@@ -423,7 +423,7 @@
       "title": "validate",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/classes/structmr_1_1pool__options.html#function-validate",
+      "url": "/thrust/api/classes/structmr_1_1pool__options.html#function-validate",
       "virtual": false,
       "visibility": "public"
     }
@@ -432,6 +432,6 @@
   "static": false,
   "strong": false,
   "title": "mr::pool_options",
-  "url": "/api/classes/structmr_1_1pool__options.html",
+  "url": "/thrust/api/classes/structmr_1_1pool__options.html",
   "visibility": "public"
 }

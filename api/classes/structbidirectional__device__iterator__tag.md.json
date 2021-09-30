@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/structbidirectional__device__iterator__tag.html\">bidirectional&#95;device&#95;iterator&#95;tag</a></code> is an empty class: it has no member functions, member variables, or nested types. It is used solely as a \"tag\": a representation of the Bidirectional Device Iterator concept within the C++ type system.",
+  "details": "<code><a href=\"/thrust/api/classes/structbidirectional__device__iterator__tag.html\">bidirectional&#95;device&#95;iterator&#95;tag</a></code> is an empty class: it has no member functions, member variables, or nested types. It is used solely as a \"tag\": a representation of the Bidirectional Device Iterator concept within the C++ type system.",
   "explicit": false,
   "fullname": "bidirectional_device_iterator_tag",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "iterator_tag_classes",
     "refid": "group__iterator__tag__classes",
     "title": "Iterator Tag Classes",
-    "url": "/api/groups/group__iterator__tag__classes.html",
+    "url": "/thrust/api/groups/group__iterator__tag__classes.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -49,7 +49,7 @@
       "name": "iterators",
       "refid": "group__iterators",
       "title": "Iterators",
-      "url": "/api/groups/group__iterators.html",
+      "url": "/thrust/api/groups/group__iterators.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "name": "iterator_tags",
       "refid": "group__iterator__tags",
       "title": "Iterator Tags",
-      "url": "/api/groups/group__iterator__tags.html",
+      "url": "/thrust/api/groups/group__iterator__tags.html",
       "visibility": "public"
     },
     {
@@ -71,7 +71,7 @@
       "name": "iterator_tag_classes",
       "refid": "group__iterator__tag__classes",
       "title": "Iterator Tag Classes",
-      "url": "/api/groups/group__iterator__tag__classes.html",
+      "url": "/thrust/api/groups/group__iterator__tag__classes.html",
       "visibility": "public"
     }
   ],
@@ -80,11 +80,11 @@
   "parent": null,
   "refid": "structbidirectional__device__iterator__tag",
   "see": [
-    "<a href=\"https://en.cppreference.com/w/cpp/iterator/iterator_tags\">https://en.cppreference.com/w/cpp/iterator/iterator_tags</a><a href=\"/api/classes/structiterator__traits.html\">iterator_traits</a>, <a href=\"/api/classes/structinput__device__iterator__tag.html\">input_device_iterator_tag</a>, <a href=\"/api/classes/structoutput__device__iterator__tag.html\">output_device_iterator_tag</a>, <a href=\"/api/classes/structforward__device__iterator__tag.html\">forward_device_iterator_tag</a>, <a href=\"/api/classes/structrandom__access__device__iterator__tag.html\">random_access_device_iterator_tag</a>, <a href=\"/api/groups/group__iterator__tag__classes.html#typedef-input_host_iterator_tag\">input_host_iterator_tag</a>, <a href=\"/api/groups/group__iterator__tag__classes.html#typedef-output_host_iterator_tag\">output_host_iterator_tag</a>, <a href=\"/api/groups/group__iterator__tag__classes.html#typedef-forward_host_iterator_tag\">forward_host_iterator_tag</a>, <a href=\"/api/groups/group__iterator__tag__classes.html#typedef-bidirectional_host_iterator_tag\">bidirectional_host_iterator_tag</a>, <a href=\"/api/groups/group__iterator__tag__classes.html#typedef-random_access_host_iterator_tag\">random_access_host_iterator_tag</a>"
+    "<a href=\"https://en.cppreference.com/w/cpp/iterator/iterator_tags\">https://en.cppreference.com/w/cpp/iterator/iterator_tags</a><a href=\"/thrust/api/classes/structiterator__traits.html\">iterator_traits</a>, <a href=\"/thrust/api/classes/structinput__device__iterator__tag.html\">input_device_iterator_tag</a>, <a href=\"/thrust/api/classes/structoutput__device__iterator__tag.html\">output_device_iterator_tag</a>, <a href=\"/thrust/api/classes/structforward__device__iterator__tag.html\">forward_device_iterator_tag</a>, <a href=\"/thrust/api/classes/structrandom__access__device__iterator__tag.html\">random_access_device_iterator_tag</a>, <a href=\"/thrust/api/groups/group__iterator__tag__classes.html#typedef-input_host_iterator_tag\">input_host_iterator_tag</a>, <a href=\"/thrust/api/groups/group__iterator__tag__classes.html#typedef-output_host_iterator_tag\">output_host_iterator_tag</a>, <a href=\"/thrust/api/groups/group__iterator__tag__classes.html#typedef-forward_host_iterator_tag\">forward_host_iterator_tag</a>, <a href=\"/thrust/api/groups/group__iterator__tag__classes.html#typedef-bidirectional_host_iterator_tag\">bidirectional_host_iterator_tag</a>, <a href=\"/thrust/api/groups/group__iterator__tag__classes.html#typedef-random_access_host_iterator_tag\">random_access_host_iterator_tag</a>"
   ],
   "static": false,
   "strong": false,
   "title": "bidirectional_device_iterator_tag",
-  "url": "/api/classes/structbidirectional__device__iterator__tag.html",
+  "url": "/thrust/api/classes/structbidirectional__device__iterator__tag.html",
   "visibility": "public"
 }

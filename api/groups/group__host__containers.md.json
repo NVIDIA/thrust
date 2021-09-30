@@ -18,7 +18,7 @@
     "name": "container_classes",
     "refid": "group__container__classes",
     "title": "Container Classes",
-    "url": "/api/groups/group__container__classes.html",
+    "url": "/thrust/api/groups/group__container__classes.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "container_classes",
       "refid": "group__container__classes",
       "title": "Container Classes",
-      "url": "/api/groups/group__container__classes.html",
+      "url": "/thrust/api/groups/group__container__classes.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
     "name": "container_classes",
     "refid": "group__container__classes",
     "title": "Container Classes",
-    "url": "/api/groups/group__container__classes.html",
+    "url": "/thrust/api/groups/group__container__classes.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -56,7 +56,7 @@
       "name": "container_classes",
       "refid": "group__container__classes",
       "title": "Container Classes",
-      "url": "/api/groups/group__container__classes.html",
+      "url": "/thrust/api/groups/group__container__classes.html",
       "visibility": "public"
     }
   ],
@@ -77,7 +77,7 @@
       "name": "host_vector",
       "refid": "classhost__vector",
       "title": "host_vector",
-      "url": "/api/classes/classhost__vector.html",
+      "url": "/thrust/api/classes/classhost__vector.html",
       "visibility": "public"
     }
   ],
@@ -91,7 +91,7 @@
       "default": false,
       "definition": "void swap",
       "deleted": false,
-      "details": "Exchanges the values of two vectors. <code>x</code> The first <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> of interest. <code>y</code> The second <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> of interest. ",
+      "details": "Exchanges the values of two vectors. <code>x</code> The first <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> of interest. <code>y</code> The second <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> of interest. ",
       "explicit": false,
       "fullname": "host_containers::swap",
       "hasDetails": true,
@@ -110,12 +110,12 @@
       "params": [
         {
           "name": "a",
-          "type": "<a href=\"/api/classes/classhost__vector.html\">host_vector</a>< T, Alloc > &",
+          "type": "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>< T, Alloc > &",
           "typePlain": "host_vector< T, Alloc > &"
         },
         {
           "name": "b",
-          "type": "<a href=\"/api/classes/classhost__vector.html\">host_vector</a>< T, Alloc > &",
+          "type": "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>< T, Alloc > &",
           "typePlain": "host_vector< T, Alloc > &"
         }
       ],
@@ -138,7 +138,7 @@
       "title": "swap",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__host__containers.html#function-swap",
+      "url": "/thrust/api/groups/group__host__containers.html#function-swap",
       "virtual": false,
       "visibility": "public"
     }
@@ -147,6 +147,6 @@
   "static": false,
   "strong": false,
   "title": "Host Containers",
-  "url": "/api/groups/group__host__containers.html",
+  "url": "/thrust/api/groups/group__host__containers.html",
   "visibility": "public"
 }

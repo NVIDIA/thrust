@@ -37,7 +37,7 @@
     "name": "allocators",
     "refid": "group__allocators",
     "title": "Allocators",
-    "url": "/api/groups/group__allocators.html",
+    "url": "/thrust/api/groups/group__allocators.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -51,7 +51,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "allocators",
       "refid": "group__allocators",
       "title": "Allocators",
-      "url": "/api/groups/group__allocators.html",
+      "url": "/thrust/api/groups/group__allocators.html",
       "visibility": "public"
     }
   ],
@@ -94,9 +94,9 @@
       "static": false,
       "strong": false,
       "title": "base",
-      "type": "thrust::mr::stateless_resource_allocator< T, <a href=\"/api/classes/classdevice__ptr__memory__resource.html\">device_ptr_memory_resource</a>< device_memory_resource > >",
+      "type": "thrust::mr::stateless_resource_allocator< T, <a href=\"/thrust/api/classes/classdevice__ptr__memory__resource.html\">device_ptr_memory_resource</a>< device_memory_resource > >",
       "typePlain": "thrust::mr::stateless_resource_allocator< T, device_ptr_memory_resource< device_memory_resource > >",
-      "url": "/api/classes/classdevice__allocator.html#typedef-base",
+      "url": "/thrust/api/classes/classdevice__allocator.html#typedef-base",
       "visibility": "private"
     }
   ],
@@ -109,7 +109,7 @@
       "name": "device_allocator::rebind",
       "refid": "structdevice__allocator_1_1rebind",
       "title": "device_allocator::rebind",
-      "url": "/api/classes/structdevice__allocator_1_1rebind.html",
+      "url": "/thrust/api/classes/structdevice__allocator_1_1rebind.html",
       "visibility": "public"
     }
   ],
@@ -147,7 +147,7 @@
       "title": "device_allocator",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classdevice__allocator.html#function-device_allocator",
+      "url": "/thrust/api/classes/classdevice__allocator.html#function-device_allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -179,7 +179,7 @@
       "params": [
         {
           "name": "other",
-          "type": "const <a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__allocator.html\">device_allocator</a> &",
           "typePlain": "const device_allocator &"
         }
       ],
@@ -190,7 +190,7 @@
       "title": "device_allocator",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classdevice__allocator.html#function-device_allocator",
+      "url": "/thrust/api/classes/classdevice__allocator.html#function-device_allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -203,7 +203,7 @@
       "default": false,
       "definition": "__host__ device_allocator< T >::device_allocator",
       "deleted": false,
-      "details": "Constructor from other <code><a href=\"/api/classes/classdevice__allocator.html\">device&#95;allocator</a></code> has no effect. ",
+      "details": "Constructor from other <code><a href=\"/thrust/api/classes/classdevice__allocator.html\">device&#95;allocator</a></code> has no effect. ",
       "explicit": false,
       "fullname": "device_allocator::device_allocator",
       "hasDetails": true,
@@ -222,7 +222,7 @@
       "params": [
         {
           "name": "other",
-          "type": "const <a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a>< U > &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__allocator.html\">device_allocator</a>< U > &",
           "typePlain": "const device_allocator< U > &"
         }
       ],
@@ -240,7 +240,7 @@
       "title": "device_allocator",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classdevice__allocator.html#function-device_allocator",
+      "url": "/thrust/api/classes/classdevice__allocator.html#function-device_allocator",
       "virtual": false,
       "visibility": "public"
     },
@@ -268,7 +268,7 @@
       "params": [
         {
           "name": "",
-          "type": "const <a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classdevice__allocator.html\">device_allocator</a> &",
           "typePlain": "const device_allocator &"
         }
       ],
@@ -277,9 +277,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "<a href=\"/api/classes/classdevice__allocator.html\">device_allocator</a> &",
+      "type": "<a href=\"/thrust/api/classes/classdevice__allocator.html\">device_allocator</a> &",
       "typePlain": "device_allocator &",
-      "url": "/api/classes/classdevice__allocator.html#function-operator=",
+      "url": "/thrust/api/classes/classdevice__allocator.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -316,7 +316,7 @@
       "title": "~device_allocator",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classdevice__allocator.html#function-~device_allocator",
+      "url": "/thrust/api/classes/classdevice__allocator.html#function-~device_allocator",
       "virtual": false,
       "visibility": "public"
     }
@@ -336,6 +336,6 @@
     }
   ],
   "title": "device_allocator",
-  "url": "/api/classes/classdevice__allocator.html",
+  "url": "/thrust/api/classes/classdevice__allocator.html",
   "visibility": "public"
 }

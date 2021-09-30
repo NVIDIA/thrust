@@ -13,7 +13,7 @@ has_toc: false
 A <code>linear&#95;feedback&#95;shift&#95;engine</code> random number engine produces unsigned integer random values using a linear feedback shift random number generation algorithm. 
 
 **Note**:
-<a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a> is based on the Boost Template Library's linear_feedback_shift. 
+<a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear_feedback_shift_engine</a> is based on the Boost Template Library's linear_feedback_shift. 
 
 **Template Parameters**:
 * **`UIntType`** The type of unsigned integer to produce. 
@@ -30,29 +30,29 @@ A <code>linear&#95;feedback&#95;shift&#95;engine</code> random number engine pro
 <span>&nbsp;&nbsp;size_t q,</span>
 <span>&nbsp;&nbsp;size_t s&gt;</span>
 <span>class random::linear&#95;feedback&#95;shift&#95;engine {</span>
-<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the unsigned integer produced by this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code>.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result&#95;type</a></b>;</span>
+<span>public:</span><span class="doxybook-comment">&nbsp;&nbsp;/* The type of the unsigned integer produced by this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code>.  */</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-word_size">word&#95;size</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-word_size">word&#95;size</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-exponent1">exponent1</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-exponent1">exponent1</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-exponent2">exponent2</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-exponent2">exponent2</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const size_t <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-step_size">step&#95;size</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const size_t <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-step_size">step&#95;size</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-min">min</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-min">min</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-max">max</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-max">max</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;static const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-default_seed">default&#95;seed</a></b> = <i>see below</i>;</span>
+<span>&nbsp;&nbsp;static const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#variable-default_seed">default&#95;seed</a></b> = <i>see below</i>;</span>
 <br>
-<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#function-linear_feedback_shift_engine">linear&#95;feedback&#95;shift&#95;engine</a></b>(<a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span>
+<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#function-linear_feedback_shift_engine">linear&#95;feedback&#95;shift&#95;engine</a></b>(<a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#function-seed">seed</a></b>(<a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#function-seed">seed</a></b>(<a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#function-operator()">operator()</a></b>(void);</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#function-operator()">operator()</a></b>(void);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#function-discard">discard</a></b>(unsigned long long z);</span>
+<span>&nbsp;&nbsp;__host__ __device__ void </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#function-discard">discard</a></b>(unsigned long long z);</span>
 <span>};</span>
 </code>
 
@@ -64,7 +64,7 @@ Typedef <code>random::linear&#95;feedback&#95;shift&#95;engine::result&#95;type<
 
 <code class="doxybook">
 <span>typedef UIntType<b>result_type</b>;</span></code>
-The type of the unsigned integer produced by this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code>. 
+The type of the unsigned integer produced by this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code>. 
 
 
 ## Member Variables
@@ -106,24 +106,24 @@ Variable <code>random::linear&#95;feedback&#95;shift&#95;engine::random::linear&
 </h3>
 
 <code class="doxybook">
-<span>static const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b>min</b> = 0;</span></code>
-The smallest value this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> may potentially produce. 
+<span>static const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b>min</b> = 0;</span></code>
+The smallest value this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> may potentially produce. 
 
 <h3 id="variable-max">
 Variable <code>random::linear&#95;feedback&#95;shift&#95;engine::random::linear&#95;feedback&#95;shift&#95;engine::max</code>
 </h3>
 
 <code class="doxybook">
-<span>static const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b>max</b> = wordmask;</span></code>
-The largest value this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> may potentially produce. 
+<span>static const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b>max</b> = wordmask;</span></code>
+The largest value this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code> may potentially produce. 
 
 <h3 id="variable-default_seed">
 Variable <code>random::linear&#95;feedback&#95;shift&#95;engine::random::linear&#95;feedback&#95;shift&#95;engine::default&#95;seed</code>
 </h3>
 
 <code class="doxybook">
-<span>static const <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b>default_seed</b> = 341u;</span></code>
-The default seed of this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code>. 
+<span>static const <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> <b>default_seed</b> = 341u;</span></code>
+The default seed of this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code>. 
 
 
 ## Member Functions
@@ -133,30 +133,30 @@ Function <code>random::linear&#95;feedback&#95;shift&#95;engine::&gt;::linear&#9
 </h3>
 
 <code class="doxybook">
-<span>explicit __host__ __device__ </span><span><b>linear_feedback_shift_engine</b>(<a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span></code>
-This constructor, which optionally accepts a seed, initializes a new <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code>.
+<span>explicit __host__ __device__ </span><span><b>linear_feedback_shift_engine</b>(<a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span></code>
+This constructor, which optionally accepts a seed, initializes a new <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a></code>.
 
 **Function Parameters**:
-**`value`**: The seed used to intialize this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. 
+**`value`**: The seed used to intialize this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. 
 
 <h3 id="function-seed">
 Function <code>random::linear&#95;feedback&#95;shift&#95;engine::&gt;::seed</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ void </span><span><b>seed</b>(<a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span></code>
-This method initializes this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state, and optionally accepts a seed value.
+<span>__host__ __device__ void </span><span><b>seed</b>(<a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> value = default&#95;seed) = default;</span></code>
+This method initializes this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state, and optionally accepts a seed value.
 
 **Function Parameters**:
-**`value`**: The seed used to initializes this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. 
+**`value`**: The seed used to initializes this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. 
 
 <h3 id="function-operator()">
 Function <code>random::linear&#95;feedback&#95;shift&#95;engine::&gt;::operator()</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(void);</span></code>
-This member function produces a new random value and updates this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. 
+<span>__host__ __device__ <a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html#typedef-result_type">result_type</a> </span><span><b>operator()</b>(void);</span></code>
+This member function produces a new random value and updates this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state. 
 
 **Returns**:
 A new random number. 
@@ -167,7 +167,7 @@ Function <code>random::linear&#95;feedback&#95;shift&#95;engine::&gt;::discard</
 
 <code class="doxybook">
 <span>__host__ __device__ void </span><span><b>discard</b>(unsigned long long z);</span></code>
-This member function advances this <code><a href="/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state a given number of times and discards the results.
+This member function advances this <code><a href="/thrust/api/classes/classrandom_1_1linear__feedback__shift__engine.html">linear&#95;feedback&#95;shift&#95;engine</a>'s</code> state a given number of times and discards the results.
 
 **Note**:
 This function is provided because an implementation may be able to accelerate it. 

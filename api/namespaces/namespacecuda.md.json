@@ -45,7 +45,7 @@
       "title": "event",
       "type": "unique_eager_event",
       "typePlain": "unique_eager_event",
-      "url": "/api/namespaces/namespacecuda.html#using-event",
+      "url": "/thrust/api/namespaces/namespacecuda.html#using-event",
       "visibility": "public"
     },
     {
@@ -81,7 +81,7 @@
       "title": "future",
       "type": "unique_eager_future< T >",
       "typePlain": "unique_eager_future< T >",
-      "url": "/api/namespaces/namespacecuda.html#using-future",
+      "url": "/thrust/api/namespaces/namespacecuda.html#using-future",
       "visibility": "public"
     }
   ],
@@ -89,6 +89,6 @@
   "static": false,
   "strong": false,
   "title": "cuda",
-  "url": "/api/namespaces/namespacecuda.html",
+  "url": "/thrust/api/namespaces/namespacecuda.html",
   "visibility": "public"
 }

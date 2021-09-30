@@ -10,7 +10,7 @@ has_toc: false
 <code class="doxybook">
 <span>template &lt;class T&gt;</span>
 <span>struct std::hash&lt; THRUST&#95;NS&#95;QUALIFIER::optional&lt; T &gt; &gt; {</span>
-<span>public:</span><span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ ::std::size_t </span><span>&nbsp;&nbsp;<b><a href="/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html#function-operator()">operator()</a></b>(const THRUST_NS_QUALIFIER::optional< T > & o) const;</span>
+<span>public:</span><span>&nbsp;&nbsp;__thrust_exec_check_disable__ __host__ __device__ ::std::size_t </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html#function-operator()">operator()</a></b>(const THRUST_NS_QUALIFIER::optional< T > & o) const;</span>
 <span>};</span>
 </code>
 

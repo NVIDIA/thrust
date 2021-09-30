@@ -13,7 +13,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "A <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> may vary dynamically; memory management is automatic. The memory associated with a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> resides in memory accessible to hosts.",
+  "details": "A <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> is a container that supports random access to elements, constant time removal of elements at the end, and linear time insertion and removal of elements at the beginning or in the middle. The number of elements in a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> may vary dynamically; memory management is automatic. The memory associated with a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> resides in memory accessible to hosts.",
   "explicit": false,
   "fullname": "host_vector",
   "hasAdditionalMembers": false,
@@ -37,7 +37,7 @@
     "name": "host_containers",
     "refid": "group__host__containers",
     "title": "Host Containers",
-    "url": "/api/groups/group__host__containers.html",
+    "url": "/thrust/api/groups/group__host__containers.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -49,7 +49,7 @@
       "name": "container_classes",
       "refid": "group__container__classes",
       "title": "Container Classes",
-      "url": "/api/groups/group__container__classes.html",
+      "url": "/thrust/api/groups/group__container__classes.html",
       "visibility": "public"
     },
     {
@@ -60,7 +60,7 @@
       "name": "host_containers",
       "refid": "group__host__containers",
       "title": "Host Containers",
-      "url": "/api/groups/group__host__containers.html",
+      "url": "/thrust/api/groups/group__host__containers.html",
       "visibility": "public"
     }
   ],
@@ -94,7 +94,7 @@
       "title": "Parent",
       "type": "detail::vector_base< T, Alloc >",
       "typePlain": "detail::vector_base< T, Alloc >",
-      "url": "/api/classes/classhost__vector.html#typedef-parent",
+      "url": "/thrust/api/classes/classhost__vector.html#typedef-parent",
       "visibility": "private"
     }
   ],
@@ -108,7 +108,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "This constructor creates an empty <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
+      "details": "This constructor creates an empty <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -138,7 +138,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -151,7 +151,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "This constructor creates an empty <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
+      "details": "This constructor creates an empty <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -170,7 +170,7 @@
       "paramList": [
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. "
         }
       ],
       "params": [
@@ -187,7 +187,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -230,7 +230,7 @@
       "title": "~host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-~host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-~host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -243,7 +243,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "This constructor creates a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with the given size. ",
+      "details": "This constructor creates a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with the given size. ",
       "explicit": true,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -279,7 +279,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -292,7 +292,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "This constructor creates a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with the given size. ",
+      "details": "This constructor creates a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with the given size. ",
       "explicit": true,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -315,7 +315,7 @@
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. "
         }
       ],
       "params": [
@@ -337,7 +337,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -350,7 +350,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "This constructor creates a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with copies of an exemplar element. ",
+      "details": "This constructor creates a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with copies of an exemplar element. ",
       "explicit": true,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -395,7 +395,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -408,7 +408,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "This constructor creates a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with copies of an exemplar element. ",
+      "details": "This constructor creates a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with copies of an exemplar element. ",
       "explicit": true,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -435,7 +435,7 @@
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. "
         }
       ],
       "params": [
@@ -462,7 +462,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -475,7 +475,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "Copy constructor copies from an exemplar <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
+      "details": "Copy constructor copies from an exemplar <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -494,13 +494,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classhost__vector.html\">host_vector</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &",
           "typePlain": "const host_vector &"
         }
       ],
@@ -511,7 +511,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -524,7 +524,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "Copy constructor copies from an exemplar <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
+      "details": "Copy constructor copies from an exemplar <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -543,17 +543,17 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classhost__vector.html\">host_vector</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &",
           "typePlain": "const host_vector &"
         },
         {
@@ -569,7 +569,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -582,7 +582,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "Move constructor moves from another <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. ",
+      "details": "Move constructor moves from another <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -601,13 +601,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <a href=\"/api/classes/classhost__vector.html\">host_vector</a> to move. "
+          "text": "The <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> to move. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "<a href=\"/api/classes/classhost__vector.html\">host_vector</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &&",
           "typePlain": "host_vector &&"
         }
       ],
@@ -618,7 +618,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -631,7 +631,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "Move constructor moves from another <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. ",
+      "details": "Move constructor moves from another <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -650,17 +650,17 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <a href=\"/api/classes/classhost__vector.html\">host_vector</a> to move. "
+          "text": "The <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> to move. "
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "<a href=\"/api/classes/classhost__vector.html\">host_vector</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &&",
           "typePlain": "host_vector &&"
         },
         {
@@ -676,7 +676,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -689,7 +689,7 @@
       "default": false,
       "definition": "__host__ host_vector& host_vector< T, Alloc >::operator=",
       "deleted": false,
-      "details": "Assign operator copies from an exemplar <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
+      "details": "Assign operator copies from an exemplar <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code>. ",
       "explicit": false,
       "fullname": "host_vector::operator=",
       "hasDetails": true,
@@ -708,13 +708,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classhost__vector.html\">host_vector</a> &",
+          "type": "const <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &",
           "typePlain": "const host_vector &"
         }
       ],
@@ -723,9 +723,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "__host__ <a href=\"/api/classes/classhost__vector.html\">host_vector</a> &",
+      "type": "__host__ <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &",
       "typePlain": "__host__ host_vector &",
-      "url": "/api/classes/classhost__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classhost__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -738,7 +738,7 @@
       "default": false,
       "definition": "__host__ host_vector& host_vector< T, Alloc >::operator=",
       "deleted": false,
-      "details": "Move assign operator moves from another <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. ",
+      "details": "Move assign operator moves from another <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. ",
       "explicit": false,
       "fullname": "host_vector::operator=",
       "hasDetails": true,
@@ -757,13 +757,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <a href=\"/api/classes/classhost__vector.html\">host_vector</a> to move. "
+          "text": "The <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> to move. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "<a href=\"/api/classes/classhost__vector.html\">host_vector</a> &&",
+          "type": "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &&",
           "typePlain": "host_vector &&"
         }
       ],
@@ -772,9 +772,9 @@
       "static": false,
       "strong": false,
       "title": "operator=",
-      "type": "__host__ <a href=\"/api/classes/classhost__vector.html\">host_vector</a> &",
+      "type": "__host__ <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &",
       "typePlain": "__host__ host_vector &",
-      "url": "/api/classes/classhost__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classhost__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -787,7 +787,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "Copy constructor copies from an exemplar <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with different type. ",
+      "details": "Copy constructor copies from an exemplar <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with different type. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -806,13 +806,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classhost__vector.html\">host_vector</a>< OtherT, OtherAlloc > &",
+          "type": "const <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>< OtherT, OtherAlloc > &",
           "typePlain": "const host_vector< OtherT, OtherAlloc > &"
         }
       ],
@@ -835,7 +835,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -848,7 +848,7 @@
       "default": false,
       "definition": "__host__ host_vector& host_vector< T, Alloc >::operator=",
       "deleted": false,
-      "details": "Assign operator copies from an exemplar <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> with different type. ",
+      "details": "Assign operator copies from an exemplar <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> with different type. ",
       "explicit": false,
       "fullname": "host_vector::operator=",
       "hasDetails": true,
@@ -867,13 +867,13 @@
       "paramList": [
         {
           "name": "v",
-          "text": "The <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
+          "text": "The <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> to copy. "
         }
       ],
       "params": [
         {
           "name": "v",
-          "type": "const <a href=\"/api/classes/classhost__vector.html\">host_vector</a>< OtherT, OtherAlloc > &",
+          "type": "const <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>< OtherT, OtherAlloc > &",
           "typePlain": "const host_vector< OtherT, OtherAlloc > &"
         }
       ],
@@ -894,9 +894,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__host__ <a href=\"/api/classes/classhost__vector.html\">host_vector</a> &",
+      "type": "__host__ <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &",
       "typePlain": "__host__ host_vector &",
-      "url": "/api/classes/classhost__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classhost__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -957,7 +957,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -1016,9 +1016,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__host__ <a href=\"/api/classes/classhost__vector.html\">host_vector</a> &",
+      "type": "__host__ <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &",
       "typePlain": "__host__ host_vector &",
-      "url": "/api/classes/classhost__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classhost__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1079,7 +1079,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -1138,9 +1138,9 @@
         }
       ],
       "title": "operator=",
-      "type": "__host__ <a href=\"/api/classes/classhost__vector.html\">host_vector</a> &",
+      "type": "__host__ <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> &",
       "typePlain": "__host__ host_vector &",
-      "url": "/api/classes/classhost__vector.html#function-operator=",
+      "url": "/thrust/api/classes/classhost__vector.html#function-operator=",
       "virtual": false,
       "visibility": "public"
     },
@@ -1153,7 +1153,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "This constructor builds a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> from a range. ",
+      "details": "This constructor builds a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> from a range. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -1205,7 +1205,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     },
@@ -1218,7 +1218,7 @@
       "default": false,
       "definition": "__host__ host_vector< T, Alloc >::host_vector",
       "deleted": false,
-      "details": "This constructor builds a <code><a href=\"/api/classes/classhost__vector.html\">host&#95;vector</a></code> from a range. ",
+      "details": "This constructor builds a <code><a href=\"/thrust/api/classes/classhost__vector.html\">host&#95;vector</a></code> from a range. ",
       "explicit": false,
       "fullname": "host_vector::host_vector",
       "hasDetails": true,
@@ -1245,7 +1245,7 @@
         },
         {
           "name": "alloc",
-          "text": "The allocator to use by this <a href=\"/api/classes/classhost__vector.html\">host_vector</a>. "
+          "text": "The allocator to use by this <a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a>. "
         }
       ],
       "params": [
@@ -1279,7 +1279,7 @@
       "title": "host_vector",
       "type": "__host__",
       "typePlain": "__host__",
-      "url": "/api/classes/classhost__vector.html#function-host_vector",
+      "url": "/thrust/api/classes/classhost__vector.html#function-host_vector",
       "virtual": false,
       "visibility": "public"
     }
@@ -1287,7 +1287,7 @@
   "refid": "classhost__vector",
   "see": [
     "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
-    "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a>",
+    "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>",
     "universal_vector "
   ],
   "static": false,
@@ -1307,6 +1307,6 @@
     }
   ],
   "title": "host_vector",
-  "url": "/api/classes/classhost__vector.html",
+  "url": "/thrust/api/classes/classhost__vector.html",
   "visibility": "public"
 }

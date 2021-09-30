@@ -34,7 +34,7 @@
           "static": false,
           "strong": false,
           "title": "~memory_resource",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-~memory_resource",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-~memory_resource",
           "virtual": true,
           "visibility": "public"
         },
@@ -101,9 +101,9 @@
           "static": false,
           "strong": false,
           "title": "allocate",
-          "type": "<a href=\"/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
+          "type": "<a href=\"/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
           "typePlain": "pointer",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-allocate",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-allocate",
           "virtual": false,
           "visibility": "public"
         },
@@ -149,7 +149,7 @@
           "params": [
             {
               "name": "p",
-              "type": "<a href=\"/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
+              "type": "<a href=\"/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer\">pointer</a>",
               "typePlain": "pointer"
             },
             {
@@ -172,7 +172,7 @@
           "title": "deallocate",
           "type": "void",
           "typePlain": "void",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-deallocate",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-deallocate",
           "virtual": false,
           "visibility": "public"
         },
@@ -210,7 +210,7 @@
           "params": [
             {
               "name": "other",
-              "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
+              "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
               "typePlain": "const memory_resource &"
             }
           ],
@@ -224,7 +224,7 @@
           "title": "is_equal",
           "type": "__host__ __device__ bool",
           "typePlain": "__host__ __device__ bool",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-is_equal",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-is_equal",
           "virtual": false,
           "visibility": "public"
         },
@@ -262,7 +262,7 @@
           "params": [
             {
               "name": "other",
-              "type": "const <a href=\"/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
+              "type": "const <a href=\"/thrust/api/classes/classmr_1_1memory__resource.html\">memory_resource</a> &",
               "typePlain": "const memory_resource &"
             }
           ],
@@ -276,7 +276,7 @@
           "title": "do_is_equal",
           "type": "__host__ virtual __device__ bool",
           "typePlain": "__host__ virtual __device__ bool",
-          "url": "/api/classes/classmr_1_1memory__resource.html#function-do_is_equal",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-do_is_equal",
           "virtual": true,
           "visibility": "public"
         }
@@ -309,12 +309,12 @@
           "title": "pointer",
           "type": "Pointer",
           "typePlain": "Pointer",
-          "url": "/api/classes/classmr_1_1memory__resource.html#typedef-pointer",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html#typedef-pointer",
           "visibility": "public"
         }
       ],
       "refid": "classmr_1_1memory__resource",
-      "url": "/api/classes/classmr_1_1memory__resource.html",
+      "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
       "virtual": "non-virtual",
       "visibility": "public"
     },
@@ -353,7 +353,7 @@
     "name": "memory_resources",
     "refid": "group__memory__resources",
     "title": "Memory Resources",
-    "url": "/api/groups/group__memory__resources.html",
+    "url": "/thrust/api/groups/group__memory__resources.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -367,7 +367,7 @@
       "refid": "group__memory__management",
       "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
       "title": "Memory Management",
-      "url": "/api/groups/group__memory__management.html",
+      "url": "/thrust/api/groups/group__memory__management.html",
       "visibility": "public"
     },
     {
@@ -378,7 +378,7 @@
       "name": "memory_resources",
       "refid": "group__memory__resources",
       "title": "Memory Resources",
-      "url": "/api/groups/group__memory__resources.html",
+      "url": "/thrust/api/groups/group__memory__resources.html",
       "visibility": "public"
     }
   ],
@@ -394,7 +394,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -408,7 +408,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -439,7 +439,7 @@
       "title": "m_upstream",
       "type": "Upstream *",
       "typePlain": "Upstream *",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_upstream",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_upstream",
       "visibility": "private"
     },
     {
@@ -468,7 +468,7 @@
       "title": "m_bookkeeper",
       "type": "Bookkeeper *",
       "typePlain": "Bookkeeper *",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_bookkeeper",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_bookkeeper",
       "visibility": "private"
     },
     {
@@ -495,9 +495,9 @@
       "static": false,
       "strong": false,
       "title": "m_options",
-      "type": "<a href=\"/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
+      "type": "<a href=\"/thrust/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
       "typePlain": "pool_options",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_options",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_options",
       "visibility": "private"
     },
     {
@@ -526,7 +526,7 @@
       "title": "m_smallest_block_log2",
       "type": "std::size_t",
       "typePlain": "std::size_t",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_smallest_block_log2",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_smallest_block_log2",
       "visibility": "private"
     },
     {
@@ -555,7 +555,7 @@
       "title": "m_pools",
       "type": "pool_vector",
       "typePlain": "pool_vector",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_pools",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_pools",
       "visibility": "private"
     },
     {
@@ -584,7 +584,7 @@
       "title": "m_allocated",
       "type": "chunk_vector",
       "typePlain": "chunk_vector",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_allocated",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_allocated",
       "visibility": "private"
     },
     {
@@ -613,7 +613,7 @@
       "title": "m_cached_oversized",
       "type": "oversized_block_vector",
       "typePlain": "oversized_block_vector",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_cached_oversized",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_cached_oversized",
       "visibility": "private"
     },
     {
@@ -642,7 +642,7 @@
       "title": "m_oversized",
       "type": "oversized_block_vector",
       "typePlain": "oversized_block_vector",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_oversized",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#variable-m_oversized",
       "visibility": "private"
     }
   ],
@@ -655,7 +655,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
       "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor",
       "title": "mr::disjoint_unsynchronized_pool_resource::chunk_descriptor",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1chunk__descriptor.html",
       "visibility": "private"
     },
     {
@@ -666,7 +666,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource::equal_pointers",
       "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers",
       "title": "mr::disjoint_unsynchronized_pool_resource::equal_pointers",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1equal__pointers.html",
       "visibility": "private"
     },
     {
@@ -677,7 +677,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource::matching_alignment",
       "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment",
       "title": "mr::disjoint_unsynchronized_pool_resource::matching_alignment",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1matching__alignment.html",
       "visibility": "private"
     },
     {
@@ -688,7 +688,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
       "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor",
       "title": "mr::disjoint_unsynchronized_pool_resource::oversized_block_descriptor",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1oversized__block__descriptor.html",
       "visibility": "private"
     },
     {
@@ -699,7 +699,7 @@
       "name": "mr::disjoint_unsynchronized_pool_resource::pool",
       "refid": "structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool",
       "title": "mr::disjoint_unsynchronized_pool_resource::pool",
-      "url": "/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html",
+      "url": "/thrust/api/classes/structmr_1_1disjoint__unsynchronized__pool__resource_1_1pool.html",
       "visibility": "private"
     }
   ],
@@ -730,7 +730,7 @@
       "title": "void_ptr",
       "type": "Upstream::pointer",
       "typePlain": "Upstream::pointer",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-void_ptr",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-void_ptr",
       "visibility": "private"
     },
     {
@@ -759,7 +759,7 @@
       "title": "char_ptr",
       "type": "thrust::detail::pointer_traits< void_ptr >::template rebind< char >::other",
       "typePlain": "thrust::detail::pointer_traits< void_ptr >::template rebind< char >::other",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-char_ptr",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-char_ptr",
       "visibility": "private"
     },
     {
@@ -786,9 +786,9 @@
       "static": false,
       "strong": false,
       "title": "chunk_vector",
-      "type": "thrust::host_vector< chunk_descriptor, <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< chunk_descriptor, Bookkeeper > >",
+      "type": "thrust::host_vector< chunk_descriptor, <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< chunk_descriptor, Bookkeeper > >",
       "typePlain": "thrust::host_vector< chunk_descriptor, allocator< chunk_descriptor, Bookkeeper > >",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-chunk_vector",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-chunk_vector",
       "visibility": "private"
     },
     {
@@ -815,9 +815,9 @@
       "static": false,
       "strong": false,
       "title": "oversized_block_vector",
-      "type": "thrust::host_vector< oversized_block_descriptor, <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< oversized_block_descriptor, Bookkeeper > >",
+      "type": "thrust::host_vector< oversized_block_descriptor, <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< oversized_block_descriptor, Bookkeeper > >",
       "typePlain": "thrust::host_vector< oversized_block_descriptor, allocator< oversized_block_descriptor, Bookkeeper > >",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-oversized_block_vector",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-oversized_block_vector",
       "visibility": "private"
     },
     {
@@ -844,9 +844,9 @@
       "static": false,
       "strong": false,
       "title": "pointer_vector",
-      "type": "thrust::host_vector< void_ptr, <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< void_ptr, Bookkeeper > >",
+      "type": "thrust::host_vector< void_ptr, <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< void_ptr, Bookkeeper > >",
       "typePlain": "thrust::host_vector< void_ptr, allocator< void_ptr, Bookkeeper > >",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-pointer_vector",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-pointer_vector",
       "visibility": "private"
     },
     {
@@ -873,9 +873,9 @@
       "static": false,
       "strong": false,
       "title": "pool_vector",
-      "type": "thrust::host_vector< pool, <a href=\"/api/classes/classmr_1_1allocator.html\">allocator</a>< pool, Bookkeeper > >",
+      "type": "thrust::host_vector< pool, <a href=\"/thrust/api/classes/classmr_1_1allocator.html\">allocator</a>< pool, Bookkeeper > >",
       "typePlain": "thrust::host_vector< pool, allocator< pool, Bookkeeper > >",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-pool_vector",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#typedef-pool_vector",
       "visibility": "private"
     }
   ],
@@ -911,9 +911,9 @@
       "static": true,
       "strong": false,
       "title": "get_default_options",
-      "type": "<a href=\"/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
+      "type": "<a href=\"/thrust/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
       "typePlain": "pool_options",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-get_default_options",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-get_default_options",
       "virtual": false,
       "visibility": "public"
     },
@@ -968,10 +968,10 @@
           "typePlain": "Bookkeeper *"
         },
         {
-          "defval": "<a href=\"/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-get_default_options\">get_default_options</a>()",
+          "defval": "<a href=\"/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-get_default_options\">get_default_options</a>()",
           "defvalPlain": "get_default_options()",
           "name": "options",
-          "type": "<a href=\"/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
+          "type": "<a href=\"/thrust/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
           "typePlain": "pool_options"
         }
       ],
@@ -980,7 +980,7 @@
       "static": false,
       "strong": false,
       "title": "disjoint_unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-disjoint_unsynchronized_pool_resource",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-disjoint_unsynchronized_pool_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -1017,10 +1017,10 @@
       ],
       "params": [
         {
-          "defval": "<a href=\"/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-get_default_options\">get_default_options</a>()",
+          "defval": "<a href=\"/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-get_default_options\">get_default_options</a>()",
           "defvalPlain": "get_default_options()",
           "name": "options",
-          "type": "<a href=\"/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
+          "type": "<a href=\"/thrust/api/classes/structmr_1_1pool__options.html\">pool_options</a>",
           "typePlain": "pool_options"
         }
       ],
@@ -1029,7 +1029,7 @@
       "static": false,
       "strong": false,
       "title": "disjoint_unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-disjoint_unsynchronized_pool_resource",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-disjoint_unsynchronized_pool_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -1064,7 +1064,7 @@
       "static": false,
       "strong": false,
       "title": "~disjoint_unsynchronized_pool_resource",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-~disjoint_unsynchronized_pool_resource",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-~disjoint_unsynchronized_pool_resource",
       "virtual": false,
       "visibility": "public"
     },
@@ -1101,7 +1101,7 @@
       "title": "release",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-release",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-release",
       "virtual": false,
       "visibility": "public"
     },
@@ -1171,7 +1171,7 @@
         "pureVirtual": true,
         "refid": "classmr_1_1memory__resource_1a166d253df9e98b69db8b3fc7f13716e3",
         "title": "do_allocate",
-        "url": "/api/classes/classmr_1_1memory__resource.html#function-do_allocate",
+        "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-do_allocate",
         "virtual": true,
         "visibility": "public"
       },
@@ -1183,7 +1183,7 @@
       "title": "do_allocate",
       "type": "void_ptr",
       "typePlain": "void_ptr",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-do_allocate",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-do_allocate",
       "virtual": true,
       "visibility": "public"
     },
@@ -1256,7 +1256,7 @@
         "pureVirtual": true,
         "refid": "classmr_1_1memory__resource_1adbc95e08e5e7ad5943ef6a82f7747336",
         "title": "do_deallocate",
-        "url": "/api/classes/classmr_1_1memory__resource.html#function-do_deallocate",
+        "url": "/thrust/api/classes/classmr_1_1memory__resource.html#function-do_deallocate",
         "virtual": true,
         "visibility": "public"
       },
@@ -1265,7 +1265,7 @@
       "title": "do_deallocate",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-do_deallocate",
+      "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html#function-do_deallocate",
       "virtual": true,
       "visibility": "public"
     }
@@ -1296,6 +1296,6 @@
     }
   ],
   "title": "mr::disjoint_unsynchronized_pool_resource",
-  "url": "/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
+  "url": "/thrust/api/classes/classmr_1_1disjoint__unsynchronized__pool__resource.html",
   "visibility": "public"
 }

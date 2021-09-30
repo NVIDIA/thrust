@@ -23,7 +23,7 @@
     "name": "system_backends",
     "refid": "group__system__backends",
     "title": "Systems",
-    "url": "/api/groups/group__system__backends.html",
+    "url": "/thrust/api/groups/group__system__backends.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -35,7 +35,7 @@
       "name": "system",
       "refid": "group__system",
       "title": "System",
-      "url": "/api/groups/group__system.html",
+      "url": "/thrust/api/groups/group__system.html",
       "visibility": "public"
     },
     {
@@ -46,7 +46,7 @@
       "name": "system_backends",
       "refid": "group__system__backends",
       "title": "Systems",
-      "url": "/api/groups/group__system__backends.html",
+      "url": "/thrust/api/groups/group__system__backends.html",
       "visibility": "public"
     }
   ],
@@ -60,7 +60,7 @@
     "name": "system",
     "refid": "namespacesystem",
     "title": "system",
-    "url": "/api/namespaces/namespacesystem.html",
+    "url": "/thrust/api/namespaces/namespacesystem.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -72,7 +72,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     }
   ],
@@ -135,9 +135,9 @@
       "static": false,
       "strong": false,
       "title": "malloc",
-      "type": "<a href=\"/api/groups/group__system__backends.html#using-pointer\">pointer</a>< void >",
+      "type": "<a href=\"/thrust/api/groups/group__system__backends.html#using-pointer\">pointer</a>< void >",
       "typePlain": "pointer< void >",
-      "url": "/api/namespaces/namespacesystem_1_1cpp.html#function-malloc",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html#function-malloc",
       "virtual": false,
       "visibility": "public"
     },
@@ -172,7 +172,7 @@
       "params": [
         {
           "name": "ptr",
-          "type": "<a href=\"/api/groups/group__system__backends.html#using-pointer\">pointer</a>< void >",
+          "type": "<a href=\"/thrust/api/groups/group__system__backends.html#using-pointer\">pointer</a>< void >",
           "typePlain": "pointer< void >"
         }
       ],
@@ -187,7 +187,7 @@
       "title": "free",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/namespaces/namespacesystem_1_1cpp.html#function-free",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html#function-free",
       "virtual": false,
       "visibility": "public"
     }
@@ -227,7 +227,7 @@
       "title": "allocator",
       "type": "thrust::mr::stateless_resource_allocator< T, thrust::system::cpp::memory_resource >",
       "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::cpp::memory_resource >",
-      "url": "/api/namespaces/namespacesystem_1_1cpp.html#using-allocator",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html#using-allocator",
       "visibility": "public"
     },
     {
@@ -264,7 +264,7 @@
       "title": "universal_allocator",
       "type": "thrust::mr::stateless_resource_allocator< T, thrust::system::cpp::universal_memory_resource >",
       "typePlain": "thrust::mr::stateless_resource_allocator< T, thrust::system::cpp::universal_memory_resource >",
-      "url": "/api/namespaces/namespacesystem_1_1cpp.html#using-universal_allocator",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html#using-universal_allocator",
       "visibility": "public"
     },
     {
@@ -273,7 +273,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef detail::native_resource system::cpp::memory_resource",
-      "details": "The memory resource for the Standard C++ system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::pointer</code>. ",
+      "details": "The memory resource for the Standard C++ system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::pointer</code>. ",
       "explicit": false,
       "fullname": "system::cpp::memory_resource",
       "hasDetails": true,
@@ -294,7 +294,7 @@
       "title": "memory_resource",
       "type": "detail::native_resource",
       "typePlain": "detail::native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-memory_resource",
       "visibility": "public"
     },
     {
@@ -303,7 +303,7 @@
       "category": "types",
       "const": false,
       "definition": "typedef detail::universal_native_resource system::cpp::universal_memory_resource",
-      "details": "The unified memory resource for the Standard C++ system. Uses <code><a href=\"/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::universal&#95;pointer</code>. ",
+      "details": "The unified memory resource for the Standard C++ system. Uses <code><a href=\"/thrust/api/classes/classmr_1_1new__delete__resource.html\">mr::new&#95;delete&#95;resource</a></code> and tags it with <code>cpp::universal&#95;pointer</code>. ",
       "explicit": false,
       "fullname": "system::cpp::universal_memory_resource",
       "hasDetails": true,
@@ -324,7 +324,7 @@
       "title": "universal_memory_resource",
       "type": "detail::universal_native_resource",
       "typePlain": "detail::universal_native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_memory_resource",
       "visibility": "public"
     },
     {
@@ -354,7 +354,7 @@
       "title": "universal_host_pinned_memory_resource",
       "type": "detail::native_resource",
       "typePlain": "detail::native_resource",
-      "url": "/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
+      "url": "/thrust/api/groups/group__memory__resources.html#typedef-universal_host_pinned_memory_resource",
       "visibility": "public"
     },
     {
@@ -385,7 +385,7 @@
       "see": [
         "cpp::malloc ",
         "cpp::free ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -405,7 +405,7 @@
       "title": "pointer",
       "type": "thrust::pointer< T, thrust::system::cpp::tag, thrust::tagged_reference< T, thrust::system::cpp::tag > >",
       "typePlain": "thrust::pointer< T, thrust::system::cpp::tag, thrust::tagged_reference< T, thrust::system::cpp::tag > >",
-      "url": "/api/groups/group__system__backends.html#using-pointer",
+      "url": "/thrust/api/groups/group__system__backends.html#using-pointer",
       "visibility": "public"
     },
     {
@@ -435,7 +435,7 @@
       "refid": "group__system__backends_1ga5f71b6b61a680a8449cda6fcbe2f3f85",
       "see": [
         "cpp::universal_allocator ",
-        "<a href=\"/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
+        "<a href=\"/thrust/api/groups/group__memory__management.html#function-raw_pointer_cast\">raw_pointer_cast</a>"
       ],
       "static": false,
       "strong": false,
@@ -455,7 +455,7 @@
       "title": "universal_pointer",
       "type": "thrust::pointer< T, thrust::system::cpp::tag, typename std::add_lvalue_reference< T >::type >",
       "typePlain": "thrust::pointer< T, thrust::system::cpp::tag, typename std::add_lvalue_reference< T >::type >",
-      "url": "/api/groups/group__system__backends.html#using-universal_pointer",
+      "url": "/thrust/api/groups/group__system__backends.html#using-universal_pointer",
       "visibility": "public"
     },
     {
@@ -498,7 +498,7 @@
       "title": "reference",
       "type": "thrust::reference< T, thrust::system::cpp::tag >",
       "typePlain": "thrust::reference< T, thrust::system::cpp::tag >",
-      "url": "/api/groups/group__system__backends.html#using-reference",
+      "url": "/thrust/api/groups/group__system__backends.html#using-reference",
       "visibility": "public"
     },
     {
@@ -525,8 +525,8 @@
       "refid": "cpp_2vector_8h_1ab3344e32a1ca5a59d722aab00d2bfbaf",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
-        "<a href=\"/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cpp::vector</code>. ",
-        "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a>",
+        "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cpp::vector</code>. ",
+        "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>",
         "universal_vector "
       ],
       "static": false,
@@ -558,7 +558,7 @@
       "title": "vector",
       "type": "thrust::detail::vector_base< T, Allocator >",
       "typePlain": "thrust::detail::vector_base< T, Allocator >",
-      "url": "/api/namespaces/namespacesystem_1_1cpp.html#using-vector",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html#using-vector",
       "visibility": "public"
     },
     {
@@ -585,8 +585,8 @@
       "refid": "cpp_2vector_8h_1a11192cb2bcd6148d5a6a6070dc389629",
       "see": [
         "<a href=\"https://en.cppreference.com/w/cpp/container/vector\">https://en.cppreference.com/w/cpp/container/vector</a>",
-        "<a href=\"/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cpp::universal&#95;vector</code>",
-        "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a>",
+        "<a href=\"/thrust/api/classes/classhost__vector.html\">host_vector</a> For the documentation of the complete interface which is shared by <code>cpp::universal&#95;vector</code>",
+        "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>",
         "universal_vector "
       ],
       "static": false,
@@ -618,7 +618,7 @@
       "title": "universal_vector",
       "type": "thrust::detail::vector_base< T, Allocator >",
       "typePlain": "thrust::detail::vector_base< T, Allocator >",
-      "url": "/api/namespaces/namespacesystem_1_1cpp.html#using-universal_vector",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html#using-universal_vector",
       "visibility": "public"
     }
   ],
@@ -626,6 +626,6 @@
   "static": false,
   "strong": false,
   "title": "system::cpp",
-  "url": "/api/namespaces/namespacesystem_1_1cpp.html",
+  "url": "/thrust/api/namespaces/namespacesystem_1_1cpp.html",
   "visibility": "public"
 }

@@ -39,7 +39,7 @@
     "refid": "namespacemr",
     "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
     "title": "mr",
-    "url": "/api/namespaces/namespacemr.html",
+    "url": "/thrust/api/namespaces/namespacemr.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -53,7 +53,7 @@
       "refid": "namespacemr",
       "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
       "title": "mr",
-      "url": "/api/namespaces/namespacemr.html",
+      "url": "/thrust/api/namespaces/namespacemr.html",
       "visibility": "public"
     }
   ],
@@ -68,6 +68,6 @@
     }
   ],
   "title": "mr::validator2< T, T >",
-  "url": "/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
+  "url": "/thrust/api/classes/structmr_1_1validator2_3_01t_00_01t_01_4.html",
   "visibility": "public"
 }

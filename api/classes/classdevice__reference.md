@@ -8,9 +8,9 @@ has_toc: false
 
 # Class `device_reference`
 
-<code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> acts as a reference-like object to an object stored in device memory. <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> is not intended to be used directly; rather, this type is the result of deferencing a <code><a href="/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>. Similarly, taking the address of a <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> yields a <code><a href="/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>.
+<code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> acts as a reference-like object to an object stored in device memory. <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> is not intended to be used directly; rather, this type is the result of deferencing a <code><a href="/thrust/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>. Similarly, taking the address of a <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> yields a <code><a href="/thrust/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>.
 
-<code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> may often be used from host code in place of operations defined on its associated <code>value&#95;type</code>. For example, when <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> refers to an arithmetic type, arithmetic operations on it are legal:
+<code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> may often be used from host code in place of operations defined on its associated <code>value&#95;type</code>. For example, when <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> refers to an arithmetic type, arithmetic operations on it are legal:
 
 
 
@@ -53,7 +53,7 @@ int main(void)
 }
 ```
 
-Of course, we needn't explicitly create a <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> in the previous example, because one is returned by <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> bracket operator. A more natural way to print the value of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> element might be:
+Of course, we needn't explicitly create a <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> in the previous example, because one is returned by <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a>'s</code> bracket operator. A more natural way to print the value of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> element might be:
 
 
 
@@ -75,7 +75,7 @@ int main(void)
 
 These kinds of operations should be used sparingly in performance-critical code, because they imply a potentially expensive copy between host and device space.
 
-Some operations which are possible with regular objects are impossible with their corresponding <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> objects due to the requirements of the C++ language. For example, because the member access operator cannot be overloaded, member variables and functions of a referent object cannot be directly accessed through its <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code>.
+Some operations which are possible with regular objects are impossible with their corresponding <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> objects due to the requirements of the C++ language. For example, because the member access operator cannot be overloaded, member variables and functions of a referent object cannot be directly accessed through its <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code>.
 
 The following code, which generates a compiler error, illustrates:
 
@@ -131,7 +131,7 @@ int main(void)
 }
 ```
 
-Another common case where a <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> cannot directly be used in place of its referent object occurs when passing them as parameters to functions like <code>printf</code> which have varargs parameters. Because varargs parameters must be Plain Old Data, a <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> to a POD type requires a cast when passed to <code>printf:</code>
+Another common case where a <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> cannot directly be used in place of its referent object occurs when passing them as parameters to functions like <code>printf</code> which have varargs parameters. Because varargs parameters must be Plain Old Data, a <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> to a POD type requires a cast when passed to <code>printf:</code>
 
 
 
@@ -151,27 +151,27 @@ int main(void)
 ```
 
 **See**:
-* <a href="/api/classes/classdevice__ptr.html">device_ptr</a>
-* <a href="/api/classes/classdevice__vector.html">device_vector</a>
+* <a href="/thrust/api/classes/classdevice__ptr.html">device_ptr</a>
+* <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>
 
 <code class="doxybook">
 <span>#include <thrust/device_reference.h></span><br>
 <span>template &lt;typename T&gt;</span>
 <span>class device&#95;reference {</span>
-<span>public:</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classdevice__reference.html#typedef-value_type">value&#95;type</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classdevice__reference.html#typedef-value_type">value&#95;type</a></b>;</span>
 <br>
-<span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/api/classes/classdevice__reference.html#typedef-pointer">pointer</a></b>;</span>
-<br>
-<span>&nbsp;&nbsp;template &lt;typename OtherT&gt;</span>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classdevice__reference.html#function-device_reference">device&#95;reference</a></b>(const <a href="/api/classes/classdevice__reference.html">device_reference</a>< OtherT > & other,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;typename thrust::detail::enable_if_convertible< typename <a href="/api/classes/classdevice__reference.html">device_reference</a>< OtherT >::<a href="/api/classes/classdevice__reference.html#typedef-pointer">pointer</a>, <a href="/api/classes/classdevice__reference.html#typedef-pointer">pointer</a> >::type * = 0);</span>
-<br>
-<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classdevice__reference.html#function-device_reference">device&#95;reference</a></b>(const <a href="/api/classes/classdevice__reference.html#typedef-pointer">pointer</a> & ptr);</span>
+<span>&nbsp;&nbsp;typedef <i>see below</i> <b><a href="/thrust/api/classes/classdevice__reference.html#typedef-pointer">pointer</a></b>;</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename OtherT&gt;</span>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classdevice__reference.html">device_reference</a> & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classdevice__reference.html#function-operator=">operator=</a></b>(const <a href="/api/classes/classdevice__reference.html">device_reference</a>< OtherT > & other);</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classdevice__reference.html#function-device_reference">device&#95;reference</a></b>(const <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a>< OtherT > & other,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;typename thrust::detail::enable_if_convertible< typename <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a>< OtherT >::<a href="/thrust/api/classes/classdevice__reference.html#typedef-pointer">pointer</a>, <a href="/thrust/api/classes/classdevice__reference.html#typedef-pointer">pointer</a> >::type * = 0);</span>
 <br>
-<span>&nbsp;&nbsp;__host__ __device__ <a href="/api/classes/classdevice__reference.html">device_reference</a> & </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classdevice__reference.html#function-operator=">operator=</a></b>(const <a href="/api/classes/classdevice__reference.html#typedef-value_type">value_type</a> & x);</span>
+<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classdevice__reference.html#function-device_reference">device&#95;reference</a></b>(const <a href="/thrust/api/classes/classdevice__reference.html#typedef-pointer">pointer</a> & ptr);</span>
+<br>
+<span>&nbsp;&nbsp;template &lt;typename OtherT&gt;</span>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a> & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classdevice__reference.html#function-operator=">operator=</a></b>(const <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a>< OtherT > & other);</span>
+<br>
+<span>&nbsp;&nbsp;__host__ __device__ <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a> & </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classdevice__reference.html#function-operator=">operator=</a></b>(const <a href="/thrust/api/classes/classdevice__reference.html#typedef-value_type">value_type</a> & x);</span>
 <span>};</span>
 </code>
 
@@ -183,7 +183,7 @@ Typedef <code>device&#95;reference::value&#95;type</code>
 
 <code class="doxybook">
 <span>typedef super_t::value_type<b>value_type</b>;</span></code>
-The type of the value referenced by this type of <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code>. 
+The type of the value referenced by this type of <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code>. 
 
 <h3 id="typedef-pointer">
 Typedef <code>device&#95;reference::pointer</code>
@@ -191,7 +191,7 @@ Typedef <code>device&#95;reference::pointer</code>
 
 <code class="doxybook">
 <span>typedef super_t::pointer<b>pointer</b>;</span></code>
-The type of the expression <code>&ref</code>, where <code>ref</code> is a <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code>. 
+The type of the expression <code>&ref</code>, where <code>ref</code> is a <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code>. 
 
 
 ## Member Functions
@@ -202,9 +202,9 @@ Function <code>device&#95;reference::&gt;::device&#95;reference</code>
 
 <code class="doxybook">
 <span>template &lt;typename OtherT&gt;</span>
-<span>__host__ __device__ </span><span><b>device_reference</b>(const <a href="/api/classes/classdevice__reference.html">device_reference</a>< OtherT > & other,</span>
-<span>&nbsp;&nbsp;typename thrust::detail::enable_if_convertible< typename <a href="/api/classes/classdevice__reference.html">device_reference</a>< OtherT >::<a href="/api/classes/classdevice__reference.html#typedef-pointer">pointer</a>, <a href="/api/classes/classdevice__reference.html#typedef-pointer">pointer</a> >::type * = 0);</span></code>
-This copy constructor accepts a const reference to another <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code>. After this <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> is constructed, it shall refer to the same object as <code>other</code>.
+<span>__host__ __device__ </span><span><b>device_reference</b>(const <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a>< OtherT > & other,</span>
+<span>&nbsp;&nbsp;typename thrust::detail::enable_if_convertible< typename <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a>< OtherT >::<a href="/thrust/api/classes/classdevice__reference.html#typedef-pointer">pointer</a>, <a href="/thrust/api/classes/classdevice__reference.html#typedef-pointer">pointer</a> >::type * = 0);</span></code>
+This copy constructor accepts a const reference to another <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code>. After this <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> is constructed, it shall refer to the same object as <code>other</code>.
 
 
 The following code snippet demonstrates the semantics of this copy constructor.
@@ -233,15 +233,15 @@ assert(ref == 13);
 This constructor is templated primarily to allow initialization of <code>device&#95;reference&lt;const T&gt;</code> from <code>device&#95;reference&lt;T&gt;</code>. 
 
 **Function Parameters**:
-**`other`**: A <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> to copy from.
+**`other`**: A <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> to copy from.
 
 <h3 id="function-device_reference">
 Function <code>device&#95;reference::&gt;::device&#95;reference</code>
 </h3>
 
 <code class="doxybook">
-<span>explicit __host__ __device__ </span><span><b>device_reference</b>(const <a href="/api/classes/classdevice__reference.html#typedef-pointer">pointer</a> & ptr);</span></code>
-This copy constructor initializes this <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> to refer to an object pointed to by the given <code><a href="/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>. After this <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> is constructed, it shall refer to the object pointed to by <code>ptr</code>.
+<span>explicit __host__ __device__ </span><span><b>device_reference</b>(const <a href="/thrust/api/classes/classdevice__reference.html#typedef-pointer">pointer</a> & ptr);</span></code>
+This copy constructor initializes this <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> to refer to an object pointed to by the given <code><a href="/thrust/api/classes/classdevice__ptr.html">device&#95;ptr</a></code>. After this <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> is constructed, it shall refer to the object pointed to by <code>ptr</code>.
 
 
 The following code snippet demonstrates the semantic of this copy constructor.
@@ -268,7 +268,7 @@ assert(ref == 13);
 ```
 
 **Function Parameters**:
-**`ptr`**: A <code><a href="/api/classes/classdevice__ptr.html">device&#95;ptr</a></code> to copy from.
+**`ptr`**: A <code><a href="/thrust/api/classes/classdevice__ptr.html">device&#95;ptr</a></code> to copy from.
 
 <h3 id="function-operator=">
 Function <code>device&#95;reference::&gt;::operator=</code>
@@ -276,11 +276,11 @@ Function <code>device&#95;reference::&gt;::operator=</code>
 
 <code class="doxybook">
 <span>template &lt;typename OtherT&gt;</span>
-<span>__host__ __device__ <a href="/api/classes/classdevice__reference.html">device_reference</a> & </span><span><b>operator=</b>(const <a href="/api/classes/classdevice__reference.html">device_reference</a>< OtherT > & other);</span></code>
-This assignment operator assigns the value of the object referenced by the given <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> to the object referenced by this <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code>.
+<span>__host__ __device__ <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a> & </span><span><b>operator=</b>(const <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a>< OtherT > & other);</span></code>
+This assignment operator assigns the value of the object referenced by the given <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> to the object referenced by this <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code>.
 
 **Function Parameters**:
-**`other`**: The <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code> to assign from. 
+**`other`**: The <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code> to assign from. 
 
 **Returns**:
 <code>&#42;this</code>
@@ -290,8 +290,8 @@ Function <code>device&#95;reference::&gt;::operator=</code>
 </h3>
 
 <code class="doxybook">
-<span>__host__ __device__ <a href="/api/classes/classdevice__reference.html">device_reference</a> & </span><span><b>operator=</b>(const <a href="/api/classes/classdevice__reference.html#typedef-value_type">value_type</a> & x);</span></code>
-Assignment operator assigns the value of the given value to the value referenced by this <code><a href="/api/classes/classdevice__reference.html">device&#95;reference</a></code>.
+<span>__host__ __device__ <a href="/thrust/api/classes/classdevice__reference.html">device_reference</a> & </span><span><b>operator=</b>(const <a href="/thrust/api/classes/classdevice__reference.html#typedef-value_type">value_type</a> & x);</span></code>
+Assignment operator assigns the value of the given value to the value referenced by this <code><a href="/thrust/api/classes/classdevice__reference.html">device&#95;reference</a></code>.
 
 **Function Parameters**:
 **`x`**: The value to assign from. 

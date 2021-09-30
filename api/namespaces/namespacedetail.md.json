@@ -24,7 +24,7 @@
     "name": "function_object_adaptors",
     "refid": "group__function__object__adaptors",
     "title": "Function Object Adaptors",
-    "url": "/api/groups/group__function__object__adaptors.html",
+    "url": "/thrust/api/groups/group__function__object__adaptors.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -36,7 +36,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -47,7 +47,7 @@
       "name": "function_object_adaptors",
       "refid": "group__function__object__adaptors",
       "title": "Function Object Adaptors",
-      "url": "/api/groups/group__function__object__adaptors.html",
+      "url": "/thrust/api/groups/group__function__object__adaptors.html",
       "visibility": "public"
     }
   ],
@@ -61,7 +61,7 @@
       "name": "detail::zip_detail",
       "refid": "namespacedetail_1_1zip__detail",
       "title": "detail::zip_detail",
-      "url": "/api/namespaces/namespacedetail_1_1zip__detail.html",
+      "url": "/thrust/api/namespaces/namespacedetail_1_1zip__detail.html",
       "visibility": "public"
     }
   ],
@@ -84,7 +84,7 @@
       "name": "detail::conjunction",
       "refid": "structdetail_1_1conjunction",
       "title": "detail::conjunction",
-      "url": "/api/classes/structdetail_1_1conjunction.html",
+      "url": "/thrust/api/classes/structdetail_1_1conjunction.html",
       "visibility": "public"
     },
     {
@@ -103,7 +103,7 @@
       "name": "detail::conjunction< B >",
       "refid": "structdetail_1_1conjunction_3_01B_01_4",
       "title": "detail::conjunction< B >",
-      "url": "/api/classes/structdetail_1_1conjunction_3_01b_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1conjunction_3_01b_01_4.html",
       "visibility": "public"
     },
     {
@@ -122,7 +122,7 @@
       "name": "detail::conjunction< B, Bs... >",
       "refid": "structdetail_1_1conjunction_3_01B_00_01Bs_8_8_8_01_4",
       "title": "detail::conjunction< B, Bs... >",
-      "url": "/api/classes/structdetail_1_1conjunction_3_01b_00_01bs_8_8_8_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1conjunction_3_01b_00_01bs_8_8_8_01_4.html",
       "visibility": "public"
     },
     {
@@ -133,7 +133,7 @@
       "name": "detail::i_am_secret",
       "refid": "structdetail_1_1i__am__secret",
       "title": "detail::i_am_secret",
-      "url": "/api/classes/structdetail_1_1i__am__secret.html",
+      "url": "/thrust/api/classes/structdetail_1_1i__am__secret.html",
       "visibility": "public"
     },
     {
@@ -144,7 +144,7 @@
       "name": "detail::invoke_result_impl",
       "refid": "structdetail_1_1invoke__result__impl",
       "title": "detail::invoke_result_impl",
-      "url": "/api/classes/structdetail_1_1invoke__result__impl.html",
+      "url": "/thrust/api/classes/structdetail_1_1invoke__result__impl.html",
       "visibility": "public"
     },
     {
@@ -155,7 +155,7 @@
       "name": "detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
       "refid": "structdetail_1_1invoke__result__impl_3_01F_00_01decltype_07detail_1_1invoke_07std_1_1declval_3_07c1f4caaa1db079732d0d4c8ba802ae7",
       "title": "detail::invoke_result_impl< F, decltype(detail::invoke(std::declval< F >(), std::declval< Us >()...), void()), Us... >",
-      "url": "/api/classes/structdetail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1_1declval_3_07c1f4caaa1db079732d0d4c8ba802ae7.html",
+      "url": "/thrust/api/classes/structdetail_1_1invoke__result__impl_3_01f_00_01decltype_07detail_1_1invoke_07std_1_1declval_3_07c1f4caaa1db079732d0d4c8ba802ae7.html",
       "visibility": "public"
     },
     {
@@ -174,7 +174,7 @@
       "name": "detail::is_nothrow_swappable",
       "refid": "structdetail_1_1is__nothrow__swappable",
       "title": "detail::is_nothrow_swappable",
-      "url": "/api/classes/structdetail_1_1is__nothrow__swappable.html",
+      "url": "/thrust/api/classes/structdetail_1_1is__nothrow__swappable.html",
       "visibility": "public"
     },
     {
@@ -193,7 +193,7 @@
       "name": "detail::is_optional_impl",
       "refid": "structdetail_1_1is__optional__impl",
       "title": "detail::is_optional_impl",
-      "url": "/api/classes/structdetail_1_1is__optional__impl.html",
+      "url": "/thrust/api/classes/structdetail_1_1is__optional__impl.html",
       "visibility": "public"
     },
     {
@@ -212,7 +212,7 @@
       "name": "detail::is_optional_impl< optional< T > >",
       "refid": "structdetail_1_1is__optional__impl_3_01optional_3_01T_01_4_01_4",
       "title": "detail::is_optional_impl< optional< T > >",
-      "url": "/api/classes/structdetail_1_1is__optional__impl_3_01optional_3_01t_01_4_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1is__optional__impl_3_01optional_3_01t_01_4_01_4.html",
       "visibility": "public"
     },
     {
@@ -231,7 +231,7 @@
       "name": "detail::is_swappable",
       "refid": "structdetail_1_1is__swappable",
       "title": "detail::is_swappable",
-      "url": "/api/classes/structdetail_1_1is__swappable.html",
+      "url": "/thrust/api/classes/structdetail_1_1is__swappable.html",
       "visibility": "public"
     },
     {
@@ -250,7 +250,7 @@
           "external": false,
           "name": "detail::optional_move_assign_base< T, bool >",
           "refid": "structdetail_1_1optional__move__assign__base",
-          "url": "/api/classes/structdetail_1_1optional__move__assign__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -258,7 +258,7 @@
           "external": false,
           "name": "detail::optional_move_assign_base< T, false >",
           "refid": "structdetail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
-          "url": "/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -268,7 +268,7 @@
       "name": "detail::optional_copy_assign_base",
       "refid": "structdetail_1_1optional__copy__assign__base",
       "title": "detail::optional_copy_assign_base",
-      "url": "/api/classes/structdetail_1_1optional__copy__assign__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base.html",
       "visibility": "public"
     },
     {
@@ -287,7 +287,7 @@
       "name": "detail::optional_copy_assign_base< T, false >",
       "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
       "title": "detail::optional_copy_assign_base< T, false >",
-      "url": "/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
       "visibility": "public"
     },
     {
@@ -306,7 +306,7 @@
           "external": false,
           "name": "detail::optional_move_base< T, bool >",
           "refid": "structdetail_1_1optional__move__base",
-          "url": "/api/classes/structdetail_1_1optional__move__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -314,7 +314,7 @@
           "external": false,
           "name": "detail::optional_move_base< T, false >",
           "refid": "structdetail_1_1optional__move__base_3_01T_00_01false_01_4",
-          "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -322,7 +322,7 @@
           "external": false,
           "name": "detail::optional_move_base< T >",
           "refid": "structdetail_1_1optional__move__base",
-          "url": "/api/classes/structdetail_1_1optional__move__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__move__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -332,7 +332,7 @@
       "name": "detail::optional_copy_base",
       "refid": "structdetail_1_1optional__copy__base",
       "title": "detail::optional_copy_base",
-      "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__base.html",
       "visibility": "public"
     },
     {
@@ -351,7 +351,7 @@
       "name": "detail::optional_copy_base< T, false >",
       "refid": "structdetail_1_1optional__copy__base_3_01T_00_01false_01_4",
       "title": "detail::optional_copy_base< T, false >",
-      "url": "/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
       "visibility": "public"
     },
     {
@@ -362,7 +362,7 @@
       "name": "detail::optional_delete_assign_base",
       "refid": "structdetail_1_1optional__delete__assign__base",
       "title": "detail::optional_delete_assign_base",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base.html",
       "visibility": "public"
     },
     {
@@ -373,7 +373,7 @@
       "name": "detail::optional_delete_assign_base< T, false, false >",
       "refid": "structdetail_1_1optional__delete__assign__base_3_01T_00_01false_00_01false_01_4",
       "title": "detail::optional_delete_assign_base< T, false, false >",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01false_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01false_00_01false_01_4.html",
       "visibility": "public"
     },
     {
@@ -384,7 +384,7 @@
       "name": "detail::optional_delete_assign_base< T, false, true >",
       "refid": "structdetail_1_1optional__delete__assign__base_3_01T_00_01false_00_01true_01_4",
       "title": "detail::optional_delete_assign_base< T, false, true >",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01false_00_01true_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01false_00_01true_01_4.html",
       "visibility": "public"
     },
     {
@@ -395,7 +395,7 @@
       "name": "detail::optional_delete_assign_base< T, true, false >",
       "refid": "structdetail_1_1optional__delete__assign__base_3_01T_00_01true_00_01false_01_4",
       "title": "detail::optional_delete_assign_base< T, true, false >",
-      "url": "/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01true_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__assign__base_3_01t_00_01true_00_01false_01_4.html",
       "visibility": "public"
     },
     {
@@ -406,7 +406,7 @@
       "name": "detail::optional_delete_ctor_base",
       "refid": "structdetail_1_1optional__delete__ctor__base",
       "title": "detail::optional_delete_ctor_base",
-      "url": "/api/classes/structdetail_1_1optional__delete__ctor__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base.html",
       "visibility": "public"
     },
     {
@@ -417,7 +417,7 @@
       "name": "detail::optional_delete_ctor_base< T, false, false >",
       "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01false_01_4",
       "title": "detail::optional_delete_ctor_base< T, false, false >",
-      "url": "/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01false_01_4.html",
       "visibility": "public"
     },
     {
@@ -428,7 +428,7 @@
       "name": "detail::optional_delete_ctor_base< T, false, true >",
       "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4",
       "title": "detail::optional_delete_ctor_base< T, false, true >",
-      "url": "/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html",
       "visibility": "public"
     },
     {
@@ -439,7 +439,7 @@
       "name": "detail::optional_delete_ctor_base< T, true, false >",
       "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01true_00_01false_01_4",
       "title": "detail::optional_delete_ctor_base< T, true, false >",
-      "url": "/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01true_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01true_00_01false_01_4.html",
       "visibility": "public"
     },
     {
@@ -458,7 +458,7 @@
       "name": "detail::optional_move_assign_base",
       "refid": "structdetail_1_1optional__move__assign__base",
       "title": "detail::optional_move_assign_base",
-      "url": "/api/classes/structdetail_1_1optional__move__assign__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base.html",
       "visibility": "public"
     },
     {
@@ -477,7 +477,7 @@
       "name": "detail::optional_move_assign_base< T, false >",
       "refid": "structdetail_1_1optional__move__assign__base_3_01T_00_01false_01_4",
       "title": "detail::optional_move_assign_base< T, false >",
-      "url": "/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__assign__base_3_01t_00_01false_01_4.html",
       "visibility": "public"
     },
     {
@@ -496,7 +496,7 @@
           "external": false,
           "name": "detail::optional_copy_assign_base< T, bool >",
           "refid": "structdetail_1_1optional__copy__assign__base",
-          "url": "/api/classes/structdetail_1_1optional__copy__assign__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -504,7 +504,7 @@
           "external": false,
           "name": "detail::optional_copy_assign_base< T, false >",
           "refid": "structdetail_1_1optional__copy__assign__base_3_01T_00_01false_01_4",
-          "url": "/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base_3_01t_00_01false_01_4.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -512,7 +512,7 @@
           "external": false,
           "name": "detail::optional_copy_assign_base< T >",
           "refid": "structdetail_1_1optional__copy__assign__base",
-          "url": "/api/classes/structdetail_1_1optional__copy__assign__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__assign__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -522,7 +522,7 @@
       "name": "detail::optional_move_base",
       "refid": "structdetail_1_1optional__move__base",
       "title": "detail::optional_move_base",
-      "url": "/api/classes/structdetail_1_1optional__move__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__base.html",
       "visibility": "public"
     },
     {
@@ -541,7 +541,7 @@
       "name": "detail::optional_move_base< T, false >",
       "refid": "structdetail_1_1optional__move__base_3_01T_00_01false_01_4",
       "title": "detail::optional_move_base< T, false >",
-      "url": "/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__move__base_3_01t_00_01false_01_4.html",
       "visibility": "public"
     },
     {
@@ -560,7 +560,7 @@
           "external": false,
           "name": "detail::optional_copy_base< T, bool >",
           "refid": "structdetail_1_1optional__copy__base",
-          "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -568,7 +568,7 @@
           "external": false,
           "name": "detail::optional_copy_base< T, false >",
           "refid": "structdetail_1_1optional__copy__base_3_01T_00_01false_01_4",
-          "url": "/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__base_3_01t_00_01false_01_4.html",
           "virtual": "non-virtual",
           "visibility": "public"
         },
@@ -576,7 +576,7 @@
           "external": false,
           "name": "detail::optional_copy_base< T >",
           "refid": "structdetail_1_1optional__copy__base",
-          "url": "/api/classes/structdetail_1_1optional__copy__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__copy__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -586,7 +586,7 @@
       "name": "detail::optional_operations_base",
       "refid": "structdetail_1_1optional__operations__base",
       "title": "detail::optional_operations_base",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
       "visibility": "public"
     },
     {
@@ -597,7 +597,7 @@
           "external": false,
           "name": "detail::optional_operations_base< T >",
           "refid": "structdetail_1_1optional__operations__base",
-          "url": "/api/classes/structdetail_1_1optional__operations__base.html",
+          "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
           "virtual": "non-virtual",
           "visibility": "public"
         }
@@ -607,7 +607,7 @@
       "name": "detail::optional_storage_base",
       "refid": "structdetail_1_1optional__storage__base",
       "title": "detail::optional_storage_base",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html",
       "visibility": "public"
     },
     {
@@ -618,7 +618,7 @@
       "name": "detail::optional_storage_base< T, true >",
       "refid": "structdetail_1_1optional__storage__base_3_01T_00_01true_01_4",
       "title": "detail::optional_storage_base< T, true >",
-      "url": "/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_3_01t_00_01true_01_4.html",
       "visibility": "public"
     },
     {
@@ -629,7 +629,7 @@
       "name": "detail::returns_void_impl",
       "refid": "structdetail_1_1returns__void__impl",
       "title": "detail::returns_void_impl",
-      "url": "/api/classes/structdetail_1_1returns__void__impl.html",
+      "url": "/thrust/api/classes/structdetail_1_1returns__void__impl.html",
       "visibility": "public"
     },
     {
@@ -648,7 +648,7 @@
       "name": "detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
       "refid": "structdetail_1_1returns__void__impl_3_01F_00_01void__t_3_01invoke__result__t_3_01F_00_01U_8_8_8_01_4_01_4_00_01U_8_8_8_01_4",
       "title": "detail::returns_void_impl< F, void_t< invoke_result_t< F, U... > >, U... >",
-      "url": "/api/classes/structdetail_1_1returns__void__impl_3_01f_00_01void__t_3_01invoke__result__t_3_01f_00_01u_8_8_8_01_4_01_4_00_01u_8_8_8_01_4.html",
+      "url": "/thrust/api/classes/structdetail_1_1returns__void__impl_3_01f_00_01void__t_3_01invoke__result__t_3_01f_00_01u_8_8_8_01_4_01_4_00_01u_8_8_8_01_4.html",
       "visibility": "public"
     },
     {
@@ -659,7 +659,7 @@
       "name": "detail::voider",
       "refid": "structdetail_1_1voider",
       "title": "detail::voider",
-      "url": "/api/classes/structdetail_1_1voider.html",
+      "url": "/thrust/api/classes/structdetail_1_1voider.html",
       "visibility": "public"
     }
   ],
@@ -724,7 +724,7 @@
       "title": "allocator_delete_impl",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/namespaces/namespacedetail.html#function-allocator_delete_impl",
+      "url": "/thrust/api/namespaces/namespacedetail.html#function-allocator_delete_impl",
       "virtual": false,
       "visibility": "public"
     },
@@ -788,7 +788,7 @@
       "title": "allocator_delete_impl",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/namespaces/namespacedetail.html#function-allocator_delete_impl",
+      "url": "/thrust/api/namespaces/namespacedetail.html#function-allocator_delete_impl",
       "virtual": false,
       "visibility": "public"
     },
@@ -862,7 +862,7 @@
       "title": "array_allocator_delete_impl",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/namespaces/namespacedetail.html#function-array_allocator_delete_impl",
+      "url": "/thrust/api/namespaces/namespacedetail.html#function-array_allocator_delete_impl",
       "virtual": false,
       "visibility": "public"
     },
@@ -936,7 +936,7 @@
       "title": "array_allocator_delete_impl",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/namespaces/namespacedetail.html#function-array_allocator_delete_impl",
+      "url": "/thrust/api/namespaces/namespacedetail.html#function-array_allocator_delete_impl",
       "virtual": false,
       "visibility": "public"
     },
@@ -1009,7 +1009,7 @@
       "title": "invoke",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/namespaces/namespacedetail.html#function-invoke",
+      "url": "/thrust/api/namespaces/namespacedetail.html#function-invoke",
       "virtual": false,
       "visibility": "public"
     },
@@ -1075,7 +1075,7 @@
       "title": "invoke",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/namespaces/namespacedetail.html#function-invoke",
+      "url": "/thrust/api/namespaces/namespacedetail.html#function-invoke",
       "virtual": false,
       "visibility": "public"
     },
@@ -1148,7 +1148,7 @@
       "title": "optional_map_impl",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
-      "url": "/api/namespaces/namespacedetail.html#function-optional_map_impl",
+      "url": "/thrust/api/namespaces/namespacedetail.html#function-optional_map_impl",
       "virtual": false,
       "visibility": "public"
     },
@@ -1221,7 +1221,7 @@
       "title": "optional_map_impl",
       "type": "__thrust_exec_check_disable__ __host__ __device__ auto",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__ auto",
-      "url": "/api/namespaces/namespacedetail.html#function-optional_map_impl",
+      "url": "/thrust/api/namespaces/namespacedetail.html#function-optional_map_impl",
       "virtual": false,
       "visibility": "public"
     }
@@ -1260,7 +1260,7 @@
       "title": "remove_const_t",
       "type": "typename std::remove_const< T >::type",
       "typePlain": "typename std::remove_const< T >::type",
-      "url": "/api/namespaces/namespacedetail.html#using-remove_const_t",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-remove_const_t",
       "visibility": "public"
     },
     {
@@ -1296,7 +1296,7 @@
       "title": "remove_reference_t",
       "type": "typename std::remove_reference< T >::type",
       "typePlain": "typename std::remove_reference< T >::type",
-      "url": "/api/namespaces/namespacedetail.html#using-remove_reference_t",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-remove_reference_t",
       "visibility": "public"
     },
     {
@@ -1332,7 +1332,7 @@
       "title": "decay_t",
       "type": "typename std::decay< T >::type",
       "typePlain": "typename std::decay< T >::type",
-      "url": "/api/namespaces/namespacedetail.html#using-decay_t",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-decay_t",
       "visibility": "public"
     },
     {
@@ -1375,7 +1375,7 @@
       "title": "enable_if_t",
       "type": "typename std::enable_if< E, T >::type",
       "typePlain": "typename std::enable_if< E, T >::type",
-      "url": "/api/namespaces/namespacedetail.html#using-enable_if_t",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-enable_if_t",
       "visibility": "public"
     },
     {
@@ -1421,7 +1421,7 @@
       "title": "conditional_t",
       "type": "typename std::conditional< B, T, F >::type",
       "typePlain": "typename std::conditional< B, T, F >::type",
-      "url": "/api/namespaces/namespacedetail.html#using-conditional_t",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-conditional_t",
       "visibility": "public"
     },
     {
@@ -1462,7 +1462,7 @@
       "title": "invoke_result",
       "type": "invoke_result_impl< F, void, Us... >",
       "typePlain": "invoke_result_impl< F, void, Us... >",
-      "url": "/api/namespaces/namespacedetail.html#using-invoke_result",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-invoke_result",
       "visibility": "public"
     },
     {
@@ -1503,7 +1503,7 @@
       "title": "invoke_result_t",
       "type": "typename invoke_result< F, Us... >::type",
       "typePlain": "typename invoke_result< F, Us... >::type",
-      "url": "/api/namespaces/namespacedetail.html#using-invoke_result_t",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-invoke_result_t",
       "visibility": "public"
     },
     {
@@ -1539,7 +1539,7 @@
       "title": "void_t",
       "type": "typename voider< Ts... >::type",
       "typePlain": "typename voider< Ts... >::type",
-      "url": "/api/namespaces/namespacedetail.html#using-void_t",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-void_t",
       "visibility": "public"
     },
     {
@@ -1575,7 +1575,7 @@
       "title": "is_optional",
       "type": "is_optional_impl< decay_t< T > >",
       "typePlain": "is_optional_impl< decay_t< T > >",
-      "url": "/api/namespaces/namespacedetail.html#using-is_optional",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-is_optional",
       "visibility": "public"
     },
     {
@@ -1609,9 +1609,9 @@
         }
       ],
       "title": "fixup_void",
-      "type": "conditional_t< std::is_void< U >::value, <a href=\"/api/classes/classmonostate.html\">monostate</a>, U >",
+      "type": "conditional_t< std::is_void< U >::value, <a href=\"/thrust/api/classes/classmonostate.html\">monostate</a>, U >",
       "typePlain": "conditional_t< std::is_void< U >::value, monostate, U >",
-      "url": "/api/namespaces/namespacedetail.html#using-fixup_void",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-fixup_void",
       "visibility": "public"
     },
     {
@@ -1657,9 +1657,9 @@
         }
       ],
       "title": "get_map_return",
-      "type": "<a href=\"/api/classes/classoptional.html\">optional</a>< fixup_void< invoke_result_t< F, U > >>",
+      "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a>< fixup_void< invoke_result_t< F, U > >>",
       "typePlain": "optional< fixup_void< invoke_result_t< F, U > >>",
-      "url": "/api/namespaces/namespacedetail.html#using-get_map_return",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-get_map_return",
       "visibility": "public"
     },
     {
@@ -1700,7 +1700,7 @@
       "title": "returns_void",
       "type": "returns_void_impl< F, void, U... >",
       "typePlain": "returns_void_impl< F, void, U... >",
-      "url": "/api/namespaces/namespacedetail.html#using-returns_void",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-returns_void",
       "visibility": "public"
     },
     {
@@ -1741,7 +1741,7 @@
       "title": "enable_if_ret_void",
       "type": "enable_if_t< returns_void< T &&, U... >::value >",
       "typePlain": "enable_if_t< returns_void< T &&, U... >::value >",
-      "url": "/api/namespaces/namespacedetail.html#using-enable_if_ret_void",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-enable_if_ret_void",
       "visibility": "public"
     },
     {
@@ -1782,7 +1782,7 @@
       "title": "disable_if_ret_void",
       "type": "enable_if_t<!returns_void< T &&, U... >::value >",
       "typePlain": "enable_if_t<!returns_void< T &&, U... >::value >",
-      "url": "/api/namespaces/namespacedetail.html#using-disable_if_ret_void",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-disable_if_ret_void",
       "visibility": "public"
     },
     {
@@ -1821,9 +1821,9 @@
         }
       ],
       "title": "enable_forward_value",
-      "type": "detail::enable_if_t< std::is_constructible< T, U && >::value &&!std::is_same< detail::decay_t< U >, <a href=\"/api/classes/structin__place__t.html\">in_place_t</a> >::value &&!std::is_same< <a href=\"/api/classes/classoptional.html\">optional</a>< T >, detail::decay_t< U > >::value >",
+      "type": "detail::enable_if_t< std::is_constructible< T, U && >::value &&!std::is_same< detail::decay_t< U >, <a href=\"/thrust/api/classes/structin__place__t.html\">in_place_t</a> >::value &&!std::is_same< <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >, detail::decay_t< U > >::value >",
       "typePlain": "detail::enable_if_t< std::is_constructible< T, U && >::value &&!std::is_same< detail::decay_t< U >, in_place_t >::value &&!std::is_same< optional< T >, detail::decay_t< U > >::value >",
-      "url": "/api/namespaces/namespacedetail.html#using-enable_forward_value",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-enable_forward_value",
       "visibility": "public"
     },
     {
@@ -1867,9 +1867,9 @@
         }
       ],
       "title": "enable_from_other",
-      "type": "detail::enable_if_t< std::is_constructible< T, Other >::value &&!std::is_constructible< T, <a href=\"/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, <a href=\"/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_constructible< T, const <a href=\"/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, const <a href=\"/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_convertible< <a href=\"/api/classes/classoptional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< <a href=\"/api/classes/classoptional.html\">optional</a>< U > &&, T >::value &&!std::is_convertible< const <a href=\"/api/classes/classoptional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< const <a href=\"/api/classes/classoptional.html\">optional</a>< U > &&, T >::value >",
+      "type": "detail::enable_if_t< std::is_constructible< T, Other >::value &&!std::is_constructible< T, <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_constructible< T, const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_convertible< <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &&, T >::value &&!std::is_convertible< const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &&, T >::value >",
       "typePlain": "detail::enable_if_t< std::is_constructible< T, Other >::value &&!std::is_constructible< T, optional< U > & >::value &&!std::is_constructible< T, optional< U > && >::value &&!std::is_constructible< T, const optional< U > & >::value &&!std::is_constructible< T, const optional< U > && >::value &&!std::is_convertible< optional< U > &, T >::value &&!std::is_convertible< optional< U > &&, T >::value &&!std::is_convertible< const optional< U > &, T >::value &&!std::is_convertible< const optional< U > &&, T >::value >",
-      "url": "/api/namespaces/namespacedetail.html#using-enable_from_other",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-enable_from_other",
       "visibility": "public"
     },
     {
@@ -1908,9 +1908,9 @@
         }
       ],
       "title": "enable_assign_forward",
-      "type": "detail::enable_if_t< !std::is_same< <a href=\"/api/classes/classoptional.html\">optional</a>< T >, detail::decay_t< U > >::value &&!<a href=\"/api/groups/group__type__traits.html#using-conjunction\">detail::conjunction</a>< std::is_scalar< T >, std::is_same< T, detail::decay_t< U > >>::value &&std::is_constructible< T, U >::value &&std::is_assignable< T &, U >::value >",
+      "type": "detail::enable_if_t< !std::is_same< <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >, detail::decay_t< U > >::value &&!<a href=\"/thrust/api/groups/group__type__traits.html#using-conjunction\">detail::conjunction</a>< std::is_scalar< T >, std::is_same< T, detail::decay_t< U > >>::value &&std::is_constructible< T, U >::value &&std::is_assignable< T &, U >::value >",
       "typePlain": "detail::enable_if_t< !std::is_same< optional< T >, detail::decay_t< U > >::value &&!detail::conjunction< std::is_scalar< T >, std::is_same< T, detail::decay_t< U > >>::value &&std::is_constructible< T, U >::value &&std::is_assignable< T &, U >::value >",
-      "url": "/api/namespaces/namespacedetail.html#using-enable_assign_forward",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-enable_assign_forward",
       "visibility": "public"
     },
     {
@@ -1954,9 +1954,9 @@
         }
       ],
       "title": "enable_assign_from_other",
-      "type": "detail::enable_if_t< std::is_constructible< T, Other >::value &&std::is_assignable< T &, Other >::value &&!std::is_constructible< T, <a href=\"/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, <a href=\"/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_constructible< T, const <a href=\"/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, const <a href=\"/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_convertible< <a href=\"/api/classes/classoptional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< <a href=\"/api/classes/classoptional.html\">optional</a>< U > &&, T >::value &&!std::is_convertible< const <a href=\"/api/classes/classoptional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< const <a href=\"/api/classes/classoptional.html\">optional</a>< U > &&, T >::value &&!std::is_assignable< T &, <a href=\"/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_assignable< T &, <a href=\"/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_assignable< T &, const <a href=\"/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_assignable< T &, const <a href=\"/api/classes/classoptional.html\">optional</a>< U > && >::value >",
+      "type": "detail::enable_if_t< std::is_constructible< T, Other >::value &&std::is_assignable< T &, Other >::value &&!std::is_constructible< T, <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_constructible< T, const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_constructible< T, const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_convertible< <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &&, T >::value &&!std::is_convertible< const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &, T >::value &&!std::is_convertible< const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &&, T >::value &&!std::is_assignable< T &, <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_assignable< T &, <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > && >::value &&!std::is_assignable< T &, const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > & >::value &&!std::is_assignable< T &, const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > && >::value >",
       "typePlain": "detail::enable_if_t< std::is_constructible< T, Other >::value &&std::is_assignable< T &, Other >::value &&!std::is_constructible< T, optional< U > & >::value &&!std::is_constructible< T, optional< U > && >::value &&!std::is_constructible< T, const optional< U > & >::value &&!std::is_constructible< T, const optional< U > && >::value &&!std::is_convertible< optional< U > &, T >::value &&!std::is_convertible< optional< U > &&, T >::value &&!std::is_convertible< const optional< U > &, T >::value &&!std::is_convertible< const optional< U > &&, T >::value &&!std::is_assignable< T &, optional< U > & >::value &&!std::is_assignable< T &, optional< U > && >::value &&!std::is_assignable< T &, const optional< U > & >::value &&!std::is_assignable< T &, const optional< U > && >::value >",
-      "url": "/api/namespaces/namespacedetail.html#using-enable_assign_from_other",
+      "url": "/thrust/api/namespaces/namespacedetail.html#using-enable_assign_from_other",
       "visibility": "public"
     }
   ],
@@ -1965,6 +1965,6 @@
   "strong": false,
   "summary": "\\exclude ",
   "title": "detail",
-  "url": "/api/namespaces/namespacedetail.html",
+  "url": "/thrust/api/namespaces/namespacedetail.html",
   "visibility": "public"
 }

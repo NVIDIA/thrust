@@ -9,7 +9,7 @@
       "external": false,
       "name": "detail::optional_operations_base< T >",
       "refid": "structdetail_1_1optional__operations__base",
-      "url": "/api/classes/structdetail_1_1optional__operations__base.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
       "virtual": "non-virtual",
       "visibility": "public"
     }
@@ -40,7 +40,7 @@
     "refid": "namespacedetail",
     "summary": "\\exclude ",
     "title": "detail",
-    "url": "/api/namespaces/namespacedetail.html",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -54,7 +54,7 @@
       "refid": "namespacedetail",
       "summary": "\\exclude ",
       "title": "detail",
-      "url": "/api/namespaces/namespacedetail.html",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
       "visibility": "public"
     }
   ],
@@ -85,7 +85,7 @@
       "title": "m_dummy",
       "type": "dummy",
       "typePlain": "dummy",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html#variable-m_dummy",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#variable-m_dummy",
       "visibility": "public"
     },
     {
@@ -114,7 +114,7 @@
       "title": "m_value",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html#variable-m_value",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#variable-m_value",
       "visibility": "public"
     },
     {
@@ -141,7 +141,7 @@
       "title": "@1",
       "type": "union detail::optional_storage_base::@0",
       "typePlain": "union detail::optional_storage_base::@0",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html#variable-@1",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#variable-@1",
       "visibility": "public"
     },
     {
@@ -170,7 +170,7 @@
       "title": "m_has_value",
       "type": "bool",
       "typePlain": "bool",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html#variable-m_has_value",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#variable-m_has_value",
       "visibility": "public"
     }
   ],
@@ -183,7 +183,7 @@
       "name": "detail::optional_storage_base::dummy",
       "refid": "structdetail_1_1optional__storage__base_1_1dummy",
       "title": "detail::optional_storage_base::dummy",
-      "url": "/api/classes/structdetail_1_1optional__storage__base_1_1dummy.html",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_1_1dummy.html",
       "visibility": "public"
     }
   ],
@@ -220,7 +220,7 @@
       "title": "optional_storage_base",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html#function-optional_storage_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#function-optional_storage_base",
       "virtual": false,
       "visibility": "public"
     },
@@ -251,7 +251,7 @@
       "params": [
         {
           "name": "",
-          "type": "<a href=\"/api/classes/structin__place__t.html\">in_place_t</a>",
+          "type": "<a href=\"/thrust/api/classes/structin__place__t.html\">in_place_t</a>",
           "typePlain": "in_place_t"
         },
         {
@@ -274,7 +274,7 @@
       "title": "optional_storage_base",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html#function-optional_storage_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#function-optional_storage_base",
       "virtual": false,
       "visibility": "public"
     },
@@ -310,7 +310,7 @@
       "title": "~optional_storage_base",
       "type": "__thrust_exec_check_disable__ __host__ __device__",
       "typePlain": "__thrust_exec_check_disable__ __host__ __device__",
-      "url": "/api/classes/structdetail_1_1optional__storage__base.html#function-~optional_storage_base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#function-~optional_storage_base",
       "virtual": false,
       "visibility": "public"
     }
@@ -333,6 +333,6 @@
     }
   ],
   "title": "detail::optional_storage_base",
-  "url": "/api/classes/structdetail_1_1optional__storage__base.html",
+  "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html",
   "visibility": "public"
 }

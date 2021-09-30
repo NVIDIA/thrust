@@ -18,7 +18,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -30,7 +30,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -41,7 +41,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -55,7 +55,7 @@
     "name": "reductions",
     "refid": "group__reductions",
     "title": "Reductions",
-    "url": "/api/groups/group__reductions.html",
+    "url": "/thrust/api/groups/group__reductions.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -67,7 +67,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     },
     {
@@ -78,7 +78,7 @@
       "name": "reductions",
       "refid": "group__reductions",
       "title": "Reductions",
-      "url": "/api/groups/group__reductions.html",
+      "url": "/thrust/api/groups/group__reductions.html",
       "visibility": "public"
     }
   ],
@@ -189,7 +189,7 @@
       "title": "count",
       "type": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
       "typePlain": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
-      "url": "/api/groups/group__counting.html#function-count",
+      "url": "/thrust/api/groups/group__counting.html#function-count",
       "virtual": false,
       "visibility": "public"
     },
@@ -281,7 +281,7 @@
       "title": "count",
       "type": "thrust::iterator_traits< InputIterator >::difference_type",
       "typePlain": "thrust::iterator_traits< InputIterator >::difference_type",
-      "url": "/api/groups/group__counting.html#function-count",
+      "url": "/thrust/api/groups/group__counting.html#function-count",
       "virtual": false,
       "visibility": "public"
     },
@@ -391,7 +391,7 @@
       "title": "count_if",
       "type": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
       "typePlain": "__host__ __device__ thrust::iterator_traits< InputIterator >::difference_type",
-      "url": "/api/groups/group__counting.html#function-count_if",
+      "url": "/thrust/api/groups/group__counting.html#function-count_if",
       "virtual": false,
       "visibility": "public"
     },
@@ -483,7 +483,7 @@
       "title": "count_if",
       "type": "thrust::iterator_traits< InputIterator >::difference_type",
       "typePlain": "thrust::iterator_traits< InputIterator >::difference_type",
-      "url": "/api/groups/group__counting.html#function-count_if",
+      "url": "/thrust/api/groups/group__counting.html#function-count_if",
       "virtual": false,
       "visibility": "public"
     }
@@ -492,6 +492,6 @@
   "static": false,
   "strong": false,
   "title": "Counting",
-  "url": "/api/groups/group__counting.html",
+  "url": "/thrust/api/groups/group__counting.html",
   "visibility": "public"
 }

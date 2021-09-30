@@ -15,7 +15,7 @@
       "name": "function_object_adaptors",
       "refid": "group__function__object__adaptors",
       "title": "Function Object Adaptors",
-      "url": "/api/groups/group__function__object__adaptors.html",
+      "url": "/thrust/api/groups/group__function__object__adaptors.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -37,7 +37,7 @@
       "name": "placeholder_objects",
       "refid": "group__placeholder__objects",
       "title": "Placeholder Objects",
-      "url": "/api/groups/group__placeholder__objects.html",
+      "url": "/thrust/api/groups/group__placeholder__objects.html",
       "visibility": "public"
     }
   ],
@@ -52,6 +52,6 @@
   "static": false,
   "strong": false,
   "title": "Function Objects",
-  "url": "/api/groups/group__function__objects.html",
+  "url": "/thrust/api/groups/group__function__objects.html",
   "visibility": "public"
 }

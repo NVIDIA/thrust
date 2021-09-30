@@ -9,9 +9,9 @@ has_toc: false
 
 # Class `constant_iterator`
 
-<code><a href="/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> is an iterator which represents a pointer into a range of constant values. This iterator is useful for creating a range filled with the same value without explicitly storing it in memory. Using <code><a href="/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> saves both memory capacity and bandwidth.
+<code><a href="/thrust/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> is an iterator which represents a pointer into a range of constant values. This iterator is useful for creating a range filled with the same value without explicitly storing it in memory. Using <code><a href="/thrust/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> saves both memory capacity and bandwidth.
 
-The following code snippet demonstrates how to create a <code><a href="/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> whose <code>value&#95;type</code> is <code>int</code> and whose value is <code>10</code>.
+The following code snippet demonstrates how to create a <code><a href="/thrust/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> whose <code>value&#95;type</code> is <code>int</code> and whose value is <code>10</code>.
 
 
 
@@ -28,7 +28,7 @@ iter[13]; // returns 10
 // and so on...
 ```
 
-This next example demonstrates how to use a <code><a href="/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> with the <code>thrust::transform</code> function to increment all elements of a sequence by the same value. We will create a temporary <code><a href="/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> with the function <code>make&#95;constant&#95;iterator</code> function in order to avoid explicitly specifying its type:
+This next example demonstrates how to use a <code><a href="/thrust/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> with the <code>thrust::transform</code> function to increment all elements of a sequence by the same value. We will create a temporary <code><a href="/thrust/api/classes/classconstant__iterator.html">constant&#95;iterator</a></code> with the function <code>make&#95;constant&#95;iterator</code> function in order to avoid explicitly specifying its type:
 
 
 
@@ -62,7 +62,7 @@ int main()
 `detail::constant_iterator_base::type< Value, use_default, use_default >`
 
 **See**:
-<a href="/api/groups/group__fancyiterator.html#function-make_constant_iterator">make_constant_iterator</a>
+<a href="/thrust/api/groups/group__fancyiterator.html#function-make_constant_iterator">make_constant_iterator</a>
 
 <code class="doxybook">
 <span>#include <thrust/iterator/constant_iterator.h></span><br>

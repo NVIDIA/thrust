@@ -26,7 +26,7 @@
     "name": "type_traits",
     "refid": "group__type__traits",
     "title": "Type Traits",
-    "url": "/api/groups/group__type__traits.html",
+    "url": "/thrust/api/groups/group__type__traits.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -38,7 +38,7 @@
       "name": "utility",
       "refid": "group__utility",
       "title": "Utility",
-      "url": "/api/groups/group__utility.html",
+      "url": "/thrust/api/groups/group__utility.html",
       "visibility": "public"
     },
     {
@@ -49,7 +49,7 @@
       "name": "type_traits",
       "refid": "group__type__traits",
       "title": "Type Traits",
-      "url": "/api/groups/group__type__traits.html",
+      "url": "/thrust/api/groups/group__type__traits.html",
       "visibility": "public"
     }
   ],
@@ -83,7 +83,7 @@
       "title": "type",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/classes/structvoider.html#using-type",
+      "url": "/thrust/api/classes/structvoider.html#using-type",
       "visibility": "public"
     }
   ],
@@ -98,6 +98,6 @@
     }
   ],
   "title": "voider",
-  "url": "/api/classes/structvoider.html",
+  "url": "/thrust/api/classes/structvoider.html",
   "visibility": "public"
 }

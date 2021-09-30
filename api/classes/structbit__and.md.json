@@ -4,7 +4,7 @@
   "category": "classes",
   "const": false,
   "definition": "",
-  "details": "<code><a href=\"/api/classes/structbit__and.html\">bit&#95;and</a></code> is a function object. Specifically, it is an Adaptable Binary Function. If <code>f</code> is an object of class <code>bit&#95;and&lt;T&gt;</code>, and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>x&y</code>.\n\n\nThe following code snippet demonstrates how to use <code><a href=\"/api/classes/structbit__and.html\">bit&#95;and</a></code> to take the bitwise AND of one <a href=\"/api/classes/classdevice__vector.html\">device_vector</a> of <code>ints</code> by another.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/functional.h>\n#include <thrust/sequence.h>\n#include <thrust/fill.h>\n#include <thrust/transform.h>\n...\nconst int N = 1000;\nthrust::device_vector<int> V1(N);\nthrust::device_vector<int> V2(N);\nthrust::device_vector<int> V3(N);\n\nthrust::sequence(V1.begin(), V1.end(), 1);\nthrust::fill(V2.begin(), V2.end(), 13);\n\nthrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),\n                  thrust::bit_and<int>());\n// V3 is now {1&13, 2&13, 3&13, ..., 1000%13}\n```",
+  "details": "<code><a href=\"/thrust/api/classes/structbit__and.html\">bit&#95;and</a></code> is a function object. Specifically, it is an Adaptable Binary Function. If <code>f</code> is an object of class <code>bit&#95;and&lt;T&gt;</code>, and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>x&y</code>.\n\n\nThe following code snippet demonstrates how to use <code><a href=\"/thrust/api/classes/structbit__and.html\">bit&#95;and</a></code> to take the bitwise AND of one <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> of <code>ints</code> by another.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/functional.h>\n#include <thrust/sequence.h>\n#include <thrust/fill.h>\n#include <thrust/transform.h>\n...\nconst int N = 1000;\nthrust::device_vector<int> V1(N);\nthrust::device_vector<int> V2(N);\nthrust::device_vector<int> V3(N);\n\nthrust::sequence(V1.begin(), V1.end(), 1);\nthrust::fill(V2.begin(), V2.end(), 13);\n\nthrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),\n                  thrust::bit_and<int>());\n// V3 is now {1&13, 2&13, 3&13, ..., 1000%13}\n```",
   "explicit": false,
   "fullname": "bit_and",
   "hasAdditionalMembers": false,
@@ -28,7 +28,7 @@
     "name": "bitwise_operations",
     "refid": "group__bitwise__operations",
     "title": "Bitwise Operations",
-    "url": "/api/groups/group__bitwise__operations.html",
+    "url": "/thrust/api/groups/group__bitwise__operations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "bitwise_operations",
       "refid": "group__bitwise__operations",
       "title": "Bitwise Operations",
-      "url": "/api/groups/group__bitwise__operations.html",
+      "url": "/thrust/api/groups/group__bitwise__operations.html",
       "visibility": "public"
     }
   ],
@@ -114,7 +114,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
-      "url": "/api/classes/structbit__and.html#function-operator()",
+      "url": "/thrust/api/classes/structbit__and.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -148,7 +148,7 @@
       "title": "first_argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structbit__and.html#typedef-first_argument_type",
+      "url": "/thrust/api/classes/structbit__and.html#typedef-first_argument_type",
       "visibility": "public"
     },
     {
@@ -179,7 +179,7 @@
       "title": "second_argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structbit__and.html#typedef-second_argument_type",
+      "url": "/thrust/api/classes/structbit__and.html#typedef-second_argument_type",
       "visibility": "public"
     },
     {
@@ -210,13 +210,13 @@
       "title": "result_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structbit__and.html#typedef-result_type",
+      "url": "/thrust/api/classes/structbit__and.html#typedef-result_type",
       "visibility": "public"
     }
   ],
   "refid": "structbit__and",
   "see": [
-    "<a href=\"/api/classes/structbinary__function.html\">binary_function</a>"
+    "<a href=\"/thrust/api/classes/structbinary__function.html\">binary_function</a>"
   ],
   "static": false,
   "strong": false,
@@ -236,6 +236,6 @@
     }
   ],
   "title": "bit_and",
-  "url": "/api/classes/structbit__and.html",
+  "url": "/thrust/api/classes/structbit__and.html",
   "visibility": "public"
 }

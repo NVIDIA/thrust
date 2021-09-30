@@ -14,7 +14,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename RandomAccessIterator&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__scattering.html#function-scatter">scatter</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__scattering.html#function-scatter">scatter</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 map,</span>
@@ -23,7 +23,7 @@ has_toc: false
 <span>template &lt;typename InputIterator1,</span>
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename RandomAccessIterator&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__scattering.html#function-scatter">scatter</a></b>(InputIterator1 first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__scattering.html#function-scatter">scatter</a></b>(InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 map,</span>
 <span>&nbsp;&nbsp;RandomAccessIterator result);</span>
@@ -33,7 +33,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename InputIterator3,</span>
 <span>&nbsp;&nbsp;typename RandomAccessIterator&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__scattering.html#function-scatter_if">scatter&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__scattering.html#function-scatter_if">scatter&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 map,</span>
@@ -44,7 +44,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename InputIterator3,</span>
 <span>&nbsp;&nbsp;typename RandomAccessIterator&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__scattering.html#function-scatter_if">scatter&#95;if</a></b>(InputIterator1 first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__scattering.html#function-scatter_if">scatter&#95;if</a></b>(InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 map,</span>
 <span>&nbsp;&nbsp;InputIterator3 stencil,</span>
@@ -56,7 +56,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator3,</span>
 <span>&nbsp;&nbsp;typename RandomAccessIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__scattering.html#function-scatter_if">scatter&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__scattering.html#function-scatter_if">scatter&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 map,</span>
@@ -69,7 +69,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator3,</span>
 <span>&nbsp;&nbsp;typename RandomAccessIterator,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__scattering.html#function-scatter_if">scatter&#95;if</a></b>(InputIterator1 first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__scattering.html#function-scatter_if">scatter&#95;if</a></b>(InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 map,</span>
 <span>&nbsp;&nbsp;InputIterator3 stencil,</span>

@@ -9,11 +9,11 @@ has_toc: false
 
 # Class `reverse_iterator`
 
-<code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> is an iterator which represents a pointer into a reversed view of a given range. In this way, <code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> allows backwards iteration through a bidirectional input range.
+<code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> is an iterator which represents a pointer into a reversed view of a given range. In this way, <code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> allows backwards iteration through a bidirectional input range.
 
-It is important to note that although <code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> is constructed from a given iterator, it points to the element preceding it. In this way, the past-the-end <code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> of a given range points to the element preceding the first element of the input range. By the same token, the first <code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> of a given range is constructed from a past-the-end iterator of the original range yet points to the last element of the input.
+It is important to note that although <code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> is constructed from a given iterator, it points to the element preceding it. In this way, the past-the-end <code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> of a given range points to the element preceding the first element of the input range. By the same token, the first <code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> of a given range is constructed from a past-the-end iterator of the original range yet points to the last element of the input.
 
-The following code snippet demonstrates how to create a <code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> which represents a reversed view of the contents of a <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code>.
+The following code snippet demonstrates how to create a <code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> which represents a reversed view of the contents of a <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code>.
 
 
 
@@ -41,7 +41,7 @@ iter[3]; // returns 0.0f;
 // iter[4] is an out-of-bounds error
 ```
 
-Since reversing a range is a common operation, containers like <code><a href="/api/classes/classdevice__vector.html">device&#95;vector</a></code> have nested typedefs for declaration shorthand and methods for constructing reverse_iterators. The following code snippet is equivalent to the previous:
+Since reversing a range is a common operation, containers like <code><a href="/thrust/api/classes/classdevice__vector.html">device&#95;vector</a></code> have nested typedefs for declaration shorthand and methods for constructing reverse_iterators. The following code snippet is equivalent to the previous:
 
 
 
@@ -71,7 +71,7 @@ iter[3]; // returns 0.0f;
 assert(values.rend() == (iter + 4));
 ```
 
-Finally, the following code snippet demonstrates how to use <a href="/api/classes/classreverse__iterator.html">reverse_iterator</a> to perform a reversed prefix sum operation on the contents of a <a href="/api/classes/classdevice__vector.html">device_vector</a>:
+Finally, the following code snippet demonstrates how to use <a href="/thrust/api/classes/classreverse__iterator.html">reverse_iterator</a> to perform a reversed prefix sum operation on the contents of a <a href="/thrust/api/classes/classdevice__vector.html">device_vector</a>:
 
 
 
@@ -98,18 +98,18 @@ thrust::exclusive_scan(v.rbegin(), v.rend(), result.begin());
 `detail::reverse_iterator_base::type< BidirectionalIterator >`
 
 **See**:
-<a href="/api/groups/group__fancyiterator.html#function-make_reverse_iterator">make_reverse_iterator</a>
+<a href="/thrust/api/groups/group__fancyiterator.html#function-make_reverse_iterator">make_reverse_iterator</a>
 
 <code class="doxybook">
 <span>#include <thrust/iterator/reverse_iterator.h></span><br>
 <span>template &lt;typename BidirectionalIterator&gt;</span>
 <span>class reverse&#95;iterator {</span>
-<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classreverse__iterator.html#function-reverse_iterator">reverse&#95;iterator</a></b>();</span>
+<span>public:</span><span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classreverse__iterator.html#function-reverse_iterator">reverse&#95;iterator</a></b>();</span>
 <br>
-<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classreverse__iterator.html#function-reverse_iterator">reverse&#95;iterator</a></b>(BidirectionalIterator x);</span>
+<span>&nbsp;&nbsp;explicit __host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classreverse__iterator.html#function-reverse_iterator">reverse&#95;iterator</a></b>(BidirectionalIterator x);</span>
 <br>
 <span>&nbsp;&nbsp;template &lt;typename OtherBidirectionalIterator&gt;</span>
-<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classreverse__iterator.html#function-reverse_iterator">reverse&#95;iterator</a></b>(<a href="/api/classes/classreverse__iterator.html">reverse_iterator</a>< OtherBidirectionalIterator > const & r);</span>
+<span>&nbsp;&nbsp;__host__ __device__ </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classreverse__iterator.html#function-reverse_iterator">reverse&#95;iterator</a></b>(<a href="/thrust/api/classes/classreverse__iterator.html">reverse_iterator</a>< OtherBidirectionalIterator > const & r);</span>
 <span>};</span>
 </code>
 
@@ -129,7 +129,7 @@ Function <code>reverse&#95;iterator::&gt;::reverse&#95;iterator</code>
 
 <code class="doxybook">
 <span>explicit __host__ __device__ </span><span><b>reverse_iterator</b>(BidirectionalIterator x);</span></code>
-<code>Constructor</code> accepts a <code>BidirectionalIterator</code> pointing to a range for this <code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> to reverse.
+<code>Constructor</code> accepts a <code>BidirectionalIterator</code> pointing to a range for this <code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> to reverse.
 
 **Function Parameters**:
 **`x`**: A <code>BidirectionalIterator</code> pointing to a range to reverse. 
@@ -140,10 +140,10 @@ Function <code>reverse&#95;iterator::&gt;::reverse&#95;iterator</code>
 
 <code class="doxybook">
 <span>template &lt;typename OtherBidirectionalIterator&gt;</span>
-<span>__host__ __device__ </span><span><b>reverse_iterator</b>(<a href="/api/classes/classreverse__iterator.html">reverse_iterator</a>< OtherBidirectionalIterator > const & r);</span></code>
-<code>Copy</code> constructor allows construction from a related compatible <code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code>.
+<span>__host__ __device__ </span><span><b>reverse_iterator</b>(<a href="/thrust/api/classes/classreverse__iterator.html">reverse_iterator</a>< OtherBidirectionalIterator > const & r);</span></code>
+<code>Copy</code> constructor allows construction from a related compatible <code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code>.
 
 **Function Parameters**:
-**`r`**: A <code><a href="/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> to copy from. 
+**`r`**: A <code><a href="/thrust/api/classes/classreverse__iterator.html">reverse&#95;iterator</a></code> to copy from. 
 
 

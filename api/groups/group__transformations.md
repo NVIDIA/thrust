@@ -11,15 +11,15 @@ has_toc: false
 
 ## Groups
 
-* **[Filling](/api/groups/group__filling.html)**
-* **[Modifying](/api/groups/group__modifying.html)**
-* **[Replacing](/api/groups/group__replacing.html)**
+* **[Filling](/thrust/api/groups/group__filling.html)**
+* **[Modifying](/thrust/api/groups/group__modifying.html)**
+* **[Replacing](/thrust/api/groups/group__replacing.html)**
 
 <code class="doxybook">
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-adjacent_difference">adjacent&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-adjacent_difference">adjacent&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
@@ -28,7 +28,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-adjacent_difference">adjacent&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-adjacent_difference">adjacent&#95;difference</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -36,14 +36,14 @@ has_toc: false
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-adjacent_difference">adjacent&#95;difference</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-adjacent_difference">adjacent&#95;difference</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result);</span>
 <br>
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-adjacent_difference">adjacent&#95;difference</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-adjacent_difference">adjacent&#95;difference</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;BinaryFunction binary_op);</span>
@@ -51,14 +51,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Generator&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__transformations.html#function-generate">generate</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-generate">generate</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Generator gen);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename Generator&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__transformations.html#function-generate">generate</a></b>(ForwardIterator first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-generate">generate</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;Generator gen);</span>
 <br>
@@ -66,7 +66,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Size,</span>
 <span>&nbsp;&nbsp;typename Generator&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-generate_n">generate&#95;n</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-generate_n">generate&#95;n</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;OutputIterator first,</span>
 <span>&nbsp;&nbsp;Size n,</span>
 <span>&nbsp;&nbsp;Generator gen);</span>
@@ -74,38 +74,38 @@ has_toc: false
 <span>template &lt;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename Size,</span>
 <span>&nbsp;&nbsp;typename Generator&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-generate_n">generate&#95;n</a></b>(OutputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-generate_n">generate&#95;n</a></b>(OutputIterator first,</span>
 <span>&nbsp;&nbsp;Size n,</span>
 <span>&nbsp;&nbsp;Generator gen);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__transformations.html#function-sequence">sequence</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-sequence">sequence</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename ForwardIterator&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__transformations.html#function-sequence">sequence</a></b>(ForwardIterator first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-sequence">sequence</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__transformations.html#function-sequence">sequence</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-sequence">sequence</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;T init);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__transformations.html#function-sequence">sequence</a></b>(ForwardIterator first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-sequence">sequence</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;T init);</span>
 <br>
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__transformations.html#function-sequence">sequence</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-sequence">sequence</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;T init,</span>
@@ -113,7 +113,7 @@ has_toc: false
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename T&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__transformations.html#function-sequence">sequence</a></b>(ForwardIterator first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-sequence">sequence</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;T init,</span>
 <span>&nbsp;&nbsp;T step);</span>
@@ -121,14 +121,14 @@ has_toc: false
 <span>template &lt;typename DerivedPolicy,</span>
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryOperation&gt;</span>
-<span>__host__ __device__ void </span><span><b><a href="/api/groups/group__transformations.html#function-tabulate">tabulate</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-tabulate">tabulate</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;UnaryOperation unary_op);</span>
 <br>
 <span>template &lt;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryOperation&gt;</span>
-<span>void </span><span><b><a href="/api/groups/group__transformations.html#function-tabulate">tabulate</a></b>(ForwardIterator first,</span>
+<span>void </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-tabulate">tabulate</a></b>(ForwardIterator first,</span>
 <span>&nbsp;&nbsp;ForwardIterator last,</span>
 <span>&nbsp;&nbsp;UnaryOperation unary_op);</span>
 <br>
@@ -136,7 +136,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform">transform</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform">transform</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -145,7 +145,7 @@ has_toc: false
 <span>template &lt;typename InputIterator,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform">transform</a></b>(InputIterator first,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform">transform</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
 <span>&nbsp;&nbsp;UnaryFunction op);</span>
@@ -155,7 +155,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction&gt;</span>
-<span>__host__ __device__ OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform">transform</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform">transform</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -166,7 +166,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename InputIterator2,</span>
 <span>&nbsp;&nbsp;typename OutputIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction&gt;</span>
-<span>OutputIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform">transform</a></b>(InputIterator1 first1,</span>
+<span>OutputIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform">transform</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;OutputIterator result,</span>
@@ -177,7 +177,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;ForwardIterator result,</span>
@@ -188,7 +188,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(InputIterator first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(InputIterator first,</span>
 <span>&nbsp;&nbsp;InputIterator last,</span>
 <span>&nbsp;&nbsp;ForwardIterator result,</span>
 <span>&nbsp;&nbsp;UnaryFunction op,</span>
@@ -200,7 +200,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 stencil,</span>
@@ -213,7 +213,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename UnaryFunction,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(InputIterator1 first,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(InputIterator1 first,</span>
 <span>&nbsp;&nbsp;InputIterator1 last,</span>
 <span>&nbsp;&nbsp;InputIterator2 stencil,</span>
 <span>&nbsp;&nbsp;ForwardIterator result,</span>
@@ -227,7 +227,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>__host__ __device__ ForwardIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
+<span>__host__ __device__ ForwardIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(const thrust::detail::execution_policy_base< DerivedPolicy > & exec,</span>
 <span>&nbsp;&nbsp;InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
@@ -242,7 +242,7 @@ has_toc: false
 <span>&nbsp;&nbsp;typename ForwardIterator,</span>
 <span>&nbsp;&nbsp;typename BinaryFunction,</span>
 <span>&nbsp;&nbsp;typename Predicate&gt;</span>
-<span>ForwardIterator </span><span><b><a href="/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(InputIterator1 first1,</span>
+<span>ForwardIterator </span><span><b><a href="/thrust/api/groups/group__transformations.html#function-transform_if">transform&#95;if</a></b>(InputIterator1 first1,</span>
 <span>&nbsp;&nbsp;InputIterator1 last1,</span>
 <span>&nbsp;&nbsp;InputIterator2 first2,</span>
 <span>&nbsp;&nbsp;InputIterator3 stencil,</span>
@@ -309,7 +309,7 @@ The iterator <code>result + (last - first)</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/adjacent_difference">https://en.cppreference.com/w/cpp/algorithm/adjacent_difference</a>
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
 
 <h3 id="function-adjacent_difference">
 Function <code>adjacent&#95;difference</code>
@@ -372,7 +372,7 @@ The iterator <code>result + (last - first)</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/adjacent_difference">https://en.cppreference.com/w/cpp/algorithm/adjacent_difference</a>
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
 
 <h3 id="function-adjacent_difference">
 Function <code>adjacent&#95;difference</code>
@@ -423,7 +423,7 @@ The iterator <code>result + (last - first)</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/adjacent_difference">https://en.cppreference.com/w/cpp/algorithm/adjacent_difference</a>
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
 
 <h3 id="function-adjacent_difference">
 Function <code>adjacent&#95;difference</code>
@@ -479,7 +479,7 @@ The iterator <code>result + (last - first)</code>
 
 **See**:
 * <a href="https://en.cppreference.com/w/cpp/algorithm/adjacent_difference">https://en.cppreference.com/w/cpp/algorithm/adjacent_difference</a>
-* <a href="/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
+* <a href="/thrust/api/groups/group__prefixsums.html#function-inclusive_scan">inclusive_scan</a>
 
 <h3 id="function-generate">
 Function <code>generate</code>
@@ -498,7 +498,7 @@ Function <code>generate</code>
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
-The following code snippet demonstrates how to fill a <code><a href="/api/classes/classhost__vector.html">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code> using the <code>thrust::host</code> execution policy for parallelization:
+The following code snippet demonstrates how to fill a <code><a href="/thrust/api/classes/classhost__vector.html">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code> using the <code>thrust::host</code> execution policy for parallelization:
 
 
 
@@ -527,7 +527,7 @@ thrust::generate(thrust::host, v.begin(), v.end(), rand);
 * **`gen`** A function argument, taking no parameters, used to generate values to assign to elements in the range <code>[first,last)</code>.
 
 **See**:
-* <a href="/api/groups/group__transformations.html#function-generate_n">generate_n</a>
+* <a href="/thrust/api/groups/group__transformations.html#function-generate_n">generate_n</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/generate">https://en.cppreference.com/w/cpp/algorithm/generate</a>
 
 <h3 id="function-generate">
@@ -543,7 +543,7 @@ Function <code>generate</code>
 <code>generate</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,last)</code>.
 
 
-The following code snippet demonstrates how to fill a <code><a href="/api/classes/classhost__vector.html">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code>.
+The following code snippet demonstrates how to fill a <code><a href="/thrust/api/classes/classhost__vector.html">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code>.
 
 
 
@@ -570,7 +570,7 @@ thrust::generate(v.begin(), v.end(), rand);
 * **`gen`** A function argument, taking no parameters, used to generate values to assign to elements in the range <code>[first,last)</code>.
 
 **See**:
-* <a href="/api/groups/group__transformations.html#function-generate_n">generate_n</a>
+* <a href="/thrust/api/groups/group__transformations.html#function-generate_n">generate_n</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/generate">https://en.cppreference.com/w/cpp/algorithm/generate</a>
 
 <h3 id="function-generate_n">
@@ -591,7 +591,7 @@ Function <code>generate&#95;n</code>
 The algorithm's execution is parallelized as determined by <code>exec</code>.
 
 
-The following code snippet demonstrates how to fill a <code><a href="/api/classes/classhost__vector.html">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code> using the <code>thrust::host</code> execution policy for parallelization:
+The following code snippet demonstrates how to fill a <code><a href="/thrust/api/classes/classhost__vector.html">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code> using the <code>thrust::host</code> execution policy for parallelization:
 
 
 
@@ -621,7 +621,7 @@ thrust::generate_n(thrust::host, v.begin(), 10, rand);
 * **`gen`** A function argument, taking no parameters, used to generate values to assign to elements in the range <code>[first,first + n)</code>.
 
 **See**:
-* <a href="/api/groups/group__transformations.html#function-generate">generate</a>
+* <a href="/thrust/api/groups/group__transformations.html#function-generate">generate</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/generate">https://en.cppreference.com/w/cpp/algorithm/generate</a>
 
 <h3 id="function-generate_n">
@@ -638,7 +638,7 @@ Function <code>generate&#95;n</code>
 <code>generate&#95;n</code> assigns the result of invoking <code>gen</code>, a function object that takes no arguments, to each element in the range <code>[first,first + n)</code>. The return value is <code>first + n</code>.
 
 
-The following code snippet demonstrates how to fill a <code><a href="/api/classes/classhost__vector.html">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code>.
+The following code snippet demonstrates how to fill a <code><a href="/thrust/api/classes/classhost__vector.html">host&#95;vector</a></code> with random numbers, using the standard C library function <code>rand</code>.
 
 
 
@@ -665,7 +665,7 @@ thrust::generate_n(v.begin(), 10, rand);
 * **`gen`** A function argument, taking no parameters, used to generate values to assign to elements in the range <code>[first,first + n)</code>.
 
 **See**:
-* <a href="/api/groups/group__transformations.html#function-generate">generate</a>
+* <a href="/thrust/api/groups/group__transformations.html#function-generate">generate</a>
 * <a href="https://en.cppreference.com/w/cpp/algorithm/generate">https://en.cppreference.com/w/cpp/algorithm/generate</a>
 
 <h3 id="function-sequence">

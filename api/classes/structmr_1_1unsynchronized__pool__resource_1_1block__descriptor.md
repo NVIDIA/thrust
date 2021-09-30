@@ -9,7 +9,7 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct mr::unsynchronized&#95;pool&#95;resource::block&#95;descriptor {</span>
-<span>public:</span><span>&nbsp;&nbsp;block_descriptor_ptr <b><a href="/api/classes/structmr_1_1unsynchronized__pool__resource_1_1block__descriptor.html#variable-next">next</a></b>;</span>
+<span>public:</span><span>&nbsp;&nbsp;block_descriptor_ptr <b><a href="/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1block__descriptor.html#variable-next">next</a></b>;</span>
 <span>};</span>
 </code>
 

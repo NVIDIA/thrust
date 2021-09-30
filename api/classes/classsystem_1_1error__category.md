@@ -13,25 +13,25 @@ has_toc: false
 <code class="doxybook">
 <span>#include <thrust/system/error_code.h></span><br>
 <span>class system::error&#95;category {</span>
-<span>public:</span><span>&nbsp;&nbsp;virtual </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-~error_category">~error&#95;category</a></b>(void);</span>
+<span>public:</span><span>&nbsp;&nbsp;virtual </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-~error_category">~error&#95;category</a></b>(void);</span>
 <br>
-<span>&nbsp;&nbsp;virtual const char * </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-name">name</a></b>(void) const = 0;</span>
+<span>&nbsp;&nbsp;virtual const char * </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-name">name</a></b>(void) const = 0;</span>
 <br>
-<span>&nbsp;&nbsp;virtual <a href="/api/classes/classsystem_1_1error__condition.html">error_condition</a> </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-default_error_condition">default&#95;error&#95;condition</a></b>(int ev) const;</span>
+<span>&nbsp;&nbsp;virtual <a href="/thrust/api/classes/classsystem_1_1error__condition.html">error_condition</a> </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-default_error_condition">default&#95;error&#95;condition</a></b>(int ev) const;</span>
 <br>
-<span>&nbsp;&nbsp;virtual bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-equivalent">equivalent</a></b>(int code,</span>
-<span>&nbsp;&nbsp;&nbsp;&nbsp;const <a href="/api/classes/classsystem_1_1error__condition.html">error_condition</a> & condition) const;</span>
+<span>&nbsp;&nbsp;virtual bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-equivalent">equivalent</a></b>(int code,</span>
+<span>&nbsp;&nbsp;&nbsp;&nbsp;const <a href="/thrust/api/classes/classsystem_1_1error__condition.html">error_condition</a> & condition) const;</span>
 <br>
-<span>&nbsp;&nbsp;virtual bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-equivalent">equivalent</a></b>(const <a href="/api/classes/classsystem_1_1error__code.html">error_code</a> & code,</span>
+<span>&nbsp;&nbsp;virtual bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-equivalent">equivalent</a></b>(const <a href="/thrust/api/classes/classsystem_1_1error__code.html">error_code</a> & code,</span>
 <span>&nbsp;&nbsp;&nbsp;&nbsp;int condition) const;</span>
 <br>
-<span>&nbsp;&nbsp;virtual std::string </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-message">message</a></b>(int ev) const = 0;</span>
+<span>&nbsp;&nbsp;virtual std::string </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-message">message</a></b>(int ev) const = 0;</span>
 <br>
-<span>&nbsp;&nbsp;bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-operator==">operator==</a></b>(const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span>
+<span>&nbsp;&nbsp;bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-operator==">operator==</a></b>(const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span>
 <br>
-<span>&nbsp;&nbsp;bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-operator!=">operator!=</a></b>(const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span>
+<span>&nbsp;&nbsp;bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-operator!=">operator!=</a></b>(const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span>
 <br>
-<span>&nbsp;&nbsp;bool </span><span>&nbsp;&nbsp;<b><a href="/api/classes/classsystem_1_1error__category.html#function-operator<">operator&lt;</a></b>(const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span>
+<span>&nbsp;&nbsp;bool </span><span>&nbsp;&nbsp;<b><a href="/thrust/api/classes/classsystem_1_1error__category.html#function-operator<">operator&lt;</a></b>(const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span>
 <span>};</span>
 </code>
 
@@ -59,7 +59,7 @@ Function <code>system::error&#95;category::system::error&#95;category::default&#
 </h3>
 
 <code class="doxybook">
-<span>virtual <a href="/api/classes/classsystem_1_1error__condition.html">error_condition</a> </span><span><b>default_error_condition</b>(int ev) const;</span></code>
+<span>virtual <a href="/thrust/api/classes/classsystem_1_1error__condition.html">error_condition</a> </span><span><b>default_error_condition</b>(int ev) const;</span></code>
 **Returns**:
 <code>error&#95;condition(ev, &#42;this)</code>. 
 
@@ -69,7 +69,7 @@ Function <code>system::error&#95;category::system::error&#95;category::equivalen
 
 <code class="doxybook">
 <span>virtual bool </span><span><b>equivalent</b>(int code,</span>
-<span>&nbsp;&nbsp;const <a href="/api/classes/classsystem_1_1error__condition.html">error_condition</a> & condition) const;</span></code>
+<span>&nbsp;&nbsp;const <a href="/thrust/api/classes/classsystem_1_1error__condition.html">error_condition</a> & condition) const;</span></code>
 **Returns**:
 <code>default&#95;error&#95;condition(code) == condition</code>
 
@@ -78,7 +78,7 @@ Function <code>system::error&#95;category::system::error&#95;category::equivalen
 </h3>
 
 <code class="doxybook">
-<span>virtual bool </span><span><b>equivalent</b>(const <a href="/api/classes/classsystem_1_1error__code.html">error_code</a> & code,</span>
+<span>virtual bool </span><span><b>equivalent</b>(const <a href="/thrust/api/classes/classsystem_1_1error__code.html">error_code</a> & code,</span>
 <span>&nbsp;&nbsp;int condition) const;</span></code>
 **Returns**:
 <code>&#42;this == code.category() && code.value() == condition</code>
@@ -97,7 +97,7 @@ Function <code>system::error&#95;category::system::error&#95;category::operator=
 </h3>
 
 <code class="doxybook">
-<span>bool </span><span><b>operator==</b>(const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span></code>
+<span>bool </span><span><b>operator==</b>(const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span></code>
 **Returns**:
 <code>&#42;this == &rhs</code>
 
@@ -106,7 +106,7 @@ Function <code>system::error&#95;category::system::error&#95;category::operator!
 </h3>
 
 <code class="doxybook">
-<span>bool </span><span><b>operator!=</b>(const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span></code>
+<span>bool </span><span><b>operator!=</b>(const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span></code>
 **Returns**:
 <code>!(&#42;this == rhs)</code>
 
@@ -115,7 +115,7 @@ Function <code>system::error&#95;category::system::error&#95;category::operator&
 </h3>
 
 <code class="doxybook">
-<span>bool </span><span><b>operator<</b>(const <a href="/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span></code>
+<span>bool </span><span><b>operator<</b>(const <a href="/thrust/api/classes/classsystem_1_1error__category.html">error_category</a> & rhs) const;</span></code>
 **Note**:
 <code>less</code> provides a total ordering for pointers. 
 

@@ -15,7 +15,7 @@
       "name": "segmentedprefixsums",
       "refid": "group__segmentedprefixsums",
       "title": "Segmented Prefix Sums",
-      "url": "/api/groups/group__segmentedprefixsums.html",
+      "url": "/thrust/api/groups/group__segmentedprefixsums.html",
       "visibility": "public"
     },
     {
@@ -26,7 +26,7 @@
       "name": "transformed_prefixsums",
       "refid": "group__transformed__prefixsums",
       "title": "Transformed Prefix Sums",
-      "url": "/api/groups/group__transformed__prefixsums.html",
+      "url": "/thrust/api/groups/group__transformed__prefixsums.html",
       "visibility": "public"
     }
   ],
@@ -42,7 +42,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -54,7 +54,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -68,7 +68,7 @@
     "name": "algorithms",
     "refid": "group__algorithms",
     "title": "Algorithms",
-    "url": "/api/groups/group__algorithms.html",
+    "url": "/thrust/api/groups/group__algorithms.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -80,7 +80,7 @@
       "name": "algorithms",
       "refid": "group__algorithms",
       "title": "Algorithms",
-      "url": "/api/groups/group__algorithms.html",
+      "url": "/thrust/api/groups/group__algorithms.html",
       "visibility": "public"
     }
   ],
@@ -194,7 +194,7 @@
       "title": "inclusive_scan",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-inclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-inclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -289,7 +289,7 @@
       "title": "inclusive_scan",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-inclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-inclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -420,7 +420,7 @@
       "title": "inclusive_scan",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-inclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-inclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -533,7 +533,7 @@
       "title": "inclusive_scan",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-inclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-inclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -646,7 +646,7 @@
       "title": "exclusive_scan",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-exclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-exclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -741,7 +741,7 @@
       "title": "exclusive_scan",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-exclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-exclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -872,7 +872,7 @@
       "title": "exclusive_scan",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-exclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-exclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -985,7 +985,7 @@
       "title": "exclusive_scan",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-exclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-exclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -1134,7 +1134,7 @@
       "title": "exclusive_scan",
       "type": "__host__ __device__ OutputIterator",
       "typePlain": "__host__ __device__ OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-exclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-exclusive_scan",
       "virtual": false,
       "visibility": "public"
     },
@@ -1265,7 +1265,7 @@
       "title": "exclusive_scan",
       "type": "OutputIterator",
       "typePlain": "OutputIterator",
-      "url": "/api/groups/group__prefixsums.html#function-exclusive_scan",
+      "url": "/thrust/api/groups/group__prefixsums.html#function-exclusive_scan",
       "virtual": false,
       "visibility": "public"
     }
@@ -1274,6 +1274,6 @@
   "static": false,
   "strong": false,
   "title": "Prefix Sums",
-  "url": "/api/groups/group__prefixsums.html",
+  "url": "/thrust/api/groups/group__prefixsums.html",
   "visibility": "public"
 }

@@ -7,7 +7,7 @@ has_toc: false
 
 # Struct `iterator_traits`
 
-<code><a href="/api/classes/structiterator__traits.html">iterator&#95;traits</a></code> is a type trait class that provides a uniform interface for querying the properties of iterators at compile-time. 
+<code><a href="/thrust/api/classes/structiterator__traits.html">iterator&#95;traits</a></code> is a type trait class that provides a uniform interface for querying the properties of iterators at compile-time. 
 
 **Inherits From**:
 `std::iterator_traits< T >`

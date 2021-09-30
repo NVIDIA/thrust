@@ -27,7 +27,7 @@
       "name": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
       "refid": "structstd_1_1hash_3_01THRUST__NS__QUALIFIER_1_1optional_3_01T_01_4_01_4",
       "title": "std::hash< THRUST_NS_QUALIFIER::optional< T > >",
-      "url": "/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
+      "url": "/thrust/api/classes/structstd_1_1hash_3_01thrust__ns__qualifier_1_1optional_3_01t_01_4_01_4.html",
       "visibility": "public"
     }
   ],
@@ -35,6 +35,6 @@
   "static": false,
   "strong": false,
   "title": "std",
-  "url": "/api/namespaces/namespacestd.html",
+  "url": "/thrust/api/namespaces/namespacestd.html",
   "visibility": "public"
 }

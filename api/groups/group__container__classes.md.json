@@ -15,7 +15,7 @@
       "name": "host_containers",
       "refid": "group__host__containers",
       "title": "Host Containers",
-      "url": "/api/groups/group__host__containers.html",
+      "url": "/thrust/api/groups/group__host__containers.html",
       "visibility": "public"
     }
   ],
@@ -30,6 +30,6 @@
   "static": false,
   "strong": false,
   "title": "Container Classes",
-  "url": "/api/groups/group__container__classes.html",
+  "url": "/thrust/api/groups/group__container__classes.html",
   "visibility": "public"
 }

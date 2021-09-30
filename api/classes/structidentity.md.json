@@ -28,7 +28,7 @@
     "name": "generalized_identity_operations",
     "refid": "group__generalized__identity__operations",
     "title": "Generalized Identity Operations",
-    "url": "/api/groups/group__generalized__identity__operations.html",
+    "url": "/thrust/api/groups/group__generalized__identity__operations.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -40,7 +40,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -51,7 +51,7 @@
       "name": "predefined_function_objects",
       "refid": "group__predefined__function__objects",
       "title": "Predefined Function Objects",
-      "url": "/api/groups/group__predefined__function__objects.html",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
       "visibility": "public"
     },
     {
@@ -62,7 +62,7 @@
       "name": "generalized_identity_operations",
       "refid": "group__generalized__identity__operations",
       "title": "Generalized Identity Operations",
-      "url": "/api/groups/group__generalized__identity__operations.html",
+      "url": "/thrust/api/groups/group__generalized__identity__operations.html",
       "visibility": "public"
     }
   ],
@@ -109,7 +109,7 @@
       "title": "operator()",
       "type": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &",
       "typePlain": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &",
-      "url": "/api/classes/structidentity.html#function-operator()",
+      "url": "/thrust/api/classes/structidentity.html#function-operator()",
       "virtual": false,
       "visibility": "public"
     }
@@ -143,7 +143,7 @@
       "title": "argument_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structidentity.html#typedef-argument_type",
+      "url": "/thrust/api/classes/structidentity.html#typedef-argument_type",
       "visibility": "public"
     },
     {
@@ -174,14 +174,14 @@
       "title": "result_type",
       "type": "T",
       "typePlain": "T",
-      "url": "/api/classes/structidentity.html#typedef-result_type",
+      "url": "/thrust/api/classes/structidentity.html#typedef-result_type",
       "visibility": "public"
     }
   ],
   "refid": "structidentity",
   "see": [
     "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/identity\">https://en.cppreference.com/w/cpp/utility/functional/identity</a>",
-    "<a href=\"/api/classes/structunary__function.html\">unary_function</a>"
+    "<a href=\"/thrust/api/classes/structunary__function.html\">unary_function</a>"
   ],
   "static": false,
   "strong": false,
@@ -201,6 +201,6 @@
     }
   ],
   "title": "identity",
-  "url": "/api/classes/structidentity.html",
+  "url": "/thrust/api/classes/structidentity.html",
   "visibility": "public"
 }

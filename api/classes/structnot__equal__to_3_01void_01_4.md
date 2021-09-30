@@ -11,7 +11,7 @@ has_toc: false
 
 <code class="doxybook">
 <span>struct not&#95;equal&#95;to&lt; void &gt; {</span>
-<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/api/classes/structnot__equal__to_3_01void_01_4.html#using-is_transparent">is&#95;transparent</a></b> = <i>see below</i>;</span>
+<span>public:</span><span>&nbsp;&nbsp;using <b><a href="/thrust/api/classes/structnot__equal__to_3_01void_01_4.html#using-is_transparent">is&#95;transparent</a></b> = <i>see below</i>;</span>
 <span>};</span>
 </code>
 

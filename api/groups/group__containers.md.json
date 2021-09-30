@@ -30,7 +30,7 @@
       "name": "device_vector",
       "refid": "classdevice__vector",
       "title": "device_vector",
-      "url": "/api/classes/classdevice__vector.html",
+      "url": "/thrust/api/classes/classdevice__vector.html",
       "visibility": "public"
     }
   ],
@@ -44,7 +44,7 @@
       "default": false,
       "definition": "void swap",
       "deleted": false,
-      "details": "Exchanges the values of two vectors. <code>x</code> The first <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> of interest. <code>y</code> The second <code><a href=\"/api/classes/classdevice__vector.html\">device&#95;vector</a></code> of interest. ",
+      "details": "Exchanges the values of two vectors. <code>x</code> The first <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> of interest. <code>y</code> The second <code><a href=\"/thrust/api/classes/classdevice__vector.html\">device&#95;vector</a></code> of interest. ",
       "explicit": false,
       "fullname": "containers::swap",
       "hasDetails": true,
@@ -63,12 +63,12 @@
       "params": [
         {
           "name": "a",
-          "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a>< T, Alloc > &",
+          "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>< T, Alloc > &",
           "typePlain": "device_vector< T, Alloc > &"
         },
         {
           "name": "b",
-          "type": "<a href=\"/api/classes/classdevice__vector.html\">device_vector</a>< T, Alloc > &",
+          "type": "<a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a>< T, Alloc > &",
           "typePlain": "device_vector< T, Alloc > &"
         }
       ],
@@ -91,7 +91,7 @@
       "title": "swap",
       "type": "void",
       "typePlain": "void",
-      "url": "/api/groups/group__containers.html#function-swap",
+      "url": "/thrust/api/groups/group__containers.html#function-swap",
       "virtual": false,
       "visibility": "public"
     }
@@ -100,6 +100,6 @@
   "static": false,
   "strong": false,
   "title": "Containers",
-  "url": "/api/groups/group__containers.html",
+  "url": "/thrust/api/groups/group__containers.html",
   "visibility": "public"
 }

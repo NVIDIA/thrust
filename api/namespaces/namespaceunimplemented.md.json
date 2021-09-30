@@ -27,7 +27,7 @@
       "name": "unimplemented::no_unique_eager_event_type_found",
       "refid": "structunimplemented_1_1no__unique__eager__event__type__found",
       "title": "unimplemented::no_unique_eager_event_type_found",
-      "url": "/api/classes/structunimplemented_1_1no__unique__eager__event__type__found.html",
+      "url": "/thrust/api/classes/structunimplemented_1_1no__unique__eager__event__type__found.html",
       "visibility": "public"
     },
     {
@@ -38,7 +38,7 @@
       "name": "unimplemented::no_unique_eager_future_type_found",
       "refid": "structunimplemented_1_1no__unique__eager__future__type__found",
       "title": "unimplemented::no_unique_eager_future_type_found",
-      "url": "/api/classes/structunimplemented_1_1no__unique__eager__future__type__found.html",
+      "url": "/thrust/api/classes/structunimplemented_1_1no__unique__eager__future__type__found.html",
       "visibility": "public"
     }
   ],
@@ -78,7 +78,7 @@
       "title": "unique_eager_event_type",
       "type": "__host__ no_unique_eager_event_type_found",
       "typePlain": "__host__ no_unique_eager_event_type_found",
-      "url": "/api/namespaces/namespaceunimplemented.html#function-unique_eager_event_type",
+      "url": "/thrust/api/namespaces/namespaceunimplemented.html#function-unique_eager_event_type",
       "virtual": false,
       "visibility": "public"
     },
@@ -124,7 +124,7 @@
       "title": "unique_eager_future_type",
       "type": "__host__ no_unique_eager_future_type_found",
       "typePlain": "__host__ no_unique_eager_future_type_found",
-      "url": "/api/namespaces/namespaceunimplemented.html#function-unique_eager_future_type",
+      "url": "/thrust/api/namespaces/namespaceunimplemented.html#function-unique_eager_future_type",
       "virtual": false,
       "visibility": "public"
     }
@@ -133,6 +133,6 @@
   "static": false,
   "strong": false,
   "title": "unimplemented",
-  "url": "/api/namespaces/namespaceunimplemented.html",
+  "url": "/thrust/api/namespaces/namespaceunimplemented.html",
   "visibility": "public"
 }

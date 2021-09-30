@@ -26,7 +26,7 @@
     "name": "system::cuda",
     "refid": "namespacesystem_1_1cuda",
     "title": "system::cuda",
-    "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+    "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -38,7 +38,7 @@
       "name": "system",
       "refid": "namespacesystem",
       "title": "system",
-      "url": "/api/namespaces/namespacesystem.html",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
       "visibility": "public"
     },
     {
@@ -49,7 +49,7 @@
       "name": "system::cuda",
       "refid": "namespacesystem_1_1cuda",
       "title": "system::cuda",
-      "url": "/api/namespaces/namespacesystem_1_1cuda.html",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
       "visibility": "public"
     }
   ],
@@ -73,7 +73,7 @@
           "name": "success",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9aef4a35464c16a444a6aed496a2c6a2a2",
           "title": "success",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-success",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-success",
           "visibility": "public"
         },
         {
@@ -87,7 +87,7 @@
           "name": "missing_configuration",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9aa2f9d2a3c90bbc1278f0ca7dce79d2fe",
           "title": "missing_configuration",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-missing_configuration",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-missing_configuration",
           "visibility": "public"
         },
         {
@@ -101,7 +101,7 @@
           "name": "memory_allocation",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a02645d5f892acee138cc907fabc0aaba",
           "title": "memory_allocation",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-memory_allocation",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-memory_allocation",
           "visibility": "public"
         },
         {
@@ -115,7 +115,7 @@
           "name": "initialization_error",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9aad0ede2d5fb98788fa49afe38f2662dc",
           "title": "initialization_error",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-initialization_error",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-initialization_error",
           "visibility": "public"
         },
         {
@@ -129,7 +129,7 @@
           "name": "launch_failure",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a6f011473cdf157575388ff6dec10e5a1",
           "title": "launch_failure",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-launch_failure",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-launch_failure",
           "visibility": "public"
         },
         {
@@ -143,7 +143,7 @@
           "name": "prior_launch_failure",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a6a7eb5ead64e7aeeed15d6c104ed774f",
           "title": "prior_launch_failure",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-prior_launch_failure",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-prior_launch_failure",
           "visibility": "public"
         },
         {
@@ -157,7 +157,7 @@
           "name": "launch_timeout",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a35cdc429173e56e6364ecb5c5b03da44",
           "title": "launch_timeout",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-launch_timeout",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-launch_timeout",
           "visibility": "public"
         },
         {
@@ -171,7 +171,7 @@
           "name": "launch_out_of_resources",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9ad9be98fa767e9ffc4c8a20b2ee38c341",
           "title": "launch_out_of_resources",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-launch_out_of_resources",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-launch_out_of_resources",
           "visibility": "public"
         },
         {
@@ -185,7 +185,7 @@
           "name": "invalid_device_function",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a67fbab65fb0217c9891f399fee6b85a6",
           "title": "invalid_device_function",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_device_function",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_device_function",
           "visibility": "public"
         },
         {
@@ -199,7 +199,7 @@
           "name": "invalid_configuration",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9afe14bcb60118e872a9c1d6498f74124f",
           "title": "invalid_configuration",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_configuration",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_configuration",
           "visibility": "public"
         },
         {
@@ -213,7 +213,7 @@
           "name": "invalid_device",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9af355add3ae9eb82b7fd865d2bfd3fb7d",
           "title": "invalid_device",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_device",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_device",
           "visibility": "public"
         },
         {
@@ -227,7 +227,7 @@
           "name": "invalid_value",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a666ea4ac77dc8d3a26af72439a13f5e8",
           "title": "invalid_value",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_value",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_value",
           "visibility": "public"
         },
         {
@@ -241,7 +241,7 @@
           "name": "invalid_pitch_value",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a1d81e6fad9f7e44c832fce67dca660a1",
           "title": "invalid_pitch_value",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_pitch_value",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_pitch_value",
           "visibility": "public"
         },
         {
@@ -255,7 +255,7 @@
           "name": "invalid_symbol",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9aedebacd3a1d1c8f77bbb8ef60799ffd3",
           "title": "invalid_symbol",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_symbol",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_symbol",
           "visibility": "public"
         },
         {
@@ -269,7 +269,7 @@
           "name": "map_buffer_object_failed",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a2d81cc395c1c44d03c46a839ddc6e6a1",
           "title": "map_buffer_object_failed",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-map_buffer_object_failed",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-map_buffer_object_failed",
           "visibility": "public"
         },
         {
@@ -283,7 +283,7 @@
           "name": "unmap_buffer_object_failed",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a5f4334145feab28811045619f9cc6e3c",
           "title": "unmap_buffer_object_failed",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-unmap_buffer_object_failed",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-unmap_buffer_object_failed",
           "visibility": "public"
         },
         {
@@ -297,7 +297,7 @@
           "name": "invalid_host_pointer",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a625e69d712744a108588913e49c5eceb",
           "title": "invalid_host_pointer",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_host_pointer",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_host_pointer",
           "visibility": "public"
         },
         {
@@ -311,7 +311,7 @@
           "name": "invalid_device_pointer",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9ab4083754f413d7cb007451c9bf6ed444",
           "title": "invalid_device_pointer",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_device_pointer",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_device_pointer",
           "visibility": "public"
         },
         {
@@ -325,7 +325,7 @@
           "name": "invalid_texture",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9aadff9bfe7761bf67180bfc4747a9d574",
           "title": "invalid_texture",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_texture",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_texture",
           "visibility": "public"
         },
         {
@@ -339,7 +339,7 @@
           "name": "invalid_texture_binding",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9afe96df87c1aa6da35456ef5dcb6c885f",
           "title": "invalid_texture_binding",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_texture_binding",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_texture_binding",
           "visibility": "public"
         },
         {
@@ -353,7 +353,7 @@
           "name": "invalid_channel_descriptor",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a340d15046956547f120f5d4ad2c53b89",
           "title": "invalid_channel_descriptor",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_channel_descriptor",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_channel_descriptor",
           "visibility": "public"
         },
         {
@@ -367,7 +367,7 @@
           "name": "invalid_memcpy_direction",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9ab109c8e6a5439efc05f3f3c30e4d307f",
           "title": "invalid_memcpy_direction",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_memcpy_direction",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_memcpy_direction",
           "visibility": "public"
         },
         {
@@ -381,7 +381,7 @@
           "name": "address_of_constant_error",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9ac558b4a60ad69d430d9a66b7de73b3df",
           "title": "address_of_constant_error",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-address_of_constant_error",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-address_of_constant_error",
           "visibility": "public"
         },
         {
@@ -395,7 +395,7 @@
           "name": "texture_fetch_failed",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9afa9f10cd5fe6c2fd995bd3205c64d2ff",
           "title": "texture_fetch_failed",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-texture_fetch_failed",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-texture_fetch_failed",
           "visibility": "public"
         },
         {
@@ -409,7 +409,7 @@
           "name": "texture_not_bound",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9ad77664e6c7467f90c65e45395602da2f",
           "title": "texture_not_bound",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-texture_not_bound",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-texture_not_bound",
           "visibility": "public"
         },
         {
@@ -423,7 +423,7 @@
           "name": "synchronization_error",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9ac28bf03d3630424f201124a77b857f84",
           "title": "synchronization_error",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-synchronization_error",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-synchronization_error",
           "visibility": "public"
         },
         {
@@ -437,7 +437,7 @@
           "name": "invalid_filter_setting",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a0e689643a9c8e874599dbcc9785cb187",
           "title": "invalid_filter_setting",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_filter_setting",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_filter_setting",
           "visibility": "public"
         },
         {
@@ -451,7 +451,7 @@
           "name": "invalid_norm_setting",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a36e07b486acd9c24041cad1e39289e75",
           "title": "invalid_norm_setting",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_norm_setting",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_norm_setting",
           "visibility": "public"
         },
         {
@@ -465,7 +465,7 @@
           "name": "mixed_device_execution",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a6d228be5b72da8188b7c86af91a1cb0b",
           "title": "mixed_device_execution",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-mixed_device_execution",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-mixed_device_execution",
           "visibility": "public"
         },
         {
@@ -479,7 +479,7 @@
           "name": "cuda_runtime_unloading",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9aebd0e2e4dc0f1bf81430471de8a99446",
           "title": "cuda_runtime_unloading",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-cuda_runtime_unloading",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-cuda_runtime_unloading",
           "visibility": "public"
         },
         {
@@ -493,7 +493,7 @@
           "name": "unknown",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a0a084525f49dbcae1f9d76fdf0e41fb0",
           "title": "unknown",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-unknown",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-unknown",
           "visibility": "public"
         },
         {
@@ -507,7 +507,7 @@
           "name": "not_yet_implemented",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a5782b7591f16d4cdbeb660ab95783f8c",
           "title": "not_yet_implemented",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-not_yet_implemented",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-not_yet_implemented",
           "visibility": "public"
         },
         {
@@ -521,7 +521,7 @@
           "name": "memory_value_too_large",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9adcaa51daae7f1859657b139c65f64748",
           "title": "memory_value_too_large",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-memory_value_too_large",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-memory_value_too_large",
           "visibility": "public"
         },
         {
@@ -535,7 +535,7 @@
           "name": "invalid_resource_handle",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a0896fc5f2147d900ccc44ce85cb47e3c",
           "title": "invalid_resource_handle",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_resource_handle",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-invalid_resource_handle",
           "visibility": "public"
         },
         {
@@ -549,7 +549,7 @@
           "name": "not_ready",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a6590d4d514298de9913e9af805b88b28",
           "title": "not_ready",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-not_ready",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-not_ready",
           "visibility": "public"
         },
         {
@@ -563,7 +563,7 @@
           "name": "insufficient_driver",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9aa7bf410c9a47f73e47e052dd3362b964",
           "title": "insufficient_driver",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-insufficient_driver",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-insufficient_driver",
           "visibility": "public"
         },
         {
@@ -577,7 +577,7 @@
           "name": "set_on_active_process_error",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a333098f620ce3450fe652146e753698a",
           "title": "set_on_active_process_error",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-set_on_active_process_error",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-set_on_active_process_error",
           "visibility": "public"
         },
         {
@@ -591,7 +591,7 @@
           "name": "no_device",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a782d8eabb9600ab450eeb575f4d2bb29",
           "title": "no_device",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-no_device",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-no_device",
           "visibility": "public"
         },
         {
@@ -605,7 +605,7 @@
           "name": "ecc_uncorrectable",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9adca7f79bfe573f7cca3350d9a6ae3fd7",
           "title": "ecc_uncorrectable",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-ecc_uncorrectable",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-ecc_uncorrectable",
           "visibility": "public"
         },
         {
@@ -619,7 +619,7 @@
           "name": "startup_failure",
           "refid": "namespacesystem_1_1cuda_1_1errc_1ae2e3a46a16e9f7c361d8277106ab23c9a9fefcfcd138729fa25b85f32605612fb",
           "title": "startup_failure",
-          "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-startup_failure",
+          "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enumvalue-startup_failure",
           "visibility": "public"
         }
       ],
@@ -642,7 +642,7 @@
       "static": false,
       "strong": false,
       "title": "errc_t",
-      "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t",
       "visibility": "public"
     }
   ],
@@ -650,6 +650,6 @@
   "static": false,
   "strong": false,
   "title": "system::cuda::errc",
-  "url": "/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
+  "url": "/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html",
   "visibility": "public"
 }

@@ -23,7 +23,7 @@
     "name": "placeholder_objects",
     "refid": "group__placeholder__objects",
     "title": "Placeholder Objects",
-    "url": "/api/groups/group__placeholder__objects.html",
+    "url": "/thrust/api/groups/group__placeholder__objects.html",
     "visibility": "public"
   },
   "moduleBreadcrumbs": [
@@ -35,7 +35,7 @@
       "name": "function_objects",
       "refid": "group__function__objects",
       "title": "Function Objects",
-      "url": "/api/groups/group__function__objects.html",
+      "url": "/thrust/api/groups/group__function__objects.html",
       "visibility": "public"
     },
     {
@@ -46,7 +46,7 @@
       "name": "placeholder_objects",
       "refid": "group__placeholder__objects",
       "title": "Placeholder Objects",
-      "url": "/api/groups/group__placeholder__objects.html",
+      "url": "/thrust/api/groups/group__placeholder__objects.html",
       "visibility": "public"
     }
   ],
@@ -81,7 +81,7 @@
       "title": "_1",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 0 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 0 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_1",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_1",
       "visibility": "public"
     },
     {
@@ -111,7 +111,7 @@
       "title": "_2",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 1 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 1 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_2",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_2",
       "visibility": "public"
     },
     {
@@ -141,7 +141,7 @@
       "title": "_3",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 2 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 2 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_3",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_3",
       "visibility": "public"
     },
     {
@@ -171,7 +171,7 @@
       "title": "_4",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 3 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 3 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_4",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_4",
       "visibility": "public"
     },
     {
@@ -201,7 +201,7 @@
       "title": "_5",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 4 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 4 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_5",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_5",
       "visibility": "public"
     },
     {
@@ -231,7 +231,7 @@
       "title": "_6",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 5 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 5 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_6",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_6",
       "visibility": "public"
     },
     {
@@ -261,7 +261,7 @@
       "title": "_7",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 6 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 6 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_7",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_7",
       "visibility": "public"
     },
     {
@@ -291,7 +291,7 @@
       "title": "_8",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 7 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 7 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_8",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_8",
       "visibility": "public"
     },
     {
@@ -321,7 +321,7 @@
       "title": "_9",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 8 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 8 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_9",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_9",
       "visibility": "public"
     },
     {
@@ -351,7 +351,7 @@
       "title": "_10",
       "type": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 9 >::type",
       "typePlain": "THRUST_INLINE_CONSTANT thrust::detail::functional::placeholder< 9 >::type",
-      "url": "/api/namespaces/namespaceplaceholders.html#variable-_10",
+      "url": "/thrust/api/namespaces/namespaceplaceholders.html#variable-_10",
       "visibility": "public"
     }
   ],
@@ -359,6 +359,6 @@
   "static": false,
   "strong": false,
   "title": "placeholders",
-  "url": "/api/namespaces/namespaceplaceholders.html",
+  "url": "/thrust/api/namespaces/namespaceplaceholders.html",
   "visibility": "public"
 }

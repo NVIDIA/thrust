@@ -25,7 +25,7 @@
     "name": "async",
     "refid": "namespaceasync",
     "title": "async",
-    "url": "/api/namespaces/namespaceasync.html",
+    "url": "/thrust/api/namespaces/namespaceasync.html",
     "visibility": "public"
   },
   "parentBreadcrumbs": [
@@ -37,7 +37,7 @@
       "name": "async",
       "refid": "namespaceasync",
       "title": "async",
-      "url": "/api/namespaces/namespaceasync.html",
+      "url": "/thrust/api/namespaces/namespaceasync.html",
       "visibility": "public"
     }
   ],
@@ -50,7 +50,7 @@
       "name": "async::exclusive_scan_detail::exclusive_scan_fn",
       "refid": "structasync_1_1exclusive__scan__detail_1_1exclusive__scan__fn",
       "title": "async::exclusive_scan_detail::exclusive_scan_fn",
-      "url": "/api/classes/structasync_1_1exclusive__scan__detail_1_1exclusive__scan__fn.html",
+      "url": "/thrust/api/classes/structasync_1_1exclusive__scan__detail_1_1exclusive__scan__fn.html",
       "visibility": "public"
     }
   ],
@@ -58,6 +58,6 @@
   "static": false,
   "strong": false,
   "title": "async::exclusive_scan_detail",
-  "url": "/api/namespaces/namespaceasync_1_1exclusive__scan__detail.html",
+  "url": "/thrust/api/namespaces/namespaceasync_1_1exclusive__scan__detail.html",
   "visibility": "public"
 }

@@ -12,7 +12,7 @@ has_toc: false
 
 <code>thrust::tbb</code> is a top-level alias for thrust::system::tbb. 
 
-<code><a href="/api/namespaces/namespacethrust_1_1tbb.html">thrust::tbb</a></code> is a top-level alias for <code>thrust::system::tbb</code>. 
+<code><a href="/thrust/api/namespaces/namespacethrust_1_1tbb.html">thrust::tbb</a></code> is a top-level alias for <code>thrust::system::tbb</code>. 
 
 <code class="doxybook">
 <span>namespace thrust::tbb {</span>
