@@ -2,6 +2,17 @@
   "children": [
     {
       "anchor": "",
+      "category": "namespaces",
+      "fullname": "CUB_NS_QUALIFIER",
+      "kind": "namespace",
+      "name": "CUB_NS_QUALIFIER",
+      "refid": "namespaceCUB__NS__QUALIFIER",
+      "title": "CUB_NS_QUALIFIER",
+      "url": "/thrust/api/namespaces/namespacecub__ns__qualifier.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
       "category": "classes",
       "fullname": "allocator_delete",
       "kind": "struct",
@@ -310,6 +321,17 @@
       "refid": "namespacecpp",
       "title": "cpp",
       "url": "/thrust/api/namespaces/namespacecpp.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "cub",
+      "kind": "namespace",
+      "name": "cub",
+      "refid": "namespacecub",
+      "title": "cub",
+      "url": "/thrust/api/namespaces/namespacecub.html",
       "visibility": "public"
     },
     {

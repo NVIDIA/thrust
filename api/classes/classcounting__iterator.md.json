@@ -77,7 +77,7 @@
       "default": false,
       "definition": "__host__ __device__ counting_iterator< Incrementable, System, Traversal, Difference >::counting_iterator",
       "deleted": false,
-      "details": "Null constructor initializes this <code><a href=\"/thrust/api/classes/classcounting__iterator.html\">counting&#95;iterator</a>'s</code><code>Incrementable</code> counter using its null constructor. ",
+      "details": "Default constructor initializes this <code><a href=\"/thrust/api/classes/classcounting__iterator.html\">counting&#95;iterator</a>'s</code> counter to <code>Incrementable{}</code>. ",
       "explicit": false,
       "fullname": "counting_iterator::counting_iterator",
       "hasDetails": true,
