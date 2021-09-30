@@ -1,3 +1,8 @@
+html/
+api/
+overview.md
+contributing/code_of_conduct.md
+releases/changelog.md
 Gemfile.lock
 _site
 .bundle
