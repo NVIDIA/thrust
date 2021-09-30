@@ -1,5 +1,3 @@
-*.log
-.p4config
 discrete_voronoi.pgm
 docs/html/
 docs/api/
