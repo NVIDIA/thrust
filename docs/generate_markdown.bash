@@ -16,6 +16,36 @@
 # limitations under the License.
 ###############################################################################
 
+function usage {
+  echo "Usage: ${0} [flags...]"
+  echo
+  echo "Generate Thrust documentation markdown with Doxygen and Doxybook that "
+  echo "can be served with Jekyll."
+  echo
+  echo "-h, -help, --help"
+  echo "  Print this message."
+  echo
+  echo "-l, --local"
+  echo "  Generate markdown suitable for a locally run Jekyll server instead of "
+  echo "  the production GitHub pages environment."
+
+  exit -3
+}
+
+LOCAL=0
+
+while test ${#} != 0
+do
+  case "${1}" in
+  -h) ;&
+  -help) ;&
+  --help) usage ;;
+  -l) ;&
+  --local) LOCAL=1 ;;
+  esac
+  shift
+done
+
 SCRIPT_PATH=$(cd $(dirname ${0}); pwd -P)
 
 cd ${SCRIPT_PATH}/..
@@ -37,7 +67,17 @@ cp CODE_OF_CONDUCT.md docs/contributing/code_of_conduct.md
 cp CHANGELOG.md docs/releases/changelog.md
 
 doxygen docs/doxygen_config.dox
-doxybook2 -d -i build_doxygen_xml -o docs/api -c docs/doxybook_config.json -t docs/doxybook_templates
+
+# When we're deploying to production on GitHub Pages, the root is
+# `nvidia.github.io/thrust`. When we're building locally, the root is normally
+# just `localhost`.
+if [[ "${LOCAL}" == 1 ]]; then
+  BASE_URL='{"baseURL": "/api/"}'
+else
+  BASE_URL='{"baseURL": "/thrust/api/"}'
+fi
+
+doxybook2 -d -i build_doxygen_xml -o docs/api -c docs/doxybook_config.json --config-data "${BASE_URL}" -t docs/doxybook_templates
 
 # Doxygen and Doxybook don't give us a way to disable all the things we'd like,
 # so it's important to purge Doxybook Markdown output that we don't need:
