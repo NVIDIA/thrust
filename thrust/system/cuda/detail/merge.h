@@ -189,7 +189,7 @@ namespace __merge {
 
   namespace mpl = thrust::detail::mpl::math;
 
-  template<size_t NOMINAL_4B_ITEMS_PER_THREAD, size_t INPUT_SIZE>
+  template<int NOMINAL_4B_ITEMS_PER_THREAD, size_t INPUT_SIZE>
   struct items_per_thread
   {
     enum
@@ -201,8 +201,8 @@ namespace __merge {
               mpl::max<
                   int,
                   1,
-                  (NOMINAL_4B_ITEMS_PER_THREAD * 4 / INPUT_SIZE)>::value>::value,
-      value = mpl::is_odd<size_t, ITEMS_PER_THREAD>::value
+                  static_cast<int>(NOMINAL_4B_ITEMS_PER_THREAD * 4 / INPUT_SIZE)>::value>::value,
+      value = mpl::is_odd<int, ITEMS_PER_THREAD>::value
                   ? ITEMS_PER_THREAD
                   : ITEMS_PER_THREAD + 1
     };

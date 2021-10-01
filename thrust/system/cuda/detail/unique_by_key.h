@@ -110,11 +110,11 @@ namespace __unique_by_key {
     {
       value = mpl::min<
           int,
-          NOMINAL_4B_ITEMS_PER_THREAD,
+          static_cast<int>(NOMINAL_4B_ITEMS_PER_THREAD),
           mpl::max<int,
                    1,
-                   (NOMINAL_4B_ITEMS_PER_THREAD * 4 /
-                    sizeof(T))>::value>::value
+                   static_cast<int>(NOMINAL_4B_ITEMS_PER_THREAD * 4 /
+                   sizeof(T))>::value>::value
     };
   };
 

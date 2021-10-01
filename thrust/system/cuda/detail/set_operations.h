@@ -239,9 +239,9 @@ namespace __set_operations {
           mpl::max<
               int,
               1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
+              static_cast<int>(((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
                COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
+                  COMBINED_INPUT_BYTES)>::value>::value,
     };
 
     typedef PtxPolicy<128,
@@ -266,9 +266,9 @@ namespace __set_operations {
           mpl::max<
               int,
               1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
+              static_cast<int>(((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
                COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
+                  COMBINED_INPUT_BYTES)>::value>::value,
     };
 
     typedef PtxPolicy<256,
@@ -293,9 +293,9 @@ namespace __set_operations {
           mpl::max<
               int,
               1,
-              ((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
+              static_cast<int>(((NOMINAL_4B_ITEMS_PER_THREAD * 4) +
                COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
+                  COMBINED_INPUT_BYTES)>::value>::value,
     };
 
     typedef PtxPolicy<512,

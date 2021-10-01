@@ -51,7 +51,7 @@ struct RadixEncoder<char> : public thrust::unary_function<char, unsigned char>
   {
     if(std::numeric_limits<char>::is_signed)
     {
-      return x ^ static_cast<unsigned char>(1) << (8 * sizeof(unsigned char) - 1);
+      return static_cast<unsigned char>(x) ^ static_cast<unsigned char>(1) << (8 * sizeof(unsigned char) - 1);
     }
     else
     {
@@ -66,7 +66,7 @@ struct RadixEncoder<signed char> : public thrust::unary_function<signed char, un
   __host__ __device__
   unsigned char operator()(signed char x) const
   {
-    return x ^ static_cast<unsigned char>(1) << (8 * sizeof(unsigned char) - 1);
+    return static_cast<unsigned char>(x) ^ static_cast<unsigned char>(1) << (8 * sizeof(unsigned char) - 1);
   }
 };
 
@@ -76,7 +76,7 @@ struct RadixEncoder<short> : public thrust::unary_function<short, unsigned short
   __host__ __device__
   unsigned short operator()(short x) const
   {
-    return x ^ static_cast<unsigned short>(1) << (8 * sizeof(unsigned short) - 1);
+    return static_cast<unsigned short>(x) ^ static_cast<unsigned short>(1) << (8 * sizeof(unsigned short) - 1);
   }
 };
 
