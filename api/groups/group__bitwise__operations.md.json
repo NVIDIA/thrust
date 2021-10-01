@@ -1,0 +1,159 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "bitwise_operations",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "bitwise_operations",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "bit_and",
+      "kind": "struct",
+      "name": "bit_and",
+      "refid": "structbit__and",
+      "title": "bit_and",
+      "url": "/thrust/api/classes/structbit__and.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "bit_and< void >",
+      "kind": "struct",
+      "name": "bit_and< void >",
+      "refid": "structbit__and_3_01void_01_4",
+      "title": "bit_and< void >",
+      "url": "/thrust/api/classes/structbit__and_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "bit_or",
+      "kind": "struct",
+      "name": "bit_or",
+      "refid": "structbit__or",
+      "title": "bit_or",
+      "url": "/thrust/api/classes/structbit__or.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "bit_or< void >",
+      "kind": "struct",
+      "name": "bit_or< void >",
+      "refid": "structbit__or_3_01void_01_4",
+      "title": "bit_or< void >",
+      "url": "/thrust/api/classes/structbit__or_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "bit_xor",
+      "kind": "struct",
+      "name": "bit_xor",
+      "refid": "structbit__xor",
+      "title": "bit_xor",
+      "url": "/thrust/api/classes/structbit__xor.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "bit_xor< void >",
+      "kind": "struct",
+      "name": "bit_xor< void >",
+      "refid": "structbit__xor_3_01void_01_4",
+      "title": "bit_xor< void >",
+      "url": "/thrust/api/classes/structbit__xor_3_01void_01_4.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__bitwise__operations",
+  "static": false,
+  "strong": false,
+  "title": "Bitwise Operations",
+  "url": "/thrust/api/groups/group__bitwise__operations.html",
+  "visibility": "public"
+}

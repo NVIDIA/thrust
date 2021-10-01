@@ -1,0 +1,129 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "mr::unsynchronized_pool_resource::block_descriptor",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 162,
+    "bodyFile": "thrust/mr/pool.h",
+    "bodyStart": 159,
+    "column": 1,
+    "file": "thrust/mr/pool.h",
+    "line": 160
+  },
+  "name": "mr::unsynchronized_pool_resource::block_descriptor",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "baseClasses": [
+      {
+        "external": false,
+        "name": "mr::memory_resource< Upstream::pointer >",
+        "refid": "classmr_1_1memory__resource",
+        "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
+        "virtual": "non-virtual",
+        "visibility": "public"
+      },
+      {
+        "external": true,
+        "name": "mr::validator< Upstream >",
+        "virtual": "non-virtual",
+        "visibility": "private"
+      }
+    ],
+    "category": "classes",
+    "fullname": "mr::unsynchronized_pool_resource",
+    "kind": "class",
+    "name": "mr::unsynchronized_pool_resource",
+    "refid": "classmr_1_1unsynchronized__pool__resource",
+    "title": "mr::unsynchronized_pool_resource",
+    "url": "/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "<code>thrust::mr</code> is the namespace containing system agnostic types and functions for <code>memory&#95;resource</code> related functionalities. ",
+      "category": "namespaces",
+      "fullname": "mr",
+      "kind": "namespace",
+      "name": "mr",
+      "refid": "namespacemr",
+      "summary": "thrust::mr is the namespace containing system agnostic types and functions for memory_resource related functionalities. ",
+      "title": "mr",
+      "url": "/thrust/api/namespaces/namespacemr.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "baseClasses": [
+        {
+          "external": false,
+          "name": "mr::memory_resource< Upstream::pointer >",
+          "refid": "classmr_1_1memory__resource",
+          "url": "/thrust/api/classes/classmr_1_1memory__resource.html",
+          "virtual": "non-virtual",
+          "visibility": "public"
+        },
+        {
+          "external": true,
+          "name": "mr::validator< Upstream >",
+          "virtual": "non-virtual",
+          "visibility": "private"
+        }
+      ],
+      "category": "classes",
+      "fullname": "mr::unsynchronized_pool_resource",
+      "kind": "class",
+      "name": "mr::unsynchronized_pool_resource",
+      "refid": "classmr_1_1unsynchronized__pool__resource",
+      "title": "mr::unsynchronized_pool_resource",
+      "url": "/thrust/api/classes/classmr_1_1unsynchronized__pool__resource.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-next",
+      "category": "attributes",
+      "const": false,
+      "definition": "block_descriptor_ptr mr::unsynchronized_pool_resource< Upstream >::block_descriptor::next",
+      "explicit": false,
+      "fullname": "mr::unsynchronized_pool_resource::block_descriptor::next",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/mr/pool.h",
+        "bodyStart": 161,
+        "column": 30,
+        "file": "thrust/mr/pool.h",
+        "line": 161
+      },
+      "name": "next",
+      "override": false,
+      "refid": "structmr_1_1unsynchronized__pool__resource_1_1block__descriptor_1a8651cc08b2abfdf8b99227806b2a578a",
+      "static": false,
+      "strong": false,
+      "title": "next",
+      "type": "block_descriptor_ptr",
+      "typePlain": "block_descriptor_ptr",
+      "url": "/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1block__descriptor.html#variable-next",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structmr_1_1unsynchronized__pool__resource_1_1block__descriptor",
+  "static": false,
+  "strong": false,
+  "title": "mr::unsynchronized_pool_resource::block_descriptor",
+  "url": "/thrust/api/classes/structmr_1_1unsynchronized__pool__resource_1_1block__descriptor.html",
+  "visibility": "private"
+}

@@ -1,0 +1,68 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "utility",
+  "groups": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "pair",
+      "kind": "group",
+      "name": "pair",
+      "refid": "group__pair",
+      "title": "Pair",
+      "url": "/thrust/api/groups/group__pair.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "swap",
+      "kind": "group",
+      "name": "swap",
+      "refid": "group__swap",
+      "title": "Swap",
+      "url": "/thrust/api/groups/group__swap.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "tuple",
+      "kind": "group",
+      "name": "tuple",
+      "refid": "group__tuple",
+      "title": "Tuple",
+      "url": "/thrust/api/groups/group__tuple.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "type_traits",
+      "kind": "group",
+      "name": "type_traits",
+      "refid": "group__type__traits",
+      "title": "Type Traits",
+      "url": "/thrust/api/groups/group__type__traits.html",
+      "visibility": "public"
+    }
+  ],
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "name": "utility",
+  "override": false,
+  "parent": null,
+  "refid": "group__utility",
+  "static": false,
+  "strong": false,
+  "title": "Utility",
+  "url": "/thrust/api/groups/group__utility.html",
+  "visibility": "public"
+}

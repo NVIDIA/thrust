@@ -1,0 +1,336 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "thrust::mr::memory_resource< device_ptr< void > >",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "Memory resource adaptor that turns any memory resource that returns a fancy with the same tag as <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code>, and adapts it to a resource that returns a <code><a href=\"/thrust/api/classes/classdevice__ptr.html\">device&#95;ptr</a></code>. ",
+  "explicit": false,
+  "fullname": "device_ptr_memory_resource",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/device_allocator.h>",
+  "inline": false,
+  "kind": "class",
+  "location": {
+    "bodyEnd": 84,
+    "bodyFile": "thrust/device_allocator.h",
+    "bodyStart": 45,
+    "column": 1,
+    "file": "thrust/device_allocator.h",
+    "line": 49
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "allocators",
+    "kind": "group",
+    "name": "allocators",
+    "refid": "group__allocators",
+    "title": "Allocators",
+    "url": "/thrust/api/groups/group__allocators.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "category": "modules",
+      "fullname": "memory_management",
+      "kind": "group",
+      "name": "memory_management",
+      "refid": "group__memory__management",
+      "summary": "All Thrust functionalities related to memory allocation and deallocation. ",
+      "title": "Memory Management",
+      "url": "/thrust/api/groups/group__memory__management.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "allocators",
+      "kind": "group",
+      "name": "allocators",
+      "refid": "group__allocators",
+      "title": "Allocators",
+      "url": "/thrust/api/groups/group__allocators.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "device_ptr_memory_resource",
+  "override": false,
+  "parent": null,
+  "privateAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-m_upstream",
+      "category": "attributes",
+      "const": false,
+      "definition": "Upstream* device_ptr_memory_resource< Upstream >::m_upstream",
+      "explicit": false,
+      "fullname": "device_ptr_memory_resource::m_upstream",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 83,
+        "column": 15,
+        "file": "thrust/device_allocator.h",
+        "line": 83
+      },
+      "name": "m_upstream",
+      "override": false,
+      "refid": "classdevice__ptr__memory__resource_1a6dddea3c917a920d5623f6e33a63b916",
+      "static": false,
+      "strong": false,
+      "title": "m_upstream",
+      "type": "Upstream *",
+      "typePlain": "Upstream *",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#variable-m_upstream",
+      "visibility": "private"
+    }
+  ],
+  "privateTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-upstream_ptr",
+      "category": "types",
+      "const": false,
+      "definition": "typedef Upstream::pointer device_ptr_memory_resource< Upstream >::upstream_ptr",
+      "explicit": false,
+      "fullname": "device_ptr_memory_resource::upstream_ptr",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 50,
+        "column": 40,
+        "file": "thrust/device_allocator.h",
+        "line": 50
+      },
+      "name": "upstream_ptr",
+      "override": false,
+      "refid": "classdevice__ptr__memory__resource_1a724e1168d8d5e8b96d041a12965eae35",
+      "static": false,
+      "strong": false,
+      "title": "upstream_ptr",
+      "type": "Upstream::pointer",
+      "typePlain": "Upstream::pointer",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#typedef-upstream_ptr",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-device_ptr_memory_resource",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ device_ptr_memory_resource< Upstream >::device_ptr_memory_resource",
+      "deleted": false,
+      "details": "Initialize the adaptor with the global instance of the upstream resource. Obtains the global instance by calling <code>get&#95;global&#95;resource</code>. ",
+      "explicit": false,
+      "fullname": "device_ptr_memory_resource::device_ptr_memory_resource",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 59,
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 57,
+        "column": 5,
+        "file": "thrust/device_allocator.h",
+        "line": 57
+      },
+      "name": "device_ptr_memory_resource",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classdevice__ptr__memory__resource_1a384a59d1b586716034f30616ac13038f",
+      "static": false,
+      "strong": false,
+      "title": "device_ptr_memory_resource",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-device_ptr_memory_resource",
+      "argsString": "(Upstream *upstream)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ device_ptr_memory_resource< Upstream >::device_ptr_memory_resource",
+      "deleted": false,
+      "details": "Initialize the adaptor with an upstream resource.",
+      "explicit": false,
+      "fullname": "device_ptr_memory_resource::device_ptr_memory_resource",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 68,
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 66,
+        "column": 5,
+        "file": "thrust/device_allocator.h",
+        "line": 66
+      },
+      "name": "device_ptr_memory_resource",
+      "override": false,
+      "paramList": [
+        {
+          "name": "upstream",
+          "text": "the upstream memory resource to adapt. "
+        }
+      ],
+      "params": [
+        {
+          "name": "upstream",
+          "type": "Upstream *",
+          "typePlain": "Upstream *"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classdevice__ptr__memory__resource_1a583b8b3274b7a4e199722cd3ff84db61",
+      "static": false,
+      "strong": false,
+      "title": "device_ptr_memory_resource",
+      "type": "__host__",
+      "typePlain": "__host__",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#function-device_ptr_memory_resource",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-do_allocate",
+      "argsString": "(std::size_t bytes, std::size_t alignment=alignof(std::max_align_t)) override",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "virtual __host__ pointer device_ptr_memory_resource< Upstream >::do_allocate",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "device_ptr_memory_resource::do_allocate",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 74,
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 71,
+        "column": 21,
+        "file": "thrust/device_allocator.h",
+        "line": 71
+      },
+      "name": "do_allocate",
+      "override": true,
+      "params": [
+        {
+          "name": "bytes",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        },
+        {
+          "defval": "alignof(std::max_align_t)",
+          "defvalPlain": "alignof(std::max_align_t)",
+          "name": "alignment",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classdevice__ptr__memory__resource_1a74b6cdb935efa10858db7f7eb4451e29",
+      "static": false,
+      "strong": false,
+      "title": "do_allocate",
+      "type": "__host__ pointer",
+      "typePlain": "__host__ pointer",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#function-do_allocate",
+      "virtual": true,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-do_deallocate",
+      "argsString": "(pointer p, std::size_t bytes, std::size_t alignment) override",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "virtual __host__ void device_ptr_memory_resource< Upstream >::do_deallocate",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "device_ptr_memory_resource::do_deallocate",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 80,
+        "bodyFile": "thrust/device_allocator.h",
+        "bodyStart": 77,
+        "column": 18,
+        "file": "thrust/device_allocator.h",
+        "line": 77
+      },
+      "name": "do_deallocate",
+      "override": true,
+      "params": [
+        {
+          "name": "p",
+          "type": "pointer",
+          "typePlain": "pointer"
+        },
+        {
+          "name": "bytes",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        },
+        {
+          "name": "alignment",
+          "type": "std::size_t",
+          "typePlain": "std::size_t"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classdevice__ptr__memory__resource_1a3114e0e3e4822abb36b72f1b5e6e8fcf",
+      "static": false,
+      "strong": false,
+      "title": "do_deallocate",
+      "type": "__host__ void",
+      "typePlain": "__host__ void",
+      "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html#function-do_deallocate",
+      "virtual": true,
+      "visibility": "public"
+    }
+  ],
+  "refid": "classdevice__ptr__memory__resource",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename Upstream",
+      "typePlain": "typename Upstream"
+    }
+  ],
+  "title": "device_ptr_memory_resource",
+  "url": "/thrust/api/classes/classdevice__ptr__memory__resource.html",
+  "visibility": "public"
+}

@@ -1,0 +1,73 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "B",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "detail::conjunction< B >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 198,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 198,
+    "column": 33,
+    "file": "thrust/optional.h",
+    "line": 198
+  },
+  "name": "detail::conjunction< B >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "name": "detail",
+    "refid": "namespacedetail",
+    "summary": "\\exclude ",
+    "title": "detail",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structdetail_1_1conjunction_3_01B_01_4",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class B",
+      "typePlain": "class B"
+    }
+  ],
+  "title": "detail::conjunction< B >",
+  "url": "/thrust/api/classes/structdetail_1_1conjunction_3_01b_01_4.html",
+  "visibility": "public"
+}

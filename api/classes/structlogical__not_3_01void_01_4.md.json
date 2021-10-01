@@ -1,0 +1,158 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "logical_not< void >",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 998,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 998,
+    "column": 32,
+    "file": "thrust/functional.h",
+    "line": 998
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "logical_operations",
+    "kind": "group",
+    "name": "logical_operations",
+    "refid": "group__logical__operations",
+    "title": "Logical Operations",
+    "url": "/thrust/api/groups/group__logical__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "logical_operations",
+      "kind": "group",
+      "name": "logical_operations",
+      "refid": "group__logical__operations",
+      "title": "Logical Operations",
+      "url": "/thrust/api/groups/group__logical__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "logical_not< void >",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(T &&x) const noexcept(noexcept(!THRUST_FWD(x))) THRUST_TRAILING_RETURN(decltype(!THRUST_FWD(x)))",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto logical_not< void >::operator()",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "logical_not< void >::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 998,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 998,
+        "column": 138,
+        "file": "thrust/functional.h",
+        "line": 998
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "x",
+          "type": "T &&",
+          "typePlain": "T &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structlogical__not_3_01void_01_4_1aae85f4b7c1f5608244caa3690e26c704",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/structlogical__not_3_01void_01_4.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-is_transparent",
+      "category": "types",
+      "const": false,
+      "definition": "using logical_not< void >::is_transparent =  void",
+      "explicit": false,
+      "fullname": "logical_not< void >::is_transparent",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 998,
+        "column": 32,
+        "file": "thrust/functional.h",
+        "line": 998
+      },
+      "name": "is_transparent",
+      "override": false,
+      "refid": "structlogical__not_3_01void_01_4_1a535b739406ae31567b9c1904fdda47ca",
+      "static": false,
+      "strong": false,
+      "title": "is_transparent",
+      "type": "void",
+      "typePlain": "void",
+      "url": "/thrust/api/classes/structlogical__not_3_01void_01_4.html#using-is_transparent",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structlogical__not_3_01void_01_4",
+  "static": false,
+  "strong": false,
+  "title": "logical_not< void >",
+  "url": "/thrust/api/classes/structlogical__not_3_01void_01_4.html",
+  "visibility": "public"
+}

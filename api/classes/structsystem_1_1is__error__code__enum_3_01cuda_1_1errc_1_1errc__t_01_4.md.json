@@ -1,0 +1,64 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "true_type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "Specialization of <code><a href=\"/thrust/api/classes/structsystem_1_1is__error__code__enum.html\">is&#95;error&#95;code&#95;enum</a></code> for <code><a href=\"/thrust/api/namespaces/namespacesystem_1_1cuda_1_1errc.html#enum-errc_t\">cuda::errc::errc&#95;t</a></code>",
+  "explicit": false,
+  "fullname": "system::is_error_code_enum< cuda::errc::errc_t >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/system/cuda/error.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 150,
+    "bodyFile": "thrust/system/cuda/error.h",
+    "bodyStart": 150,
+    "column": 62,
+    "file": "thrust/system/cuda/error.h",
+    "line": 150
+  },
+  "name": "system::is_error_code_enum< cuda::errc::errc_t >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "system",
+    "kind": "namespace",
+    "name": "system",
+    "refid": "namespacesystem",
+    "title": "system",
+    "url": "/thrust/api/namespaces/namespacesystem.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "system",
+      "kind": "namespace",
+      "name": "system",
+      "refid": "namespacesystem",
+      "title": "system",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structsystem_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4",
+  "static": false,
+  "strong": false,
+  "title": "system::is_error_code_enum< cuda::errc::errc_t >",
+  "url": "/thrust/api/classes/structsystem_1_1is__error__code__enum_3_01cuda_1_1errc_1_1errc__t_01_4.html",
+  "visibility": "public"
+}

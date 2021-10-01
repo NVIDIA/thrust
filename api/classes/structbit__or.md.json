@@ -1,0 +1,241 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/thrust/api/classes/structbit__or.html\">bit&#95;or</a></code> is a function object. Specifically, it is an Adaptable Binary Function. If <code>f</code> is an object of class <code>bit&#95;and&lt;T&gt;</code>, and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>x|y</code>.\n\n\nThe following code snippet demonstrates how to use <code><a href=\"/thrust/api/classes/structbit__or.html\">bit&#95;or</a></code> to take the bitwise OR of one <a href=\"/thrust/api/classes/classdevice__vector.html\">device_vector</a> of <code>ints</code> by another.\n\n\n\n```cpp\n#include <thrust/device_vector.h>\n#include <thrust/functional.h>\n#include <thrust/sequence.h>\n#include <thrust/fill.h>\n#include <thrust/transform.h>\n...\nconst int N = 1000;\nthrust::device_vector<int> V1(N);\nthrust::device_vector<int> V2(N);\nthrust::device_vector<int> V3(N);\n\nthrust::sequence(V1.begin(), V1.end(), 1);\nthrust::fill(V2.begin(), V2.end(), 13);\n\nthrust::transform(V1.begin(), V1.end(), V2.begin(), V3.begin(),\n                  thrust::bit_or<int>());\n// V3 is now {1|13, 2|13, 3|13, ..., 1000|13}\n```",
+  "explicit": false,
+  "fullname": "bit_or",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 1128,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 1103,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 1104
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "bitwise_operations",
+    "kind": "group",
+    "name": "bitwise_operations",
+    "refid": "group__bitwise__operations",
+    "title": "Bitwise Operations",
+    "url": "/thrust/api/groups/group__bitwise__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "bitwise_operations",
+      "kind": "group",
+      "name": "bitwise_operations",
+      "refid": "group__bitwise__operations",
+      "title": "Bitwise Operations",
+      "url": "/thrust/api/groups/group__bitwise__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "bit_or",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T &lhs, const T &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ T bit_or< T >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>lhs | rhs</code>. ",
+      "explicit": false,
+      "fullname": "bit_or::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 1127,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1124,
+        "column": 15,
+        "file": "thrust/functional.h",
+        "line": 1124
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        },
+        {
+          "name": "rhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structbit__or_1ac7331afe3d23952910e250a3a53e8273",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "url": "/thrust/api/classes/structbit__or.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first_argument_type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "bit_or< T >::first_argument_type",
+      "explicit": false,
+      "fullname": "bit_or::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1108,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1108
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "refid": "structbit__or_1a8082463543e5a999b5f28156e8089491",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structbit__or.html#typedef-first_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second_argument_type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "bit_or< T >::second_argument_type",
+      "explicit": false,
+      "fullname": "bit_or::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1113,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1113
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "refid": "structbit__or_1ad22a61582171bc3481494ac4ee428f71",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structbit__or.html#typedef-second_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result_type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "bit_or< T >::result_type",
+      "explicit": false,
+      "fullname": "bit_or::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 1118,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 1118
+      },
+      "name": "result_type",
+      "override": false,
+      "refid": "structbit__or_1a9ea162455912df7f803e0fc517fe0047",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structbit__or.html#typedef-result_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structbit__or",
+  "see": [
+    "<a href=\"/thrust/api/classes/structbinary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T",
+      "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/CopyAssignable\">Assignable</a>, and if <code>x</code> and <code>y</code> are objects of type <code>T</code>, then <code>x|y</code> must be defined and must have a return type that is convertible to <code>T</code>."
+    }
+  ],
+  "title": "bit_or",
+  "url": "/thrust/api/classes/structbit__or.html",
+  "visibility": "public"
+}

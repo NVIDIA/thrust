@@ -1,0 +1,70 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "system::cuda::ready_future",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyFile": "thrust/system/cuda/future.h",
+    "bodyStart": 24,
+    "column": 1,
+    "file": "thrust/system/cuda/future.h",
+    "line": 24
+  },
+  "name": "system::cuda::ready_future",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "system::cuda",
+    "kind": "namespace",
+    "name": "system::cuda",
+    "refid": "namespacesystem_1_1cuda",
+    "title": "system::cuda",
+    "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "system",
+      "kind": "namespace",
+      "name": "system",
+      "refid": "namespacesystem",
+      "title": "system",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "system::cuda",
+      "kind": "namespace",
+      "name": "system::cuda",
+      "refid": "namespacesystem_1_1cuda",
+      "title": "system::cuda",
+      "url": "/thrust/api/namespaces/namespacesystem_1_1cuda.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structsystem_1_1cuda_1_1ready__future",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "title": "system::cuda::ready_future",
+  "url": "/thrust/api/classes/structsystem_1_1cuda_1_1ready__future.html",
+  "visibility": "public"
+}

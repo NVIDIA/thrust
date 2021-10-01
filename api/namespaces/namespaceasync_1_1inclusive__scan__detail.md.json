@@ -1,0 +1,63 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "namespaces",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "async::inclusive_scan_detail",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "namespace",
+  "location": {
+    "column": 1,
+    "file": "thrust/async/scan.h",
+    "line": 92
+  },
+  "name": "async::inclusive_scan_detail",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "async",
+    "kind": "namespace",
+    "name": "async",
+    "refid": "namespaceasync",
+    "title": "async",
+    "url": "/thrust/api/namespaces/namespaceasync.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "async",
+      "kind": "namespace",
+      "name": "async",
+      "refid": "namespaceasync",
+      "title": "async",
+      "url": "/thrust/api/namespaces/namespaceasync.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "async::inclusive_scan_detail::inclusive_scan_fn",
+      "kind": "struct",
+      "name": "async::inclusive_scan_detail::inclusive_scan_fn",
+      "refid": "structasync_1_1inclusive__scan__detail_1_1inclusive__scan__fn",
+      "title": "async::inclusive_scan_detail::inclusive_scan_fn",
+      "url": "/thrust/api/classes/structasync_1_1inclusive__scan__detail_1_1inclusive__scan__fn.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "namespaceasync_1_1inclusive__scan__detail",
+  "static": false,
+  "strong": false,
+  "title": "async::inclusive_scan_detail",
+  "url": "/thrust/api/namespaces/namespaceasync_1_1inclusive__scan__detail.html",
+  "visibility": "public"
+}

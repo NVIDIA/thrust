@@ -1,0 +1,73 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "true_type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "detail::is_optional_impl< optional< T > >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 282,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 282,
+    "column": 52,
+    "file": "thrust/optional.h",
+    "line": 282
+  },
+  "name": "detail::is_optional_impl< optional< T > >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "name": "detail",
+    "refid": "namespacedetail",
+    "summary": "\\exclude ",
+    "title": "detail",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structdetail_1_1is__optional__impl_3_01optional_3_01T_01_4_01_4",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    }
+  ],
+  "title": "detail::is_optional_impl< optional< T > >",
+  "url": "/thrust/api/classes/structdetail_1_1is__optional__impl_3_01optional_3_01t_01_4_01_4.html",
+  "visibility": "public"
+}

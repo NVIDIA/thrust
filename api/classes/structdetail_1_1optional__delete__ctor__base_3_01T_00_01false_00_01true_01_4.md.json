@@ -1,0 +1,255 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "detail::optional_delete_ctor_base< T, false, true >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 709,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 696,
+    "column": 45,
+    "file": "thrust/optional.h",
+    "line": 696
+  },
+  "name": "detail::optional_delete_ctor_base< T, false, true >",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "name": "detail",
+    "refid": "namespacedetail",
+    "summary": "\\exclude ",
+    "title": "detail",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-optional_delete_ctor_base",
+      "argsString": "()=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ detail::optional_delete_ctor_base< T, false, true >::optional_delete_ctor_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_delete_ctor_base< T, false, true >::optional_delete_ctor_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 698
+      },
+      "name": "optional_delete_ctor_base",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4_1a50155925b452da7caccebe300cd9b3c2",
+      "static": false,
+      "strong": false,
+      "title": "optional_delete_ctor_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html#function-optional_delete_ctor_base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional_delete_ctor_base",
+      "argsString": "(const optional_delete_ctor_base &)=delete",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ detail::optional_delete_ctor_base< T, false, true >::optional_delete_ctor_base",
+      "deleted": true,
+      "explicit": false,
+      "fullname": "detail::optional_delete_ctor_base< T, false, true >::optional_delete_ctor_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 700
+      },
+      "name": "optional_delete_ctor_base",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "const optional_delete_ctor_base &",
+          "typePlain": "const optional_delete_ctor_base &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4_1ab34f01c0e370d54915334d36ec240570",
+      "static": false,
+      "strong": false,
+      "title": "optional_delete_ctor_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html#function-optional_delete_ctor_base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional_delete_ctor_base",
+      "argsString": "(optional_delete_ctor_base &&) noexcept=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ detail::optional_delete_ctor_base< T, false, true >::optional_delete_ctor_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_delete_ctor_base< T, false, true >::optional_delete_ctor_base",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 702
+      },
+      "name": "optional_delete_ctor_base",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "optional_delete_ctor_base &&",
+          "typePlain": "optional_delete_ctor_base &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4_1aac97aefc6a1a0af63a3c104d0eff0cdf",
+      "static": false,
+      "strong": false,
+      "title": "optional_delete_ctor_base",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html#function-optional_delete_ctor_base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const optional_delete_ctor_base &)=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ optional_delete_ctor_base& detail::optional_delete_ctor_base< T, false, true >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_delete_ctor_base< T, false, true >::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 705
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "const optional_delete_ctor_base &",
+          "typePlain": "const optional_delete_ctor_base &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4_1a1e9a88ac8eb18caba04231d6130608e2",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ optional_delete_ctor_base &",
+      "typePlain": "__thrust_exec_check_disable__ optional_delete_ctor_base &",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(optional_delete_ctor_base &&) noexcept=default",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ optional_delete_ctor_base& detail::optional_delete_ctor_base< T, false, true >::operator=",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_delete_ctor_base< T, false, true >::operator=",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 708
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "optional_delete_ctor_base &&",
+          "typePlain": "optional_delete_ctor_base &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4_1afad733b7e7f96657f0970d5d7cdb484e",
+      "static": false,
+      "strong": false,
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ optional_delete_ctor_base &",
+      "typePlain": "__thrust_exec_check_disable__ optional_delete_ctor_base &",
+      "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structdetail_1_1optional__delete__ctor__base_3_01T_00_01false_00_01true_01_4",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    }
+  ],
+  "title": "detail::optional_delete_ctor_base< T, false, true >",
+  "url": "/thrust/api/classes/structdetail_1_1optional__delete__ctor__base_3_01t_00_01false_00_01true_01_4.html",
+  "visibility": "public"
+}

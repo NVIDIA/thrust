@@ -1,0 +1,159 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "logical_operations",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "logical_operations",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "predefined_function_objects",
+    "kind": "group",
+    "name": "predefined_function_objects",
+    "refid": "group__predefined__function__objects",
+    "title": "Predefined Function Objects",
+    "url": "/thrust/api/groups/group__predefined__function__objects.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "logical_and",
+      "kind": "struct",
+      "name": "logical_and",
+      "refid": "structlogical__and",
+      "title": "logical_and",
+      "url": "/thrust/api/classes/structlogical__and.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "logical_and< void >",
+      "kind": "struct",
+      "name": "logical_and< void >",
+      "refid": "structlogical__and_3_01void_01_4",
+      "title": "logical_and< void >",
+      "url": "/thrust/api/classes/structlogical__and_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "logical_or",
+      "kind": "struct",
+      "name": "logical_or",
+      "refid": "structlogical__or",
+      "title": "logical_or",
+      "url": "/thrust/api/classes/structlogical__or.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "logical_or< void >",
+      "kind": "struct",
+      "name": "logical_or< void >",
+      "refid": "structlogical__or_3_01void_01_4",
+      "title": "logical_or< void >",
+      "url": "/thrust/api/classes/structlogical__or_3_01void_01_4.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "logical_not",
+      "kind": "struct",
+      "name": "logical_not",
+      "refid": "structlogical__not",
+      "title": "logical_not",
+      "url": "/thrust/api/classes/structlogical__not.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "logical_not< void >",
+      "kind": "struct",
+      "name": "logical_not< void >",
+      "refid": "structlogical__not_3_01void_01_4",
+      "title": "logical_not< void >",
+      "url": "/thrust/api/classes/structlogical__not_3_01void_01_4.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__logical__operations",
+  "static": false,
+  "strong": false,
+  "title": "Logical Operations",
+  "url": "/thrust/api/groups/group__logical__operations.html",
+  "visibility": "public"
+}

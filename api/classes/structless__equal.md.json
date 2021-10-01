@@ -1,0 +1,242 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code><a href=\"/thrust/api/classes/structless__equal.html\">less&#95;equal</a></code> is a function object. Specifically, it is an Adaptable Binary Predicate, which means it is a function object that tests the truth or falsehood of some condition. If <code>f</code> is an object of class <code>less&#95;equal&lt;T&gt;</code> and <code>x</code> and <code>y</code> are objects of class <code>T</code>, then <code>f(x,y)</code> returns <code>true</code> if <code>x &lt;= y</code> and <code>false</code> otherwise.",
+  "explicit": false,
+  "fullname": "less_equal",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/functional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 850,
+    "bodyFile": "thrust/functional.h",
+    "bodyStart": 825,
+    "column": 1,
+    "file": "thrust/functional.h",
+    "line": 826
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "comparison_operations",
+    "kind": "group",
+    "name": "comparison_operations",
+    "refid": "group__comparison__operations",
+    "title": "Comparison Operations",
+    "url": "/thrust/api/groups/group__comparison__operations.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "function_objects",
+      "kind": "group",
+      "name": "function_objects",
+      "refid": "group__function__objects",
+      "title": "Function Objects",
+      "url": "/thrust/api/groups/group__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "predefined_function_objects",
+      "kind": "group",
+      "name": "predefined_function_objects",
+      "refid": "group__predefined__function__objects",
+      "title": "Predefined Function Objects",
+      "url": "/thrust/api/groups/group__predefined__function__objects.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "comparison_operations",
+      "kind": "group",
+      "name": "comparison_operations",
+      "refid": "group__comparison__operations",
+      "title": "Comparison Operations",
+      "url": "/thrust/api/groups/group__comparison__operations.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "less_equal",
+  "override": false,
+  "parent": null,
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-operator()",
+      "argsString": "(const T &lhs, const T &rhs) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool less_equal< T >::operator()",
+      "deleted": false,
+      "details": "Function call operator. The return value is <code>lhs &lt;= rhs</code>. ",
+      "explicit": false,
+      "fullname": "less_equal::operator()",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 849,
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 846,
+        "column": 18,
+        "file": "thrust/functional.h",
+        "line": 846
+      },
+      "name": "operator()",
+      "override": false,
+      "params": [
+        {
+          "name": "lhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        },
+        {
+          "name": "rhs",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structless__equal_1a42b48a81ced36c85669c38ebf50521f6",
+      "static": false,
+      "strong": false,
+      "title": "operator()",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "url": "/thrust/api/classes/structless__equal.html#function-operator()",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#typedef-first_argument_type",
+      "brief": "The type of the function object's first argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "less_equal< T >::first_argument_type",
+      "explicit": false,
+      "fullname": "less_equal::first_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 830,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 830
+      },
+      "name": "first_argument_type",
+      "override": false,
+      "refid": "structless__equal_1a083f3b2cee01d36f84f488d2dac28e5d",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's first argument. ",
+      "title": "first_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structless__equal.html#typedef-first_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-second_argument_type",
+      "brief": "The type of the function object's second argument. ",
+      "category": "types",
+      "const": false,
+      "definition": "less_equal< T >::second_argument_type",
+      "explicit": false,
+      "fullname": "less_equal::second_argument_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 835,
+        "column": 13,
+        "file": "thrust/functional.h",
+        "line": 835
+      },
+      "name": "second_argument_type",
+      "override": false,
+      "refid": "structless__equal_1a52daabb187f40ce56c024024b067537a",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's second argument. ",
+      "title": "second_argument_type",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structless__equal.html#typedef-second_argument_type",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#typedef-result_type",
+      "brief": "The type of the function object's result;. ",
+      "category": "types",
+      "const": false,
+      "definition": "less_equal< T >::result_type",
+      "explicit": false,
+      "fullname": "less_equal::result_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "typedef",
+      "location": {
+        "bodyFile": "thrust/functional.h",
+        "bodyStart": 840,
+        "column": 16,
+        "file": "thrust/functional.h",
+        "line": 840
+      },
+      "name": "result_type",
+      "override": false,
+      "refid": "structless__equal_1ae24e14826f34ff906921c89f565768e9",
+      "static": false,
+      "strong": false,
+      "summary": "The type of the function object's result;. ",
+      "title": "result_type",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "/thrust/api/classes/structless__equal.html#typedef-result_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structless__equal",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/utility/functional/less_equal\">https://en.cppreference.com/w/cpp/utility/functional/less_equal</a>",
+    "<a href=\"/thrust/api/classes/structbinary__function.html\">binary_function</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "defval": "void",
+      "defvalPlain": "void",
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "templateParamsList": [
+    {
+      "name": "T",
+      "text": "is a model of <a href=\"https://en.cppreference.com/w/cpp/named_req/LessThanComparable\">LessThan Comparable</a>."
+    }
+  ],
+  "title": "less_equal",
+  "url": "/thrust/api/classes/structless__equal.html",
+  "visibility": "public"
+}

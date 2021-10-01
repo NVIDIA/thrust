@@ -1,0 +1,113 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "<a href=\"https://en.cppreference.com/w/cpp/named_req/UnaryTypeTrait\">_UnaryTypeTrait_</a> that removes <a href=\"https://en.cppreference.com/w/cpp/language/cv\">const-volatile qualifiers</a> and <a href=\"https://en.cppreference.com/w/cpp/language/reference\">references</a> from <code>T</code>. Equivalent to <code>remove&#95;cv&#95;t&lt;remove&#95;reference&#95;t&lt;T&gt;&gt;</code>. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "remove_cvref",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/type_traits/remove_cvref.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 67,
+    "bodyFile": "thrust/type_traits/remove_cvref.h",
+    "bodyStart": 62,
+    "column": 1,
+    "file": "thrust/type_traits/remove_cvref.h",
+    "line": 63
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "type_traits",
+    "kind": "group",
+    "name": "type_traits",
+    "refid": "group__type__traits",
+    "title": "Type Traits",
+    "url": "/thrust/api/groups/group__type__traits.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "utility",
+      "kind": "group",
+      "name": "utility",
+      "refid": "group__utility",
+      "title": "Utility",
+      "url": "/thrust/api/groups/group__utility.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "type_traits",
+      "kind": "group",
+      "name": "type_traits",
+      "refid": "group__type__traits",
+      "title": "Type Traits",
+      "url": "/thrust/api/groups/group__type__traits.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "remove_cvref",
+  "override": false,
+  "parent": null,
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-type",
+      "category": "types",
+      "const": false,
+      "definition": "using remove_cvref< T >::type =  typename std::remove_cv< typename std::remove_reference<T>::type >::type",
+      "explicit": false,
+      "fullname": "remove_cvref::type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/type_traits/remove_cvref.h",
+        "bodyStart": 66,
+        "column": 3,
+        "file": "thrust/type_traits/remove_cvref.h",
+        "line": 64
+      },
+      "name": "type",
+      "override": false,
+      "refid": "structremove__cvref_1a4fba0900da0b14933f28c9df774e832a",
+      "static": false,
+      "strong": false,
+      "title": "type",
+      "type": "typename std::remove_cv< typename std::remove_reference< T >::type >::type",
+      "typePlain": "typename std::remove_cv< typename std::remove_reference< T >::type >::type",
+      "url": "/thrust/api/classes/structremove__cvref.html#using-type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structremove__cvref",
+  "see": [
+    "<a href=\"https://en.cppreference.com/w/cpp/types/remove_cvref\">std::remove_cvref</a>",
+    "<a href=\"https://en.cppreference.com/w/cpp/types/remove_cv\">std::remove_cv</a>",
+    "<a href=\"https://en.cppreference.com/w/cpp/types/remove_cv\">std::remove_const</a>",
+    "<a href=\"https://en.cppreference.com/w/cpp/types/remove_cv\">std::remove_volatile</a>",
+    "<a href=\"https://en.cppreference.com/w/cpp/types/remove_cv\">std::remove_reference</a>"
+  ],
+  "static": false,
+  "strong": false,
+  "summary": "UnaryTypeTrait that removes const-volatile qualifiers and references from T. Equivalent to remove_cv_t<remove_reference_t<T>>. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "title": "remove_cvref",
+  "url": "/thrust/api/classes/structremove__cvref.html",
+  "visibility": "public"
+}

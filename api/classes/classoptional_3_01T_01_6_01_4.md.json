@@ -1,0 +1,3094 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "Specialization for when <code>T</code> is a reference. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "<code>optional&lt;T&&gt;</code> acts similarly to a <code>T&#42;</code>, but provides more operations and shows intent more clearly.\n\n_Examples_:\n\n\n\n```cpp\nint i = 42;\nthrust::optional<int&> o = i;\n*o == 42; //true\ni = 12;\n*o = 12; //true\n&*o == &i; //true\n```\n\nAssignment has rebind semantics rather than assign-through semantics:\n\n\n\n```cpp\nint j = 8;\no = j;\n\n&*o == &j; //true\n```",
+  "explicit": false,
+  "fullname": "optional< T & >",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/optional.h>",
+  "inline": false,
+  "kind": "class",
+  "location": {
+    "bodyEnd": 2869,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 2126,
+    "column": 28,
+    "file": "thrust/optional.h",
+    "line": 2126
+  },
+  "name": "optional< T & >",
+  "override": false,
+  "parent": null,
+  "privateAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-m_value",
+      "category": "attributes",
+      "const": false,
+      "definition": "T* optional< T & >::m_value",
+      "explicit": false,
+      "fullname": "optional< T & >::m_value",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2868,
+        "column": 5,
+        "file": "thrust/optional.h",
+        "line": 2868
+      },
+      "name": "m_value",
+      "override": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a16b656e3e7d7a2875c40e9e6898c5d54",
+      "static": false,
+      "strong": false,
+      "title": "m_value",
+      "type": "T *",
+      "typePlain": "T *",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#variable-m_value",
+      "visibility": "private"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-and_then",
+      "argsString": "(F &&f) &",
+      "brief": "\\group and_then Carries out some operation which returns an optional on the stored object if there is one. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T & >::and_then",
+      "deleted": false,
+      "details": "\\requires <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value\">value()</a>)</code> returns a <code>std::optional&lt;U&gt;</code> for some <code>U</code>. ",
+      "explicit": false,
+      "fullname": "optional< T & >::and_then",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2154,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2147,
+        "column": 20,
+        "file": "thrust/optional.h",
+        "line": 2147
+      },
+      "name": "and_then",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aee4dc22845b36b34944d859fc843c3a0",
+      "returns": [
+        "Let <code>U</code> be the result of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value\">value()</a>)</code>. Returns a <code>std::optional&lt;U&gt;</code>. The return value is empty if <code>&#42;this</code> is empty, otherwise the return value of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value\">value()</a>)</code> is returned. \\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) &; "
+      ],
+      "static": false,
+      "strong": false,
+      "summary": "\\group and_then Carries out some operation which returns an optional on the stored object if there is one. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "and_then",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-and_then",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-and_then",
+      "argsString": "(F &&f) &&",
+      "brief": "\\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) &&; ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T & >::and_then",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::and_then",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2168,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2161,
+        "column": 20,
+        "file": "thrust/optional.h",
+        "line": 2161
+      },
+      "name": "and_then",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a8c9b141e4dca983b387d622e1b612e93",
+      "static": false,
+      "strong": false,
+      "summary": "\\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) &&; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "and_then",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-and_then",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-and_then",
+      "argsString": "(F &&f) const &",
+      "brief": "\\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) const &; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T & >::and_then",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::and_then",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2182,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2175,
+        "column": 18,
+        "file": "thrust/optional.h",
+        "line": 2175
+      },
+      "name": "and_then",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aa0b6fcb9e7ecebd6e3e240266d673621",
+      "static": false,
+      "strong": false,
+      "summary": "\\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) const &; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "and_then",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-and_then",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-and_then",
+      "argsString": "(F &&f) const &&",
+      "brief": "\\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) const &&; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T & >::and_then",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::and_then",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2197,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2190,
+        "column": 18,
+        "file": "thrust/optional.h",
+        "line": 2190
+      },
+      "name": "and_then",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a478773a5dce718e46539ec6b2434bef7",
+      "static": false,
+      "strong": false,
+      "summary": "\\group and_then \\synopsis template <class F>\\nconstexpr auto and_then(F &&f) const &&; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "and_then",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-and_then",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map",
+      "argsString": "(F &&f) &",
+      "brief": "Carries out some operation on the stored object if there is one. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T & >::map",
+      "deleted": false,
+      "details": "\n\\group map \\synopsis template <class F> constexpr auto map(F &&f) &; ",
+      "explicit": false,
+      "fullname": "optional< T & >::map",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2283,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2281,
+        "column": 20,
+        "file": "thrust/optional.h",
+        "line": 2281
+      },
+      "name": "map",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1adaf248f67270c25a58665d6ba3b3ff96",
+      "returns": [
+        "Let <code>U</code> be the result of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value\">value()</a>)</code>. Returns a <code>std::optional&lt;U&gt;</code>. The return value is empty if <code>&#42;this</code> is empty, otherwise an <code>optional&lt;U&gt;</code> is constructed from the return value of <code>std::invoke(std::forward&lt;F&gt;(f), <a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value\">value()</a>)</code> and is returned."
+      ],
+      "static": false,
+      "strong": false,
+      "summary": "Carries out some operation on the stored object if there is one. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "map",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map",
+      "argsString": "(F &&f) &&",
+      "brief": "\\group map \\synopsis template <class F> constexpr auto map(F &&f) &&; ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T & >::map",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2292,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2290,
+        "column": 20,
+        "file": "thrust/optional.h",
+        "line": 2290
+      },
+      "name": "map",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ad9ff1412fa31df09c514f014c091219f",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map \\synopsis template <class F> constexpr auto map(F &&f) &&; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "map",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map",
+      "argsString": "(F &&f) const &",
+      "brief": "\\group map \\synopsis template <class F> constexpr auto map(F &&f) const&; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T & >::map",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2301,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2299,
+        "column": 18,
+        "file": "thrust/optional.h",
+        "line": 2299
+      },
+      "name": "map",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ad043597b6c5181821696b294669ca627",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map \\synopsis template <class F> constexpr auto map(F &&f) const&; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "map",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map",
+      "argsString": "(F &&f) const &&",
+      "brief": "\\group map \\synopsis template <class F> constexpr auto map(F &&f) const&&; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto optional< T & >::map",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2310,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2308,
+        "column": 18,
+        "file": "thrust/optional.h",
+        "line": 2308
+      },
+      "name": "map",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aecb056a5d342d1e7a4e425dc3616acc5",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map \\synopsis template <class F> constexpr auto map(F &&f) const&&; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        }
+      ],
+      "title": "map",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ auto",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-or_else",
+      "argsString": "(F &&f) &",
+      "brief": "Calls <code>f</code> if the optional is empty \\requires <code>std::invoke&#95;result&#95;t&lt;F&gt;</code> must be void or convertible to <code>optional&lt;T&gt;</code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional<T> optional< T & >::or_else",
+      "deleted": false,
+      "details": "\\effects If <code>&#42;this</code> has a value, returns <code>&#42;this</code>. Otherwise, if <code>f</code> returns <code>void</code>, calls <code>std::forward&lt;F&gt;(f)</code> and returns <code>std::nullopt</code>. Otherwise, returns <code>std::forward&lt;F&gt;(f)()</code>.\n\n\\group or_else \\synopsis template <class F> optional<T> or_else (F &&f) &; ",
+      "explicit": false,
+      "fullname": "optional< T & >::or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2384,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2378,
+        "column": 15,
+        "file": "thrust/optional.h",
+        "line": 2378
+      },
+      "name": "or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aa527f1162245788bd7799d02aef95272",
+      "static": false,
+      "strong": false,
+      "summary": "Calls f if the optional is empty \\requires std::invoke_result_t<F> must be void or convertible to optional<T>. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_ret_void< F > *",
+          "typePlain": "detail::enable_if_ret_void< F > *"
+        }
+      ],
+      "title": "or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional< T >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-or_else",
+      "argsString": "(F &&f) &",
+      "brief": "\\exclude ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional<T> optional< T & >::or_else",
+      "deleted": false,
+      "details": "\\effects If <code>&#42;this</code> has a value, returns <code>&#42;this</code>. Otherwise, if <code>f</code> returns <code>void</code>, calls <code>std::forward&lt;F&gt;(f)</code> and returns <code>std::nullopt</code>. Otherwise, returns <code>std::forward&lt;F&gt;(f)()</code>.\n\n\\group or_else \\synopsis template <class F> optional<T> or_else (F &&f) &; ",
+      "explicit": false,
+      "fullname": "optional< T & >::or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2384,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2378,
+        "column": 15,
+        "file": "thrust/optional.h",
+        "line": 2378
+      },
+      "name": "or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aa527f1162245788bd7799d02aef95272",
+      "static": false,
+      "strong": false,
+      "summary": "\\exclude ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_ret_void< F > *",
+          "typePlain": "detail::enable_if_ret_void< F > *"
+        }
+      ],
+      "title": "or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional< T >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-or_else",
+      "argsString": "(F &&f) &&",
+      "brief": "\\group or_else \\synopsis template <class F> optional<T> or_else (F &&f) &&; ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional<T> optional< T & >::or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2406,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2400,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2400
+      },
+      "name": "or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a8c5dba5e2b06cc034ca036862114aa6f",
+      "static": false,
+      "strong": false,
+      "summary": "\\group or_else \\synopsis template <class F> optional<T> or_else (F &&f) &&; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_ret_void< F > *",
+          "typePlain": "detail::enable_if_ret_void< F > *"
+        }
+      ],
+      "title": "or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional< T >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-or_else",
+      "argsString": "(F &&f) &&",
+      "brief": "\\exclude ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional<T> optional< T & >::or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2414,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2412,
+        "column": 24,
+        "file": "thrust/optional.h",
+        "line": 2412
+      },
+      "name": "or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a93bd871b5d2dca535aeaeba17b18183d",
+      "static": false,
+      "strong": false,
+      "summary": "\\exclude ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::disable_if_ret_void< F > *",
+          "typePlain": "detail::disable_if_ret_void< F > *"
+        }
+      ],
+      "title": "or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional< T >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-or_else",
+      "argsString": "(F &&f) const &",
+      "brief": "\\group or_else \\synopsis template <class F> optional<T> or_else (F &&f) const &; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional<T> optional< T & >::or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2427,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2421,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2421
+      },
+      "name": "or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a42acab6c3ad49da1ca8e48550fa1d72b",
+      "static": false,
+      "strong": false,
+      "summary": "\\group or_else \\synopsis template <class F> optional<T> or_else (F &&f) const &; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_ret_void< F > *",
+          "typePlain": "detail::enable_if_ret_void< F > *"
+        }
+      ],
+      "title": "or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional< T >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-or_else",
+      "argsString": "(F &&f) const &",
+      "brief": "\\exclude ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional<T> optional< T & >::or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2435,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2433,
+        "column": 24,
+        "file": "thrust/optional.h",
+        "line": 2433
+      },
+      "name": "or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a9349b2dcc1e34dd5ea649ea94f54d988",
+      "static": false,
+      "strong": false,
+      "summary": "\\exclude ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::disable_if_ret_void< F > *",
+          "typePlain": "detail::disable_if_ret_void< F > *"
+        }
+      ],
+      "title": "or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ constexpr <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ constexpr optional< T >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-or_else",
+      "argsString": "(F &&f) const &&",
+      "brief": "\\exclude ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional<T> optional< T & >::or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2448,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2442,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2442
+      },
+      "name": "or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1af5997a92d9b51c838cbc6fbb021e95cd",
+      "static": false,
+      "strong": false,
+      "summary": "\\exclude ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_ret_void< F > *",
+          "typePlain": "detail::enable_if_ret_void< F > *"
+        }
+      ],
+      "title": "or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional< T >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-or_else",
+      "argsString": "(F &&f) const &&",
+      "brief": "\\exclude ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional<T> optional< T & >::or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2448,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2442,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2442
+      },
+      "name": "or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1af5997a92d9b51c838cbc6fbb021e95cd",
+      "static": false,
+      "strong": false,
+      "summary": "\\exclude ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_ret_void< F > *",
+          "typePlain": "detail::enable_if_ret_void< F > *"
+        }
+      ],
+      "title": "or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< T >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional< T >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map_or",
+      "argsString": "(F &&f, U &&u) &",
+      "brief": "Maps the stored value with <code>f</code> if there is one, otherwise returns <code>u</code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ U optional< T & >::map_or",
+      "deleted": false,
+      "details": "If there is a value stored, then <code>f</code> is called with <code>&#42;&#42;this</code> and the value is returned. Otherwise <code>u</code> is returned.\n\n\\group map_or ",
+      "explicit": false,
+      "fullname": "optional< T & >::map_or",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2472,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2469,
+        "column": 5,
+        "file": "thrust/optional.h",
+        "line": 2469
+      },
+      "name": "map_or",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        },
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a10d88675a350212439ae2fe6cd1c1d36",
+      "static": false,
+      "strong": false,
+      "summary": "Maps the stored value with f if there is one, otherwise returns u. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "map_or",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ U",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ U",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map_or",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map_or",
+      "argsString": "(F &&f, U &&u) &&",
+      "brief": "\\group map_or ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ U optional< T & >::map_or",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map_or",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2481,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2478,
+        "column": 5,
+        "file": "thrust/optional.h",
+        "line": 2478
+      },
+      "name": "map_or",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        },
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a6061998b5382db35278376fc921d263e",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map_or ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "map_or",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ U",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ U",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map_or",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map_or",
+      "argsString": "(F &&f, U &&u) const &",
+      "brief": "\\group map_or ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ U optional< T & >::map_or",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map_or",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2490,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2487,
+        "column": 5,
+        "file": "thrust/optional.h",
+        "line": 2487
+      },
+      "name": "map_or",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        },
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1abb04bbf4176ebac68961bdfa37e6321a",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map_or ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "map_or",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ U",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ U",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map_or",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map_or",
+      "argsString": "(F &&f, U &&u) const &&",
+      "brief": "\\group map_or ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ U optional< T & >::map_or",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map_or",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2500,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2497,
+        "column": 5,
+        "file": "thrust/optional.h",
+        "line": 2497
+      },
+      "name": "map_or",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        },
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a02f5a20aacdf6e055fac012c55d01d5f",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map_or ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "map_or",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ U",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ U",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map_or",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map_or_else",
+      "argsString": "(F &&f, U &&u) &",
+      "brief": "Maps the stored value with <code>f</code> if there is one, otherwise calls <code>u</code> and returns the result. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t<U> optional< T & >::map_or_else",
+      "deleted": false,
+      "details": "If there is a value stored, then <code>f</code> is called with <code>&#42;&#42;this</code> and the value is returned. Otherwise <code>std::forward&lt;U&gt;(u)()</code> is returned.\n\n\\group map_or_else \\synopsis template <class F, class U>\\nauto map_or_else(F &&f, U &&u) &; ",
+      "explicit": false,
+      "fullname": "optional< T & >::map_or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2518,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2515,
+        "column": 27,
+        "file": "thrust/optional.h",
+        "line": 2515
+      },
+      "name": "map_or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        },
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ac4aec6d2323dd8f24b2aa4087d4bf6f2",
+      "static": false,
+      "strong": false,
+      "summary": "Maps the stored value with f if there is one, otherwise calls u and returns the result. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "map_or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map_or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map_or_else",
+      "argsString": "(F &&f, U &&u) &&",
+      "brief": "\\group map_or_else \\synopsis template <class F, class U>\\nauto map_or_else(F &&f, U &&u) &&; ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t<U> optional< T & >::map_or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map_or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2529,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2526,
+        "column": 27,
+        "file": "thrust/optional.h",
+        "line": 2526
+      },
+      "name": "map_or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        },
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1abe561bf220d9221fbf3e58eb965a2a32",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map_or_else \\synopsis template <class F, class U>\\nauto map_or_else(F &&f, U &&u) &&; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "map_or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map_or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map_or_else",
+      "argsString": "(F &&f, U &&u) const &",
+      "brief": "\\group map_or_else \\synopsis template <class F, class U>\\nauto map_or_else(F &&f, U &&u) const &; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t<U> optional< T & >::map_or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map_or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2540,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2537,
+        "column": 27,
+        "file": "thrust/optional.h",
+        "line": 2537
+      },
+      "name": "map_or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        },
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aec6d84b9e1bfef2e1d247969e9f6ea7f",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map_or_else \\synopsis template <class F, class U>\\nauto map_or_else(F &&f, U &&u) const &; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "map_or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map_or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-map_or_else",
+      "argsString": "(F &&f, U &&u) const &&",
+      "brief": "\\group map_or_else \\synopsis template <class F, class U>\\nauto map_or_else(F &&f, U &&u) const &&; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t<U> optional< T & >::map_or_else",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::map_or_else",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2552,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2549,
+        "column": 27,
+        "file": "thrust/optional.h",
+        "line": 2549
+      },
+      "name": "map_or_else",
+      "override": false,
+      "params": [
+        {
+          "name": "f",
+          "type": "F &&",
+          "typePlain": "F &&"
+        },
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a0a6e830b2f4b5ca13834560c764f675d",
+      "static": false,
+      "strong": false,
+      "summary": "\\group map_or_else \\synopsis template <class F, class U>\\nauto map_or_else(F &&f, U &&u) const &&; ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class F",
+          "typePlain": "class F"
+        },
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "map_or_else",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ detail::invoke_result_t< U >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-map_or_else",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-conjunction",
+      "argsString": "(U &&u) const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional<typename std::decay<U>::type> optional< T & >::conjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::conjunction",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2562,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2559,
+        "column": 23,
+        "file": "thrust/optional.h",
+        "line": 2559
+      },
+      "name": "conjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a3a24d1386bd7a533552314a09a2ef673",
+      "returns": [
+        "<code>u</code> if <code>&#42;this</code> has a value, otherwise an empty optional. "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "conjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< typename std::decay< U >::type >",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< typename std::decay< U >::type >",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-conjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-disjunction",
+      "argsString": "(const optional &rhs) &",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional optional< T & >::disjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::disjunction",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2570,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2568,
+        "column": 24,
+        "file": "thrust/optional.h",
+        "line": 2568
+      },
+      "name": "disjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+          "typePlain": "const optional &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a27bc5c56f0e62cbf7e95e7a960427a73",
+      "returns": [
+        "<code>rhs</code> if <code>&#42;this</code> is empty, otherwise the current value. \\group disjunction "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "disjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-disjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-disjunction",
+      "argsString": "(const optional &rhs) const &",
+      "brief": "\\group disjunction ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional optional< T & >::disjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::disjunction",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2577,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2575,
+        "column": 22,
+        "file": "thrust/optional.h",
+        "line": 2575
+      },
+      "name": "disjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+          "typePlain": "const optional &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a4fe1e0cf58e8a09ee4f3f69ff3efd094",
+      "static": false,
+      "strong": false,
+      "summary": "\\group disjunction ",
+      "title": "disjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-disjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-disjunction",
+      "argsString": "(const optional &rhs) &&",
+      "brief": "\\group disjunction ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional optional< T & >::disjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::disjunction",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2584,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2582,
+        "column": 24,
+        "file": "thrust/optional.h",
+        "line": 2582
+      },
+      "name": "disjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+          "typePlain": "const optional &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a95a64dc74bf9523ca46c65e57643eb45",
+      "static": false,
+      "strong": false,
+      "summary": "\\group disjunction ",
+      "title": "disjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-disjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-disjunction",
+      "argsString": "(const optional &rhs) const &&",
+      "brief": "\\group disjunction ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional optional< T & >::disjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::disjunction",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2592,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2590,
+        "column": 22,
+        "file": "thrust/optional.h",
+        "line": 2590
+      },
+      "name": "disjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+          "typePlain": "const optional &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ab3910d03de433abade7e83074258f282",
+      "static": false,
+      "strong": false,
+      "summary": "\\group disjunction ",
+      "title": "disjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-disjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-disjunction",
+      "argsString": "(optional &&rhs) &",
+      "brief": "\\group disjunction ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional optional< T & >::disjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::disjunction",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2600,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2598,
+        "column": 24,
+        "file": "thrust/optional.h",
+        "line": 2598
+      },
+      "name": "disjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
+          "typePlain": "optional &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ad1241ef4dee0e42c6d93050aabb1cf75",
+      "static": false,
+      "strong": false,
+      "summary": "\\group disjunction ",
+      "title": "disjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-disjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-disjunction",
+      "argsString": "(optional &&rhs) const &",
+      "brief": "\\group disjunction ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional optional< T & >::disjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::disjunction",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2607,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2605,
+        "column": 22,
+        "file": "thrust/optional.h",
+        "line": 2605
+      },
+      "name": "disjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
+          "typePlain": "optional &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1acacc399d4e3c2c69303c357e97afe9c0",
+      "static": false,
+      "strong": false,
+      "summary": "\\group disjunction ",
+      "title": "disjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-disjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-disjunction",
+      "argsString": "(optional &&rhs) &&",
+      "brief": "\\group disjunction ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional optional< T & >::disjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::disjunction",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2614,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2612,
+        "column": 24,
+        "file": "thrust/optional.h",
+        "line": 2612
+      },
+      "name": "disjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
+          "typePlain": "optional &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a86b2c3e6a402f659f3b8f02b81878d04",
+      "static": false,
+      "strong": false,
+      "summary": "\\group disjunction ",
+      "title": "disjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-disjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-disjunction",
+      "argsString": "(optional &&rhs) const &&",
+      "brief": "\\group disjunction ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional optional< T & >::disjunction",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::disjunction",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2622,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2620,
+        "column": 22,
+        "file": "thrust/optional.h",
+        "line": 2620
+      },
+      "name": "disjunction",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
+          "typePlain": "optional &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a269820ad56728cf1dad7d65db12531f0",
+      "static": false,
+      "strong": false,
+      "summary": "\\group disjunction ",
+      "title": "disjunction",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-disjunction",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-take",
+      "argsString": "() &",
+      "brief": "Takes the value out of the optional, leaving it empty \\group take. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional optional< T & >::take",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::take",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2633,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2629,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2629
+      },
+      "name": "take",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ae9d02b21d877e528ba483b1f81e0c21e",
+      "static": false,
+      "strong": false,
+      "summary": "Takes the value out of the optional, leaving it empty \\group take. ",
+      "title": "take",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-take",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-take",
+      "argsString": "() const &",
+      "brief": "\\group take ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional optional< T & >::take",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::take",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2642,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2638,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2638
+      },
+      "name": "take",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a5a4b221b7b0855d3ad6e85782f66c0a3",
+      "static": false,
+      "strong": false,
+      "summary": "\\group take ",
+      "title": "take",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-take",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-take",
+      "argsString": "() &&",
+      "brief": "\\group take ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional optional< T & >::take",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::take",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2651,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2647,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2647
+      },
+      "name": "take",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aac65953bcb033617bd3feab1b2fc2a91",
+      "static": false,
+      "strong": false,
+      "summary": "\\group take ",
+      "title": "take",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-take",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-take",
+      "argsString": "() const &&",
+      "brief": "\\group take ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional optional< T & >::take",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::take",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2661,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2657,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2657
+      },
+      "name": "take",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a08dce6b3306c41ce4fb673d884c01b07",
+      "static": false,
+      "strong": false,
+      "summary": "\\group take ",
+      "title": "take",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a>",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-take",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional",
+      "argsString": "() noexcept",
+      "brief": "Constructs an optional that does not contain a value. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T & >::optional",
+      "deleted": false,
+      "details": "\\group ctor_empty ",
+      "explicit": false,
+      "fullname": "optional< T & >::optional",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2670,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2670,
+        "column": 13,
+        "file": "thrust/optional.h",
+        "line": 2670
+      },
+      "name": "optional",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aabf572f3995d7f6ff4939a1a826df979",
+      "static": false,
+      "strong": false,
+      "summary": "Constructs an optional that does not contain a value. ",
+      "title": "optional",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-optional",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional",
+      "argsString": "(nullopt_t) noexcept",
+      "brief": "\\group ctor_empty ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T & >::optional",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::optional",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2675,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2675,
+        "column": 13,
+        "file": "thrust/optional.h",
+        "line": 2675
+      },
+      "name": "optional",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "<a href=\"/thrust/api/classes/structnullopt__t.html\">nullopt_t</a>",
+          "typePlain": "nullopt_t"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a210a9e98c2e1e2398bdf36072a3a0ee8",
+      "static": false,
+      "strong": false,
+      "summary": "\\group ctor_empty ",
+      "title": "optional",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-optional",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional",
+      "argsString": "(const optional &rhs) noexcept=default",
+      "brief": "Copy constructor. ",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "constexpr __thrust_exec_check_disable__ optional< T & >::optional",
+      "deleted": false,
+      "details": "If <code>rhs</code> contains a value, the stored value is direct-initialized with it. Otherwise, the constructed optional is empty. ",
+      "explicit": false,
+      "fullname": "optional< T & >::optional",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 15,
+        "file": "thrust/optional.h",
+        "line": 2682
+      },
+      "name": "optional",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+          "typePlain": "const optional &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a0c837366d4063daf06e8d5e21d3c7bcb",
+      "static": false,
+      "strong": false,
+      "summary": "Copy constructor. ",
+      "title": "optional",
+      "type": "constexpr __thrust_exec_check_disable__",
+      "typePlain": "constexpr __thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-optional",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional",
+      "argsString": "(optional &&rhs)=default",
+      "brief": "Move constructor. ",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "constexpr __thrust_exec_check_disable__ optional< T & >::optional",
+      "deleted": false,
+      "details": "If <code>rhs</code> contains a value, the stored value is direct-initialized with it. Otherwise, the constructed optional is empty. ",
+      "explicit": false,
+      "fullname": "optional< T & >::optional",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 15,
+        "file": "thrust/optional.h",
+        "line": 2689
+      },
+      "name": "optional",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &&",
+          "typePlain": "optional &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a92a7589ec95f1cf39ef036dae3841ab6",
+      "static": false,
+      "strong": false,
+      "summary": "Move constructor. ",
+      "title": "optional",
+      "type": "constexpr __thrust_exec_check_disable__",
+      "typePlain": "constexpr __thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-optional",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional",
+      "argsString": "(U &&u)",
+      "brief": "Constructs the stored value with <code>u</code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T & >::optional",
+      "deleted": false,
+      "details": "\\synopsis template <class U=T>> constexpr <a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-optional\">optional(U &&u)</a>; ",
+      "explicit": false,
+      "fullname": "optional< T & >::optional",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2700,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2698,
+        "column": 13,
+        "file": "thrust/optional.h",
+        "line": 2698
+      },
+      "name": "optional",
+      "override": false,
+      "params": [
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ace1a7eda918adca33c9ac2989798ae7f",
+      "static": false,
+      "strong": false,
+      "summary": "Constructs the stored value with u. ",
+      "templateParams": [
+        {
+          "defval": "T",
+          "defvalPlain": "T",
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_t<!detail::is_optional< detail::decay_t< U >>::<a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value\">value</a> > *",
+          "typePlain": "detail::enable_if_t<!detail::is_optional< detail::decay_t< U >>::value > *"
+        }
+      ],
+      "title": "optional",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-optional",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional",
+      "argsString": "(const optional< U > &rhs)",
+      "brief": "\\exclude ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T & >::optional",
+      "deleted": false,
+      "explicit": true,
+      "fullname": "optional< T & >::optional",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2706,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2706,
+        "column": 22,
+        "file": "thrust/optional.h",
+        "line": 2706
+      },
+      "name": "optional",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &",
+          "typePlain": "const optional< U > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ad5e4d2417ab23fb3a02d946a88197758",
+      "static": false,
+      "strong": false,
+      "summary": "\\exclude ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "optional",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-optional",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-~optional",
+      "argsString": "()=default",
+      "brief": "No-op. ",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ optional< T & >::~optional",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::~optional",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 2710
+      },
+      "name": "~optional",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1af317b0f69746626d9537b69d5aa670a5",
+      "static": false,
+      "strong": false,
+      "summary": "No-op. ",
+      "title": "~optional",
+      "type": "__thrust_exec_check_disable__",
+      "typePlain": "__thrust_exec_check_disable__",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-~optional",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(nullopt_t) noexcept",
+      "brief": "Assignment to empty. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional& optional< T & >::operator=",
+      "deleted": false,
+      "details": "Destroys the current value if there is one. ",
+      "explicit": false,
+      "fullname": "optional< T & >::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2720,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2717,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2717
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "<a href=\"/thrust/api/classes/structnullopt__t.html\">nullopt_t</a>",
+          "typePlain": "nullopt_t"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1abdb3b42b2c3ffd4d0d29d913bd5dfde0",
+      "static": false,
+      "strong": false,
+      "summary": "Assignment to empty. ",
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const optional &rhs)=default",
+      "brief": "Copy assignment. ",
+      "category": "functions",
+      "const": false,
+      "default": true,
+      "definition": "__thrust_exec_check_disable__ optional& optional< T & >::operator=",
+      "deleted": false,
+      "details": "Rebinds this optional to the referee of <code>rhs</code> if there is one. Otherwise resets the stored value in <code>&#42;this</code>. ",
+      "explicit": false,
+      "fullname": "optional< T & >::operator=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2727
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+          "typePlain": "const optional &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a38ba49662cfd2305d0264558fdfdb52b",
+      "static": false,
+      "strong": false,
+      "summary": "Copy assignment. ",
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+      "typePlain": "__thrust_exec_check_disable__ optional &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(U &&u)",
+      "brief": "Rebinds this optional to <code>u</code>. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional& optional< T & >::operator=",
+      "deleted": false,
+      "details": "\\requires <code>U</code> must be an lvalue reference. \\synopsis optional &<a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator=\">operator=(U &&u)</a>; ",
+      "explicit": false,
+      "fullname": "optional< T & >::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2742,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2738,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2738
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a73d4eaf71e34670b440526cace745fa7",
+      "static": false,
+      "strong": false,
+      "summary": "Rebinds this optional to u. ",
+      "templateParams": [
+        {
+          "defval": "T",
+          "defvalPlain": "T",
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        },
+        {
+          "defval": "nullptr",
+          "defvalPlain": "nullptr",
+          "name": "",
+          "type": "detail::enable_if_t<!detail::is_optional< detail::decay_t< U >>::<a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value\">value</a> > *",
+          "typePlain": "detail::enable_if_t<!detail::is_optional< detail::decay_t< U >>::value > *"
+        }
+      ],
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator=",
+      "argsString": "(const optional< U > &rhs)",
+      "brief": "Converting copy assignment operator. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ optional& optional< T & >::operator=",
+      "deleted": false,
+      "details": "Rebinds this optional to the referee of <code>rhs</code> if there is one. Otherwise resets the stored value in <code>&#42;this</code>. ",
+      "explicit": false,
+      "fullname": "optional< T & >::operator=",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2754,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2751,
+        "column": 12,
+        "file": "thrust/optional.h",
+        "line": 2751
+      },
+      "name": "operator=",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "const <a href=\"/thrust/api/classes/classoptional.html\">optional</a>< U > &",
+          "typePlain": "const optional< U > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a34e08f3db602de002a47f0ada7e294c0",
+      "static": false,
+      "strong": false,
+      "summary": "Converting copy assignment operator. ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "operator=",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ <a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ optional &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-emplace",
+      "argsString": "(Args &&... args) noexcept",
+      "brief": "Constructs the value in-place, destroying the current one if there is one. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ T& optional< T & >::emplace",
+      "deleted": false,
+      "details": "\\group emplace ",
+      "explicit": false,
+      "fullname": "optional< T & >::emplace",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2769,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2763,
+        "column": 5,
+        "file": "thrust/optional.h",
+        "line": 2763
+      },
+      "name": "emplace",
+      "override": false,
+      "params": [
+        {
+          "name": "args",
+          "type": "Args &&...",
+          "typePlain": "Args &&..."
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1afa5d46b2a5c566dd590ba8fa4b280621",
+      "static": false,
+      "strong": false,
+      "summary": "Constructs the value in-place, destroying the current one if there is one. ",
+      "templateParams": [
+        {
+          "name": "Args",
+          "type": "class...",
+          "typePlain": "class..."
+        }
+      ],
+      "title": "emplace",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ T &",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ T &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-emplace",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-swap",
+      "argsString": "(optional &rhs) noexcept",
+      "brief": "Swaps this optional with the other. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ void optional< T & >::swap",
+      "deleted": false,
+      "details": "If neither optionals have a value, nothing happens. If both have a value, the values are swapped. If one has a value, it is moved to the other and the movee is left valueless. ",
+      "explicit": false,
+      "fullname": "optional< T & >::swap",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2779,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2779,
+        "column": 8,
+        "file": "thrust/optional.h",
+        "line": 2779
+      },
+      "name": "swap",
+      "override": false,
+      "params": [
+        {
+          "name": "rhs",
+          "type": "<a href=\"/thrust/api/classes/classoptional.html\">optional</a> &",
+          "typePlain": "optional &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a4df42c9f7c0d6f34a7e26225c40bb380",
+      "static": false,
+      "strong": false,
+      "summary": "Swaps this optional with the other. ",
+      "title": "swap",
+      "type": "__thrust_exec_check_disable__ __host__ __device__ void",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__ void",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-swap",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator->",
+      "argsString": "() const",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T* optional< T & >::operator->",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::operator->",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2787,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2787,
+        "column": 21,
+        "file": "thrust/optional.h",
+        "line": 2787
+      },
+      "name": "operator->",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a1066f5983a0d82240dc5691a0c7b8aab",
+      "returns": [
+        "a pointer to the stored value \\requires a value is stored \\group pointer \\synopsis constexpr const T *operator->() const; "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator->",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T *",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T *",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator->",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator->",
+      "argsString": "()",
+      "brief": "\\group pointer \\synopsis constexpr T *operator->(); ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ T* optional< T & >::operator->",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::operator->",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2793,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2793,
+        "column": 17,
+        "file": "thrust/optional.h",
+        "line": 2793
+      },
+      "name": "operator->",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1acc84f13bbe09ae57f8278717ea791573",
+      "static": false,
+      "strong": false,
+      "summary": "\\group pointer \\synopsis constexpr T *operator->(); ",
+      "title": "operator->",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T *",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T *",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator->",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator*",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "constexpr __thrust_exec_check_disable__ T& optional< T & >::operator*",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::operator*",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2800,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2800,
+        "column": 17,
+        "file": "thrust/optional.h",
+        "line": 2800
+      },
+      "name": "operator*",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ada4aae6e106ba10e5b228eee2cddc23c",
+      "returns": [
+        "the stored value \\requires a value is stored \\group deref \\synopsis constexpr T &<a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator*\">operator*()</a>; "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "operator*",
+      "type": "constexpr __thrust_exec_check_disable__ T &",
+      "typePlain": "constexpr __thrust_exec_check_disable__ T &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator*",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator*",
+      "argsString": "() const",
+      "brief": "\\group deref \\synopsis constexpr const T &operator*() const; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T& optional< T & >::operator*",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::operator*",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2806,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2806,
+        "column": 21,
+        "file": "thrust/optional.h",
+        "line": 2806
+      },
+      "name": "operator*",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a38b0b0f201d9f464010c965d9511321e",
+      "static": false,
+      "strong": false,
+      "summary": "\\group deref \\synopsis constexpr const T &operator*() const; ",
+      "title": "operator*",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr const __device__ T &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator*",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-has_value",
+      "argsString": "() const noexcept",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool optional< T & >::has_value",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::has_value",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2812,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2812,
+        "column": 18,
+        "file": "thrust/optional.h",
+        "line": 2812
+      },
+      "name": "has_value",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ad440477b12a69e17c8bb7ee5fd37e864",
+      "returns": [
+        "whether or not the optional has a value \\group has_value "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "has_value",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ bool",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-has_value",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator-bool",
+      "argsString": "() const noexcept",
+      "brief": "\\group has_value ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ optional< T & >::operator bool",
+      "deleted": false,
+      "explicit": true,
+      "fullname": "optional< T & >::operator bool",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2819,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2817,
+        "column": 22,
+        "file": "thrust/optional.h",
+        "line": 2817
+      },
+      "name": "operator bool",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a01d0985148adff9a148f11a06fb44cbd",
+      "static": false,
+      "strong": false,
+      "summary": "\\group has_value ",
+      "title": "operator bool",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-operator-bool",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-value",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "constexpr __host__ T& optional< T & >::value",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::value",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2830,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2826,
+        "column": 17,
+        "file": "thrust/optional.h",
+        "line": 2826
+      },
+      "name": "value",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a959a047d850f1e0b846127c8b0984fa8",
+      "returns": [
+        "the contained value if there is one, otherwise throws [bad_optional_access] \\group value synopsis constexpr T &<a href=\"/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value\">value()</a>; "
+      ],
+      "static": false,
+      "strong": false,
+      "title": "value",
+      "type": "constexpr __host__ T &",
+      "typePlain": "constexpr __host__ T &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-value",
+      "argsString": "() const",
+      "brief": "\\group value \\synopsis constexpr const T &value() const; ",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "constexpr const __host__ T& optional< T & >::value",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::value",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2838,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2834,
+        "column": 23,
+        "file": "thrust/optional.h",
+        "line": 2834
+      },
+      "name": "value",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1ab05e445720f640fa4467be8797440502",
+      "static": false,
+      "strong": false,
+      "summary": "\\group value \\synopsis constexpr const T &value() const; ",
+      "title": "value",
+      "type": "constexpr const __host__ T &",
+      "typePlain": "constexpr const __host__ T &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-value_or",
+      "argsString": "(U &&u) const &",
+      "category": "functions",
+      "const": true,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ T optional< T & >::value_or",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::value_or",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2850,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2845,
+        "column": 15,
+        "file": "thrust/optional.h",
+        "line": 2845
+      },
+      "name": "value_or",
+      "override": false,
+      "params": [
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1aae650e148e182dbd0d36fcf18bc05a30",
+      "returns": [
+        "the stored value if there is one, otherwise returns <code>u</code> \\group value_or "
+      ],
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "value_or",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value_or",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-value_or",
+      "argsString": "(U &&u) &&",
+      "brief": "\\group value_or ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ T optional< T & >::value_or",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::value_or",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2861,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2856,
+        "column": 17,
+        "file": "thrust/optional.h",
+        "line": 2856
+      },
+      "name": "value_or",
+      "override": false,
+      "params": [
+        {
+          "name": "u",
+          "type": "U &&",
+          "typePlain": "U &&"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a084bd0d6e667bf41720d61884a72d6ce",
+      "static": false,
+      "strong": false,
+      "summary": "\\group value_or ",
+      "templateParams": [
+        {
+          "name": "",
+          "type": "class U",
+          "typePlain": "class U"
+        }
+      ],
+      "title": "value_or",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__ T",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-value_or",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-reset",
+      "argsString": "() noexcept",
+      "brief": "Destroys the stored value if one exists, making the optional empty. ",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ void optional< T & >::reset",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "optional< T & >::reset",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 2865,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2865,
+        "column": 8,
+        "file": "thrust/optional.h",
+        "line": 2865
+      },
+      "name": "reset",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a1654c95b3938e653504fb7820616c5b4",
+      "static": false,
+      "strong": false,
+      "summary": "Destroys the stored value if one exists, making the optional empty. ",
+      "title": "reset",
+      "type": "__thrust_exec_check_disable__ void",
+      "typePlain": "__thrust_exec_check_disable__ void",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#function-reset",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "publicTypes": [
+    {
+      "abstract": false,
+      "anchor": "#using-value_type",
+      "category": "types",
+      "const": false,
+      "definition": "using optional< T & >::value_type =  T &",
+      "explicit": false,
+      "fullname": "optional< T & >::value_type",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "using",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 2664,
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 2664
+      },
+      "name": "value_type",
+      "override": false,
+      "refid": "classoptional_3_01T_01_6_01_4_1a786f90e3b9854c40409ce52964d03027",
+      "static": false,
+      "strong": false,
+      "title": "value_type",
+      "type": "T &",
+      "typePlain": "T &",
+      "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html#using-value_type",
+      "visibility": "public"
+    }
+  ],
+  "refid": "classoptional_3_01T_01_6_01_4",
+  "static": false,
+  "strong": false,
+  "summary": "Specialization for when T is a reference. ",
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    }
+  ],
+  "title": "optional< T & >",
+  "url": "/thrust/api/classes/classoptional_3_01t_01_6_01_4.html",
+  "visibility": "public"
+}

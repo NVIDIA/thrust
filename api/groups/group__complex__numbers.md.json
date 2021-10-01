@@ -1,0 +1,3191 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "modules",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "complex_numbers",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "inline": false,
+  "kind": "group",
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "numerics",
+    "kind": "group",
+    "name": "numerics",
+    "refid": "group__numerics",
+    "title": "Numerics",
+    "url": "/thrust/api/groups/group__numerics.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "numerics",
+      "kind": "group",
+      "name": "numerics",
+      "refid": "group__numerics",
+      "title": "Numerics",
+      "url": "/thrust/api/groups/group__numerics.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "complex_numbers",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "numerics",
+    "kind": "group",
+    "name": "numerics",
+    "refid": "group__numerics",
+    "title": "Numerics",
+    "url": "/thrust/api/groups/group__numerics.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "numerics",
+      "kind": "group",
+      "name": "numerics",
+      "refid": "group__numerics",
+      "title": "Numerics",
+      "url": "/thrust/api/groups/group__numerics.html",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "complex",
+      "kind": "struct",
+      "name": "complex",
+      "refid": "structcomplex",
+      "title": "complex",
+      "url": "/thrust/api/classes/structcomplex.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-abs",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ T abs",
+      "deleted": false,
+      "details": "Returns the magnitude (also known as absolute value) of a <code>complex</code>.",
+      "explicit": false,
+      "fullname": "complex_numbers::abs",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/complex.h",
+        "line": 471
+      },
+      "name": "abs",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> from which to calculate the absolute value. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga39aa5325de34b0d13850efd5af36df1c",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "abs",
+      "type": "__host__ __device__ T",
+      "typePlain": "__host__ __device__ T",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-abs",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-arg",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ T arg",
+      "deleted": false,
+      "details": "Returns the phase angle (also known as argument) in radians of a <code>complex</code>.",
+      "explicit": false,
+      "fullname": "complex_numbers::arg",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/complex.h",
+        "line": 479
+      },
+      "name": "arg",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> from which to calculate the phase angle. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga21944e67e53981737cd6389aac2bcb52",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "arg",
+      "type": "__host__ __device__ T",
+      "typePlain": "__host__ __device__ T",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-arg",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-norm",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ T norm",
+      "deleted": false,
+      "details": "Returns the square of the magnitude of a <code>complex</code>.",
+      "explicit": false,
+      "fullname": "complex_numbers::norm",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 3,
+        "file": "thrust/complex.h",
+        "line": 487
+      },
+      "name": "norm",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> from which to calculate the norm. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gaaf9951aa5386cebaf304bb66c591141a",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "norm",
+      "type": "__host__ __device__ T",
+      "typePlain": "__host__ __device__ T",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-norm",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-conj",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> conj",
+      "deleted": false,
+      "details": "Returns the complex conjugate of a <code>complex</code>.",
+      "explicit": false,
+      "fullname": "complex_numbers::conj",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 495
+      },
+      "name": "conj",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> from which to calculate the complex conjugate. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gaccfd7bd42983b824782c4b6c699a26de",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "conj",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-conj",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-polar",
+      "argsString": "(const T0 &m, const T1 &theta=T1())",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> polar",
+      "deleted": false,
+      "details": "Returns a <code>complex</code> with the specified magnitude and phase.",
+      "explicit": false,
+      "fullname": "complex_numbers::polar",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 505
+      },
+      "name": "polar",
+      "override": false,
+      "paramList": [
+        {
+          "name": "m",
+          "text": "The magnitude of the returned <code>complex</code>. "
+        },
+        {
+          "name": "theta",
+          "text": "The phase of the returned <code>complex</code> in radians. "
+        }
+      ],
+      "params": [
+        {
+          "name": "m",
+          "type": "const T0 &",
+          "typePlain": "const T0 &"
+        },
+        {
+          "defval": "T1()",
+          "defvalPlain": "T1()",
+          "name": "theta",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gac558c8f351411d17506181589d258ce3",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "polar",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-polar",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-proj",
+      "argsString": "(const T &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> proj",
+      "deleted": false,
+      "details": "Returns the projection of a <code>complex</code> on the Riemann sphere. For all finite <code>complex</code> it returns the argument. For <code>complexs</code> with a non finite part returns (INFINITY,+/-0) where the sign of the zero matches the sign of the imaginary part of the argument.",
+      "explicit": false,
+      "fullname": "complex_numbers::proj",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 516
+      },
+      "name": "proj",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const T &",
+          "typePlain": "const T &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga3892c188e831df958ac9e7887c6966ae",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "proj",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-proj",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator+",
+      "argsString": "(const complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator+",
+      "deleted": false,
+      "details": "Adds two <code>complex</code> numbers.\n\nThe value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator+",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 533
+      },
+      "name": "operator+",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga8225cbdaf82f21e69cde0bb6699e7abe",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator+",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator+",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator+",
+      "argsString": "(const complex< T0 > &x, const T1 &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator+",
+      "deleted": false,
+      "details": "Adds a scalar to a <code>complex</code> number.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator+",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 546
+      },
+      "name": "operator+",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The scalar. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga242feaf4655e928bee6576721e87b01c",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator+",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator+",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator+",
+      "argsString": "(const T0 &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator+",
+      "deleted": false,
+      "details": "Adds a <code>complex</code> number to a scalar.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator+",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 559
+      },
+      "name": "operator+",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The scalar. "
+        },
+        {
+          "name": "y",
+          "text": "The <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const T0 &",
+          "typePlain": "const T0 &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga3191b3ceb3f08470efdc6cda44438035",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator+",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator+",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator-",
+      "argsString": "(const complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator-",
+      "deleted": false,
+      "details": "Subtracts two <code>complex</code> numbers.\n\nThe value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator-",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 572
+      },
+      "name": "operator-",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code> (minuend). "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code> (subtrahend). "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga3fd7bf8b4235ff42edc8dc316fafc7b9",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator-",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator-",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator-",
+      "argsString": "(const complex< T0 > &x, const T1 &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator-",
+      "deleted": false,
+      "details": "Subtracts a scalar from a <code>complex</code> number.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator-",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 585
+      },
+      "name": "operator-",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The <code>complex</code> (minuend). "
+        },
+        {
+          "name": "y",
+          "text": "The scalar (subtrahend). "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gabcc44bca6b5c0c45ba77b17b819df890",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator-",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator-",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator-",
+      "argsString": "(const T0 &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator-",
+      "deleted": false,
+      "details": "Subtracts a <code>complex</code> number from a scalar.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator-",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 598
+      },
+      "name": "operator-",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The scalar (minuend). "
+        },
+        {
+          "name": "y",
+          "text": "The <code>complex</code> (subtrahend). "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const T0 &",
+          "typePlain": "const T0 &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga06d86c51172ccf4a1dd9abf8887f50ea",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator-",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator-",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator*",
+      "argsString": "(const complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator*",
+      "deleted": false,
+      "details": "Multiplies two <code>complex</code> numbers.\n\nThe value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator*",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 611
+      },
+      "name": "operator*",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gafa7d913b962ff67dba5c51be9220bae8",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator*",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator*",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator*",
+      "argsString": "(const complex< T0 > &x, const T1 &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator*",
+      "deleted": false,
+      "details": "Multiplies a <code>complex</code> number by a scalar.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator*",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 621
+      },
+      "name": "operator*",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The scalar. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gacd73708958d54c819ba022a92f97e066",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator*",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator*",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator*",
+      "argsString": "(const T0 &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator*",
+      "deleted": false,
+      "details": "Multiplies a scalar by a <code>complex</code> number.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator*",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 634
+      },
+      "name": "operator*",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The scalar. "
+        },
+        {
+          "name": "y",
+          "text": "The <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const T0 &",
+          "typePlain": "const T0 &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga9e4c7b10d74010ca5a51ebfc1f0d4210",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator*",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator*",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator/",
+      "argsString": "(const complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator/",
+      "deleted": false,
+      "details": "Divides two <code>complex</code> numbers.\n\nThe value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator/",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 647
+      },
+      "name": "operator/",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The numerator (dividend). "
+        },
+        {
+          "name": "y",
+          "text": "The denomimator (divisor). "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gafd2d97fc7d060b5386f2e944f6029df1",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator/",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator/",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator/",
+      "argsString": "(const complex< T0 > &x, const T1 &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator/",
+      "deleted": false,
+      "details": "Divides a <code>complex</code> number by a scalar.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator/",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 660
+      },
+      "name": "operator/",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The complex numerator (dividend). "
+        },
+        {
+          "name": "y",
+          "text": "The scalar denomimator (divisor). "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga7464b91765f5d1c5e718874bd75776d5",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator/",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator/",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator/",
+      "argsString": "(const T0 &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> operator/",
+      "deleted": false,
+      "details": "Divides a scalar by a <code>complex</code> number.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator/",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 673
+      },
+      "name": "operator/",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The scalar numerator (dividend). "
+        },
+        {
+          "name": "y",
+          "text": "The complex denomimator (divisor). "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const T0 &",
+          "typePlain": "const T0 &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga09efd2a2b0be40f846af949ecd4ad264",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator/",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator/",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator+",
+      "argsString": "(const complex< T > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> operator+",
+      "deleted": false,
+      "details": "Unary plus, returns its <code>complex</code> argument.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator+",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 686
+      },
+      "name": "operator+",
+      "override": false,
+      "paramList": [
+        {
+          "name": "y",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga1a79b0452b45a4e36a3aa7649f300322",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "operator+",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator+",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator-",
+      "argsString": "(const complex< T > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> operator-",
+      "deleted": false,
+      "details": "Unary minus, returns the additive inverse (negation) of its <code>complex</code> argument.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator-",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 696
+      },
+      "name": "operator-",
+      "override": false,
+      "paramList": [
+        {
+          "name": "y",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga1cfe25b1404a4d757b50c1ab9e07b966",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "operator-",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator-",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-exp",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> exp",
+      "deleted": false,
+      "details": "Returns the complex exponential of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::exp",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 708
+      },
+      "name": "exp",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga047dc7499777257415baf4d25652a5de",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "exp",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-exp",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-log",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> log",
+      "deleted": false,
+      "details": "Returns the complex natural logarithm of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::log",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 716
+      },
+      "name": "log",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga6afc96c86911d8bfd3a10e0b17d07b22",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "log",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-log",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-log10",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> log10",
+      "deleted": false,
+      "details": "Returns the complex base 10 logarithm of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::log10",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 724
+      },
+      "name": "log10",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gafefcecd956f2900c6af3232a704ac51c",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "log10",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-log10",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-pow",
+      "argsString": "(const complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> pow",
+      "deleted": false,
+      "details": "Returns a <code>complex</code> number raised to another.\n\nThe value types of the two <code>complex</code> types should be compatible and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::pow",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 741
+      },
+      "name": "pow",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The base. "
+        },
+        {
+          "name": "y",
+          "text": "The exponent. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga5e7327eaa84667e9189e7fc58c24cf76",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "pow",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-pow",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-pow",
+      "argsString": "(const complex< T0 > &x, const T1 &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> pow",
+      "deleted": false,
+      "details": "Returns a <code>complex</code> number raised to a scalar.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::pow",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 754
+      },
+      "name": "pow",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The base. "
+        },
+        {
+          "name": "y",
+          "text": "The exponent. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga631b1a267177535319e88efe66abdd20",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "pow",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-pow",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-pow",
+      "argsString": "(const T0 &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<typename detail::promoted_numerical_type<T0, T1>::type> pow",
+      "deleted": false,
+      "details": "Returns a scalar raised to a <code>complex</code> number.\n\nThe value type of the <code>complex</code> should be compatible with the scalar and the type of the returned <code>complex</code> is the promoted type of the two arguments.",
+      "explicit": false,
+      "fullname": "complex_numbers::pow",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 767
+      },
+      "name": "pow",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The base. "
+        },
+        {
+          "name": "y",
+          "text": "The exponent. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const T0 &",
+          "typePlain": "const T0 &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gac542403ef54f4718ce40c2a7291c9f5e",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "pow",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "typePlain": "__host__ __device__ complex< typename detail::promoted_numerical_type< T0, T1 >::type >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-pow",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-sqrt",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> sqrt",
+      "deleted": false,
+      "details": "Returns the complex square root of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::sqrt",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 775
+      },
+      "name": "sqrt",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga3fdf3ecd38132bfe399eeebb35f2e636",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "sqrt",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-sqrt",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-cos",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> cos",
+      "deleted": false,
+      "details": "Returns the complex cosine of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::cos",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 786
+      },
+      "name": "cos",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga8eab2fa1fb1e4efb506ef988d160f163",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "cos",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-cos",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-sin",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> sin",
+      "deleted": false,
+      "details": "Returns the complex sine of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::sin",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 794
+      },
+      "name": "sin",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gaac50184d1cc507b5f7135e2ef50c1c98",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "sin",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-sin",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-tan",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> tan",
+      "deleted": false,
+      "details": "Returns the complex tangent of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::tan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 802
+      },
+      "name": "tan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga71d9777d7eae5c941fd7706f178400c1",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "tan",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-tan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-cosh",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> cosh",
+      "deleted": false,
+      "details": "Returns the complex hyperbolic cosine of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::cosh",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 814
+      },
+      "name": "cosh",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga0da77febb38394a9fa38e1a89443bd37",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "cosh",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-cosh",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-sinh",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> sinh",
+      "deleted": false,
+      "details": "Returns the complex hyperbolic sine of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::sinh",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 822
+      },
+      "name": "sinh",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gacdc60e462573b9e5c0591aaa84173622",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "sinh",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-sinh",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-tanh",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> tanh",
+      "deleted": false,
+      "details": "Returns the complex hyperbolic tangent of a <code>complex</code> number.",
+      "explicit": false,
+      "fullname": "complex_numbers::tanh",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 830
+      },
+      "name": "tanh",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga33b2e5528bdaba3fcf013616d03450e1",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "tanh",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-tanh",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-acos",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> acos",
+      "deleted": false,
+      "details": "Returns the complex arc cosine of a <code>complex</code> number.\n\nThe range of the real part of the result is [0, Pi] and the range of the imaginary part is [-inf, +inf]",
+      "explicit": false,
+      "fullname": "complex_numbers::acos",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 845
+      },
+      "name": "acos",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gab5852bf6a1b2da4c2cf3aac0dacc4ad8",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "acos",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-acos",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-asin",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> asin",
+      "deleted": false,
+      "details": "Returns the complex arc sine of a <code>complex</code> number.\n\nThe range of the real part of the result is [-Pi/2, Pi/2] and the range of the imaginary part is [-inf, +inf]",
+      "explicit": false,
+      "fullname": "complex_numbers::asin",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 856
+      },
+      "name": "asin",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga4476bbc15c577e71f468c464317479cc",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "asin",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-asin",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-atan",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> atan",
+      "deleted": false,
+      "details": "Returns the complex arc tangent of a <code>complex</code> number.\n\nThe range of the real part of the result is [-Pi/2, Pi/2] and the range of the imaginary part is [-inf, +inf]",
+      "explicit": false,
+      "fullname": "complex_numbers::atan",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 867
+      },
+      "name": "atan",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga20024cc4081ccdf7638a5af8e93eca5e",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "atan",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-atan",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-acosh",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> acosh",
+      "deleted": false,
+      "details": "Returns the complex inverse hyperbolic cosine of a <code>complex</code> number.\n\nThe range of the real part of the result is [0, +inf] and the range of the imaginary part is [-Pi, Pi]",
+      "explicit": false,
+      "fullname": "complex_numbers::acosh",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 882
+      },
+      "name": "acosh",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga78187907c8ea29ee61307299edf5d04e",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "acosh",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-acosh",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-asinh",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> asinh",
+      "deleted": false,
+      "details": "Returns the complex inverse hyperbolic sine of a <code>complex</code> number.\n\nThe range of the real part of the result is [-inf, +inf] and the range of the imaginary part is [-Pi/2, Pi/2]",
+      "explicit": false,
+      "fullname": "complex_numbers::asinh",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 893
+      },
+      "name": "asinh",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga08adabadf90563e6a9b39ad8b6c0d863",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "asinh",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-asinh",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-atanh",
+      "argsString": "(const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ complex<T> atanh",
+      "deleted": false,
+      "details": "Returns the complex inverse hyperbolic tangent of a <code>complex</code> number.\n\nThe range of the real part of the result is [-inf, +inf] and the range of the imaginary part is [-Pi/2, Pi/2]",
+      "explicit": false,
+      "fullname": "complex_numbers::atanh",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 904
+      },
+      "name": "atanh",
+      "override": false,
+      "paramList": [
+        {
+          "name": "z",
+          "text": "The <code>complex</code> argument. "
+        }
+      ],
+      "params": [
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gae59e565ca6e29cf88b489f5c8c577ad6",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        }
+      ],
+      "title": "atanh",
+      "type": "__host__ __device__ <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T >",
+      "typePlain": "__host__ __device__ complex< T >",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-atanh",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator<<",
+      "argsString": "(std::basic_ostream< CharT, Traits > &os, const complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "std::basic_ostream<CharT, Traits>& operator<<",
+      "deleted": false,
+      "details": "Writes to an output stream a <code>complex</code> number in the form (real, imaginary).",
+      "explicit": false,
+      "fullname": "complex_numbers::operator<<",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 9,
+        "file": "thrust/complex.h",
+        "line": 904
+      },
+      "name": "operator<<",
+      "override": false,
+      "paramList": [
+        {
+          "name": "os",
+          "text": "The output stream. "
+        },
+        {
+          "name": "z",
+          "text": "The <code>complex</code> number to output. "
+        }
+      ],
+      "params": [
+        {
+          "name": "os",
+          "type": "std::basic_ostream< CharT, Traits > &",
+          "typePlain": "std::basic_ostream< CharT, Traits > &"
+        },
+        {
+          "name": "z",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "const complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1gaf953b8f74dbdabff98d45bbace621348",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator<<",
+      "type": "std::basic_ostream< CharT, Traits > &",
+      "typePlain": "std::basic_ostream< CharT, Traits > &",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator<<",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator>>",
+      "argsString": "(std::basic_istream< CharT, Traits > &is, complex< T > &z)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ std::basic_istream<CharT, Traits>& operator>>",
+      "deleted": false,
+      "details": "Reads a <code>complex</code> number from an input stream.\n\nThe recognized formats are:\n\n* real\n* (real)\n* (real, imaginary)\nThe values read must be convertible to the <code>complex's</code><code>value&#95;type</code>",
+      "explicit": false,
+      "fullname": "complex_numbers::operator>>",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 1,
+        "file": "thrust/complex.h",
+        "line": 934
+      },
+      "name": "operator>>",
+      "override": false,
+      "paramList": [
+        {
+          "name": "is",
+          "text": "The input stream. "
+        },
+        {
+          "name": "z",
+          "text": "The <code>complex</code> number to set. "
+        }
+      ],
+      "params": [
+        {
+          "name": "is",
+          "type": "std::basic_istream< CharT, Traits > &",
+          "typePlain": "std::basic_istream< CharT, Traits > &"
+        },
+        {
+          "name": "z",
+          "type": "<a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T > &",
+          "typePlain": "complex< T > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga37983d38944c6d7074144a479a6301ba",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T",
+          "typePlain": "typename T"
+        },
+        {
+          "name": "",
+          "type": "typename CharT",
+          "typePlain": "typename CharT"
+        },
+        {
+          "name": "",
+          "type": "typename Traits",
+          "typePlain": "typename Traits"
+        }
+      ],
+      "title": "operator>>",
+      "type": "__host__ std::basic_istream< CharT, Traits > &",
+      "typePlain": "__host__ std::basic_istream< CharT, Traits > &",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator>>",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator==",
+      "deleted": false,
+      "details": "Returns true if two <code>complex</code> numbers are equal and false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 947
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga5680b9ebe2d67c877aa8fdefe3818fe6",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const complex< T0 > &x, const std::complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator==",
+      "deleted": false,
+      "details": "Returns true if two <code>complex</code> numbers are equal and false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 956
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const std::complex< T1 > &",
+          "typePlain": "const std::complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga2fe9db3510255f89d1d98ddbb902f54c",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const std::complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator==",
+      "deleted": false,
+      "details": "Returns true if two <code>complex</code> numbers are equal and false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 965
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const std::complex< T0 > &",
+          "typePlain": "const std::complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga7ec49673de82894b3c4029a443bd6586",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const T0 &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator==",
+      "deleted": false,
+      "details": "Returns true if the imaginary part of the <code>complex</code> number is zero and the real part is equal to the scalar. Returns false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 975
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The scalar. "
+        },
+        {
+          "name": "y",
+          "text": "The <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const T0 &",
+          "typePlain": "const T0 &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga8dc38461fd9e9c2544ff8c042ba61aff",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator==",
+      "argsString": "(const complex< T0 > &x, const T1 &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator==",
+      "deleted": false,
+      "details": "Returns true if the imaginary part of the <code>complex</code> number is zero and the real part is equal to the scalar. Returns false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator==",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 985
+      },
+      "name": "operator==",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The scalar. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga49dcc7bc9cc7b7cd4843fe80e16551f0",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator==",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator==",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator!=",
+      "deleted": false,
+      "details": "Returns true if two <code>complex</code> numbers are different and false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 994
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga83f1a3bc10215467b12fd6716e0886bf",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const complex< T0 > &x, const std::complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator!=",
+      "deleted": false,
+      "details": "Returns true if two <code>complex</code> numbers are different and false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 1003
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const std::complex< T1 > &",
+          "typePlain": "const std::complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga44103b11fe41123a6ba65b0430a712ff",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const std::complex< T0 > &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator!=",
+      "deleted": false,
+      "details": "Returns true if two <code>complex</code> numbers are different and false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 1012
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The first <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The second <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const std::complex< T0 > &",
+          "typePlain": "const std::complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga49d1a4600346666b471462222a789c37",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const T0 &x, const complex< T1 > &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator!=",
+      "deleted": false,
+      "details": "Returns true if the imaginary part of the <code>complex</code> number is not zero or the real part is different from the scalar. Returns false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 1022
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The scalar. "
+        },
+        {
+          "name": "y",
+          "text": "The <code>complex</code>. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const T0 &",
+          "typePlain": "const T0 &"
+        },
+        {
+          "name": "y",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T1 > &",
+          "typePlain": "const complex< T1 > &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga4e7e879f3c7d5444205fb25453024be1",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-operator!=",
+      "argsString": "(const complex< T0 > &x, const T1 &y)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ __device__ bool operator!=",
+      "deleted": false,
+      "details": "Returns true if the imaginary part of the <code>complex</code> number is not zero or the real part is different from the scalar. Returns false otherwise.",
+      "explicit": false,
+      "fullname": "complex_numbers::operator!=",
+      "hasDetails": true,
+      "inline": false,
+      "kind": "function",
+      "location": {
+        "column": 6,
+        "file": "thrust/complex.h",
+        "line": 1032
+      },
+      "name": "operator!=",
+      "override": false,
+      "paramList": [
+        {
+          "name": "x",
+          "text": "The <code>complex</code>. "
+        },
+        {
+          "name": "y",
+          "text": "The scalar. "
+        }
+      ],
+      "params": [
+        {
+          "name": "x",
+          "type": "const <a href=\"/thrust/api/classes/structcomplex.html\">complex</a>< T0 > &",
+          "typePlain": "const complex< T0 > &"
+        },
+        {
+          "name": "y",
+          "type": "const T1 &",
+          "typePlain": "const T1 &"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "group__complex__numbers_1ga145de7f2a2096b58670c576443c9be54",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "",
+          "type": "typename T0",
+          "typePlain": "typename T0"
+        },
+        {
+          "name": "",
+          "type": "typename T1",
+          "typePlain": "typename T1"
+        }
+      ],
+      "title": "operator!=",
+      "type": "__host__ __device__ bool",
+      "typePlain": "__host__ __device__ bool",
+      "url": "/thrust/api/groups/group__complex__numbers.html#function-operator!=",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "group__complex__numbers",
+  "static": false,
+  "strong": false,
+  "title": "Complex Numbers",
+  "url": "/thrust/api/groups/group__complex__numbers.html",
+  "visibility": "public"
+}

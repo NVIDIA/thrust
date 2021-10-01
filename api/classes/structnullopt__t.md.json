@@ -1,0 +1,95 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "brief": "A tag type to represent an empty optional. ",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "explicit": false,
+  "fullname": "nullopt_t",
+  "hasAdditionalMembers": false,
+  "hasDetails": false,
+  "includes": "<thrust/optional.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 804,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 800,
+    "column": 16,
+    "file": "thrust/optional.h",
+    "line": 800
+  },
+  "name": "nullopt_t",
+  "override": false,
+  "parent": null,
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "nullopt_t::do_not_use",
+      "kind": "struct",
+      "name": "nullopt_t::do_not_use",
+      "refid": "structnullopt__t_1_1do__not__use",
+      "title": "nullopt_t::do_not_use",
+      "url": "/thrust/api/classes/structnullopt__t_1_1do__not__use.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-nullopt_t",
+      "argsString": "(do_not_use, do_not_use) noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__host__ constexpr __device__ nullopt_t::nullopt_t",
+      "deleted": false,
+      "explicit": true,
+      "fullname": "nullopt_t::nullopt_t",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 803,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 803,
+        "column": 22,
+        "file": "thrust/optional.h",
+        "line": 803
+      },
+      "name": "nullopt_t",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "do_not_use",
+          "typePlain": "do_not_use"
+        },
+        {
+          "name": "",
+          "type": "do_not_use",
+          "typePlain": "do_not_use"
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structnullopt__t_1ae0216c7311b9c4767c228d6472dd37ec",
+      "static": false,
+      "strong": false,
+      "title": "nullopt_t",
+      "type": "__host__ constexpr __device__",
+      "typePlain": "__host__ constexpr __device__",
+      "url": "/thrust/api/classes/structnullopt__t.html#function-nullopt_t",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structnullopt__t",
+  "static": false,
+  "strong": false,
+  "summary": "A tag type to represent an empty optional. ",
+  "title": "nullopt_t",
+  "url": "/thrust/api/classes/structnullopt__t.html",
+  "visibility": "public"
+}

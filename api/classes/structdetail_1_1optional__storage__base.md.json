@@ -1,0 +1,338 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "derivedClasses": [
+    {
+      "external": false,
+      "name": "detail::optional_operations_base< T >",
+      "refid": "structdetail_1_1optional__operations__base",
+      "url": "/thrust/api/classes/structdetail_1_1optional__operations__base.html",
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "explicit": false,
+  "fullname": "detail::optional_storage_base",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 453,
+    "bodyFile": "thrust/optional.h",
+    "bodyStart": 425,
+    "column": 28,
+    "file": "thrust/optional.h",
+    "line": 425
+  },
+  "name": "detail::optional_storage_base",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "brief": "\\exclude ",
+    "category": "namespaces",
+    "fullname": "detail",
+    "kind": "namespace",
+    "name": "detail",
+    "refid": "namespacedetail",
+    "summary": "\\exclude ",
+    "title": "detail",
+    "url": "/thrust/api/namespaces/namespacedetail.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "brief": "\\exclude ",
+      "category": "namespaces",
+      "fullname": "detail",
+      "kind": "namespace",
+      "name": "detail",
+      "refid": "namespacedetail",
+      "summary": "\\exclude ",
+      "title": "detail",
+      "url": "/thrust/api/namespaces/namespacedetail.html",
+      "visibility": "public"
+    }
+  ],
+  "publicAttributes": [
+    {
+      "abstract": false,
+      "anchor": "#variable-m_dummy",
+      "category": "attributes",
+      "const": false,
+      "definition": "dummy detail::optional_storage_base< T, bool >::m_dummy",
+      "explicit": false,
+      "fullname": "detail::optional_storage_base::m_dummy",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 448,
+        "column": 11,
+        "file": "thrust/optional.h",
+        "line": 448
+      },
+      "name": "m_dummy",
+      "override": false,
+      "refid": "structdetail_1_1optional__storage__base_1adcf23976773cfbb7c571772bf7ee68b5",
+      "static": false,
+      "strong": false,
+      "title": "m_dummy",
+      "type": "dummy",
+      "typePlain": "dummy",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#variable-m_dummy",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-m_value",
+      "category": "attributes",
+      "const": false,
+      "definition": "T detail::optional_storage_base< T, bool >::m_value",
+      "explicit": false,
+      "fullname": "detail::optional_storage_base::m_value",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 449,
+        "column": 7,
+        "file": "thrust/optional.h",
+        "line": 449
+      },
+      "name": "m_value",
+      "override": false,
+      "refid": "structdetail_1_1optional__storage__base_1acb65c989e7fbf79826c9d31483ba5c9c",
+      "static": false,
+      "strong": false,
+      "title": "m_value",
+      "type": "T",
+      "typePlain": "T",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#variable-m_value",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-@1",
+      "category": "attributes",
+      "const": false,
+      "definition": "union detail::optional_storage_base::@0 detail::optional_storage_base< T, bool >::@1",
+      "explicit": false,
+      "fullname": "detail::optional_storage_base::@1",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 450
+      },
+      "name": "@1",
+      "override": false,
+      "refid": "structdetail_1_1optional__storage__base_1ab0f3ded625786444ea0eae00ccbff089",
+      "static": false,
+      "strong": false,
+      "title": "@1",
+      "type": "union detail::optional_storage_base::@0",
+      "typePlain": "union detail::optional_storage_base::@0",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#variable-@1",
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#variable-m_has_value",
+      "category": "attributes",
+      "const": false,
+      "definition": "bool detail::optional_storage_base< T, bool >::m_has_value",
+      "explicit": false,
+      "fullname": "detail::optional_storage_base::m_has_value",
+      "hasDetails": false,
+      "inline": false,
+      "kind": "variable",
+      "location": {
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 452,
+        "column": 8,
+        "file": "thrust/optional.h",
+        "line": 452
+      },
+      "name": "m_has_value",
+      "override": false,
+      "refid": "structdetail_1_1optional__storage__base_1a9a9162b3cc78912dea9033d490f7f4f1",
+      "static": false,
+      "strong": false,
+      "title": "m_has_value",
+      "type": "bool",
+      "typePlain": "bool",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#variable-m_has_value",
+      "visibility": "public"
+    }
+  ],
+  "publicClasses": [
+    {
+      "anchor": "",
+      "category": "classes",
+      "fullname": "detail::optional_storage_base::dummy",
+      "kind": "struct",
+      "name": "detail::optional_storage_base::dummy",
+      "refid": "structdetail_1_1optional__storage__base_1_1dummy",
+      "title": "detail::optional_storage_base::dummy",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base_1_1dummy.html",
+      "visibility": "public"
+    }
+  ],
+  "publicFunctions": [
+    {
+      "abstract": false,
+      "anchor": "#function-optional_storage_base",
+      "argsString": "() noexcept",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ detail::optional_storage_base< T, bool >::optional_storage_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_storage_base::optional_storage_base",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 429,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 428,
+        "column": 15,
+        "file": "thrust/optional.h",
+        "line": 428
+      },
+      "name": "optional_storage_base",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__storage__base_1a5342af7e9d8a52b2e51c4a7bc614888d",
+      "static": false,
+      "strong": false,
+      "title": "optional_storage_base",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#function-optional_storage_base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-optional_storage_base",
+      "argsString": "(in_place_t, U &&... u)",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ constexpr __device__ detail::optional_storage_base< T, bool >::optional_storage_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_storage_base::optional_storage_base",
+      "hasDetails": true,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 435,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 434,
+        "column": 15,
+        "file": "thrust/optional.h",
+        "line": 434
+      },
+      "name": "optional_storage_base",
+      "override": false,
+      "params": [
+        {
+          "name": "",
+          "type": "<a href=\"/thrust/api/classes/structin__place__t.html\">in_place_t</a>",
+          "typePlain": "in_place_t"
+        },
+        {
+          "name": "u",
+          "type": "U &&...",
+          "typePlain": "U &&..."
+        }
+      ],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__storage__base_1a1137f7365527d43ec5aeaaf581f2f142",
+      "static": false,
+      "strong": false,
+      "templateParams": [
+        {
+          "name": "U",
+          "type": "class...",
+          "typePlain": "class..."
+        }
+      ],
+      "title": "optional_storage_base",
+      "type": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ constexpr __device__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#function-optional_storage_base",
+      "virtual": false,
+      "visibility": "public"
+    },
+    {
+      "abstract": false,
+      "anchor": "#function-~optional_storage_base",
+      "argsString": "()",
+      "category": "functions",
+      "const": false,
+      "default": false,
+      "definition": "__thrust_exec_check_disable__ __host__ __device__ detail::optional_storage_base< T, bool >::~optional_storage_base",
+      "deleted": false,
+      "explicit": false,
+      "fullname": "detail::optional_storage_base::~optional_storage_base",
+      "hasDetails": false,
+      "inline": true,
+      "kind": "function",
+      "location": {
+        "bodyEnd": 444,
+        "bodyFile": "thrust/optional.h",
+        "bodyStart": 439,
+        "column": 3,
+        "file": "thrust/optional.h",
+        "line": 439
+      },
+      "name": "~optional_storage_base",
+      "override": false,
+      "params": [],
+      "pureVirtual": false,
+      "refid": "structdetail_1_1optional__storage__base_1a625d0cad8414117c63ddee75e8113dff",
+      "static": false,
+      "strong": false,
+      "title": "~optional_storage_base",
+      "type": "__thrust_exec_check_disable__ __host__ __device__",
+      "typePlain": "__thrust_exec_check_disable__ __host__ __device__",
+      "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html#function-~optional_storage_base",
+      "virtual": false,
+      "visibility": "public"
+    }
+  ],
+  "refid": "structdetail_1_1optional__storage__base",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "class T",
+      "typePlain": "class T"
+    },
+    {
+      "defval": "::std::is_trivially_destructible<T>::value",
+      "defvalPlain": "::std::is_trivially_destructible<T>::value",
+      "name": "",
+      "type": "bool",
+      "typePlain": "bool"
+    }
+  ],
+  "title": "detail::optional_storage_base",
+  "url": "/thrust/api/classes/structdetail_1_1optional__storage__base.html",
+  "visibility": "public"
+}

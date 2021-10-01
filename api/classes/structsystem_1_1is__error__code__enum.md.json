@@ -1,0 +1,106 @@
+{
+  "abstract": false,
+  "anchor": "",
+  "baseClasses": [
+    {
+      "external": true,
+      "name": "false_type",
+      "refid": null,
+      "virtual": "non-virtual",
+      "visibility": "public"
+    }
+  ],
+  "category": "classes",
+  "const": false,
+  "definition": "",
+  "details": "A metafunction returning whether or not the parameter is an <code><a href=\"/thrust/api/classes/classsystem_1_1error__code.html\">error&#95;code</a></code> enum. ",
+  "explicit": false,
+  "fullname": "system::is_error_code_enum",
+  "hasAdditionalMembers": false,
+  "hasDetails": true,
+  "includes": "<thrust/system/error_code.h>",
+  "inline": false,
+  "kind": "struct",
+  "location": {
+    "bodyEnd": 45,
+    "bodyFile": "thrust/system/error_code.h",
+    "bodyStart": 45,
+    "column": 70,
+    "file": "thrust/system/error_code.h",
+    "line": 45
+  },
+  "module": {
+    "anchor": "",
+    "category": "modules",
+    "fullname": "System_diagnostics",
+    "kind": "group",
+    "name": "System_diagnostics",
+    "refid": "group__system__diagnostics",
+    "title": "System Diagnostics",
+    "url": "/thrust/api/groups/group__system__diagnostics.html",
+    "visibility": "public"
+  },
+  "moduleBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "system",
+      "kind": "group",
+      "name": "system",
+      "refid": "group__system",
+      "title": "System",
+      "url": "/thrust/api/groups/group__system.html",
+      "visibility": "public"
+    },
+    {
+      "anchor": "",
+      "category": "modules",
+      "fullname": "System_diagnostics",
+      "kind": "group",
+      "name": "System_diagnostics",
+      "refid": "group__system__diagnostics",
+      "title": "System Diagnostics",
+      "url": "/thrust/api/groups/group__system__diagnostics.html",
+      "visibility": "public"
+    }
+  ],
+  "name": "system::is_error_code_enum",
+  "override": false,
+  "parent": {
+    "anchor": "",
+    "category": "namespaces",
+    "fullname": "system",
+    "kind": "namespace",
+    "name": "system",
+    "refid": "namespacesystem",
+    "title": "system",
+    "url": "/thrust/api/namespaces/namespacesystem.html",
+    "visibility": "public"
+  },
+  "parentBreadcrumbs": [
+    {
+      "anchor": "",
+      "category": "namespaces",
+      "fullname": "system",
+      "kind": "namespace",
+      "name": "system",
+      "refid": "namespacesystem",
+      "title": "system",
+      "url": "/thrust/api/namespaces/namespacesystem.html",
+      "visibility": "public"
+    }
+  ],
+  "refid": "structsystem_1_1is__error__code__enum",
+  "static": false,
+  "strong": false,
+  "templateParams": [
+    {
+      "name": "",
+      "type": "typename T",
+      "typePlain": "typename T"
+    }
+  ],
+  "title": "system::is_error_code_enum",
+  "url": "/thrust/api/classes/structsystem_1_1is__error__code__enum.html",
+  "visibility": "public"
+}
