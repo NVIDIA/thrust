@@ -108,7 +108,7 @@ namespace __adjacent_difference {
   {
     enum
     {
-      INPUT_SIZE                  = sizeof(T),
+      INPUT_SIZE                  = static_cast<int>(sizeof(T)),
       NOMINAL_4B_ITEMS_PER_THREAD = 7,
       ITEMS_PER_THREAD            = items_per_thread<INPUT_SIZE,
                                           NOMINAL_4B_ITEMS_PER_THREAD>::value

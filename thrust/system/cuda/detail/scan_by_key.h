@@ -89,8 +89,8 @@ namespace __scan_by_key {
               int,
               1,
               ((NOMINAL_4B_ITEMS_PER_THREAD * 8) +
-               COMBINED_INPUT_BYTES - 1) /
-                  COMBINED_INPUT_BYTES>::value>::value,
+               static_cast<int>(COMBINED_INPUT_BYTES) - 1) /
+                  static_cast<int>(COMBINED_INPUT_BYTES)>::value>::value,
     };
 
     typedef PtxPolicy<128,
