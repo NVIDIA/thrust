@@ -49,6 +49,7 @@
 #include <thrust/detail/alignment.h>
 #include <thrust/type_traits/is_contiguous_iterator.h>
 
+
 THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 
@@ -72,59 +73,63 @@ namespace __merge_sort {
   {
     (void)items;
 
+    cudaError_t status = cudaSuccess;
+
     if (keys_count == 0)
     {
-      return cudaSuccess;
+      return status;
     }
 
-    if (STABLE::value)
+    THRUST_IF_CONSTEXPR(STABLE::value)
     {
-      if (SORT_ITEMS::value)
+      THRUST_IF_CONSTEXPR(SORT_ITEMS::value)
       {
-        return cub::DeviceMergeSort::StableSortPairs(d_temp_storage,
-                                                     temp_storage_bytes,
-                                                     keys,
-                                                     items,
-                                                     keys_count,
-                                                     compare_op,
-                                                     stream,
-                                                     debug_sync);
+        status = cub::DeviceMergeSort::StableSortPairs(d_temp_storage,
+                                                       temp_storage_bytes,
+                                                       keys,
+                                                       items,
+                                                       keys_count,
+                                                       compare_op,
+                                                       stream,
+                                                       debug_sync);
       }
       else
       {
-        return cub::DeviceMergeSort::StableSortKeys(d_temp_storage,
-                                                    temp_storage_bytes,
-                                                    keys,
-                                                    keys_count,
-                                                    compare_op,
-                                                    stream,
-                                                    debug_sync);
+        status = cub::DeviceMergeSort::StableSortKeys(d_temp_storage,
+                                                      temp_storage_bytes,
+                                                      keys,
+                                                      keys_count,
+                                                      compare_op,
+                                                      stream,
+                                                      debug_sync);
       }
     }
     else
     {
-      if (SORT_ITEMS::value)
+      THRUST_IF_CONSTEXPR(SORT_ITEMS::value)
       {
-        return cub::DeviceMergeSort::SortPairs(d_temp_storage,
-                                               temp_storage_bytes,
-                                               keys,
-                                               items,
-                                               keys_count,
-                                               compare_op,
-                                               stream,
-                                               debug_sync);
+        status = cub::DeviceMergeSort::SortPairs(d_temp_storage,
+                                                 temp_storage_bytes,
+                                                 keys,
+                                                 items,
+                                                 keys_count,
+                                                 compare_op,
+                                                 stream,
+                                                 debug_sync);
       }
       else
       {
-        return cub::DeviceMergeSort::SortKeys(d_temp_storage,
-                                              temp_storage_bytes,
-                                              keys,
-                                              keys_count,
-                                              compare_op,
-                                              stream,
-                                              debug_sync);
+        status = cub::DeviceMergeSort::SortKeys(d_temp_storage,
+                                                temp_storage_bytes,
+                                                keys,
+                                                keys_count,
+                                                compare_op,
+                                                stream,
+                                                debug_sync);
       }
     }
+
+    return status;
   }
 
   template <typename SORT_ITEMS,
