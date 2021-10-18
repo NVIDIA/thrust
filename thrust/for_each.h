@@ -54,7 +54,7 @@ THRUST_NAMESPACE_BEGIN
  *          and \p UnaryFunction does not apply any non-constant operation through its argument.
  *
  *  The following code snippet demonstrates how to use \p for_each to print the elements
- *  of a \p std::device_vector using the \p thrust::device parallelization policy:
+ *  of a \p thrust::device_vector using the \p thrust::device parallelization policy:
  *
  *  \code
  *  #include <thrust/for_each.h>
