@@ -19,7 +19,7 @@ void initialize(thrust::device_vector<float>& v)
   thrust::default_random_engine rng(123456);
   thrust::uniform_int_distribution<int> dist(2, 19);
   for(size_t i = 0; i < v.size(); i++)
-    v[i] = dist(rng) / 2.0f;
+    v[i] = static_cast<float>(dist(rng)) / 2.0f;
 }
 
 void initialize(thrust::device_vector< thrust::pair<int,int> >& v)
