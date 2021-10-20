@@ -137,15 +137,16 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                InitValueT init,
                                ScanOp scan_op)
 {
+  using InputValueT = cub::detail::InputValue<InitValueT>;
   using Dispatch32 = cub::DispatchScan<InputIt,
                                        OutputIt,
                                        ScanOp,
-                                       InitValueT,
+                                       InputValueT,
                                        thrust::detail::int32_t>;
   using Dispatch64 = cub::DispatchScan<InputIt,
                                        OutputIt,
                                        ScanOp,
-                                       InitValueT,
+                                       InputValueT,
                                        thrust::detail::int64_t>;
 
   cudaStream_t stream = thrust::cuda_cub::stream(policy);
@@ -163,7 +164,7 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  first,
                                  result,
                                  scan_op,
-                                 init,
+                                 InputValueT(init),
                                  num_items_fixed,
                                  stream,
                                  THRUST_DEBUG_SYNC_FLAG));
@@ -187,7 +188,7 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  first,
                                  result,
                                  scan_op,
-                                 init,
+                                 InputValueT(init),
                                  num_items_fixed,
                                  stream,
                                  THRUST_DEBUG_SYNC_FLAG));
