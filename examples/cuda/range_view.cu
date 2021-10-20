@@ -181,7 +181,7 @@ __host__ __device__
 void saxpy(float A, View1 X, View2 Y, View3 Z)
 {
   // Z = A * X + Y
-  const int size = X.size();
+  const int size = static_cast<int>(X.size());
   thrust::for_each(thrust::device,
       thrust::make_counting_iterator(0),
       thrust::make_counting_iterator(size),

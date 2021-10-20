@@ -37,8 +37,8 @@ struct point_to_bucket_index : public thrust::unary_function<vec2,unsigned int>
   unsigned int operator()(const vec2& v) const
   {
     // find the raster indices of p's bucket
-    unsigned int x = static_cast<unsigned int>(thrust::get<0>(v) * width);
-    unsigned int y = static_cast<unsigned int>(thrust::get<1>(v) * height);
+    unsigned int x = static_cast<unsigned int>(thrust::get<0>(v)) * width;
+    unsigned int y = static_cast<unsigned int>(thrust::get<1>(v)) * height;
 
     // return the bucket's linear index
     return y * width + x;
