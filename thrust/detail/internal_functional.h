@@ -323,8 +323,9 @@ template<typename UnaryFunction>
   {
     typedef typename thrust::tuple_element<1,decltype(t)>::type this_type;
     // mstack adding static_cast 
-    thrust::get<1>(t) = static_cast<this_type>(f(thrust::get<0>(t)));
-    //thrust::get<1>(t) = f(thrust::get<0>(t));
+    //thrust::get<1>(t) = static_cast<this_type>(f(thrust::get<0>(t)));
+    //thrust::get<1>(t) = f(static_cast<this_type>(thrust::get<0>(t)));
+    thrust::get<1>(t) = f(thrust::get<0>(t));
   }
 };
 

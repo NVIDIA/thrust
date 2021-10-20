@@ -359,7 +359,10 @@ template <class HT, class TT>
   template <class HT2, class TT2>
   inline __host__ __device__
   cons& operator=( const cons<HT2, TT2>& u ) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
     head=u.head; tail=u.tail; return *this;
+#pragma GCC diagnostic pop
   }
 
   // must define assignment operator explicitly, implicit version is
@@ -467,7 +470,12 @@ template <class HT>
   inline __host__ __device__
   cons& operator=(const cons<HT2, null_type>& u )
   {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
     head = u.head;
+#pragma GCC diagnostic pop
+    //head = static_cast<stored_head_type>(u.head);
+    //head = static_cast<this::head_type>(u.head);
     return *this;
   }
 
