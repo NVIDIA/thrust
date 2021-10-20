@@ -63,7 +63,7 @@ template<typename UIntType, size_t w, size_t s, size_t r>
 {
   // XXX we probably need to cache these m_x[m_k] in a register
   //     maybe we need to cache the use of all member variables
-  int short_index = m_k - short_lag;
+  int short_index = m_k - static_cast<int>(short_lag);
   if(short_index < 0)
     short_index += long_lag;
   result_type xi;

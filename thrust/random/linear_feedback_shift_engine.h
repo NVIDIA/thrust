@@ -93,7 +93,7 @@ template<typename UIntType, size_t w, size_t k, size_t q, size_t s>
     static const result_type wordmask =
       detail::linear_feedback_shift_engine_wordmask<
         result_type,
-        w
+        static_cast<int>(w)
       >::value;
     /*! \endcond
      */
