@@ -118,6 +118,8 @@ template <typename T1, typename T2>
 void assert_equal(T1 a, T2 b,
                   const std::string& filename = "unknown", int lineno = -1)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
     if(!(a == b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
@@ -125,6 +127,7 @@ void assert_equal(T1 a, T2 b,
         f << " [type='" << type_name<T1>() << "']";
         throw f;
     }
+#pragma GCC diagnostic pop
 }
 
 void assert_equal(char a, char b,
@@ -144,6 +147,8 @@ template <typename T1, typename T2>
 void assert_equal_quiet(const T1& a, const T2& b,
                         const std::string& filename = "unknown", int lineno = -1)
 {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
     if(!(a == b)){
         unittest::UnitTestFailure f;
         f << "[" << filename << ":" << lineno << "] ";
@@ -151,6 +156,7 @@ void assert_equal_quiet(const T1& a, const T2& b,
         f << " [type='" << type_name<T1>() << "']";
         throw f;
     }
+#pragma GCC diagnostic pop
 }
 
 ////

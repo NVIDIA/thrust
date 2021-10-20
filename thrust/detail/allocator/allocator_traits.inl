@@ -223,7 +223,7 @@ template<typename Alloc, typename T, typename Arg1>
     >::type
       construct(Alloc &, T *p, const Arg1 &arg1)
 {
-  ::new(static_cast<void*>(p)) T(arg1);
+  ::new(static_cast<void*>(p)) T(static_cast<T>(arg1));
 }
 
 #if THRUST_CPP_DIALECT >= 2011
@@ -254,7 +254,7 @@ template<typename Alloc, typename T, typename... Args>
     >::type
       construct(Alloc &, T* p, Args&&... args)
 {
-  ::new(static_cast<void*>(p)) T(THRUST_FWD(args)...);
+  ::new(static_cast<void*>(p)) T(THRUST_FWD(static_cast<T>(args))...);
 }
 
 #endif

@@ -19,6 +19,9 @@
 #include <thrust/detail/config.h>
 #include <thrust/detail/raw_reference_cast.h>
 
+// mstack adding type_traits
+#include <type_traits>
+
 THRUST_NAMESPACE_BEGIN
 
 namespace detail
@@ -88,8 +91,16 @@ struct wrapped_function
   inline __host__ __device__
   Result operator()(Argument1& x, const Argument2& y) const
   {
+    // mstack adding change
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wconversion"
     return static_cast<Result>(m_f(thrust::raw_reference_cast(x),
                                    thrust::raw_reference_cast(y)));
+#pragma GCC diagnostic pop
+    //using f_type = std::invoke_result_t<Function, thrust::raw_reference_cast(x), thrust::raw_reference_cast(y)>;
+    //using f_type = std::result_of<Function(thrust::raw_reference_cast(x), thrust::raw_reference_cast(y))>::type;
+    //return static_cast<Result>(m_f(static_cast<f_type>(thrust::raw_reference_cast(x)),
+    //                               static_cast<f_type>(thrust::raw_reference_cast(y))));
   }
 }; // end wrapped_function
 
