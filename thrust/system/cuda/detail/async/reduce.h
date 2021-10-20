@@ -196,9 +196,10 @@ auto async_reduce(
 , T                                init
 , BinaryOp                         op
 )
+// mstack adding static_cast
 THRUST_RETURNS(
   thrust::system::cuda::detail::async_reduce_n(
-    policy, first, distance(first, last), init, op
+    policy, first, static_cast<int>(distance(first, last)), init, op
   )
 )
 
@@ -333,9 +334,10 @@ auto async_reduce_into(
 , T                                init
 , BinaryOp                         op
 )
+// mstack adding static_cast
 THRUST_RETURNS(
   thrust::system::cuda::detail::async_reduce_into_n(
-    policy, first, distance(first, last), output, init, op
+    policy, first, static_cast<int>(distance(first, last)), output, init, op
   )
 )
 

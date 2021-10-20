@@ -161,7 +161,7 @@ template<unsigned int RadixBits, typename KeyType>
   inline __host__ __device__
   size_t operator()(KeyType key)
   {
-    const EncodedType x = encode(key);
+    const EncodedType x = static_cast<EncodedType>(encode(key));
 
     // note that we mutate the histogram here
     return histogram[(x >> bit_shift) & BitMask]++;
@@ -259,7 +259,7 @@ void radix_sort(sequential::execution_policy<DerivedPolicy> &exec,
   // compute histograms
   for(size_t i = 0; i < N; i++)
   {
-    const EncodedType x = encode(keys1[i]);
+    const EncodedType x = static_cast<EncodedType>(encode(keys1[i]));
 
     for(unsigned int j = 0; j < NumHistograms; j++)
     {
