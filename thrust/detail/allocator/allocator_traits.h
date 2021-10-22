@@ -26,7 +26,7 @@
 #include <thrust/detail/type_traits/has_member_function.h>
 #include <thrust/detail/type_traits.h>
 
-#include <memory>
+#include <thrust/detail/memory_wrapper.h>
 
 THRUST_NAMESPACE_BEGIN
 namespace detail
