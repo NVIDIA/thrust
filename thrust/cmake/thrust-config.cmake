@@ -502,7 +502,8 @@ macro(_thrust_find_CUDA required)
       ${required}
       NO_DEFAULT_PATH # Only check the explicit HINTS below:
       HINTS
-        "${_THRUST_INCLUDE_DIR}/dependencies/cub" # Source layout
+        "${_THRUST_INCLUDE_DIR}/dependencies/cub" # Source layout (GitHub)
+        "${_THRUST_INCLUDE_DIR}/../cub/cub/cmake" # Source layout (Perforce)
         "${_THRUST_CMAKE_DIR}/.."                 # Install layout
     )
 

@@ -120,5 +120,8 @@ endif()
 
 if (THRUST_INCLUDE_CUB_CMAKE AND THRUST_CUDA_FOUND)
   set(CUB_IN_THRUST ON)
-  add_subdirectory(dependencies/cub)
+  # CUB's path is specified generically to support both GitHub and Perforce
+  # source tree layouts. The include directory used by cub-config.cmake
+  # for source layouts is the same as the project root.
+  add_subdirectory("${_CUB_INCLUDE_DIR}" dependencies/cub)
 endif()
