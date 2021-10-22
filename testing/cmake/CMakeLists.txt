@@ -27,11 +27,11 @@ if (THRUST_CPP_FOUND AND THRUST_CUDA_FOUND)
   )
 endif()
 
-# Check that namespace macros are used correctly:
+# Check source code for issues that can be found by pattern matching:
 add_test(
-  NAME thrust.test.cmake.check_namespace
+  NAME thrust.test.cmake.check_source_files
   COMMAND
     "${CMAKE_COMMAND}"
       -D "Thrust_SOURCE_DIR=${Thrust_SOURCE_DIR}"
-      -P "${CMAKE_CURRENT_LIST_DIR}/check_namespace.cmake"
+      -P "${CMAKE_CURRENT_LIST_DIR}/check_source_files.cmake"
 )
