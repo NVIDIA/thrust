@@ -51,6 +51,9 @@
 //#define max(...) THRUST_MACRO_CHECK('max', windows.h)
 #define small THRUST_MACRO_CHECK('small', windows.h)
 
+// termios.h conflicts (NVIDIA/thrust#1547)
+#define B0 THRUST_MACRO_CHECK("B0", termios.h)
+
 #endif // THRUST_IGNORE_MACRO_CHECKS
 
 #include <thrust/${header}>
