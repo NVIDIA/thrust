@@ -808,7 +808,7 @@ namespace __reduce {
 
         // if not enough to fill the device with threadblocks
         // then fill the device with threadblocks
-        reduce_grid_size = static_cast<int>(min(num_tiles, static_cast<size_t>(reduce_device_occupancy)));
+        reduce_grid_size = static_cast<int>((min)(num_tiles, static_cast<size_t>(reduce_device_occupancy)));
 
         typedef AgentLauncher<DrainAgent<Size> > drain_agent;
         AgentPlan drain_plan = drain_agent::get_plan();

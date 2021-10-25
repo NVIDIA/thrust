@@ -97,7 +97,7 @@ void insertion_sort_each(RandomAccessIterator first,
   {
     for(; first < last; first += partition_size)
     {
-      RandomAccessIterator partition_last = thrust::min(last, first + partition_size);
+      RandomAccessIterator partition_last = (thrust::min)(last, first + partition_size);
 
       thrust::system::detail::sequential::insertion_sort(first, partition_last, comp);
     } // end for
@@ -120,7 +120,7 @@ void insertion_sort_each_by_key(RandomAccessIterator1 keys_first,
   {
     for(; keys_first < keys_last; keys_first += partition_size, values_first += partition_size)
     {
-      RandomAccessIterator1 keys_partition_last = thrust::min(keys_last, keys_first + partition_size);
+      RandomAccessIterator1 keys_partition_last = (thrust::min)(keys_last, keys_first + partition_size);
 
       thrust::system::detail::sequential::insertion_sort_by_key(keys_first, keys_partition_last, values_first, comp);
     } // end for
@@ -143,8 +143,8 @@ void merge_adjacent_partitions(sequential::execution_policy<DerivedPolicy> &exec
 {
   for(; first < last; first += 2 * partition_size, result += 2 * partition_size)
   {
-    RandomAccessIterator1 interval_middle = thrust::min(last, first + partition_size);
-    RandomAccessIterator1 interval_last   = thrust::min(last, interval_middle + partition_size);
+    RandomAccessIterator1 interval_middle = (thrust::min)(last, first + partition_size);
+    RandomAccessIterator1 interval_last   = (thrust::min)(last, interval_middle + partition_size);
 
     thrust::merge(exec,
                   first, interval_middle,
@@ -178,8 +178,8 @@ void merge_adjacent_partitions_by_key(sequential::execution_policy<DerivedPolicy
       keys_first < keys_last;
       keys_first += stride, values_first += stride, keys_result += stride, values_result += stride)
   {
-    RandomAccessIterator1 keys_interval_middle = thrust::min(keys_last, keys_first + partition_size);
-    RandomAccessIterator1 keys_interval_last   = thrust::min(keys_last, keys_interval_middle + partition_size);
+    RandomAccessIterator1 keys_interval_middle = (thrust::min)(keys_last, keys_first + partition_size);
+    RandomAccessIterator1 keys_interval_last   = (thrust::min)(keys_last, keys_interval_middle + partition_size);
 
     RandomAccessIterator2 values_first2 = values_first + (keys_interval_middle - keys_first);
 
