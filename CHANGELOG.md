@@ -1,11 +1,11 @@
-# Thrust 1.15.0 (NVIDIA HPC SDK 21.11)
+# Thrust 1.15.0
 
 ## Summary
 
-Thrust 1.15.0 accompanies the NVIDIA HPC SDK 21.11 release. It provides numerous
-bugfixes, including non-numeric `thrust::sequence` support, several MSVC-related
-compilation fixes, fewer conversion warnings, `counting_iterator`
-initialization, and documentation updates.
+Thrust 1.15.0 provides numerous bugfixes, including non-numeric
+`thrust::sequence` support, several MSVC-related compilation fixes, fewer
+conversion warnings, `counting_iterator` initialization, and documentation
+updates.
 
 ## Deprecation Notices
 
@@ -29,6 +29,8 @@ on the calling GPU thread instead of launching a device-wide kernel.
   Stack (@matt-stack) for this contribution.
 - NVIDIA/thrust#1539: Fixed typo in `thrust::for_each` documentation. Thanks to
   Salman (@untamedImpala) for this contribution.
+- NVIDIA/thrust#1548: Avoid name collision with `B0` macro in termios.h system
+  header. Thanks to Philip Deegan (@PhilipDeegan) for this contribution.
 
 ## Other Enhancements
 
