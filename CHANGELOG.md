@@ -32,11 +32,6 @@ on the calling GPU thread instead of launching a device-wide kernel.
 - NVIDIA/thrust#1548: Avoid name collision with `B0` macro in termios.h system
   header. Thanks to Philip Deegan (@PhilipDeegan) for this contribution.
 
-## Other Enhancements
-
-- NVIDIA/thrust#1511: Replace the internal merge sort implementation
-  with `cub::DeviceMergeSort`.
-
 # Thrust 1.14.0 (NVIDIA HPC SDK 21.9)
 
 ## Summary
