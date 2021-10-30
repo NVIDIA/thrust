@@ -55,9 +55,7 @@ namespace cuda_cub {
 
 namespace __merge_sort {
 
-  template <class SORT_ITEMS,
-            class STABLE,
-            class KeysIt,
+  template <class KeysIt,
             class ItemsIt,
             class Size,
             class CompareOp>
@@ -65,71 +63,98 @@ namespace __merge_sort {
   doit_step(void*        d_temp_storage,
             size_t&      temp_storage_bytes,
             KeysIt       keys,
-            ItemsIt      items,
+            ItemsIt      ,
             Size         keys_count,
             CompareOp    compare_op,
             cudaStream_t stream,
-            bool         debug_sync)
+            bool         debug_sync,
+            thrust::detail::integral_constant<bool, false> /* sort_keys */)
   {
-    (void)items;
+    using ItemsInputIt = cub::NullType *;
+    ItemsInputIt items = nullptr;
 
-    cudaError_t status = cudaSuccess;
+    using DispatchMergeSortT = cub::DispatchMergeSort<KeysIt,
+                                                      ItemsInputIt,
+                                                      KeysIt,
+                                                      ItemsInputIt,
+                                                      Size,
+                                                      CompareOp>;
 
+
+    return DispatchMergeSortT::Dispatch(d_temp_storage,
+                                        temp_storage_bytes,
+                                        keys,
+                                        items,
+                                        keys,
+                                        items,
+                                        keys_count,
+                                        compare_op,
+                                        stream,
+                                        debug_sync);
+  }
+
+  template <class KeysIt,
+            class ItemsIt,
+            class Size,
+            class CompareOp>
+  THRUST_RUNTIME_FUNCTION cudaError_t
+  doit_step(void *d_temp_storage,
+            size_t &temp_storage_bytes,
+            KeysIt keys,
+            ItemsIt items,
+            Size keys_count,
+            CompareOp compare_op,
+            cudaStream_t stream,
+            bool debug_sync,
+            thrust::detail::integral_constant<bool, true> /* sort_items */)
+  {
+    using DispatchMergeSortT =
+      cub::DispatchMergeSort<KeysIt, ItemsIt, KeysIt, ItemsIt, Size, CompareOp>;
+
+    return DispatchMergeSortT::Dispatch(d_temp_storage,
+                                        temp_storage_bytes,
+                                        keys,
+                                        items,
+                                        keys,
+                                        items,
+                                        keys_count,
+                                        compare_op,
+                                        stream,
+                                        debug_sync);
+  }
+
+  template <class SORT_ITEMS,
+            class /* STABLE */,
+            class KeysIt,
+            class ItemsIt,
+            class Size,
+            class CompareOp>
+  THRUST_RUNTIME_FUNCTION cudaError_t
+  doit_step(void *d_temp_storage,
+            size_t &temp_storage_bytes,
+            KeysIt keys,
+            ItemsIt items,
+            Size keys_count,
+            CompareOp compare_op,
+            cudaStream_t stream,
+            bool debug_sync)
+  {
     if (keys_count == 0)
     {
-      return status;
+      return cudaSuccess;
     }
 
-    THRUST_IF_CONSTEXPR(STABLE::value)
-    {
-      THRUST_IF_CONSTEXPR(SORT_ITEMS::value)
-      {
-        status = cub::DeviceMergeSort::StableSortPairs(d_temp_storage,
-                                                       temp_storage_bytes,
-                                                       keys,
-                                                       items,
-                                                       keys_count,
-                                                       compare_op,
-                                                       stream,
-                                                       debug_sync);
-      }
-      else
-      {
-        status = cub::DeviceMergeSort::StableSortKeys(d_temp_storage,
-                                                      temp_storage_bytes,
-                                                      keys,
-                                                      keys_count,
-                                                      compare_op,
-                                                      stream,
-                                                      debug_sync);
-      }
-    }
-    else
-    {
-      THRUST_IF_CONSTEXPR(SORT_ITEMS::value)
-      {
-        status = cub::DeviceMergeSort::SortPairs(d_temp_storage,
-                                                 temp_storage_bytes,
-                                                 keys,
-                                                 items,
-                                                 keys_count,
-                                                 compare_op,
-                                                 stream,
-                                                 debug_sync);
-      }
-      else
-      {
-        status = cub::DeviceMergeSort::SortKeys(d_temp_storage,
-                                                temp_storage_bytes,
-                                                keys,
-                                                keys_count,
-                                                compare_op,
-                                                stream,
-                                                debug_sync);
-      }
-    }
+    thrust::detail::integral_constant<bool, SORT_ITEMS::value> sort_items{};
 
-    return status;
+    return doit_step(d_temp_storage,
+                     temp_storage_bytes,
+                     keys,
+                     items,
+                     keys_count,
+                     compare_op,
+                     stream,
+                     debug_sync,
+                     sort_items);
   }
 
   template <typename SORT_ITEMS,
