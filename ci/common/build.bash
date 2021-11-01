@@ -148,6 +148,9 @@ case "${COVERAGE_PLAN}" in
     append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_WORKLOAD=LARGE"
     ;;
   Thorough)
+    # Build the legacy bench.cu. We'll probably want to remove this when we
+    # switch to the new, heavier thrust_benchmarks project.
+    append CMAKE_FLAGS "-DTHRUST_ENABLE_BENCHMARKS=ON"
     append CMAKE_FLAGS "-DTHRUST_ENABLE_MULTICONFIG=ON"
     append CMAKE_FLAGS "-DTHRUST_IGNORE_DEPRECATED_CPP_11=ON"
     append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_DIALECT_ALL=ON"
