@@ -32,6 +32,13 @@ function print_with_trailing_blank_line {
   printf "%s\n\n" "${*}"
 }
 
+# echo_and_run name args...
+# Echo ${args[@]}, then execute ${args[@]}
+function echo_and_run {
+  echo "${1}: ${@:2}"
+  ${@:2}
+}
+
 # echo_and_run_timed name args...
 # Echo ${args[@]}, then execute ${args[@]} and report how long it took,
 # including ${name} in the output of the time.
@@ -70,6 +77,9 @@ export HOME=${WORKSPACE}
 cd ${WORKSPACE}
 mkdir -p build
 cd build
+
+# Remove any old .ninja_log file so the PrintNinjaBuildTimes step is accurate:
+rm -f .ninja_log
 
 if [[ -z "${CMAKE_BUILD_TYPE}" ]]; then
   CMAKE_BUILD_TYPE="Release"
@@ -280,6 +290,15 @@ log "Test Thrust and CUB..."
 
 echo_and_run_timed "Test" ctest ${CTEST_FLAGS}
 test_status=$?
+
+################################################################################
+# COMPILE TIME INFO: Print the 20 longest running build steps (ninja only)
+################################################################################
+
+if [[ -f ".ninja_log" ]]; then
+  log "Checking slowest build steps..."
+  echo_and_run "CompileTimeInfo" cmake -P ../cmake/PrintNinjaBuildTimes.cmake | head -n 23
+fi
 
 ################################################################################
 # SUMMARY - Print status of each step and exit with failure if needed.
