@@ -515,7 +515,7 @@ void TestShuffleEvenSpacingBetweenOccurances() {
   thrust::host_vector<T> h_results;
   Vector sequence(shuffle_size);
   thrust::sequence(sequence.begin(), sequence.end(), 0);
-  thrust::default_random_engine g(0xD5);
+  thrust::default_random_engine g(0xD6);
   for (auto i = 0ull; i < num_samples; i++) {
     thrust::shuffle(sequence.begin(), sequence.end(), g);
     thrust::host_vector<T> tmp(sequence.begin(), sequence.end());
