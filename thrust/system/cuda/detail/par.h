@@ -50,7 +50,7 @@ private:
 public:
   __host__ __device__
   execute_on_stream_base(cudaStream_t stream_ = default_stream())
-      : stream(stream_) {}
+      : stream(stream_){}
 
   THRUST_RUNTIME_FUNCTION
   Derived
@@ -77,7 +77,27 @@ struct execute_on_stream : execute_on_stream_base<execute_on_stream>
   __host__ __device__
   execute_on_stream() : base_t(){};
   __host__ __device__
-  execute_on_stream(cudaStream_t stream) : base_t(stream){};
+  execute_on_stream(cudaStream_t stream) 
+  : base_t(stream){};
+};
+
+struct execute_on_stream_no_wait : execute_on_stream_base<execute_on_stream_no_wait>
+{
+  typedef execute_on_stream_base<execute_on_stream_no_wait> base_t;
+
+  __host__ __device__
+  execute_on_stream_no_wait() : base_t(){};
+  __host__ __device__
+  execute_on_stream_no_wait(cudaStream_t stream) 
+  : base_t(stream){};
+
+private:
+  friend __host__ __device__
+  bool
+  must_perform_optional_stream_synchronization(const execute_on_stream_no_wait&)
+  {
+    return false;
+  }
 };
 
 
@@ -104,20 +124,57 @@ struct par_t : execution_policy<par_t>,
   }
 };
 
+struct par_nosync_t : execution_policy<par_nosync_t>,
+  thrust::detail::allocator_aware_execution_policy<
+    execute_on_stream_base>
+#if THRUST_CPP_DIALECT >= 2011
+, thrust::detail::dependencies_aware_execution_policy<
+    execute_on_stream_base>
+#endif
+{
+  typedef execution_policy<par_nosync_t> base_t;
+
+  __host__ __device__
+  constexpr par_nosync_t() : base_t() {}
+
+  typedef execute_on_stream_no_wait stream_attachment_type;
+
+  THRUST_RUNTIME_FUNCTION
+  stream_attachment_type
+  on(cudaStream_t const &stream) const
+  {
+    return execute_on_stream_no_wait(stream);
+  }
+
+private:
+  //this function is defined to allow non-blocking calls on the default_stream() with thrust::cuda::par_nosync
+  //without explicitly using thrust::cuda::par_nosync.on(default_stream())
+  friend __host__ __device__
+  bool
+  must_perform_optional_stream_synchronization(const par_nosync_t &)
+  {
+    return false;
+  }
+};
+
 THRUST_INLINE_CONSTANT par_t par;
+THRUST_INLINE_CONSTANT par_nosync_t par_nosync;
 }    // namespace cuda_
 
 namespace system {
 namespace cuda {
   using thrust::cuda_cub::par;
+  using thrust::cuda_cub::par_nosync;
   namespace detail {
     using thrust::cuda_cub::par_t;
+    using thrust::cuda_cub::par_nosync_t;
   }
 } // namesapce cuda
 } // namespace system
 
 namespace cuda {
 using thrust::cuda_cub::par;
+using thrust::cuda_cub::par_nosync;
 } // namespace cuda
 
 THRUST_NAMESPACE_END

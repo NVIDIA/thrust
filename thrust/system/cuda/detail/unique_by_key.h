@@ -789,7 +789,7 @@ namespace __unique_by_key {
                                         debug_sync);
     cuda_cub::throw_on_error(status, "unique_by_key: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
+    status = cuda_cub::synchronize_optional(policy);
     cuda_cub::throw_on_error(status, "unique_by_key: failed to synchronize");
 
     size_type num_selected = get_value(policy, d_num_selected_out);

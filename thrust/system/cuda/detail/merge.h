@@ -847,7 +847,7 @@ namespace __merge {
                                     debug_sync);
     cuda_cub::throw_on_error(status, "merge: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
+    status = cuda_cub::synchronize_optional(policy);
     cuda_cub::throw_on_error(status, "merge: failed to synchronize");
 
     return thrust::make_pair(keys_result + count, items_result + count);

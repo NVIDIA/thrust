@@ -467,7 +467,7 @@ namespace __adjacent_difference {
            num_items_fixed, stream, debug_sync));
     cuda_cub::throw_on_error(status, "adjacent_difference failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
+    status = cuda_cub::synchronize_optional(policy);
     cuda_cub::throw_on_error(status, "adjacent_difference failed to synchronize");
 
     return result + num_items;

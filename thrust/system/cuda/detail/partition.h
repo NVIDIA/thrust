@@ -775,7 +775,7 @@ namespace __partition {
                        debug_sync);
     cuda_cub::throw_on_error(status, "partition failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
+    status = cuda_cub::synchronize_optional(policy);
     cuda_cub::throw_on_error(status, "partition failed to synchronize");
 
     size_type num_selected = 0;
