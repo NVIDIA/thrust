@@ -992,7 +992,6 @@ void run_core_primitives_experiments_for_type()
     , RegularTrials
   >::run_experiment();
 
-#if THRUST_CPP_DIALECT >= 2011
   experiment_driver<
       shuffle_tester
     , ElementMetaType
@@ -1000,7 +999,6 @@ void run_core_primitives_experiments_for_type()
     , BaselineTrials
     , RegularTrials
   >::run_experiment();
-#endif
 }
 
 ///////////////////////////////////////////////////////////////////////////////

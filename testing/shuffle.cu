@@ -1,6 +1,5 @@
 #include <thrust/detail/config.h>
 
-#if THRUST_CPP_DIALECT >= 2011
 #include <map>
 #include <limits>
 #include <thrust/random.h>
@@ -601,4 +600,3 @@ void TestShuffleEvenDistribution() {
   }
 }
 DECLARE_INTEGRAL_VECTOR_UNITTEST(TestShuffleEvenDistribution);
-#endif

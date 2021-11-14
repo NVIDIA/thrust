@@ -83,7 +83,7 @@ class feistel_bijection {
 
   // Find the nearest power of two
   constexpr static __host__ __device__ std::uint64_t get_cipher_bits(std::uint64_t m) {
-    if (m == 0) return 0;
+    if (m <= 16) return 4;
     std::uint64_t i = 0;
     m--;
     while (m != 0) {
