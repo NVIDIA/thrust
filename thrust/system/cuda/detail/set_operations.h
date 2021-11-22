@@ -1335,7 +1335,7 @@ namespace __set_operations {
                                    debug_sync));
     cuda_cub::throw_on_error(status, "set_operations failed on 2nd step");
 
-    status = cuda_cub::synchronize_optional(policy);
+    status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "set_operations failed to synchronize");
 
     std::size_t output_count = cuda_cub::get_value(policy, d_output_count);

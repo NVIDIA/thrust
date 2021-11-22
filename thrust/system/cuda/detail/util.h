@@ -144,9 +144,12 @@ synchronize_stream_optional(execution_policy<Derived> &policy)
   } else {
     #if THRUST_INCLUDE_DEVICE_CODE
       #if __THRUST_HAS_CUDART__
-        THRUST_UNUSED_VAR(policy);
-        cub::detail::device_synchronize();
-        result = cudaGetLastError();
+        if(must_perform_optional_synchronization(policy)){
+          cub::detail::device_synchronize();
+          result = cudaGetLastError();
+        }else{
+          result = cudaSuccess;
+        }
       #else
         THRUST_UNUSED_VAR(policy);
         result = cudaSuccess;
@@ -220,7 +223,7 @@ trivial_copy_device_to_device(Policy &    policy,
                              sizeof(Type) * count,
                              cudaMemcpyDeviceToDevice,
                              stream);
-  cuda_cub::synchronize_optional(policy);
+  cuda_cub::synchronize(policy);
   return status;
 }
 

@@ -913,7 +913,7 @@ namespace __reduce {
                        debug_sync);
     cuda_cub::throw_on_error(status, "reduce failed on 2nd step");
 
-    status = cuda_cub::synchronize_optional(policy);
+    status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "reduce failed to synchronize");
 
     T result = cuda_cub::get_value(policy, d_result);
@@ -984,8 +984,8 @@ T reduce_n_impl(execution_policy<Derived>& policy,
 
   // Synchronize the stream and get the value.
 
-  cuda_cub::throw_on_error(cuda_cub::synchronize_optional(policy),
-    "reduce failed to synchronize");
+  status = cuda_cub::synchronize(policy);
+  cuda_cub::throw_on_error(status, "reduce failed to synchronize");
 
   // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
   // `reference`, which has an `operator&` that returns a `pointer`, which

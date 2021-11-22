@@ -763,7 +763,7 @@ namespace __copy_if {
                        debug_sync);
     cuda_cub::throw_on_error(status, "copy_if failed on 2nd step");
 
-    status = cuda_cub::synchronize_optional(policy);
+    status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "copy_if failed to synchronize");
 
     size_type num_selected = get_value(policy, d_num_selected_out);

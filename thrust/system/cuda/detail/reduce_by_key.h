@@ -1043,7 +1043,7 @@ namespace __reduce_by_key {
                        debug_sync);
     cuda_cub::throw_on_error(status, "reduce_by_key failed on 2nd step");
 
-    status = cuda_cub::synchronize_optional(policy);
+    status = cuda_cub::synchronize(policy);
     cuda_cub::throw_on_error(status, "reduce_by_key: failed to synchronize");
 
     int num_runs_out = cuda_cub::get_value(policy, d_num_runs_out);
