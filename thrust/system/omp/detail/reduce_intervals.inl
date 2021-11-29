@@ -62,9 +62,7 @@ void reduce_intervals(execution_policy<DerivedPolicy> &,
 
   index_type n = static_cast<index_type>(decomp.size());
 
-#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
-# pragma omp parallel for
-#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
+  THRUST_PRAGMA_OMP(parallel for)
   for(index_type i = 0; i < n; i++)
   {
     InputIterator begin = input + decomp[i].begin();
