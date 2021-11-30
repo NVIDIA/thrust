@@ -113,6 +113,8 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
   , "OpenMP compiler support is not enabled"
   );
 
+  // Avoid issues on compilers that don't provide `omp_get_num_threads()`.
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_difference<RandomAccessIterator>::type IndexType;
 
   if(first == last)
@@ -168,6 +170,7 @@ void stable_sort(execution_policy<DerivedPolicy> &exec,
       THRUST_PRAGMA_OMP(barrier)
     }
   }
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 
@@ -193,6 +196,8 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
   , "OpenMP compiler support is not enabled"
   );
 
+  // Avoid issues on compilers that don't provide `omp_get_num_threads()`.
+#if (THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE == THRUST_TRUE)
   typedef typename thrust::iterator_difference<RandomAccessIterator1>::type IndexType;
 
   if(keys_first == keys_last)
@@ -250,6 +255,7 @@ void stable_sort_by_key(execution_policy<DerivedPolicy> &exec,
       THRUST_PRAGMA_OMP(barrier)
     }
   }
+#endif // THRUST_DEVICE_COMPILER_IS_OMP_CAPABLE
 }
 
 
