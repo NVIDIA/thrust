@@ -50,7 +50,7 @@ namespace cuda_cub {
 namespace core {
 
 
-#if defined(__CUDA_ARCH__) || defined(__NVCOMPILER_CUDA__)
+#if defined(__CUDA_ARCH__) || defined(_NVHPC_CUDA)
 #if 0
   template <class Agent, class... Args>
   void __global__
