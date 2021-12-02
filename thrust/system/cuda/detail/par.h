@@ -70,6 +70,42 @@ private:
   }
 };
 
+template <class Derived>
+struct execute_on_stream_nosync_base : execution_policy<Derived>
+{
+private:
+  cudaStream_t stream;
+
+public:
+  __host__ __device__
+  execute_on_stream_nosync_base(cudaStream_t stream_ = default_stream())
+      : stream(stream_){}
+
+  THRUST_RUNTIME_FUNCTION
+  Derived
+  on(cudaStream_t const &s) const
+  {
+    Derived result = derived_cast(*this);
+    result.stream  = s;
+    return result;
+  }
+
+private:
+  friend __host__ __device__
+  cudaStream_t
+  get_stream(const execute_on_stream_nosync_base &exec)
+  {
+    return exec.stream;
+  }
+
+  friend __host__ __device__
+  bool
+  must_perform_optional_stream_synchronization(const execute_on_stream_nosync_base &)
+  {
+    return false;
+  }
+};
+
 struct execute_on_stream : execute_on_stream_base<execute_on_stream>
 {
   typedef execute_on_stream_base<execute_on_stream> base_t;
@@ -81,23 +117,15 @@ struct execute_on_stream : execute_on_stream_base<execute_on_stream>
   : base_t(stream){};
 };
 
-struct execute_on_stream_no_wait : execute_on_stream_base<execute_on_stream_no_wait>
+struct execute_on_stream_nosync : execute_on_stream_nosync_base<execute_on_stream_nosync>
 {
-  typedef execute_on_stream_base<execute_on_stream_no_wait> base_t;
+  typedef execute_on_stream_nosync_base<execute_on_stream_nosync> base_t;
 
   __host__ __device__
-  execute_on_stream_no_wait() : base_t(){};
+  execute_on_stream_nosync() : base_t(){};
   __host__ __device__
-  execute_on_stream_no_wait(cudaStream_t stream) 
+  execute_on_stream_nosync(cudaStream_t stream) 
   : base_t(stream){};
-
-private:
-  friend __host__ __device__
-  bool
-  must_perform_optional_stream_synchronization(const execute_on_stream_no_wait&)
-  {
-    return false;
-  }
 };
 
 
@@ -126,10 +154,10 @@ struct par_t : execution_policy<par_t>,
 
 struct par_nosync_t : execution_policy<par_nosync_t>,
   thrust::detail::allocator_aware_execution_policy<
-    execute_on_stream_base>
+    execute_on_stream_nosync_base>
 #if THRUST_CPP_DIALECT >= 2011
 , thrust::detail::dependencies_aware_execution_policy<
-    execute_on_stream_base>
+    execute_on_stream_nosync_base>
 #endif
 {
   typedef execution_policy<par_nosync_t> base_t;
@@ -137,13 +165,13 @@ struct par_nosync_t : execution_policy<par_nosync_t>,
   __host__ __device__
   constexpr par_nosync_t() : base_t() {}
 
-  typedef execute_on_stream_no_wait stream_attachment_type;
+  typedef execute_on_stream_nosync stream_attachment_type;
 
   THRUST_RUNTIME_FUNCTION
   stream_attachment_type
   on(cudaStream_t const &stream) const
   {
-    return execute_on_stream_no_wait(stream);
+    return execute_on_stream_nosync(stream);
   }
 
 private:
