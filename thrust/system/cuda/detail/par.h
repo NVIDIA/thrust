@@ -158,6 +158,54 @@ private:
 };
 
 THRUST_INLINE_CONSTANT par_t par;
+
+/*! \p thrust::cuda::par_nosync is a parallel execution policy targeting Thrust's CUDA device backend.
+ *  Similar to \p thrust::cuda::par it allows execution of Thrust algorithms in a specific CUDA stream.
+ *
+ *  \p thrust::cuda::par_nosync indicates that an algorithm is free to avoid any synchronization of the 
+ *  associated stream that is not strictly required for correctness. Additionally, algorithms may return
+ *  before the corresponding kernels are completed, similar to asynchronous kernel launches via <<< >>> syntax.
+ *  The user must take care to perform explicit synchronization if necessary.
+ *  
+ *  The following code snippet demonstrates how to use \p thrust::cuda::par_nosync :
+ *
+ *  \code
+ *    #include <thrust/device_vector.h>
+ *    #include <thrust/for_each.h>
+ *    #include <thrust/execution_policy.h>
+ *
+ *    struct IncFunctor{
+ *        __host__ __device__
+ *        void operator()(std::size_t& x){ x = x + 1; };
+ *    };
+ *
+ *    int main(){
+ *        std::size_t N = 1000000;
+ *        thrust::device_vector<std::size_t> d_vec(N);
+ *
+ *        cudaStream_t stream;
+ *        cudaStreamCreate(&stream);
+ *        auto nosync_policy = thrust::cuda::par_nosync.on(stream);
+ *
+ *        thrust::for_each(nosync_policy, d_vec.begin(), d_vec.end(), IncFunctor{});
+ *        thrust::for_each(nosync_policy, d_vec.begin(), d_vec.end(), IncFunctor{});
+ *        thrust::for_each(nosync_policy, d_vec.begin(), d_vec.end(), IncFunctor{});
+ *
+ *        //for_each may return before completion. Could do other cpu work in the meantime
+ *        // ...
+ *
+ *        //Wait for the completion of all for_each kernels
+ *        cudaStreamSynchronize(stream);
+ *
+ *        std::size_t x = thrust::reduce(nosync_policy, d_vec.begin(), d_vec.end());
+ *        //Currently, this synchronization is not necessary. reduce will still perform
+ *        //implicit synchronization to transfer the reduced value to the host to return it.
+ *        cudaStreamSynchronize(stream);
+ *        cudaStreamDestroy(stream);
+ *    }
+ *  \endcode
+ *
+ */
 THRUST_INLINE_CONSTANT par_nosync_t par_nosync;
 }    // namespace cuda_
 
