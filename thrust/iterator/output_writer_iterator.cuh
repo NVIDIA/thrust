@@ -50,14 +50,12 @@ struct is_proxy_reference<output_writer_iterator_proxy<BinaryFunction, Iterator>
 };
 
 }  // namespace detail
-}  // namespace thrust
 
-namespace cudf {
 /**
  * @brief Transform output iterator with custom writer binary function which takes index and value.
  *
  * @code {.cpp}
- * #include <cudf/utilities/output_writer_iterator.cuh>
+ * #include <thrust/iterator/output_writer_iterator.cuh>
  * #include <thrust/device_vector.h>
  * #include <thrust/iterator/counting_iterator.h>
  * #include <thrust/iterator/transform_iterator.h>
@@ -83,40 +81,7 @@ namespace cudf {
  * };
  *
  * thrust::device_vector<int> v(1, 0x0000);
- * auto result_begin = cudf::make_output_writer_iterator(thrust::make_counting_iterator(0),
- *                                                 set_bits_field{v.data().get()});
- * auto value = thrust::make_transform_iterator(thrust::make_counting_iterator(0), [] __device__
- * (int x) { return x%2;
- * });
- * thrust::copy(thrust::device, value, value+32, result_begin);
- *
- * #include <cudf/utilities/output_writer_iterator.cuh>
- * #include <thrust/device_vector.h>
- * #include <thrust/iterator/counting_iterator.h>
- * #include <thrust/iterator/transform_iterator.h>
- *
- * struct set_bits_field {
- *   int* bitfield;
- *   __device__ inline void set_bit(size_t bit_index)
- *   {
- *     atomicOr(&bitfield[bit_index/32], (int{1} << (bit_index % 32)));
- *   }
- *   __device__ inline void clear_bit(size_t bit_index)
- *   {
- *     atomicAnd(&bitfield[bit_index / 32], ~(int{1} << (bit_index % 32)));
- *   }
- *   // Index, value
- *   __device__ void operator()(size_t i, bool x)
- *   {
- *     if (x)
- *       set_bit(i);
- *     else
- *       clear_bit(i);
- *   }
- * };
- *
- * thrust::device_vector<int> v(1, 0x0000);
- * auto result_begin = cudf::make_output_writer_iterator(thrust::make_counting_iterator(0),
+ * auto result_begin = thrust::make_output_writer_iterator(thrust::make_counting_iterator(0),
  *                                                 set_bits_field{v.data().get()});
  * auto value = thrust::make_transform_iterator(thrust::make_counting_iterator(0),
  *   [] __device__ (int x) {   return x%2; });
@@ -172,4 +137,4 @@ make_output_writer_iterator(Iterator out, BinaryFunction fun)
 {
   return output_writer_iterator<BinaryFunction, Iterator>(out, fun);
 }  // end make_output_writer_iterator
-}  // namespace cudf
+}  // namespace thrust
