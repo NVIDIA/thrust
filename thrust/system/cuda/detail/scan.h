@@ -115,7 +115,7 @@ OutputIt inclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  THRUST_DEBUG_SYNC_FLAG));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching inclusive_scan kernel");
-    thrust::cuda_cub::throw_on_error(thrust::cuda_cub::synchronize(policy),
+    thrust::cuda_cub::throw_on_error(thrust::cuda_cub::synchronize_optional(policy),
                                      "inclusive_scan failed to synchronize");
   }
 
@@ -194,7 +194,7 @@ OutputIt exclusive_scan_n_impl(thrust::cuda_cub::execution_policy<Derived> &poli
                                  THRUST_DEBUG_SYNC_FLAG));
     thrust::cuda_cub::throw_on_error(status,
                                      "after dispatching exclusive_scan kernel");
-    thrust::cuda_cub::throw_on_error(thrust::cuda_cub::synchronize(policy),
+    thrust::cuda_cub::throw_on_error(thrust::cuda_cub::synchronize_optional(policy),
                                      "exclusive_scan failed to synchronize");
   }
 

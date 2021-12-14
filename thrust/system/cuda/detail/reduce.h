@@ -984,8 +984,8 @@ T reduce_n_impl(execution_policy<Derived>& policy,
 
   // Synchronize the stream and get the value.
 
-  cuda_cub::throw_on_error(cuda_cub::synchronize(policy),
-    "reduce failed to synchronize");
+  status = cuda_cub::synchronize(policy);
+  cuda_cub::throw_on_error(status, "reduce failed to synchronize");
 
   // `tmp.begin()` yields a `normal_iterator`, which dereferences to a
   // `reference`, which has an `operator&` that returns a `pointer`, which

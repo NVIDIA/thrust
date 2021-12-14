@@ -775,7 +775,7 @@ namespace __scan_by_key {
                                   debug_sync);
     cuda_cub::throw_on_error(status, "scan_by_key: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
+    status = cuda_cub::synchronize_optional(policy);
     cuda_cub::throw_on_error(status, "scan_by_key: failed to synchronize");
 
     return values_result + num_items;

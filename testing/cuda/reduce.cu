@@ -53,7 +53,19 @@ struct TestReduceDeviceDevice
 VariableUnitTest<TestReduceDeviceDevice, IntegralTypes> TestReduceDeviceDeviceInstance;
 
 
-void TestReduceCudaStreams()
+template<typename T>
+struct TestReduceDeviceNoSync
+{
+  void operator()(const size_t n)
+  {
+    TestReduceDevice<T>(thrust::cuda::par_nosync, n);
+  }
+};
+VariableUnitTest<TestReduceDeviceNoSync, IntegralTypes> TestReduceDeviceNoSyncInstance;
+
+
+template<typename ExecutionPolicy>
+void TestReduceCudaStreams(ExecutionPolicy policy)
 {
   typedef thrust::device_vector<int> Vector;
 
@@ -63,13 +75,27 @@ void TestReduceCudaStreams()
   cudaStream_t s;
   cudaStreamCreate(&s);
 
+  auto streampolicy = policy.on(s);
+
   // no initializer
-  ASSERT_EQUAL(thrust::reduce(thrust::cuda::par.on(s), v.begin(), v.end()), 2);
+  ASSERT_EQUAL(thrust::reduce(streampolicy, v.begin(), v.end()), 2);
 
   // with initializer
-  ASSERT_EQUAL(thrust::reduce(thrust::cuda::par.on(s), v.begin(), v.end(), 10), 12);
+  ASSERT_EQUAL(thrust::reduce(streampolicy, v.begin(), v.end(), 10), 12);
 
   cudaStreamDestroy(s);
 }
-DECLARE_UNITTEST(TestReduceCudaStreams);
+
+void TestReduceCudaStreamsSync()
+{
+  TestReduceCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestReduceCudaStreamsSync);
+
+
+void TestReduceCudaStreamsNoSync()
+{
+  TestReduceCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestReduceCudaStreamsNoSync);
 

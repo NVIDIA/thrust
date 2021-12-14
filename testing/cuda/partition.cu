@@ -65,6 +65,13 @@ void TestPartitionDeviceDevice()
 DECLARE_UNITTEST(TestPartitionDeviceDevice);
 
 
+void TestPartitionDeviceNoSync()
+{
+  TestPartitionDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestPartitionDeviceNoSync);
+
+
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3>
 __global__
 void partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 stencil_first, Predicate pred, Iterator3 result)
@@ -123,6 +130,13 @@ void TestPartitionStencilDeviceDevice()
   TestPartitionStencilDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestPartitionStencilDeviceDevice);
+
+
+void TestPartitionStencilDeviceNoSync()
+{
+  TestPartitionStencilDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestPartitionStencilDeviceNoSync);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename Iterator4>
@@ -186,6 +200,13 @@ void TestPartitionCopyDeviceDevice()
   TestPartitionCopyDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestPartitionCopyDeviceDevice);
+
+
+void TestPartitionCopyDeviceNoSync()
+{
+  TestPartitionCopyDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestPartitionCopyDeviceNoSync);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Predicate, typename Iterator5>
@@ -258,6 +279,13 @@ void TestPartitionCopyStencilDeviceDevice()
 DECLARE_UNITTEST(TestPartitionCopyStencilDeviceDevice);
 
 
+void TestPartitionCopyStencilDeviceNoSync()
+{
+  TestPartitionCopyStencilDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestPartitionCopyStencilDeviceNoSync);
+
+
 template<typename ExecutionPolicy, typename Iterator1, typename Predicate, typename Iterator2, typename Iterator3>
 __global__
 void stable_partition_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Predicate pred, Iterator2 result, Iterator3 is_supported)
@@ -318,6 +346,13 @@ void TestStablePartitionDeviceDevice()
   TestStablePartitionDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestStablePartitionDeviceDevice);
+
+
+void TestStablePartitionDeviceNoSync()
+{
+  TestStablePartitionDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestStablePartitionDeviceNoSync);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Predicate, typename Iterator3, typename Iterator4>
@@ -389,6 +424,13 @@ void TestStablePartitionStencilDeviceDevice()
 DECLARE_UNITTEST(TestStablePartitionStencilDeviceDevice);
 
 
+void TestStablePartitionStencilDeviceNoSync()
+{
+  TestStablePartitionStencilDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestStablePartitionStencilDeviceNoSync);
+
+
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Predicate, typename Iterator4>
 __global__
 void stable_partition_copy_kernel(ExecutionPolicy exec, Iterator1 first, Iterator1 last, Iterator2 true_result, Iterator3 false_result, Predicate pred, Iterator4 result)
@@ -450,6 +492,13 @@ void TestStablePartitionCopyDeviceDevice()
   TestStablePartitionCopyDevice(thrust::device);
 }
 DECLARE_UNITTEST(TestStablePartitionCopyDeviceDevice);
+
+
+void TestStablePartitionCopyDeviceNoSync()
+{
+  TestStablePartitionCopyDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestStablePartitionCopyDeviceNoSync);
 
 
 template<typename ExecutionPolicy, typename Iterator1, typename Iterator2, typename Iterator3, typename Iterator4, typename Predicate, typename Iterator5>
@@ -522,7 +571,15 @@ void TestStablePartitionCopyStencilDeviceDevice()
 DECLARE_UNITTEST(TestStablePartitionCopyStencilDeviceDevice);
 
 
-void TestPartitionCudaStreams()
+void TestStablePartitionCopyStencilDeviceNoSync()
+{
+  TestStablePartitionCopyStencilDevice(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestStablePartitionCopyStencilDeviceNoSync);
+
+
+template<typename ExecutionPolicy>
+void TestPartitionCudaStreams(ExecutionPolicy policy)
 {
   typedef thrust::device_vector<int> Vector;
   typedef Vector::value_type T;
@@ -537,8 +594,10 @@ void TestPartitionCudaStreams()
 
   cudaStream_t s;
   cudaStreamCreate(&s);
+
+  auto streampolicy = policy.on(s);
   
-  Iterator iter = thrust::partition(thrust::cuda::par.on(s), data.begin(), data.end(), is_even<T>());
+  Iterator iter = thrust::partition(streampolicy, data.begin(), data.end(), is_even<T>());
   
   Vector ref(5);
   ref[0] = 2;
@@ -552,5 +611,17 @@ void TestPartitionCudaStreams()
 
   cudaStreamDestroy(s);
 }
-DECLARE_UNITTEST(TestPartitionCudaStreams);
+
+void TestPartitionCudaStreamsSync()
+{
+  TestPartitionCudaStreams(thrust::cuda::par);
+}
+DECLARE_UNITTEST(TestPartitionCudaStreamsSync);
+
+
+void TestPartitionCudaStreamsNoSync()
+{
+  TestPartitionCudaStreams(thrust::cuda::par_nosync);
+}
+DECLARE_UNITTEST(TestPartitionCudaStreamsNoSync);
 

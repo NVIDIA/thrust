@@ -78,7 +78,7 @@ tabulate(execution_policy<Derived>& policy,
                          count);
 
   cuda_cub::throw_on_error(
-    cuda_cub::synchronize(policy)
+    cuda_cub::synchronize_optional(policy)
   , "tabulate: failed to synchronize"
   );
 }

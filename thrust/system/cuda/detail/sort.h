@@ -205,7 +205,7 @@ namespace __merge_sort {
                                            debug_sync);
     cuda_cub::throw_on_error(status, "merge_sort: failed on 2nd step");
 
-    status = cuda_cub::synchronize(policy);
+    status = cuda_cub::synchronize_optional(policy);
     cuda_cub::throw_on_error(status, "merge_sort: failed to synchronize");
   }
 }    // namespace __merge_sort
@@ -496,7 +496,7 @@ namespace __smart_sort {
     }
 
     cuda_cub::throw_on_error(
-      cuda_cub::synchronize(policy),
+      cuda_cub::synchronize_optional(policy),
       "smart_sort: failed to synchronize");
   }
 }    // namespace __smart_sort
