@@ -41,7 +41,7 @@ THRUST_NAMESPACE_BEGIN
 namespace cuda_cub {
 namespace core {
 
-#ifdef __NVCOMPILER_CUDA__
+#ifdef _NVHPC_CUDA
 #  if (__NVCOMPILER_CUDA_ARCH__ >= 600)
 #    define THRUST_TUNING_ARCH sm60
 #  elif (__NVCOMPILER_CUDA_ARCH__ >= 520)
@@ -358,7 +358,7 @@ namespace core {
       // get_agent_plan_impl::get(version), is for host code and for device
       // code without device-side kernel launches. NVCC and Feta check for
       // these situations differently.
-      #ifdef __NVCOMPILER_CUDA__
+      #ifdef _NVHPC_CUDA
         #ifdef __THRUST_HAS_CUDART__
           if (CUB_IS_DEVICE_CODE) {
             return typename get_plan<Agent>::type(typename Agent::ptx_plan());
