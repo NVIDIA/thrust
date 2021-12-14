@@ -313,10 +313,7 @@ function(thrust_build_target_list)
   add_flag_option(IGNORE_DEPRECATED_CPP_11 "Don't warn about deprecated C++11." OFF)
   add_flag_option(IGNORE_DEPRECATED_COMPILER "Don't warn about deprecated compilers." OFF)
   add_flag_option(IGNORE_CUB_VERSION_CHECK "Don't warn about mismatched CUB versions." OFF)
-
-  # By default, suppress deprecation warnings when building our test suite,
-  ## since we'll need to test deprecated APIs with `-Werror`.
-  add_flag_option(IGNORE_DEPRECATED_API "Don't warn about deprecated Thrust or CUB APIs." ON)
+  add_flag_option(IGNORE_DEPRECATED_API "Don't warn about deprecated Thrust or CUB APIs." OFF)
 
   # Top level meta-target. Makes it easier to just build thrust targets when
   # building both CUB and Thrust. Add all project files here so IDEs will be
