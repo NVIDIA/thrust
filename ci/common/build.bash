@@ -188,9 +188,6 @@ case "${COVERAGE_PLAN}" in
     append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_ENABLE_SYSTEM_CUDA=ON"
     append CMAKE_FLAGS "-DTHRUST_MULTICONFIG_WORKLOAD=SMALL"
     append CMAKE_FLAGS "-DTHRUST_INCLUDE_CUB_CMAKE=ON"
-    append CMAKE_FLAGS "-DCUB_ENABLE_THOROUGH_TESTING=OFF"
-    append CMAKE_FLAGS "-DCUB_ENABLE_BENCHMARK_TESTING=OFF"
-    append CMAKE_FLAGS "-DCUB_ENABLE_MINIMAL_TESTING=ON"
     append CMAKE_FLAGS "-DTHRUST_AUTO_DETECT_COMPUTE_ARCHS=ON"
     if [[ "${BUILD_TYPE}" == "cpu" ]] && [[ "${CXX_TYPE}" == "nvcxx" ]]; then
       # If no GPU is automatically detected, NVC++ insists that you explicitly
@@ -270,7 +267,7 @@ log "Configure Thrust and CUB..."
 # Clear out any stale CMake configs:
 rm -rf CMakeCache.txt CMakeFiles/
 
-echo_and_run_timed "Configure" cmake .. ${CMAKE_FLAGS}
+echo_and_run_timed "Configure" cmake .. --log-level=VERBOSE ${CMAKE_FLAGS}
 configure_status=$?
 
 log "Build Thrust and CUB..."
@@ -288,7 +285,7 @@ set -e
 
 log "Test Thrust and CUB..."
 
-echo_and_run_timed "Test" ctest ${CTEST_FLAGS}
+echo_and_run_timed "Test" ctest ${CTEST_FLAGS} | tee ctest_log
 test_status=$?
 
 ################################################################################
@@ -296,8 +293,17 @@ test_status=$?
 ################################################################################
 
 if [[ -f ".ninja_log" ]]; then
-  log "Checking slowest build steps..."
+  log "Checking slowest build steps:"
   echo_and_run "CompileTimeInfo" cmake -P ../cmake/PrintNinjaBuildTimes.cmake | head -n 23
+fi
+
+################################################################################
+# RUNTIME INFO: Print the 20 longest running test steps
+################################################################################
+
+if [[ -f "ctest_log" ]]; then
+  log "Checking slowest test steps:"
+  echo_and_run "TestTimeInfo" cmake -DLOGFILE=ctest_log -P ../cmake/PrintCTestRunTimes.cmake | head -n 20
 fi
 
 ################################################################################
@@ -305,10 +311,9 @@ fi
 ################################################################################
 
 log "Summary:"
-log "- Configure Error Code: ${configure_status}"
-log "- Build Error Code: ${build_status}"
-log "- Test Error Code: ${test_status}"
-
+echo "- Configure Error Code: ${configure_status}"
+echo "- Build Error Code: ${build_status}"
+echo "- Test Error Code: ${test_status}"
 
 if [[ "${configure_status}" != "0" ]] || \
    [[ "${build_status}" != "0" ]] || \
