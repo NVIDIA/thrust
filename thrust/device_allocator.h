@@ -119,7 +119,7 @@ public:
     device_allocator() {}
 
     /*! Copy constructor has no effect. */
-    __host__
+    __host__ __device__
     device_allocator(const device_allocator& other) : base(other) {}
 
     /*! Constructor from other \p device_allocator has no effect. */
