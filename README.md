@@ -33,10 +33,10 @@ unless you want to run the Thrust unit tests.
 For CMake-based projects, we provide a CMake package for use with
 `find_package`. See the [CMake README](thrust/cmake/README.md) for more
 information. Thrust can also be added via `add_subdirectory` or tools like
-the [CMake Package Manager](https://github.com/TheLartians/CPM.cmake).
+the [CMake Package Manager](https://github.com/cpm-cmake/CPM.cmake).
 
 For non-CMake projects, compile with:
-- The Thrust include path (`-I<thrust repo root>/thrust`)
+- The Thrust include path (`-I<thrust repo root>`)
 - The CUB include path, if using the CUDA device system (`-I<thrust repo root>/dependencies/cub/`)
 - By default, the CPP host system and CUDA device system are used.
   These can be changed using compiler definitions:
