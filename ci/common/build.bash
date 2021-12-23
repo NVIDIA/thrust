@@ -67,7 +67,7 @@ function join_delimit {
 # Get the variables the Docker container set up for us: ${CXX}, ${CUDACXX}, etc.
 source /etc/cccl.bashrc
 
-# Set path and build parallel level
+# Set path.
 export PATH=/usr/local/cuda/bin:${PATH}
 
 # Set home to the job's workspace.
