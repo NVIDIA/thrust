@@ -1,6 +1,6 @@
 ---
 parent: Setup
-nav_order: 2
+nav_order: 1
 ---
 
 # CMake Options

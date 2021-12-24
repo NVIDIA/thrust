@@ -1,5 +1,39 @@
 # Changelog
 
+## Thrust 1.15.0
+
+### Summary
+
+Thrust 1.15.0 provides numerous bugfixes, including non-numeric
+`thrust::sequence` support, several MSVC-related compilation fixes, fewer
+conversion warnings, `counting_iterator` initialization, and documentation
+updates.
+
+### Deprecation Notices
+
+**A future version of Thrust will remove support for CUDA Dynamic Parallelism
+(CDP).**
+
+This will only affect calls to Thrust algorithms made from CUDA device-side code
+that currently launches a kernel; such calls will instead execute sequentially
+on the calling GPU thread instead of launching a device-wide kernel.
+
+### Bug Fixes
+
+- NVIDIA/thrust#1507: Allow `thrust::sequence` to work with non-numeric types.
+  Thanks to Ben Jude (@bjude) for this contribution.
+- NVIDIA/thrust#1509: Avoid macro collision when calling `max()` on MSVC. Thanks
+  to Thomas (@tomintheshell) for this contribution.
+- NVIDIA/thrust#1514: Initialize all members in `counting_iterator`'s default
+  constructor.
+- NVIDIA/thrust#1518: Fix `std::allocator_traits` on MSVC + C++17.
+- NVIDIA/thrust#1530: Fix several `-Wconversion` warnings. Thanks to Matt
+  Stack (@matt-stack) for this contribution.
+- NVIDIA/thrust#1539: Fixed typo in `thrust::for_each` documentation. Thanks to
+  Salman (@untamedImpala) for this contribution.
+- NVIDIA/thrust#1548: Avoid name collision with `B0` macro in termios.h system
+  header. Thanks to Philip Deegan (@PhilipDeegan) for this contribution.
+
 ## Thrust 1.14.0 (NVIDIA HPC SDK 21.9)
 
 Thrust 1.14.0 is a major release accompanying the NVIDIA HPC SDK 21.9.
