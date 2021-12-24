@@ -35,6 +35,7 @@
 {%- if exists("baseClasses") -%}{%- for base in baseClasses -%}
   {%- if existsIn(base, "publicTypes") -%}
     {%- for child in base.publicTypes -%}
+      {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
       {{- render("synopsis_inherited_from.tmpl", base) -}}
       {%- include "synopsis_type.tmpl" -%}
       {%- set synopsis_needs_leading_line_break = true -%}
@@ -50,6 +51,7 @@
 {%- if exists("baseClasses") -%}{%- for base in baseClasses -%}
   {%- if existsIn(base, "publicClasses") -%}
     {%- for child in base.publicClasses -%}
+      {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
       {{- render("synopsis_inherited_from.tmpl", base) -}}
       {%- include "synopsis_class.tmpl" -%}
       {%- set synopsis_needs_leading_line_break = true -%}
@@ -68,6 +70,7 @@
   {%- if existsIn(base, "friends") -%}
     {%- for child in base.friends -%}
       {%- if child.type == "class" or child.type == "struct" -%}
+        {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
         {{- render("synopsis_inherited_from.tmpl", base) -}}
         {%- include "synopsis_friend_class.tmpl" -%}
         {%- set synopsis_needs_leading_line_break = true -%}
@@ -84,6 +87,7 @@
 {%- if exists("baseClasses") -%}{%- for base in baseClasses -%}
   {%- if existsIn(base, "publicAttributes") -%}
     {%- for child in base.publicAttributes -%}
+      {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
       {{- render("synopsis_inherited_from.tmpl", base) -}}
       {%- include "synopsis_variable.tmpl" -%}
       {%- set synopsis_needs_leading_line_break = true -%}
@@ -99,6 +103,7 @@
 {%- if exists("baseClasses") -%}{%- for base in baseClasses -%}
   {%- if existsIn(base, "publicFunctions") -%}
     {%- for child in base.publicFunctions -%}
+      {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
       {{- render("synopsis_inherited_from.tmpl", base) -}}
       {%- include "synopsis_function.tmpl" -%}
       {%- set synopsis_needs_leading_line_break = true -%}
@@ -117,6 +122,7 @@
   {%- if existsIn(base, "friends") -%}
     {%- for child in base.friends -%}
       {%- if child.type != "class" and child.type != "struct" -%}
+        {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
         {{- render("synopsis_inherited_from.tmpl", base) -}}
         {%- include "synopsis_friend_function.tmpl" -%}
         {%- set synopsis_needs_leading_line_break = true -%}
@@ -143,6 +149,7 @@
 {%- if exists("baseClasses") -%}{%- for base in baseClasses -%}
   {%- if existsIn(base, "protectedTypes") -%}
     {%- for child in base.protectedTypes -%}
+      {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
       {{- render("synopsis_inherited_from.tmpl", base) -}}
       {%- include "synopsis_type.tmpl" -%}
       {%- set synopsis_needs_leading_line_break = true -%}
@@ -158,6 +165,7 @@
 {%- if exists("baseClasses") -%}{%- for base in baseClasses -%}
   {%- if existsIn(base, "protectedClasses") -%}
     {%- for child in base.protectedClasses -%}
+      {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
       {{- render("synopsis_inherited_from.tmpl", base) -}}
       {%- include "synopsis_class.tmpl" -%}
       {%- set synopsis_needs_leading_line_break = true -%}
@@ -173,6 +181,7 @@
 {%- if exists("baseClasses") -%}{%- for base in baseClasses -%}
   {%- if existsIn(base, "protectedAttributes") -%}
     {%- for child in base.protectedAttributes -%}
+      {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
       {{- render("synopsis_inherited_from.tmpl", base) -}}
       {%- include "synopsis_variable.tmpl" -%}
       {%- set synopsis_needs_leading_line_break = true -%}
@@ -188,6 +197,7 @@
 {%- if exists("baseClasses") -%}{%- for base in baseClasses -%}
   {%- if existsIn(base, "protectedFunctions") -%}
     {%- for child in base.protectedFunctions -%}
+      {%- set base.synopsis_indent_width = default(synopsis_indent_width, 0) -%}
       {{- render("synopsis_inherited_from.tmpl", base) -}}
       {%- include "synopsis_function.tmpl" -%}
       {%- set synopsis_needs_leading_line_break = true -%}
