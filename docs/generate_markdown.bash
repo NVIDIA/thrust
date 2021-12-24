@@ -72,9 +72,9 @@ doxygen docs/doxygen_config.dox
 # `nvidia.github.io/thrust`. When we're building locally, the root is normally
 # just `localhost`.
 if [[ "${LOCAL}" == 1 ]]; then
-  BASE_URL='{"baseURL": "/api/"}'
+  BASE_URL='{"baseUrl": "/api/"}'
 else
-  BASE_URL='{"baseURL": "/thrust/api/"}'
+  BASE_URL='{"baseUrl": "/thrust/api/"}'
 fi
 
 doxybook2 -d -i build_doxygen_xml -o docs/api -c docs/doxybook_config.json --config-data "${BASE_URL}" -t docs/doxybook_templates
