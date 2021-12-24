@@ -31,8 +31,9 @@
     </code>
   {%- endif -%}
 {%- else if kind == "define" -%}
-  <code class="doxybook">
-  <span>{%- include "synopsis_kind.tmpl" -%}<b>{{name}}</b>{%- include "synopsis_initializer.tmpl" -%};</span>{{- noop() -}}
-  </code>
+  {#- We have no way to get the parameters to function-like     -#}{{ noop() -}}
+  {#- macros, and the macro definitions in `initializer` fields -#}{{ noop() -}}
+  {#- don't have line breaks. So we can't render a useful       -#}{{ noop() -}}
+  {#- synopsis.                                                 -#}{{ noop() -}}
 {% endif -%}
 {% include "details.tmpl" -%}
