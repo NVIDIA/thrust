@@ -1138,7 +1138,7 @@ GENERATE_HTML          = NO
 # The default directory is: html.
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
-HTML_OUTPUT            = api_html
+HTML_OUTPUT            = build_doxygen_html
 
 # The HTML_FILE_EXTENSION tag can be used to specify the file extension for each
 # generated HTML page (for example: .htm, .php, .asp).
@@ -1594,7 +1594,9 @@ INCLUDE_FILE_PATTERNS  =
 PREDEFINED             = "THRUST_DOXYGEN" \
                          "THRUST_CPP_DIALECT=2017" \
                          "THRUST_NODISCARD=[[nodiscard]]" \
-                         "THRUST_MR_DEFAULT_ALIGNMENT=alignof(std::max_align_t)"
+                         "THRUST_MR_DEFAULT_ALIGNMENT=alignof(std::max_align_t)" \
+                         "THRUST_NAMESPACE_BEGIN=namespace thrust {" \
+                         "THRUST_NAMESPACE_END=}"
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
