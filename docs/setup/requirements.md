@@ -27,7 +27,7 @@ It may be possible to use newer version of Thrust and CUB with an older NVHPC or
 
 Thrust and CUB support the following C++ dialects:
 
-- C++11
+- C++11 (deprecated)
 - C++14
 - C++17
 
@@ -36,8 +36,8 @@ Thrust and CUB support the following C++ dialects:
 Thrust and CUB support the following compilers when used in conjunction with
   NVCC:
 
-- NVCC 11.0+
-- NVC++ 20.9+
+- NVCC (latest version)
+- NVC++ (latest version)
 - GCC 5+
 - Clang 7+
 - MSVC 2019+ (19.20/16.0/14.20)
@@ -63,13 +63,11 @@ Thrust and CUB support the following host operating systems:
 
 - Linux.
 - Windows.
-- Android.
-- QNX.
 
 ## Build and Test Requirements
 
-To build and test libcu++ yourself, you will need the following in addition to
-  the above requirements:
+To build and test Thrust and CUB yourself, you will need the following in
+  addition to the above requirements:
 
 - [CMake].
 
