@@ -58,7 +58,7 @@ class feistel_bijection {
   }
 
   __host__ __device__ std::uint64_t operator()(const std::uint64_t val) const {
-    std::uint32_t state[2] = { uint32_t( val >> right_side_bits ), uint32_t( val & right_side_mask ) };
+    std::uint32_t state[2] = { static_cast<std::uint32_t>( val >> right_side_bits ), static_cast<std::uint32_t>( val & right_side_mask ) };
     for( std::uint32_t i = 0; i < num_rounds; i++ )
     {
         std::uint32_t hi, lo;
@@ -69,7 +69,7 @@ class feistel_bijection {
         state[1] = lo & right_side_mask;
     }
     // Combine the left and right sides together to get result
-    return (std::uint64_t)state[0] << right_side_bits | (std::uint64_t)state[1];
+    return static_cast<std::uint64_t>(state[0] << right_side_bits) | static_cast<std::uint64_t>(state[1]);
   }
 
  private:
@@ -77,8 +77,8 @@ class feistel_bijection {
    constexpr static __host__ __device__ void mulhilo( std::uint64_t a, std::uint64_t b, std::uint32_t& hi, std::uint32_t& lo )
    {
        std::uint64_t product = a * b;
-       hi = std::uint32_t( product >> 32 );
-       lo = std::uint32_t( product );
+       hi = static_cast<std::uint32_t>( product >> 32 );
+       lo = static_cast<std::uint32_t>( product );
    }
 
   // Find the nearest power of two
