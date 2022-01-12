@@ -16,6 +16,8 @@
 # limitations under the License.
 ###############################################################################
 
+set -e
+
 function usage {
   echo "Usage: ${0} [flags...]"
   echo
