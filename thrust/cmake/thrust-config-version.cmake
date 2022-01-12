@@ -1,12 +1,6 @@
 # Parse version information from version.h:
-unset(_THRUST_VERSION_INCLUDE_DIR CACHE) # Clear old result to force search
-find_path(_THRUST_VERSION_INCLUDE_DIR thrust/version.h
-  NO_DEFAULT_PATH # Only search explicit paths below:
-  PATHS
-    ${CMAKE_CURRENT_LIST_DIR}/../..            # Source tree
-    ${CMAKE_CURRENT_LIST_DIR}/../../../include # Install tree
-)
-set_property(CACHE _THRUST_VERSION_INCLUDE_DIR PROPERTY TYPE INTERNAL)
+include("${CMAKE_CURRENT_LIST_DIR}/thrust-header-search.cmake")
+
 file(READ "${_THRUST_VERSION_INCLUDE_DIR}/thrust/version.h" THRUST_VERSION_HEADER)
 string(REGEX MATCH "#define[ \t]+THRUST_VERSION[ \t]+([0-9]+)" DUMMY "${THRUST_VERSION_HEADER}")
 set(THRUST_VERSION_FLAT ${CMAKE_MATCH_1})
