@@ -27,14 +27,15 @@ function usage {
   echo "-h, -help, --help"
   echo "  Print this message."
   echo
-  echo "-l, --local"
-  echo "  Generate markdown suitable for a locally run Jekyll server instead of "
-  echo "  the production GitHub pages environment."
+  echo "-c, --clean"
+  echo "  Delete the all existing build artifacts before generating the "
+  echo "  markdown."
 
   exit -3
 }
 
 LOCAL=0
+CLEAN=0
 
 while test ${#} != 0
 do
@@ -42,44 +43,49 @@ do
   -h) ;&
   -help) ;&
   --help) usage ;;
-  -l) ;&
-  --local) LOCAL=1 ;;
+  -c) ;&
+  --clean) CLEAN=1 ;;
   esac
   shift
 done
 
 SCRIPT_PATH=$(cd $(dirname ${0}); pwd -P)
 
-cd ${SCRIPT_PATH}/..
+REPO_PATH=${SCRIPT_PATH}/..
 
-rm -rf build_doxygen_xml
-rm -rf docs/api
-rm -f docs/overview.md
-rm -f docs/contributing/code_of_conduct.md
-rm -f docs/releases/changelog.md
+BUILD_DOCS_PATH=build_docs
+BUILD_DOXYGEN_PATH=${BUILD_DOCS_PATH}/doxygen
+BUILD_GITHUB_PAGES_PATH=${BUILD_DOCS_PATH}/github_pages
 
-mkdir -p docs/api
-mkdir -p docs/contributing
-mkdir -p docs/releases
+cd ${REPO_PATH}
 
-# We need to copy these files into the `docs/` root because Jekyll doesn't let
-# you include content outside of its root.
-cp README.md docs/overview.md
-cp CODE_OF_CONDUCT.md docs/contributing/code_of_conduct.md
-cp CHANGELOG.md docs/releases/changelog.md
-
-doxygen docs/doxygen_config.dox
-
-# When we're deploying to production on GitHub Pages, the root is
-# `nvidia.github.io/thrust`. When we're building locally, the root is normally
-# just `localhost`.
-if [[ "${LOCAL}" == 1 ]]; then
-  BASE_URL='{"baseUrl": "/api/"}'
-else
-  BASE_URL='{"baseUrl": "/thrust/api/"}'
+if [[ "${CLEAN}" == 1 ]]; then
+  rm -rf ${BUILD_DOXYGEN_PATH}
+  rm -rf ${BUILD_GITHUB_PAGES_PATH}
 fi
 
-doxybook2 -d -i build_doxygen_xml -o docs/api -c docs/doxybook_config.json --config-data "${BASE_URL}" -t docs/doxybook_templates
+mkdir -p ${BUILD_DOXYGEN_PATH}/xml
+mkdir -p ${BUILD_GITHUB_PAGES_PATH}
+mkdir -p ${BUILD_GITHUB_PAGES_PATH}/api
+mkdir -p ${BUILD_GITHUB_PAGES_PATH}/contributing
+mkdir -p ${BUILD_GITHUB_PAGES_PATH}/releases
+
+# Copy all the documentation sources and Jekyll configuration into
+# `{BUILD_GITHUB_PAGES_PATH}`.
+cp -ur docs/github_pages/* ${BUILD_GITHUB_PAGES_PATH}/
+cp README.md               ${BUILD_GITHUB_PAGES_PATH}/overview.md
+cp CODE_OF_CONDUCT.md      ${BUILD_GITHUB_PAGES_PATH}/contributing/code_of_conduct.md
+cp CHANGELOG.md            ${BUILD_GITHUB_PAGES_PATH}/releases/changelog.md
+
+doxygen docs/doxygen/config.dox
+
+# `--debug-templates` will cause JSON output to be generated, which is useful
+# for debugging.
+doxybook2 --config docs/doxybook/config.json  \
+          --templates docs/doxybook/templates \
+          --debug-templates                   \
+          --input ${BUILD_DOXYGEN_PATH}/xml   \
+          --output ${BUILD_GITHUB_PAGES_PATH}/api
 
 # Doxygen and Doxybook don't give us a way to disable all the things we'd like,
 # so it's important to purge Doxybook Markdown output that we don't need:
@@ -87,14 +93,14 @@ doxybook2 -d -i build_doxygen_xml -o docs/api -c docs/doxybook_config.json --con
 #    on stuff we don't need.
 # 1) We don't want content that we don't plan to use to either show up on the
 #    site index or appear in search results.
-rm -rf docs/api/files
-rm -rf docs/api/index_files.md
-rm -rf docs/api/pages
-rm -rf docs/api/index_pages.md
-rm -rf docs/api/examples
-rm -rf docs/api/index_examples.md
-rm -rf docs/api/images
-rm -rf docs/api/index_namespaces.md
-rm -rf docs/api/index_groups.md
-rm -rf docs/api/index_classes.md
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/files
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/index_files.md
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/pages
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/index_pages.md
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/examples
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/index_examples.md
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/images
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/index_namespaces.md
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/index_groups.md
+rm -rf ${BUILD_GITHUB_PAGES_PATH}/api/index_classes.md
 

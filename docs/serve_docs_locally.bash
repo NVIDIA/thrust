@@ -18,7 +18,18 @@
 
 SCRIPT_PATH=$(cd $(dirname ${0}); pwd -P)
 
-cd ${SCRIPT_PATH}/..
+REPO_PATH=${SCRIPT_PATH}/..
+
+BUILD_DOCS_PATH=build_docs
+BUILD_GITHUB_PAGES_PATH=${BUILD_DOCS_PATH}/github_pages
+
+cd ${REPO_PATH}/${BUILD_GITHUB_PAGES_PATH}
 
 bundle install
-bundle exec jekyll serve --incremental --profile --verbose
+bundle exec jekyll serve \
+  --verbose              \
+  --incremental          \
+  --profile              \
+  --baseurl "/thrust"    \
+  ${@}
+

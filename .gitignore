@@ -1,11 +1,1 @@
 discrete_voronoi.pgm
-docs/html/
-docs/api/
-docs/overview.md
-docs/contributing/code_of_conduct.md
-docs/releases/changelog.md
-docs/Gemfile.lock
-docs/_site
-docs/.bundle
-docs/.sass-cache
-docs/.jekyll-metadata
